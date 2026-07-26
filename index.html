@@ -509,11 +509,13 @@ footer p{margin:0 0 7px;max-width:80ch}
       <div class="seg" id="peerSeg" role="tablist">
         <button type="button" role="tab" data-peer="exp" aria-selected="true">Spending</button>
         <button type="button" role="tab" data-peer="rev" aria-selected="false">Revenue</button>
-        <button type="button" role="tab" data-peer="tax" aria-selected="false">Property tax</button>
+        <button type="button" role="tab" data-peer="tax" aria-selected="false">City property tax</button>
       </div>
       <div class="rank" id="peerRank"></div>
       <p class="note">Cities differ in what they run — some operate their own water, sewer or utility
-        systems, so per-resident figures are context, not a scorecard. Sources: each city's
+        systems, so per-resident figures are context, not a scorecard. The property-tax figure is the
+        <b>city levy only</b>: the school district and the county are separate governments, and together
+        they are roughly two-thirds of a homeowner's actual bill. Sources: each city's
         <span id="peerYr2"></span> filing to the NYS Comptroller; 2020 Census populations.</p>
     </div>
 
@@ -1336,7 +1338,7 @@ function renderCompare(){
   if(!peers.length) return;
   document.getElementById('peerYear').textContent=O.peerYear;
   document.getElementById('peerYr2').textContent=O.peerYear;
-  var METRIC={exp:'spending', rev:'revenue', tax:'property tax'};
+  var METRIC={exp:'spending', rev:'revenue', tax:'city property tax'};
   function render(metric){
     var rows=peers.map(function(p){return {p:p, v:p[metric]/p.pop};})
       .sort(function(a,b){return b.v-a.v;});
