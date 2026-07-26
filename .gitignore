@@ -1,0 +1,13 @@
+# Source documents and extraction artifacts — re-fetchable, and large.
+# index.html is self-contained, so none of this is needed to serve the site.
+data/pdf/
+data/pdf2025/
+data/txt/
+data/osc/*.zip
+
+# Intermediate parse output (4 MB). data/site-data.json and data/osc-data.json
+# are kept: they are the published payloads.
+data/warrants.json
+
+.DS_Store
+Thumbs.db

@@ -1,0 +1,1816 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Ledger — City of North Tonawanda</title>
+<meta name="description" content="Where the City of North Tonawanda's money comes from and where it goes: thirty years of audited state filings, every claim the city has approved across 2025 and 2026, and each figure traceable to its source document.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+:root{
+  --paper:#f6f4ef; --card:#fffdfa; --ink:#16181d; --muted:#6c7079; --faint:#93979f;
+  --rule:#e0dbd0; --rule-strong:#cdc6b7;
+  --accent:#1b3a5c; --accent-soft:#e7edf4;
+  --ok:#1c6b47; --ok-soft:#e3f0e9; --warn:#8f5c10; --warn-soft:#f7eeda; --bad:#9e2b28; --bad-soft:#f7e5e4;
+  --shadow:0 1px 2px rgba(20,22,26,.05), 0 8px 24px -12px rgba(20,22,26,.18);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0f1115; --card:#171a20; --ink:#e9e7e2; --muted:#9aa0aa; --faint:#6d737d;
+    --rule:#272b33; --rule-strong:#393f4a;
+    --accent:#8fb6dd; --accent-soft:#1a2632;
+    --ok:#6cc39a; --ok-soft:#14251d; --warn:#d9a552; --warn-soft:#2a2317; --bad:#e08b87; --bad-soft:#2b1a1a;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="light"]{
+  --paper:#f6f4ef; --card:#fffdfa; --ink:#16181d; --muted:#6c7079; --faint:#93979f;
+  --rule:#e0dbd0; --rule-strong:#cdc6b7; --accent:#1b3a5c; --accent-soft:#e7edf4;
+  --ok:#1c6b47; --ok-soft:#e3f0e9; --warn:#8f5c10; --warn-soft:#f7eeda; --bad:#9e2b28; --bad-soft:#f7e5e4;
+}
+:root[data-theme="dark"]{
+  --paper:#0f1115; --card:#171a20; --ink:#e9e7e2; --muted:#9aa0aa; --faint:#6d737d;
+  --rule:#272b33; --rule-strong:#393f4a; --accent:#8fb6dd; --accent-soft:#1a2632;
+  --ok:#6cc39a; --ok-soft:#14251d; --warn:#d9a552; --warn-soft:#2a2317; --bad:#e08b87; --bad-soft:#2b1a1a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-feature-settings:"kern";
+}
+.num{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+a{color:var(--accent)}
+
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule-strong);background:var(--card)}
+.mast-in{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;padding:26px 0 18px}
+.mark{font:600 30px/1 ui-serif,Georgia,"Times New Roman",serif;letter-spacing:.02em}
+.mark span{color:var(--accent)}
+.tag{color:var(--muted);font-size:14px;max-width:52ch;margin-bottom:2px}
+.stamp{margin-left:auto;text-align:right;font-size:12px;color:var(--faint);line-height:1.7}
+.stamp b{color:var(--muted);font-weight:600}
+.themebtn{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:6px;
+  padding:4px 9px;font-size:11px;cursor:pointer;letter-spacing:.05em}
+.themebtn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* ---------- nav ---------- */
+.rail{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.rail-in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.rail-in::-webkit-scrollbar{display:none}
+.rail a{padding:12px 14px;font-size:13px;color:var(--muted);text-decoration:none;white-space:nowrap;
+  border-bottom:2px solid transparent}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+
+/* ---------- hero ---------- */
+.hero{padding:32px 0 6px}
+.hgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 26px;max-width:820px}
+.hcell .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.hcell .v{font:600 clamp(24px,4.6vw,40px)/1.05 ui-serif,Georgia,serif;letter-spacing:-.01em;margin-top:5px}
+#heroRev{color:var(--rev)} #heroExp{color:var(--exp)}
+.hlede{font-size:16px;max-width:66ch;margin:20px 0 0;color:var(--ink)}
+.badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;text-decoration:none;
+  background:var(--ok-soft);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);
+  border-radius:99px;padding:7px 14px;font-size:13px;font-weight:500}
+.badge b{font-weight:700;white-space:nowrap}
+.badge .tick{font-weight:700}
+.badge .arrow{opacity:.6;transition:transform .12s}
+.badge:hover{background:color-mix(in srgb,var(--ok) 16%,transparent)}
+.badge:hover .arrow{transform:translateX(3px)}
+@media (max-width:560px){
+  .hgrid{grid-template-columns:1fr 1fr;gap:12px 18px}
+  .hgrid .hcell:nth-child(3){grid-column:1/-1}
+  .hlede{font-size:15px;margin-top:16px}
+}
+
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0 8px}
+.tile{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:14px 15px;box-shadow:var(--shadow)}
+.tile .k{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+.tile .v{font-size:23px;margin-top:5px;font-weight:600}
+.tile .n{font-size:12px;color:var(--muted);margin-top:3px}
+
+section{padding:34px 0 10px;scroll-margin-top:52px}
+h2{font:600 21px/1.3 ui-serif,Georgia,serif;margin:0 0 4px}
+.lede{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:78ch}
+
+/* ---------- tables ---------- */
+.tbox{background:var(--card);border:1px solid var(--rule);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);
+  font-weight:600;padding:10px 12px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;background:var(--card)}
+td{padding:9px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+.r{text-align:right}
+.doc-row{cursor:pointer}
+.doc-row:hover{background:var(--accent-soft)}
+.doc-row .fn{font-weight:600}
+.doc-row .caret{color:var(--faint);display:inline-block;width:12px;transition:transform .15s}
+.doc-row.open .caret{transform:rotate(90deg)}
+.chip{display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.03em}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.bad{background:var(--bad-soft);color:var(--bad)}
+.chip.card{background:var(--accent-soft);color:var(--accent)}
+.detail td{background:color-mix(in srgb,var(--accent-soft) 45%,transparent);padding:0}
+.dpad{padding:14px 16px 18px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 22px}
+.frow{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted var(--rule-strong);font-size:13px}
+.frow:last-child{border-bottom:0}
+.frow .fname{color:var(--muted)}
+.tick{color:var(--ok);font-weight:700}
+
+/* ---------- explorer ---------- */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+input[type=search],select{font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--rule-strong);
+  border-radius:8px;background:var(--card);color:var(--ink);min-width:0}
+input[type=search]{flex:1;min-width:220px}
+input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-offset:-1px}
+.count{font-size:12.5px;color:var(--muted);margin-left:auto}
+.pill{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:99px;
+  padding:5px 11px;font-size:12px;cursor:pointer}
+.pill:hover{color:var(--ink);border-color:var(--accent)}
+.pill.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.src{font-size:11.5px;color:var(--faint);text-decoration:none;white-space:nowrap}
+.src:hover{color:var(--accent);text-decoration:underline}
+.credit{color:var(--bad)}
+.bar{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-top:4px;min-width:54px}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:2px}
+.linkish{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* ---------- charts ---------- */
+:root{--rev:#3d7ebf;--exp:#c07a24;--gridline:#e6e1d6}
+@media (prefers-color-scheme:dark){:root{--rev:#4a8cc4;--exp:#b8822f;--gridline:#242832}}
+:root[data-theme="light"]{--rev:#3d7ebf;--exp:#c07a24;--gridline:#e6e1d6}
+:root[data-theme="dark"]{--rev:#4a8cc4;--exp:#b8822f;--gridline:#242832}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.pair{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:16px 17px 14px;box-shadow:var(--shadow)}
+/* Header is a flex row, never a float: a floated total on a narrow screen takes
+   the full width and the following description wraps around it one word per line. */
+.panel h3{margin:0;font:600 15px/1.3 system-ui;display:flex;flex-wrap:wrap;
+  align-items:baseline;gap:2px 12px}
+.panel .sub{color:var(--muted);font-size:12.5px;margin:3px 0 14px;clear:both}
+.panel .tot{margin-left:auto;font-size:13px;font-weight:600}
+
+.rank{display:flex;flex-direction:column;gap:9px}
+.rk{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:baseline;cursor:default}
+.rk .lb{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk .vl{font-size:12.5px;font-weight:600}
+.rk .tr{grid-column:1/-1;height:9px;background:var(--gridline);border-radius:2px;overflow:hidden}
+.rk .tr i{display:block;height:100%;border-radius:0 4px 4px 0;transition:filter .12s}
+.rk:hover .tr i{filter:brightness(1.12)}
+.rk .pc{font-size:11px;color:var(--faint);grid-column:1/-1;margin-top:-2px}
+.rk.can{cursor:pointer;border-radius:6px;margin:0 -7px;padding:3px 7px}
+.rk.can:hover{background:var(--accent-soft)}
+.rk.can:hover .lb{color:var(--accent)}
+.rk.can .lb::after{content:'\2197';color:var(--faint);font-size:11px;margin-left:6px;opacity:0;transition:opacity .12s}
+.rk.can:hover .lb::after{opacity:1}
+
+/* ---------- modal ---------- */
+.modal[hidden]{display:none}
+.modal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:22px}
+.backdrop{position:absolute;inset:0;background:rgba(12,14,18,.55);backdrop-filter:blur(3px)}
+.sheet{position:relative;background:var(--paper);border:1px solid var(--rule-strong);border-radius:14px;
+  width:min(900px,100%);max-height:min(86vh,860px);display:flex;flex-direction:column;
+  box-shadow:0 24px 70px -20px rgba(0,0,0,.5);overflow:hidden}
+.sheet header{display:flex;align-items:flex-start;gap:14px;padding:18px 20px 12px;border-bottom:1px solid var(--rule)}
+.eyebrow{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.sheet h3{margin:4px 0 0;font:600 21px/1.2 ui-serif,Georgia,serif}
+.mbig{margin-top:7px;font-size:15px;font-weight:600}
+.mbig span{color:var(--muted);font-weight:400;font-size:13px;margin-left:7px}
+.xbtn{margin-left:auto;flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
+  width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;line-height:1}
+.xbtn:hover{color:var(--ink);border-color:var(--accent)}
+.tabs{display:flex;gap:2px;padding:0 14px;border-bottom:1px solid var(--rule);background:var(--card)}
+.tabs button{border:0;background:transparent;color:var(--muted);font:600 13px/1 system-ui;padding:11px 13px;
+  cursor:pointer;border-bottom:2px solid transparent}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
+.mbody{overflow-y:auto;padding:16px 20px 22px}
+.mbody h4{margin:0 0 9px;font:600 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.mbody h4:not(:first-child){margin-top:20px}
+.mstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:6px}
+.mstat{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 12px}
+.mstat .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.mstat .v{font-size:18px;font-weight:600;margin-top:3px}
+.small{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:11px}
+.sm{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 11px}
+.sm .n{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sm .v{font-size:12.5px;color:var(--muted);margin-top:1px}
+.sm svg{display:block;width:100%;height:38px;margin-top:6px;overflow:visible}
+@media (max-width:640px){
+  .modal{padding:0}
+  .sheet{max-height:100vh;height:100%;border-radius:0;border:0;width:100%}
+}
+.sub{display:flex;flex-direction:column;gap:6px}
+.sb{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:12.5px}
+.sb .t{grid-column:1/-1;height:6px;background:var(--gridline);border-radius:2px;overflow:hidden}
+.sb .t i{display:block;height:100%;border-radius:0 3px 3px 0}
+.acct{width:100%;font-size:12px;border-collapse:collapse}
+.acct td{padding:4px 6px;border-bottom:1px dotted var(--rule-strong);vertical-align:top}
+.acct tr:last-child td{border-bottom:0}
+.acct .c{color:var(--faint);white-space:nowrap;width:1%}
+.acct .a{text-align:right;white-space:nowrap;font-weight:600}
+
+.years{display:flex;gap:5px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:thin}
+.years::-webkit-scrollbar{height:5px}
+.years::-webkit-scrollbar-thumb{background:var(--rule-strong);border-radius:3px}
+.yp{flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
+  border-radius:99px;padding:5px 11px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;
+  cursor:pointer;transition:background .12s,color .12s,border-color .12s}
+.yp:hover{color:var(--ink);border-color:var(--accent)}
+.yp.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.yp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+/* On a phone the 6-column line table forces a sideways scroll and clips the
+   description to 'M IN M'. Re-lay each row as a compact card instead. */
+@media (max-width:640px){
+  .lines,.lines tbody{display:block;width:100%}
+  .lines thead{display:none}
+  .lines tr{display:grid;grid-template-columns:1fr auto;gap:1px 10px;padding:11px 2px;
+    border-bottom:1px solid var(--rule)}
+  .lines td{display:block;padding:0;border:0}
+  .lines td.c-payee{font-weight:600;font-size:13.5px}
+  .lines td.c-amt{text-align:right;font-weight:600;font-size:13.5px;white-space:nowrap}
+  .lines td.c-desc{grid-column:1/-1;color:var(--muted);font-size:12px;margin-top:2px}
+  .lines td.c-acct{grid-column:1/-1;font-size:11.5px;color:var(--faint);margin-top:2px}
+  .lines td.c-po{display:none}
+  .lines td.c-src{grid-column:1/-1;margin-top:4px}
+}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}
+.chips:empty{margin:0}
+.chip-f{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);color:var(--accent);
+  border:1px solid var(--accent);border-radius:99px;padding:4px 8px 4px 11px;font-size:12px;font-weight:600}
+.chip-f button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:13px;line-height:1;padding:0 2px;opacity:.7}
+.chip-f button:hover{opacity:1}
+.chip-clear{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:99px;
+  padding:4px 11px;font-size:12px;cursor:pointer}
+.chip-clear:hover{color:var(--ink);border-color:var(--accent)}
+/* The date label sets an intrinsic min-width (flex items don't shrink below
+   content), so 18 columns overflow a phone. Scroll inside the panel rather than
+   pushing the page sideways. */
+/* The tie-out is 8 columns; on a phone it becomes one compact card per document.
+   The table and tbody MUST drop to block too — leaving them as table boxes keeps
+   the table layout algorithm in charge and the "cards" flow sideways and overlap. */
+@media (max-width:640px){
+  .tie,.tie tbody{display:block;width:100%}
+  .tie tr.detail{display:block}
+  .tie tr.detail td{display:block;width:100%}
+  .tie thead{display:none}
+  .tie tr.doc-row{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:11px 2px;
+    border-bottom:1px solid var(--rule)}
+  .tie tr.doc-row td{display:block;padding:0;border:0}
+  /* These selectors must out-specify '.tie tr.doc-row td' above (0,2,2) or the
+     display:block there wins and every column renders anyway. */
+  .tie tr.doc-row td.t-doc{font-size:13.5px}
+  .tie tr.doc-row td.t-status{text-align:right}
+  .tie tr.doc-row td.t-sum{grid-column:1;font-size:12px;color:var(--muted)}
+  .tie tr.doc-row td.t-n{grid-column:2;text-align:right;font-size:12px;color:var(--muted)}
+  .tie tr.doc-row td.t-n::after{content:' lines'}
+  .tie tr.doc-row td.t-date,.tie tr.doc-row td.t-pub,
+  .tie tr.doc-row td.t-ctl,.tie tr.doc-row td.t-var{display:none}
+  .tie tr.detail td{padding:0}
+  .tie .dgrid{grid-template-columns:1fr}
+}
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:99px;background:var(--gridline);margin:0 0 14px}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 12.5px/1 system-ui;
+  padding:7px 13px;border-radius:99px;cursor:pointer}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.cmpbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.cmpbar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.swing{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
+.sw{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:11px 13px}
+.sw .k{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.sw .v{font-size:19px;font-weight:600;margin-top:3px}
+.sw .n{font-size:12px;color:var(--muted);margin-top:2px}
+.verdictline{font-size:14.5px;line-height:1.55;margin:0 0 16px;padding:12px 14px;border-radius:9px;
+  background:var(--accent-soft);border:1px solid var(--rule)}
+.mv{width:100%;border-collapse:collapse;font-size:13px}
+.mv th{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:left;
+  padding:7px 8px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
+.mv td{padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
+.mv tr:last-child td{border-bottom:0}
+.mv .r{text-align:right;white-space:nowrap}
+.mv .up{color:var(--bad);font-weight:600}
+.mv .dn{color:var(--ok);font-weight:600}
+.flag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 6px;border-radius:4px;
+  background:var(--warn-soft);color:var(--warn);margin-left:7px;white-space:nowrap}
+@media (max-width:640px){
+  .mv,.mv tbody{display:block;width:100%}
+  .mv thead{display:none}
+  .mv tr{display:grid;grid-template-columns:1fr auto;gap:1px 10px;padding:10px 2px;border-bottom:1px solid var(--rule)}
+  .mv td{display:block;padding:0;border:0}
+  .mv td.m-name{font-weight:600}
+  .mv td.m-delta{text-align:right;font-weight:600}
+  .mv td.m-vals{grid-column:1/-1;font-size:11.5px;color:var(--faint);margin-top:2px}
+  .mv td.m-pct{grid-column:1/-1;font-size:12px;margin-top:1px}
+}
+.cols{display:flex;align-items:flex-end;gap:3px;height:96px;margin-top:10px;
+  overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}
+.cols::-webkit-scrollbar{height:5px}
+.cols::-webkit-scrollbar-thumb{background:var(--rule-strong);border-radius:3px}
+.col{flex:1 0 30px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;cursor:pointer;position:relative}
+.col i{display:block;width:100%;background:var(--exp);border-radius:3px 3px 0 0;min-height:2px;transition:filter .12s}
+.col:hover i{filter:brightness(1.15)}
+.col.on i{background:var(--accent)}
+.col em{font-style:normal;font-size:9.5px;color:var(--faint);margin-top:5px;white-space:nowrap;
+  font-family:ui-monospace,Menlo,Consolas,monospace}
+/* A hidden tooltip keeps its last left offset, so shrinking the viewport leaves
+   it parked off-canvas and widening the whole page. It is clamped to the wrap
+   when shown, so clipping here is safe. */
+.chartwrap{position:relative;overflow:hidden}
+svg.trend{display:block;width:100%;height:auto;overflow:visible}
+svg.trend .gl{stroke:var(--gridline);stroke-width:1}
+svg.trend .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+svg.trend .ax{fill:var(--faint);font-size:10.5px;font-family:ui-monospace,Menlo,Consolas,monospace}
+svg.trend .brk{stroke:var(--rule-strong);stroke-width:1;stroke-dasharray:3 3}
+svg.trend .sel{stroke:var(--accent);stroke-width:1.5;opacity:.55}
+svg.trend .dot{stroke:var(--card);stroke-width:2}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:2px 0 10px}
+.legend b{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--rule-strong);
+  border-radius:7px;padding:7px 10px;font-size:12.5px;box-shadow:var(--shadow);opacity:0;transition:opacity .1s;z-index:5;white-space:nowrap}
+.tip .ty{font-weight:600;margin-bottom:3px}
+.tip .tl{display:flex;justify-content:space-between;gap:14px}
+.tip .tl b{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.note{font-size:12px;color:var(--faint);margin-top:9px;padding-left:11px;border-left:2px solid var(--rule-strong)}
+
+/* ---------- limits ---------- */
+.limits{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.limit{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--warn);
+  border-radius:8px;padding:13px 15px}
+.limit h3{margin:0 0 5px;font:600 14px/1.3 system-ui}
+.limit p{margin:0;font-size:13px;color:var(--muted)}
+/* ---------- section pager ---------- */
+main{touch-action:manipulation}   /* disables double-tap ZOOM only; pinch-zoom still works */
+.pager{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
+  z-index:40;display:flex;align-items:center;gap:2px;padding:4px;border-radius:99px;
+  background:color-mix(in srgb,var(--card) 92%,transparent);border:1px solid var(--rule-strong);
+  box-shadow:0 6px 22px -8px rgba(0,0,0,.4);backdrop-filter:blur(8px);
+  transition:opacity .2s,transform .2s}
+.pager[hidden]{display:none}
+body:has(#modal:not([hidden])) .pager{display:none}   /* never floats over an open modal */
+.pager.away{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(14px)}
+.pager button{border:0;background:transparent;color:var(--muted);cursor:pointer;width:32px;height:30px;
+  border-radius:99px;font-size:12px;line-height:1}
+.pager button:hover:not(:disabled){background:var(--accent-soft);color:var(--accent)}
+.pager button:disabled{opacity:.3;cursor:default}
+.pager .lbl{font-size:12px;font-weight:600;padding:0 6px;white-space:nowrap;max-width:44vw;
+  overflow:hidden;text-overflow:ellipsis}
+.pager .idx{color:var(--faint);font-weight:400;font-family:ui-monospace,Menlo,Consolas,monospace}
+footer{border-top:1px solid var(--rule);margin-top:42px;padding:22px 0 40px;color:var(--faint);font-size:12.5px}
+footer p{margin:0 0 7px;max-width:80ch}
+@media (max-width:640px){
+  .verdict{grid-template-columns:1fr;gap:12px;padding-top:26px}
+  .stamp{margin-left:0;text-align:left}
+  .mast-in{padding-bottom:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap mast-in">
+    <div>
+      <div class="mark">Public <span>Ledger</span></div>
+      <div class="tag">Where the City of North Tonawanda&rsquo;s money comes from, where it goes, and how to check it.</div>
+    </div>
+    <div class="stamp">
+      Data current through <b id="through">—</b><br>
+      <b id="ndocs">—</b> documents · source <a href="https://www.northtonawanda.gov/accounting">northtonawanda.gov/accounting</a><br>
+      <button class="themebtn" id="theme" type="button">THEME</button>
+    </div>
+  </div>
+</header>
+
+<nav class="rail"><div class="wrap rail-in">
+  <a href="#money" class="on">Revenue &amp; spending</a>
+  <a href="#explore">The register</a>
+  <a href="#capital">Capital projects</a>
+  <a href="#recon">How this was verified</a>
+  <a href="#limits">What this cannot show</a>
+</div></nav>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="hgrid">
+      <div class="hcell">
+        <div class="k">Revenue</div>
+        <div class="v num" id="heroRev">—</div>
+      </div>
+      <div class="hcell">
+        <div class="k">Expenditure</div>
+        <div class="v num" id="heroExp">—</div>
+      </div>
+      <div class="hcell">
+        <div class="k" id="heroNetK">Net</div>
+        <div class="v num" id="heroNet">—</div>
+      </div>
+    </div>
+    <p class="hlede" id="heroLede">—</p>
+    <a class="badge" href="#recon"><span class="tick">&#10003;</span>
+      <b id="badgeNum">—</b> <span>warrants reconcile exactly</span>
+      <span class="arrow">&rarr;</span></a>
+  </div>
+
+  <section id="money">
+    <h2>Where the money comes from, and where it goes</h2>
+    <p class="lede">The city's audited annual filings to the
+      <a href="https://wwe1.osc.state.ny.us/localgov/findata/index_choice.cfm" id="oscLink">NYS Comptroller</a>.
+      Pick a year, then open any category.</p>
+
+    <div class="years" id="yearPills" role="tablist" aria-label="Filing year"></div>
+
+    <div class="pair">
+      <div class="panel">
+        <h3>Revenue <span class="tot num" id="revTot" style="color:var(--rev)"></span></h3>
+        <div class="sub" id="revSub"></div>
+        <div class="rank" id="revRank"></div>
+      </div>
+      <div class="panel">
+        <h3>Expenditure <span class="tot num" id="expTot" style="color:var(--exp)"></span></h3>
+        <div class="sub" id="expSub"></div>
+        <div class="rank" id="expRank"></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h3>Thirty years of revenue against spending</h3>
+      <div class="sub" id="trendSub"></div>
+      <div class="legend">
+        <span><b style="background:var(--rev)"></b>Revenue</span>
+        <span><b style="background:var(--exp)"></b>Expenditure</span>
+      </div>
+      <div class="chartwrap" id="trendWrap">
+        <svg class="trend" id="trend" viewBox="0 0 900 300" role="img"
+             aria-label="North Tonawanda revenue and expenditure, 1995 to 2024"></svg>
+        <div class="tip" id="trendTip"></div>
+      </div>
+      <p class="note" id="trendNote"></p>
+    </div>
+
+    <div class="panel" style="margin-top:14px">
+      <h3>Compare two years</h3>
+      <div class="sub">What moved between them — and which categories grew faster than revenue did.</div>
+      <div class="cmpbar">
+        <label>From <select id="cmpA"></select></label>
+        <label>to <select id="cmpB"></select></label>
+        <button class="pill" id="cmpPrev" type="button">Previous pair</button>
+        <button class="pill" id="cmpNext" type="button">Next pair</button>
+      </div>
+      <div id="cmpOut"></div>
+    </div>
+
+  </section>
+
+
+
+  <section id="explore">
+    <h2>Explore the register</h2>
+    <p class="lede">Every claim the city approved across 2025 and 2026, summarised first. Select any bar
+      to filter — everything recalculates. Approvals only: no revenue, no budget.</p>
+
+    <div class="controls">
+      <input type="search" id="q" placeholder="Search payee, account code, description, PO or invoice…" autocomplete="off">
+      <select id="fFund"><option value="">All funds</option></select>
+      <select id="fDoc"><option value="">All documents</option></select>
+      <button class="pill" id="fCredit" type="button">Credits only</button>
+    </div>
+    <div class="chips" id="chips"></div>
+
+    <div class="tiles" id="regTiles"></div>
+
+    <div class="panel" style="margin-bottom:14px">
+      <h3>Approvals by warrant</h3>
+      <div class="sub" id="warrantSub"></div>
+      <div id="warrantChart"></div>
+    </div>
+
+    <div class="trio">
+      <div class="panel">
+        <h3>Largest payees</h3>
+        <div class="sub">Select to filter</div>
+        <div class="rank" id="fPayee"></div>
+      </div>
+      <div class="panel">
+        <h3>By department</h3>
+        <div class="sub">Select to filter</div>
+        <div class="rank" id="fDept"></div>
+      </div>
+      <div class="panel">
+        <h3>By fund</h3>
+        <div class="sub">Select to filter</div>
+        <div class="rank" id="fFundR"></div>
+      </div>
+    </div>
+
+
+    <div class="panel" style="margin-top:14px">
+      <h3>Findings</h3>
+      <div class="sub">Two patterns the register makes visible. Neither is wrongdoing — both are
+        reporting problems, and both are endemic in small-business books too.</div>
+      <div class="seg" id="findTabs" role="tablist">
+        <button type="button" role="tab" data-find="sprawl" aria-selected="true">Account coding</button>
+        <button type="button" role="tab" data-find="hygiene" aria-selected="false">Vendor records</button>
+      </div>
+      <div id="findSprawl">
+    <p class="lede">How many charge accounts one vendor's spending lands in. Not wrongdoing — it is why
+      "what did we spend on X" is hard to answer from a ledger.</p>
+    <div class="tbox scroll">
+      <table>
+        <thead><tr><th>Vendor</th><th class="r">Accounts</th><th class="r">Departments</th><th class="r">Line items</th>
+          <th class="r">Median line</th><th class="r">Total</th><th></th></tr></thead>
+        <tbody id="sprawlBody"></tbody>
+      </table>
+    </div>
+      </div>
+      <div id="findHygiene" hidden>
+    <p class="lede">One payee carrying several vendor records. Every dollar is properly authorised — but
+      spend for one company splits across records and no single view adds it up.</p>
+    <div class="tbox scroll">
+      <table>
+        <thead><tr><th>Payee</th><th>Vendor codes</th><th class="r">Line items</th><th class="r">Combined total</th><th></th></tr></thead>
+        <tbody id="hygieneBody"></tbody>
+      </table>
+    </div>
+      </div>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Line detail <span class="tot num" id="rowCount"></span></h3>
+      <div class="sub">The summary above is the intended view. Open this only to audit the individual
+        lines behind it — each one links to the page of the source PDF it was read from.</div>
+      <button class="pill" id="detailToggle" type="button" aria-expanded="false" aria-controls="detailWrap">
+        Open line detail</button>
+      <div id="detailWrap" hidden>
+        <div class="scroll" style="margin-top:13px">
+          <table class="lines">
+            <thead><tr><th>Payee</th><th>Charge account</th><th>Description</th><th>PO</th>
+              <th class="r">Amount</th><th>Source</th></tr></thead>
+            <tbody id="rowBody"></tbody>
+          </table>
+        </div>
+        <div style="margin-top:11px"><button class="pill" id="moreBtn" type="button" hidden></button></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="capital">
+    <h2>Capital projects</h2>
+    <p class="lede">The city files capital work in its own funds, so each project's spend can be followed
+      separately. Select one for its vendors, its pace, and every line behind it.</p>
+    <div class="tiles" id="capTiles"></div>
+    <div class="panel">
+      <h3>Committed to date <span class="tot num" id="capTot" style="color:var(--exp)"></span></h3>
+      <div class="sub">Approved to date across the warrants on this page — not total project cost.</div>
+      <div class="rank" id="capRank"></div>
+    </div>
+    <p class="note" id="capNote"></p>
+  </section>
+
+
+
+  <section id="recon">
+    <h2>How this was verified</h2>
+    <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
+      Every machine-readable document reconciles to them exactly — select a row for the per-fund detail.</p>
+    <p class="note" id="reconNote"></p>
+    <div class="tbox scroll">
+      <table class="tie">
+        <thead><tr>
+          <th>Document</th><th>Date</th><th class="r">Line items</th><th class="r">Published</th>
+          <th class="r">Expenditure parsed</th><th class="r">Published control</th><th class="r">Variance</th><th>Status</th>
+        </tr></thead>
+        <tbody id="tieBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="limits">
+    <h2>What this cannot show</h2>
+    <p class="lede">A claims register answers a narrow question. Here is what it cannot answer, and why.</p>
+    <div class="limits">
+      <div class="limit"><h3>Nothing is aged</h3><p>The check-date column is populated on well under 1% of rows.
+        There is no days-outstanding, no aging bucket, and no open-item view here.</p></div>
+      <div class="limit"><h3>Duplicate payments can't be detected</h3><p>A warrant is pre-payment approval, not a
+        cleared-check register. Same-invoice groupings here are split allocations across accounts, not double payments.</p></div>
+      <div class="limit"><h3>Year-over-year is unsafe</h3><p>2025 and 2026 are both here, but every March and
+        April 2025 warrant was published as an image scan and cannot be read. Comparing the two years would
+        report a fall in spending that is an artifact of the filing cabinet.</p></div>
+      <div class="limit"><h3>Approved, not necessarily paid</h3><p>These are claims presented for approval.
+        A line appearing here does not establish that a payment cleared, or in what amount.</p></div>
+      <div class="limit"><h3>Purchasing cards are summarised</h3><p>Card warrants post as one line per charge account,
+        so a card line is a category total, not a single merchant transaction.</p></div>
+      <div class="limit"><h3>It is not a budget</h3><p>This is disbursement approval only. It carries no
+        appropriation, no encumbrance balance, and no revenue — so it cannot say whether any department is on budget.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p><b>Method.</b> Text extracted from the city's published PDFs with <code>pdftotext -table</code>, parsed to line
+     items, and checked against the three control figures each document prints. Vendor names are reproduced verbatim
+     from the source and machine-verified to round-trip against it; no name is normalised, inferred, or shortened.
+     Figures are approvals as published, not audited actuals.</p>
+  <p>Built by Joe Curry from public records published by the City of North Tonawanda. Not affiliated with,
+     endorsed by, or produced for the City. Corrections welcome — every figure links to its source page.</p>
+</footer>
+
+<div class="pager" id="pager">
+  <button type="button" id="pgUp" aria-label="Previous section">&#9650;</button>
+  <span class="lbl"><span class="idx" id="pgIdx"></span> <span id="pgName"></span></span>
+  <button type="button" id="pgDn" aria-label="Next section">&#9660;</button>
+</div>
+
+<div class="modal" id="modal" hidden>
+  <div class="backdrop" data-close></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <header>
+      <div>
+        <div class="eyebrow" id="mEyebrow"></div>
+        <h3 id="mTitle"></h3>
+        <div class="mbig" id="mBig"></div>
+      </div>
+      <button class="xbtn" type="button" data-close aria-label="Close">&#10005;</button>
+    </header>
+    <nav class="tabs" role="tablist" id="mTabs">
+      <button type="button" role="tab" data-tab="breakdown" aria-selected="true">Breakdown</button>
+      <button type="button" role="tab" data-tab="trend" aria-selected="false">Trend</button>
+      <button type="button" role="tab" data-tab="composition" aria-selected="false">Composition</button>
+    </nav>
+    <div class="mbody" id="mBody"></div>
+  </div>
+</div>
+
+<script id="warrant-data" type="application/json">/*__DATA__*/</script>
+<script id="osc-data" type="application/json">/*__OSC__*/</script>
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById('warrant-data').textContent);
+var R = D.rows, V = D.vendors, A = D.accounts, AD = D.acctDesc;
+var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9;
+
+function money(n){
+  var s = Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  return (n<0?'−$':'$')+s;
+}
+function money0(n){return (n<0?'−$':'$')+Math.round(Math.abs(n)).toLocaleString('en-US');}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function fundOf(code){return code.split('-')[0];}
+function deptOf(code){var p=code.split('-');return p[0]+'-'+p[1];}
+
+/* ---------- masthead + hero ---------- */
+document.getElementById('through').textContent = D.meta.throughDate;
+document.getElementById('ndocs').textContent = D.meta.docs;
+// Scans carry no text to parse, so they are not part of the reconciliation
+// denominator - they are declared separately rather than counted as failures.
+var PARSED_DOCS = D.meta.docs - (D.meta.scans||0);
+document.getElementById('badgeNum').textContent = D.meta.exact + ' of ' + PARSED_DOCS;
+
+/* ---------- tie-out ---------- */
+(function(){
+  var n=D.meta.scans||0, sup=(D.meta.superseded||[]).length;
+  var bits=[];
+  if(n) bits.push('<b>'+n+' of the '+D.meta.docs+' documents are image-only scans</b> with no text layer, '+
+    'so they cannot be parsed or reconciled. They are listed below and excluded from every figure on this '+
+    'page rather than quietly dropped — which is why some 2025 months are thinner than they should be.');
+  if(sup) bits.push('A further '+sup+' file was a republished copy of a warrant already counted '+
+    '(same P.O. range and control total) and was removed, so no claim is counted twice.');
+  var el=document.getElementById('reconNote');
+  if(bits.length) el.innerHTML=bits.join(' '); else el.style.display='none';
+})();
+var tb = document.getElementById('tieBody');
+D.docs.forEach(function(doc,i){
+  var ok = doc.status==='EXACT';
+  var scan = !!doc.isScan;
+  var chip = scan ? '<span class="chip warn">IMAGE SCAN</span>'
+           : ok   ? '<span class="chip ok">TIES EXACTLY</span>'
+                  : '<span class="chip warn">'+esc(doc.status)+'</span>';
+  var card = doc.isCard ? ' <span class="chip card">CARD</span>' : '';
+  var dash = '<span style="color:var(--faint)">—</span>';
+  var tr = document.createElement('tr');
+  tr.className = 'doc-row' + (scan ? ' scan' : '');
+  tr.innerHTML =
+    '<td class="t-doc">'+(scan?'':'<span class="caret">›</span> ')+
+      '<span class="fn">'+esc(doc.f.replace(/\.pdf$/i,''))+'</span>'+card+'</td>'+
+    '<td class="num t-date">'+esc(doc.d||'—')+'</td>'+
+    '<td class="r num t-n">'+(scan?dash:doc.n)+'</td>'+
+    '<td class="r num t-pub">'+(scan?dash:doc.pubItems+(doc.n===doc.pubItems?' <span class="tick">✓</span>':''))+'</td>'+
+    '<td class="r num t-sum">'+(scan?dash:money(doc.sumE))+'</td>'+
+    '<td class="r num t-ctl">'+(scan?dash:money(doc.ctl))+'</td>'+
+    '<td class="r num t-var">'+(scan?dash:money(doc.var))+'</td>'+
+    '<td class="t-status">'+chip+'</td>';
+  tb.appendChild(tr);
+  if(scan){                                   // nothing to expand
+    tb.appendChild(Object.assign(document.createElement('tr'),
+      {className:'detail', style:'display:none'}));
+    return;
+  }
+
+  var det = document.createElement('tr');
+  det.className='detail'; det.style.display='none';
+  var funds = doc.funds.map(function(f){
+    var match = Math.abs(f[2]-f[3])<0.005;
+    return '<div class="frow"><span class="fname">'+esc(f[1]||('Fund '+f[0]))+
+           ' <span class="num" style="color:var(--faint)">'+esc(f[0])+'</span></span>'+
+           '<span class="num">'+money(f[2])+(match?' <span class="tick">✓</span>':
+             ' <span style="color:var(--bad)">vs '+money(f[3])+'</span>')+'</span></div>';}).join('');
+  det.innerHTML = '<td colspan="8"><div class="dpad">'+
+    '<div class="dgrid">'+funds+'</div>'+
+    '<div style="margin-top:12px;font-size:12.5px;color:var(--muted)">'+
+      'Published list amount '+money(doc.pubAmt)+' · parsed '+money(doc.sumAll)+
+      ' · P.O. range '+esc(doc.range||'—')+
+      ' · <a href="'+esc(doc.u)+'" target="_blank" rel="noopener">open source PDF</a>'+
+      ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span>'+
+    '</div></div></td>';
+  tb.appendChild(det);
+
+  tr.addEventListener('click', function(){
+    var open = det.style.display!=='none';
+    det.style.display = open?'none':'table-row';
+    tr.classList.toggle('open',!open);
+  });
+});
+
+/* ---------- revenue & spending (OSC filings) ---------- */
+var O = JSON.parse(document.getElementById('osc-data').textContent);
+
+(function(){                                    /* hero */
+  var i=O.years.length-1, rev=O.rev[i], exp=O.exp[i], net=rev-exp;
+  document.getElementById('heroRev').textContent=money0(rev);
+  document.getElementById('heroExp').textContent=money0(exp);
+  var n=document.getElementById('heroNet');
+  n.textContent=(net<0?'−':'+')+money0(Math.abs(net)).replace('$','$');
+  n.style.color = net<0 ? 'var(--bad)' : 'var(--ok)';
+  document.getElementById('heroNetK').textContent = net<0 ? 'Shortfall' : 'Surplus';
+  document.getElementById('heroLede').innerHTML =
+    'City of North Tonawanda, '+O.years[i]+' — audited filings to New York State, '+
+    (O.years.length)+' years deep, plus every 2026 claim approved so far.';
+})();
+
+/* Drill-down over the OSC flow table: category -> sub-category, object of
+   expenditure, and the individual account lines behind it. */
+var F = O.flows, FD = O.dict;
+var FI_YR=0, FI_SEC=1, FI_L1=2, FI_L2=3, FI_OBJ=4, FI_NARR=5, FI_ACCT=6, FI_AMT=7;
+
+function flowsFor(year, sec, l1Label){
+  var out=[];
+  for(var i=0;i<F.length;i++){
+    var f=F[i];
+    if(f[FI_YR]!==year || f[FI_SEC]!==sec) continue;
+    if(FD.l1[f[FI_L1]]!==l1Label) continue;
+    out.push(f);
+  }
+  return out;
+}
+function sumBy(rows, dictKey, idx){
+  var m={};
+  rows.forEach(function(f){ var k=FD[dictKey][f[idx]]; m[k]=(m[k]||0)+f[FI_AMT]; });
+  return Object.keys(m).map(function(k){return [k,m[k]];}).sort(function(a,b){return b[1]-a[1];});
+}
+function miniBars(items, total, cssVar){
+  var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1;
+  return '<div class="sub">'+items.map(function(x){
+    return '<div class="sb"><span>'+esc(x[0])+'</span>'+
+      '<span class="num">'+money0(x[1])+' <span style="color:var(--faint)">'+
+        (total?(x[1]/total*100).toFixed(1):'0')+'%</span></span>'+
+      '<span class="t"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:var('+cssVar+')"></i></span></div>';
+  }).join('')+'</div>';
+}
+function drillHTML(year, sec, label, cssVar){
+  var rows=flowsFor(year, sec, label);
+  if(!rows.length) return '';
+  var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
+  var l2=sumBy(rows,'l2',FI_L2), obj=sumBy(rows,'obj',FI_OBJ);
+  var h='';
+  if(l2.length>1 || (l2.length===1 && l2[0][0]!==label))
+    h+='<h4>Within '+esc(label)+'</h4>'+miniBars(l2,total,cssVar);
+  if(obj.length>1)
+    h+='<h4>By type of spending</h4>'+miniBars(obj,total,cssVar);
+  // Revenue rows carry no object of expenditure - drop the column rather than
+  // printing a wall of 'Unclassified'.
+  var showObj = obj.length>1 || (obj.length===1 && obj[0][0]!=='Unclassified');
+  h+='<h4>'+rows.length+' account line'+(rows.length===1?'':'s')+'</h4><table class="acct"><tbody>'+
+    rows.slice().sort(function(a,b){return b[FI_AMT]-a[FI_AMT];}).map(function(f){
+      return '<tr><td class="c num">'+esc(f[FI_ACCT])+'</td><td>'+esc(FD.narr[f[FI_NARR]])+'</td>'+
+        (showObj?'<td class="c">'+esc(FD.obj[f[FI_OBJ]])+'</td>':'')+
+        '<td class="a num">'+money0(f[FI_AMT])+'</td></tr>';
+    }).join('')+'</tbody></table>';
+  return h;
+}
+
+/* ---- history for one category, across every filing year ---- */
+var catIndex = null;
+function buildCatIndex(){
+  catIndex = {};                       // "sec|l1" -> {year: amount}, plus "sec" -> {year: total}
+  for(var i=0;i<F.length;i++){
+    var f=F[i], sec=f[FI_SEC], k=sec+'|'+FD.l1[f[FI_L1]];
+    (catIndex[k] || (catIndex[k]={}))[f[FI_YR]] =
+      ((catIndex[k]||{})[f[FI_YR]]||0) + f[FI_AMT];
+    var t='T'+sec;
+    (catIndex[t] || (catIndex[t]={}))[f[FI_YR]] =
+      ((catIndex[t]||{})[f[FI_YR]]||0) + f[FI_AMT];
+  }
+}
+function seriesFor(sec, l1){
+  if(!catIndex) buildCatIndex();
+  var m = catIndex[sec+'|'+l1] || {};
+  return O.years.map(function(y){ return m[y]||0; });
+}
+function sectionSeries(sec){
+  if(!catIndex) buildCatIndex();
+  var m = catIndex['T'+sec] || {};
+  return O.years.map(function(y){ return m[y]||0; });
+}
+function subSeriesFor(sec, l1){
+  if(!catIndex) buildCatIndex();
+  var m={};
+  for(var i=0;i<F.length;i++){
+    var f=F[i];
+    if(f[FI_SEC]!==sec || FD.l1[f[FI_L1]]!==l1) continue;
+    var k=FD.l2[f[FI_L2]];
+    (m[k] || (m[k]={}))[f[FI_YR]] = ((m[k]||{})[f[FI_YR]]||0) + f[FI_AMT];
+  }
+  return Object.keys(m).map(function(k){
+    var vals=O.years.map(function(y){return m[k][y]||0;});
+    return {label:k, values:vals, last:vals[vals.length-1]};
+  }).sort(function(a,b){return b.last-a.last;});
+}
+
+/* ---- reusable line chart with crosshair, used inside the modal ---- */
+function renderLine(host, values, opts){
+  opts = opts || {};
+  // Size the viewBox to the container. A fixed viewBox scaled into a phone-width
+  // modal renders the axis type at ~5px while every DOM assertion still passes.
+  var narrow = (host.clientWidth || 760) < 520;
+  var yrs=O.years, W = narrow ? 380 : 760;
+  var H = opts.h || 210, ml = narrow ? 42 : 58, mr = narrow ? 10 : 16, mt=12, mb = narrow ? 22 : 24;
+  var fs = narrow ? 12 : 10.5;
+  var max=Math.max.apply(null,values)*1.08 || 1;
+  var x=function(i){return ml+(W-ml-mr)*(i/(yrs.length-1));};
+  var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
+  var fmt = opts.pct ? function(v){return v.toFixed(1)+'%';} : money0;
+  var p=[], ticks=4;
+  for(var t=0;t<=ticks;t++){
+    var gv=max/ticks*t;
+    p.push('<line class="gl" x1="'+ml+'" y1="'+y(gv).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(gv).toFixed(1)+'"/>');
+    p.push('<text class="ax" x="'+(ml-7)+'" y="'+(y(gv)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+
+           (opts.pct?gv.toFixed(0)+'%':'$'+Math.round(gv/1000000)+'M')+'</text>');
+  }
+  var bi=yrs.indexOf(O.schemaBreak);
+  if(bi>0){
+    var bx=((x(bi)+x(bi-1))/2).toFixed(1);
+    p.push('<line class="brk" x1="'+bx+'" y1="'+mt+'" x2="'+bx+'" y2="'+(H-mb)+'"/>');
+  }
+  var every = narrow ? 10 : 5;
+  yrs.forEach(function(yr,i){
+    if(yr%every===0||i===yrs.length-1)
+      p.push('<text class="ax" x="'+x(i).toFixed(1)+'" y="'+(H-mb+fs+3)+'" text-anchor="middle" font-size="'+fs+'">'+
+             (narrow?String(yr).slice(2):yr)+'</text>');
+  });
+  var d=values.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+  p.push('<path d="'+d+' L'+x(values.length-1).toFixed(1)+' '+(H-mb)+' L'+ml+' '+(H-mb)+' Z" fill="var('+opts.color+')" opacity=".10"/>');
+  p.push('<path class="ln" d="'+d+'" stroke="var('+opts.color+')"/>');
+  p.push('<g class="xh" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
+         '<circle class="dot" r="4.5" fill="var('+opts.color+')"/></g>');
+  p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"/>');
+
+  host.innerHTML='<div class="chartwrap"><svg class="trend" viewBox="0 0 '+W+' '+H+'">'+p.join('')+
+    '</svg><div class="tip"></div></div>';
+  var svg=host.querySelector('svg'), tip=host.querySelector('.tip'),
+      wrap=host.querySelector('.chartwrap'), xh=host.querySelector('.xh'),
+      xl=xh.querySelector('line'), xc=xh.querySelector('circle');
+  var hit=host.querySelector('.hit');
+  hit.addEventListener('mousemove',function(ev){
+    var r=svg.getBoundingClientRect();
+    var i=Math.round(((ev.clientX-r.left)/r.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
+    i=Math.max(0,Math.min(yrs.length-1,i));
+    xh.style.opacity=1;
+    xl.setAttribute('x1',x(i)); xl.setAttribute('x2',x(i));
+    xc.setAttribute('cx',x(i)); xc.setAttribute('cy',y(values[i]));
+    tip.innerHTML='<div class="ty num">'+yrs[i]+'</div><div class="tl"><span>'+
+      esc(opts.name||'Value')+'</span><span class="num">'+fmt(values[i])+'</span></div>';
+    tip.style.opacity=1;
+    var wx=x(i)/W*wrap.clientWidth;
+    tip.style.left=Math.min(Math.max(wx-tip.offsetWidth/2,0),wrap.clientWidth-tip.offsetWidth)+'px';
+    tip.style.top='2px';
+  });
+  hit.addEventListener('mouseleave',function(){tip.style.opacity=0;tip.style.left='0px';xh.style.opacity=0;});
+}
+
+function sparkSVG(values, color){
+  var W=200,H=38,max=Math.max.apply(null,values)||1;
+  var x=function(i){return (W)*(i/(values.length-1));};
+  var y=function(v){return H-(H-3)*(v/max)-1.5;};
+  var d=values.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+
+    '<path d="'+d+' L'+W+' '+H+' L0 '+H+' Z" fill="var('+color+')" opacity=".12"/>'+
+    '<path d="'+d+'" fill="none" stroke="var('+color+')" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>';
+}
+function pctChange(a,b){
+  if(!a) return b?'new':'—';
+  var p=(b-a)/a*100;
+  return (p>=0?'+':'') + p.toFixed(0) + '%';
+}
+
+function renderRank(el, items, cssVar, total, onClick, expand){
+  var max = items.reduce(function(m,x){return Math.max(m,x[1]);},0);
+  el.innerHTML = items.map(function(x,i){
+    var pct = total? (x[1]/total*100):0;
+    // 'All other' is a remainder bucket, not a ranked category: it sits last by
+    // convention even when it outranks the row above, so it gets a muted fill -
+    // otherwise the longer bar at the bottom reads as a sorting bug.
+    var isOther = /^All other/.test(x[0]);
+    var fill = isOther ? 'var(--rule-strong)' : 'var('+cssVar+')';
+    var clickable = onClick && !isOther;
+    var drillable = expand && !isOther;
+    return '<div class="rk'+(drillable?' can':'')+'"'+
+        (clickable?' data-rank="'+i+'" style="cursor:pointer"':'')+
+        (drillable?' data-exp="'+i+'"':'')+'>'+
+      '<span class="lb"'+(isOther?' style="color:var(--muted)"':'')+'>'+esc(x[0])+'</span>'+
+      '<span class="vl num"'+(isOther?' style="color:var(--muted)"':'')+'>'+money0(x[1])+'</span>'+
+      '<span class="tr"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:'+fill+'"></i></span>'+
+      '<span class="pc num">'+pct.toFixed(1)+'% of total</span>'+
+    '</div>';}).join('');
+
+  // One delegated listener per container, attached once - renderRank re-runs on
+  // every year change and stacked listeners would fire N times per click.
+  if(!el.__wired){
+    el.__wired = true;
+    el.addEventListener('click', function(e){
+      var d = e.target.closest('[data-exp]');
+      if(d && el.__expand){
+        el.__expand(el.__items[+d.getAttribute('data-exp')], d);
+        return;
+      }
+      var t = e.target.closest('[data-rank]');
+      if(t && el.__click) el.__click(el.__items[+t.getAttribute('data-rank')]);
+    });
+  }
+  el.__items = items; el.__click = onClick; el.__expand = expand;
+}
+
+/* ---- category modal: breakdown / trend / composition ---- */
+var MODAL = {kind:'cat', year:null, sec:0, label:'', color:'--rev', tab:'breakdown', opener:null, proj:null};
+function openModal(year, sec, label, cssVar, opener){
+  MODAL.kind='cat';
+  MODAL.year=year; MODAL.sec=sec; MODAL.label=label; MODAL.color=cssVar;
+  MODAL.tab='breakdown'; MODAL.opener=opener||null;
+  document.getElementById('mTabs').innerHTML =
+    '<button type="button" role="tab" data-tab="breakdown" aria-selected="true">Breakdown</button>'+
+    '<button type="button" role="tab" data-tab="trend" aria-selected="false">Trend</button>'+
+    '<button type="button" role="tab" data-tab="composition" aria-selected="false">Composition</button>';
+  var rows=flowsFor(year,sec,label);
+  var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
+  var secTot=sectionSeries(sec)[O.years.indexOf(year)]||0;
+  document.getElementById('mEyebrow').textContent=(sec?'Expenditure':'Revenue')+' · '+year+' filing';
+  document.getElementById('mTitle').textContent=label;
+  document.getElementById('mBig').innerHTML='<span class="num">'+money0(total)+'</span> '+
+    '<span>'+(secTot?(total/secTot*100).toFixed(1):'0')+'% of '+(sec?'expenditure':'revenue')+'</span>';
+  document.getElementById('modal').hidden=false;
+  document.body.style.overflow='hidden';
+  renderTab('breakdown');
+  document.querySelector('#mTabs button').focus();
+}
+function closeModal(){
+  document.getElementById('modal').hidden=true;
+  document.body.style.overflow='';
+  if(MODAL.opener && MODAL.opener.focus) MODAL.opener.focus();
+}
+function renderTab(tab){
+  MODAL.tab=tab;
+  var body=document.getElementById('mBody');
+
+  if(MODAL.kind==='project'){ renderProjectTab(tab, body); return; }
+
+  var yr=MODAL.year, sec=MODAL.sec, label=MODAL.label, col=MODAL.color;
+
+  if(tab==='breakdown'){
+    body.innerHTML=drillHTML(yr,sec,label,col) || '<p class="lede">No detail filed for this category.</p>';
+    return;
+  }
+
+  if(tab==='trend'){
+    var vals=seriesFor(sec,label), tot=sectionSeries(sec);
+    var share=vals.map(function(v,i){return tot[i]?v/tot[i]*100:0;});
+    var i0=0, iN=vals.length-1;
+    var firstNonZero=vals.findIndex(function(v){return v>0;});
+    if(firstNonZero>0) i0=firstNonZero;
+    body.innerHTML=
+      '<div class="mstats">'+
+        '<div class="mstat"><div class="k">'+O.years[i0]+'</div><div class="v num">'+money0(vals[i0])+'</div></div>'+
+        '<div class="mstat"><div class="k">'+O.years[iN]+'</div><div class="v num">'+money0(vals[iN])+'</div></div>'+
+        '<div class="mstat"><div class="k">Change</div><div class="v num">'+pctChange(vals[i0],vals[iN])+'</div></div>'+
+        '<div class="mstat"><div class="k">Share of '+(sec?'spend':'revenue')+'</div><div class="v num">'+
+          share[iN].toFixed(1)+'%</div></div>'+
+      '</div>'+
+      '<h4>'+esc(label)+' by year</h4><div id="mLine"></div>'+
+      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShare"></div>'+
+      '<p class="note">Figures either side of '+O.schemaBreak+' sit on different reporting bases '+
+      '(marked by the dashed line) and are not strictly comparable.</p>';
+    renderLine(document.getElementById('mLine'), vals, {color:col, name:label});
+    renderLine(document.getElementById('mShare'), share, {color:col, name:'Share', pct:true, h:170});
+    return;
+  }
+
+  // composition
+  var subs=subSeriesFor(sec,label);
+  if(subs.length<2){
+    body.innerHTML='<p class="lede">'+esc(label)+' is filed as a single line — there are no '+
+      'sub-categories to compare over time. The Trend tab shows its history.</p>';
+    return;
+  }
+  var iLast=O.years.length-1;
+  body.innerHTML='<h4>Each part of '+esc(label)+', 1995–'+O.years[iLast]+'</h4>'+
+    '<div class="small">'+subs.map(function(s){
+      var f=s.values.findIndex(function(v){return v>0;});
+      return '<div class="sm"><div class="n">'+esc(s.label)+'</div>'+
+        '<div class="v num">'+money0(s.last)+' <span style="color:var(--faint)">'+
+          pctChange(f>=0?s.values[f]:0, s.last)+' since '+(f>=0?O.years[f]:O.years[0])+'</span></div>'+
+        sparkSVG(s.values,col)+'</div>';
+    }).join('')+'</div>'+
+    '<p class="note">Each panel is scaled to its own maximum, so read the shape and the figures, '+
+    'not the relative heights between panels.</p>';
+}
+function renderProjectTab(tab, body){
+  var p=MODAL.proj;
+
+  if(tab==='pace'){
+    // Spend per warrant, in publication order, plus the running total.
+    var per=D.docs.map(function(d,i){return {d:d,i:i,sum:0,n:0};});
+    p.rows.forEach(function(r){ per[r[I_DOC]].sum+=r[I_AMT]; per[r[I_DOC]].n++; });
+    var active=per.filter(function(x){return x.n>0;});
+    var max=active.reduce(function(m,x){return Math.max(m,x.sum);},0)||1;
+    var run=0, cum=per.map(function(x){run+=x.sum;return run;});
+    var first=active[0], last=active[active.length-1];
+    body.innerHTML=
+      '<div class="mstats">'+
+        '<div class="mstat"><div class="k">First appears</div><div class="v num">'+esc(first.d.d)+'</div></div>'+
+        '<div class="mstat"><div class="k">Most recent</div><div class="v num">'+esc(last.d.d)+'</div></div>'+
+        '<div class="mstat"><div class="k">Warrants</div><div class="v num">'+active.length+'</div></div>'+
+        '<div class="mstat"><div class="k">Largest single</div><div class="v num">'+
+          money0(Math.max.apply(null,p.rows.map(function(r){return r[I_AMT];})))+'</div></div>'+
+      '</div>'+
+      '<h4>Approved per warrant</h4>'+
+      '<div class="cols">'+per.map(function(x){
+        return '<div class="col" title="'+esc(x.d.f.replace(/\.pdf$/i,''))+' — '+
+          (x.n?money(x.sum)+' across '+x.n+' line'+(x.n===1?'':'s'):'nothing this warrant')+'">'+
+          '<i style="height:'+(x.sum>0?Math.max(x.sum/max*100,3):0).toFixed(1)+'%;'+
+            (x.sum>0?'':'background:transparent')+'"></i>'+
+          '<em>'+esc(x.d.d.slice(0,5))+'</em></div>';}).join('')+'</div>'+
+      '<h4>Running total</h4>'+
+      '<div class="cols">'+per.map(function(x,i){
+        return '<div class="col" title="'+esc(x.d.d)+' — '+money(cum[i])+' committed to date">'+
+          '<i style="height:'+(cum[i]/run*100).toFixed(1)+'%;opacity:.55"></i>'+
+          '<em>'+esc(x.d.d.slice(0,5))+'</em></div>';}).join('')+'</div>'+
+      '<p class="note">Spend only. The register carries no authorised budget or completion date, so this '+
+      'shows the pace of approvals, not progress against a plan.</p>';
+    return;
+  }
+
+  if(tab==='vendors'){
+    var vs=Object.keys(p.ven).map(function(k){return [k,p.ven[k]];})
+      .sort(function(a,b){return b[1]-a[1];});
+    body.innerHTML='<h4>'+vs.length+' contractor'+(vs.length===1?'':'s')+' paid on this project</h4>'+
+      miniBars(vs, p.amt, '--exp')+
+      '<p class="note">Payees as printed in the source documents. Being listed here means a claim was '+
+      'approved, nothing more.</p>';
+    return;
+  }
+
+  var rows=p.rows.slice().sort(function(a,b){return b[I_AMT]-a[I_AMT];});
+  body.innerHTML='<h4>'+rows.length+' account line'+(rows.length===1?'':'s')+'</h4>'+
+    '<table class="acct"><tbody>'+rows.map(function(r){
+      var doc=D.docs[r[I_DOC]];
+      return '<tr><td class="c num">'+esc(A[r[I_ACC]])+'</td>'+
+        '<td>'+esc(V[r[I_VEN]])+'</td>'+
+        '<td class="c"><a class="src" href="'+esc(doc.u)+'#page='+r[I_PAGE]+'" target="_blank" '+
+          'rel="noopener">'+esc(doc.d)+' p.'+r[I_PAGE]+'</a></td>'+
+        '<td class="a num">'+money(r[I_AMT])+'</td></tr>';}).join('')+'</tbody></table>';
+}
+
+(function(){
+  document.getElementById('mTabs').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-tab]'); if(!b) return;
+    [].forEach.call(this.querySelectorAll('button'),function(x){
+      x.setAttribute('aria-selected', x===b?'true':'false');});
+    renderTab(b.dataset.tab);
+  });
+  document.getElementById('modal').addEventListener('click',function(e){
+    if(e.target.closest('[data-close]')) closeModal();
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && !document.getElementById('modal').hidden) closeModal();
+  });
+})();
+
+/* ---- compare two filing years ---- */
+function catTotals(sec, yr){
+  var m={};
+  for(var i=0;i<F.length;i++){
+    var f=F[i];
+    if(f[FI_YR]!==yr || f[FI_SEC]!==sec) continue;
+    var k=FD.l1[f[FI_L1]];
+    m[k]=(m[k]||0)+f[FI_AMT];
+  }
+  return m;
+}
+function movers(sec, a, b){
+  var A=catTotals(sec,a), B=catTotals(sec,b), keys={};
+  Object.keys(A).forEach(function(k){keys[k]=1;}); Object.keys(B).forEach(function(k){keys[k]=1;});
+  return Object.keys(keys).map(function(k){
+    var av=A[k]||0, bv=B[k]||0;
+    return {k:k, a:av, b:bv, d:bv-av, pct: av? (bv-av)/av*100 : (bv?null:0)};
+  }).sort(function(x,y){return Math.abs(y.d)-Math.abs(x.d);});
+}
+function renderCompare(){
+  var a=+document.getElementById('cmpA').value, b=+document.getElementById('cmpB').value;
+  var ia=O.years.indexOf(a), ib=O.years.indexOf(b);
+  var out=document.getElementById('cmpOut');
+  if(ia<0||ib<0||a===b){ out.innerHTML='<p class="lede">Pick two different years.</p>'; return; }
+
+  var revA=O.rev[ia], revB=O.rev[ib], expA=O.exp[ia], expB=O.exp[ib];
+  var netA=revA-expA, netB=revB-expB;
+  var revGrowth = revA? (revB-revA)/revA*100 : 0;
+  var expGrowth = expA? (expB-expA)/expA*100 : 0;
+
+  var sign=function(v){return (v<0?'−':'+')+money0(Math.abs(v)).replace('$','$');};
+  var cls=function(v){return v<0?'dn':'up';};
+
+  var swing=
+    '<div class="swing">'+
+      '<div class="sw"><div class="k">Revenue</div><div class="v num" style="color:var(--rev)">'+sign(revB-revA)+
+        '</div><div class="n num">'+(revGrowth>=0?'+':'')+revGrowth.toFixed(1)+'% · '+money0(revA)+' → '+money0(revB)+'</div></div>'+
+      '<div class="sw"><div class="k">Expenditure</div><div class="v num" style="color:var(--exp)">'+sign(expB-expA)+
+        '</div><div class="n num">'+(expGrowth>=0?'+':'')+expGrowth.toFixed(1)+'% · '+money0(expA)+' → '+money0(expB)+'</div></div>'+
+      '<div class="sw"><div class="k">'+a+' net</div><div class="v num" style="color:'+(netA<0?'var(--bad)':'var(--ok)')+'">'+
+        sign(netA)+'</div><div class="n">'+(netA<0?'shortfall':'surplus')+'</div></div>'+
+      '<div class="sw"><div class="k">'+b+' net</div><div class="v num" style="color:'+(netB<0?'var(--bad)':'var(--ok)')+'">'+
+        sign(netB)+'</div><div class="n">'+(netB<0?'shortfall':'surplus')+'</div></div>'+
+    '</div>';
+
+  // Plain-language read of the swing.
+  var swingAmt=netB-netA;
+  var line='Between '+a+' and '+b+', revenue '+(revB>=revA?'rose':'fell')+' '+
+    Math.abs(revGrowth).toFixed(1)+'% while spending '+(expB>=expA?'rose':'fell')+' '+
+    Math.abs(expGrowth).toFixed(1)+'%. The bottom line moved '+sign(swingAmt)+', from a '+
+    (netA<0?'shortfall':'surplus')+' of '+money0(Math.abs(netA))+' to a '+
+    (netB<0?'shortfall':'surplus')+' of '+money0(Math.abs(netB))+'. ';
+  line += expGrowth>revGrowth
+    ? '<b>Spending grew faster than revenue</b> — the categories flagged below are the ones that outpaced it.'
+    : 'Revenue grew at least as fast as spending over this pair.';
+  if((a<O.schemaBreak) !== (b<O.schemaBreak))
+    line += ' <b>These two years sit on different reporting bases</b> (OSC changed its schema in '+
+            O.schemaBreak+'), so part of any change here is definitional rather than real.';
+
+  function table(sec,label){
+    var rows=movers(sec,a,b).filter(function(m){return Math.abs(m.d)>=1000;}).slice(0,8);
+    if(!rows.length) return '';
+    return '<h4 style="margin:18px 0 8px;font:600 11px/1 system-ui;letter-spacing:.08em;'+
+      'text-transform:uppercase;color:var(--faint)">'+label+'</h4>'+
+      '<table class="mv"><thead><tr><th>Category</th><th class="r">'+a+'</th><th class="r">'+b+
+      '</th><th class="r">Change</th><th class="r">%</th></tr></thead><tbody>'+
+      rows.map(function(m){
+        var outpaced = sec===1 && m.pct!==null && m.d>0 && m.pct>revGrowth;
+        return '<tr><td class="m-name">'+esc(m.k)+
+            (outpaced?'<span class="flag">OUTPACED REVENUE</span>':'')+'</td>'+
+          '<td class="r num m-vals">'+money0(m.a)+'</td>'+
+          '<td class="r num m-vals">'+money0(m.b)+'</td>'+
+          '<td class="r num m-delta '+cls(m.d)+'">'+sign(m.d)+'</td>'+
+          '<td class="r num m-pct '+cls(m.d)+'">'+(m.pct===null?'new':(m.pct>=0?'+':'')+m.pct.toFixed(0)+'%')+'</td></tr>';
+      }).join('')+'</tbody></table>';
+  }
+  out.innerHTML = swing + '<p class="verdictline">'+line+'</p>' +
+    table(1,'Expenditure movers') + table(0,'Revenue movers');
+}
+(function(){
+  var A=document.getElementById('cmpA'), B=document.getElementById('cmpB');
+  O.years.forEach(function(y){
+    A.appendChild(new Option(y,y)); B.appendChild(new Option(y,y));
+  });
+  A.value=O.years[O.years.length-2]; B.value=O.years[O.years.length-1];
+  A.addEventListener('change',renderCompare); B.addEventListener('change',renderCompare);
+  function shift(step){
+    var ia=O.years.indexOf(+A.value), ib=O.years.indexOf(+B.value);
+    if(ia+step<0 || ib+step>O.years.length-1) return;
+    A.value=O.years[ia+step]; B.value=O.years[ib+step]; renderCompare();
+  }
+  document.getElementById('cmpPrev').addEventListener('click',function(){shift(-1);});
+  document.getElementById('cmpNext').addEventListener('click',function(){shift(1);});
+  renderCompare();
+})();
+
+/* year pills drive both panels and the marker on the trend line */
+var selYear = O.latest;
+
+function renderYear(yr){
+  selYear = yr;
+  var rc = O.revByYear[String(yr)] || [], ec = O.expByYear[String(yr)] || [];
+  var rt = rc.reduce(function(s,x){return s+x[1];},0);
+  var et = ec.reduce(function(s,x){return s+x[1];},0);
+  document.getElementById('revTot').textContent = money0(rt);
+  document.getElementById('expTot').textContent = money0(et);
+  var basis = yr < O.schemaBreak ? ' · pre-' + O.schemaBreak + ' reporting basis' : '';
+  document.getElementById('revSub').textContent = yr + ' filing · ' + rc.length + ' categories' + basis;
+  document.getElementById('expSub').textContent = yr + ' filing · ' + ec.length + ' categories' + basis;
+  renderRank(document.getElementById('revRank'), rc, '--rev', rt, null,
+    function(item, node){ openModal(selYear, 0, item[0], '--rev', node); });
+  renderRank(document.getElementById('expRank'), ec, '--exp', et, null,
+    function(item, node){ openModal(selYear, 1, item[0], '--exp', node); });
+  [].forEach.call(document.querySelectorAll('.yp'), function(b){
+    var on = +b.dataset.year === yr;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  if (typeof markTrendYear === 'function') markTrendYear(yr);
+}
+
+(function(){
+  var host = document.getElementById('yearPills');
+  host.innerHTML = O.years.slice().reverse().map(function(y){
+    return '<button class="yp" type="button" role="tab" data-year="'+y+'">'+y+'</button>';
+  }).join('');
+  host.addEventListener('click', function(e){
+    var b = e.target.closest('.yp');
+    if (b) renderYear(+b.dataset.year);
+  });
+  host.addEventListener('keydown', function(e){
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    var i = O.years.indexOf(selYear);
+    var next = O.years[e.key === 'ArrowRight' ? Math.min(i+1, O.years.length-1) : Math.max(i-1, 0)];
+    if (next !== selYear){
+      renderYear(next);
+      var el = host.querySelector('.yp.on');
+      if (el){ el.focus(); el.scrollIntoView({block:'nearest', inline:'center'}); }
+      e.preventDefault();
+    }
+  });
+})();
+
+/* 30-year trend.
+   The viewBox is re-chosen for the container rather than scaled: at 900x300
+   a phone renders the axis type at ~3px. Narrow screens get a squarer box and
+   larger type in user units, then redraw on resize. */
+var markTrendYear;   // assigned by drawTrend so it closes over the live scales
+function drawTrend(){
+  var wrapEl = document.getElementById('trendWrap');
+  var narrow = (wrapEl.clientWidth || window.innerWidth) < 700;
+  var W = narrow ? 400 : 900, H = 300;
+  var ml = narrow ? 44 : 62, mr = narrow ? 34 : 54, mt = 14, mb = 26;
+  var fs = narrow ? 13 : 10.5;
+  var yrs=O.years, rev=O.rev, exp=O.exp;
+  var max=Math.max.apply(null,rev.concat(exp))*1.06;
+  var x=function(i){return ml+(W-ml-mr)*(i/(yrs.length-1));};
+  var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
+  var svg=document.getElementById('trend'), p=[];
+  svg.setAttribute('viewBox','0 0 '+W+' '+H);
+  svg.style.fontSize=fs+'px';
+
+  var step = narrow ? 20000000 : 10000000;
+  for(var g=0; g<=max; g+=step){
+    p.push('<line class="gl" x1="'+ml+'" y1="'+y(g).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(g).toFixed(1)+'"/>');
+    p.push('<text class="ax" x="'+(ml-8)+'" y="'+(y(g)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">$'+(g/1000000)+'M</text>');
+  }
+  var bi=yrs.indexOf(O.schemaBreak);
+  if(bi>0){
+    var bx=((x(bi)+x(bi-1))/2).toFixed(1);
+    p.push('<line class="brk" x1="'+bx+'" y1="'+mt+'" x2="'+bx+'" y2="'+(H-mb)+'"/>');
+    if(!narrow)
+      p.push('<text class="ax" x="'+(+bx+5)+'" y="'+(mt+10)+'" font-size="'+fs+'">reporting basis changed '+O.schemaBreak+'</text>');
+  }
+  var every = narrow ? 10 : 5;
+  yrs.forEach(function(yr,i){
+    if(yr%every===0||i===yrs.length-1)
+      p.push('<text class="ax" x="'+x(i).toFixed(1)+'" y="'+(H-mb+fs+4)+'" text-anchor="middle" font-size="'+fs+'">'+
+             (narrow?String(yr).slice(2):yr)+'</text>');
+  });
+  function path(arr){return arr.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');}
+  p.push('<path class="ln" d="'+path(exp)+'" stroke="var(--exp)"/>');
+  p.push('<path class="ln" d="'+path(rev)+'" stroke="var(--rev)"/>');
+  var li=yrs.length-1;
+  p.push('<text class="ax" x="'+(W-mr+6)+'" y="'+(y(rev[li])+3).toFixed(1)+'" fill="var(--rev)" font-size="'+fs+'" style="font-weight:700">Rev</text>');
+  p.push('<text class="ax" x="'+(W-mr+6)+'" y="'+(y(exp[li])+3).toFixed(1)+'" fill="var(--exp)" font-size="'+fs+'" style="font-weight:700">Exp</text>');
+  p.push('<g id="tsel" style="opacity:0"><line class="sel" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
+         '<circle class="dot" r="4" fill="var(--rev)"/><circle class="dot" r="4" fill="var(--exp)"/></g>');
+  p.push('<g id="tcross" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
+         '<circle class="dot" r="4.5" fill="var(--rev)"/><circle class="dot" r="4.5" fill="var(--exp)"/></g>');
+  p.push('<rect id="thit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"/>');
+  svg.innerHTML=p.join('');
+
+  var tip=document.getElementById('trendTip'), wrap=document.getElementById('trendWrap');
+  var cross=document.getElementById('tcross');
+  var cl=cross.querySelector('line'), cd=cross.querySelectorAll('circle');
+  function move(ev){
+    var r=svg.getBoundingClientRect();
+    var px=(ev.clientX-r.left)/r.width*W;
+    var i=Math.round((px-ml)/((W-ml-mr)/(yrs.length-1)));
+    i=Math.max(0,Math.min(yrs.length-1,i));
+    cross.style.opacity=1;
+    cl.setAttribute('x1',x(i)); cl.setAttribute('x2',x(i));
+    cd[0].setAttribute('cx',x(i)); cd[0].setAttribute('cy',y(rev[i]));
+    cd[1].setAttribute('cx',x(i)); cd[1].setAttribute('cy',y(exp[i]));
+    var net=rev[i]-exp[i];
+    tip.innerHTML='<div class="ty num">'+yrs[i]+'</div>'+
+      '<div class="tl"><span><b style="background:var(--rev)"></b>Revenue</span><span class="num">'+money0(rev[i])+'</span></div>'+
+      '<div class="tl"><span><b style="background:var(--exp)"></b>Expenditure</span><span class="num">'+money0(exp[i])+'</span></div>'+
+      '<div class="tl" style="margin-top:3px;border-top:1px solid var(--rule);padding-top:3px">'+
+        '<span>Net</span><span class="num" style="color:'+(net<0?'var(--bad)':'var(--ok)')+'">'+money0(net)+'</span></div>';
+    tip.style.opacity=1;
+    var wx=x(i)/W*wrap.clientWidth;
+    tip.style.left=Math.min(Math.max(wx-tip.offsetWidth/2,0),wrap.clientWidth-tip.offsetWidth)+'px';
+    tip.style.top='4px';
+  }
+  var hit=document.getElementById('thit');
+  hit.addEventListener('mousemove',move);
+  hit.addEventListener('mouseleave',function(){tip.style.opacity=0;tip.style.left='0px';cross.style.opacity=0;});
+  hit.style.cursor='crosshair';
+  function idxAt(clientX){
+    var rr=svg.getBoundingClientRect();
+    var i=Math.round(((clientX-rr.left)/rr.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
+    return Math.max(0,Math.min(yrs.length-1,i));
+  }
+  hit.addEventListener('click',function(ev){          // click the line to pick that year
+    if(typeof renderYear==='function') renderYear(yrs[idxAt(ev.clientX)]);
+  });
+  /* Drag a finger along the chart to scrub years. touch-action:none stops the
+     browser claiming the gesture for page scroll mid-drag. */
+  hit.style.touchAction='none';
+  var dragging=false;
+  function touchAt(ev){
+    var t=ev.touches&&ev.touches[0]; if(!t) return;
+    move({clientX:t.clientX});
+    var i=idxAt(t.clientX);
+    if(typeof renderYear==='function' && yrs[i]!==selYear) renderYear(yrs[i]);
+  }
+  hit.addEventListener('touchstart',function(ev){dragging=true;touchAt(ev);ev.preventDefault();},{passive:false});
+  hit.addEventListener('touchmove',function(ev){if(dragging){touchAt(ev);ev.preventDefault();}},{passive:false});
+  hit.addEventListener('touchend',function(){dragging=false;tip.style.opacity=0;tip.style.left='0px';cross.style.opacity=0;});
+
+  var sel=document.getElementById('tsel');
+  var sl=sel.querySelector('line'), sd=sel.querySelectorAll('circle');
+  markTrendYear=function(yr){
+    var i=yrs.indexOf(yr);
+    if(i<0){ sel.style.opacity=0; return; }
+    sl.setAttribute('x1',x(i)); sl.setAttribute('x2',x(i));
+    sd[0].setAttribute('cx',x(i)); sd[0].setAttribute('cy',y(rev[i]));
+    sd[1].setAttribute('cx',x(i)); sd[1].setAttribute('cy',y(exp[i]));
+    sel.style.opacity=1;
+  };
+  markTrendYear(selYear);   // survive a redraw
+
+  var first=yrs[0], lastY=yrs[li];
+  document.getElementById('trendSub').textContent =
+    lastY+' filing: revenue '+money0(rev[li])+' against expenditure '+money0(exp[li])+
+    ' — a gap of '+money0(rev[li]-exp[li])+'. Series covers '+first+'–'+lastY+'.';
+  document.getElementById('trendNote').textContent =
+    'OSC changed its reporting schema in '+O.schemaBreak+'. Both eras publish 15 columns under different names, '+
+    'so the mapping was chosen by continuity rather than by inspection: at the boundary the segment-level mapping '+
+    'holds revenue to within 0.07%. Expenditure still steps at that line, so figures either side of it are not '+
+    'strictly comparable — which is why the break is drawn rather than smoothed over.';
+}
+drawTrend();
+/* Keep the chart's viewBox matched to its container.
+   Deliberately belt-and-braces: if this misses, the SVG keeps the stale viewBox
+   and scales it, which renders the axis type at ~3px on a phone (or ~36px on a
+   desktop) - legible-looking in every DOM assertion and obviously broken to a
+   human. ResizeObserver is the right primitive but silently does nothing in some
+   embedded/snapshot webviews, so three independent signals plus a cheap poll all
+   feed one idempotent check that only redraws when the breakpoint actually flips. */
+(function(){
+  var wrap = document.getElementById('trendWrap');
+  var last = wrap.clientWidth < 700, t;
+  function check(){
+    var now = (wrap.clientWidth || window.innerWidth) < 700;
+    if(now !== last){ last = now; drawTrend(); }
+  }
+  function nudge(){ clearTimeout(t); t = setTimeout(check, 120); }
+
+  if(window.ResizeObserver) new ResizeObserver(nudge).observe(wrap);
+  window.addEventListener('resize', nudge);
+  if(window.matchMedia){
+    var mq = window.matchMedia('(max-width:699px)');
+    if(mq.addEventListener) mq.addEventListener('change', nudge);
+    else if(mq.addListener) mq.addListener(nudge);
+  }
+  setInterval(check, 400);   // one clientWidth read; no-op unless the breakpoint flips
+})();
+renderYear(O.latest);   // after drawTrend, so the year marker can be placed
+
+/* ---------- aggregates ---------- */
+var byVendor = {};
+R.forEach(function(r){
+  var k = r[I_VEN], v = byVendor[k];
+  if(!v){ v = byVendor[k] = {n:0,sum:0,acc:{},dept:{},amts:[]}; }
+  v.n++; v.sum += r[I_AMT]; v.acc[r[I_ACC]]=1;
+  v.dept[deptOf(A[r[I_ACC]])]=1; v.amts.push(r[I_AMT]);
+});
+function median(a){a=a.slice().sort(function(x,y){return x-y;});
+  var m=a.length>>1; return a.length%2?a[m]:(a[m-1]+a[m])/2;}
+
+/* ---------- capital projects ----------
+   The city files capital work in X- prefixed funds, and the department segment
+   within one is the project name, so (fund, dept) identifies a project. */
+var CAPFUND={}; (D.capitalFunds||[]).forEach(function(f){CAPFUND[f]=1;});
+var PROJECTS=(function(){
+  var m={};
+  R.forEach(function(r){
+    var acct=A[r[I_ACC]], f=acct.split('-')[0], dp=acct.split('-')[1];
+    if(!CAPFUND[f]) return;
+    var key=f+'-'+dp;
+    var p=m[key]||(m[key]={key:key,fund:f,dept:dp,
+      name:D.depts[key]||('Fund '+f+' · '+dp), amt:0, rows:[], docs:{}, ven:{}});
+    p.amt+=r[I_AMT]; p.rows.push(r); p.docs[r[I_DOC]]=1;
+    p.ven[V[r[I_VEN]]]=(p.ven[V[r[I_VEN]]]||0)+r[I_AMT];
+  });
+  return Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){return b.amt-a.amt;});
+})();
+
+(function(){
+  if(!PROJECTS.length){ document.getElementById('capital').style.display='none';
+    var l=document.querySelector('.rail a[href="#capital"]'); if(l) l.style.display='none'; return; }
+  var total=PROJECTS.reduce(function(s,p){return s+p.amt;},0);
+  var lastDoc=Math.max.apply(null,PROJECTS.map(function(p){
+    return Math.max.apply(null,Object.keys(p.docs).map(Number));}));
+  var activeNow=PROJECTS.filter(function(p){return p.docs[lastDoc];}).length;
+  var vendors={}; PROJECTS.forEach(function(p){Object.keys(p.ven).forEach(function(v){vendors[v]=1;});});
+
+  document.getElementById('capTot').textContent=money0(total);
+  document.getElementById('capTiles').innerHTML=[
+    ['Projects with recorded spend', PROJECTS.length, D.capitalFunds.length+' capital funds'],
+    ['Committed to date', money0(total), (total/D.meta.totalAll*100).toFixed(1)+'% of all approvals'],
+    ['Largest', money0(PROJECTS[0].amt), PROJECTS[0].name.slice(0,26)],
+    ['Contractors engaged', Object.keys(vendors).length, activeNow+' projects in the latest warrant']
+  ].map(function(t){
+    return '<div class="tile"><div class="k">'+t[0]+'</div><div class="v num">'+t[1]+
+           '</div><div class="n">'+esc(t[2])+'</div></div>';}).join('');
+
+  renderRank(document.getElementById('capRank'),
+    PROJECTS.map(function(p){return [p.name+'  '+p.fund, p.amt, p.key];}),
+    '--exp', total, null,
+    function(item,node){ openProject(item[2], node); });
+
+  document.getElementById('capNote').innerHTML =
+    'This is spend, not performance. The register records what was approved — it carries no authorised '+
+    'budget, no contract award and no completion date, so nothing here can say whether a project is over '+
+    'or under its estimate. Those figures live in bond resolutions and the capital budget, which the city '+
+    'does not publish in machine-readable form.';
+})();
+
+function openProject(key, opener){
+  var p=null; for(var i=0;i<PROJECTS.length;i++) if(PROJECTS[i].key===key) p=PROJECTS[i];
+  if(!p) return;
+  MODAL.kind='project'; MODAL.proj=p; MODAL.opener=opener||null; MODAL.tab='pace';
+  document.getElementById('mEyebrow').textContent=
+    'Capital project · fund '+p.fund+(D.fundNames[p.fund]?' · '+D.fundNames[p.fund]:'');
+  document.getElementById('mTitle').textContent=p.name;
+  document.getElementById('mBig').innerHTML='<span class="num">'+money0(p.amt)+'</span> '+
+    '<span>'+p.rows.length+' line'+(p.rows.length===1?'':'s')+' across '+
+    Object.keys(p.docs).length+' warrant'+(Object.keys(p.docs).length===1?'':'s')+'</span>';
+  document.getElementById('mTabs').innerHTML=
+    ['pace','Pace','vendors','Contractors','lines','Lines'].reduce(function(a,v,i,arr){
+      if(i%2) return a;
+      return a+'<button type="button" role="tab" data-tab="'+v+'" aria-selected="'+
+        (v==='pace'?'true':'false')+'">'+arr[i+1]+'</button>';},'');
+  document.getElementById('modal').hidden=false;
+  document.body.style.overflow='hidden';
+  renderTab('pace');
+  document.querySelector('#mTabs button').focus();
+}
+
+var sprawl = Object.keys(byVendor).map(function(k){
+  var v=byVendor[k];
+  return {v:+k,acc:Object.keys(v.acc).length,dept:Object.keys(v.dept).length,
+          n:v.n,sum:v.sum,med:median(v.amts)};
+}).sort(function(a,b){return b.acc-a.acc || b.n-a.n;}).slice(0,12);
+var maxAcc = sprawl[0].acc;
+document.getElementById('sprawlBody').innerHTML = sprawl.map(function(s){
+  return '<tr><td><span class="linkish" data-vendor="'+s.v+'">'+esc(V[s.v])+'</span></td>'+
+    '<td class="r num"><b>'+s.acc+'</b><div class="bar"><i style="width:'+(s.acc/maxAcc*100)+'%"></i></div></td>'+
+    '<td class="r num">'+s.dept+'</td><td class="r num">'+s.n+'</td>'+
+    '<td class="r num">'+money(s.med)+'</td><td class="r num">'+money(s.sum)+'</td>'+
+    '<td><span class="linkish" data-vendor="'+s.v+'">view</span></td></tr>';}).join('');
+
+/* payee names carrying more than one vendor master code */
+var hy = D.hygiene || [];
+if(hy.length){
+  document.getElementById('hygieneBody').innerHTML = hy.map(function(h){
+    return '<tr><td><span class="linkish" data-vendor="'+h.v+'">'+esc(V[h.v])+'</span></td>'+
+      '<td class="num">'+h.codes.map(esc).join('  ')+'</td>'+
+      '<td class="r num">'+h.n+'</td><td class="r num">'+money(h.sum)+'</td>'+
+      '<td><span class="linkish" data-vendor="'+h.v+'">view</span></td></tr>';}).join('');
+} else {
+  // No duplicate vendor records in this corpus: drop the tab rather than
+  // offering an empty one.
+  var hb=document.querySelector('#findTabs button[data-find="hygiene"]');
+  if(hb) hb.style.display='none';
+  var hp=document.getElementById('findHygiene');
+  if(hp) hp.remove();
+}
+
+/* Findings tab toggle */
+(function(){
+  var tabs=document.getElementById('findTabs');
+  if(!tabs) return;
+  tabs.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-find]'); if(!b) return;
+    [].forEach.call(tabs.querySelectorAll('button'),function(x){
+      x.setAttribute('aria-selected', x===b?'true':'false');});
+    var sp=document.getElementById('findSprawl'), hg=document.getElementById('findHygiene');
+    if(sp) sp.hidden = b.dataset.find!=='sprawl';
+    if(hg) hg.hidden = b.dataset.find!=='hygiene';
+  });
+})();
+
+/* ---------- explorer ---------- */
+var fFund=document.getElementById('fFund'), fDoc=document.getElementById('fDoc');
+var fundCodes = {};
+A.forEach(function(c){fundCodes[fundOf(c)]=1;});
+Object.keys(fundCodes).sort().forEach(function(f){
+  var o=document.createElement('option');o.value=f;
+  o.textContent=f+(D.fundNames[f]?' — '+D.fundNames[f]:'');fFund.appendChild(o);});
+D.docs.forEach(function(d,i){
+  var o=document.createElement('option');o.value=i;o.textContent=d.f.replace(/\.pdf$/i,'');fDoc.appendChild(o);});
+
+var state={q:'',fund:'',doc:'',credit:false,vendor:null};
+// Line detail is an audit tool, not the view: closed by default and paged small.
+var LIMIT=25, shownLimit=LIMIT, detailOpen=false;
+var haystack = R.map(function(r){
+  return (V[r[I_VEN]]+' '+A[r[I_ACC]]+' '+AD[r[I_ACC]]+' '+r[I_PO]+' '+r[I_INV]).toLowerCase();});
+
+function filtered(){
+  var out=[],q=state.q.toLowerCase();
+  for(var i=0;i<R.length;i++){
+    var r=R[i];
+    if(state.vendor!==null && r[I_VEN]!==state.vendor) continue;
+    if(state.fund && fundOf(A[r[I_ACC]])!==state.fund) continue;
+    if(state.doc!=='' && r[I_DOC]!==+state.doc) continue;
+    if(state.credit && !r[I_CR]) continue;
+    if(q && haystack[i].indexOf(q)<0) continue;
+    out.push(r);
+  }
+  return out;
+}
+/* ---- summary facets: computed from the CURRENT filter, so the summary and the
+   line detail can never disagree ---- */
+function topBy(rows, keyFn, n){
+  var m={};
+  for(var i=0;i<rows.length;i++){
+    var k=keyFn(rows[i]);
+    if(k==null) continue;
+    m[k]=(m[k]||0)+rows[i][I_AMT];
+  }
+  var out=Object.keys(m).map(function(k){return [k,m[k]];})
+    .sort(function(a,b){return b[1]-a[1];});
+  if(n && out.length>n){
+    var tail=out.slice(n).reduce(function(s,x){return s+x[1];},0);
+    out=out.slice(0,n);
+    if(tail>0) out.push(['All other ('+(Object.keys(m).length-n)+')',tail,null]);
+  }
+  return out;
+}
+
+function renderSummary(rows){
+  var sum=rows.reduce(function(s,r){return s+r[I_AMT];},0);
+  var payees=new Set(), accts=new Set(), biggest=null;
+  rows.forEach(function(r){
+    payees.add(r[I_VEN]); accts.add(r[I_ACC]);
+    if(!biggest||r[I_AMT]>biggest[I_AMT]) biggest=r;
+  });
+  document.getElementById('regTiles').innerHTML=[
+    ['Lines selected', rows.length.toLocaleString('en-US'),
+      rows.length===D.meta.rows?'the whole register':'of '+D.meta.rows.toLocaleString('en-US')+' total'],
+    ['Value', money0(sum), accts.size+' charge accounts'],
+    ['Payees', payees.size.toLocaleString('en-US'), payees.size?'distinct vendors':''],
+    ['Largest single line', biggest?money0(biggest[I_AMT]):'—',
+      biggest?V[biggest[I_VEN]].slice(0,26):'']
+  ].map(function(t){
+    return '<div class="tile"><div class="k">'+t[0]+'</div><div class="v num">'+t[1]+
+           '</div><div class="n">'+esc(t[2])+'</div></div>';}).join('');
+
+  // by warrant document, in publication order
+  var perDoc=D.docs.map(function(d,i){return {i:i,d:d,sum:0,n:0};});
+  rows.forEach(function(r){ perDoc[r[I_DOC]].sum+=r[I_AMT]; perDoc[r[I_DOC]].n++; });
+  var maxDoc=perDoc.reduce(function(m,x){return Math.max(m,x.sum);},0)||1;
+  document.getElementById('warrantChart').innerHTML='<div class="cols">'+perDoc.map(function(x){
+    return '<div class="col'+(state.doc===String(x.i)?' on':'')+'" data-doc="'+x.i+'" title="'+
+      esc(x.d.f.replace(/\.pdf$/i,''))+' — '+money(x.sum)+' across '+x.n+' lines">'+
+      '<i style="height:'+Math.max(x.sum/maxDoc*100,x.sum>0?3:0).toFixed(1)+'%"></i>'+
+      '<em>'+esc(x.d.d.slice(0,5))+'</em></div>';}).join('')+'</div>';
+  document.getElementById('warrantSub').textContent=
+    perDoc.filter(function(x){return x.n>0;}).length+' of '+D.docs.length+
+    ' warrants contain selected lines · hover a bar for its total, select to filter';
+
+  renderRank(document.getElementById('fPayee'),
+    topBy(rows,function(r){return V[r[I_VEN]];},7),'--exp',sum,
+    function(item){ if(item[2]!==null) setSearch(item[0]); });
+  renderRank(document.getElementById('fDept'),
+    topBy(rows,function(r){var k=deptOf(A[r[I_ACC]]);return (D.depts[k]||('Dept '+k))+'  '+k;},7),'--exp',sum,
+    function(item){ if(item[2]!==null) setSearch(item[0].split('  ').pop()); });
+  renderRank(document.getElementById('fFundR'),
+    topBy(rows,function(r){var f=fundOf(A[r[I_ACC]]);return (D.fundNames[f]||('Fund '+f))+'  '+f;},7),'--exp',sum,
+    function(item){ if(item[2]!==null){ state.fund=item[0].split('  ').pop(); fFund.value=state.fund; renderRows(); } });
+}
+
+function setSearch(v){
+  state.q=v; document.getElementById('q').value=v; renderRows();
+  document.getElementById('explore').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderChips(){
+  var out=[];
+  if(state.q) out.push(['Search: '+state.q,'q']);
+  if(state.fund) out.push(['Fund '+state.fund+(D.fundNames[state.fund]?' — '+D.fundNames[state.fund]:''),'fund']);
+  if(state.doc!=='') out.push([D.docs[+state.doc].f.replace(/\.pdf$/i,''),'doc']);
+  if(state.credit) out.push(['Credits only','credit']);
+  var host=document.getElementById('chips');
+  host.innerHTML = out.length
+    ? out.map(function(c){return '<span class="chip-f">'+esc(c[0])+
+        '<button type="button" data-clear="'+c[1]+'" aria-label="Remove filter">&#10005;</button></span>';}).join('')
+      + '<button class="chip-clear" type="button" data-clear="all">Clear all</button>'
+    : '';
+}
+
+function renderRows(){
+  var rows=filtered();
+  var sum=0; for(var i=0;i<rows.length;i++) sum+=rows[i][I_AMT];
+  document.getElementById('rowCount').innerHTML =
+    rows.length.toLocaleString('en-US')+' lines · '+money(sum)+
+    (detailOpen && rows.length>shownLimit ? ' · showing '+shownLimit : '');
+  renderChips();
+  renderSummary(rows);
+
+  var toggle=document.getElementById('detailToggle');
+  toggle.textContent = detailOpen ? 'Hide line detail'
+    : 'Open line detail — '+rows.length.toLocaleString('en-US')+' line'+(rows.length===1?'':'s');
+  toggle.setAttribute('aria-expanded', detailOpen?'true':'false');
+  document.getElementById('detailWrap').hidden = !detailOpen;
+  if(!detailOpen) return;               // don't build rows nobody is looking at
+
+  var moreBtn=document.getElementById('moreBtn');
+  if(rows.length>shownLimit){
+    moreBtn.hidden=false;
+    moreBtn.textContent='Show '+Math.min(LIMIT,rows.length-shownLimit).toLocaleString('en-US')+
+      ' more · '+(rows.length-shownLimit).toLocaleString('en-US')+' still hidden';
+  } else moreBtn.hidden=true;
+  var shown=rows.slice(0,shownLimit);
+  document.getElementById('rowBody').innerHTML = shown.map(function(r){
+    var doc=D.docs[r[I_DOC]];
+    return '<tr><td class="c-payee">'+esc(V[r[I_VEN]])+'</td>'+
+      '<td class="num c-acct">'+esc(A[r[I_ACC]])+'</td>'+
+      '<td class="c-desc">'+esc(AD[r[I_ACC]])+'</td>'+
+      '<td class="num c-po">'+esc(r[I_PO])+'<span style="color:var(--faint)">·'+r[I_ITEM]+'</span></td>'+
+      '<td class="r num c-amt'+(r[I_CR]?' credit':'')+'">'+money(r[I_AMT])+'</td>'+
+      '<td class="c-src"><a class="src" href="'+esc(doc.u)+'#page='+r[I_PAGE]+'" target="_blank" rel="noopener">'+
+        esc(doc.d)+' p.'+r[I_PAGE]+'</a></td></tr>';}).join('')
+    || '<tr><td colspan="6" style="color:var(--muted);padding:20px 12px">No lines match.</td></tr>';
+}
+/* Any filter change resets paging - otherwise a narrow filter inherits a large
+   'shown' window and the button lies about how much is hidden. */
+function reset(){ shownLimit=LIMIT; }
+document.getElementById('q').addEventListener('input',function(e){
+  state.q=e.target.value; state.vendor=null; reset(); renderRows();});
+fFund.addEventListener('change',function(e){state.fund=e.target.value;reset();renderRows();});
+fDoc.addEventListener('change',function(e){state.doc=e.target.value;reset();renderRows();});
+document.getElementById('fCredit').addEventListener('click',function(e){
+  state.credit=!state.credit; e.target.classList.toggle('on',state.credit); reset(); renderRows();});
+
+document.getElementById('moreBtn').addEventListener('click',function(){
+  shownLimit+=LIMIT; renderRows();});
+
+document.getElementById('detailToggle').addEventListener('click',function(){
+  detailOpen=!detailOpen; shownLimit=LIMIT; renderRows();
+  if(detailOpen) document.getElementById('detailWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+});
+
+document.getElementById('chips').addEventListener('click',function(e){
+  var b=e.target.closest('[data-clear]'); if(!b) return;
+  var k=b.getAttribute('data-clear');
+  if(k==='q'||k==='all'){ state.q=''; document.getElementById('q').value=''; }
+  if(k==='fund'||k==='all'){ state.fund=''; fFund.value=''; }
+  if(k==='doc'||k==='all'){ state.doc=''; fDoc.value=''; }
+  if(k==='credit'||k==='all'){ state.credit=false; document.getElementById('fCredit').classList.remove('on'); }
+  reset(); renderRows();
+});
+
+document.getElementById('warrantChart').addEventListener('click',function(e){
+  var c=e.target.closest('[data-doc]'); if(!c) return;
+  var i=c.getAttribute('data-doc');
+  state.doc = (state.doc===i) ? '' : i;      // click again to clear
+  fDoc.value=state.doc; reset(); renderRows();
+});
+
+document.addEventListener('click',function(e){
+  var t=e.target.closest('[data-vendor]');
+  if(t){ state.vendor=null; state.doc=''; state.fund='';
+    fDoc.value=''; fFund.value='';
+    reset(); setSearch(V[+t.getAttribute('data-vendor')]); return; }
+  // 'show these N lines' inside an expanded tie-out row. Scoped to .detail so it
+  // cannot also catch the warrant column chart, which uses the same attribute.
+  var d=e.target.closest('.detail [data-doc]');
+  if(d){ state.doc=d.getAttribute('data-doc'); fDoc.value=state.doc; state.q='';
+    document.getElementById('q').value=''; reset(); renderRows();
+    document.getElementById('explore').scrollIntoView({behavior:'smooth'}); }
+});
+renderRows();
+
+/* ---------- nav + theme ---------- */
+var links=[].slice.call(document.querySelectorAll('.rail a'));
+var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));})
+  .filter(function(s){return s;});
+var names=links.map(function(a){return a.textContent.trim();});
+var current=0;
+
+var pager=document.getElementById('pager');
+var pgUp=document.getElementById('pgUp'), pgDn=document.getElementById('pgDn');
+
+var navUntil=0;   // while a programmatic scroll is in flight, the pager - not the
+                  // scroll position - is the source of truth, or a second tap
+                  // reads the still-moving position and goes nowhere.
+function paint(){
+  links.forEach(function(a,i){a.classList.toggle('on',i===current);});
+  document.getElementById('pgIdx').textContent=(current+1)+'/'+secs.length;
+  document.getElementById('pgName').textContent=names[current];
+  pgUp.disabled = current===0;
+  pgDn.disabled = current===secs.length-1;
+}
+function syncNav(){
+  if(performance.now()<navUntil){ paint(); return; }
+  var y=window.scrollY+92, best=0;
+  secs.forEach(function(s,i){ if(s.offsetTop<=y) best=i; });
+  current=best;
+  paint();
+}
+function goSection(delta){
+  var i=Math.max(0,Math.min(secs.length-1,current+delta));
+  if(i===current) return false;
+  current=i;
+  navUntil=performance.now()+900;
+  window.scrollTo({top:Math.max(0,secs[i].offsetTop-56), behavior:'smooth'});
+  paint();
+  return true;
+}
+pgUp.addEventListener('click',function(){goSection(-1);});
+pgDn.addEventListener('click',function(){goSection(1);});
+
+var hideT;
+window.addEventListener('scroll',function(){
+  syncNav();
+  pager.classList.remove('away');                 // surface it while moving, settle after
+  clearTimeout(hideT);
+  hideT=setTimeout(function(){pager.classList.add('away');},2400);
+},{passive:true});
+syncNav();
+hideT=setTimeout(function(){pager.classList.add('away');},2400);
+['pointerdown','keydown'].forEach(function(ev){
+  document.addEventListener(ev,function(){pager.classList.remove('away');
+    clearTimeout(hideT); hideT=setTimeout(function(){pager.classList.add('away');},2400);},{passive:true});
+});
+
+/* Double-tap / double-click anywhere neutral advances a section.
+   Scoped hard: anything interactive is excluded, or the gesture would fight the
+   bar filters, table rows, pills and charts that already respond to taps. */
+(function(){
+  var INTERACTIVE='a,button,input,select,textarea,label,summary,'+
+    '.rk,.col,.yp,.chip-f,.chip-clear,tr,svg,.sheet,.pager,.rail,.tip';
+  var lastT=0, lastX=0, lastY=0;
+  function neutral(t){
+    return !(t.closest && t.closest(INTERACTIVE)) &&
+           document.getElementById('modal').hidden;
+  }
+  function tap(x,y,target){
+    var now=performance.now();
+    if(now-lastT<330 && Math.abs(x-lastX)<32 && Math.abs(y-lastY)<32 && neutral(target)){
+      lastT=0;
+      goSection(1);
+      return;
+    }
+    lastT=now; lastX=x; lastY=y;
+  }
+  document.addEventListener('touchend',function(e){
+    var t=e.changedTouches&&e.changedTouches[0]; if(!t) return;
+    tap(t.clientX,t.clientY,e.target);
+  },{passive:true});
+  // Desktop equivalent, so the behaviour is not mobile-only.
+  document.addEventListener('dblclick',function(e){
+    if(neutral(e.target) && !window.getSelection().toString()) goSection(1);
+  });
+})();
+
+document.getElementById('theme').addEventListener('click',function(){
+  var cur=document.documentElement.getAttribute('data-theme');
+  if(!cur){cur=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}
+  document.documentElement.setAttribute('data-theme',cur==='dark'?'light':'dark');
+});
+})();
+</script>
+</body>
+</html>
