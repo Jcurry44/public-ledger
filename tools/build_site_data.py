@@ -150,6 +150,60 @@ for code, desc in best_desc.items():
         dept_votes[(fund, dept)][label] += 1
 depts = {f + "-" + dp: c.most_common(1)[0][0] for (f, dp), c in dept_votes.items()}
 
+# ---- capital project identity ----------------------------------------------
+# A fund-department is NOT a project: 618-7180 holds Memorial Pool Redesign,
+# LWRP Waterway Design AND the Comprehensive City Plan. The project name is the
+# account DESCRIPTION prefix; grouping by fund-dept let a label vote hide
+# Memorial Pool behind whichever description had the most account codes.
+# acctProj is parallel to accounts: the canonical project label for capital
+# accounts, '' otherwise. Canonicalisation merges truncation variants within a
+# fund ('CITY-WIDE WATER METER UPGRAD' / '...UPGRADE') by prefix, keeping the
+# longest spelling - never editing the city's own words.
+
+
+def proj_prefix(desc):
+    parts = [p.strip() for p in desc.split(" - ")] if " - " in desc else [desc.strip()]
+    label = parts[0]
+    if re.fullmatch(r"\d+", label) and len(parts) > 1:
+        label = parts[1]
+    return "" if re.fullmatch(r"\d*", label) else label
+
+
+canon_by_fund = defaultdict(dict)      # fund -> {UPPER(label): canonical label}
+acct_proj = []
+for code in accounts:
+    fund = code.split("-")[0]
+    if fund not in capital_funds:
+        acct_proj.append("")
+        continue
+    label = proj_prefix(best_desc.get(code, ""))
+    if not label:
+        acct_proj.append("")
+        continue
+    cm = canon_by_fund[fund]
+    key = re.sub(r"\s+", " ", label.upper())
+    merged = None
+    for k in list(cm):
+        if k.startswith(key) or key.startswith(k):
+            merged = k if len(cm[k]) >= len(label) else key
+            winner = cm[k] if len(cm[k]) >= len(label) else label
+            cm.pop(k)
+            cm[merged] = winner
+            break
+    if merged is None:
+        cm[key] = label
+    acct_proj.append(None)             # resolved in a second pass, post-merge
+
+# second pass: every account resolves through the post-merge canon table
+for i, code in enumerate(accounts):
+    if acct_proj[i] != None:  # noqa: E711  - '' stays ''
+        continue
+    fund = code.split("-")[0]
+    key = re.sub(r"\s+", " ", proj_prefix(best_desc.get(code, "")).upper())
+    cm = canon_by_fund[fund]
+    hit = next((cm[k] for k in cm if k.startswith(key) or key.startswith(k)), "")
+    acct_proj[i] = hit
+
 # Vendor-record hygiene: one payee name carrying several vendor master codes.
 # Computed here because vendor_code is deliberately not in the compact row table.
 codes_by_name = defaultdict(set)
@@ -194,6 +248,7 @@ out = {
     "acctDesc": [best_desc.get(c, "") for c in accounts],
     "fundNames": fund_names,
     "capitalFunds": sorted(capital_funds),
+    "acctProj": acct_proj,
     "depts": depts,
     "docs": docs_out,
     "rows": rows_out,

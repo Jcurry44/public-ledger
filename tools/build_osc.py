@@ -138,8 +138,57 @@ def top_cats(sec, yr, n=8):
     return head
 
 
+# ---- peer cities, latest year ------------------------------------------------
+# Per-resident comparison against nearby small NY cities plus Jamestown (the
+# closest population peer). Populations are the 2020 Census (P1), retrieved
+# 2026-07-26; the OSC figures are each city's own filing for the latest year.
+PEERS = {
+    "City of North Tonawanda": 30496,
+    "City of Tonawanda": 15129,
+    "City of Lockport": 20876,
+    "City of Lackawanna": 19949,
+    "City of Niagara Falls": 48671,
+    "City of Batavia": 15600,
+    "City of Jamestown": 28712,
+    "City of Dunkirk": 12743,
+    "City of Olean": 13937,
+}
+PROP_TAX = "Real Property Taxes and Assessments"
+
+peer_rows = {n: {"rev": 0.0, "exp": 0.0, "tax": 0.0} for n in PEERS}
+rd = csv.DictReader(io.StringIO(z.read("%d_City.csv" % latest).decode("utf-8", errors="replace")))
+for r in rd:
+    name = r["ENTITY_NAME"]
+    if name not in peer_rows:
+        continue
+    sec = section_of(r)
+    if sec not in FLOWS:
+        continue
+    amt = float(r["AMOUNT"] or 0)
+    p = peer_rows[name]
+    if sec == "REVENUE":
+        p["rev"] += amt
+        if title_label(r["LEVEL_1_CATEGORY"] or "") == PROP_TAX:
+            p["tax"] += amt
+    else:
+        p["exp"] += amt
+
+missing = [n for n, p in peer_rows.items() if p["rev"] == 0 and p["exp"] == 0]
+assert not missing, "peer cities absent from the %d filing: %s" % (latest, missing)
+
+peers = [{
+    "name": n.replace("City of ", ""),
+    "pop": PEERS[n],
+    "rev": round(p["rev"], 2),
+    "exp": round(p["exp"], 2),
+    "tax": round(p["tax"], 2),
+    "self": n == "City of North Tonawanda",
+} for n, p in peer_rows.items()]
+
 out = {
     "years": yrs,
+    "peers": peers,
+    "peerYear": latest,
     "rev": [series[y]["rev"] for y in yrs],
     "exp": [series[y]["exp"] for y in yrs],
     "latest": latest,

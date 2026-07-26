@@ -88,6 +88,7 @@ a{color:var(--accent)}
 .hcell .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .hcell .v{font:600 clamp(24px,4.6vw,40px)/1.05 ui-serif,Georgia,serif;letter-spacing:-.01em;margin-top:5px}
 #heroRev{color:var(--rev)} #heroExp{color:var(--exp)}
+.hcell .v.closed{display:inline-block;border-bottom:3px double var(--rule-strong);padding-bottom:5px}
 .hlede{font-size:16px;max-width:66ch;margin:20px 0 0;color:var(--ink)}
 .badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;text-decoration:none;
   background:var(--ok-soft);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);
@@ -110,6 +111,9 @@ a{color:var(--accent)}
 .tile .n{font-size:12px;color:var(--muted);margin-top:3px}
 
 section{padding:34px 0 10px;scroll-margin-top:52px}
+.sched{font:600 10.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.sched::after{content:'';flex:1;height:1px;background:var(--rule);max-width:180px}
 h2{font:600 21px/1.3 ui-serif,Georgia,serif;margin:0 0 4px}
 .lede{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:78ch}
 
@@ -138,8 +142,10 @@ tbody tr:last-child td{border-bottom:0}
 .frow{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted var(--rule-strong);font-size:13px}
 .frow:last-child{border-bottom:0}
 .frow .fname{color:var(--muted)}
-.quote{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;border-radius:8px;
-  background:var(--card);border:1px solid var(--rule)}
+/* The closed-total treatment: single rule above, double rule beneath - the way
+   a footed column closes in working papers. Character over chrome. */
+.quote{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px;padding:10px 4px 8px;
+  border-top:1px solid var(--rule-strong);border-bottom:3px double var(--rule-strong)}
 .quote em{font-style:normal;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--faint);display:block}
 .quote b{font-size:16.5px;font-weight:600}
@@ -438,7 +444,7 @@ footer p{margin:0 0 7px;max-width:80ch}
       </div>
       <div class="hcell">
         <div class="k" id="heroNetK">Net</div>
-        <div class="v num" id="heroNet">—</div>
+        <div class="v num closed" id="heroNet">—</div>
       </div>
     </div>
     <p class="hlede" id="heroLede">—</p>
@@ -448,6 +454,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   </div>
 
   <section id="money">
+    <div class="sched">Schedule 1 · Audited annual filings, NYS Comptroller</div>
     <h2>Where the money comes from, and where it goes</h2>
     <p class="lede">The city's audited annual filings to the
       <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a>.
@@ -495,11 +502,27 @@ footer p{margin:0 0 7px;max-width:80ch}
       <div id="cmpOut"></div>
     </div>
 
+    <div class="panel" style="margin-top:14px">
+      <h3>Nine cities, per resident <span class="tot num" id="peerYear"></span></h3>
+      <div class="sub">North Tonawanda against its Western New York peers and Jamestown, its closest
+        population match — each city's own filing, divided by its 2020 Census population.</div>
+      <div class="seg" id="peerSeg" role="tablist">
+        <button type="button" role="tab" data-peer="exp" aria-selected="true">Spending</button>
+        <button type="button" role="tab" data-peer="rev" aria-selected="false">Revenue</button>
+        <button type="button" role="tab" data-peer="tax" aria-selected="false">Property tax</button>
+      </div>
+      <div class="rank" id="peerRank"></div>
+      <p class="note">Cities differ in what they run — some operate their own water, sewer or utility
+        systems, so per-resident figures are context, not a scorecard. Sources: each city's
+        <span id="peerYr2"></span> filing to the NYS Comptroller; 2020 Census populations.</p>
+    </div>
+
   </section>
 
 
 
   <section id="explore">
+    <div class="sched">Schedule 2 · The city’s Warrant of Claims, 2025–2026</div>
     <h2>Explore the register</h2>
     <p class="lede">Every claim the city approved across 2025 and 2026, summarised first. Select any bar
       to filter — everything recalculates. Approvals only: no revenue, no budget.</p>
@@ -597,6 +620,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   </section>
 
   <section id="capital">
+    <div class="sched">Schedule 3 · Capital funds within the warrant register</div>
     <h2>Capital projects</h2>
     <p class="lede">The city files capital work in its own funds, so each project's spend can be followed
       separately. Select one for its vendors, its pace, and every line behind it.</p>
@@ -605,6 +629,7 @@ footer p{margin:0 0 7px;max-width:80ch}
       <h3>Committed to date <span class="tot num" id="capTot" style="color:var(--exp)"></span></h3>
       <div class="sub">Approved to date across the warrants on this page — not total project cost.</div>
       <div class="rank" id="capRank"></div>
+      <div style="margin-top:12px"><button class="pill" id="capMore" type="button" hidden></button></div>
     </div>
     <p class="note" id="capNote"></p>
   </section>
@@ -612,6 +637,7 @@ footer p{margin:0 0 7px;max-width:80ch}
 
 
   <section id="recon">
+    <div class="sched">Schedule 4 · The proof</div>
     <h2>How this was verified</h2>
     <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
       Every machine-readable document reconciles to them exactly — select a row for the per-fund detail.</p>
@@ -628,6 +654,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   </section>
 
   <section id="limits">
+    <div class="sched">Schedule 5 · The boundary</div>
     <h2>What this cannot show</h2>
     <p class="lede">A claims register answers a narrow question. Here is what it cannot answer, and why.</p>
     <div class="limits">
@@ -1084,13 +1111,76 @@ function renderProjectTab(tab, body){
   var p=MODAL.proj;
 
   if(tab==='pace'){
-    // Spend per warrant, in publication order, plus the running total.
-    var per=D.docs.map(function(d,i){return {d:d,i:i,sum:0,n:0};});
+    // One continuous time axis: warrant bars above, running total below,
+    // year dividers shared. The old form - 42 labelled flex columns twice
+    // over - repeated every date and buried the shape of the spending.
+    var per=D.docs.map(function(d,i){return {d:d,i:i,sum:0,n:0,
+      t:d.d?new Date(+d.d.slice(6,10),+d.d.slice(0,2)-1,+d.d.slice(3,5)).getTime():null};});
     p.rows.forEach(function(r){ per[r[I_DOC]].sum+=r[I_AMT]; per[r[I_DOC]].n++; });
+    var dated=per.filter(function(x){return x.t!==null;});
     var active=per.filter(function(x){return x.n>0;});
-    var max=active.reduce(function(m,x){return Math.max(m,x.sum);},0)||1;
-    var run=0, cum=per.map(function(x){run+=x.sum;return run;});
     var first=active[0], last=active[active.length-1];
+    var total=active.reduce(function(s,x){return s+x.sum;},0);
+
+    var narrow=(body.clientWidth||760)<520;
+    var W=narrow?380:760, bw=narrow?5:7, fs=narrow?12:11;
+    var ml=narrow?8:10, mr=narrow?46:56;
+    var t0=Math.min.apply(null,dated.map(function(x){return x.t;}))-12*864e5;
+    var t1=Math.max.apply(null,dated.map(function(x){return x.t;}))+12*864e5;
+    var x=function(t){return ml+(W-ml-mr)*(t-t0)/(t1-t0);};
+
+    var TOP=narrow?86:100, GAP=34, BOT=narrow?64:74, AX=24;
+    var H=TOP+GAP+BOT+AX;
+    var maxW=active.reduce(function(m,v){return Math.max(m,v.sum);},0)||1;
+    var svg=['<svg class="trend" viewBox="0 0 '+W+' '+H+'" style="font-size:'+fs+'px">'];
+
+    // year dividers + labels on the shared axis
+    var y0=new Date(t0).getFullYear(), y1=new Date(t1).getFullYear();
+    for(var yy=y0; yy<=y1; yy++){
+      var js=new Date(yy,0,1).getTime(), je=new Date(yy+1,0,1).getTime();
+      if(je<t0||js>t1) continue;
+      if(js>t0) svg.push('<line class="brk" x1="'+x(js).toFixed(1)+'" y1="0" x2="'+x(js).toFixed(1)+'" y2="'+(H-AX+4)+'"/>');
+      var segW=x(Math.min(je,t1))-x(Math.max(js,t0));
+      if(segW<40) continue;              // axis-padding sliver, not a real year
+      var cx=(x(Math.max(js,t0))+x(Math.min(je,t1)))/2;
+      svg.push('<text class="ax" x="'+cx.toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" '+
+               'style="font-weight:700;letter-spacing:.08em">'+yy+'</text>');
+      if(!narrow) [3,6,9].forEach(function(m){
+        var qt=new Date(yy,m,1).getTime();
+        if(qt>t0&&qt<t1) svg.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-7)+
+          '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
+      });
+    }
+
+    // top band: approved per warrant
+    svg.push('<line class="gl" x1="'+ml+'" y1="'+TOP+'" x2="'+(W-mr)+'" y2="'+TOP+'"/>');
+    active.forEach(function(v){
+      var h=Math.max(v.sum/maxW*(TOP-14),3);
+      svg.push('<rect x="'+(x(v.t)-bw/2).toFixed(1)+'" y="'+(TOP-h).toFixed(1)+'" width="'+bw+
+        '" height="'+h.toFixed(1)+'" rx="2" fill="var(--exp)"><title>'+
+        esc(v.d.f.replace(/\.pdf$/i,''))+' — '+money(v.sum)+' across '+v.n+' line'+(v.n===1?'':'s')+
+        '</title></rect>');
+    });
+    svg.push('<text class="ax" x="'+(W-mr+7)+'" y="'+(TOP-Math.max(maxW/maxW*(TOP-14),3)+fs/2).toFixed(1)+
+      '" fill="var(--exp)" style="font-weight:600">'+(narrow?'':'largest ')+money0(maxW)+'</text>');
+
+    // bottom band: running total as a step area
+    var yB0=TOP+GAP, run=0, pts=['M'+ml+' '+(yB0+BOT)];
+    dated.forEach(function(v){
+      if(v.sum>0) run+=v.sum;
+      var yv=yB0+BOT-(run/total)*(BOT-6);
+      pts.push('L'+x(v.t).toFixed(1)+' '+(yB0+BOT-((run-(v.sum>0?v.sum:0))/total*(BOT-6))).toFixed(1));
+      pts.push('L'+x(v.t).toFixed(1)+' '+yv.toFixed(1));
+    });
+    var lastX=x(dated[dated.length-1].t).toFixed(1);
+    svg.push('<path d="'+pts.join(' ')+' L'+lastX+' '+(yB0+BOT)+' Z" fill="var(--exp)" opacity=".13"/>');
+    svg.push('<path d="'+pts.join(' ')+'" fill="none" stroke="var(--exp)" stroke-width="2"/>');
+    svg.push('<line class="gl" x1="'+ml+'" y1="'+(yB0+BOT)+'" x2="'+(W-mr)+'" y2="'+(yB0+BOT)+'"/>');
+    svg.push('<text class="ax" x="'+(W-mr+7)+'" y="'+(yB0+10)+'" fill="var(--exp)" style="font-weight:600">'+money0(total)+'</text>');
+    svg.push('<text class="ax" x="'+ml+'" y="'+(TOP+16)+'" style="opacity:.7">Approved per warrant '+
+             '<tspan dx="14" style="opacity:.8">·</tspan><tspan dx="14">running total below</tspan></text>');
+    svg.push('</svg>');
+
     body.innerHTML=
       '<div class="mstats">'+
         '<div class="mstat"><div class="k">First appears</div><div class="v num">'+esc(first.d.d)+'</div></div>'+
@@ -1099,20 +1189,10 @@ function renderProjectTab(tab, body){
         '<div class="mstat"><div class="k">Largest single</div><div class="v num">'+
           money0(Math.max.apply(null,p.rows.map(function(r){return r[I_AMT];})))+'</div></div>'+
       '</div>'+
-      '<h4>Approved per warrant</h4>'+
-      '<div class="cols">'+per.map(function(x){
-        return '<div class="col" title="'+esc(x.d.f.replace(/\.pdf$/i,''))+' — '+
-          (x.n?money(x.sum)+' across '+x.n+' line'+(x.n===1?'':'s'):'nothing this warrant')+'">'+
-          '<i style="height:'+(x.sum>0?Math.max(x.sum/max*100,3):0).toFixed(1)+'%;'+
-            (x.sum>0?'':'background:transparent')+'"></i>'+
-          '<em>'+esc(x.d.d.slice(0,5))+'</em></div>';}).join('')+'</div>'+
-      '<h4>Running total</h4>'+
-      '<div class="cols">'+per.map(function(x,i){
-        return '<div class="col" title="'+esc(x.d.d)+' — '+money(cum[i])+' committed to date">'+
-          '<i style="height:'+(cum[i]/run*100).toFixed(1)+'%;opacity:.55"></i>'+
-          '<em>'+esc(x.d.d.slice(0,5))+'</em></div>';}).join('')+'</div>'+
-      '<p class="note">Spend only. The register carries no authorised budget or completion date, so this '+
-      'shows the pace of approvals, not progress against a plan.</p>';
+      '<h4>The spending, in time</h4>'+svg.join('')+
+      '<p class="note">Spend only — the register carries no authorised budget or completion date, so this '+
+      'is the pace of approvals, not progress against a plan. Five spring-2025 meetings survive only as '+
+      'image scans, so quiet stretches there may be artifacts of the record, not the project.</p>';
     return;
   }
 
@@ -1246,6 +1326,42 @@ function renderCompare(){
   document.getElementById('cmpPrev').addEventListener('click',function(){shift(-1);});
   document.getElementById('cmpNext').addEventListener('click',function(){shift(1);});
   renderCompare();
+})();
+
+/* ---- peer cities, per resident ----
+   Emphasis form: North Tonawanda in the accent, every other city recessive -
+   the question is "where does NT sit", not "compare nine series". */
+(function(){
+  var peers=O.peers||[];
+  if(!peers.length) return;
+  document.getElementById('peerYear').textContent=O.peerYear;
+  document.getElementById('peerYr2').textContent=O.peerYear;
+  var METRIC={exp:'spending', rev:'revenue', tax:'property tax'};
+  function render(metric){
+    var rows=peers.map(function(p){return {p:p, v:p[metric]/p.pop};})
+      .sort(function(a,b){return b.v-a.v;});
+    var max=rows[0].v;
+    document.getElementById('peerRank').innerHTML=rows.map(function(r){
+      var me=r.p.self;
+      return '<div class="rk">'+
+        '<span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
+          esc(r.p.name)+(me?' <span class="chip ok" style="margin-left:6px">THIS CITY</span>':'')+
+          ' <span class="num" style="color:var(--faint);font-size:11px">'+
+          r.p.pop.toLocaleString('en-US')+' residents</span></span>'+
+        '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+
+          Math.round(r.v).toLocaleString('en-US')+'</span>'+
+        '<span class="tr"><i style="width:'+(r.v/max*100).toFixed(1)+'%;background:'+
+          (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
+        '<span class="pc num">$'+(r.p[metric]/1e6).toFixed(1)+'M total '+METRIC[metric]+'</span>'+
+      '</div>';}).join('');
+  }
+  document.getElementById('peerSeg').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-peer]'); if(!b) return;
+    [].forEach.call(this.querySelectorAll('button'),function(x){
+      x.setAttribute('aria-selected', x===b?'true':'false');});
+    render(b.dataset.peer);
+  });
+  render('exp');
 })();
 
 /* year pills drive both panels and the marker on the trend line */
@@ -1456,17 +1572,19 @@ function median(a){a=a.slice().sort(function(x,y){return x-y;});
   var m=a.length>>1; return a.length%2?a[m]:(a[m-1]+a[m])/2;}
 
 /* ---------- capital projects ----------
-   The city files capital work in X- prefixed funds, and the department segment
-   within one is the project name, so (fund, dept) identifies a project. */
-var CAPFUND={}; (D.capitalFunds||[]).forEach(function(f){CAPFUND[f]=1;});
+   A project is identified by its account-description prefix within a capital
+   fund - NOT by fund-department. 618-7180 holds Memorial Pool, the LWRP design
+   AND the Comprehensive Plan; grouping by fund-dept buried two of them under
+   whichever label won a vote. acctProj carries the canonical label per account. */
+var PROJ=D.acctProj||[];
 var PROJECTS=(function(){
   var m={};
   R.forEach(function(r){
-    var acct=A[r[I_ACC]], f=acct.split('-')[0], dp=acct.split('-')[1];
-    if(!CAPFUND[f]) return;
-    var key=f+'-'+dp;
-    var p=m[key]||(m[key]={key:key,fund:f,dept:dp,
-      name:D.depts[key]||('Fund '+f+' · '+dp), amt:0, rows:[], docs:{}, ven:{}});
+    var lbl=PROJ[r[I_ACC]];
+    if(!lbl) return;
+    var f=A[r[I_ACC]].split('-')[0];
+    var key=f+'|'+lbl;
+    var p=m[key]||(m[key]={key:key,fund:f,name:lbl,amt:0,rows:[],docs:{},ven:{}});
     p.amt+=r[I_AMT]; p.rows.push(r); p.docs[r[I_DOC]]=1;
     p.ven[V[r[I_VEN]]]=(p.ven[V[r[I_VEN]]]||0)+r[I_AMT];
   });
@@ -1492,10 +1610,22 @@ var PROJECTS=(function(){
     return '<div class="tile"><div class="k">'+t[0]+'</div><div class="v num">'+t[1]+
            '</div><div class="n">'+esc(t[2])+'</div></div>';}).join('');
 
-  renderRank(document.getElementById('capRank'),
-    PROJECTS.map(function(p){return [p.name+'  '+p.fund, p.amt, p.key];}),
-    '--exp', total, null,
-    function(item,node){ openProject(item[2], node); });
+  var capItems=PROJECTS.map(function(p){return [p.name+'  '+p.fund, p.amt, p.key];});
+  var CAP_SHOW=12, capAll=false;
+  var capMore=document.getElementById('capMore');
+  function renderCap(){
+    renderRank(document.getElementById('capRank'),
+      capAll?capItems:capItems.slice(0,CAP_SHOW), '--exp', total, null,
+      function(item,node){ openProject(item[2], node); });
+    if(capItems.length>CAP_SHOW){
+      capMore.hidden=false;
+      capMore.textContent=capAll?'Show the top '+CAP_SHOW
+        :'Show all '+capItems.length+' projects · '+
+         money0(capItems.slice(CAP_SHOW).reduce(function(s,x){return s+x[1];},0))+' more';
+    }
+  }
+  capMore.addEventListener('click',function(){capAll=!capAll;renderCap();});
+  renderCap();
 
   document.getElementById('capNote').innerHTML =
     'This is spend, not performance. The register records what was approved — it carries no authorised '+
