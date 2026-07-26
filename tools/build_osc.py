@@ -117,6 +117,17 @@ for name in years:
 
 yrs = sorted(series)
 
+# Fail LOUD on schema drift. A third OSC schema era would make section_of()
+# return '' for every row, silently shrinking the 30-year chart with exit 0.
+assert yrs, "no North Tonawanda rows found in any year - OSC schema changed?"
+assert yrs[0] == 1995, "series no longer starts at 1995 (starts %s)" % yrs[0]
+assert yrs == list(range(yrs[0], yrs[-1] + 1)), \
+    "gap in year coverage: %s" % [y for y in range(yrs[0], yrs[-1] + 1) if y not in series]
+for y in yrs:
+    assert series[y]["rev"] > 10_000_000 and series[y]["exp"] > 10_000_000, \
+        "year %d totals implausibly small (rev %s, exp %s) - schema drift?" \
+        % (y, series[y]["rev"], series[y]["exp"])
+
 
 def top_cats(sec, yr, n=8):
     d = sorted(cats[sec][yr].items(), key=lambda x: -x[1])
@@ -140,7 +151,7 @@ out = {
     "expByYear": {str(y): top_cats("EXPENDITURE", y) for y in yrs},
     "dict": dicts,
     "flows": flows,
-    "source": "https://wwe1.osc.state.ny.us/localgov/findata/index_choice.cfm",
+    "source": "https://www.osc.ny.gov/local-government/data",
     "entity": "City of North Tonawanda",
     "municode": NT,
     "schemaBreak": SCHEMA_BREAK,

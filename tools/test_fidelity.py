@@ -17,6 +17,16 @@ TXT_DIR = os.path.join(ROOT, "data", "txt")
 d = json.load(open(os.path.join(ROOT, "data", "warrants.json"), encoding="utf-8"))
 failures = []
 
+# --- Gate 0: the corpus itself ---------------------------------------------
+# Without these, an empty data directory prints "ALL GATES PASS" on nothing -
+# a gate that can pass vacuously is not a gate.
+parsed_docs = [doc for doc in d["docs"] if doc["rows"]]
+if len(parsed_docs) < 30:
+    failures.append("CORPUS TOO SMALL  %d parsed documents (expected >= 30)" % len(parsed_docs))
+total_rows_check = sum(len(doc["rows"]) for doc in parsed_docs)
+if total_rows_check < 8000:
+    failures.append("CORPUS TOO SMALL  %d rows (expected >= 8000)" % total_rows_check)
+
 # --- Gate 1: name fidelity -------------------------------------------------
 for doc in d["docs"]:
     if not doc["rows"]:

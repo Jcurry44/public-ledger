@@ -58,6 +58,28 @@ for doc in d["docs"]:
         if len(s) > len(best_desc.get(c, "")):
             best_desc[c] = s
 
+def fund_rows(breakdown, parsed_by_fund):
+    """Published-vs-parsed per fund, aggregated by BARE fund code.
+
+    The breakdown page prints one row per year-SEGMENT: a warrant that spans
+    fiscal years lists '4-001' and '5-001' - both fund 001 - as separate rows.
+    parsed_by_fund aggregates by bare code, so comparing each segment against
+    the whole fund painted false red variance markers on 5 warrants (and
+    duplicated 'General Fund' rows) inside the very section that promises
+    exact reconciliation. Segments for one code always sum to the fund total.
+    """
+    agg = {}                                    # bare code -> [name, published_sum]
+    for f in breakdown:
+        code = f["code"].split("-")[1]
+        if code not in agg:
+            agg[code] = [f["name"], 0.0]
+        agg[code][1] += f["amount"]
+        if f["name"] and not agg[code][0]:
+            agg[code][0] = f["name"]
+    return [[code, name, round(pub, 2), parsed_by_fund.get(code, 0.0)]
+            for code, (name, pub) in agg.items()]
+
+
 for doc in d["docs"]:
     if not doc["rows"]:
         # Image-only scan: no rows to parse. Carried through so the tie-out can
@@ -109,8 +131,7 @@ for doc in d["docs"]:
         "n": len(doc["rows"]),
         "sumAll": round(sum(r["amount"] for r in doc["rows"]), 2),
         "isCard": "VISA" in doc["file"].upper(),
-        "funds": [[f["code"].split("-")[1], f["name"], f["amount"],
-                   parsed_by_fund.get(f["code"].split("-")[1], 0.0)] for f in doc["funds"]],
+        "funds": fund_rows(doc["funds"], parsed_by_fund),
     })
 
 # Department label = the segment before ' - ' in the account description,

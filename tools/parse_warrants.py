@@ -255,18 +255,32 @@ def tie_out(doc):
 def dedupe(docs):
     """Drop republished copies of the same warrant.
 
-    The 2025 folder holds literal re-uploads ('... charges.pdf' and
-    '..._2.pdf') and a superseded draft ('1.7 (005).25 pre issue.pdf').
-    Each ties to its own control totals, so nothing catches them except an
-    explicit identity check: same P.O. range + same control total = same warrant.
-    Keeping both would double real money.
+    The 2025 folder holds a literal re-upload ('... charges.pdf' and '..._2.pdf'
+    are the same warrant twice). Each copy ties to its own control totals, so
+    nothing catches a duplicate except an explicit identity check: same P.O.
+    range + same control total + same line count = same warrant. Keeping both
+    would double real money.
+
+    NOT a duplicate: '1.7 (005).25 pre issue.pdf' looks like a draft of
+    '1.7 (004).25.pdf' but is a genuinely distinct 1-line, $73.75 warrant
+    (different P.O. range) - filename heuristics would wrongly delete a real
+    record, which is why identity is checked on content, never on names.
+
+    P-card/VISA warrants use the '26-00251' P.O. format, which RE_RANGE does
+    not always capture, leaving po_range empty. An empty range must NOT exempt
+    a document from the check - a republished VISA warrant (up to ~$108k here)
+    would silently double-count - so those fall back to a
+    (report_date, control_total, line_count) identity.
     """
     seen, kept = {}, []
     for d in docs:
-        key = (d["po_range"], d["control_total"], d["pub_line_items"])
-        if not d["rows"] or key[0] == "":
+        if not d["rows"]:
             kept.append(d)
             continue
+        if d["po_range"]:
+            key = ("range", d["po_range"], d["control_total"], d["pub_line_items"])
+        else:
+            key = ("date", d["report_date"], d["control_total"], d["pub_line_items"])
         if key in seen:
             prior = seen[key]
             loser = d

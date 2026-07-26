@@ -6,6 +6,22 @@
 <title>Public Ledger — City of North Tonawanda</title>
 <meta name="description" content="Where the City of North Tonawanda's money comes from and where it goes: thirty years of audited state filings, every claim the city has approved across 2025 and 2026, and each figure traceable to its source document.">
 <meta name="robots" content="noindex, nofollow">
+<!-- Link-preview card: the first screen most people see is a texted URL. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Public Ledger">
+<meta property="og:title" content="Public Ledger — City of North Tonawanda">
+<meta property="og:description" content="Where the city's money comes from, where it goes, and how to check it. 8,532 approved claims and 30 years of audited filings — 36 of 36 warrants reconcile exactly.">
+<meta property="og:url" content="https://jcurry44.github.io/public-ledger/">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Public Ledger — City of North Tonawanda">
+<meta name="twitter:description" content="Where the city's money comes from, where it goes, and how to check it.">
+<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
+<meta name="theme-color" content="#1b3a5c">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231b3a5c'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='34' fill='%23f6f4ef'%3EPL%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
 :root{
   --paper:#f6f4ef; --card:#fffdfa; --ink:#16181d; --muted:#6c7079; --faint:#93979f;
@@ -122,6 +138,11 @@ tbody tr:last-child td{border-bottom:0}
 .frow{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-bottom:1px dotted var(--rule-strong);font-size:13px}
 .frow:last-child{border-bottom:0}
 .frow .fname{color:var(--muted)}
+.quote{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;border-radius:8px;
+  background:var(--card);border:1px solid var(--rule)}
+.quote em{font-style:normal;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);display:block}
+.quote b{font-size:16.5px;font-weight:600}
 .tick{color:var(--ok);font-weight:700}
 
 /* ---------- explorer ---------- */
@@ -243,6 +264,11 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   .lines td.c-po{display:none}
   .lines td.c-src{grid-column:1/-1;margin-top:4px}
 }
+.try{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 12px}
+.try>span{font-size:12px;color:var(--faint);font-weight:600;letter-spacing:.05em}
+.payee-line{font-size:14.5px;line-height:1.5;margin:0 0 12px;padding:11px 14px;border-radius:9px;
+  background:var(--accent-soft);border:1px solid var(--rule)}
+.payee-line b{font-weight:600}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}
 .chips:empty{margin:0}
 .chip-f{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);color:var(--accent);
@@ -424,7 +450,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   <section id="money">
     <h2>Where the money comes from, and where it goes</h2>
     <p class="lede">The city's audited annual filings to the
-      <a href="https://wwe1.osc.state.ny.us/localgov/findata/index_choice.cfm" id="oscLink">NYS Comptroller</a>.
+      <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a>.
       Pick a year, then open any category.</p>
 
     <div class="years" id="yearPills" role="tablist" aria-label="Filing year"></div>
@@ -484,8 +510,16 @@ footer p{margin:0 0 7px;max-width:80ch}
       <select id="fDoc"><option value="">All documents</option></select>
       <button class="pill" id="fCredit" type="button">Credits only</button>
     </div>
+    <div class="try" id="tryChips">
+      <span>Try:</span>
+      <button class="pill" type="button" data-try="AMAZON">AMAZON</button>
+      <button class="pill" type="button" data-try="HOME DEPOT">HOME DEPOT</button>
+      <button class="pill" type="button" data-try="GOLF">GOLF</button>
+      <button class="pill" type="button" data-try="LIGHTSPEED">LIGHTSPEED</button>
+    </div>
     <div class="chips" id="chips"></div>
 
+    <div class="payee-line" id="payeeLine" hidden></div>
     <div class="tiles" id="regTiles"></div>
 
     <div class="panel" style="margin-bottom:14px">
@@ -726,9 +760,14 @@ D.docs.forEach(function(doc,i){
              ' <span style="color:var(--bad)">vs '+money(f[3])+'</span>')+'</span></div>';}).join('');
   det.innerHTML = '<td colspan="8"><div class="dpad">'+
     '<div class="dgrid">'+funds+'</div>'+
-    '<div style="margin-top:12px;font-size:12.5px;color:var(--muted)">'+
-      'Published list amount '+money(doc.pubAmt)+' · parsed '+money(doc.sumAll)+
-      ' · P.O. range '+esc(doc.range||'—')+
+    '<div class="quote">'+
+      '<span><em>Published</em> <b class="num">'+money(doc.pubAmt)+'</b></span>'+
+      '<span><em>Parsed</em> <b class="num">'+money(doc.sumAll)+'</b></span>'+
+      '<span><em>Variance</em> <b class="num" style="color:var(--ok)">'+
+        money(Math.round((doc.sumAll-doc.pubAmt)*100)/100)+'</b></span>'+
+    '</div>'+
+    '<div style="margin-top:10px;font-size:12.5px;color:var(--muted)">'+
+      'P.O. range '+esc(doc.range||'—')+
       ' · <a href="'+esc(doc.u)+'" target="_blank" rel="noopener">open source PDF</a>'+
       ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span>'+
     '</div></div></td>';
@@ -1585,6 +1624,21 @@ function renderSummary(rows){
     payees.add(r[I_VEN]); accts.add(r[I_ACC]);
     if(!biggest||r[I_AMT]>biggest[I_AMT]) biggest=r;
   });
+
+  // When a filter resolves to a single payee, say the finding in one sentence -
+  // the number that lands ("one supplier, N accounts") rather than four tiles.
+  var pl=document.getElementById('payeeLine');
+  if(payees.size===1 && rows.length>1){
+    var depts=new Set(), docsIn=new Set();
+    rows.forEach(function(r){ depts.add(deptOf(A[r[I_ACC]])); docsIn.add(r[I_DOC]); });
+    pl.innerHTML='<b>'+esc(V[rows[0][I_VEN]])+'</b> — '+
+      rows.length.toLocaleString('en-US')+' approved lines totalling <b class="num">'+money0(sum)+
+      '</b>, spread across <b>'+accts.size+' charge account'+(accts.size===1?'':'s')+'</b> and '+
+      depts.size+' department'+(depts.size===1?'':'s')+', in '+docsIn.size+' of '+D.docs.length+' warrants.';
+    pl.hidden=false;
+  } else {
+    pl.hidden=true;
+  }
   document.getElementById('regTiles').innerHTML=[
     ['Lines selected', rows.length.toLocaleString('en-US'),
       rows.length===D.meta.rows?'the whole register':'of '+D.meta.rows.toLocaleString('en-US')+' total'],
@@ -1639,11 +1693,16 @@ function renderChips(){
     : '';
 }
 
+var autoOpened=false;
 function renderRows(){
   var rows=filtered();
+  // A single-line result IS the answer (the LIGHTSPEED search) - open the
+  // detail for it unasked, and close it again when the result set grows.
+  if(rows.length===1 && !detailOpen){ detailOpen=true; autoOpened=true; }
+  else if(autoOpened && rows.length!==1){ detailOpen=false; autoOpened=false; }
   var sum=0; for(var i=0;i<rows.length;i++) sum+=rows[i][I_AMT];
   document.getElementById('rowCount').innerHTML =
-    rows.length.toLocaleString('en-US')+' lines · '+money(sum)+
+    rows.length.toLocaleString('en-US')+' line'+(rows.length===1?'':'s')+' · '+money(sum)+
     (detailOpen && rows.length>shownLimit ? ' · showing '+shownLimit : '');
   renderChips();
   renderSummary(rows);
@@ -1687,7 +1746,7 @@ document.getElementById('moreBtn').addEventListener('click',function(){
   shownLimit+=LIMIT; renderRows();});
 
 document.getElementById('detailToggle').addEventListener('click',function(){
-  detailOpen=!detailOpen; shownLimit=LIMIT; renderRows();
+  detailOpen=!detailOpen; autoOpened=false; shownLimit=LIMIT; renderRows();
   if(detailOpen) document.getElementById('detailWrap').scrollIntoView({behavior:'smooth',block:'nearest'});
 });
 
@@ -1699,6 +1758,13 @@ document.getElementById('chips').addEventListener('click',function(e){
   if(k==='doc'||k==='all'){ state.doc=''; fDoc.value=''; }
   if(k==='credit'||k==='all'){ state.credit=false; document.getElementById('fCredit').classList.remove('on'); }
   reset(); renderRows();
+});
+
+document.getElementById('tryChips').addEventListener('click',function(e){
+  var b=e.target.closest('[data-try]'); if(!b) return;
+  state.fund=''; fFund.value=''; state.doc=''; fDoc.value='';
+  state.credit=false; document.getElementById('fCredit').classList.remove('on');
+  reset(); setSearch(b.getAttribute('data-try'));
 });
 
 document.getElementById('warrantChart').addEventListener('click',function(e){

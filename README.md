@@ -28,7 +28,7 @@ or from a USB stick.
 |---|---|
 | [northtonawanda.gov/accounting](https://www.northtonawanda.gov/accounting) | Warrant of Claims PDFs (2026, linked) |
 | `/documents/Warrant of Claims/2025/` | 2025 warrants (unlinked; filenames recovered from the Wayback CDX index) |
-| [OSC Local Government Financial Data](https://wwe1.osc.state.ny.us/localgov/findata/index_choice.cfm) | `city_all_years.zip` — annual filings, 1995–2024 |
+| [OSC Local Government Financial Data](https://www.osc.ny.gov/local-government/data) | `city_all_years.zip` — annual filings, 1995–2024 |
 
 ## The reconciliation
 
