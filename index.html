@@ -179,6 +179,10 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .bar{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-top:4px;min-width:54px}
 .bar i{display:block;height:100%;background:var(--accent);border-radius:2px}
 .linkish{color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.briefbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:var(--card);
+  border-radius:8px;padding:7px 13px;font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap}
+.briefbtn:hover{filter:brightness(1.12)}
+.briefbtn svg{width:12px;height:12px}
 
 /* ---------- charts ---------- */
 :root{--rev:#3d7ebf;--exp:#c07a24;--gridline:#e6e1d6}
@@ -646,7 +650,7 @@ footer p{margin:0 0 7px;max-width:80ch}
     <div class="tiles" id="regTiles"></div>
 
     <div class="panel" style="margin-bottom:14px">
-      <h3>Approvals by warrant</h3>
+      <h3>Approvals by warrant <a id="wcBrief" class="briefbtn tot" target="_blank" rel="noopener" hidden></a></h3>
       <div class="sub" id="warrantSub"></div>
       <div id="warrantChart"></div>
     </div>
@@ -828,6 +832,7 @@ function money0(n){return (n<0?'−$':'$')+Math.round(Math.abs(n)).toLocaleStrin
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fundOf(code){return code.split('-')[0];}
+var BRIEF_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-5-5m5 5l5-5"/><path d="M4 19h16"/></svg>';
 function deptOf(code){var p=code.split('-');return p[0]+'-'+p[1];}
 
 /* ---------- masthead + hero ---------- */
@@ -894,11 +899,11 @@ D.docs.forEach(function(doc,i){
       '<span><em>Variance</em> <b class="num" style="color:var(--ok)">'+
         money(Math.round((doc.sumAll-doc.pubAmt)*100)/100)+'</b></span>'+
     '</div>'+
-    '<div style="margin-top:10px;font-size:12.5px;color:var(--muted)">'+
-      'P.O. range '+esc(doc.range||'—')+
+    '<div style="margin-top:12px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">'+
+      '<a class="briefbtn" href="briefs/'+esc(doc.brief)+'.html" target="_blank" rel="noopener">'+BRIEF_ICON+'Warrant brief</a>'+
+      '<span style="font-size:12.5px;color:var(--muted)">P.O. range '+esc(doc.range||'—')+
       ' · <a href="'+esc(doc.u)+'" target="_blank" rel="noopener">open source PDF</a>'+
-      ' · <a href="briefs/'+esc(doc.brief)+'.html"><b>council brief</b></a>'+
-      ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span>'+
+      ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span></span>'+
     '</div></div></td>';
   tb.appendChild(det);
 
@@ -2074,6 +2079,14 @@ function renderSummary(rows){
     perDoc.filter(function(x){return x.n>0;}).length+' of '+D.docs.length+
     ' warrants contain selected lines · hover a bar for its total, select to filter · '+
     'the spring-2025 gap is the five image-scan meetings';
+  // a selected warrant earns its download button
+  var bb=document.getElementById('wcBrief');
+  var sel=state.doc!=='' ? D.docs[+state.doc] : null;
+  if(sel && sel.brief){
+    bb.href='briefs/'+sel.brief+'.html';
+    bb.innerHTML=BRIEF_ICON+'Warrant brief · '+esc(sel.d);
+    bb.hidden=false;
+  } else bb.hidden=true;
 
   renderRank(document.getElementById('fPayee'),
     topBy(rows,function(r){return V[r[I_VEN]];},7),'--exp',sum,
