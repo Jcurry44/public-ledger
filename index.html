@@ -436,6 +436,7 @@ svg.trend{display:block;width:100%;height:auto;overflow:visible}
 svg.trend .gl{stroke:var(--gridline);stroke-width:1}
 svg.trend .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 svg.trend .ax{fill:var(--faint);font-size:10.5px;font-family:ui-monospace,Menlo,Consolas,monospace}
+svg.trend .halo{paint-order:stroke;stroke:var(--paper);stroke-width:3.5px;stroke-linejoin:round}
 svg.trend .brk{stroke:var(--rule-strong);stroke-width:1;stroke-dasharray:3 3}
 svg.trend .sel{stroke:var(--accent);stroke-width:1.5;opacity:.55}
 svg.trend .dot{stroke:var(--card);stroke-width:2}
@@ -1281,9 +1282,9 @@ function renderProjectTab(tab, body){
   var p=MODAL.proj;
 
   if(tab==='pace'){
-    // One continuous time axis: warrant bars above, running total below,
-    // year dividers shared. The old form - 42 labelled flex columns twice
-    // over - repeated every date and buried the shape of the spending.
+    // The S-curve: cumulative commitment as the hero, each draw a dot ON the
+    // curve. The old two-band form was a sparse bar strip with no y-scale
+    // stacked over its own integral - two half-charts, no headline.
     var per=D.docs.map(function(d,i){return {d:d,i:i,sum:0,n:0,
       t:d.d?new Date(+d.d.slice(6,10),+d.d.slice(0,2)-1,+d.d.slice(3,5)).getTime():null};});
     p.rows.forEach(function(r){ per[r[I_DOC]].sum+=r[I_AMT]; per[r[I_DOC]].n++; });
@@ -1291,67 +1292,69 @@ function renderProjectTab(tab, body){
     var active=per.filter(function(x){return x.n>0;});
     var first=active[0], last=active[active.length-1];
     var total=active.reduce(function(s,x){return s+x.sum;},0);
+    var biggest=active.reduce(function(m,x){return x.sum>m.sum?x:m;},active[0]);
 
     var narrow=(body.clientWidth||760)<520;
-    var W=narrow?380:760, bw=narrow?5:7, fs=narrow?12:11;
-    var ml=narrow?8:10, mr=narrow?10:14;
+    var W=narrow?380:760, H=narrow?210:250;
+    var ml=narrow?44:58, mr=narrow?12:18, mt=26, mb=26, fs=narrow?12:11;
     var t0=Math.min.apply(null,dated.map(function(x){return x.t;}))-12*864e5;
     var t1=Math.max.apply(null,dated.map(function(x){return x.t;}))+12*864e5;
     var x=function(t){return ml+(W-ml-mr)*(t-t0)/(t1-t0);};
+    var maxC=total*1.06;
+    var y=function(v){return mt+(H-mt-mb)*(1-v/maxC);};
+    function fmtM(v){return v>=995000 ? '$'+(v/1e6).toFixed(1)+'M' : '$'+Math.round(v/1e3)+'K';}
 
-    var TOP=narrow?86:100, GAP=34, BOT=narrow?64:74, AX=24;
-    var H=TOP+GAP+BOT+AX;
-    var maxW=active.reduce(function(m,v){return Math.max(m,v.sum);},0)||1;
     var svg=['<svg class="trend" viewBox="0 0 '+W+' '+H+'" style="font-size:'+fs+'px">'];
-
-    // year dividers + labels on the shared axis
+    for(var g=1; g<=3; g++){
+      var gv=maxC/4*g;
+      svg.push('<line class="gl" x1="'+ml+'" y1="'+y(gv).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(gv).toFixed(1)+'"/>');
+      svg.push('<text class="ax" x="'+(ml-7)+'" y="'+(y(gv)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+fmtM(gv)+'</text>');
+    }
+    // years on the axis zone only - the old full-height dashed dividers read as crop marks
     var y0=new Date(t0).getFullYear(), y1=new Date(t1).getFullYear();
     for(var yy=y0; yy<=y1; yy++){
       var js=new Date(yy,0,1).getTime(), je=new Date(yy+1,0,1).getTime();
       if(je<t0||js>t1) continue;
-      if(js>t0) svg.push('<line class="brk" x1="'+x(js).toFixed(1)+'" y1="0" x2="'+x(js).toFixed(1)+'" y2="'+(H-AX+4)+'"/>');
+      if(js>t0) svg.push('<line class="brk" x1="'+x(js).toFixed(1)+'" y1="'+(H-mb)+'" x2="'+x(js).toFixed(1)+'" y2="'+(H-mb+6)+'"/>');
       var segW=x(Math.min(je,t1))-x(Math.max(js,t0));
-      if(segW<40) continue;              // axis-padding sliver, not a real year
+      if(segW<40) continue;
       var cx=(x(Math.max(js,t0))+x(Math.min(je,t1)))/2;
-      svg.push('<text class="ax" x="'+cx.toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" '+
+      svg.push('<text class="ax" x="'+cx.toFixed(1)+'" y="'+(H-6)+'" text-anchor="middle" '+
                'style="font-weight:700;letter-spacing:.08em">'+yy+'</text>');
-      // quarter labels yield to the year label - 'Apr' printed through '2026'
-      // whenever a year's visible span centred on spring
       if(!narrow) [3,6,9].forEach(function(m){
         var qt=new Date(yy,m,1).getTime();
         if(qt>t0&&qt<t1 && Math.abs(x(qt)-cx)>=30)
-          svg.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-7)+
+          svg.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-6)+
             '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
       });
     }
-
-    // top band: approved per warrant
-    svg.push('<line class="gl" x1="'+ml+'" y1="'+TOP+'" x2="'+(W-mr)+'" y2="'+TOP+'"/>');
-    active.forEach(function(v){
-      var h=Math.max(v.sum/maxW*(TOP-14),3);
-      svg.push('<rect x="'+(x(v.t)-bw/2).toFixed(1)+'" y="'+(TOP-h).toFixed(1)+'" width="'+bw+
-        '" height="'+h.toFixed(1)+'" rx="2" fill="var(--exp)"><title>'+
-        esc(v.d.f.replace(/\.pdf$/i,''))+' — '+money(v.sum)+' across '+v.n+' line'+(v.n===1?'':'s')+
-        '</title></rect>');
-    });
-    svg.push('<text class="ax" x="'+ml+'" y="'+(fs+1)+'" fill="var(--exp)" style="font-weight:600">'+
-      (narrow?'':'largest ')+money0(maxW)+'</text>');
-
-    // bottom band: running total as a step area
-    var yB0=TOP+GAP, run=0, pts=['M'+ml+' '+(yB0+BOT)];
+    // the step path with a dot per draw
+    var run=0, pts=['M'+ml+' '+y(0).toFixed(1)], dots=[];
     dated.forEach(function(v){
-      if(v.sum>0) run+=v.sum;
-      var yv=yB0+BOT-(run/total)*(BOT-6);
-      pts.push('L'+x(v.t).toFixed(1)+' '+(yB0+BOT-((run-(v.sum>0?v.sum:0))/total*(BOT-6))).toFixed(1));
-      pts.push('L'+x(v.t).toFixed(1)+' '+yv.toFixed(1));
+      if(v.sum<=0) return;
+      pts.push('L'+x(v.t).toFixed(1)+' '+y(run).toFixed(1));
+      run+=v.sum;
+      pts.push('L'+x(v.t).toFixed(1)+' '+y(run).toFixed(1));
+      dots.push({t:v.t,cum:run,draw:v.sum,d:v.d,n:v.n,big:v===biggest});
     });
-    var lastX=x(dated[dated.length-1].t).toFixed(1);
-    svg.push('<path d="'+pts.join(' ')+' L'+lastX+' '+(yB0+BOT)+' Z" fill="var(--exp)" opacity=".13"/>');
-    svg.push('<path d="'+pts.join(' ')+'" fill="none" stroke="var(--exp)" stroke-width="2"/>');
-    svg.push('<line class="gl" x1="'+ml+'" y1="'+(yB0+BOT)+'" x2="'+(W-mr)+'" y2="'+(yB0+BOT)+'"/>');
-    svg.push('<text class="ax" x="'+ml+'" y="'+(yB0+fs+1)+'" fill="var(--exp)" style="font-weight:600">'+money0(total)+' total</text>');
-    svg.push('<text class="ax" x="'+ml+'" y="'+(TOP+16)+'" style="opacity:.7">Approved per warrant '+
-             '<tspan dx="14" style="opacity:.8">·</tspan><tspan dx="14">running total below</tspan></text>');
+    var lastX=x(dots[dots.length-1].t);
+    pts.push('L'+(W-mr)+' '+y(run).toFixed(1));
+    svg.push('<path d="'+pts.join(' ')+' L'+(W-mr)+' '+y(0).toFixed(1)+' Z" fill="var(--exp)" opacity=".12"/>');
+    svg.push('<path d="'+pts.join(' ')+'" fill="none" stroke="var(--exp)" stroke-width="2.2" stroke-linejoin="round"/>');
+    svg.push('<line class="gl" x1="'+ml+'" y1="'+y(0)+'" x2="'+(W-mr)+'" y2="'+y(0)+'"/>');
+    dots.forEach(function(o){
+      svg.push('<circle class="dot" cx="'+x(o.t).toFixed(1)+'" cy="'+y(o.cum).toFixed(1)+'" r="'+(o.big?5.5:4)+
+        '" fill="var(--exp)"><title>'+esc(o.d.d)+' — drew '+money(o.draw)+' across '+o.n+' line'+(o.n===1?'':'s')+
+        ' · '+money(o.cum)+' to date</title></circle>');
+    });
+    // annotations tied to the data: final total at the line's end,
+    // the largest draw called out at its dot (dodging the end label if they meet)
+    svg.push('<text class="ax halo" x="'+(W-mr)+'" y="'+(y(run)-9).toFixed(1)+'" text-anchor="end" '+
+      'fill="var(--exp)" font-size="'+(fs+1)+'" style="font-weight:700">'+money0(total)+' committed</text>');
+    var bx=x(biggest.t), nearEnd=bx>(W-mr)-150;
+    var runAtBig=dots.filter(function(o){return o.big;})[0].cum;
+    svg.push('<text class="ax halo" x="'+(bx+(nearEnd?-9:9)).toFixed(1)+'" y="'+(y(runAtBig)+(nearEnd?18:4)).toFixed(1)+
+      '" text-anchor="'+(nearEnd?'end':'start')+'" font-size="'+fs+'">largest draw +'+money0(biggest.sum)+'</text>');
     svg.push('</svg>');
 
     body.innerHTML=
@@ -1359,10 +1362,10 @@ function renderProjectTab(tab, body){
         '<div class="mstat"><div class="k">First appears</div><div class="v num">'+esc(first.d.d)+'</div></div>'+
         '<div class="mstat"><div class="k">Most recent</div><div class="v num">'+esc(last.d.d)+'</div></div>'+
         '<div class="mstat"><div class="k">Warrants</div><div class="v num">'+active.length+'</div></div>'+
-        '<div class="mstat"><div class="k">Largest single</div><div class="v num">'+
+        '<div class="mstat"><div class="k">Largest single line</div><div class="v num">'+
           money0(Math.max.apply(null,p.rows.map(function(r){return r[I_AMT];})))+'</div></div>'+
       '</div>'+
-      '<h4>The spending, in time</h4>'+svg.join('')+
+      '<h4>Committed to date — each dot is a warrant that drew</h4>'+svg.join('')+
       '<p class="note">Spend only — the register carries no authorised budget or completion date, so this '+
       'is the pace of approvals, not progress against a plan. Five spring-2025 meetings survive only as '+
       'image scans, so quiet stretches there may be artifacts of the record, not the project.</p>';
