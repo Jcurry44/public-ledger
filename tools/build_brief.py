@@ -61,12 +61,16 @@ def is_card(doc):
 
 CSS = """
 :root{--paper:#f6f4ef;--card:#fffdfa;--ink:#16181d;--muted:#6c7079;--faint:#93979f;
-  --rule:#e0dbd0;--strong:#cdc6b7;--navy:#1b3a5c;--ok:#1c6b47;--ok-soft:#e3f0e9;--warn:#8f5c10;--warn-soft:#f7eeda}
+  --rule:#e0dbd0;--strong:#cdc6b7;--navy:#1b3a5c;--ok:#1c6b47;--ok-soft:#e3f0e9;--warn:#8f5c10;--warn-soft:#f7eeda;
+  --desk:#e9e3d5}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);
+html{border-top:5px solid var(--navy);background:var(--desk)}
+body{margin:0;background:var(--desk);color:var(--ink);
   font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .num{font-family:ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
-.page{max-width:820px;margin:0 auto;padding:34px 26px 40px}
+.page{max-width:860px;margin:26px auto 48px;padding:34px 40px 44px;background:var(--paper);
+  border-radius:3px;box-shadow:0 0 0 1px var(--strong),0 26px 70px -32px rgba(20,18,10,.45)}
+@media (max-width:700px){.page{margin:0;border-radius:0;box-shadow:none;padding:28px 20px 40px}}
 a{color:var(--navy)}
 .mast{display:flex;align-items:baseline;gap:14px;border-bottom:3px double var(--strong);padding-bottom:12px;flex-wrap:wrap}
 .mark{font:600 24px/1 ui-serif,Georgia,serif}.mark span{color:var(--navy)}
@@ -119,7 +123,7 @@ tr:last-child td{border-bottom:0}
 .printhead{display:none}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}
-@media print{body{background:#fff}.page{padding:0;max-width:none}a{color:inherit;text-decoration:none}
+@media print{html{border-top:0;background:#fff}body{background:#fff}.page{padding:0;margin:0;max-width:none;box-shadow:none;border-radius:0}a{color:inherit;text-decoration:none}
   .tabs,.toolbar{display:none}.pane[hidden]{display:block}.printhead{display:block}}
 """
 

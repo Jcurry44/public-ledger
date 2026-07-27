@@ -60,18 +60,37 @@ body{
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
 a{color:var(--accent)}
 
+/* ---------- the desk and the sheet ----------
+   A ledger is a physical document: the page is a bounded sheet on a desk.
+   The desk tone makes wide-screen side space intentional instead of leftover,
+   and the sheet's edge + shadow give the document an object to be. */
+:root{--desk:#e9e3d5}
+@media (prefers-color-scheme:dark){:root{--desk:#0a0c0f}}
+:root[data-theme="light"]{--desk:#e9e3d5}
+:root[data-theme="dark"]{--desk:#0a0c0f}
+html{border-top:5px solid var(--accent);background:var(--desk)}
+body{background:var(--desk)}
+.folio{position:relative;max-width:1320px;margin:0 auto;min-height:100vh;background:var(--paper);
+  box-shadow:0 0 0 1px var(--rule-strong),0 30px 80px -34px rgba(20,18,10,.5)}
+/* the accountant's red margin rule, shown only when the desk is visible */
+.folio::before{content:'';position:absolute;top:0;bottom:0;left:34px;width:3px;pointer-events:none;
+  border-left:1px solid rgba(158,43,40,.16);border-right:1px solid rgba(158,43,40,.16)}
+@media (max-width:1380px){.folio::before{display:none}}
+@media (max-width:700px){.folio{box-shadow:none}}
+
 /* ---------- masthead ---------- */
-html{border-top:5px solid var(--accent)}
 /* laid-paper grain: kills the flat screen-white without fighting the ink */
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.028;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
 @media (prefers-color-scheme:dark){body::after{opacity:.05}}
 :root[data-theme="dark"] body::after{opacity:.05}
 :root[data-theme="light"] body::after{opacity:.028}
-/* the Tonawandas, in engraver's ink: canal water, the lift bridge, the mills */
+/* the Tonawandas, in engraver's ink - a contained letterhead vignette that
+   scales by CENTERING, never by cropping (slice-scaling decapitated the
+   bridge on wide monitors) */
 .scene{background:var(--card);border-bottom:1px solid var(--rule-strong);overflow:hidden}
-.scene svg{display:block;width:100%;height:74px;color:var(--ink);opacity:.42}
-@media (max-width:640px){.scene svg{height:48px}}
+.scene svg{display:block;margin:0 auto;height:86px;width:auto;max-width:100%;color:var(--ink);opacity:.42}
+@media (max-width:640px){.scene svg{height:52px}}
 .masthead{border-bottom:1px solid var(--rule-strong);background:var(--card)}
 .mast-in{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;padding:26px 0 18px}
 .mark{font:600 30px/1 ui-serif,Georgia,"Times New Roman",serif;letter-spacing:.02em}
@@ -449,6 +468,7 @@ footer p{margin:0 0 7px;max-width:80ch}
 </style>
 </head>
 <body>
+<div class="folio">
 
 <header class="masthead">
   <div class="wrap mast-in">
@@ -464,7 +484,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   </div>
 </header>
 
-<div class="scene" aria-hidden="true"><svg viewBox="0 0 1200 110" preserveAspectRatio="xMidYMax slice"
+<div class="scene" aria-hidden="true"><svg viewBox="0 0 1200 110"
   fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
   <!-- water: the canal meeting the river -->
   <path d="M0 92 Q 60 88 120 92 T 240 92 T 360 92 T 480 92 T 600 92 T 720 92 T 840 92 T 960 92 T 1080 92 T 1200 92" stroke-width="1.8"/>
@@ -787,6 +807,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   <p>Built by Joe Curry from public records published by the City of North Tonawanda. Not affiliated with,
      endorsed by, or produced for the City. Corrections welcome — every figure links to its source page.</p>
 </footer>
+</div><!-- /folio -->
 
 <div class="pager" id="pager">
   <button type="button" id="pgUp" aria-label="Previous section">&#9650;</button>
