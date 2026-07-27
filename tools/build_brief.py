@@ -90,6 +90,21 @@ tie = next(t for t in W["tie_out"] if t["file"] == latest["file"])
 
 
 def dept_label(k):
+    """A capital fund-dept can hold several projects (618-7180 = Memorial Pool
+    AND the LWRP design AND the comprehensive plan), so the voted department
+    label can name the wrong one. For flag rows, label by the project drawing
+    the most THIS warrant, noting when others share the department."""
+    projs = defaultdict(float)
+    for r in latest["rows"]:
+        if r["fund"] + "-" + r["dept"] != k:
+            continue
+        lbl = ACCT_PROJ.get(r["account"], "")
+        if lbl:
+            projs[lbl] += r["amount"]
+    if projs:
+        top = max(projs, key=projs.get)
+        return top + (" (& %d other project%s)" % (len(projs) - 1, "" if len(projs) == 2 else "s")
+                      if len(projs) > 1 else "")
     lbl = DEPTS.get(k, "")
     return lbl if lbl else "Department " + k
 
