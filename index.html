@@ -144,6 +144,8 @@ section{padding:34px 0 10px;scroll-margin-top:52px}
 .sched{font:600 10.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
   text-transform:uppercase;color:var(--faint);margin:0 0 8px;display:flex;align-items:center;gap:10px}
 .sched::after{content:'';flex:1;height:1px;background:var(--rule);max-width:180px}
+.gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
+  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px}
 h2{font:600 21px/1.3 ui-serif,Georgia,serif;margin:0 0 4px}
 .lede{color:var(--muted);font-size:14px;margin:0 0 16px;max-width:78ch}
 
@@ -232,6 +234,8 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .rk.can:hover .lb{color:var(--accent)}
 .rk.can .lb::after{content:'\2197';color:var(--faint);font-size:11px;margin-left:6px;opacity:0;transition:opacity .12s}
 .rk.can:hover .lb::after{opacity:1}
+.rk:focus-visible,tr.doc-row:focus-visible,tr[data-acct]:focus-visible{
+  outline:2px solid var(--accent);outline-offset:1px}
 
 /* ---------- modal ---------- */
 .modal[hidden]{display:none}
@@ -542,11 +546,11 @@ footer p{margin:0 0 7px;max-width:80ch}
   <div class="hero">
     <div class="hgrid">
       <div class="hcell">
-        <div class="k">Revenue</div>
+        <div class="k" id="heroRevK">Revenue</div>
         <div class="v num" id="heroRev">—</div>
       </div>
       <div class="hcell">
-        <div class="k">Expenditure</div>
+        <div class="k" id="heroExpK">Expenditure</div>
         <div class="v num" id="heroExp">—</div>
       </div>
       <div class="hcell">
@@ -781,6 +785,19 @@ footer p{margin:0 0 7px;max-width:80ch}
     <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
       Every machine-readable document reconciles to them exactly — select a row for the per-fund detail.</p>
     <p class="note" id="reconNote"></p>
+    <div class="panel" style="margin-bottom:14px">
+      <h3>How this stays current</h3>
+      <div class="sub">This is not a one-time export. When the city posts a new warrant, one command
+        re-runs the whole chain — parse, reconcile, and regenerate this page, all 36 council briefs and
+        the exception report together. The reconciliation is a <b>gate, not a report</b>: if any document
+        stops tying to its printed control totals, the build halts and nothing updates. The dashboard
+        cannot show a number that failed its own check.</div>
+      <div class="gateline num">&#10003; ALL GATES PASS: name fidelity &middot; expenditure tie-out &middot;
+        row count &middot; list amount</div>
+      <div class="sub" style="margin:8px 0 0">— the actual output of the last build. Image-only scans are
+        declared and excluded, never guessed at; a republished duplicate warrant is detected by its
+        content and counted once.</div>
+    </div>
     <div class="tbox scroll">
       <table class="tie">
         <thead><tr>
@@ -902,6 +919,7 @@ D.docs.forEach(function(doc,i){
   var dash = '<span style="color:var(--faint)">—</span>';
   var tr = document.createElement('tr');
   tr.className = 'doc-row' + (scan ? ' scan' : '');
+  if(!scan){ tr.setAttribute('role','button'); tr.setAttribute('tabindex','0'); }
   tr.innerHTML =
     '<td class="t-doc">'+(scan?'':'<span class="caret">›</span> ')+
       '<span class="fn">'+esc(doc.f.replace(/\.pdf$/i,''))+'</span>'+card+'</td>'+
@@ -960,7 +978,12 @@ var O = JSON.parse(document.getElementById('osc-data').textContent);
   var n=document.getElementById('heroNet');
   n.textContent=(net<0?'−':'+')+money0(Math.abs(net)).replace('$','$');
   n.style.color = net<0 ? 'var(--bad)' : 'var(--ok)';
-  document.getElementById('heroNetK').textContent = net<0 ? 'Shortfall' : 'Surplus';
+  // period on every headline figure, and a method-neutral label for the gap:
+  // 'shortfall' invites an accounting-method debate a single-year filing
+  // cannot settle (fund balance, transfers, capital timing).
+  document.getElementById('heroRevK').textContent = 'Revenue · '+O.years[i];
+  document.getElementById('heroExpK').textContent = 'Expenditure · '+O.years[i];
+  document.getElementById('heroNetK').textContent = 'Net · '+O.years[i]+' filing';
   document.getElementById('heroLede').innerHTML =
     'City of North Tonawanda, '+O.years[i]+' — its own filings to New York State, '+
     (O.years.length)+' years deep, plus every 2026 claim approved so far.';
@@ -1041,7 +1064,7 @@ function drillHTML(year, sec, label, cssVar){
     ' <span style="text-transform:none;letter-spacing:0">— select one for its thirty-year history</span></h4>'+
     '<table class="acct"><tbody>'+
     rows.slice().sort(function(a,b){return b[FI_AMT]-a[FI_AMT];}).map(function(f){
-      return '<tr data-acct="'+esc(f[FI_ACCT])+'" style="cursor:pointer">'+
+      return '<tr data-acct="'+esc(f[FI_ACCT])+'" style="cursor:pointer" role="button" tabindex="0">'+
         '<td class="c num">'+esc(f[FI_ACCT])+'</td><td>'+esc(FD.narr[f[FI_NARR]])+'</td>'+
         (showObj?'<td class="c">'+esc(FD.obj[f[FI_OBJ]])+'</td>':'')+
         '<td class="a num">'+money0(f[FI_AMT])+'</td></tr>';
@@ -1189,9 +1212,11 @@ function renderRank(el, items, cssVar, total, onClick, expand){
     var fill = isOther ? 'var(--rule-strong)' : 'var('+cssVar+')';
     var clickable = onClick && !isOther;
     var drillable = expand && !isOther;
+    var interactive = clickable || drillable;
     return '<div class="rk'+(drillable?' can':'')+'"'+
         (clickable?' data-rank="'+i+'" style="cursor:pointer"':'')+
-        (drillable?' data-exp="'+i+'"':'')+'>'+
+        (drillable?' data-exp="'+i+'"':'')+
+        (interactive?' role="button" tabindex="0"':'')+'>'+
       '<span class="lb"'+(isOther?' style="color:var(--muted)"':'')+'>'+esc(x[0])+'</span>'+
       '<span class="vl num"'+(isOther?' style="color:var(--muted)"':'')+'>'+money0(x[1])+'</span>'+
       '<span class="tr"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:'+fill+'"></i></span>'+
@@ -2489,6 +2514,16 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
     if(neutral(e.target) && !window.getSelection().toString()) goSection(1);
   });
 })();
+
+/* Enter/Space activate anything that looks clickable but is not a native
+   button - ranked rows, tie-out rows, account-history rows. */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter' && e.key!==' ') return;
+  var t=e.target.closest('[data-rank],[data-exp],[data-acct],tr.doc-row:not(.scan)');
+  if(!t || t.tagName==='BUTTON' || t.tagName==='A') return;
+  e.preventDefault();
+  t.click();
+});
 
 document.getElementById('theme').addEventListener('click',function(){
   var cur=document.documentElement.getAttribute('data-theme');

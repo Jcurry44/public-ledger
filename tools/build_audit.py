@@ -174,6 +174,8 @@ tr:last-child td{border-bottom:0}
   text-transform:uppercase;color:var(--faint);font-weight:600}
 .strip b{font-size:16px}
 .note{font-size:11.5px;color:var(--faint);border-top:1px solid var(--rule);margin-top:26px;padding-top:10px}
+.tw{overflow-x:auto}
+.tw table{min-width:520px}
 @media print{html{border-top:0;background:#fff}body{background:#fff}
   .page{padding:0;margin:0;max-width:none;box-shadow:none;border-radius:0}
   a{color:inherit;text-decoration:none}.toolbar{display:none}}
@@ -200,7 +202,7 @@ h += ('<div class="strip">'
       '</div>') % (n_flags, len(docs), len(YEARS))
 
 # --- 1. the record itself ---
-h += '<h2><span class="no">01</span>Where the record itself is weak</h2>'
+h += '<h2><span class="no">01</span>Gaps in the published record</h2>'
 h += ('<p class="q"><b>The question:</b> can the missing meetings be republished as text? '
       'Five consecutive council meetings (March&ndash;May 2025) plus one other were published as '
       'image-only scans — unreadable to any analysis, this one included. One further file was a '
@@ -302,6 +304,7 @@ h += ('<p class="note"><b>Method.</b> Generated automatically by '
       'Approvals and filings as published, not audited actuals. This sample was prepared from public '
       'records and was not requested by or produced for the City.</p>'
       % (len(docs), YEARS[0], LATEST))
+h = h.replace('<table>', '<div class="tw"><table>').replace('</table>', '</table></div>')
 h += '</div></body></html>'
 
 path = os.path.join(ROOT, "audit.html")
