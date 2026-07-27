@@ -50,7 +50,7 @@ def og_card():
     stats = [
         ("%s lines" % format(meta["rows"], ","), "of approved claims"),
         ("$%.1fM" % (meta["totalAll"] / 1e6), "traced to source"),
-        ("30 years", "of audited filings"),
+        ("30 years", "of state filings"),
     ]
     x = 82
     for big, small in stats:

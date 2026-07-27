@@ -10,8 +10,10 @@ or from a USB stick.
 
 ## What it shows
 
-- **Revenue & spending** — 30 years of the city's audited annual filings to the
-  NYS Office of the State Comptroller (1995–2024), by category, with drill-down
+- **Revenue & spending** — 30 years of the city's annual financial reports filed
+  with the NYS Office of the State Comptroller (1995–2024; self-reported and
+  certified by the city's chief fiscal officer — OSC desk-reviews but does not
+  audit these filings), by category, with drill-down
   to sub-category, object of expenditure, and individual account lines. Compare
   any two years and see which categories outgrew revenue.
 - **The register** — every claim the city approved across 2025 and 2026:

@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Public Ledger — City of North Tonawanda</title>
-<meta name="description" content="Where the City of North Tonawanda's money comes from and where it goes: thirty years of audited state filings, every claim the city has approved across 2025 and 2026, and each figure traceable to its source document.">
+<meta name="description" content="Where the City of North Tonawanda's money comes from and where it goes: thirty years of the city's own state filings, every claim the city has approved across 2025 and 2026, and each figure traceable to its source document.">
 <meta name="robots" content="noindex, nofollow">
 <!-- Link-preview card: the first screen most people see is a texted URL. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Public Ledger">
 <meta property="og:title" content="Public Ledger — City of North Tonawanda">
-<meta property="og:description" content="Where the city's money comes from, where it goes, and how to check it. 8,532 approved claims and 30 years of audited filings — 36 of 36 warrants reconcile exactly.">
+<meta property="og:description" content="Where the city's money comes from, where it goes, and how to check it. 8,532 approved claims and 30 years of state filings — 36 of 36 warrants reconcile exactly.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/">
 <meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -481,11 +481,12 @@ footer p{margin:0 0 7px;max-width:80ch}
   </div>
 
   <section id="money">
-    <div class="sched">Schedule 1 · Audited annual filings, NYS Comptroller</div>
+    <div class="sched">Schedule 1 · Annual financial reports (AFR), NYS Comptroller</div>
     <h2>Where the money comes from, and where it goes</h2>
-    <p class="lede">The city's audited annual filings to the
-      <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a>.
-      Pick a year, then open any category.</p>
+    <p class="lede">The city's annual financial reports, filed with the
+      <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a> —
+      self-reported and certified by its chief fiscal officer; OSC desk-reviews these filings
+      but does not audit them. Pick a year, then open any category.</p>
 
     <div class="years" id="yearPills" role="tablist" aria-label="Filing year"></div>
 
@@ -563,10 +564,16 @@ footer p{margin:0 0 7px;max-width:80ch}
       <div class="sub" id="tbHistSub"></div>
       <div id="tbHist"></div>
       <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
-        data, using each city's namesake school district. Actual bills differ with STAR and other
-        exemptions, special districts, and how close the assessment sits to market value — this is the
-        arithmetic of the published rates, not a quote. Earlier years were published on assessed value
-        and are omitted rather than mixed in.</p>
+        data, using each city's namesake school district — the arithmetic of the published rates, not a
+        quote. What a real bill adds or subtracts: <b>STAR</b> takes about $338 (Basic) or $969 (Enhanced)
+        off the school line for North Tonawanda homeowners in 2025; NT school bills also carry a
+        <b>library levy</b> (~$0.52 per $1,000) the state's school figure excludes. And the state's
+        full-value conversion can <b>lag one equalization cycle</b> where assessment ratios are falling
+        fast — cross-checked against Niagara County's own 2025 apportionment, NT's county line here reads
+        about 9% high (5.54 vs ~5.05), which the omitted library levy then largely cancels: NT's
+        <b>total</b> lands within 0.1% of a real bill's full-value equivalent, with the credit and the
+        debit disclosed rather than netted silently. Earlier years were published on assessed value and
+        are omitted rather than mixed in.</p>
     </div>
 
   </section>
@@ -872,7 +879,7 @@ var O = JSON.parse(document.getElementById('osc-data').textContent);
   n.style.color = net<0 ? 'var(--bad)' : 'var(--ok)';
   document.getElementById('heroNetK').textContent = net<0 ? 'Shortfall' : 'Surplus';
   document.getElementById('heroLede').innerHTML =
-    'City of North Tonawanda, '+O.years[i]+' — audited filings to New York State, '+
+    'City of North Tonawanda, '+O.years[i]+' — its own filings to New York State, '+
     (O.years.length)+' years deep, plus every 2026 claim approved so far.';
 })();
 
@@ -1463,7 +1470,16 @@ function renderCompare(){
           '<div class="n num">'+(r.rate/totalRate*100).toFixed(0)+'% · '+r.rate.toFixed(2)+' per $1,000</div>'+
         '</div>';}).join('')+'</div>'+
       '<div class="tb-per num">Every $100,000 of home value costs '+money0(100*totalRate)+
-        ' a year — an effective rate of '+(totalRate/10).toFixed(2)+'% of market value.</div>';
+        ' a year — an effective rate of '+(totalRate/10).toFixed(2)+'% of market value.</div>'+
+      // Niagara Falls is the one split-rate (Article 19) city of the nine: homes
+      // and businesses pay different CITY rates, and the state publishes a blend.
+      (c.name==='Niagara Falls'
+        ? '<div class="verdictline" style="margin-top:12px">Niagara Falls taxes homes and businesses at '+
+          'different <b>city</b> rates, and the state publishes one blended figure — so for a '+
+          '<b>house</b>, the city line here runs roughly a fifth high (the 2024 homestead class rate '+
+          'works out near $10.76 per $1,000 full value, not the blended $12.85). The school and county '+
+          'lines are single-rate. None of the other eight cities split their rates.</div>'
+        : '');
     renderHist(c);
   }
 
