@@ -315,6 +315,33 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   padding:7px 13px;border-radius:99px;cursor:pointer}
 .seg button:hover{color:var(--ink)}
 .seg button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* ---------- tax-bill calculator ---------- */
+/* school/city/county — validated categorical trio (see tools/gen_og_card.py
+   sibling note): gray failed the normal-vision floor against amber, so county
+   is plum. Every segment also carries a direct label; identity is never
+   color-alone. */
+:root{--sch:#3d7ebf;--cty:#c07a24;--cnt:#9a5a86}
+@media (prefers-color-scheme:dark){:root{--sch:#4a8cc4;--cty:#b8822f;--cnt:#ad6c9e}}
+:root[data-theme="light"]{--sch:#3d7ebf;--cty:#c07a24;--cnt:#9a5a86}
+:root[data-theme="dark"]{--sch:#4a8cc4;--cty:#b8822f;--cnt:#ad6c9e}
+.tb-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.tb-val{display:flex;align-items:center;gap:4px;font:600 16px/1 ui-monospace,Menlo,Consolas,monospace;
+  background:var(--card);border:1px solid var(--rule-strong);border-radius:8px;padding:8px 11px}
+.tb-val input{border:0;background:transparent;color:var(--ink);font:inherit;width:9ch;outline:none}
+#tbCity{font:inherit;font-size:13.5px;padding:8px 11px;border:1px solid var(--rule-strong);
+  border-radius:8px;background:var(--card);color:var(--ink)}
+.tb-total{font:600 clamp(26px,4vw,36px)/1.1 ui-serif,Georgia,serif;margin:2px 0 3px}
+.tb-total small{font:400 13px/1.4 system-ui;color:var(--muted);margin-left:10px}
+.tb-close{display:inline-block;border-bottom:3px double var(--rule-strong);padding-bottom:5px}
+.tb-bar{display:flex;gap:2px;height:34px;border-radius:7px;overflow:hidden;margin:14px 0 8px}
+.tb-bar i{display:block;height:100%}
+.tb-parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:4px}
+.tb-part{border-left:3px solid var(--rule);padding-left:10px}
+.tb-part .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.tb-part .v{font-size:18px;font-weight:600;margin-top:2px}
+.tb-part .n{font-size:12px;color:var(--muted)}
+.tb-h4{margin:22px 0 3px;font:600 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.tb-per{font-size:13px;color:var(--muted);margin-top:6px}
 .cmpbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .cmpbar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .swing{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
@@ -519,6 +546,29 @@ footer p{margin:0 0 7px;max-width:80ch}
         <span id="peerYr2"></span> filing to the NYS Comptroller; 2020 Census populations.</p>
     </div>
 
+    <div class="panel" style="margin-top:14px">
+      <h3>Your tax bill, decomposed <span class="tot num" id="tbYear"></span></h3>
+      <div class="sub">A property-tax bill is three governments stacked. Enter a home's market value
+        to see the split at the current full-value rates.</div>
+      <div class="tb-controls">
+        <label class="tb-val">$ <input type="text" id="tbValue" inputmode="numeric" value="250,000"
+          aria-label="Home market value in dollars"></label>
+        <button class="pill" type="button" data-tbv="150000">$150K</button>
+        <button class="pill" type="button" data-tbv="250000">$250K</button>
+        <button class="pill" type="button" data-tbv="400000">$400K</button>
+        <select id="tbCity" aria-label="City"></select>
+      </div>
+      <div id="tbOut"></div>
+      <h4 class="tb-h4">Thirteen years of the same bill</h4>
+      <div class="sub" id="tbHistSub"></div>
+      <div id="tbHist"></div>
+      <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
+        data, using each city's namesake school district. Actual bills differ with STAR and other
+        exemptions, special districts, and how close the assessment sits to market value — this is the
+        arithmetic of the published rates, not a quote. Earlier years were published on assessed value
+        and are omitted rather than mixed in.</p>
+    </div>
+
   </section>
 
 
@@ -714,6 +764,7 @@ footer p{margin:0 0 7px;max-width:80ch}
 
 <script id="warrant-data" type="application/json">/*__DATA__*/</script>
 <script id="osc-data" type="application/json">/*__OSC__*/</script>
+<script id="tax-data" type="application/json">/*__TAX__*/</script>
 <script>
 (function(){
 "use strict";
@@ -1364,6 +1415,139 @@ function renderCompare(){
     render(b.dataset.peer);
   });
   render('exp');
+})();
+
+/* ---- your tax bill, decomposed ---- */
+(function(){
+  var T=JSON.parse(document.getElementById('tax-data').textContent);
+  if(!T.cities || !T.cities.length) return;
+  var yrs=T.years, iLast=yrs.length-1;
+  document.getElementById('tbYear').textContent='FY'+yrs[iLast]+' rates';
+
+  var sel=document.getElementById('tbCity');
+  T.cities.forEach(function(c,i){
+    var o=new Option(c.name+(c.self?'':' ('+c.county+')'),i);
+    sel.appendChild(o);
+    if(c.self) sel.value=String(i);
+  });
+
+  var input=document.getElementById('tbValue');
+  function val(){
+    var n=parseInt(String(input.value).replace(/[^0-9]/g,''),10);
+    return isFinite(n)&&n>0 ? Math.min(n,5000000) : 0;
+  }
+  var PARTS=[['s','School district','--sch'],['m','City','--cty'],['c','County','--cnt']];
+
+  function latestIdx(c){
+    for(var i=yrs.length-1;i>=0;i--) if(c.s[i]!=null) return i;
+    return iLast;
+  }
+  function render(){
+    var v=val(), c=T.cities[+sel.value], li=latestIdx(c);
+    var out=document.getElementById('tbOut');
+    if(!v){ out.innerHTML='<p class="lede">Enter a home value.</p>'; return; }
+    var rates=PARTS.map(function(p){return {label:p[1], cssVar:p[2], rate:c[p[0]][li]||0};});
+    var totalRate=rates.reduce(function(s,r){return s+r.rate;},0);
+    var totalBill=v/1000*totalRate;
+    out.innerHTML=
+      '<div class="tb-total"><span class="num tb-close">'+money0(totalBill)+'</span>'+
+        '<small>a year on a '+money0(v)+' home in '+esc(c.name)+' · '+
+        totalRate.toFixed(2)+' per $1,000 · FY'+yrs[li]+'</small></div>'+
+      '<div class="tb-bar">'+rates.map(function(r){
+        return '<i style="width:'+(r.rate/totalRate*100).toFixed(2)+'%;background:var('+r.cssVar+')" '+
+          'title="'+esc(r.label)+' — '+money0(v/1000*r.rate)+'"></i>';}).join('')+'</div>'+
+      '<div class="tb-parts">'+rates.map(function(r){
+        return '<div class="tb-part" style="border-left-color:var('+r.cssVar+')">'+
+          '<div class="k">'+esc(r.label)+'</div>'+
+          '<div class="v num">'+money0(v/1000*r.rate)+'</div>'+
+          '<div class="n num">'+(r.rate/totalRate*100).toFixed(0)+'% · '+r.rate.toFixed(2)+' per $1,000</div>'+
+        '</div>';}).join('')+'</div>'+
+      '<div class="tb-per num">Every $100,000 of home value costs '+money0(100*totalRate)+
+        ' a year — an effective rate of '+(totalRate/10).toFixed(2)+'% of market value.</div>';
+    renderHist(c);
+  }
+
+  function renderHist(c){
+    var host=document.getElementById('tbHist');
+    var narrow=(host.clientWidth||760)<520;
+    var W=narrow?380:760, H=narrow?205:230, ml=narrow?40:50, mr=narrow?10:16, mt=12, mb=26;
+    var fs=narrow?12:11;
+    var totals=yrs.map(function(y,i){return (c.s[i]||0)+(c.m[i]||0)+(c.c[i]||0);});
+    var max=Math.max.apply(null,totals)*1.08||1;
+    var x=function(i){return ml+(W-ml-mr)*(i/(yrs.length-1));};
+    var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
+    var p=[];
+    for(var t=0;t<=4;t++){
+      var gv=max/4*t;
+      p.push('<line class="gl" x1="'+ml+'" y1="'+y(gv).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(gv).toFixed(1)+'"/>');
+      p.push('<text class="ax" x="'+(ml-7)+'" y="'+(y(gv)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+
+             gv.toFixed(0)+'</text>');
+    }
+    var every=narrow?4:2;
+    yrs.forEach(function(yy,i){
+      if(i%every===0||i===iLast)
+        p.push('<text class="ax" x="'+x(i).toFixed(1)+'" y="'+(H-mb+fs+3)+'" text-anchor="middle" font-size="'+fs+'">'+
+               (narrow?String(yy).slice(2):yy)+'</text>');
+    });
+    // stacked areas: county at the base, city, then school on top
+    var stack=[['c','--cnt'],['m','--cty'],['s','--sch']];
+    var base=yrs.map(function(){return 0;});
+    stack.forEach(function(sp){
+      var top=base.map(function(b,i){return b+(c[sp[0]][i]||0);});
+      var d=top.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+      var back=base.slice().reverse().map(function(v,j){
+        var i=yrs.length-1-j; return 'L'+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
+      p.push('<path d="'+d+' '+back+' Z" fill="var('+sp[1]+')" opacity=".8"/>');
+      base=top;
+    });
+    p.push('<path d="'+base.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ')+
+           '" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".35"/>');
+    p.push('<g class="xh" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/></g>');
+    p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"/>');
+    host.innerHTML='<div class="legend">'+
+        '<span><b style="background:var(--sch)"></b>School</span>'+
+        '<span><b style="background:var(--cty)"></b>City</span>'+
+        '<span><b style="background:var(--cnt)"></b>County</span></div>'+
+      '<div class="chartwrap"><svg class="trend" viewBox="0 0 '+W+' '+H+'">'+p.join('')+
+      '</svg><div class="tip"></div></div>';
+    document.getElementById('tbHistSub').textContent=
+      'Combined full-value rate in '+c.name+': '+totals[0].toFixed(2)+' (FY'+yrs[0]+') → '+
+      totals[iLast].toFixed(2)+' (FY'+yrs[iLast]+') per $1,000. Rates fall when market values '+
+      'climb faster than levies — the bill can still rise.';
+    var svg=host.querySelector('svg'), tip=host.querySelector('.tip'),
+        wrap=host.querySelector('.chartwrap'), xh=host.querySelector('.xh'),
+        xl=xh.querySelector('line'), hit=host.querySelector('.hit');
+    hit.addEventListener('mousemove',function(ev){
+      var r=svg.getBoundingClientRect();
+      var i=Math.round(((ev.clientX-r.left)/r.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
+      i=Math.max(0,Math.min(iLast,i));
+      xh.style.opacity=1; xl.setAttribute('x1',x(i)); xl.setAttribute('x2',x(i));
+      var v=val()||250000;
+      tip.innerHTML='<div class="ty num">FY'+yrs[i]+'</div>'+
+        [['s','School','--sch'],['m','City','--cty'],['c','County','--cnt']].map(function(sp){
+          return '<div class="tl"><span><b style="background:var('+sp[2]+')"></b>'+sp[1]+
+            '</span><span class="num">'+(c[sp[0]][i]||0).toFixed(2)+'</span></div>';}).join('')+
+        '<div class="tl" style="margin-top:3px;border-top:1px solid var(--rule);padding-top:3px">'+
+          '<span>On '+money0(v)+'</span><span class="num">'+money0(v/1000*((c.s[i]||0)+(c.m[i]||0)+(c.c[i]||0)))+'</span></div>';
+      tip.style.opacity=1;
+      var wx=x(i)/W*wrap.clientWidth;
+      tip.style.left=Math.min(Math.max(wx-tip.offsetWidth/2,0),wrap.clientWidth-tip.offsetWidth)+'px';
+      tip.style.top='2px';
+    });
+    hit.addEventListener('mouseleave',function(){tip.style.opacity=0;tip.style.left='0px';xh.style.opacity=0;});
+  }
+
+  input.addEventListener('input',render);
+  input.addEventListener('blur',function(){
+    var v=val(); if(v) input.value=v.toLocaleString('en-US');
+  });
+  sel.addEventListener('change',render);
+  document.querySelectorAll('[data-tbv]').forEach(function(b){
+    b.addEventListener('click',function(){
+      input.value=(+b.getAttribute('data-tbv')).toLocaleString('en-US'); render();
+    });
+  });
+  render();
 })();
 
 /* year pills drive both panels and the marker on the trend line */

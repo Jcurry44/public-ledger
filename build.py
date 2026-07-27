@@ -20,7 +20,8 @@ STEPS = [
     ("test_fidelity.py", "GATE: name fidelity + tie-out + row count + list amount"),
     ("build_site_data.py", "compact register JSON"),
     ("build_osc.py", "30 years of OSC revenue/expenditure"),
-    ("build_site.py", "inline both payloads into index.html"),
+    ("build_taxrates.py", "overlapping tax rates, nine cities (cached fetch)"),
+    ("build_site.py", "inline all payloads into index.html"),
 ]
 
 for script, label in STEPS:

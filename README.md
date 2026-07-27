@@ -17,8 +17,11 @@ or from a USB stick.
 - **The register** — every claim the city approved across 2025 and 2026:
   8,532 line items, 937 payees, summarised first and filterable, with each line
   linked to the page of the PDF it was read from.
-- **Capital projects** — 20 named projects, their pace, their contractors, and
+- **Capital projects** — 40 named projects, their pace, their contractors, and
   every line behind them.
+- **Your tax bill, decomposed** — enter a home value, see the school/city/county
+  split at current full-value rates for nine cities, with thirteen years of
+  rate history.
 - **How this was verified** — the reconciliation, below.
 - **What this cannot show** — the questions this data cannot answer, and why.
 
@@ -29,6 +32,7 @@ or from a USB stick.
 | [northtonawanda.gov/accounting](https://www.northtonawanda.gov/accounting) | Warrant of Claims PDFs (2026, linked) |
 | `/documents/Warrant of Claims/2025/` | 2025 warrants (unlinked; filenames recovered from the Wayback CDX index) |
 | [OSC Local Government Financial Data](https://www.osc.ny.gov/local-government/data) | `city_all_years.zip` — annual filings, 1995–2024 |
+| [Real Property Tax Rates by Municipality](https://data.ny.gov/resource/iq85-sdzs) | overlapping county/city/school full-value rates, FY2013–2025 |
 
 ## The reconciliation
 
