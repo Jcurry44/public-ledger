@@ -19,6 +19,8 @@ from collections import defaultdict
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W = json.load(open(os.path.join(ROOT, "data", "warrants.json"), encoding="utf-8"))
 S = json.load(open(os.path.join(ROOT, "data", "site-data.json"), encoding="utf-8"))
+ACCT_PROJ = dict(zip(S["accounts"], S["acctProj"]))
+DEPTS = S["depts"]
 O = json.load(open(os.path.join(ROOT, "data", "osc-data.json"), encoding="utf-8"))
 
 docs = [x for x in W["docs"] if x["rows"]]
@@ -96,7 +98,7 @@ for r in S["rows"]:
 sprawl_top = sorted(
     ({"name": k, "accts": len(v["accts"]), "sum": v["sum"], "n": v["n"]}
      for k, v in sprawl.items() if len(v["accts"]) >= 10),
-    key=lambda x: -x["accts"])[:6]
+    key=lambda x: -x["accts"])
 
 # ---- flag 6: large first-time payees (docs with >= 10 priors) --------------
 seen = set()
@@ -107,14 +109,25 @@ for i, d in enumerate(docs):
         payee_sum[r["vendor_name"]] += r["amount"]
     for name, amt in payee_sum.items():
         if name not in seen and i >= 10 and amt >= 100000:
-            firsts.append({"name": name, "amt": amt, "doc": d})
+            ctx = defaultdict(float)
+            for r in d["rows"]:
+                if r["vendor_name"] != name:
+                    continue
+                proj = ACCT_PROJ.get(r["account"], "")
+                key = proj if proj else DEPTS.get(r["fund"] + "-" + r["dept"],
+                                                  "Dept " + r["fund"] + "-" + r["dept"])
+                ctx[key] += r["amount"]
+            top_ctx = sorted(ctx.items(), key=lambda x: -x[1])
+            label = top_ctx[0][0] + (" (+%d more)" % (len(top_ctx) - 1) if len(top_ctx) > 1 else "")
+            firsts.append({"name": name, "amt": amt, "doc": d, "ctx": label})
     for r in d["rows"]:
         seen.add(r["vendor_name"])
 firsts.sort(key=lambda x: -x["amt"])
-firsts = firsts[:6]
 
-n_flags = (len(scans) + (1 if W.get("superseded") else 0) + len(catchalls)
-           + len(spikes[:8]) + len(newcomers[:3]) + len(hygiene) + len(sprawl_top)
+# Every qualifying flag is counted AND shown - a report about silent gaps
+# must not have silent caps of its own.
+n_flags = (len(scans) + len(W.get("superseded", [])) + len(catchalls)
+           + len(spikes) + len(newcomers) + len(hygiene) + len(sprawl_top)
            + len(firsts))
 
 CSS = """
@@ -223,15 +236,16 @@ h += '<h2><span class="no">03</span>Accounts far off their own thirty-year histo
 h += ('<p class="q"><b>The question:</b> which of these are one-time events, and which are the new '
       'normal? Each account below is at least 3&times; its own prior-year median and at least $50K. '
       'Capital-fund accounts (H-prefix) are excluded — one-time by design, and covered by the capital '
-      'projects section of the ledger.</p>')
+      'projects section of the ledger. Every account over the threshold is listed — nothing is '
+      'truncated.</p>')
 h += ('<table><thead><tr><th>Account</th><th>Category</th><th class="r">%d</th>'
       '<th class="r">Median</th><th class="r">Multiple</th></tr></thead><tbody>') % LATEST
-for x in spikes[:8]:
+for x in spikes:
     h += ('<tr><td>%s <span class="fnt num">%s</span></td><td class="mut">%s %s</td>'
           '<td class="r num">%s</td><td class="r num">%s</td><td class="r num"><b>%.1f&times;</b></td></tr>'
           % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
              money0(x["latest"]), money0(x["med"]), x["ratio"]))
-for x in newcomers[:3]:
+for x in newcomers:
     h += ('<tr><td>%s <span class="fnt num">%s</span><span class="pill">NEW</span></td>'
           '<td class="mut">%s %s</td><td class="r num">%s</td><td class="r num">—</td>'
           '<td class="r num"><b>first year</b></td></tr>'
@@ -271,11 +285,12 @@ h += ('<p class="q"><b>The question:</b> routine onboarding checks only — new 
       'documented award? A payee&rsquo;s first-ever payment being large is the single most routine '
       'audit check there is; the biggest entry here is the Memorial Pool contractor, which is exactly '
       'how it should look.</p>')
-h += ('<table><thead><tr><th>Payee</th><th>First appears</th><th class="r">First-appearance total'
-      '</th></tr></thead><tbody>')
+h += ('<table><thead><tr><th>Payee</th><th>For</th><th>First appears</th>'
+      '<th class="r">First-appearance total</th></tr></thead><tbody>')
 for x in firsts:
-    h += ('<tr><td>%s</td><td class="num mut">%s</td><td class="r num">%s</td></tr>'
-          % (esc(x["name"]), esc(x["doc"]["report_date"]), money0(x["amt"])))
+    h += ('<tr><td>%s</td><td class="mut">%s</td><td class="num mut">%s</td>'
+          '<td class="r num">%s</td></tr>'
+          % (esc(x["name"]), esc(x["ctx"]), esc(x["doc"]["report_date"]), money0(x["amt"])))
 h += '</tbody></table>'
 
 h += ('<p class="note"><b>Method.</b> Generated automatically by '
@@ -295,5 +310,5 @@ with open(path, "w", encoding="utf-8") as f:
 print("wrote %s (%.0f KB) — %d flags: %d scans/dupes, %d catch-alls, %d spikes, "
       "%d new, %d vendor-dupes, %d sprawl, %d first-timers"
       % (path, os.path.getsize(path) / 1024, n_flags,
-         len(scans) + len(W.get("superseded", [])), len(catchalls), len(spikes[:8]),
-         len(newcomers[:3]), len(hygiene), len(sprawl_top), len(firsts)))
+         len(scans) + len(W.get("superseded", [])), len(catchalls), len(spikes),
+         len(newcomers), len(hygiene), len(sprawl_top), len(firsts)))
