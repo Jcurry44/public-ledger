@@ -22,6 +22,7 @@ STEPS = [
     ("build_osc.py", "30 years of OSC revenue/expenditure"),
     ("build_taxrates.py", "overlapping tax rates, nine cities (cached fetch)"),
     ("build_brief.py", "sample council Warrant Brief (brief.html)"),
+    ("build_audit.py", "Exception Report (audit.html)"),
     ("build_site.py", "inline all payloads into index.html"),
 ]
 
