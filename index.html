@@ -1085,7 +1085,7 @@ function subSeriesFor(sec, l1){
 
 /* ---- reusable line chart with crosshair, used inside the modal ---- */
 function renderLine(host, values, opts){
-  opts = opts || {};
+  opts = opts || {};   // opts.marks: anomaly indices · opts.sel: selected index · opts.onPick(i)
   // Size the viewBox to the container. A fixed viewBox scaled into a phone-width
   // modal renders the axis type at ~5px while every DOM assertion still passes.
   var narrow = (host.clientWidth || 760) < 520;
@@ -1117,9 +1117,17 @@ function renderLine(host, values, opts){
   var d=values.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');
   p.push('<path d="'+d+' L'+x(values.length-1).toFixed(1)+' '+(H-mb)+' L'+ml+' '+(H-mb)+' Z" fill="var('+opts.color+')" opacity=".10"/>');
   p.push('<path class="ln" d="'+d+'" stroke="var('+opts.color+')"/>');
+  (opts.marks||[]).forEach(function(i){
+    p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="4" fill="var(--paper)" '+
+      'stroke="var('+opts.color+')" stroke-width="2"><title>'+yrs[i]+' — select to decompose</title></circle>');
+  });
+  if(opts.sel!=null)
+    p.push('<circle cx="'+x(opts.sel).toFixed(1)+'" cy="'+y(values[opts.sel]).toFixed(1)+'" r="5" '+
+      'fill="var('+opts.color+')" stroke="var(--paper)" stroke-width="2"/>');
   p.push('<g class="xh" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
          '<circle class="dot" r="4.5" fill="var('+opts.color+')"/></g>');
-  p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"/>');
+  p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"'+
+         (opts.onPick?' style="cursor:pointer"':'')+'/>');
 
   host.innerHTML='<div class="chartwrap"><svg class="trend" viewBox="0 0 '+W+' '+H+'">'+p.join('')+
     '</svg><div class="tip"></div></div>';
@@ -1142,6 +1150,11 @@ function renderLine(host, values, opts){
     tip.style.top='2px';
   });
   hit.addEventListener('mouseleave',function(){tip.style.opacity=0;tip.style.left='0px';xh.style.opacity=0;});
+  if(opts.onPick) hit.addEventListener('click',function(ev){
+    var r=svg.getBoundingClientRect();
+    var i=Math.round(((ev.clientX-r.left)/r.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
+    opts.onPick(Math.max(0,Math.min(yrs.length-1,i)));
+  });
 }
 
 function sparkSVG(values, color){
@@ -1242,6 +1255,14 @@ function renderTab(tab){
     var i0=0, iN=vals.length-1;
     var firstNonZero=vals.findIndex(function(v){return v>0;});
     if(firstNonZero>0) i0=firstNonZero;
+
+    // the anomalies worth a click: largest year-over-year moves, dollars
+    var moves=[];
+    for(var mi=1; mi<vals.length; mi++)
+      if(O.years[mi]!==O.schemaBreak) moves.push([Math.abs(vals[mi]-vals[mi-1]), mi]);
+    moves.sort(function(a,b){return b[0]-a[0];});
+    var marks=moves.slice(0,3).map(function(m){return m[1];});
+
     body.innerHTML=
       '<div class="mstats">'+
         '<div class="mstat"><div class="k">'+O.years[i0]+'</div><div class="v num">'+money0(vals[i0])+'</div></div>'+
@@ -1250,11 +1271,59 @@ function renderTab(tab){
         '<div class="mstat"><div class="k">Share of '+(sec?'spend':'revenue')+'</div><div class="v num">'+
           share[iN].toFixed(1)+'%</div></div>'+
       '</div>'+
-      '<h4>'+esc(label)+' by year</h4><div id="mLine"></div>'+
+      '<h4>'+esc(label)+' by year — select any year to decompose it</h4><div id="mLine"></div>'+
+      '<div id="mMove"></div>'+
       '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShare"></div>'+
       '<p class="note">Figures either side of '+O.schemaBreak+' sit on different reporting bases '+
       '(marked by the dashed line) and are not strictly comparable.</p>';
-    renderLine(document.getElementById('mLine'), vals, {color:col, name:label});
+
+    function drawMain(sel){
+      renderLine(document.getElementById('mLine'), vals,
+        {color:col, name:label, marks:marks, sel:sel, onPick:function(i){ if(i>0) renderMove(i); }});
+    }
+    function renderMove(i){
+      drawMain(i);
+      var yr=O.years[i], prev=O.years[i-1];
+      var cur={}, was={};
+      flowsFor(yr,sec,label).forEach(function(f){
+        var k=f[FI_NARR]+'|'+f[FI_ACCT];
+        cur[k]=(cur[k]||0)+f[FI_AMT];
+      });
+      flowsFor(prev,sec,label).forEach(function(f){
+        var k=f[FI_NARR]+'|'+f[FI_ACCT];
+        was[k]=(was[k]||0)+f[FI_AMT];
+      });
+      var keys={}; Object.keys(cur).forEach(function(k){keys[k]=1;}); Object.keys(was).forEach(function(k){keys[k]=1;});
+      var rows=Object.keys(keys).map(function(k){
+        var c=cur[k]||0, w=was[k]||0;
+        return {narr:FD.narr[+k.split('|')[0]], acct:k.split('|')[1], cur:c, was:w, d:c-w};
+      }).sort(function(a,b){return Math.abs(b.d)-Math.abs(a.d);});
+      var net=vals[i]-vals[i-1];
+      var top=rows.slice(0,7);
+      var covered=top.reduce(function(s,r){return s+r.d;},0);
+      var h='<h4>What moved in '+yr+' <span style="text-transform:none;letter-spacing:0">— vs '+prev+
+        ', net '+(net>=0?'+':'−')+money0(Math.abs(net))+'</span></h4>';
+      if(yr===O.schemaBreak||prev===O.schemaBreak)
+        h+='<div class="thin" style="background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);'+
+           'border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 12px">This pair straddles the '+
+           O.schemaBreak+' reporting-basis change — part of any move here is definitional.</div>';
+      h+='<table class="mv"><thead><tr><th>Account line</th><th class="r">'+prev+'</th><th class="r">'+yr+
+         '</th><th class="r">Change</th></tr></thead><tbody>'+
+        top.map(function(r){
+          var flag = r.was===0 ? '<span class="flag">NEW</span>' : (r.cur===0 ? '<span class="flag">ENDED</span>' : '');
+          return '<tr><td class="m-name">'+esc(r.narr)+flag+
+            ' <span class="fnt num">'+esc(r.acct)+'</span></td>'+
+            '<td class="r num m-vals">'+money0(r.was)+'</td>'+
+            '<td class="r num m-vals">'+money0(r.cur)+'</td>'+
+            '<td class="r num m-delta '+(r.d>=0?'up':'dn')+'">'+(r.d>=0?'+':'−')+money0(Math.abs(r.d))+'</td></tr>';
+        }).join('')+'</tbody></table>'+
+        '<p class="fnt" style="margin-top:8px">These '+top.length+' account lines explain '+
+        (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+
+        ' of the net move. Accounts beginning H are capital-project funds — one-time outlays, not operating growth.</p>';
+      document.getElementById('mMove').innerHTML=h;
+    }
+    // open pre-answered: the biggest anomaly is already decomposed
+    if(marks.length) renderMove(marks[0]); else drawMain(null);
     renderLine(document.getElementById('mShare'), share, {color:col, name:'Share', pct:true, h:170});
     return;
   }
