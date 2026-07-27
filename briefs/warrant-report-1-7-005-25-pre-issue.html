@@ -64,6 +64,10 @@ tr:last-child td{border-bottom:0}
 .vrow .vt i{display:block;height:100%;background:#c07a24;border-radius:0 4px 4px 0}
 .vrow .vp{grid-column:1/-1;font-size:11px;color:var(--faint);margin-top:-1px}
 .pane[hidden]{display:none}
+details.morex summary{list-style:none;cursor:pointer}
+details.morex summary::-webkit-details-marker{display:none}
+details.morex .hint::after{content:'4 view the list';color:var(--navy);font-weight:600;font-size:11px}
+details.morex[open] .hint::after{content:'4 collapse'}
 .printhead{display:none}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}

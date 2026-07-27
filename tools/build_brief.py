@@ -120,6 +120,10 @@ tr:last-child td{border-bottom:0}
 .vrow .vt i{display:block;height:100%;background:#c07a24;border-radius:0 4px 4px 0}
 .vrow .vp{grid-column:1/-1;font-size:11px;color:var(--faint);margin-top:-1px}
 .pane[hidden]{display:none}
+details.morex summary{list-style:none;cursor:pointer}
+details.morex summary::-webkit-details-marker{display:none}
+details.morex .hint::after{content:'\2014 view the list';color:var(--navy);font-weight:600;font-size:11px}
+details.morex[open] .hint::after{content:'\2014 collapse'}
 .printhead{display:none}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}
@@ -271,11 +275,22 @@ def generate(idx):
                          '<span class="vp num">%.0f%% of this warrant</span></div>'
                          % (esc(dept_label(k)), k, money0(v), v / mx6 * 100, v / total * 100))
     if rest > 0:
-        rows_html.append('<div class="vrow"><span class="vl" style="color:var(--muted)">All other (%d departments)</span>'
-                         '<span class="vv num" style="color:var(--muted)">%s</span>'
-                         '<span class="vt"><i style="width:%.1f%%;background:#c6bfb0"></i></span>'
-                         '<span class="vp num">%.0f%% of this warrant</span></div>'
-                         % (len(by_dept) - 6, money0(rest), rest / mx6 * 100, rest / total * 100))
+        # 'All other' opens: a native details listing every remaining
+        # department, so the grouping is a summary, not a cap.
+        head_row = ('<div class="vrow"><span class="vl" style="color:var(--muted)">All other (%d departments) '
+                    '<span class="hint"></span></span>'
+                    '<span class="vv num" style="color:var(--muted)">%s</span>'
+                    '<span class="vt"><i style="width:%.1f%%;background:#c6bfb0"></i></span>'
+                    '<span class="vp num">%.0f%% of this warrant</span></div>'
+                    % (len(by_dept) - 6, money0(rest), rest / mx6 * 100, rest / total * 100))
+        tail_rows = "".join(
+            '<div class="vrow"><span class="vl" style="color:var(--muted)">%s <span class="fnt num">%s</span></span>'
+            '<span class="vv num" style="color:var(--muted)">%s</span>'
+            '<span class="vt"><i style="width:%.1f%%;background:#c6bfb0"></i></span></div>'
+            % (esc(dept_label(k)), k, money0(v), max(v / mx6 * 100, 0.5))
+            for k, v in by_dept[6:])
+        rows_html.append('<details class="morex"><summary>%s</summary>%s</details>'
+                         % (head_row, tail_rows))
     viz2 = '<div class="viz"><h2>Where this warrant goes</h2>' + "".join(rows_html) + '</div>'
 
     # ---- prose ----

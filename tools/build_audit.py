@@ -118,8 +118,7 @@ for i, d in enumerate(docs):
                                                   "Dept " + r["fund"] + "-" + r["dept"])
                 ctx[key] += r["amount"]
             top_ctx = sorted(ctx.items(), key=lambda x: -x[1])
-            label = top_ctx[0][0] + (" (+%d more)" % (len(top_ctx) - 1) if len(top_ctx) > 1 else "")
-            firsts.append({"name": name, "amt": amt, "doc": d, "ctx": label})
+            firsts.append({"name": name, "amt": amt, "doc": d, "ctx": top_ctx})
     for r in d["rows"]:
         seen.add(r["vendor_name"])
 firsts.sort(key=lambda x: -x["amt"])
@@ -176,6 +175,13 @@ tr:last-child td{border-bottom:0}
 .note{font-size:11.5px;color:var(--faint);border-top:1px solid var(--rule);margin-top:26px;padding-top:10px}
 .tw{overflow-x:auto}
 .tw table{min-width:520px}
+details.morex summary{list-style:none;cursor:pointer}
+details.morex summary::-webkit-details-marker{display:none}
+.mx{color:var(--navy);font-weight:600;font-size:11.5px;white-space:nowrap}
+details.morex[open] .mx{display:none}
+.ctxrow{display:flex;justify-content:space-between;gap:12px;font-size:12px;
+  padding:3px 0;border-bottom:1px solid var(--rule)}
+.ctxrow:last-child{border-bottom:0}
 @media print{html{border-top:0;background:#fff}body{background:#fff}
   .page{padding:0;margin:0;max-width:none;box-shadow:none;border-radius:0}
   a{color:inherit;text-decoration:none}.toolbar{display:none}}
@@ -290,9 +296,18 @@ h += ('<p class="q"><b>The question:</b> routine onboarding checks only — new 
 h += ('<table><thead><tr><th>Payee</th><th>For</th><th>First appears</th>'
       '<th class="r">First-appearance total</th></tr></thead><tbody>')
 for x in firsts:
+    # '+N more' opens: a native details with every context and its dollars,
+    # so the compact label is a summary, not a cap.
+    if len(x["ctx"]) > 1:
+        cell = ('<details class="morex"><summary>%s <span class="mx">+%d more</span></summary>%s</details>'
+                % (esc(x["ctx"][0][0]), len(x["ctx"]) - 1,
+                   "".join('<div class="ctxrow"><span>%s</span><span class="num">%s</span></div>'
+                           % (esc(k), money0(v)) for k, v in x["ctx"])))
+    else:
+        cell = esc(x["ctx"][0][0])
     h += ('<tr><td>%s</td><td class="mut">%s</td><td class="num mut">%s</td>'
           '<td class="r num">%s</td></tr>'
-          % (esc(x["name"]), esc(x["ctx"]), esc(x["doc"]["report_date"]), money0(x["amt"])))
+          % (esc(x["name"]), cell, esc(x["doc"]["report_date"]), money0(x["amt"])))
 h += '</tbody></table>'
 
 h += ('<p class="note"><b>Method.</b> Generated automatically by '

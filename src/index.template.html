@@ -236,6 +236,15 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .rk.can:hover .lb::after{opacity:1}
 .rk:focus-visible,tr.doc-row:focus-visible,tr[data-acct]:focus-visible{
   outline:2px solid var(--accent);outline-offset:1px}
+.rk .see{color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap}
+.rk[data-other]:hover{background:var(--accent-soft);border-radius:6px;margin:0 -7px;padding:3px 7px}
+.tailx{margin:2px 0 10px}
+.tailx summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;
+  list-style:none;display:inline-block;padding:2px 0}
+.tailx summary::-webkit-details-marker{display:none}
+.tailx summary::before{content:'\25B8';margin-right:6px;display:inline-block;transition:transform .12s}
+.tailx[open] summary::before{transform:rotate(90deg)}
+.tailx summary:hover{text-decoration:underline}
 
 /* ---------- modal ---------- */
 .modal[hidden]{display:none}
@@ -579,11 +588,13 @@ footer p{margin:0 0 7px;max-width:80ch}
         <h3>Revenue <span class="tot num" id="revTot" style="color:var(--rev)"></span></h3>
         <div class="sub" id="revSub"></div>
         <div class="rank" id="revRank"></div>
+        <div style="margin-top:12px"><button class="pill" id="revMore" type="button" hidden></button></div>
       </div>
       <div class="panel">
         <h3>Expenditure <span class="tot num" id="expTot" style="color:var(--exp)"></span></h3>
         <div class="sub" id="expSub"></div>
         <div class="rank" id="expRank"></div>
+        <div style="margin-top:12px"><button class="pill" id="expMore" type="button" hidden></button></div>
       </div>
     </div>
 
@@ -1036,6 +1047,11 @@ function shareBar(items, total){
     return '<span'+(p.mut?' style="color:var(--muted)"':'')+'><b style="background:'+p.css+'"></b>'+
       esc(p.label)+' <span class="num">'+money0(p.v)+' · '+(p.v/total*100).toFixed(1)+'%</span></span>';
   }).join('')+'</div>';
+  // 'All other' stays openable: a native details, so it needs no wiring even
+  // inside modal bodies that are re-rendered wholesale.
+  if(tv>0)
+    h+='<details class="tailx"><summary>See the '+tail.length+' grouped as “All other”</summary>'+
+       miniBars(tail,total)+'</details>';
   return h;
 }
 function miniBars(items, total, cssVar){
@@ -1201,7 +1217,7 @@ function pctChange(a,b){
   return (p>=0?'+':'') + p.toFixed(0) + '%';
 }
 
-function renderRank(el, items, cssVar, total, onClick, expand){
+function renderRank(el, items, cssVar, total, onClick, expand, onOther){
   var max = items.reduce(function(m,x){return Math.max(m,x[1]);},0);
   el.innerHTML = items.map(function(x,i){
     var pct = total? (x[1]/total*100):0;
@@ -1212,12 +1228,15 @@ function renderRank(el, items, cssVar, total, onClick, expand){
     var fill = isOther ? 'var(--rule-strong)' : 'var('+cssVar+')';
     var clickable = onClick && !isOther;
     var drillable = expand && !isOther;
-    var interactive = clickable || drillable;
+    var otherable = isOther && onOther;
+    var interactive = clickable || drillable || otherable;
     return '<div class="rk'+(drillable?' can':'')+'"'+
         (clickable?' data-rank="'+i+'" style="cursor:pointer"':'')+
         (drillable?' data-exp="'+i+'"':'')+
+        (otherable?' data-other="1" style="cursor:pointer"':'')+
         (interactive?' role="button" tabindex="0"':'')+'>'+
-      '<span class="lb"'+(isOther?' style="color:var(--muted)"':'')+'>'+esc(x[0])+'</span>'+
+      '<span class="lb"'+(isOther?' style="color:var(--muted)"':'')+'>'+esc(x[0])+
+        (otherable?' <span class="see">— view all</span>':'')+'</span>'+
       '<span class="vl num"'+(isOther?' style="color:var(--muted)"':'')+'>'+money0(x[1])+'</span>'+
       '<span class="tr"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:'+fill+'"></i></span>'+
       '<span class="pc num">'+pct.toFixed(1)+'% of total</span>'+
@@ -1228,6 +1247,8 @@ function renderRank(el, items, cssVar, total, onClick, expand){
   if(!el.__wired){
     el.__wired = true;
     el.addEventListener('click', function(e){
+      var o = e.target.closest('[data-other]');
+      if(o && el.__other){ el.__other(o); return; }
       var d = e.target.closest('[data-exp]');
       if(d && el.__expand){
         el.__expand(el.__items[+d.getAttribute('data-exp')], d);
@@ -1237,7 +1258,7 @@ function renderRank(el, items, cssVar, total, onClick, expand){
       if(t && el.__click) el.__click(el.__items[+t.getAttribute('data-rank')]);
     });
   }
-  el.__items = items; el.__click = onClick; el.__expand = expand;
+  el.__items = items; el.__click = onClick; el.__expand = expand; el.__other = onOther;
 }
 
 /* ---- category modal: breakdown / trend / composition ---- */
@@ -1266,6 +1287,28 @@ function closeModal(){
   document.getElementById('modal').hidden=true;
   document.body.style.overflow='';
   if(MODAL.opener && MODAL.opener.focus) MODAL.opener.focus();
+}
+/* Complete-list popup behind every 'All other' facet row: same modal shell,
+   no tabs, every entry shown and pickable. */
+function openListModal(title, items, total, onPick, opener){
+  MODAL.kind='list'; MODAL.opener=opener||null;
+  MODAL.pickItems=items; MODAL.onPick=onPick;
+  document.getElementById('mTabs').innerHTML='';
+  document.getElementById('mEyebrow').textContent='Current selection · complete list';
+  document.getElementById('mTitle').textContent=title;
+  document.getElementById('mBig').innerHTML='<span class="num">'+money0(total)+'</span> '+
+    '<span>'+items.length.toLocaleString('en-US')+' entries — nothing grouped, select one to filter</span>';
+  var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1;
+  document.getElementById('mBody').innerHTML='<div class="rank">'+items.map(function(x,i){
+    return '<div class="rk can" data-pick="'+i+'" role="button" tabindex="0">'+
+      '<span class="lb"><span class="fnt num">'+(i+1)+'.</span> '+esc(x[0])+'</span>'+
+      '<span class="vl num">'+money0(x[1])+'</span>'+
+      '<span class="tr"><i style="width:'+Math.max(x[1]/max*100,0.4).toFixed(2)+'%;background:var(--exp)"></i></span>'+
+      '<span class="pc num">'+(total?(x[1]/total*100).toFixed(1):'0')+'% of selection</span></div>';
+  }).join('')+'</div>';
+  document.getElementById('modal').hidden=false;
+  document.body.style.overflow='hidden';
+  document.querySelector('#modal .xbtn').focus();
 }
 function renderTab(tab){
   MODAL.tab=tab;
@@ -1540,6 +1583,11 @@ function acctHistory(tr){
 }
 (function(){
   document.getElementById('mBody').addEventListener('click',function(e){
+    var p=e.target.closest('[data-pick]');
+    if(p && MODAL.kind==='list' && MODAL.onPick){
+      MODAL.onPick(MODAL.pickItems[+p.getAttribute('data-pick')]);
+      return;
+    }
     var tr=e.target.closest('tr[data-acct]');
     if(tr) acctHistory(tr);
   });
@@ -1834,6 +1882,16 @@ function renderCompare(){
 /* year pills drive both panels and the marker on the trend line */
 var selYear = O.latest;
 
+/* The payload carries EVERY category; the top-8 + 'All other' grouping happens
+   here so the reader can always open it - a build-time tail would be a silent
+   cap. Expanded rows stay fully drillable (they are real filing categories). */
+var RANK_TOP = 8, rankOpen = {rev:false, exp:false};
+function groupRank(list, open){
+  if(open || list.length <= RANK_TOP+1) return list;
+  var head = list.slice(0, RANK_TOP), tv = 0;
+  for(var i=RANK_TOP; i<list.length; i++) tv += list[i][1];
+  return head.concat([['All other ('+(list.length-RANK_TOP)+' categories)', tv]]);
+}
 function renderYear(yr){
   selYear = yr;
   var rc = O.revByYear[String(yr)] || [], ec = O.expByYear[String(yr)] || [];
@@ -1844,10 +1902,21 @@ function renderYear(yr){
   var basis = yr < O.schemaBreak ? ' · pre-' + O.schemaBreak + ' reporting basis' : '';
   document.getElementById('revSub').textContent = yr + ' filing · ' + rc.length + ' categories' + basis;
   document.getElementById('expSub').textContent = yr + ' filing · ' + ec.length + ' categories' + basis;
-  renderRank(document.getElementById('revRank'), rc, '--rev', rt, null,
-    function(item, node){ openModal(selYear, 0, item[0], '--rev', node); });
-  renderRank(document.getElementById('expRank'), ec, '--exp', et, null,
-    function(item, node){ openModal(selYear, 1, item[0], '--exp', node); });
+  [['revRank','revMore','rev',rc,'--rev',rt,0],
+   ['expRank','expMore','exp',ec,'--exp',et,1]].forEach(function(cfg){
+    var el=document.getElementById(cfg[0]), btn=document.getElementById(cfg[1]);
+    var key=cfg[2], list=cfg[3], col=cfg[4], tot=cfg[5], sec=cfg[6];
+    function toggle(){ rankOpen[key]=!rankOpen[key]; renderYear(selYear); }
+    renderRank(el, groupRank(list, rankOpen[key]), col, tot, null,
+      function(item, node){ openModal(selYear, sec, item[0], col, node); },
+      toggle);
+    if(list.length > RANK_TOP+1){
+      btn.hidden=false;
+      btn.textContent = rankOpen[key] ? 'Show the top '+RANK_TOP
+        : 'Show all '+list.length+' categories';
+      if(!btn.__wired){ btn.__wired=true; btn.addEventListener('click', toggle); }
+    } else btn.hidden=true;
+  });
   [].forEach.call(document.querySelectorAll('.yp'), function(b){
     var on = +b.dataset.year === yr;
     b.classList.toggle('on', on);
@@ -2307,15 +2376,27 @@ function renderSummary(rows){
     bb.hidden=false;
   } else bb.hidden=true;
 
+  // 'All other' on a facet opens the COMPLETE ranked list in a popup; picking a
+  // row there applies the same filter its top-7 sibling would. keyFns are kept
+  // so the full list is computed at click time against the live selection.
+  var kPay=function(r){return V[r[I_VEN]];};
+  var kDept=function(r){var k=deptOf(A[r[I_ACC]]);return (D.depts[k]||('Dept '+k))+'  '+k;};
+  var kFund=function(r){var f=fundOf(A[r[I_ACC]]);return (D.fundNames[f]||('Fund '+f))+'  '+f;};
+  var pickPay=function(item){ closeModal(); setSearch(item[0]); };
+  var pickDept=function(item){ closeModal(); setSearch(item[0].split('  ').pop()); };
+  var pickFund=function(item){ closeModal(); state.fund=item[0].split('  ').pop(); fFund.value=state.fund; renderRows(); };
   renderRank(document.getElementById('fPayee'),
-    topBy(rows,function(r){return V[r[I_VEN]];},7),'--exp',sum,
-    function(item){ if(item[2]!==null) setSearch(item[0]); });
+    topBy(rows,kPay,7),'--exp',sum,
+    function(item){ if(item[2]!==null) setSearch(item[0]); },null,
+    function(node){ openListModal('Every payee in this selection', topBy(rows,kPay), sum, pickPay, node); });
   renderRank(document.getElementById('fDept'),
-    topBy(rows,function(r){var k=deptOf(A[r[I_ACC]]);return (D.depts[k]||('Dept '+k))+'  '+k;},7),'--exp',sum,
-    function(item){ if(item[2]!==null) setSearch(item[0].split('  ').pop()); });
+    topBy(rows,kDept,7),'--exp',sum,
+    function(item){ if(item[2]!==null) setSearch(item[0].split('  ').pop()); },null,
+    function(node){ openListModal('Every department in this selection', topBy(rows,kDept), sum, pickDept, node); });
   renderRank(document.getElementById('fFundR'),
-    topBy(rows,function(r){var f=fundOf(A[r[I_ACC]]);return (D.fundNames[f]||('Fund '+f))+'  '+f;},7),'--exp',sum,
-    function(item){ if(item[2]!==null){ state.fund=item[0].split('  ').pop(); fFund.value=state.fund; renderRows(); } });
+    topBy(rows,kFund,7),'--exp',sum,
+    function(item){ if(item[2]!==null){ state.fund=item[0].split('  ').pop(); fFund.value=state.fund; renderRows(); } },null,
+    function(node){ openListModal('Every fund in this selection', topBy(rows,kFund), sum, pickFund, node); });
 }
 
 function setSearch(v){
@@ -2519,7 +2600,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
    button - ranked rows, tie-out rows, account-history rows. */
 document.addEventListener('keydown',function(e){
   if(e.key!=='Enter' && e.key!==' ') return;
-  var t=e.target.closest('[data-rank],[data-exp],[data-acct],tr.doc-row:not(.scan)');
+  var t=e.target.closest('[data-rank],[data-exp],[data-acct],[data-other],[data-pick],tr.doc-row:not(.scan)');
   if(!t || t.tagName==='BUTTON' || t.tagName==='A') return;
   e.preventDefault();
   t.click();

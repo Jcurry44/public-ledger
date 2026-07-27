@@ -129,13 +129,12 @@ for y in yrs:
         % (y, series[y]["rev"], series[y]["exp"])
 
 
-def top_cats(sec, yr, n=8):
+def all_cats(sec, yr):
+    """The FULL ranked category list. The page does the top-8 + 'All other'
+    grouping itself, so 'All other' stays expandable - a tail summed here at
+    build time would be a silent cap the reader could never open."""
     d = sorted(cats[sec][yr].items(), key=lambda x: -x[1])
-    head = [[title_label(k), v] for k, v in d[:n]]
-    tail = sum(v for _, v in d[n:])
-    if tail > 0:
-        head.append(["All other", round(tail, 2)])
-    return head
+    return [[title_label(k), v] for k, v in d]
 
 
 # ---- peer cities, latest year ------------------------------------------------
@@ -192,12 +191,10 @@ out = {
     "rev": [series[y]["rev"] for y in yrs],
     "exp": [series[y]["exp"] for y in yrs],
     "latest": latest,
-    "revCats": top_cats("REVENUE", latest),
-    "expCats": top_cats("EXPENDITURE", latest),
-    # Every year's category split, so the panels can be filtered by year rather
-    # than frozen at the latest filing.
-    "revByYear": {str(y): top_cats("REVENUE", y) for y in yrs},
-    "expByYear": {str(y): top_cats("EXPENDITURE", y) for y in yrs},
+    # Every year's FULL category split, so the panels can be filtered by year
+    # and the 'All other' grouping can always be opened.
+    "revByYear": {str(y): all_cats("REVENUE", y) for y in yrs},
+    "expByYear": {str(y): all_cats("EXPENDITURE", y) for y in yrs},
     "dict": dicts,
     "flows": flows,
     "source": "https://www.osc.ny.gov/local-government/data",
@@ -215,10 +212,10 @@ print("latest %d:  revenue $%s   expenditure $%s   net $%s" % (
     latest, "{:,.0f}".format(series[latest]["rev"]),
     "{:,.0f}".format(series[latest]["exp"]),
     "{:,.0f}".format(series[latest]["rev"] - series[latest]["exp"])))
-print("\nrevenue categories %d:" % latest)
-for k, v in out["revCats"]:
+print("\nrevenue categories %d (%d):" % (latest, len(out["revByYear"][str(latest)])))
+for k, v in out["revByYear"][str(latest)][:10]:
     print("   %-42s %14s" % (k[:42], "{:,.0f}".format(v)))
-print("\nexpenditure categories %d:" % latest)
-for k, v in out["expCats"]:
+print("\nexpenditure categories %d (%d):" % (latest, len(out["expByYear"][str(latest)])))
+for k, v in out["expByYear"][str(latest)][:10]:
     print("   %-42s %14s" % (k[:42], "{:,.0f}".format(v)))
 print("\nwrote %s (%.0f KB)" % (path, os.path.getsize(path) / 1024))
