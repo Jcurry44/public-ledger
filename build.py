@@ -21,6 +21,7 @@ STEPS = [
     ("build_site_data.py", "compact register JSON"),
     ("build_osc.py", "30 years of OSC revenue/expenditure"),
     ("build_taxrates.py", "overlapping tax rates, nine cities (cached fetch)"),
+    ("build_brief.py", "sample council Warrant Brief (brief.html)"),
     ("build_site.py", "inline all payloads into index.html"),
 ]
 
