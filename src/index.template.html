@@ -376,6 +376,9 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .tb-part .n{font-size:12px;color:var(--muted)}
 .tb-h4{margin:22px 0 3px;font:600 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .tb-per{font-size:13px;color:var(--muted);margin-top:6px}
+.sharelegend{display:flex;gap:7px 20px;flex-wrap:wrap;font-size:12.5px;margin:0 0 6px}
+.sharelegend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.sharelegend .num{color:var(--muted)}
 .cmpbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .cmpbar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .swing{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
@@ -971,6 +974,24 @@ function sumBy(rows, dictKey, idx){
   rows.forEach(function(f){ var k=FD[dictKey][f[idx]]; m[k]=(m[k]||0)+f[FI_AMT]; });
   return Object.keys(m).map(function(k){return [k,m[k]];}).sort(function(a,b){return b[1]-a[1];});
 }
+/* Part-to-whole as a stacked strip - the tax calculator's visual language.
+   Max four segments (top three + a muted remainder): angles are for clocks,
+   lengths are for money. */
+var SHARE_COLORS=['--sch','--cty','--cnt'];
+function shareBar(items, total){
+  var head=items.slice(0,3), tail=items.slice(3);
+  var parts=head.map(function(x,i){return {label:x[0], v:x[1], css:'var('+SHARE_COLORS[i]+')'};});
+  var tv=tail.reduce(function(s,x){return s+x[1];},0);
+  if(tv>0) parts.push({label:'All other ('+tail.length+')', v:tv, css:'#c6bfb0', mut:1});
+  var h='<div class="tb-bar" style="height:26px;margin:6px 0 10px">'+parts.map(function(p){
+    return '<i style="width:'+(p.v/total*100).toFixed(2)+'%;background:'+p.css+'" title="'+
+      esc(p.label)+' — '+money0(p.v)+' ('+(p.v/total*100).toFixed(1)+'%)"></i>';}).join('')+'</div>';
+  h+='<div class="sharelegend">'+parts.map(function(p){
+    return '<span'+(p.mut?' style="color:var(--muted)"':'')+'><b style="background:'+p.css+'"></b>'+
+      esc(p.label)+' <span class="num">'+money0(p.v)+' · '+(p.v/total*100).toFixed(1)+'%</span></span>';
+  }).join('')+'</div>';
+  return h;
+}
 function miniBars(items, total, cssVar){
   var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1;
   return '<div class="sub">'+items.map(function(x){
@@ -989,7 +1010,7 @@ function drillHTML(year, sec, label, cssVar){
   if(l2.length>1 || (l2.length===1 && l2[0][0]!==label))
     h+='<h4>Within '+esc(label)+'</h4>'+miniBars(l2,total,cssVar);
   if(obj.length>1)
-    h+='<h4>By type of spending</h4>'+miniBars(obj,total,cssVar);
+    h+='<h4>By type of spending</h4>'+shareBar(obj,total);
   // Revenue rows carry no object of expenditure - drop the column rather than
   // printing a wall of 'Unclassified'.
   var showObj = obj.length>1 || (obj.length===1 && obj[0][0]!=='Unclassified');
@@ -1252,7 +1273,7 @@ function renderProjectTab(tab, body){
 
     var narrow=(body.clientWidth||760)<520;
     var W=narrow?380:760, bw=narrow?5:7, fs=narrow?12:11;
-    var ml=narrow?8:10, mr=narrow?46:56;
+    var ml=narrow?8:10, mr=narrow?10:14;
     var t0=Math.min.apply(null,dated.map(function(x){return x.t;}))-12*864e5;
     var t1=Math.max.apply(null,dated.map(function(x){return x.t;}))+12*864e5;
     var x=function(t){return ml+(W-ml-mr)*(t-t0)/(t1-t0);};
@@ -1273,10 +1294,13 @@ function renderProjectTab(tab, body){
       var cx=(x(Math.max(js,t0))+x(Math.min(je,t1)))/2;
       svg.push('<text class="ax" x="'+cx.toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" '+
                'style="font-weight:700;letter-spacing:.08em">'+yy+'</text>');
+      // quarter labels yield to the year label - 'Apr' printed through '2026'
+      // whenever a year's visible span centred on spring
       if(!narrow) [3,6,9].forEach(function(m){
         var qt=new Date(yy,m,1).getTime();
-        if(qt>t0&&qt<t1) svg.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-7)+
-          '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
+        if(qt>t0&&qt<t1 && Math.abs(x(qt)-cx)>=30)
+          svg.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-7)+
+            '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
       });
     }
 
@@ -1289,8 +1313,8 @@ function renderProjectTab(tab, body){
         esc(v.d.f.replace(/\.pdf$/i,''))+' — '+money(v.sum)+' across '+v.n+' line'+(v.n===1?'':'s')+
         '</title></rect>');
     });
-    svg.push('<text class="ax" x="'+(W-mr+7)+'" y="'+(TOP-Math.max(maxW/maxW*(TOP-14),3)+fs/2).toFixed(1)+
-      '" fill="var(--exp)" style="font-weight:600">'+(narrow?'':'largest ')+money0(maxW)+'</text>');
+    svg.push('<text class="ax" x="'+ml+'" y="'+(fs+1)+'" fill="var(--exp)" style="font-weight:600">'+
+      (narrow?'':'largest ')+money0(maxW)+'</text>');
 
     // bottom band: running total as a step area
     var yB0=TOP+GAP, run=0, pts=['M'+ml+' '+(yB0+BOT)];
@@ -1304,7 +1328,7 @@ function renderProjectTab(tab, body){
     svg.push('<path d="'+pts.join(' ')+' L'+lastX+' '+(yB0+BOT)+' Z" fill="var(--exp)" opacity=".13"/>');
     svg.push('<path d="'+pts.join(' ')+'" fill="none" stroke="var(--exp)" stroke-width="2"/>');
     svg.push('<line class="gl" x1="'+ml+'" y1="'+(yB0+BOT)+'" x2="'+(W-mr)+'" y2="'+(yB0+BOT)+'"/>');
-    svg.push('<text class="ax" x="'+(W-mr+7)+'" y="'+(yB0+10)+'" fill="var(--exp)" style="font-weight:600">'+money0(total)+'</text>');
+    svg.push('<text class="ax" x="'+ml+'" y="'+(yB0+fs+1)+'" fill="var(--exp)" style="font-weight:600">'+money0(total)+' total</text>');
     svg.push('<text class="ax" x="'+ml+'" y="'+(TOP+16)+'" style="opacity:.7">Approved per warrant '+
              '<tspan dx="14" style="opacity:.8">·</tspan><tspan dx="14">running total below</tspan></text>');
     svg.push('</svg>');
@@ -1327,7 +1351,8 @@ function renderProjectTab(tab, body){
   if(tab==='vendors'){
     var vs=Object.keys(p.ven).map(function(k){return [k,p.ven[k]];})
       .sort(function(a,b){return b[1]-a[1];});
-    body.innerHTML='<h4>'+vs.length+' contractor'+(vs.length===1?'':'s')+' paid on this project</h4>'+
+    body.innerHTML='<h4>Share of the project</h4>'+shareBar(vs,p.amt)+
+      '<h4>'+vs.length+' contractor'+(vs.length===1?'':'s')+' paid on this project</h4>'+
       miniBars(vs, p.amt, '--exp')+
       '<p class="note">Payees as printed in the source documents. Being listed here means a claim was '+
       'approved, nothing more.</p>';
@@ -2078,8 +2103,9 @@ function renderSummary(rows){
              'style="font-weight:700;letter-spacing:.08em">'+yy+'</text>');
       if(!narrow) [3,6,9].forEach(function(m){
         var qt=new Date(yy,m,1).getTime();
-        if(qt>t0&&qt<t1) p.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-6)+
-          '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
+        if(qt>t0&&qt<t1 && Math.abs(x(qt)-cx)>=30)
+          p.push('<text class="ax" x="'+x(qt).toFixed(1)+'" y="'+(H-6)+
+            '" text-anchor="middle" style="opacity:.55">'+['Apr','Jul','Oct'][m/3-1]+'</text>');
       });
     }
     p.push('<line class="gl" x1="'+ml+'" y1="'+(H-AX)+'" x2="'+(W-mr)+'" y2="'+(H-AX)+'"/>');
