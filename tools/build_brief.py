@@ -169,6 +169,15 @@ tr:last-child td{border-bottom:0}
 .tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .lead p{font-size:14.5px;line-height:1.65;margin:0 0 12px;max-width:72ch}
 .lead b{font-weight:600}
+.viz{margin:0 0 6px}
+.viz svg{display:block;width:100%%;height:auto}
+.viz .cap{font-size:12px;color:var(--muted);margin:4px 0 0}
+.vrow{display:grid;grid-template-columns:1fr auto;gap:2px 12px;margin:0 0 9px}
+.vrow .vl{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vrow .vv{font-size:12.5px;font-weight:600}
+.vrow .vt{grid-column:1/-1;height:9px;background:#eae6dc;border-radius:2px;overflow:hidden}
+.vrow .vt i{display:block;height:100%%;background:#c07a24;border-radius:0 4px 4px 0}
+.vrow .vp{grid-column:1/-1;font-size:11px;color:var(--faint);margin-top:-1px}
 .pane[hidden]{display:none}
 .printhead{display:none}
 @media print{body{background:#fff}.page{padding:0;max-width:none}a{color:inherit;text-decoration:none}
@@ -199,12 +208,79 @@ top_proj = ACCT_PROJ.get(top["account"], "")
 top_new = top["vendor_name"] in dict(new_v)
 share = top["amount"] / total
 cap_flags = sum(1 for k, v, m, ratio in flags if ACCT_PROJ.get(driver[k]["account"], ""))
+# ---- visual 1: this warrant against every warrant on record ----
+import datetime as _dt
+
+def _t(d):
+    return _dt.datetime(int(d[6:10]), int(d[0:2]), int(d[3:5])).timestamp()
+
+dated = [(x, _t(x["report_date"]), sum(r["amount"] for r in x["rows"])) for x in docs]
+totals_sorted = sorted((v for _, _, v in dated), reverse=True)
+rank = totals_sorted.index(total) + 1
+ORD = {1: "the largest", 2: "the 2nd-largest", 3: "the 3rd-largest"}
+rank_txt = ORD.get(rank, "the %dth-largest" % rank)
+
+W, H, AX, ml, mr = 740, 86, 22, 6, 6
+t0 = min(t for _, t, _ in dated) - 10 * 86400
+t1 = max(t for _, t, _ in dated) + 10 * 86400
+mx = max(v for _, _, v in dated)
+
+
+def _x(t):
+    return ml + (W - ml - mr) * (t - t0) / (t1 - t0)
+
+
+svg = ['<svg viewBox="0 0 %d %d" fill="none">' % (W, H + AX)]
+for yy in (2025, 2026):
+    js = _dt.datetime(yy, 1, 1).timestamp()
+    je = _dt.datetime(yy + 1, 1, 1).timestamp()
+    if js > t0:
+        svg.append('<line x1="%.1f" y1="0" x2="%.1f" y2="%d" stroke="#cdc6b7" stroke-dasharray="3 3"/>'
+                   % (_x(js), _x(js), H + 4))
+    cx = (_x(max(js, t0)) + _x(min(je, t1))) / 2
+    svg.append('<text x="%.1f" y="%d" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" '
+               'font-size="11" font-weight="700" letter-spacing=".08em" fill="#93979f">%d</text>'
+               % (cx, H + AX - 6, yy))
+ymed = H - (med / mx) * (H - 10)
+svg.append('<line x1="%d" y1="%.1f" x2="%d" y2="%.1f" stroke="#93979f" stroke-dasharray="2 3"/>'
+           % (ml, ymed, W - mr, ymed))
+svg.append('<text x="%d" y="%.1f" font-size="10" font-family="ui-monospace,Menlo,monospace" '
+           'fill="#93979f">median</text>' % (ml + 2, ymed - 4))
+for x_, t, v in dated:
+    h = max(v / mx * (H - 10), 3)
+    is_this = x_ is latest
+    svg.append('<rect x="%.1f" y="%.1f" width="6" height="%.1f" rx="2" fill="%s"/>'
+               % (_x(t) - 3, H - h, h, "#1b3a5c" if is_this else "#c6bfb0"))
+svg.append('<line x1="%d" y1="%d" x2="%d" y2="%d" stroke="#cdc6b7"/>' % (ml, H, W - mr, H))
+svg.append('</svg>')
+viz_timeline = ('<div class="viz"><h2>Against every warrant on record</h2>' + "".join(svg) +
+                '<p class="cap">This warrant (navy) is <b>' + rank_txt + '</b> of the %d on record — '
+                % len(docs) + '%.1f&times; the median meeting.</p></div>' % (total / med))
+
+# ---- visual 2: where this warrant goes ----
+by_dept_here = sorted(cur.items(), key=lambda kv: -kv[1])
+top6 = by_dept_here[:6]
+rest = sum(v for _, v in by_dept_here[6:])
+mx6 = top6[0][1]
+rows_html = []
+for k, v in top6:
+    rows_html.append('<div class="vrow"><span class="vl">%s <span class="fnt num">%s</span></span>'
+                     '<span class="vv num">%s</span>'
+                     '<span class="vt"><i style="width:%.1f%%"></i></span>'
+                     '<span class="vp num">%.0f%% of this warrant</span></div>'
+                     % (esc(dept_label(k)), k, money0(v), v / mx6 * 100, v / total * 100))
+rows_html.append('<div class="vrow"><span class="vl" style="color:var(--muted)">All other (%d departments)</span>'
+                 '<span class="vv num" style="color:var(--muted)">%s</span>'
+                 '<span class="vt"><i style="width:%.1f%%;background:#c6bfb0"></i></span>'
+                 '<span class="vp num">%.0f%% of this warrant</span></div>'
+                 % (len(by_dept_here) - 6, money0(rest), rest / mx6 * 100, rest / total * 100))
+viz_goes = '<div class="viz"><h2>Where this warrant goes</h2>' + "".join(rows_html) + '</div>'
+
 lead = '<div class="lead">'
-lead += ("<p>The council is asked to approve <b class=\"num\">%s</b> across %d lines — "
-         "<b>%.1f&times; a typical meeting</b> (median %s).</p>"
-         % (money(total), len(latest["rows"]), total / med, money0(med)))
-lead += ("<p>%s of it is a single line: <b class=\"num\">%s</b> to <b>%s</b>%s%s (%s).</p>"
-         % ("Over a third" if share > 1 / 3 else "The largest line is",
+lead += viz_timeline + viz_goes
+lead += '<h2>In plain words</h2>'
+lead += ("<p>%s is a single line: <b class=\"num\">%s</b> to <b>%s</b>%s%s (%s).</p>"
+         % ("Over a third of this warrant" if share > 1 / 3 else "The largest line",
             money(top["amount"]), esc(top["vendor_name"]),
             " for the " + esc(top_proj) if top_proj else "",
             " — a payee appearing for the first time in the %d-warrant record" % len(docs) if top_new else "",
