@@ -120,6 +120,8 @@ for doc in d["docs"]:
         "d": doc["report_date"],
         "year": doc.get("year"),
         "isScan": False,
+        # per-warrant council brief slug; tools/build_brief.py mirrors this rule
+        "brief": re.sub(r"[^a-z0-9]+", "-", doc["file"].lower().replace(".pdf", "")).strip("-"),
         "u": SRC_BY_YEAR.get(doc.get("year"), SRC) + urllib.parse.quote(doc["file"]),
         "range": doc["po_range"],
         "ctl": doc["control_total"],

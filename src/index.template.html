@@ -897,6 +897,7 @@ D.docs.forEach(function(doc,i){
     '<div style="margin-top:10px;font-size:12.5px;color:var(--muted)">'+
       'P.O. range '+esc(doc.range||'—')+
       ' · <a href="'+esc(doc.u)+'" target="_blank" rel="noopener">open source PDF</a>'+
+      ' · <a href="briefs/'+esc(doc.brief)+'.html"><b>council brief</b></a>'+
       ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span>'+
     '</div></div></td>';
   tb.appendChild(det);
