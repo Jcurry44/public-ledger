@@ -134,9 +134,19 @@ for doc in d["docs"]:
         "funds": fund_rows(doc["funds"], parsed_by_fund),
     })
 
-# Department label = the segment before ' - ' in the account description,
-# taken as the most common spelling across that fund-department.
+# Department label = the segment before ' - ' in the account description.
+# Votes are weighted by DOLLARS, not by count of account codes: a capital
+# fund-dept can hold several projects, and count-voting let a $36k design study
+# name a department whose $2.5M was the water-meter upgrade (and buried
+# Memorial Pool the same way). Dollar-weighting makes the label at least match
+# the dominant activity; multi-project depts are additionally suffixed.
+spend_by_acct = defaultdict(float)
+for doc in d["docs"]:
+    for r in doc["rows"]:
+        spend_by_acct[r["account"]] += r["amount"]
+
 dept_votes = defaultdict(Counter)
+dept_projects = defaultdict(set)
 for code, desc in best_desc.items():
     fund, dept = code.split("-")[0], code.split("-")[1]
     parts = [p.strip() for p in desc.split(" - ")] if " - " in desc else [desc.strip()]
@@ -147,8 +157,16 @@ for code, desc in best_desc.items():
     if re.fullmatch(r"\d+", label) and len(parts) > 1:
         label = parts[1]
     if label and not re.fullmatch(r"\d+", label):
-        dept_votes[(fund, dept)][label] += 1
-depts = {f + "-" + dp: c.most_common(1)[0][0] for (f, dp), c in dept_votes.items()}
+        dept_votes[(fund, dept)][label] += max(spend_by_acct.get(code, 0.0), 1.0)
+        if fund in capital_funds:
+            dept_projects[(fund, dept)].add(label.upper())
+depts = {}
+for (f, dp), c in dept_votes.items():
+    label = c.most_common(1)[0][0]
+    n = len(dept_projects.get((f, dp), ()))
+    if n > 1:
+        label += " (& %d other%s)" % (n - 1, "" if n == 2 else "s")
+    depts[f + "-" + dp] = label
 
 # ---- capital project identity ----------------------------------------------
 # A fund-department is NOT a project: 618-7180 holds Memorial Pool Redesign,

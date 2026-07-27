@@ -163,7 +163,16 @@ tr:last-child td{border-bottom:0}
 .okpill{display:inline-block;background:var(--ok-soft);color:var(--ok);font-size:11px;
   font-weight:600;border-radius:99px;padding:3px 10px}
 .note{font-size:11.5px;color:var(--faint);border-top:1px solid var(--rule);margin-top:22px;padding-top:10px}
-@media print{body{background:#fff}.page{padding:0;max-width:none}a{color:inherit;text-decoration:none}}
+.tabs{display:inline-flex;gap:2px;padding:3px;border-radius:99px;background:#eae6dc;margin:0 0 14px}
+.tabs button{border:0;background:transparent;color:var(--muted);font:600 12.5px/1 system-ui;
+  padding:7px 14px;border-radius:99px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.lead p{font-size:14.5px;line-height:1.65;margin:0 0 12px;max-width:72ch}
+.lead b{font-weight:600}
+.pane[hidden]{display:none}
+.printhead{display:none}
+@media print{body{background:#fff}.page{padding:0;max-width:none}a{color:inherit;text-decoration:none}
+  .tabs{display:none}.pane[hidden]{display:block}.printhead{display:block}}
 </style></head><body><div class="page">
 
 <div class="mast"><div class="mark">Public <span>Ledger</span></div>
@@ -184,7 +193,43 @@ tr:last-child td{border-bottom:0}
            lines=len(latest["rows"]), pos=latest.get("pub_po_count") or "—",
            ratio=total / med, med=money0(med))
 
-html += '<h2>First-time payees</h2><table>'
+# --- executive summary, computed ---
+top = largest[0]
+top_proj = ACCT_PROJ.get(top["account"], "")
+top_new = top["vendor_name"] in dict(new_v)
+share = top["amount"] / total
+cap_flags = sum(1 for k, v, m, ratio in flags if ACCT_PROJ.get(driver[k]["account"], ""))
+lead = '<div class="lead">'
+lead += ("<p>The council is asked to approve <b class=\"num\">%s</b> across %d lines — "
+         "<b>%.1f&times; a typical meeting</b> (median %s).</p>"
+         % (money(total), len(latest["rows"]), total / med, money0(med)))
+lead += ("<p>%s of it is a single line: <b class=\"num\">%s</b> to <b>%s</b>%s%s (%s).</p>"
+         % ("Over a third" if share > 1 / 3 else "The largest line is",
+            money(top["amount"]), esc(top["vendor_name"]),
+            " for the " + esc(top_proj) if top_proj else "",
+            " — a payee appearing for the first time in the %d-warrant record" % len(docs) if top_new else "",
+            row_link(top)))
+lead += ("<p><b>%d departments</b> run far above their usual draw%s. <b>%d payees</b> appear for "
+         "the first time, totalling %s.</p>"
+         % (len(flags),
+            " — %d of them capital-project draws, the usual honest explanation" % cap_flags
+            if cap_flags else "",
+            len(new_v), money0(sum(a for _, a in new_v))))
+lead += ("<p>The parse ties the warrant&rsquo;s own printed control totals exactly "
+         "(variance %s); %d credit memo%s worth %s included. Every figure above links to its "
+         "page of the source document.</p>"
+         % (money(tie["variance"]), len(credits), "" if len(credits) == 1 else "s",
+            money(-sum(r["amount"] for r in credits))))
+lead += "</div>"
+
+html += ('<div class="tabs" role="tablist">'
+         '<button type="button" role="tab" data-tab="brief" aria-selected="true">In brief</button>'
+         '<button type="button" role="tab" data-tab="detail" aria-selected="false">The detail</button>'
+         '</div>')
+html += '<div class="pane" id="pane-brief"><h2 class="printhead">In brief</h2>' + lead + '</div>'
+html += '<div class="pane" id="pane-detail" hidden>'
+
+html += '<h2>First-time payees</h2><table>' 
 for v, a in new_v:
     html += ('<tr><td>%s<span class="pill">FIRST APPEARANCE</span></td>'
              '<td class="r num">%s</td></tr>') % (esc(v), money(a))
@@ -229,6 +274,16 @@ html += ('<p class="note"><b>Method &amp; limits.</b> Generated automatically by
          % (money(tie["variance"]), len(credits), "" if len(credits) == 1 else "s",
             money(-sum(r["amount"] for r in credits))))
 
+html += "</div>"          # close pane-detail
+html += """<script>
+document.querySelector('.tabs').addEventListener('click',function(e){
+  var b=e.target.closest('button[data-tab]'); if(!b) return;
+  var sel=b.dataset.tab;
+  this.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false');});
+  document.getElementById('pane-brief').hidden = sel!=='brief';
+  document.getElementById('pane-detail').hidden = sel!=='detail';
+});
+</script>"""
 html += "</div></body></html>"
 
 path = os.path.join(ROOT, "brief.html")
