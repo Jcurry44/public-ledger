@@ -379,6 +379,16 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .sharelegend{display:flex;gap:7px 20px;flex-wrap:wrap;font-size:12.5px;margin:0 0 6px}
 .sharelegend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
 .sharelegend .num{color:var(--muted)}
+.rtab{display:flex;flex-direction:column;gap:2px;margin:4px 0 6px}
+.rrow{display:grid;grid-template-columns:minmax(150px,1.1fr) minmax(120px,1fr) 6.8em 3.6em;
+  gap:14px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--rule)}
+.rrow:last-child{border-bottom:0}
+.rname{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rbar{height:8px;background:var(--gridline);border-radius:2px;overflow:hidden}
+.rbar i{display:block;height:100%;background:var(--exp);border-radius:0 3px 3px 0}
+.rval{text-align:right;font-size:12.5px;font-weight:600}
+.rpct{text-align:right;font-size:12px;color:var(--muted)}
+@media (max-width:560px){.rrow{grid-template-columns:1fr 6.4em 3.4em}.rbar{display:none}}
 .cmpbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .cmpbar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .swing{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
@@ -978,6 +988,17 @@ function sumBy(rows, dictKey, idx){
    Max four segments (top three + a muted remainder): angles are for clocks,
    lengths are for money. */
 var SHARE_COLORS=['--sch','--cty','--cnt'];
+/* Ledger-style rank table for wide contexts: name | inline bar | $ | share.
+   One encoding, numbers in columns - replaces strip-plus-list double-telling. */
+function rankTable(items, total){
+  var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1;
+  return '<div class="rtab">'+items.map(function(x){
+    return '<div class="rrow"><span class="rname">'+esc(x[0])+'</span>'+
+      '<span class="rbar"><i style="width:'+Math.max(x[1]/max*100,0.6).toFixed(2)+'%"></i></span>'+
+      '<span class="rval num">'+money0(x[1])+'</span>'+
+      '<span class="rpct num">'+(x[1]/total*100).toFixed(1)+'%</span></div>';
+  }).join('')+'</div>';
+}
 function shareBar(items, total){
   var head=items.slice(0,3), tail=items.slice(3);
   var parts=head.map(function(x,i){return {label:x[0], v:x[1], css:'var('+SHARE_COLORS[i]+')'};});
@@ -1351,11 +1372,11 @@ function renderProjectTab(tab, body){
   if(tab==='vendors'){
     var vs=Object.keys(p.ven).map(function(k){return [k,p.ven[k]];})
       .sort(function(a,b){return b[1]-a[1];});
-    body.innerHTML='<h4>Share of the project</h4>'+shareBar(vs,p.amt)+
-      '<h4>'+vs.length+' contractor'+(vs.length===1?'':'s')+' paid on this project</h4>'+
-      miniBars(vs, p.amt, '--exp')+
-      '<p class="note">Payees as printed in the source documents. Being listed here means a claim was '+
-      'approved, nothing more.</p>';
+    body.innerHTML='<h4>'+vs.length+' contractor'+(vs.length===1?'':'s')+' paid on this project</h4>'+
+      rankTable(vs, p.amt)+
+      '<p class="note">Bars are scaled to the largest contractor; the right column is each one&rsquo;s '+
+      'share of the project. Payees as printed in the source documents — being listed here means a '+
+      'claim was approved, nothing more.</p>';
     return;
   }
 
