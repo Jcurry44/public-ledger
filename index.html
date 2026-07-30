@@ -546,6 +546,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   <a href="#money" class="on">Revenue &amp; spending</a>
   <a href="#explore">The register</a>
   <a href="#capital">Capital projects</a>
+  <a href="#taxes">Your tax bill</a>
   <a href="#recon">How this was verified</a>
   <a href="#limits">What this cannot show</a>
 </div></nav>
@@ -610,19 +611,9 @@ footer p{margin:0 0 7px;max-width:80ch}
              aria-label="North Tonawanda revenue and expenditure, 1995 to 2024"></svg>
         <div class="tip" id="trendTip"></div>
       </div>
+      <div style="margin-top:12px"><button class="pill" id="cmpOpen" type="button">
+        Compare two years — what moved</button></div>
       <p class="note" id="trendNote"></p>
-    </div>
-
-    <div class="panel" style="margin-top:14px">
-      <h3>Compare two years</h3>
-      <div class="sub">What moved between them — and which categories grew faster than revenue did.</div>
-      <div class="cmpbar">
-        <label>From <select id="cmpA"></select></label>
-        <label>to <select id="cmpB"></select></label>
-        <button class="pill" id="cmpPrev" type="button">Previous pair</button>
-        <button class="pill" id="cmpNext" type="button">Next pair</button>
-      </div>
-      <div id="cmpOut"></div>
     </div>
 
     <div class="panel" style="margin-top:14px">
@@ -642,36 +633,9 @@ footer p{margin:0 0 7px;max-width:80ch}
         <span id="peerYr2"></span> filing to the NYS Comptroller; 2020 Census populations.</p>
     </div>
 
-    <div class="panel" style="margin-top:14px">
-      <h3>Your tax bill, decomposed <span class="tot num" id="tbYear"></span></h3>
-      <div class="sub">A property-tax bill is three governments stacked. Enter a home's market value
-        to see the split at the current full-value rates.</div>
-      <div class="tb-controls">
-        <label class="tb-val">$ <input type="text" id="tbValue" inputmode="numeric" value="250,000"
-          aria-label="Home market value in dollars"></label>
-        <button class="pill" type="button" data-tbv="150000">$150K</button>
-        <button class="pill" type="button" data-tbv="250000">$250K</button>
-        <button class="pill" type="button" data-tbv="400000">$400K</button>
-        <select id="tbCity" aria-label="City"></select>
-      </div>
-      <div id="tbOut"></div>
-      <h4 class="tb-h4">Thirteen years of the same bill</h4>
-      <div class="sub" id="tbHistSub"></div>
-      <div id="tbHist"></div>
-      <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
-        data, using each city's namesake school district — the arithmetic of the published rates, not a
-        quote. What a real bill adds or subtracts: <b>STAR</b> takes about $338 (Basic) or $969 (Enhanced)
-        off the school line for North Tonawanda homeowners in 2025; NT school bills also carry a
-        <b>library levy</b> (~$0.52 per $1,000) the state's school figure excludes. And the state's
-        full-value conversion can <b>lag one equalization cycle</b> where assessment ratios are falling
-        fast — cross-checked against Niagara County's own 2025 apportionment, NT's county line here reads
-        about 9% high (5.54 vs ~5.05), which the omitted library levy then largely cancels: NT's
-        <b>total</b> lands within 0.1% of a real bill's full-value equivalent, with the credit and the
-        debit disclosed rather than netted silently. Earlier years were published on assessed value and
-        are omitted rather than mixed in.</p>
-    </div>
-
   </section>
+
+
 
 
 
@@ -790,8 +754,45 @@ footer p{margin:0 0 7px;max-width:80ch}
 
 
 
+  <section id="taxes">
+    <div class="sched">Schedule 4 · Overlapping property-tax rates, state data</div>
+    <h2>Your tax bill, decomposed</h2>
+    <p class="lede">A different lens than the rest of this page: a property-tax bill is
+      <b>three governments stacked</b> — and the city everything above tracks is less than a third
+      of it. The school district and the county levy the rest, on their own budgets.</p>
+
+    <div class="panel">
+      <h3>The split at current rates <span class="tot num" id="tbYear"></span></h3>
+      <div class="sub">Enter a home's market value to see it at the published full-value rates.</div>
+      <div class="tb-controls">
+        <label class="tb-val">$ <input type="text" id="tbValue" inputmode="numeric" value="250,000"
+          aria-label="Home market value in dollars"></label>
+        <button class="pill" type="button" data-tbv="150000">$150K</button>
+        <button class="pill" type="button" data-tbv="250000">$250K</button>
+        <button class="pill" type="button" data-tbv="400000">$400K</button>
+        <select id="tbCity" aria-label="City"></select>
+      </div>
+      <div id="tbOut"></div>
+      <h4 class="tb-h4">Thirteen years of the same bill</h4>
+      <div class="sub" id="tbHistSub"></div>
+      <div id="tbHist"></div>
+      <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
+        data, using each city's namesake school district — the arithmetic of the published rates, not a
+        quote. What a real bill adds or subtracts: <b>STAR</b> takes about $338 (Basic) or $969 (Enhanced)
+        off the school line for North Tonawanda homeowners in 2025; NT school bills also carry a
+        <b>library levy</b> (~$0.52 per $1,000) the state's school figure excludes. And the state's
+        full-value conversion can <b>lag one equalization cycle</b> where assessment ratios are falling
+        fast — cross-checked against Niagara County's own 2025 apportionment, NT's county line here reads
+        about 9% high (5.54 vs ~5.05), which the omitted library levy then largely cancels: NT's
+        <b>total</b> lands within 0.1% of a real bill's full-value equivalent, with the credit and the
+        debit disclosed rather than netted silently. Earlier years were published on assessed value and
+        are omitted rather than mixed in.</p>
+    </div>
+
+  </section>
+
   <section id="recon">
-    <div class="sched">Schedule 4 · The proof</div>
+    <div class="sched">Schedule 5 · The proof</div>
     <h2>How this was verified</h2>
     <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
       Every machine-readable document reconciles to them exactly — select a row for the per-fund detail.</p>
@@ -821,7 +822,7 @@ footer p{margin:0 0 7px;max-width:80ch}
   </section>
 
   <section id="limits">
-    <div class="sched">Schedule 5 · The boundary</div>
+    <div class="sched">Schedule 6 · The boundary</div>
     <h2>What this cannot show</h2>
     <p class="lede">A claims register answers a narrow question. Here is what it cannot answer, and why.</p>
     <div class="limits">
@@ -1684,22 +1685,46 @@ function renderCompare(){
   out.innerHTML = swing + '<p class="verdictline">'+line+'</p>' +
     table(1,'Expenditure movers') + table(0,'Revenue movers');
 }
-(function(){
+/* Lives in the modal, launched from the trend chart - the 'what moved?'
+   question arises at the line, and a standing panel of controls cost a full
+   screen of scroll between the trend and the peers. Pair persists per visit. */
+var cmpYearA=null, cmpYearB=null;
+function openCompareModal(opener){
+  MODAL.kind='compare'; MODAL.opener=opener||null;
+  if(cmpYearA===null){ cmpYearA=O.years[O.years.length-2]; cmpYearB=O.years[O.years.length-1]; }
+  document.getElementById('mTabs').innerHTML='';
+  document.getElementById('mEyebrow').textContent='Annual filings, NYS Comptroller';
+  document.getElementById('mTitle').textContent='Compare two years';
+  document.getElementById('mBig').innerHTML='<span>What moved between them — and which categories grew faster than revenue did.</span>';
+  document.getElementById('mBody').innerHTML=
+    '<div class="cmpbar">'+
+      '<label>From <select id="cmpA"></select></label>'+
+      '<label>to <select id="cmpB"></select></label>'+
+      '<button class="pill" id="cmpPrev" type="button">Previous pair</button>'+
+      '<button class="pill" id="cmpNext" type="button">Next pair</button>'+
+    '</div><div id="cmpOut"></div>';
   var A=document.getElementById('cmpA'), B=document.getElementById('cmpB');
   O.years.forEach(function(y){
     A.appendChild(new Option(y,y)); B.appendChild(new Option(y,y));
   });
-  A.value=O.years[O.years.length-2]; B.value=O.years[O.years.length-1];
-  A.addEventListener('change',renderCompare); B.addEventListener('change',renderCompare);
+  A.value=cmpYearA; B.value=cmpYearB;
+  function sync(){ cmpYearA=+A.value; cmpYearB=+B.value; renderCompare(); }
+  A.addEventListener('change',sync); B.addEventListener('change',sync);
   function shift(step){
     var ia=O.years.indexOf(+A.value), ib=O.years.indexOf(+B.value);
     if(ia+step<0 || ib+step>O.years.length-1) return;
-    A.value=O.years[ia+step]; B.value=O.years[ib+step]; renderCompare();
+    A.value=O.years[ia+step]; B.value=O.years[ib+step]; sync();
   }
   document.getElementById('cmpPrev').addEventListener('click',function(){shift(-1);});
   document.getElementById('cmpNext').addEventListener('click',function(){shift(1);});
   renderCompare();
-})();
+  document.getElementById('modal').hidden=false;
+  document.body.style.overflow='hidden';
+  document.querySelector('#modal .xbtn').focus();
+}
+document.getElementById('cmpOpen').addEventListener('click',function(e){
+  openCompareModal(e.currentTarget);
+});
 
 /* ---- peer cities, per resident ----
    Emphasis form: North Tonawanda in the accent, every other city recessive -
