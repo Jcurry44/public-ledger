@@ -90,6 +90,14 @@ def spark_dual(m):
             % (W, H, "".join(out)))
 
 
+import re as _re
+
+
+def slug(name, cls):
+    short = name.replace("City of ", "").replace("Town of ", "").replace("Village of ", "")
+    return cls + "-" + _re.sub(r"[^a-z0-9]+", "-", short.lower()).strip("-")
+
+
 def card(name, m):
     short = name.replace("City of ", "").replace("Town of ", "").replace("Village of ", "")
     yrs = sorted(m["series"])
@@ -109,7 +117,7 @@ def card(name, m):
     if top and s["exp"]:
         topline = ('<div class="topcat">Biggest spend: %s · <span class="num">%.0f%%</span></div>'
                    % (esc(top[0][0]), top[0][1] / s["exp"] * 100))
-    return ('<div class="mcard">'
+    return ('<a class="mcard" href="m/%s.html">'
             '<div class="mhead"><span class="mname">%s</span>'
             '<span class="clsch">%s</span></div>'
             '<div class="mrow"><span>Revenue · %d</span><span class="num">$%s</span></div>'
@@ -118,8 +126,9 @@ def card(name, m):
             '%s'
             '<div class="mspark">%s</div>'
             '<div class="mfile">%s</div>'
-            '</div>'
-            % (esc(short), m["cls"].upper(), latest,
+            '<div class="mopen">Open its ledger &rarr;</div>'
+            '</a>'
+            % (slug(name, m["cls"]), esc(short), m["cls"].upper(), latest,
                "{:,.0f}".format(s["rev"]), "{:,.0f}".format(s["exp"]),
                "var(--bad)" if net < 0 else "var(--ok)",
                "−" if net < 0 else "+", "{:,.0f}".format(abs(net)),
@@ -178,6 +187,10 @@ h2{font:600 11px/1 system-ui;letter-spacing:.12em;text-transform:uppercase;color
   margin:24px 0 12px;display:flex;gap:12px;align-items:center}
 h2::after{content:'';flex:1;height:1px;background:var(--rule)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:13px}
+a.mcard{text-decoration:none;color:inherit;display:block}
+a.mcard:hover{border-color:var(--accent)}
+a.mcard:hover .mopen{text-decoration:underline}
+.mopen{font-size:11.5px;font-weight:600;color:var(--accent);margin-top:7px}
 .mcard{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:13px 14px 11px;
   box-shadow:0 1px 2px rgba(20,22,26,.05),0 8px 24px -12px rgba(20,22,26,.14)}
 .mhead{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
@@ -208,9 +221,10 @@ h2::after{content:'';flex:1;height:1px;background:var(--rule)}
     <div class="meta">Niagara County · every general-purpose government · filings __Y0__–__Y1__</div>
   </div>
   <h1>Every government in Niagara County</h1>
-  <p class="lede"><b>Twenty-one governments tax and spend inside this county.</b> The county and its
-    three cities, twelve towns and five villages — each profiled here from its own annual filings to
-    the NYS Comptroller, on the same method as every other page of Public Ledger: as filed,
+  <p class="lede"><b>Twenty-one governments tax and spend inside this county — and every one now has
+    its own ledger.</b> Select any card to open that government&rsquo;s full page: the drillable
+    year panels, the scrubbable trend, the compare-years view, its share of the county sales tax.
+    Each is built from its own annual filings to the NYS Comptroller, on the same method as every other page of Public Ledger: as filed,
     desk-reviewed but not audited, no interpolation, and <b>every missing year named</b> — a broken
     line in a chart below is a filing that does not exist, not a smoothing choice.</p>
   <div class="gateline num">&#10003; 20 governments · __NROWS__ account-level rows read · __GAPS__ missing
