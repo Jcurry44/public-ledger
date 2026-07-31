@@ -184,18 +184,27 @@ tr:last-child td{border-bottom:0}
   .tw table{min-width:0}
   table,tbody{display:block;width:100%}
   thead{display:none}
-  tbody tr{display:block;padding:11px 0;border-bottom:1px solid var(--rule)}
+  /* A finding, not a form: the flag's own number sits top-right at headline
+     size, the account is the title, and the context runs as ONE quiet line -
+     no label column repeated fifteen times. */
+  tbody tr{display:block;position:relative;padding:12px 0 11px;border-bottom:1px solid var(--rule)}
   tbody tr:last-child{border-bottom:0}
-  td{display:flex;justify-content:space-between;gap:14px;align-items:baseline;
-    padding:2.5px 0;border:0;text-align:left}
-  td::before{content:attr(data-l);font:600 9.5px/1.6 system-ui;letter-spacing:.09em;
-    text-transform:uppercase;color:var(--faint);flex:0 0 auto}
-  td:first-child{display:block;font-weight:600}
-  td:first-child::before{display:none}
-  td:not([data-l]){display:block}
+  td{display:inline-block;border:0;padding:3px 14px 0 0;font-size:12.5px;text-align:left;
+    vertical-align:baseline}
+  td::before{content:attr(data-l) ' ';font:600 10px/1 system-ui;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--faint)}
+  td:first-child{display:block;font-weight:600;font-size:13.5px;padding:0 86px 1px 0}
+  td:first-child::before{content:none}
+  td.key{position:absolute;top:12px;right:0;padding:0;font-size:16px;font-weight:700;color:var(--ink)}
+  td.key.keysm{font-size:13.5px}
+  td.key::before{content:none}
+  td[data-l="Category"]{display:block;padding:0 0 2px;color:var(--muted)}
+  td[data-l="Category"]::before{content:none}
+  td:not([data-l]){display:block;color:var(--muted);padding:2px 0 0}
   td:not([data-l])::before{content:none}
-  td.wide{display:block}
-  td.wide::before{display:block;margin-bottom:3px}
+  td.wide{display:block;padding:3px 0 0}
+  td.wide::before{display:block;margin-bottom:2px}
+  td .dot{color:var(--strong)}
 }
 details.morex summary{list-style:none;cursor:pointer}
 details.morex summary::-webkit-details-marker{display:none}
@@ -235,13 +244,19 @@ h += ('<p class="q"><b>The question:</b> can the missing meetings be republished
       'Five consecutive council meetings (March&ndash;May 2025) plus one other were published as '
       'image-only scans — unreadable to any analysis, this one included. One further file was a '
       'republished duplicate of a warrant already posted.</p>')
-h += '<table><thead><tr><th>Document</th><th>Issue</th></tr></thead><tbody>'
-for x in scans:
-    h += ('<tr><td class="num">%s</td><td class="mut">image-only scan — no text layer</td></tr>'
-          % esc(x["file"]))
+h += '<table><thead><tr><th>Issue</th><th class="r">Count</th><th>Documents</th></tr></thead><tbody>'
+if scans:
+    files = ' <span class="dot">&middot;</span> '.join(
+        '<span class="num">%s</span>' % esc(x["file"].replace(".pdf", "")) for x in scans)
+    h += ('<tr><td>Image-only scans <span class="fnt num">no text layer</span></td>'
+          '<td class="key num">%d</td>'
+          '<td class="mut wide" data-l="The meetings">%s</td></tr>' % (len(scans), files))
 for x in W.get("superseded", []):
-    h += ('<tr><td class="num">%s</td><td class="mut">republished duplicate of %s (excluded from '
-          'every figure)</td></tr>' % (esc(x["file"]), esc(x["by"])))
+    h += ('<tr><td>Republished duplicate <span class="fnt num">excluded from every figure</span></td>'
+          '<td class="key num">1</td>'
+          '<td class="mut wide" data-l="The file"><span class="num">%s</span> is a copy of '
+          '<span class="num">%s</span></td></tr>'
+          % (esc(x["file"].replace(".pdf", "")), esc(x["by"].replace(".pdf", ""))))
 h += '</tbody></table>'
 
 # --- 2. catch-alls ---
@@ -255,7 +270,7 @@ h += ('<table><thead><tr><th>Account</th><th class="r">%d</th><th class="r">Prio
 for c in catchalls:
     mult = ('%.1f&times;' % (c["latest"] / c["med"])) if c["med"] else "—"
     h += ('<tr><td>%s <span class="fnt num">%s</span>%s</td><td class="r num" data-l="%d">%s</td>'
-          '<td class="r num" data-l="Prior-yr median">%s</td><td class="r num" data-l="Multiple"><b>%s</b></td></tr>'
+          '<td class="r num" data-l="median">%s</td><td class="r num key" data-l="Multiple"><b>%s</b></td></tr>'
           % (esc(c["narr"]), c["code"],
              ' <span class="pill">SINCE %d</span>' % c["first"] if c["first"] > YEARS[0] else '',
              LATEST, money0(c["latest"]), money0(c["med"]) if c["med"] else "—", mult))
@@ -272,15 +287,15 @@ h += ('<table><thead><tr><th>Account</th><th>Category</th><th class="r">%d</th>'
       '<th class="r">Median</th><th class="r">Multiple</th></tr></thead><tbody>') % LATEST
 for x in spikes:
     h += ('<tr><td>%s <span class="fnt num">%s</span></td><td class="mut" data-l="Category">%s %s</td>'
-          '<td class="r num" data-l="%d">%s</td><td class="r num" data-l="Median">%s</td>'
-          '<td class="r num" data-l="Multiple"><b>%.1f&times;</b></td></tr>'
+          '<td class="r num" data-l="%d">%s</td><td class="r num" data-l="median">%s</td>'
+          '<td class="r num key" data-l="Multiple"><b>%.1f&times;</b></td></tr>'
           % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
              LATEST, money0(x["latest"]), money0(x["med"]), x["ratio"]))
 for x in newcomers:
     h += ('<tr><td>%s <span class="fnt num">%s</span><span class="pill">NEW</span></td>'
           '<td class="mut" data-l="Category">%s %s</td><td class="r num" data-l="%d">%s</td>'
-          '<td class="r num" data-l="Median">—</td>'
-          '<td class="r num" data-l="Multiple"><b>first year</b></td></tr>'
+          '<td class="r num" data-l="median">—</td>'
+          '<td class="r num key keysm" data-l="Multiple"><b>first year</b></td></tr>'
           % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
              LATEST, money0(x["latest"])))
 h += '</tbody></table>'
@@ -294,7 +309,7 @@ h += ('<p class="q"><b>The question:</b> can these be merged? Duplicate vendor m
 h += '<table><thead><tr><th>Payee</th><th>Vendor codes</th><th class="r">Combined</th></tr></thead><tbody>'
 for x in hygiene:
     h += ('<tr><td>%s</td><td class="num mut wide" data-l="Vendor codes">%s</td>'
-          '<td class="r num" data-l="Combined">%s</td></tr>'
+          '<td class="r num key keysm" data-l="Combined">%s</td></tr>'
           % (esc(V[x["v"]]), "  ".join(x["codes"]), money0(x["sum"])))
 h += '</tbody></table>'
 
@@ -307,9 +322,9 @@ h += ('<p class="q"><b>The question:</b> should any of these be on a contract? N
 h += ('<table><thead><tr><th>Vendor</th><th class="r">Charge accounts</th><th class="r">Purchases</th>'
       '<th class="r">Two-year total</th></tr></thead><tbody>')
 for x in sprawl_top:
-    h += ('<tr><td>%s</td><td class="r num" data-l="Charge accounts">%d</td>'
-          '<td class="r num" data-l="Purchases">%d</td>'
-          '<td class="r num" data-l="Two-year total">%s</td></tr>'
+    h += ('<tr><td>%s</td><td class="r num" data-l="charge accounts">%d</td>'
+          '<td class="r num" data-l="purchases">%d</td>'
+          '<td class="r num key keysm" data-l="Two-year total">%s</td></tr>'
           % (esc(x["name"]), x["accts"], x["n"], money0(x["sum"])))
 h += '</tbody></table>'
 
@@ -332,8 +347,8 @@ for x in firsts:
     else:
         cell = esc(x["ctx"][0][0])
     h += ('<tr><td>%s</td><td class="mut wide" data-l="For">%s</td>'
-          '<td class="num mut" data-l="First appears">%s</td>'
-          '<td class="r num" data-l="Total">%s</td></tr>'
+          '<td class="num mut" data-l="first appears">%s</td>'
+          '<td class="r num key keysm" data-l="Total">%s</td></tr>'
           % (esc(x["name"]), cell, esc(x["doc"]["report_date"]), money0(x["amt"])))
 h += '</tbody></table>'
 
