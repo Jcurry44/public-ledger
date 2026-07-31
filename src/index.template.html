@@ -918,6 +918,17 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
         are omitted rather than mixed in.</p>
     </div>
 
+    <div class="panel" style="margin-top:14px">
+      <h3>The school district&rsquo;s books <span class="tot num" id="sdTot" style="color:var(--exp)"></span></h3>
+      <div class="sub" id="sdSub"></div>
+      <div class="chartwrap" id="sdSpark"></div>
+      <div class="legend" style="margin-top:6px"><span><b style="background:var(--rev)"></b>Revenue</span>
+        <span><b style="background:var(--exp)"></b>Expenditure</span></div>
+      <h4 style="margin:14px 0 8px;font:600 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)">
+        Where the school&rsquo;s money goes <span id="sdCatYr" style="text-transform:none;letter-spacing:0"></span></h4>
+      <div class="minis" id="sdCats"></div>
+      <p class="note" id="sdNote"></p>
+    </div>
   </section>
 
   <section id="recon">
@@ -1012,6 +1023,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 <script id="warrant-data" type="application/json">/*__DATA__*/</script>
 <script id="osc-data" type="application/json">/*__OSC__*/</script>
 <script id="tax-data" type="application/json">/*__TAX__*/</script>
+<script id="school-data" type="application/json">/*__SCHOOL__*/</script>
 <script>
 (function(){
 "use strict";
@@ -2846,6 +2858,42 @@ document.addEventListener('keydown',function(e){
   e.preventDefault();
   t.click();
 });
+
+/* ---- the school district: the biggest line on the bill ---- */
+(function(){
+  var S=JSON.parse(document.getElementById('school-data').textContent);
+  var li=S.years.length-1, rev=S.rev[li], exp=S.exp[li];
+  document.getElementById('sdTot').textContent=money0(exp);
+  document.getElementById('sdSub').textContent=
+    S.entity+' — a separate government with its own elected board and its own budget vote. '+
+    'FY'+S.years[li]+' (July '+(S.years[li]-1)+' – June '+S.years[li]+'): revenue '+money0(rev)+
+    ' against spending '+money0(exp)+'. Filings '+S.years[0]+'–'+S.years[li]+'.';
+  (function(){
+    var W=560,H=90,max=Math.max.apply(null,S.rev.concat(S.exp))*1.05;
+    var x=function(i){return 4+(W-8)*(i/(S.years.length-1));};
+    var y=function(v){return H-6-(H-14)*(v/max);};
+    function path(arr){return arr.map(function(v,i){return (i?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1);}).join(' ');}
+    document.getElementById('sdSpark').innerHTML=
+      '<svg class="trend" viewBox="0 0 '+W+' '+H+'" style="max-width:640px">'+
+      '<path d="'+path(S.exp)+' L'+x(S.exp.length-1).toFixed(1)+' '+(H-4)+' L4 '+(H-4)+' Z" fill="var(--exp)" opacity=".08"/>'+
+      '<path class="ln" d="'+path(S.exp)+'" stroke="var(--exp)"/>'+
+      '<path class="ln" d="'+path(S.rev)+'" stroke="var(--rev)"/>'+
+      '<text class="ax" x="4" y="'+(H-1)+'" font-size="10">'+S.years[0]+'</text>'+
+      '<text class="ax" x="'+(W-4)+'" y="'+(H-1)+'" text-anchor="end" font-size="10">FY'+S.years[li]+'</text></svg>';
+  })();
+  var mx=S.topCats[0][1];
+  document.getElementById('sdCatYr').textContent='— FY'+S.years[li]+', top categories';
+  document.getElementById('sdCats').innerHTML=S.topCats.map(function(c){
+    return '<div class="sb"><span>'+esc(c[0])+'</span>'+
+      '<span class="num">'+money0(c[1])+' <span style="color:var(--faint)">'+
+      (exp?(c[1]/exp*100).toFixed(1):'0')+'%</span></span>'+
+      '<span class="t"><i style="width:'+(c[1]/mx*100).toFixed(1)+'%;background:var(--exp)"></i></span></div>';
+  }).join('');
+  document.getElementById('sdNote').textContent=
+    'Self-reported AFR data, desk-reviewed but not audited by OSC — the same method as every figure on '+
+    'this page. The district is not part of city finances: it levies the largest line of the bill above '+
+    'on its own authority, and it spends more than the city itself. School fiscal years run July–June.';
+})();
 
 /* On a phone the full 1200-unit engraving renders its strokes at ~0.5px and
    reads as gray mush. Crop the viewBox to the lift bridge so the ink lands on

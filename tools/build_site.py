@@ -6,7 +6,8 @@ tpl = open(os.path.join(ROOT, "src", "index.template.html"), encoding="utf-8").r
 
 out = tpl
 for marker, fname in (("/*__DATA__*/", "site-data.json"), ("/*__OSC__*/", "osc-data.json"),
-                      ("/*__TAX__*/", "taxrates.json")):
+                      ("/*__TAX__*/", "taxrates.json"),
+                      ("/*__SCHOOL__*/", "school-data.json")):
     if marker not in tpl:
         raise SystemExit("template is missing the %s marker" % marker)
     payload = open(os.path.join(ROOT, "data", fname), encoding="utf-8").read()
