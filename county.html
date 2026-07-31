@@ -263,9 +263,11 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
   --ok:#4cc38a;--ok-soft:rgba(76,195,138,.13);
   color:var(--ink);scroll-margin-top:64px;
   box-shadow:0 18px 50px -22px rgba(10,12,15,.55)}
-#method .gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
-  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px;
-  box-shadow:0 0 26px rgba(76,195,138,.18)}
+.gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
+  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px}
+#method .gateline{box-shadow:0 0 26px rgba(76,195,138,.18)}
+.clsch{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.08em;border-radius:4px;
+  padding:2px 5px;margin-left:6px;vertical-align:1px;background:var(--accent-soft);color:var(--accent)}
 :root[data-theme="dark"] #method{background:#070a0d;--paper:#070a0d;--card:#10151b;
   box-shadow:0 0 0 1px #1b222b}
 @media (max-width:640px){#method{margin:26px -10px 10px;padding:20px 16px 14px;border-radius:12px}}
@@ -300,6 +302,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
   <nav class="rail"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
     <a href="#peers">Nine counties</a>
+    <a href="#shared">Sales tax, shared</a>
     <a href="#method">Method</a>
   </div></nav>
 
@@ -369,6 +372,36 @@ body:has(#modal:not([hidden])) .pager{display:none}
       <div class="rank" id="peerRank"></div>
       <p class="note" style="border:0;padding:0">The property-tax figure is the county levy only —
         cities, towns, villages and school districts are separate governments on the same parcel.</p>
+    </div>
+  </section>
+
+  <section id="shared">
+    <h2>The county&rsquo;s sales tax, shared <span class="num" style="letter-spacing:0">2024</span></h2>
+    <p class="lede">Every year the county hands a share of its sales tax to <b>every city, town and
+      village inside it</b> — its filing carries the whole thing as one unlabeled line
+      (<span class="num">A19854 &ldquo;Distribution of Sales Tax&rdquo;</span>). The county never names
+      the recipients. <b>Their own filings do.</b> Below, the county&rsquo;s one line, rebuilt from
+      twenty governments&rsquo; books.</p>
+    <div class="panel">
+      <div class="sub">The county&rsquo;s distribution line, 1995–2025 — <span class="num">$73,534,274</span>
+        in 2025</div>
+      <svg viewBox="0 0 260 44" preserveAspectRatio="none" style="display:block;width:100%;height:52px">
+        <path d="M0.0 41.0 L8.7 41.0 L17.3 41.0 L26.0 41.0 L34.7 41.0 L43.3 41.0 L52.0 41.0 L60.7 41.0 L69.3 41.0 L78.0 41.0 L86.7 41.0 L95.3 41.0 L104.0 21.7 L112.7 20.8 L121.3 20.8 L130.0 20.1 L138.7 18.5 L147.3 17.6 L156.0 16.9 L164.7 16.5 L173.3 16.7 L182.0 17.1 L190.7 17.2 L199.3 15.4 L208.0 14.8 L216.7 15.1 L225.3 11.0 L234.0 9.0 L242.7 7.2 L251.3 7.2 L260.0 5.0 L260 44 L0 44 Z" fill="var(--exp)" opacity=".10"></path>
+        <path d="M0.0 41.0 L8.7 41.0 L17.3 41.0 L26.0 41.0 L34.7 41.0 L43.3 41.0 L52.0 41.0 L60.7 41.0 L69.3 41.0 L78.0 41.0 L86.7 41.0 L95.3 41.0 L104.0 21.7 L112.7 20.8 L121.3 20.8 L130.0 20.1 L138.7 18.5 L147.3 17.6 L156.0 16.9 L164.7 16.5 L173.3 16.7 L182.0 17.1 L190.7 17.2 L199.3 15.4 L208.0 14.8 L216.7 15.1 L225.3 11.0 L234.0 9.0 L242.7 7.2 L251.3 7.2 L260.0 5.0" fill="none" stroke="var(--exp)" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Who receives it <span class="tot num">$69,101,277</span></h3>
+      <div class="sub">2024 · each government&rsquo;s own filing of account A1120,
+        &ldquo;Non-Property Tax Distribution by County&rdquo; · all twenty municipalities shown</div>
+      <div class="rank"><div class="rk"><span class="lb">Niagara Falls<span class="clsch">CITY</span> <span class="fnt">+ its own city sales tax, separate</span></span><span class="vl num">$13,108,755</span><span class="tr"><i style="width:100.0%;background:var(--exp)"></i></span><span class="pc num">18.9% of the pot</span></div><div class="rk"><span class="lb">North Tonawanda<span class="clsch">CITY</span></span><span class="vl num">$10,741,427</span><span class="tr"><i style="width:81.9%;background:var(--exp)"></i></span><span class="pc num">15.5% of the pot</span></div><div class="rk"><span class="lb">Lockport<span class="clsch">TOWN</span></span><span class="vl num">$7,242,784</span><span class="tr"><i style="width:55.3%;background:var(--exp)"></i></span><span class="pc num">10.5% of the pot</span></div><div class="rk"><span class="lb">Wheatfield<span class="clsch">TOWN</span></span><span class="vl num">$6,564,753</span><span class="tr"><i style="width:50.1%;background:var(--exp)"></i></span><span class="pc num">9.5% of the pot</span></div><div class="rk"><span class="lb">Lockport<span class="clsch">CITY</span></span><span class="vl num">$5,610,593</span><span class="tr"><i style="width:42.8%;background:var(--exp)"></i></span><span class="pc num">8.1% of the pot</span></div><div class="rk"><span class="lb">Lewiston<span class="clsch">TOWN</span></span><span class="vl num">$4,947,393</span><span class="tr"><i style="width:37.7%;background:var(--exp)"></i></span><span class="pc num">7.1% of the pot</span></div><div class="rk"><span class="lb">Newfane<span class="clsch">TOWN</span></span><span class="vl num">$3,277,093</span><span class="tr"><i style="width:25.0%;background:var(--exp)"></i></span><span class="pc num">4.7% of the pot</span></div><div class="rk"><span class="lb">Niagara<span class="clsch">TOWN</span></span><span class="vl num">$2,783,627</span><span class="tr"><i style="width:21.2%;background:var(--exp)"></i></span><span class="pc num">4.0% of the pot</span></div><div class="rk"><span class="lb">Pendleton<span class="clsch">TOWN</span></span><span class="vl num">$2,477,896</span><span class="tr"><i style="width:18.9%;background:var(--exp)"></i></span><span class="pc num">3.6% of the pot</span></div><div class="rk"><span class="lb">Royalton<span class="clsch">TOWN</span></span><span class="vl num">$2,359,963</span><span class="tr"><i style="width:18.0%;background:var(--exp)"></i></span><span class="pc num">3.4% of the pot</span></div><div class="rk"><span class="lb">Cambria<span class="clsch">TOWN</span></span><span class="vl num">$2,022,823</span><span class="tr"><i style="width:15.4%;background:var(--exp)"></i></span><span class="pc num">2.9% of the pot</span></div><div class="rk"><span class="lb">Wilson<span class="clsch">TOWN</span></span><span class="vl num">$1,751,109</span><span class="tr"><i style="width:13.4%;background:var(--exp)"></i></span><span class="pc num">2.5% of the pot</span></div><div class="rk"><span class="lb">Porter<span class="clsch">TOWN</span></span><span class="vl num">$1,745,981</span><span class="tr"><i style="width:13.3%;background:var(--exp)"></i></span><span class="pc num">2.5% of the pot</span></div><div class="rk"><span class="lb">Hartland<span class="clsch">TOWN</span></span><span class="vl num">$1,326,502</span><span class="tr"><i style="width:10.1%;background:var(--exp)"></i></span><span class="pc num">1.9% of the pot</span></div><div class="rk"><span class="lb">Lewiston<span class="clsch">VILLAGE</span></span><span class="vl num">$1,105,814</span><span class="tr"><i style="width:8.4%;background:var(--exp)"></i></span><span class="pc num">1.6% of the pot</span></div><div class="rk"><span class="lb">Somerset<span class="clsch">TOWN</span></span><span class="vl num">$714,755</span><span class="tr"><i style="width:5.5%;background:var(--exp)"></i></span><span class="pc num">1.0% of the pot</span></div><div class="rk"><span class="lb">Youngstown<span class="clsch">VILLAGE</span></span><span class="vl num">$554,565</span><span class="tr"><i style="width:4.2%;background:var(--exp)"></i></span><span class="pc num">0.8% of the pot</span></div><div class="rk"><span class="lb">Wilson<span class="clsch">VILLAGE</span></span><span class="vl num">$337,443</span><span class="tr"><i style="width:2.6%;background:var(--exp)"></i></span><span class="pc num">0.5% of the pot</span></div><div class="rk"><span class="lb">Middleport<span class="clsch">VILLAGE</span></span><span class="vl num">$321,359</span><span class="tr"><i style="width:2.5%;background:var(--exp)"></i></span><span class="pc num">0.5% of the pot</span></div><div class="rk"><span class="lb">Barker<span class="clsch">VILLAGE</span></span><span class="vl num">$203,762</span><span class="tr"><i style="width:1.6%;background:var(--exp)"></i></span><span class="pc num">0.3% of the pot</span></div></div>
+      <div class="gateline num" style="margin-top:14px">&#10003; TWO SETS OF BOOKS, ONE STORY: county&rsquo;s
+        line $69,101,277 &middot; recipients&rsquo; filings sum $69,198,397 &middot; gap 0.14%</div>
+      <p class="note">The county says it distributed $69,101,277; the twenty recipients&rsquo; own
+        filings, added up, say $69,198,397 — independent books agreeing to within 0.14%.
+        Niagara Falls additionally imposes a city sales tax of its own ($9,837,161 in 2024),
+        shown in its filing separately from sharing — it is not part of this pot. Villages sit inside
+        towns, so their residents appear in both layers; figures as filed.</p>
     </div>
   </section>
 

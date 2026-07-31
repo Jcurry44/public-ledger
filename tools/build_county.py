@@ -75,6 +75,7 @@ def di(kind, val):
 
 
 series, flows = {}, []
+dist_series = {}                       # yr -> A19854 Distribution of Sales Tax
 cats = {"REVENUE": {}, "EXPENDITURE": {}}
 peer_tot = defaultdict(lambda: defaultdict(float))
 latest = None
@@ -99,6 +100,8 @@ for name in years_files:
             continue
         found = True
         tot[sec] += amt
+        if sec == "EXPENDITURE" and (r.get("ACCOUNT_CODE") or "").strip().startswith("A19854"):
+            dist_series[yr] = dist_series.get(yr, 0) + amt
         bycat[sec][title_label(r.get("LEVEL_1_CATEGORY") or "Unclassified")] += amt
         flows.append([
             yr, 0 if sec == "REVENUE" else 1,
@@ -138,6 +141,64 @@ peers = [{
     "tax": round(peer_tot[peer_year].get(n + "|TAX", 0), 2),
     "self": n == "County of Niagara",
 } for n in PEERS]
+
+
+def recipients_for(yr):
+    """Every Niagara County city/town/village's A1120-family receipts (the
+    'Non Property Tax Distribution by County' account) for one year, read
+    from each government's OWN filing. Niagara Falls' separately-imposed
+    city sales tax is captured alongside, never mixed in."""
+    out, nf_own = [], 0.0
+    for cls, inner in (("city", "%d_City.csv" % yr), ("town", "%d_Town.csv" % yr),
+                       ("village", "%d_Village.csv" % yr)):
+        zc = zipfile.ZipFile(os.path.join(ROOT, "data", "osc", cls + "_all_years.zip"))
+        if inner not in zc.namelist():
+            return None, 0.0
+        rd = csv.DictReader(io.StringIO(zc.read(inner).decode("utf-8", errors="replace")))
+        per = {}
+        for r in rd:
+            if (r.get("COUNTY") or "") != "Niagara":
+                continue
+            if r.get("ACCOUNT_CODE_SECTION") != "REVENUE":
+                continue
+            code = (r.get("ACCOUNT_CODE") or "").strip()
+            narr = (r.get("ACCOUNT_CODE_NARRATIVE") or "").upper()
+            amt = float(r["AMOUNT"] or 0)
+            ent = r["ENTITY_NAME"]
+            if code.startswith("A1120") or "NON PROPERTY TAX" in narr:
+                per[ent] = per.get(ent, 0) + amt
+            elif "SALES" in narr and "TAX" in narr and "Niagara Falls" in ent:
+                nf_own += amt
+        for ent, amt in per.items():
+            out.append({"name": ent.replace("City of ", "").replace("Town of ", "")
+                        .replace("Village of ", ""), "cls": cls, "amt": round(amt, 2)})
+    out.sort(key=lambda x: -x["amt"])
+    return out, round(nf_own, 2)
+
+
+# latest year where the recipients' own filings substantially cover the
+# county's line - partially-filed years fall through to the prior one
+shared_year, recips, nf_own = None, None, 0.0
+for y in range(latest, latest - 4, -1):
+    if dist_series.get(y, 0) <= 0:
+        continue
+    rr, nfo = recipients_for(y)
+    if rr and sum(x["amt"] for x in rr) >= 0.9 * dist_series[y]:
+        shared_year, recips, nf_own = y, rr, nfo
+        break
+assert shared_year, "no year where recipient filings cover the county line"
+recip_sum = round(sum(x["amt"] for x in recips), 2)
+county_line = round(dist_series[shared_year], 2)
+gap_pct = abs(recip_sum - county_line) / county_line * 100
+
+
+def spark_path(vals, W=260, H=44):
+    mx = max(vals) or 1
+    pts = []
+    for i, v in enumerate(vals):
+        pts.append("%s%.1f %.1f" % ("L" if i else "M",
+                   W * i / (len(vals) - 1), H - 3 - (H - 8) * (v / mx)))
+    return " ".join(pts)
 
 
 def all_cats(sec, yr):
@@ -428,9 +489,11 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
   --ok:#4cc38a;--ok-soft:rgba(76,195,138,.13);
   color:var(--ink);scroll-margin-top:64px;
   box-shadow:0 18px 50px -22px rgba(10,12,15,.55)}
-#method .gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
-  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px;
-  box-shadow:0 0 26px rgba(76,195,138,.18)}
+.gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
+  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px}
+#method .gateline{box-shadow:0 0 26px rgba(76,195,138,.18)}
+.clsch{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.08em;border-radius:4px;
+  padding:2px 5px;margin-left:6px;vertical-align:1px;background:var(--accent-soft);color:var(--accent)}
 :root[data-theme="dark"] #method{background:#070a0d;--paper:#070a0d;--card:#10151b;
   box-shadow:0 0 0 1px #1b222b}
 @media (max-width:640px){#method{margin:26px -10px 10px;padding:20px 16px 14px;border-radius:12px}}
@@ -465,6 +528,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
   <nav class="rail"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
     <a href="#peers">Nine counties</a>
+    <a href="#shared">Sales tax, shared</a>
     <a href="#method">Method</a>
   </div></nav>
 
@@ -534,6 +598,36 @@ body:has(#modal:not([hidden])) .pager{display:none}
       <div class="rank" id="peerRank"></div>
       <p class="note" style="border:0;padding:0">The property-tax figure is the county levy only —
         cities, towns, villages and school districts are separate governments on the same parcel.</p>
+    </div>
+  </section>
+
+  <section id="shared">
+    <h2>The county&rsquo;s sales tax, shared <span class="num" style="letter-spacing:0">__SHAREDYEAR__</span></h2>
+    <p class="lede">Every year the county hands a share of its sales tax to <b>every city, town and
+      village inside it</b> — its filing carries the whole thing as one unlabeled line
+      (<span class="num">A19854 &ldquo;Distribution of Sales Tax&rdquo;</span>). The county never names
+      the recipients. <b>Their own filings do.</b> Below, the county&rsquo;s one line, rebuilt from
+      twenty governments&rsquo; books.</p>
+    <div class="panel">
+      <div class="sub">The county&rsquo;s distribution line, __Y0__–__Y1__ — <span class="num">__DISTLATEST__</span>
+        in __LATEST__</div>
+      <svg viewBox="0 0 260 44" preserveAspectRatio="none" style="display:block;width:100%;height:52px">
+        <path d="__SPARK__ L260 44 L0 44 Z" fill="var(--exp)" opacity=".10"></path>
+        <path d="__SPARK__" fill="none" stroke="var(--exp)" stroke-width="1.6" vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Who receives it <span class="tot num">__COUNTYLINE__</span></h3>
+      <div class="sub">__SHAREDYEAR__ · each government&rsquo;s own filing of account A1120,
+        &ldquo;Non-Property Tax Distribution by County&rdquo; · all twenty municipalities shown</div>
+      <div class="rank">__RECIPROWS__</div>
+      <div class="gateline num" style="margin-top:14px">&#10003; TWO SETS OF BOOKS, ONE STORY: county&rsquo;s
+        line __COUNTYLINE__ &middot; recipients&rsquo; filings sum __RECIPSUM__ &middot; gap __GAPPCT__%</div>
+      <p class="note">The county says it distributed __COUNTYLINE__; the twenty recipients&rsquo; own
+        filings, added up, say __RECIPSUM__ — independent books agreeing to within __GAPPCT__%.
+        Niagara Falls additionally imposes a city sales tax of its own (__NFOWN__ in __SHAREDYEAR__),
+        shown in its filing separately from sharing — it is not part of this pot. Villages sit inside
+        towns, so their residents appear in both layers; figures as filed.</p>
     </div>
   </section>
 
@@ -1453,7 +1547,28 @@ themeIcon();
 </script>
 </body></html>"""
 
+recip_rows = "".join(
+    '<div class="rk"><span class="lb">{name}<span class="clsch">{cls}</span>{nf}</span>'
+    '<span class="vl num">${amt:,.0f}</span>'
+    '<span class="tr"><i style="width:{w:.1f}%;background:var(--exp)"></i></span>'
+    '<span class="pc num">{share:.1f}% of the pot</span></div>'.format(
+        name=r["name"], cls=r["cls"].upper(),
+        nf=(' <span class="fnt">+ its own city sales tax, separate</span>'
+            if r["name"] == "Niagara Falls" else ""),
+        amt=r["amt"], w=r["amt"] / recips[0]["amt"] * 100,
+        share=r["amt"] / recip_sum * 100)
+    for r in recips)
+dist_vals = [dist_series.get(y, 0) for y in yrs]
+
 out = (TEMPLATE
+       .replace("__SPARK__", spark_path(dist_vals))
+       .replace("__RECIPROWS__", recip_rows)
+       .replace("__SHAREDYEAR__", str(shared_year))
+       .replace("__COUNTYLINE__", "${:,.0f}".format(county_line))
+       .replace("__RECIPSUM__", "${:,.0f}".format(recip_sum))
+       .replace("__GAPPCT__", "%.2f" % gap_pct)
+       .replace("__NFOWN__", "${:,.0f}".format(nf_own))
+       .replace("__DISTLATEST__", "${:,.0f}".format(dist_series.get(latest, 0)))
        .replace("__Y0__", str(yrs[0])).replace("__Y1__", str(yrs[-1]))
        .replace("__YEARS__", str(len(yrs)))
        .replace("__LATEST__", str(latest))
