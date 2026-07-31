@@ -90,14 +90,26 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opa
    bridge on wide monitors) */
 .scene{background:var(--card);border-bottom:1px solid var(--rule-strong);overflow:hidden}
 .scene svg{display:block;margin:0 auto;height:86px;width:auto;max-width:100%;color:var(--ink);opacity:.42}
-@media (max-width:640px){.scene svg{height:52px}}
+@media (max-width:640px){.scene svg{height:62px}}
 .masthead{border-bottom:1px solid var(--rule-strong);background:var(--card)}
 .mast-in{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;padding:26px 0 18px}
 .mark{font:600 30px/1 ui-serif,Georgia,"Times New Roman",serif;letter-spacing:.02em}
 .mark span{color:var(--accent)}
 .tag{color:var(--muted);font-size:14px;max-width:52ch;margin-bottom:2px}
-.stamp{margin-left:auto;text-align:right;font-size:12px;color:var(--faint);line-height:1.7}
+.stampacts{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.stamp{display:flex;flex-direction:column;align-items:flex-end;text-align:right;
+  font-size:12px;color:var(--faint);line-height:1.6}
 .stamp b{color:var(--muted);font-weight:600}
+.stamp .dot{display:none}
+.acts{display:flex;gap:8px;align-items:center}
+@media (max-width:640px){
+  .mast-in{padding:15px 0 13px;gap:7px}
+  .mark{font-size:25px}
+  .tag{font-size:13px;max-width:none}
+  .stampacts{margin-left:0;flex-direction:column-reverse;align-items:flex-start;gap:9px}
+  .stamp{flex-direction:row;flex-wrap:wrap;gap:0 6px;align-items:baseline;text-align:left;font-size:11.5px}
+  .stamp .dot{display:inline;color:var(--rule-strong)}
+}
 .themebtn{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:6px;
   padding:4px 9px;font-size:11px;cursor:pointer;letter-spacing:.05em}
 .themebtn:hover{color:var(--ink);border-color:var(--accent)}
@@ -128,10 +140,24 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opa
 .badge .arrow{opacity:.6;transition:transform .12s}
 .badge:hover{background:color-mix(in srgb,var(--ok) 16%,transparent)}
 .badge:hover .arrow{transform:translateX(3px)}
-@media (max-width:560px){
-  .hgrid{grid-template-columns:1fr 1fr;gap:12px 18px}
-  .hgrid .hcell:nth-child(3){grid-column:1/-1}
-  .hlede{font-size:15px;margin-top:16px}
+/* On a phone the three figures become one artifact: a closing tally - labels
+   left, tabular amounts right, a single rule above the net and the double rule
+   under it. Three big numbers in an L-shape read as dropped-in text; a tally
+   card reads as a ledger. Desktop keeps the wide three-across grid. */
+@media (max-width:640px){
+  .hero{padding:18px 0 4px}
+  .hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;
+    padding:13px 16px 0;box-shadow:var(--shadow)}
+  .hgrid{display:block;max-width:none}
+  .hcell{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:6px 0}
+  .hcell .k{font-size:10.5px}
+  .hcell .v{font-size:23px;margin-top:0}
+  .hcell:nth-child(2){border-bottom:1px solid var(--rule-strong);padding-bottom:12px}
+  .hcell:nth-child(3){padding-top:10px}
+  .badge{display:flex;margin:10px -16px 0;border-radius:0 0 11px 11px;border:0;
+    border-top:1px solid color-mix(in srgb,var(--ok) 30%,transparent);padding:10px 16px;font-size:12.5px}
+  .badge .arrow{margin-left:auto}
+  .hlede{font-size:13.5px;margin-top:12px;color:var(--muted)}
 }
 
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:24px 0 8px}
@@ -489,8 +515,10 @@ footer{border-top:1px solid var(--rule);margin-top:42px;padding:22px 0 40px;colo
 footer p{margin:0 0 7px;max-width:80ch}
 @media (max-width:640px){
   .verdict{grid-template-columns:1fr;gap:12px;padding-top:26px}
-  .stamp{margin-left:0;text-align:left}
-  .mast-in{padding-bottom:14px}
+  section{padding:26px 0 8px}
+  h2{font-size:18.5px}
+  .lede{font-size:13.5px}
+  .sched{font-size:9.5px;letter-spacing:.09em}
 }
 </style>
 </head>
@@ -499,15 +527,20 @@ footer p{margin:0 0 7px;max-width:80ch}
 
 <header class="masthead">
   <div class="wrap mast-in">
-    <div>
+    <div class="mast-main">
       <div class="mark">Public <span>Ledger</span></div>
       <div class="tag">Where the City of North Tonawanda&rsquo;s money comes from, where it goes, and how to check it.</div>
     </div>
-    <div class="stamp">
-      Data current through <b id="through">—</b><br>
-      <b id="ndocs">—</b> documents · source <a href="https://www.northtonawanda.gov/accounting">northtonawanda.gov/accounting</a><br>
-      <a class="briefbtn" href="audit.html" style="margin-right:8px;padding:5px 11px;font-size:11.5px">Exception report</a>
-      <button class="themebtn" id="theme" type="button">THEME</button>
+    <div class="stampacts">
+      <div class="stamp">
+        <span>Data current through <b id="through">—</b></span><span class="dot">·</span>
+        <span><b id="ndocs">—</b> documents</span><span class="dot">·</span>
+        <span>source <a href="https://www.northtonawanda.gov/accounting">northtonawanda.gov/accounting</a></span>
+      </div>
+      <div class="acts">
+        <a class="briefbtn" href="audit.html" style="padding:5px 11px;font-size:11.5px">Exception report</a>
+        <button class="themebtn" id="theme" type="button">THEME</button>
+      </div>
     </div>
   </div>
 </header>
@@ -554,28 +587,30 @@ footer p{margin:0 0 7px;max-width:80ch}
 <main class="wrap">
 
   <div class="hero">
-    <div class="hgrid">
-      <div class="hcell">
-        <div class="k" id="heroRevK">Revenue</div>
-        <div class="v num" id="heroRev">—</div>
+    <div class="hcard">
+      <div class="hgrid">
+        <div class="hcell">
+          <div class="k" id="heroRevK">Revenue</div>
+          <div class="v num" id="heroRev">—</div>
+        </div>
+        <div class="hcell">
+          <div class="k" id="heroExpK">Expenditure</div>
+          <div class="v num" id="heroExp">—</div>
+        </div>
+        <div class="hcell">
+          <div class="k" id="heroNetK">Net</div>
+          <div class="v num closed" id="heroNet">—</div>
+        </div>
       </div>
-      <div class="hcell">
-        <div class="k" id="heroExpK">Expenditure</div>
-        <div class="v num" id="heroExp">—</div>
-      </div>
-      <div class="hcell">
-        <div class="k" id="heroNetK">Net</div>
-        <div class="v num closed" id="heroNet">—</div>
-      </div>
+      <a class="badge" href="#recon"><span class="tick">&#10003;</span>
+        <b id="badgeNum">—</b> <span>warrants reconcile exactly</span>
+        <span class="arrow">&rarr;</span></a>
     </div>
     <p class="hlede" id="heroLede">—</p>
-    <a class="badge" href="#recon"><span class="tick">&#10003;</span>
-      <b id="badgeNum">—</b> <span>warrants reconcile exactly</span>
-      <span class="arrow">&rarr;</span></a>
   </div>
 
   <section id="money">
-    <div class="sched">Schedule 1 · Annual financial reports (AFR), NYS Comptroller</div>
+    <div class="sched">Schedule 1 · Annual financial reports, NYS Comptroller</div>
     <h2>Where the money comes from, and where it goes</h2>
     <p class="lede">The city's annual financial reports, filed with the
       <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a> —
@@ -2630,6 +2665,18 @@ document.addEventListener('keydown',function(e){
   e.preventDefault();
   t.click();
 });
+
+/* On a phone the full 1200-unit engraving renders its strokes at ~0.5px and
+   reads as gray mush. Crop the viewBox to the lift bridge so the ink lands on
+   whole pixels; wide screens keep the full Tonawandas vignette. */
+(function(){
+  var sv=document.querySelector('.scene svg'); if(!sv) return;
+  var FULL=sv.getAttribute('viewBox');
+  function fit(){
+    sv.setAttribute('viewBox', window.innerWidth<640 ? '336 14 548 96' : FULL);
+  }
+  window.addEventListener('resize',fit); fit();
+})();
 
 document.getElementById('theme').addEventListener('click',function(){
   var cur=document.documentElement.getAttribute('data-theme');
