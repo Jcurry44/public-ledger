@@ -14,6 +14,9 @@ import csv
 import io
 import json
 import os
+import re
+import subprocess
+import urllib.request
 import zipfile
 from collections import defaultdict
 
@@ -199,6 +202,106 @@ def spark_path(vals, W=260, H=44):
         pts.append("%s%.1f %.1f" % ("L" if i else "M",
                    W * i / (len(vals) - 1), H - 3 - (H - 8) * (v / mx)))
     return " ".join(pts)
+
+
+# ---------------------------------------------------------------- the budget
+BUDGET_PDF = os.path.join(ROOT, "data", "budget", "2025_Adopted_Budget_Book_1_Final.pdf")
+BUDGET_URL = ("https://downloads.niagaracounty.gov/Document_center/Department/A%20-F/"
+              "Budget/Budget%20Books/2025_Adopted_Budget_Book_1_Final.pdf")
+BUDGET_YEAR = 2025
+
+
+def esc(t):
+    return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+if not os.path.exists(BUDGET_PDF):
+    os.makedirs(os.path.dirname(BUDGET_PDF), exist_ok=True)
+    req = urllib.request.Request(BUDGET_URL, headers={"User-Agent": "Mozilla/5.0"})
+    open(BUDGET_PDF, "wb").write(urllib.request.urlopen(req, timeout=300).read())
+
+
+def _page(n):
+    r = subprocess.run(["pdftotext", "-f", str(n), "-l", str(n), "-table",
+                        BUDGET_PDF, "-"], capture_output=True, text=True)
+    return r.stdout
+
+
+def _num(tok):
+    return float(tok.replace(",", ""))
+
+
+# Page 23: the A fund by NYS chart-of-accounts root, plus the other budgeted
+# funds. First numeric column is appropriations.
+p23 = _page(23)
+budget_roots, budget_funds = [], []
+for line in p23.splitlines():
+    m = re.match(r"\s*(A\d{4})\s+(.+?)\s{2,}([\d,]+)(?:\s|$)", line)
+    if m:
+        budget_roots.append({"root": m.group(1), "name": m.group(2).strip(),
+                             "approp": _num(m.group(3))})
+        continue
+    m = re.match(r"\s*(CM|CD|D|DM) Fund\s+(.+?)\s{2,}([\d,]+)(?:\s|$)", line)
+    if m:
+        budget_funds.append({"pfx": m.group(1), "name": m.group(2).strip(),
+                             "approp": _num(m.group(3))})
+mA = re.search(r"Total breakdown of A Fund\s+([\d,]+)", p23)
+mAll = re.search(r"Total All Funds w/o Districts\s+([\d,]+)", p23)
+assert mA and mAll, "budget page 23 anchors missing - book layout changed?"
+A_PRINTED, ALL_PRINTED = _num(mA.group(1)), _num(mAll.group(1))
+
+# GATE: the parsed rows must re-add to the book's own printed totals exactly.
+root_sum = sum(r["approp"] for r in budget_roots)
+assert abs(root_sum - A_PRINTED) < 0.5, \
+    "A-fund roots sum %.0f != printed %.0f" % (root_sum, A_PRINTED)
+fund_sum = root_sum + sum(f["approp"] for f in budget_funds)
+assert abs(fund_sum - ALL_PRINTED) < 0.5, \
+    "fund sum %.0f != printed %.0f" % (fund_sum, ALL_PRINTED)
+
+# Page 22: districts too (refuse/water/sewer), for the fund-level view.
+p22 = _page(22)
+district_rows = []
+for label, pfx in (("Refuse District", "S"), ("Water District", "FX"), ("Sewer District", "G")):
+    m = re.search(re.escape(label) + r"\s+([\d,]+)\s+([\d,]+)", p22)
+    if m:
+        district_rows.append({"pfx": pfx, "name": label, "approp": _num(m.group(1))})
+mTot = re.search(r"Totals\s+([\d,]+)\s+([\d,]+)", p22)
+assert mTot, "budget page 22 totals missing"
+GRAND_PRINTED = _num(mTot.group(1))
+assert abs(ALL_PRINTED + sum(d["approp"] for d in district_rows) - GRAND_PRINTED) < 0.5, \
+    "page-22 grand total does not reconcile with page-23 funds + districts"
+
+# ---- the actual side, same year, same shapes ----
+def root_of(num):
+    fn = num // 10                      # A3120.2 -> function 3120, object 2
+    if fn < 2000:
+        return "A%d" % ((fn // 100) * 100)
+    if fn < 9000:
+        return "A%d" % ((fn // 1000) * 1000)
+    if fn < 9700:
+        return "A9000"
+    if fn < 9900:
+        return "A9700"
+    return "A9900"
+
+
+actual_roots, actual_funds = {}, {}
+for f in flows:
+    if f[0] != BUDGET_YEAR or f[1] != 1:
+        continue
+    m = re.match(r"([A-Z]+)(\d+)", f[6])
+    if not m:
+        continue
+    pfx, num = m.group(1), int(m.group(2))
+    actual_funds[pfx] = actual_funds.get(pfx, 0) + f[7]
+    if pfx == "A":
+        r = root_of(num)
+        actual_roots[r] = actual_roots.get(r, 0) + f[7]
+
+BUDGET_FUND_MAP = [("General (A)", "A", A_PRINTED)] + \
+    [(f["name"] + " (" + f["pfx"] + ")", f["pfx"], f["approp"]) for f in budget_funds] + \
+    [(d["name"] + " (" + d["pfx"] + ")", d["pfx"], d["approp"]) for d in district_rows]
+UNBUDGETED = sorted((k, v) for k, v in actual_funds.items()
+                    if k not in {x[1] for x in BUDGET_FUND_MAP})
 
 
 def all_cats(sec, yr):
@@ -529,6 +632,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
     <a href="#money" class="on">Revenue &amp; spending</a>
     <a href="#peers">Nine counties</a>
     <a href="#shared">Sales tax, shared</a>
+    <a href="#budget">Budget vs actual</a>
     <a href="#method">Method</a>
   </div></nav>
 
@@ -628,6 +732,33 @@ body:has(#modal:not([hidden])) .pager{display:none}
         Niagara Falls additionally imposes a city sales tax of its own (__NFOWN__ in __SHAREDYEAR__),
         shown in its filing separately from sharing — it is not part of this pot. Villages sit inside
         towns, so their residents appear in both layers; figures as filed.</p>
+    </div>
+  </section>
+
+  <section id="budget">
+    <h2>The budget, against the actuals <span class="num" style="letter-spacing:0">__BY__</span></h2>
+    <p class="lede">What the Legislature <b>adopted</b> for __BY__, next to what the county&rsquo;s
+      __BY__ filing says <b>actually happened</b> — the first machine-readable budget book, reconciled
+      against the filing, line by NYS-chart line. Variances fold in every in-year amendment the
+      Legislature passed after adoption; this is the year measured against the <i>original</i> promise.</p>
+    <div class="gateline num">&#10003; BUDGET GATES PASS: parsed A-fund rows re-add to the book&rsquo;s
+      printed __APRINT__ &middot; all funds to __ALLPRINT__ &middot; page-22 grand total reconciles</div>
+    <div class="panel" style="margin-top:14px">
+      <h3>General Fund, by chart-of-accounts line</h3>
+      <div class="sub">Adopted appropriation vs filed expenditure · variance is actual minus budget</div>
+      __ROOTTABLE__
+      <p class="note">A9900 interfund transfers are excluded: the budget carries them as an
+        appropriation, but the state filing classes them as &ldquo;other uses&rdquo;, outside the
+        expenditure section — the two documents define that row differently, so comparing it would
+        be false precision.</p>
+    </div>
+    <div class="panel" style="margin-top:14px">
+      <h3>Every budgeted fund</h3>
+      <div class="sub">Adopted vs filed, __BY__</div>
+      __FUNDTABLE__
+      <p class="note">The filing also carries funds the adopted budget does not price:
+        __UNBUDGETED__ — self-insurance, capital projects and similar are governed outside the
+        budget book, and the H capital fund is one-time by design.</p>
     </div>
   </section>
 
@@ -1547,6 +1678,51 @@ themeIcon();
 </script>
 </body></html>"""
 
+def _var_row(name, bud, act, mono_name=False):
+    if act is None:
+        return ('<tr><td class="m-name">{n}</td><td class="r num m-vals">${b:,.0f}</td>'
+                '<td class="r num m-vals">—</td>'
+                '<td class="r num m-delta">excluded</td><td class="r num m-pct">—</td></tr>'
+               ).format(n=name, b=bud)
+    d = act - bud
+    pct = (d / bud * 100) if bud else 0
+    cls = "up" if d > 0 else "dn"
+    return ('<tr><td class="m-name">{n}</td><td class="r num m-vals">${b:,.0f}</td>'
+            '<td class="r num m-vals">${a:,.0f}</td>'
+            '<td class="r num m-delta {c}">{sg}${ad:,.0f}</td>'
+            '<td class="r num m-pct {c}">{sgp}{p:.1f}%</td></tr>'
+           ).format(n=name, b=bud, a=act, c=cls, sg="+" if d >= 0 else "−",
+                    ad=abs(d), sgp="+" if d >= 0 else "", p=pct)
+
+
+rt_rows, covered = [], set()
+for r in budget_roots:
+    nm = '{} <span class="fnt num">{}</span>'.format(esc(r["name"]), r["root"])
+    if r["root"] == "A9900":
+        rt_rows.append(_var_row(nm, r["approp"], None))
+    else:
+        rt_rows.append(_var_row(nm, r["approp"], actual_roots.get(r["root"], 0)))
+    covered.add(r["root"])
+for k in sorted(actual_roots):
+    if k not in covered and k != "A9900":
+        rt_rows.append(_var_row(
+            '{} <span class="fnt">filed, not separately budgeted</span>'.format(k),
+            0, actual_roots[k]))
+a_act_cmp = sum(v for k, v in actual_roots.items() if k != "A9900")
+a_bud_cmp = sum(r["approp"] for r in budget_roots if r["root"] != "A9900")
+rt_rows.append(_var_row("<b>General Fund total (excl. transfers)</b>", a_bud_cmp, a_act_cmp))
+ROOTTABLE = ('<table class="mv"><thead><tr><th>Line</th><th class="r">Adopted</th>'
+             '<th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th>'
+             '</tr></thead><tbody>' + "".join(rt_rows) + "</tbody></table>")
+
+fd_rows = []
+for name, pfx, bud in BUDGET_FUND_MAP:
+    fd_rows.append(_var_row(esc(name), bud, actual_funds.get(pfx, 0)))
+FUNDTABLE = ('<table class="mv"><thead><tr><th>Fund</th><th class="r">Adopted</th>'
+             '<th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th>'
+             '</tr></thead><tbody>' + "".join(fd_rows) + "</tbody></table>")
+UNB = " · ".join('{} <span class="num">${:,.0f}</span>'.format(k, v) for k, v in UNBUDGETED)
+
 recip_rows = "".join(
     '<div class="rk"><span class="lb">{name}<span class="clsch">{cls}</span>{nf}</span>'
     '<span class="vl num">${amt:,.0f}</span>'
@@ -1561,6 +1737,12 @@ recip_rows = "".join(
 dist_vals = [dist_series.get(y, 0) for y in yrs]
 
 out = (TEMPLATE
+       .replace("__BY__", str(BUDGET_YEAR))
+       .replace("__APRINT__", "${:,.0f}".format(A_PRINTED))
+       .replace("__ALLPRINT__", "${:,.0f}".format(ALL_PRINTED))
+       .replace("__ROOTTABLE__", ROOTTABLE)
+       .replace("__FUNDTABLE__", FUNDTABLE)
+       .replace("__UNBUDGETED__", UNB)
        .replace("__SPARK__", spark_path(dist_vals))
        .replace("__RECIPROWS__", recip_rows)
        .replace("__SHAREDYEAR__", str(shared_year))

@@ -4,6 +4,7 @@ data/pdf/
 data/pdf2025/
 data/txt/
 data/osc/*.zip
+data/budget/
 
 # Intermediate parse output (4 MB). data/site-data.json and data/osc-data.json
 # are kept: they are the published payloads.
