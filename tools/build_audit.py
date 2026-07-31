@@ -175,6 +175,28 @@ tr:last-child td{border-bottom:0}
 .note{font-size:11.5px;color:var(--faint);border-top:1px solid var(--rule);margin-top:26px;padding-top:10px}
 .tw{overflow-x:auto}
 .tw table{min-width:520px}
+@media (max-width:640px){
+  .strip{flex-direction:column;gap:7px;padding:9px 2px}
+  .strip div{display:flex;align-items:baseline;gap:10px}
+  .strip em{margin:0}
+  .strip b{font-size:13.5px}
+  .tw{overflow:visible}
+  .tw table{min-width:0}
+  table,tbody{display:block;width:100%}
+  thead{display:none}
+  tbody tr{display:block;padding:11px 0;border-bottom:1px solid var(--rule)}
+  tbody tr:last-child{border-bottom:0}
+  td{display:flex;justify-content:space-between;gap:14px;align-items:baseline;
+    padding:2.5px 0;border:0;text-align:left}
+  td::before{content:attr(data-l);font:600 9.5px/1.6 system-ui;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--faint);flex:0 0 auto}
+  td:first-child{display:block;font-weight:600}
+  td:first-child::before{display:none}
+  td:not([data-l]){display:block}
+  td:not([data-l])::before{content:none}
+  td.wide{display:block}
+  td.wide::before{display:block;margin-bottom:3px}
+}
 details.morex summary{list-style:none;cursor:pointer}
 details.morex summary::-webkit-details-marker{display:none}
 .mx{color:var(--navy);font-weight:600;font-size:11.5px;white-space:nowrap}
@@ -232,11 +254,11 @@ h += ('<table><thead><tr><th>Account</th><th class="r">%d</th><th class="r">Prio
       '<th class="r">Multiple</th></tr></thead><tbody>') % LATEST
 for c in catchalls:
     mult = ('%.1f&times;' % (c["latest"] / c["med"])) if c["med"] else "—"
-    h += ('<tr><td>%s <span class="fnt num">%s</span>%s</td><td class="r num">%s</td>'
-          '<td class="r num">%s</td><td class="r num"><b>%s</b></td></tr>'
+    h += ('<tr><td>%s <span class="fnt num">%s</span>%s</td><td class="r num" data-l="%d">%s</td>'
+          '<td class="r num" data-l="Prior-yr median">%s</td><td class="r num" data-l="Multiple"><b>%s</b></td></tr>'
           % (esc(c["narr"]), c["code"],
              ' <span class="pill">SINCE %d</span>' % c["first"] if c["first"] > YEARS[0] else '',
-             money0(c["latest"]), money0(c["med"]) if c["med"] else "—", mult))
+             LATEST, money0(c["latest"]), money0(c["med"]) if c["med"] else "—", mult))
 h += '</tbody></table>'
 
 # --- 3. accounts off their history ---
@@ -249,16 +271,18 @@ h += ('<p class="q"><b>The question:</b> which of these are one-time events, and
 h += ('<table><thead><tr><th>Account</th><th>Category</th><th class="r">%d</th>'
       '<th class="r">Median</th><th class="r">Multiple</th></tr></thead><tbody>') % LATEST
 for x in spikes:
-    h += ('<tr><td>%s <span class="fnt num">%s</span></td><td class="mut">%s %s</td>'
-          '<td class="r num">%s</td><td class="r num">%s</td><td class="r num"><b>%.1f&times;</b></td></tr>'
+    h += ('<tr><td>%s <span class="fnt num">%s</span></td><td class="mut" data-l="Category">%s %s</td>'
+          '<td class="r num" data-l="%d">%s</td><td class="r num" data-l="Median">%s</td>'
+          '<td class="r num" data-l="Multiple"><b>%.1f&times;</b></td></tr>'
           % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
-             money0(x["latest"]), money0(x["med"]), x["ratio"]))
+             LATEST, money0(x["latest"]), money0(x["med"]), x["ratio"]))
 for x in newcomers:
     h += ('<tr><td>%s <span class="fnt num">%s</span><span class="pill">NEW</span></td>'
-          '<td class="mut">%s %s</td><td class="r num">%s</td><td class="r num">—</td>'
-          '<td class="r num"><b>first year</b></td></tr>'
+          '<td class="mut" data-l="Category">%s %s</td><td class="r num" data-l="%d">%s</td>'
+          '<td class="r num" data-l="Median">—</td>'
+          '<td class="r num" data-l="Multiple"><b>first year</b></td></tr>'
           % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
-             money0(x["latest"])))
+             LATEST, money0(x["latest"])))
 h += '</tbody></table>'
 
 # --- 4. vendor masters ---
@@ -269,7 +293,8 @@ h += ('<p class="q"><b>The question:</b> can these be merged? Duplicate vendor m
       'the exposure is the control, not a loss.</p>')
 h += '<table><thead><tr><th>Payee</th><th>Vendor codes</th><th class="r">Combined</th></tr></thead><tbody>'
 for x in hygiene:
-    h += ('<tr><td>%s</td><td class="num mut">%s</td><td class="r num">%s</td></tr>'
+    h += ('<tr><td>%s</td><td class="num mut wide" data-l="Vendor codes">%s</td>'
+          '<td class="r num" data-l="Combined">%s</td></tr>'
           % (esc(V[x["v"]]), "  ".join(x["codes"]), money0(x["sum"])))
 h += '</tbody></table>'
 
@@ -282,8 +307,9 @@ h += ('<p class="q"><b>The question:</b> should any of these be on a contract? N
 h += ('<table><thead><tr><th>Vendor</th><th class="r">Charge accounts</th><th class="r">Purchases</th>'
       '<th class="r">Two-year total</th></tr></thead><tbody>')
 for x in sprawl_top:
-    h += ('<tr><td>%s</td><td class="r num">%d</td><td class="r num">%d</td>'
-          '<td class="r num">%s</td></tr>'
+    h += ('<tr><td>%s</td><td class="r num" data-l="Charge accounts">%d</td>'
+          '<td class="r num" data-l="Purchases">%d</td>'
+          '<td class="r num" data-l="Two-year total">%s</td></tr>'
           % (esc(x["name"]), x["accts"], x["n"], money0(x["sum"])))
 h += '</tbody></table>'
 
@@ -305,8 +331,9 @@ for x in firsts:
                            % (esc(k), money0(v)) for k, v in x["ctx"])))
     else:
         cell = esc(x["ctx"][0][0])
-    h += ('<tr><td>%s</td><td class="mut">%s</td><td class="num mut">%s</td>'
-          '<td class="r num">%s</td></tr>'
+    h += ('<tr><td>%s</td><td class="mut wide" data-l="For">%s</td>'
+          '<td class="num mut" data-l="First appears">%s</td>'
+          '<td class="r num" data-l="Total">%s</td></tr>'
           % (esc(x["name"]), cell, esc(x["doc"]["report_date"]), money0(x["amt"])))
 h += '</tbody></table>'
 

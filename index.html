@@ -541,6 +541,24 @@ footer p{margin:0 0 7px;max-width:80ch}
   .sched{font-size:9.5px;letter-spacing:.09em}
 }
 
+/* On a phone the findings tables become labelled cards - seven columns in a
+   sideways scroller reads as clipped, not scrollable. */
+@media (max-width:640px){
+  .findtab,.findtab tbody{display:block;width:100%}
+  .findtab thead{display:none}
+  .findtab tr{display:block;padding:11px 2px;border-bottom:1px solid var(--rule)}
+  .findtab tr:last-child{border-bottom:0}
+  .findtab td{display:flex;justify-content:space-between;gap:14px;align-items:baseline;
+    padding:2.5px 0;border:0;text-align:left}
+  .findtab td::before{content:attr(data-l);font:600 9.5px/1.6 system-ui;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--faint)}
+  .findtab td:first-child{display:block;font-weight:600;font-size:13.5px}
+  .findtab td:first-child::before{display:none}
+  .findtab td .bar{display:none}
+  .findtab td.codes{display:block}
+  .findtab td.codes::before{display:block;margin-bottom:2px}
+  .findtab td.act{display:none}
+}
 /* ---------- craft ---------- */
 .wchart{position:relative}
 #warrantChart{touch-action:pan-y}
@@ -779,7 +797,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
     <p class="lede">How many charge accounts one vendor's spending lands in. Not wrongdoing — it is why
       "what did we spend on X" is hard to answer from a ledger.</p>
     <div class="tbox scroll">
-      <table>
+      <table class="findtab">
         <thead><tr><th>Vendor</th><th class="r">Accounts</th><th class="r">Departments</th><th class="r">Line items</th>
           <th class="r">Median line</th><th class="r">Total</th><th></th></tr></thead>
         <tbody id="sprawlBody"></tbody>
@@ -790,7 +808,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
     <p class="lede">One payee carrying several vendor records. Every dollar is properly authorised — but
       spend for one company splits across records and no single view adds it up.</p>
     <div class="tbox scroll">
-      <table>
+      <table class="findtab">
         <thead><tr><th>Payee</th><th>Vendor codes</th><th class="r">Line items</th><th class="r">Combined total</th><th></th></tr></thead>
         <tbody id="hygieneBody"></tbody>
       </table>
@@ -2314,19 +2332,19 @@ var sprawl = Object.keys(byVendor).map(function(k){
 var maxAcc = sprawl[0].acc;
 document.getElementById('sprawlBody').innerHTML = sprawl.map(function(s){
   return '<tr><td><span class="linkish" data-vendor="'+s.v+'">'+esc(V[s.v])+'</span></td>'+
-    '<td class="r num"><b>'+s.acc+'</b><div class="bar"><i style="width:'+(s.acc/maxAcc*100)+'%"></i></div></td>'+
-    '<td class="r num">'+s.dept+'</td><td class="r num">'+s.n+'</td>'+
-    '<td class="r num">'+money(s.med)+'</td><td class="r num">'+money(s.sum)+'</td>'+
-    '<td><span class="linkish" data-vendor="'+s.v+'">view</span></td></tr>';}).join('');
+    '<td class="r num" data-l="Accounts"><b>'+s.acc+'</b><div class="bar"><i style="width:'+(s.acc/maxAcc*100)+'%"></i></div></td>'+
+    '<td class="r num" data-l="Departments">'+s.dept+'</td><td class="r num" data-l="Line items">'+s.n+'</td>'+
+    '<td class="r num" data-l="Median line">'+money(s.med)+'</td><td class="r num" data-l="Total">'+money(s.sum)+'</td>'+
+    '<td class="act"><span class="linkish" data-vendor="'+s.v+'">view</span></td></tr>';}).join('');
 
 /* payee names carrying more than one vendor master code */
 var hy = D.hygiene || [];
 if(hy.length){
   document.getElementById('hygieneBody').innerHTML = hy.map(function(h){
     return '<tr><td><span class="linkish" data-vendor="'+h.v+'">'+esc(V[h.v])+'</span></td>'+
-      '<td class="num">'+h.codes.map(esc).join('  ')+'</td>'+
-      '<td class="r num">'+h.n+'</td><td class="r num">'+money(h.sum)+'</td>'+
-      '<td><span class="linkish" data-vendor="'+h.v+'">view</span></td></tr>';}).join('');
+      '<td class="num codes" data-l="Vendor codes">'+h.codes.map(esc).join('  ')+'</td>'+
+      '<td class="r num" data-l="Line items">'+h.n+'</td><td class="r num" data-l="Combined total">'+money(h.sum)+'</td>'+
+      '<td class="act"><span class="linkish" data-vendor="'+h.v+'">view</span></td></tr>';}).join('');
 } else {
   // No duplicate vendor records in this corpus: drop the tab rather than
   // offering an empty one.
