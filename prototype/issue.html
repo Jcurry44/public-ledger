@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>The Ledger — Issue No. 36</title>
+<style>
+@font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;
+  src:url(../fonts/Fraunces-600-latin.woff2) format('woff2')}
+:root{--paper:#f6f4ef;--card:#fffdfa;--ink:#16181d;--muted:#6c7079;--faint:#93979f;
+  --rule:#e0dbd0;--strong:#cdc6b7;--navy:#1b3a5c;--ok:#1c6b47;--ok-soft:#e3f0e9;--desk:#e9e3d5}
+*{box-sizing:border-box}
+html{border-top:5px solid var(--navy);background:var(--desk);-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--desk);color:var(--ink);font:14.5px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.num{font-family:ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+.page{max-width:960px;margin:26px auto 60px;padding:38px 40px 50px;background:var(--paper);
+  border-radius:3px;box-shadow:0 0 0 1px var(--strong),0 26px 70px -32px rgba(20,18,10,.45)}
+@media (max-width:700px){.page{margin:0;border-radius:0;box-shadow:none;padding:24px 16px 40px}}
+.mast{text-align:center;border-bottom:3px double var(--strong);padding-bottom:16px}
+.mast .over{font:600 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.22em;color:var(--faint)}
+.mast h1{font:600 44px/1.05 'Fraunces',ui-serif,Georgia,serif;margin:10px 0 8px}
+@media (max-width:700px){.mast h1{font-size:32px}}
+.mast .issue{font-size:13px;color:var(--muted)}
+.mast .issue b{color:var(--ink)}
+.lede{font:400 17px/1.75 ui-serif,Georgia,serif;max-width:64ch;margin:26px auto 8px}
+@media (max-width:700px){.lede{font-size:15.5px;line-height:1.7}}
+.lede .mut{color:var(--muted);font-size:14px}
+.ev{color:var(--navy);text-decoration:underline;text-decoration-style:dotted;
+  text-underline-offset:3px;cursor:pointer}
+.ev:hover{background:#eae4d4}
+h2{font:600 11px/1 system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);
+  margin:34px 0 10px;display:flex;gap:12px;align-items:center;justify-content:center}
+h2::before,h2::after{content:'';flex:1;height:1px;background:var(--rule)}
+.scalehead{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:0 0 14px}
+.scalehead .chip{border:1px solid var(--strong);border-radius:99px;padding:3px 10px;background:var(--card)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--muted)}
+.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.taperow{display:flex;justify-content:center;gap:22px;margin-top:18px}
+.tape{width:min(600px,100%);}
+.slat{position:relative;margin:0 0 1px;border-radius:1px;overflow:visible;cursor:pointer}
+.slat:hover,.slat.lit{outline:2px solid var(--ink);outline-offset:1px;z-index:2}
+.slbl{position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;font-size:11.5px;
+  color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.fuzz{position:relative;margin:0 0 1px;border-radius:1px;cursor:pointer;
+  background:repeating-linear-gradient(0deg,#b9b2a2 0 1px,#e7e2d5 1px 3px)}
+.fuzz .slbl{color:var(--muted);text-shadow:none;font-weight:500}
+.fuzz:hover{outline:2px solid var(--muted);outline-offset:1px}
+.wmark{display:flex;gap:12px;align-items:baseline;font-size:11px;color:var(--faint);
+  border-top:1px solid var(--strong);margin:14px 0 5px;padding-top:4px;flex-wrap:wrap}
+.wmark .num:first-child{font-weight:700;color:var(--muted)}
+.wmark .tick{color:var(--ok);margin-left:auto}
+.yeardiv{display:flex;align-items:center;gap:12px;margin:20px 0 6px;color:var(--faint);
+  font:700 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.18em}
+.yeardiv::before,.yeardiv::after{content:'';flex:1;height:1px;background:var(--strong)}
+.backrow{margin-top:10px}
+.backrow a{font-size:12.5px;color:var(--navy);text-decoration:none;border:1px solid var(--strong);
+  border-radius:99px;padding:5px 12px;background:var(--card)}
+.backrow a:hover{border-color:var(--navy)}
+.torn{margin:14px 0;padding:12px 10px;border-top:2px dashed #b9b2a2;border-bottom:2px dashed #b9b2a2;
+  background:repeating-linear-gradient(-45deg,transparent 0 7px,#eee8da 7px 14px)}
+.tornlbl{font-size:11.5px;color:var(--muted);text-align:center}
+.close{max-width:600px;margin:6px auto 0;text-align:right}
+.close .sum{font:600 26px/1.1 'Fraunces',ui-serif,Georgia,serif;border-bottom:3px double var(--ink);
+  display:inline-block;padding-bottom:6px}
+.close .cap{font-size:12px;color:var(--muted);margin-top:6px}
+.tip{position:fixed;left:0;bottom:0;right:0;transform:translateY(110%);transition:transform .18s;
+  background:var(--ink);color:#f6f4ef;font-size:13px;padding:12px 16px;z-index:9;line-height:1.5}
+.tip.on{transform:none}
+@media (min-width:701px){.tip{left:auto;right:22px;bottom:22px;max-width:360px;border-radius:10px;
+  box-shadow:0 18px 50px -20px rgba(10,12,15,.6)}}
+.foot{text-align:center;font-size:12px;color:var(--faint);border-top:1px solid var(--rule);
+  margin-top:38px;padding-top:14px}
+</style></head><body>
+<div class="page">
+  <div class="mast">
+    <div class="over">EVERY CLAIM · EVERY MEETING · TO THE PENNY · TO SCALE</div>
+    <h1>The Ledger</h1>
+    <div class="issue">City of North Tonawanda &middot; <b>Issue No. 36</b> — the meeting of
+      <b>07/21/2026</b> &middot; written by the record, checked against itself</div>
+    <div class="backrow"><a href="../">Public Ledger — the full reference &rarr;</a></div>
+  </div>
+
+  <div class="lede"><p>On <b>07/21/2026</b> the Common Council was asked to approve <b class="num">$1,695,842</b> across <b>375 claims</b> — 2.0&times; a typical meeting on this record. The largest single claim is <a class="ev" data-slat="s-41-0"><b class="num">$632,174</b> to LAKESIDE CONTRACTORS, INC.</a> for the Memorial Pool Redesign. <b>8 payees</b> appear in the record for the first time, together <a class="ev" data-slat="s-41-0"><b class="num">$672,882</b></a> — the largest, LAKESIDE CONTRACTORS, INC., at <b class="num">$632,174</b>. <b class="num">54%</b> of the meeting is capital work — projects, not day-to-day operations. Its printed control total ties out to the penny, so this issue publishes. <span class="mut">Every number above is computed from the document itself; press one to find its ink in the record below.</span></p></div>
+
+  <h2>The record, to scale — newest first</h2>
+  <div class="scalehead">
+    <span class="chip">1 pixel = <span class="num">$6,684</span></span>
+    <span class="chip">every one of <span class="num">8,532</span> claims is on this page</span>
+  </div>
+  <div class="legend"><span><b style="background:#1b3a5c"></b>General Fund</span><span><b style="background:#3d7ebf"></b>Water</span><span><b style="background:#3f7d74"></b>Sewer</span><span><b style="background:#c07a24"></b>Capital projects</span><span><b style="background:#9a5a86"></b>Golf</span></div>
+
+  <div class="taperow"><div class="tape">
+<div class="wmark"><span class="num">07/21/2026</span><span>375 claims</span><span class="num">$1,695,842</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-41-0" style="height:94.58px;background:#c07a24" data-tip="LAKESIDE CONTRACTORS, INC. · $632,174 · 618-7180-2440 · Memorial Pool Redesign · warrant of 07/21/2026"><span class="slbl">LAKESIDE CONTRACTORS, INC.&nbsp;&mdash;&nbsp;<span class="num">$632,174</span>&nbsp;&middot;&nbsp;Memorial Pool Redesign</span></div>
+<div class="slat" id="s-41-1" style="height:21.27px;background:#1b3a5c" data-tip="ARTHUR J. GALLAGHER RISK · $142,198 · 001-1910-0480 · warrant of 07/21/2026"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$142,198</span></span></div>
+<div class="slat" id="s-41-2" style="height:18.65px;background:#c07a24" data-tip="SCOTT LAWN YARD · $124,677 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 07/21/2026"><span class="slbl">SCOTT LAWN YARD&nbsp;&mdash;&nbsp;<span class="num">$124,677</span>&nbsp;&middot;&nbsp;Smartgrowth 2.0</span></div>
+<div class="slat" id="s-41-3" style="height:11.17px;background:#1b3a5c" data-tip="NATIONAL GRID · $74,682 · 001-5182-0460 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-4" style="height:7.30px;background:#3d7ebf" data-tip="BANCORP BANK, THE · $48,820 · 002-8340-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-5" style="height:7.06px;background:#3f7d74" data-tip="NATIONAL GRID · $47,207 · 004-8130-0460 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-6" style="height:6.06px;background:#3d7ebf" data-tip="CPE · $40,501 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-7" style="height:4.73px;background:#1b3a5c" data-tip="LUMBER CITY DEVELOPMENT CORP. · $31,620 · 001-8020-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-8" style="height:4.69px;background:#c07a24" data-tip="CIR ELECTRIC · $31,350 · 618-7180-2440 · Memorial Pool Redesign · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-9" style="height:4.09px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $27,359 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-10" style="height:4.08px;background:#3d7ebf" data-tip="NATIONAL GRID · $27,249 · 002-8320-0460 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-11" style="height:3.55px;background:#1b3a5c" data-tip="GHD SERVICES INC · $23,699 · 001-8091-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-12" style="height:3.50px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $23,415 · 001-5110-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-13" style="height:3.40px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $22,722 · 001-5110-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-14" style="height:3.28px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $21,929 · 001-5110-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-15" style="height:2.99px;background:#c07a24" data-tip="DV BROWN &amp; ASSOCIATES, INC. · $19,998 · 618-7180-2440 · Memorial Pool Redesign · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-16" style="height:2.61px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $17,467 · 001-8160-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-17" style="height:2.49px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $16,673 · 001-5110-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-18" style="height:2.47px;background:#3d7ebf" data-tip="NCA COMP INC. · $16,539 · 002-9040-0804 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-19" style="height:2.44px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $16,327 · 004-8130-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-20" style="height:2.35px;background:#c07a24" data-tip="NUSSBAUMER &amp; CLARKE INC · $15,680 · 618-7180-2440 · Memorial Pool Redesign · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-21" style="height:1.99px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $13,270 · 004-8130-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-22" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-23" style="height:1.67px;background:#3f7d74" data-tip="PVS NOLWOOD CHEMICALS INC · $11,165 · 004-8130-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-24" style="height:1.63px;background:#1b3a5c" data-tip="NCA COMP INC. · $10,883 · 001-9040-0804 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-25" style="height:1.60px;background:#3f7d74" data-tip="KANDEY COMPANY INC · $10,671 · 004-8120-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-26" style="height:1.38px;background:#1b3a5c" data-tip="CELLEBRITE, INC. · $9,240 · 001-3120-0480 · warrant of 07/21/2026"></div>
+<div class="slat" id="s-41-27" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 07/21/2026"></div>
+<div class="fuzz" style="height:29.51px" data-tip="347 claims under $7,352 totalling $197,267 · warrant of 07/21/2026 · every one is in the register"><span class="slbl mut">347 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$197,267</span></span></div>
+<div class="wmark"><span class="num">07/07/2026</span><span>312 claims</span><span class="num">$1,289,800</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-40-0" style="height:33.75px;background:#c07a24" data-tip="ZOLL MEDICAL CORPORATION · $225,577 · 620-3497-0205 · Fire · warrant of 07/07/2026"><span class="slbl">ZOLL MEDICAL CORPORATION&nbsp;&mdash;&nbsp;<span class="num">$225,577</span>&nbsp;&middot;&nbsp;Fire</span></div>
+<div class="slat" id="s-40-1" style="height:33.11px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $221,307 · 615-5110-0200 · Maintenance Of Streets · warrant of 07/07/2026"><span class="slbl">AMRIZE GREAT LAKES INC&nbsp;&mdash;&nbsp;<span class="num">$221,307</span>&nbsp;&middot;&nbsp;Maintenance Of Streets</span></div>
+<div class="slat" id="s-40-2" style="height:11.41px;background:#1b3a5c" data-tip="NCA COMP INC. · $76,246 · 001-9040-0804 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-3" style="height:11.22px;background:#1b3a5c" data-tip="TOKIO MARINE HCC-PRG-C#202692 · $75,000 · 001-1930-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-4" style="height:10.84px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $72,428 · 001-9060-0808 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-5" style="height:10.21px;background:#c07a24" data-tip="MUNICIPAL MILLING · $68,238 · 615-5110-0200 · Maintenance Of Streets · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-6" style="height:6.94px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $46,397 · 609-8397-0203 · Water/Sewer Analysis · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-7" style="height:6.61px;background:#c07a24" data-tip="JM PROCOURTS SURFACE SOLUTIONS · $44,150 · 618-7110-0245 · Wurlitzer Pickelball Court · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-8" style="height:5.28px;background:#3f7d74" data-tip="DUNCAN'S HEATING &amp; · $35,311 · 004-8130-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-9" style="height:3.88px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $25,924 · 001-5110-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-10" style="height:3.67px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $24,540 · 001-5110-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-11" style="height:2.97px;background:#1b3a5c" data-tip="NCA COMP INC. · $19,848 · 001-9040-0804 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-12" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-13" style="height:1.91px;background:#1b3a5c" data-tip="AMRIZE GREAT LAKES INC · $12,765 · 001-5110-0421 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-14" style="height:1.85px;background:#3f7d74" data-tip="KANDEY COMPANY INC · $12,371 · 004-8120-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-15" style="height:1.84px;background:#1b3a5c" data-tip="AMRIZE GREAT LAKES INC · $12,282 · 001-5110-0421 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-16" style="height:1.82px;background:#c07a24" data-tip="SWAT-MOD LLC · $12,196 · 620-3120-0202 · Tactical Training Grant · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-17" style="height:1.63px;background:#1b3a5c" data-tip="COLDEN ENTERPRISES INC. · $10,924 · 001-5110-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-18" style="height:1.42px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $9,476 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-19" style="height:1.39px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $9,289 · 004-8130-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-20" style="height:1.37px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $9,135 · 001-9060-0807 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-21" style="height:1.33px;background:#3d7ebf" data-tip="E.H. WACHS · $8,900 · 002-8340-0480 · warrant of 07/07/2026"></div>
+<div class="slat" id="s-40-22" style="height:1.10px;background:#1b3a5c" data-tip="CSEA EMPLOYEE BENEFIT FUND · $7,358 · 001-9060-0807 · warrant of 07/07/2026"></div>
+<div class="fuzz" style="height:35.48px" data-tip="289 claims under $7,352 totalling $237,139 · warrant of 07/07/2026 · every one is in the register"><span class="slbl mut">289 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$237,139</span></span></div>
+<div class="wmark"><span class="num">06/22/2026</span><span>32 claims</span><span class="num">$44,405</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-39-0" style="height:5.95px;background:#1b3a5c" data-tip="MODERN DISPOSAL SERVICES · $39,765 · 001-8160-0480 · warrant of 06/22/2026"></div>
+<div class="fuzz" style="height:2.50px" data-tip="31 claims under $7,352 totalling $4,640 · warrant of 06/22/2026 · every one is in the register"></div>
+<div class="wmark"><span class="num">06/16/2026</span><span>370 claims</span><span class="num">$895,846</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-38-0" style="height:11.25px;background:#1b3a5c" data-tip="NATIONAL GRID · $75,206 · 001-5182-0460 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-1" style="height:11.09px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $74,117 · 001-9060-0808 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-2" style="height:6.14px;background:#c07a24" data-tip="GOODWIN ELECTRIC CORPORATION · $41,040 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-3" style="height:5.70px;background:#c07a24" data-tip="MUNICIPAL MILLING · $38,113 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-4" style="height:4.85px;background:#1b3a5c" data-tip="CASCADE ENGINEERING · $32,418 · 001-8160-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-5" style="height:4.12px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $27,570 · 001-5110-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-6" style="height:4.05px;background:#c07a24" data-tip="HAZEN AND SAWYER · $27,083 · 618-7180-2440 · Memorial Pool Redesign · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-7" style="height:3.74px;background:#3d7ebf" data-tip="C &amp; S ENGINEERS, INC. · $25,000 · 603-5110-0244 · Tcmh Feasibility Study · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-8" style="height:3.37px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $22,523 · 001-5110-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-9" style="height:3.11px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $20,799 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-10" style="height:2.81px;background:#1b3a5c" data-tip="FM COMMUNICATIONS INC · $18,780 · 001-3120-0231 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-11" style="height:2.66px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $17,775 · 001-8160-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-12" style="height:2.61px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,465 · 001-5110-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-13" style="height:2.54px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $16,948 · 001-5110-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-14" style="height:2.47px;background:#1b3a5c" data-tip="BOB WEAVER MOTORSPORTS · $16,536 · 001-3120-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-15" style="height:2.32px;background:#1b3a5c" data-tip="EDMUNDS GOVTECH · $15,500 · 001-1315-0441 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-16" style="height:2.20px;background:#1b3a5c" data-tip="M.M.R.C. · $14,738 · 001-5110-0420 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-17" style="height:2.17px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $14,524 · 004-8130-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-18" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-19" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-20" style="height:1.82px;background:#1b3a5c" data-tip="NCA COMP INC. · $12,139 · 001-9040-0804 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-21" style="height:1.68px;background:#1b3a5c" data-tip="NORTH TONAWANDA TREASURER · $11,250 · 001-9060-0807 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-22" style="height:1.53px;background:#1b3a5c" data-tip="EDMUNDS GOVTECH · $10,220 · 001-1315-0410 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-23" style="height:1.50px;background:#3f7d74" data-tip="NATIONAL GRID · $10,005 · 004-8120-0460 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-24" style="height:1.22px;background:#1b3a5c" data-tip="COLDEN ENTERPRISES INC. · $8,155 · 001-3410-0260 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-25" style="height:1.19px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $7,962 · 004-8130-0480 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-26" style="height:1.19px;background:#3d7ebf" data-tip="IDG MARKETING &amp; GRAPHICS · $7,954 · 002-8310-0410 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-27" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-28" style="height:1.12px;background:#1b3a5c" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $7,500 · 001-5110-0421 · warrant of 06/16/2026"></div>
+<div class="slat" id="s-38-29" style="height:1.10px;background:#1b3a5c" data-tip="GHD SERVICES INC · $7,360 · 001-8091-0480 · warrant of 06/16/2026"></div>
+<div class="fuzz" style="height:39.36px" data-tip="340 claims under $7,352 totalling $263,108 · warrant of 06/16/2026 · every one is in the register"><span class="slbl mut">340 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$263,108</span></span></div>
+<div class="wmark"><span class="num">06/02/2026</span><span>211 claims</span><span class="num">$390,104</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-37-0" style="height:7.60px;background:#3f7d74" data-tip="NATIONAL GRID · $50,807 · 004-8130-0460 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-1" style="height:6.51px;background:#1b3a5c" data-tip="OpenGov, Inc. · $43,524 · 001-1315-0441 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-2" style="height:4.12px;background:#c07a24" data-tip="NUSSBAUMER &amp; CLARKE INC · $27,520 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-3" style="height:3.43px;background:#3d7ebf" data-tip="NATIONAL GRID · $22,894 · 002-8320-0460 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-4" style="height:3.09px;background:#1b3a5c" data-tip="SEALMASTER · $20,678 · 001-5110-0421 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-5" style="height:3.05px;background:#1b3a5c" data-tip="NCA COMP INC. · $20,374 · 001-9040-0804 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-6" style="height:2.88px;background:#1b3a5c" data-tip="LAWLEY SERVICE INC. · $19,250 · 001-9040-0894 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-7" style="height:1.80px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $12,000 · 605-1997-2026 · Zoning Code Upgrade · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-8" style="height:1.77px;background:#3d7ebf" data-tip="CPE · $11,801 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-9" style="height:1.63px;background:#3f7d74" data-tip="PVS NOLWOOD CHEMICALS INC · $10,915 · 004-8130-0480 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-10" style="height:1.35px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,997 · 001-9060-0807 · warrant of 06/02/2026"></div>
+<div class="slat" id="s-37-11" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 06/02/2026"></div>
+<div class="fuzz" style="height:19.86px" data-tip="199 claims under $7,352 totalling $132,726 · warrant of 06/02/2026 · every one is in the register"><span class="slbl mut">199 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$132,726</span></span></div>
+<div class="wmark"><span class="num">06/01/2026</span><span>48 claims</span><span class="num">$109,356</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-36-0" style="height:13.76px;background:#1b3a5c" data-tip="MODERN DISPOSAL SERVICES · $91,940 · 001-8160-0480 · warrant of 06/01/2026"></div>
+<div class="fuzz" style="height:2.61px" data-tip="47 claims under $7,352 totalling $17,415 · warrant of 06/01/2026 · every one is in the register"></div>
+<div class="wmark"><span class="num">05/19/2026</span><span>270 claims</span><span class="num">$844,791</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-35-0" style="height:19.53px;background:#3f7d74" data-tip="NATIONAL GRID · $130,527 · 004-8130-0460 · warrant of 05/19/2026"><span class="slbl">NATIONAL GRID&nbsp;&mdash;&nbsp;<span class="num">$130,527</span></span></div>
+<div class="slat" id="s-35-1" style="height:11.88px;background:#1b3a5c" data-tip="NATIONAL GRID · $79,420 · 001-5182-0460 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-2" style="height:11.10px;background:#3d7ebf" data-tip="NATIONAL GRID · $74,202 · 002-8320-0460 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-3" style="height:10.41px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $69,596 · 609-8397-0203 · Water/Sewer Analysis · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-4" style="height:6.02px;background:#c07a24" data-tip="SCOTT LAWN YARD · $40,233 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-5" style="height:4.41px;background:#3d7ebf" data-tip="R.M. HEADLEE · $29,491 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-6" style="height:4.37px;background:#c07a24" data-tip="STC CONSTRUCTION INC · $29,212 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-7" style="height:4.30px;background:#3d7ebf" data-tip="R.M. HEADLEE · $28,732 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-8" style="height:4.30px;background:#3d7ebf" data-tip="R.M. HEADLEE · $28,732 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-9" style="height:4.30px;background:#3d7ebf" data-tip="R.M. HEADLEE · $28,732 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-10" style="height:3.61px;background:#3f7d74" data-tip="RAM INDUSTRIAL SERVICES LLC · $24,108 · 004-8130-0480 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-11" style="height:2.43px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $16,227 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-12" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-13" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-14" style="height:1.93px;background:#3d7ebf" data-tip="CORE &amp; MAIN · $12,924 · 002-8340-0229 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-15" style="height:1.57px;background:#3d7ebf" data-tip="MIANO'S HEATING &amp; COOLING · $10,500 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-16" style="height:1.30px;background:#3f7d74" data-tip="NATIONAL GRID · $8,699 · 004-8120-0460 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-17" style="height:1.30px;background:#1b3a5c" data-tip="GHD SERVICES INC · $8,676 · 001-8091-0480 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-18" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 05/19/2026"></div>
+<div class="slat" id="s-35-19" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 05/19/2026"></div>
+<div class="fuzz" style="height:27.24px" data-tip="250 claims under $7,352 totalling $182,100 · warrant of 05/19/2026 · every one is in the register"><span class="slbl mut">250 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$182,100</span></span></div>
+<div class="wmark"><span class="num">05/05/2026</span><span>309 claims</span><span class="num">$996,519</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-34-0" style="height:57.99px;background:#c07a24" data-tip="GOODWIN ELECTRIC CORPORATION · $387,600 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 05/05/2026"><span class="slbl">GOODWIN ELECTRIC CORPORATION&nbsp;&mdash;&nbsp;<span class="num">$387,600</span>&nbsp;&middot;&nbsp;Generator Repacement_Wtp</span></div>
+<div class="slat" id="s-34-1" style="height:10.89px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $72,818 · 001-9060-0808 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-2" style="height:10.76px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $71,952 · 001-9060-0808 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-3" style="height:6.70px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $44,787 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-4" style="height:6.41px;background:#1b3a5c" data-tip="NCA COMP INC. · $42,875 · 001-9040-0804 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-5" style="height:4.18px;background:#c07a24" data-tip="NUSSBAUMER &amp; CLARKE INC · $27,956 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-6" style="height:3.82px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $25,531 · 001-5110-0480 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-7" style="height:3.59px;background:#3f7d74" data-tip="DOOR 2 DOOR · $23,970 · 004-8120-0440 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-8" style="height:2.69px;background:#1b3a5c" data-tip="NCA COMP INC. · $18,000 · 001-9040-0804 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-9" style="height:2.58px;background:#1b3a5c" data-tip="FM COMMUNICATIONS INC · $17,234 · 001-3120-0231 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-10" style="height:2.50px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $16,697 · 001-8160-0480 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-11" style="height:2.13px;background:#1b3a5c" data-tip="VELOCITY SYSTEMS · $14,253 · 001-3120-0480 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-12" style="height:1.82px;background:#1b3a5c" data-tip="NCA COMP INC. · $12,148 · 001-9040-0804 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-13" style="height:1.50px;background:#3d7ebf" data-tip="1ST EQUIPMENT FINANCE · $10,040 · 002-8340-0480 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-14" style="height:1.50px;background:#1b3a5c" data-tip="US POSTAL SERVICE · $10,000 · 001-1670-0410 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-15" style="height:1.38px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $9,203 · 004-8130-0460 · warrant of 05/05/2026"></div>
+<div class="slat" id="s-34-16" style="height:1.37px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $9,189 · 001-9060-0807 · warrant of 05/05/2026"></div>
+<div class="fuzz" style="height:27.27px" data-tip="292 claims under $7,352 totalling $182,265 · warrant of 05/05/2026 · every one is in the register"><span class="slbl mut">292 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$182,265</span></span></div>
+<div class="wmark"><span class="num">05/05/2026</span><span>58 claims</span><span class="num">$60,057</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-33-0" style="height:7.06px;background:#1b3a5c" data-tip="MODERN DISPOSAL SERVICES · $47,191 · 001-8160-0480 · warrant of 05/05/2026"></div>
+<div class="fuzz" style="height:2.50px" data-tip="57 claims under $7,352 totalling $12,866 · warrant of 05/05/2026 · every one is in the register"></div>
+<div class="wmark"><span class="num">04/21/2026</span><span>288 claims</span><span class="num">$1,018,966</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-32-0" style="height:24.76px;background:#1b3a5c" data-tip="NATIONAL GRID · $165,493 · 001-5182-0460 · warrant of 04/21/2026"><span class="slbl">NATIONAL GRID&nbsp;&mdash;&nbsp;<span class="num">$165,493</span></span></div>
+<div class="slat" id="s-32-1" style="height:20.09px;background:#1b3a5c" data-tip="NICHOLAS AMANI ESQ · $134,286 · 001-1000-2660 · warrant of 04/21/2026"><span class="slbl">NICHOLAS AMANI ESQ&nbsp;&mdash;&nbsp;<span class="num">$134,286</span></span></div>
+<div class="slat" id="s-32-2" style="height:17.31px;background:#1b3a5c" data-tip="COMMUNITY FIRST NATIONAL BANK · $115,696 · 001-3410-0231 · warrant of 04/21/2026"><span class="slbl">COMMUNITY FIRST NATIONAL BANK&nbsp;&mdash;&nbsp;<span class="num">$115,696</span></span></div>
+<div class="slat" id="s-32-3" style="height:14.70px;background:#1b3a5c" data-tip="PRECISION SAFE SIDEWALKS, LLC · $98,248 · 001-5410-0420 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-4" style="height:10.55px;background:#c07a24" data-tip="STC CONSTRUCTION INC · $70,490 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-5" style="height:4.65px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $31,091 · 001-5110-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-6" style="height:3.24px;background:#1b3a5c" data-tip="NCA COMP INC. · $21,664 · 001-9040-0804 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-7" style="height:2.87px;background:#1b3a5c" data-tip="FM COMMUNICATIONS INC · $19,198 · 001-3120-0231 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-8" style="height:2.45px;background:#1b3a5c" data-tip="OVERHEAD DOOR CO OF BUFFALO · $16,379 · 001-1490-0440 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-9" style="height:2.28px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $15,251 · 001-5142-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-10" style="height:2.18px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $14,596 · 001-8160-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-11" style="height:2.03px;background:#3d7ebf" data-tip="PVS TECHNOLOGIES, INC. · $13,541 · 002-8330-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-12" style="height:2.01px;background:#3f7d74" data-tip="NATIONAL GRID · $13,427 · 004-8120-0460 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-13" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-14" style="height:1.82px;background:#1b3a5c" data-tip="RARESTEP, INC. · $12,150 · 001-5110-0420 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-15" style="height:1.80px;background:#1b3a5c" data-tip="SHERWIN WILLIAMS CO. - ST# 116 · $12,040 · 001-3310-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-16" style="height:1.69px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $11,294 · 004-8130-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-17" style="height:1.69px;background:#1b3a5c" data-tip="LAWLEY SERVICE INC. · $11,279 · 001-9040-0804 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-18" style="height:1.55px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,366 · 001-5142-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-19" style="height:1.50px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $10,032 · 004-8130-0460 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-20" style="height:1.19px;background:#1b3a5c" data-tip="AMAZON CAPITAL SERVICES · $7,948 · 001-5110-0260 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-21" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-22" style="height:1.18px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $7,870 · 001-5142-0480 · warrant of 04/21/2026"></div>
+<div class="slat" id="s-32-23" style="height:1.17px;background:#1b3a5c" data-tip="SITEONE LANDSCAPE SUPPLY, LLC · $7,799 · 001-7250-0480 · warrant of 04/21/2026"></div>
+<div class="fuzz" style="height:26.60px" data-tip="264 claims under $7,352 totalling $177,769 · warrant of 04/21/2026 · every one is in the register"><span class="slbl mut">264 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$177,769</span></span></div>
+<div class="wmark"><span class="num">04/07/2026</span><span>482 claims</span><span class="num">$1,098,267</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-31-0" style="height:23.42px;background:#3d7ebf" data-tip="PARADYME AUTOMATION LLC · $156,528 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 04/07/2026"><span class="slbl">PARADYME AUTOMATION LLC&nbsp;&mdash;&nbsp;<span class="num">$156,528</span>&nbsp;&middot;&nbsp;Water Treatment Plant Criticar</span></div>
+<div class="slat" id="s-31-1" style="height:21.42px;background:#3f7d74" data-tip="E.H. WACHS · $143,197 · 004-8130-0480 · warrant of 04/07/2026"><span class="slbl">E.H. WACHS&nbsp;&mdash;&nbsp;<span class="num">$143,197</span></span></div>
+<div class="slat" id="s-31-2" style="height:9.85px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $65,820 · 609-8397-0203 · Water/Sewer Analysis · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-3" style="height:4.83px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $32,281 · 001-5110-0481 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-4" style="height:3.99px;background:#1b3a5c" data-tip="NORTHEAST SIGNAL INC · $26,688 · 001-3310-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-5" style="height:3.53px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $23,567 · 001-5110-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-6" style="height:3.21px;background:#1b3a5c" data-tip="NCA COMP INC. · $21,444 · 001-9040-0804 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-7" style="height:3.18px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $21,238 · 004-8130-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-8" style="height:2.99px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $19,976 · 004-8130-0460 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-9" style="height:2.55px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $17,012 · 001-8160-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-10" style="height:2.54px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $16,968 · 001-5110-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-11" style="height:2.49px;background:#1b3a5c" data-tip="NCA COMP INC. · $16,617 · 001-9040-0804 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-12" style="height:2.40px;background:#3f7d74" data-tip="NATIONAL GRID · $16,040 · 004-8120-0460 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-13" style="height:2.32px;background:#3f7d74" data-tip="NYS DEPT OF ENVIRONMENTAL · $15,500 · 004-8130-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-14" style="height:2.16px;background:#3d7ebf" data-tip="SPRINGBROOK HOLDING CO LLC · $14,423 · 002-8310-0410 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-15" style="height:2.15px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $14,367 · 001-5110-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-16" style="height:1.97px;background:#1b3a5c" data-tip="STS TRAILER &amp; TRUCK EQUIPMENT · $13,149 · 001-5110-0420 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-17" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-18" style="height:1.81px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $12,068 · 004-8130-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-19" style="height:1.80px;background:#3d7ebf" data-tip="C &amp; S ENGINEERS, INC. · $12,000 · 603-5110-0244 · Tcmh Feasibility Study · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-20" style="height:1.80px;background:#1b3a5c" data-tip="MONROE TRACTOR &amp; IMPLEMENT CO · $11,999 · 001-5110-0420 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-21" style="height:1.75px;background:#c07a24" data-tip="NUSSBAUMER &amp; CLARKE INC · $11,727 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-22" style="height:1.66px;background:#3f7d74" data-tip="ACI CONTROLS INC. · $11,108 · 004-8130-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-23" style="height:1.62px;background:#1b3a5c" data-tip="ENTERPRISE FM TRUST · $10,842 · 001-5110-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-24" style="height:1.59px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $10,599 · 004-8130-0460 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-25" style="height:1.36px;background:#1b3a5c" data-tip="TRAVELERS PERSONEL INSURANCE · $9,059 · 001-1930-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-26" style="height:1.33px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,918 · 001-9060-0807 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-27" style="height:1.28px;background:#1b3a5c" data-tip="T-MARK PLUMBING · $8,541 · 001-1620-0440 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-28" style="height:1.22px;background:#1b3a5c" data-tip="NATIONAL GRID · $8,180 · 001-5110-0460 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-29" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-30" style="height:1.16px;background:#1b3a5c" data-tip="MONROE TRACTOR &amp; IMPLEMENT CO · $7,744 · 001-5110-0420 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-31" style="height:1.15px;background:#1b3a5c" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $7,676 · 001-5110-0421 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-32" style="height:1.13px;background:#3f7d74" data-tip="W2 OPERATOR TRAINING GROUP LLC · $7,570 · 004-8130-0480 · warrant of 04/07/2026"></div>
+<div class="slat" id="s-31-33" style="height:1.12px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $7,500 · 605-1997-2026 · Zoning Code Upgrade · warrant of 04/07/2026"></div>
+<div class="fuzz" style="height:44.44px" data-tip="448 claims under $7,352 totalling $297,003 · warrant of 04/07/2026 · every one is in the register"><span class="slbl mut">448 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$297,003</span></span></div>
+<div class="wmark"><span class="num">04/07/2026</span><span>39 claims</span><span class="num">$8,372</span><span class="tick">&#10003; ties</span></div>
+<div class="fuzz" style="height:2.50px" data-tip="39 claims under $7,352 totalling $8,372 · warrant of 04/07/2026 · every one is in the register"></div>
+<div class="wmark"><span class="num">03/17/2026</span><span>314 claims</span><span class="num">$1,063,310</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-29-0" style="height:35.95px;background:#c07a24" data-tip="SCOTT LAWN YARD · $240,282 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 03/17/2026"><span class="slbl">SCOTT LAWN YARD&nbsp;&mdash;&nbsp;<span class="num">$240,282</span>&nbsp;&middot;&nbsp;Smartgrowth 2.0</span></div>
+<div class="slat" id="s-29-1" style="height:26.16px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $174,848 · 613-8130-0201 · Wasterwater Treatment · warrant of 03/17/2026"><span class="slbl">ACI CONTROLS INC.&nbsp;&mdash;&nbsp;<span class="num">$174,848</span>&nbsp;&middot;&nbsp;Wasterwater Treatment</span></div>
+<div class="slat" id="s-29-2" style="height:13.61px;background:#c07a24" data-tip="GRASSLAND EQUIPMENT · $91,000 · 618-7110-0246 · Parks ' River Mower · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-3" style="height:7.09px;background:#3f7d74" data-tip="NATIONAL GRID · $47,373 · 004-8130-0460 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-4" style="height:6.25px;background:#1b3a5c" data-tip="NORTHEAST SIGNAL INC · $41,800 · 001-3310-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-5" style="height:5.98px;background:#c07a24" data-tip="NW CONTRACTING · $39,955 · 615-5110-0200 · Maintenance Of Streets · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-6" style="height:5.41px;background:#1b3a5c" data-tip="NCA COMP INC. · $36,176 · 001-9040-0804 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-7" style="height:5.33px;background:#3d7ebf" data-tip="NATIONAL GRID · $35,657 · 002-8320-0460 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-8" style="height:4.47px;background:#1b3a5c" data-tip="CASCADE ENGINEERING · $29,890 · 001-8160-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-9" style="height:3.46px;background:#1b3a5c" data-tip="SHERWIN WILLIAMS CO. - ST# 116 · $23,112 · 001-3310-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-10" style="height:3.22px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $21,545 · 001-5110-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-11" style="height:2.99px;background:#1b3a5c" data-tip="ROACH, LENNON &amp; BROWN, PLLC · $20,006 · 001-1930-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-12" style="height:2.37px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $15,866 · 001-5110-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-13" style="height:1.86px;background:#3d7ebf" data-tip="CORE &amp; MAIN · $12,422 · 002-8340-0229 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-14" style="height:1.59px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $10,614 · 004-8130-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-15" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-16" style="height:1.43px;background:#1b3a5c" data-tip="SHERWIN WILLIAMS CO. - ST# 116 · $9,526 · 001-3310-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-17" style="height:1.32px;background:#1b3a5c" data-tip="INNOVATIVE MUNICIPAL PRODUCTS · $8,844 · 001-5142-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-18" style="height:1.15px;background:#3f7d74" data-tip="JM DAVIDSON ENGINEERING, D.P.C · $7,682 · 004-8130-0480 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-19" style="height:1.14px;background:#3d7ebf" data-tip="CORE &amp; MAIN · $7,645 · 002-8340-0229 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-20" style="height:1.13px;background:#3d7ebf" data-tip="IDG MARKETING &amp; GRAPHICS · $7,578 · 002-8310-0410 · warrant of 03/17/2026"></div>
+<div class="slat" id="s-29-21" style="height:1.12px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $7,500 · 605-1997-2026 · Zoning Code Upgrade · warrant of 03/17/2026"></div>
+<div class="fuzz" style="height:24.48px" data-tip="292 claims under $7,352 totalling $163,645 · warrant of 03/17/2026 · every one is in the register"><span class="slbl mut">292 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$163,645</span></span></div>
+<div class="wmark"><span class="num">03/03/2026</span><span>193 claims</span><span class="num">$628,468</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-28-0" style="height:20.55px;background:#3f7d74" data-tip="ARTHUR J. GALLAGHER RISK · $137,342 · 004-1910-0480 · warrant of 03/03/2026"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$137,342</span></span></div>
+<div class="slat" id="s-28-1" style="height:10.65px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $71,156 · 001-9060-0808 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-2" style="height:8.90px;background:#c07a24" data-tip="ELEVATOR MAINT. OF BUFFALO · $59,496 · 605-1997-0204 · City Hall Upgrades 2023-2024 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-3" style="height:5.60px;background:#1b3a5c" data-tip="FIRST TURF &amp; ORNAMENTAL CORP. · $37,397 · 001-7250-0480 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-4" style="height:2.32px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $15,516 · 004-8130-0480 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-5" style="height:2.24px;background:#1b3a5c" data-tip="VIALYTICS AMERICAS INC. · $15,000 · 001-5110-0421 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-6" style="height:2.02px;background:#3d7ebf" data-tip="ERDMAN ANTHONY · $13,492 · 603-3110-0201 · Traffic Singal Upgrades · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-7" style="height:1.98px;background:#1b3a5c" data-tip="NCA COMP INC. · $13,227 · 001-9040-0804 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-8" style="height:1.66px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $11,120 · 004-8130-0460 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-9" style="height:1.57px;background:#3d7ebf" data-tip="BLAIR SUPPLY CORPORATION · $10,475 · 002-8340-0420 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-10" style="height:1.50px;background:#1b3a5c" data-tip="M.M.R.C. · $10,000 · 001-5110-0420 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-11" style="height:1.37px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $9,145 · 001-9060-0807 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-12" style="height:1.33px;background:#3d7ebf" data-tip="CPE · $8,910 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-13" style="height:1.33px;background:#3d7ebf" data-tip="CPE · $8,910 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-14" style="height:1.33px;background:#3d7ebf" data-tip="CPE · $8,910 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-15" style="height:1.32px;background:#1b3a5c" data-tip="GRAND JUDE INC. · $8,850 · 001-3410-0420 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-16" style="height:1.32px;background:#1b3a5c" data-tip="GRATWICK HOSE COMPANY #6 · $8,803 · 001-3410-0481 · warrant of 03/03/2026"></div>
+<div class="slat" id="s-28-17" style="height:1.15px;background:#c07a24" data-tip="BRANDSTETTER CARROLL INC · $7,700 · 618-7180-2440 · Memorial Pool Redesign · warrant of 03/03/2026"></div>
+<div class="fuzz" style="height:25.89px" data-tip="175 claims under $7,352 totalling $173,020 · warrant of 03/03/2026 · every one is in the register"><span class="slbl mut">175 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$173,020</span></span></div>
+<div class="wmark"><span class="num">02/17/2026</span><span>272 claims</span><span class="num">$1,167,776</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-27-0" style="height:48.18px;background:#c07a24" data-tip="D &amp; H PAVING LLC · $322,015 · 618-7110-0242 · Gratwick Parking Expansion · warrant of 02/17/2026"><span class="slbl">D &amp; H PAVING LLC&nbsp;&mdash;&nbsp;<span class="num">$322,015</span>&nbsp;&middot;&nbsp;Gratwick Parking Expansion</span></div>
+<div class="slat" id="s-27-1" style="height:13.25px;background:#c07a24" data-tip="STC CONSTRUCTION INC · $88,588 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-2" style="height:12.96px;background:#1b3a5c" data-tip="NATIONAL GRID · $86,620 · 001-5182-0460 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-3" style="height:11.74px;background:#c07a24" data-tip="SCOTT LAWN YARD · $78,501 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-4" style="height:9.64px;background:#1b3a5c" data-tip="NW CONTRACTING · $64,448 · 001-5110-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-5" style="height:8.43px;background:#3f7d74" data-tip="NATIONAL GRID · $56,350 · 004-8130-0460 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-6" style="height:8.14px;background:#1b3a5c" data-tip="NCA COMP INC. · $54,428 · 001-9040-0804 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-7" style="height:5.13px;background:#3d7ebf" data-tip="NATIONAL GRID · $34,291 · 002-8320-0460 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-8" style="height:3.34px;background:#1b3a5c" data-tip="NCA COMP INC. · $22,350 · 001-9040-0804 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-9" style="height:3.14px;background:#1b3a5c" data-tip="CLOUDPERMIT INC · $21,000 · 001-3620-0410 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-10" style="height:3.10px;background:#1b3a5c" data-tip="ROACH, LENNON &amp; BROWN, PLLC · $20,736 · 001-1930-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-11" style="height:2.66px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $17,779 · 001-5142-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-12" style="height:2.34px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $15,639 · 001-5110-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-13" style="height:2.33px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $15,546 · 001-5142-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-14" style="height:2.30px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $15,403 · 001-5142-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-15" style="height:2.26px;background:#8b8f98" data-tip="GREENMAN - PEDERSEN, INC. · $15,125 · 007-0000-0098 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-16" style="height:2.07px;background:#3d7ebf" data-tip="CORE &amp; MAIN · $13,848 · 002-8340-0229 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-17" style="height:1.83px;background:#3f7d74" data-tip="NATIONAL GRID · $12,253 · 004-8120-0460 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-18" style="height:1.80px;background:#3d7ebf" data-tip="TEAM EJP BLASDELL NY · $12,053 · 002-8340-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-19" style="height:1.76px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $11,747 · 004-8130-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-20" style="height:1.56px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,437 · 001-5142-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-21" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-22" style="height:1.54px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,293 · 001-5142-0480 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-23" style="height:1.33px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $8,896 · 004-8130-0460 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-24" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 02/17/2026"></div>
+<div class="slat" id="s-27-25" style="height:1.14px;background:#1b3a5c" data-tip="PREMCOM CORPORATION · $7,614 · 001-1680-0480 · warrant of 02/17/2026"></div>
+<div class="fuzz" style="height:19.98px" data-tip="246 claims under $7,352 totalling $133,556 · warrant of 02/17/2026 · every one is in the register"><span class="slbl mut">246 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$133,556</span></span></div>
+<div class="wmark"><span class="num">02/03/2026</span><span>181 claims</span><span class="num">$342,284</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-26-0" style="height:4.27px;background:#3d7ebf" data-tip="CORE &amp; MAIN · $28,533 · 002-8340-0229 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-1" style="height:2.75px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $18,386 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-2" style="height:2.70px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $18,032 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-3" style="height:2.67px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $17,870 · 001-5142-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-4" style="height:2.19px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $14,637 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-5" style="height:1.82px;background:#1b3a5c" data-tip="NCA COMP INC. · $12,195 · 001-9040-0804 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-6" style="height:1.82px;background:#1b3a5c" data-tip="NCA COMP INC. · $12,148 · 001-9040-0804 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-7" style="height:1.68px;background:#1b3a5c" data-tip="ESO SOLUTIONS INC · $11,234 · 001-3410-0410 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-8" style="height:1.58px;background:#3d7ebf" data-tip="1ST EQUIPMENT FINANCE · $10,542 · 002-8340-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-9" style="height:1.57px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,490 · 001-5142-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-10" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-11" style="height:1.50px;background:#1b3a5c" data-tip="US POSTAL SERVICE · $10,000 · 001-1670-0410 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-12" style="height:1.20px;background:#1b3a5c" data-tip="TMZ INTEGRATIONS · $7,994 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-13" style="height:1.19px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $7,975 · 605-1997-0204 · City Hall Upgrades 2023-2024 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-14" style="height:1.18px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $7,912 · 001-5142-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-15" style="height:1.12px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $7,500 · 605-1997-2026 · Zoning Code Upgrade · warrant of 02/03/2026"></div>
+<div class="slat" id="s-26-16" style="height:1.12px;background:#3f7d74" data-tip="HUGO ELECTRICAL SERVICES · $7,500 · 004-8130-0420 · warrant of 02/03/2026"></div>
+<div class="fuzz" style="height:19.30px" data-tip="164 claims under $7,352 totalling $128,991 · warrant of 02/03/2026 · every one is in the register"><span class="slbl mut">164 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$128,991</span></span></div>
+<div class="wmark"><span class="num">02/03/2026</span><span>60 claims</span><span class="num">$414,402</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-25-0" style="height:38.25px;background:#c07a24" data-tip="NOVA SITE COMPANY LLC · $255,674 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 02/03/2026"><span class="slbl">NOVA SITE COMPANY LLC&nbsp;&mdash;&nbsp;<span class="num">$255,674</span>&nbsp;&middot;&nbsp;Erie Canal Bike Path Exte</span></div>
+<div class="slat" id="s-25-1" style="height:4.19px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $28,034 · 609-8397-0203 · Water/Sewer Analysis · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-2" style="height:2.67px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $17,857 · 001-5142-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-3" style="height:2.41px;background:#1b3a5c" data-tip="GRAINGER · $16,089 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-4" style="height:2.33px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $15,601 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-5" style="height:2.10px;background:#8b8f98" data-tip="GREENMAN - PEDERSEN, INC. · $14,068 · 007-0000-0098 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-6" style="height:1.80px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $12,061 · 001-5110-0480 · warrant of 02/03/2026"></div>
+<div class="slat" id="s-25-7" style="height:1.55px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,384 · 001-5142-0480 · warrant of 02/03/2026"></div>
+<div class="fuzz" style="height:6.68px" data-tip="52 claims under $7,352 totalling $44,635 · warrant of 02/03/2026 · every one is in the register"></div>
+<div class="wmark"><span class="num">01/20/2026</span><span>134 claims</span><span class="num">$991,473</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-24-0" style="height:57.72px;background:#1b3a5c" data-tip="PERMA · $385,803 · 001-9040-0804 · warrant of 01/20/2026"><span class="slbl">PERMA&nbsp;&mdash;&nbsp;<span class="num">$385,803</span></span></div>
+<div class="slat" id="s-24-1" style="height:18.81px;background:#1b3a5c" data-tip="LAUREL FORD INC. · $125,699 · 001-3120-0231 · warrant of 01/20/2026"><span class="slbl">LAUREL FORD INC.&nbsp;&mdash;&nbsp;<span class="num">$125,699</span></span></div>
+<div class="slat" id="s-24-2" style="height:10.58px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $70,734 · 001-9060-0808 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-3" style="height:9.17px;background:#3d7ebf" data-tip="CPE · $61,320 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-4" style="height:5.38px;background:#1b3a5c" data-tip="NCA COMP INC. · $35,930 · 001-9040-0804 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-5" style="height:4.74px;background:#c07a24" data-tip="STC CONSTRUCTION INC · $31,682 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-6" style="height:4.04px;background:#3d7ebf" data-tip="CPE · $26,989 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-7" style="height:4.04px;background:#3d7ebf" data-tip="CPE · $26,989 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-8" style="height:3.31px;background:#1b3a5c" data-tip="EAGLE PT. GUN/TJ MORRIS &amp; SON · $22,118 · 001-3120-0250 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-9" style="height:2.11px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $14,076 · 004-8130-0480 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-10" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-11" style="height:1.78px;background:#1b3a5c" data-tip="NCA COMP INC. · $11,913 · 001-9040-0804 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-12" style="height:1.78px;background:#1b3a5c" data-tip="GUTHRIE HELI-ARC, INC. · $11,898 · 001-5110-0420 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-13" style="height:1.57px;background:#1b3a5c" data-tip="HELENA AGRI-ENTERPRISES, LLC · $10,498 · 001-7250-0480 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-14" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-15" style="height:1.44px;background:#3d7ebf" data-tip="CPE · $9,611 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-16" style="height:1.41px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $9,394 · 001-9060-0807 · warrant of 01/20/2026"></div>
+<div class="slat" id="s-24-17" style="height:1.33px;background:#1b3a5c" data-tip="HELENA AGRI-ENTERPRISES, LLC · $8,916 · 001-7250-0480 · warrant of 01/20/2026"></div>
+<div class="fuzz" style="height:15.64px" data-tip="116 claims under $7,352 totalling $104,558 · warrant of 01/20/2026 · every one is in the register"><span class="slbl mut">116 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$104,558</span></span></div>
+<div class="yeardiv"><span>2025</span></div>
+<div class="wmark"><span class="num">12/02/2025</span><span>212 claims</span><span class="num">$1,900,066</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-23-0" style="height:89.54px;background:#c07a24" data-tip="NOVA SITE COMPANY LLC · $598,461 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 12/02/2025"><span class="slbl">NOVA SITE COMPANY LLC&nbsp;&mdash;&nbsp;<span class="num">$598,461</span>&nbsp;&middot;&nbsp;Erie Canal Bike Path Exte</span></div>
+<div class="slat" id="s-23-1" style="height:30.61px;background:#c07a24" data-tip="ARCHITECTURAL RESOURCES · $204,584 · 618-7110-0205 · 500 Wheatfield Expanison · warrant of 12/02/2025"><span class="slbl">ARCHITECTURAL RESOURCES&nbsp;&mdash;&nbsp;<span class="num">$204,584</span>&nbsp;&middot;&nbsp;500 Wheatfield Expanison</span></div>
+<div class="slat" id="s-23-2" style="height:29.54px;background:#c07a24" data-tip="SCOTT LAWN YARD · $197,453 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 12/02/2025"><span class="slbl">SCOTT LAWN YARD&nbsp;&mdash;&nbsp;<span class="num">$197,453</span>&nbsp;&middot;&nbsp;Smartgrowth 2.0</span></div>
+<div class="slat" id="s-23-3" style="height:20.55px;background:#1b3a5c" data-tip="ARTHUR J. GALLAGHER RISK · $137,342 · 001-1910-0480 · warrant of 12/02/2025"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$137,342</span></span></div>
+<div class="slat" id="s-23-4" style="height:14.89px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $99,496 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-5" style="height:11.26px;background:#1b3a5c" data-tip="AUCTIONS INTERNATIONAL · $75,285 · 001-1000-2660 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-6" style="height:9.49px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $63,455 · 001-9060-0808 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-7" style="height:8.74px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $58,435 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-8" style="height:8.63px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $57,660 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-9" style="height:6.62px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $44,244 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-10" style="height:5.92px;background:#c07a24" data-tip="NOCTURN INDUSTRIES · $39,540 · 620-3120-0202 · Tactical Training Grant · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-11" style="height:5.46px;background:#3d7ebf" data-tip="C &amp; S ENGINEERS, INC. · $36,500 · 603-5110-0244 · Tcmh Feasibility Study · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-12" style="height:4.00px;background:#3f7d74" data-tip="BOB WEAVER MOTORSPORTS · $26,724 · 004-8130-0253 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-13" style="height:3.00px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $20,052 · 001-5110-0480 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-14" style="height:2.37px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $15,833 · 001-9060-0807 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-15" style="height:2.33px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $15,546 · 001-8160-0480 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-16" style="height:2.03px;background:#1b3a5c" data-tip="NCA COMP INC. · $13,541 · 001-9040-0804 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-17" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-18" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-19" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-20" style="height:1.24px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,281 · 001-9060-0807 · warrant of 12/02/2025"></div>
+<div class="slat" id="s-23-21" style="height:1.23px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,215 · 001-9060-0807 · warrant of 12/02/2025"></div>
+<div class="fuzz" style="height:22.32px" data-tip="190 claims under $7,352 totalling $149,178 · warrant of 12/02/2025 · every one is in the register"><span class="slbl mut">190 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$149,178</span></span></div>
+<div class="wmark"><span class="num">11/18/2025</span><span>328 claims</span><span class="num">$886,794</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-22-0" style="height:26.21px;background:#c07a24" data-tip="KENWORTH OF BUFFALO · $175,177 · 621-5110-0208 · Dpw · warrant of 11/18/2025"><span class="slbl">KENWORTH OF BUFFALO&nbsp;&mdash;&nbsp;<span class="num">$175,177</span>&nbsp;&middot;&nbsp;Dpw</span></div>
+<div class="slat" id="s-22-1" style="height:10.70px;background:#1b3a5c" data-tip="NATIONAL GRID · $71,493 · 001-5182-0460 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-2" style="height:10.14px;background:#3d7ebf" data-tip="KANDEY COMPANY INC · $67,789 · 002-8330-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-3" style="height:9.82px;background:#1b3a5c" data-tip="NW CONTRACTING · $65,607 · 001-5110-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-4" style="height:7.15px;background:#3f7d74" data-tip="NATIONAL GRID · $47,789 · 004-8130-0460 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-5" style="height:6.07px;background:#1b3a5c" data-tip="NCA COMP INC. · $40,556 · 001-9040-0804 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-6" style="height:3.12px;background:#3f7d74" data-tip="PM PLASITCS · $20,824 · 004-8130-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-7" style="height:2.95px;background:#1b3a5c" data-tip="NCA COMP INC. · $19,706 · 001-9040-0804 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-8" style="height:2.83px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $18,890 · 004-8130-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-9" style="height:2.39px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $15,988 · 001-5110-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-10" style="height:2.30px;background:#c07a24" data-tip="ELEVATOR MAINT. OF BUFFALO · $15,405 · 605-1997-0204 · City Hall Upgrades 2023-2024 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-11" style="height:2.29px;background:#1b3a5c" data-tip="GRAINGER · $15,295 · 001-5110-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-12" style="height:2.11px;background:#3d7ebf" data-tip="TEK-SALES INC. · $14,095 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-13" style="height:1.75px;background:#1b3a5c" data-tip="NCA COMP INC. · $11,684 · 001-9040-0804 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-14" style="height:1.63px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $10,909 · 004-8130-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-15" style="height:1.53px;background:#1b3a5c" data-tip="AUTO COLLISION &amp; GLASS · $10,257 · 001-3120-0231 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-16" style="height:1.50px;background:#3d7ebf" data-tip="1ST EQUIPMENT FINANCE · $10,040 · 002-8340-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-17" style="height:1.47px;background:#1b3a5c" data-tip="SCHICHTEL'S NURSERY, INC. · $9,856 · 001-7110-0481 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-18" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-19" style="height:1.24px;background:#3f7d74" data-tip="NCA COMP INC. · $8,294 · 004-9040-0804 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-20" style="height:1.20px;background:#3d7ebf" data-tip="TRY-LOCK ROOFING INC · $8,000 · 002-8330-0440 · warrant of 11/18/2025"></div>
+<div class="slat" id="s-22-21" style="height:1.16px;background:#1b3a5c" data-tip="MONROE TRACTOR &amp; IMPLEMENT CO · $7,753 · 001-5110-0420 · warrant of 11/18/2025"></div>
+<div class="fuzz" style="height:31.83px" data-tip="306 claims under $7,352 totalling $212,768 · warrant of 11/18/2025 · every one is in the register"><span class="slbl mut">306 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$212,768</span></span></div>
+<div class="wmark"><span class="num">11/04/2025</span><span>285 claims</span><span class="num">$1,172,617</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-21-0" style="height:44.45px;background:#c07a24" data-tip="MONROE TRACTOR &amp; IMPLEMENT CO · $297,123 · 615-5110-0200 · Maintenance Of Streets · warrant of 11/04/2025"><span class="slbl">MONROE TRACTOR &amp; IMPLEMENT CO&nbsp;&mdash;&nbsp;<span class="num">$297,123</span>&nbsp;&middot;&nbsp;Maintenance Of Streets</span></div>
+<div class="slat" id="s-21-1" style="height:26.18px;background:#c07a24" data-tip="STAGELINE MOBILE STAGE INC · $175,000 · 618-7989-0242 · Gateway Stage · warrant of 11/04/2025"><span class="slbl">STAGELINE MOBILE STAGE INC&nbsp;&mdash;&nbsp;<span class="num">$175,000</span>&nbsp;&middot;&nbsp;Gateway Stage</span></div>
+<div class="slat" id="s-21-2" style="height:20.29px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $135,599 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 11/04/2025"><span class="slbl">PROFESSIONAL METERS INC&nbsp;&mdash;&nbsp;<span class="num">$135,599</span>&nbsp;&middot;&nbsp;City-Wide Water Meter Upgrad</span></div>
+<div class="slat" id="s-21-3" style="height:6.40px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $42,764 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-4" style="height:6.36px;background:#1b3a5c" data-tip="FIRSTOUT RESCUE EQUIPMENT · $42,510 · 001-3410-0263 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-5" style="height:4.71px;background:#3d7ebf" data-tip="ERDMAN ANTHONY · $31,512 · 603-3110-0201 · Traffic Singal Upgrades · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-6" style="height:4.50px;background:#1b3a5c" data-tip="MIDLAND ASPHALT MATERIALS INC · $30,090 · 001-5110-0421 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-7" style="height:4.23px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $28,292 · 609-8397-0203 · Water/Sewer Analysis · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-8" style="height:3.93px;background:#3d7ebf" data-tip="NATIONAL GRID · $26,259 · 002-8320-0460 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-9" style="height:3.35px;background:#c07a24" data-tip="CAPITAL MARKETS ADVISORS, LLC · $22,415 · 600-1315-0240 · Accounting · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-10" style="height:2.76px;background:#1b3a5c" data-tip="NCA COMP INC. · $18,440 · 001-9040-0804 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-11" style="height:2.75px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $18,362 · 001-5110-0480 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-12" style="height:2.70px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $18,072 · 001-5110-0480 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-13" style="height:2.54px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $16,975 · 609-8397-0203 · Water/Sewer Analysis · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-14" style="height:2.45px;background:#c07a24" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $16,384 · 618-7110-0242 · Gratwick Parking Expansion · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-15" style="height:2.33px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $15,577 · 001-5110-0480 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-16" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-17" style="height:1.60px;background:#1b3a5c" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $10,689 · 001-5110-0421 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-18" style="height:1.50px;background:#1b3a5c" data-tip="US POSTAL SERVICE · $10,000 · 001-1670-0410 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-19" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-20" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-21" style="height:1.26px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,426 · 001-9060-0807 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-22" style="height:1.23px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,215 · 001-9060-0807 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-23" style="height:1.20px;background:#8b8f98" data-tip="FIRE &amp; RESCUE PRODUCTS · $8,000 · 007-0000-0094 · warrant of 11/04/2025"></div>
+<div class="slat" id="s-21-24" style="height:1.19px;background:#3d7ebf" data-tip="CPE · $7,944 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 11/04/2025"></div>
+<div class="fuzz" style="height:23.00px" data-tip="260 claims under $7,352 totalling $153,728 · warrant of 11/04/2025 · every one is in the register"><span class="slbl mut">260 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$153,728</span></span></div>
+<div class="wmark"><span class="num">10/07/2025</span><span>421 claims</span><span class="num">$1,352,364</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-20-0" style="height:32.73px;background:#c07a24" data-tip="NOVA SITE COMPANY LLC · $218,799 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 10/07/2025"><span class="slbl">NOVA SITE COMPANY LLC&nbsp;&mdash;&nbsp;<span class="num">$218,799</span>&nbsp;&middot;&nbsp;Erie Canal Bike Path Exte</span></div>
+<div class="slat" id="s-20-1" style="height:31.64px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $211,495 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 10/07/2025"><span class="slbl">PROFESSIONAL METERS INC&nbsp;&mdash;&nbsp;<span class="num">$211,495</span>&nbsp;&middot;&nbsp;City-Wide Water Meter Upgrad</span></div>
+<div class="slat" id="s-20-2" style="height:24.16px;background:#3d7ebf" data-tip="MOLEY MAGNETICS · $161,487 · 609-8397-0202 · Acq., Cons., &Amp; Recons., Of Water Im · warrant of 10/07/2025"><span class="slbl">MOLEY MAGNETICS&nbsp;&mdash;&nbsp;<span class="num">$161,487</span>&nbsp;&middot;&nbsp;Acq., Cons., &Amp; Recons., Of Water Im</span></div>
+<div class="slat" id="s-20-3" style="height:23.44px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $156,643 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 10/07/2025"><span class="slbl">HAZEN AND SAWYER&nbsp;&mdash;&nbsp;<span class="num">$156,643</span>&nbsp;&middot;&nbsp;2022 Sewer Improvements</span></div>
+<div class="slat" id="s-20-4" style="height:9.43px;background:#c07a24" data-tip="DOWNRANGE HEADQUARTERS LLC · $62,998 · 620-3120-0201 · Police Range Upgrades · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-5" style="height:5.72px;background:#3f7d74" data-tip="NATIONAL GRID · $38,204 · 004-8130-0460 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-6" style="height:4.71px;background:#1b3a5c" data-tip="LUMBER CITY DEVELOPMENT CORP. · $31,500 · 001-8020-0480 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-7" style="height:3.93px;background:#3d7ebf" data-tip="NATIONAL GRID · $26,240 · 002-8320-0460 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-8" style="height:3.25px;background:#1b3a5c" data-tip="NCA COMP INC. · $21,716 · 001-9040-0804 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-9" style="height:2.79px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $18,678 · 001-5110-0480 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-10" style="height:2.70px;background:#c07a24" data-tip="VERMEER MID ATLANTIC · $18,035 · 621-5110-0209 · Dump Body Dpw · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-11" style="height:2.54px;background:#3f7d74" data-tip="XYLEM DEWATERING SOLUTIONS INC · $16,973 · 004-8120-0440 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-12" style="height:2.48px;background:#3d7ebf" data-tip="NATIONAL VACUUM ENVIRONMENTAL · $16,607 · 609-8397-0202 · Acq., Cons., &Amp; Recons., Of Water Im · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-13" style="height:2.47px;background:#3f7d74" data-tip="TEAM EJP BLASDELL NY · $16,505 · 004-8120-0420 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-14" style="height:2.32px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $15,477 · 001-8160-0480 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-15" style="height:2.23px;background:#1b3a5c" data-tip="NCA COMP INC. · $14,910 · 001-9040-0804 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-16" style="height:2.06px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $13,792 · 004-8130-0480 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-17" style="height:1.94px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $13,000 · 001-5110-0481 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-18" style="height:1.57px;background:#1b3a5c" data-tip="AMERICAN CURB &amp; CONCRETE · $10,512 · 001-5110-0421 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-19" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-20" style="height:1.28px;background:#3d7ebf" data-tip="MOLEY MAGNETICS · $8,525 · 609-8397-0202 · Acq., Cons., &Amp; Recons., Of Water Im · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-21" style="height:1.26px;background:#1b3a5c" data-tip="NATIONAL GRID · $8,435 · 001-5110-0460 · warrant of 10/07/2025"></div>
+<div class="slat" id="s-20-22" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 10/07/2025"></div>
+<div class="fuzz" style="height:35.20px" data-tip="398 claims under $7,352 totalling $235,295 · warrant of 10/07/2025 · every one is in the register"><span class="slbl mut">398 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$235,295</span></span></div>
+<div class="wmark"><span class="num">09/16/2025</span><span>284 claims</span><span class="num">$665,754</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-19-0" style="height:18.42px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $123,090 · 001-9060-0808 · warrant of 09/16/2025"><span class="slbl">HIGHMARK BCBS OF WNY&nbsp;&mdash;&nbsp;<span class="num">$123,090</span></span></div>
+<div class="slat" id="s-19-1" style="height:9.54px;background:#1b3a5c" data-tip="NATIONAL GRID · $63,753 · 001-5182-0460 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-2" style="height:6.02px;background:#3f7d74" data-tip="NATIONAL GRID · $40,243 · 004-8130-0460 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-3" style="height:5.19px;background:#3d7ebf" data-tip="ERDMAN ANTHONY · $34,660 · 603-3110-0201 · Traffic Singal Upgrades · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-4" style="height:4.64px;background:#1b3a5c" data-tip="CASCADE ENGINEERING · $31,014 · 001-8160-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-5" style="height:4.55px;background:#3d7ebf" data-tip="NATIONAL GRID · $30,441 · 002-8320-0460 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-6" style="height:4.23px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $28,292 · 609-8397-0203 · Water/Sewer Analysis · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-7" style="height:4.17px;background:#1b3a5c" data-tip="NCA COMP INC. · $27,888 · 001-9040-0804 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-8" style="height:3.77px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $25,226 · 004-8130-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-9" style="height:3.14px;background:#c07a24" data-tip="DOWNRANGE HEADQUARTERS LLC · $21,000 · 620-3120-0201 · Police Range Upgrades · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-10" style="height:2.73px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $18,280 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-11" style="height:2.63px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $17,551 · 001-8160-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-12" style="height:2.61px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,478 · 001-5110-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-13" style="height:1.89px;background:#8b8f98" data-tip="HIGHMARK BCBS OF WNY · $12,601 · 007-0000-0020 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-14" style="height:1.81px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $12,068 · 004-8130-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-15" style="height:1.61px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $10,763 · 004-8130-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-16" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 09/16/2025"></div>
+<div class="slat" id="s-19-17" style="height:1.52px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $10,144 · 001-7250-0480 · warrant of 09/16/2025"></div>
+<div class="fuzz" style="height:19.59px" data-tip="266 claims under $7,352 totalling $130,920 · warrant of 09/16/2025 · every one is in the register"><span class="slbl mut">266 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$130,920</span></span></div>
+<div class="wmark"><span class="num">09/02/2025</span><span>259 claims</span><span class="num">$1,508,889</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-18-0" style="height:64.52px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $431,261 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 09/02/2025"><span class="slbl">PROFESSIONAL METERS INC&nbsp;&mdash;&nbsp;<span class="num">$431,261</span>&nbsp;&middot;&nbsp;City-Wide Water Meter Upgrad</span></div>
+<div class="slat" id="s-18-1" style="height:39.70px;background:#c07a24" data-tip="GUTHRIE HELI-ARC, INC. · $265,382 · 621-5110-0210 · Public Wokrs · warrant of 09/02/2025"><span class="slbl">GUTHRIE HELI-ARC, INC.&nbsp;&mdash;&nbsp;<span class="num">$265,382</span>&nbsp;&middot;&nbsp;Public Wokrs</span></div>
+<div class="slat" id="s-18-2" style="height:20.55px;background:#1b3a5c" data-tip="ARTHUR J. GALLAGHER RISK · $137,342 · 001-1910-0480 · warrant of 09/02/2025"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$137,342</span></span></div>
+<div class="slat" id="s-18-3" style="height:8.35px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $55,806 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-4" style="height:8.10px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $54,112 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-5" style="height:7.89px;background:#1b3a5c" data-tip="NCA COMP INC. · $52,710 · 001-9040-0804 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-6" style="height:3.98px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $26,632 · 004-8130-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-7" style="height:3.70px;background:#1b3a5c" data-tip="BOBCAT OF BUFFALO · $24,748 · 001-5110-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-8" style="height:3.59px;background:#c07a24" data-tip="HARRIS BEACH MURTHA · $23,985 · 600-1315-0240 · Accounting · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-9" style="height:3.12px;background:#c07a24" data-tip="MUNICIPAL MILLING · $20,828 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-10" style="height:2.86px;background:#3f7d74" data-tip="DUNCAN'S HEATING &amp; · $19,100 · 004-8130-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-11" style="height:2.83px;background:#c07a24" data-tip="MUNICIPAL MILLING · $18,944 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-12" style="height:2.73px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $18,268 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-13" style="height:2.68px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,900 · 001-5110-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-14" style="height:2.58px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $17,240 · 004-8130-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-15" style="height:2.15px;background:#3d7ebf" data-tip="PVS TECHNOLOGIES, INC. · $14,352 · 002-8330-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-16" style="height:2.06px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $13,773 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-17" style="height:1.75px;background:#1b3a5c" data-tip="NCA COMP INC. · $11,684 · 001-9040-0804 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-18" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-19" style="height:1.63px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $10,909 · 004-8130-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-20" style="height:1.57px;background:#c07a24" data-tip="FLEET MAINTENANCE · $10,504 · 621-5110-0209 · Dump Body Dpw · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-21" style="height:1.52px;background:#3f7d74" data-tip="SLACK CHEMICAL COMPANY, INC. · $10,142 · 004-8130-0480 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-22" style="height:1.50px;background:#c07a24" data-tip="HARRIS BEACH MURTHA · $10,018 · 600-1315-0240 · Accounting · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-23" style="height:1.32px;background:#1b3a5c" data-tip="GRATWICK HOSE COMPANY #6 · $8,803 · 001-3410-0481 · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-24" style="height:1.17px;background:#c07a24" data-tip="MUNICIPAL MILLING · $7,796 · 615-5110-0200 · Maintenance Of Streets · warrant of 09/02/2025"></div>
+<div class="slat" id="s-18-25" style="height:1.12px;background:#1b3a5c" data-tip="DRESCHER &amp; MALECKI LLP · $7,500 · 001-1315-0481 · warrant of 09/02/2025"></div>
+<div class="fuzz" style="height:31.14px" data-tip="233 claims under $7,352 totalling $208,152 · warrant of 09/02/2025 · every one is in the register"><span class="slbl mut">233 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$208,152</span></span></div>
+<div class="wmark"><span class="num">08/15/2025</span><span>294 claims</span><span class="num">$849,965</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-17-0" style="height:20.91px;background:#1b3a5c" data-tip="ARTHUR J. GALLAGHER RISK · $139,765 · 001-1910-0480 · warrant of 08/15/2025"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$139,765</span></span></div>
+<div class="slat" id="s-17-1" style="height:17.61px;background:#1b3a5c" data-tip="NATIONAL GRID · $117,711 · 001-5182-0460 · warrant of 08/15/2025"><span class="slbl">NATIONAL GRID&nbsp;&mdash;&nbsp;<span class="num">$117,711</span></span></div>
+<div class="slat" id="s-17-2" style="height:13.30px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $88,896 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-3" style="height:13.19px;background:#1b3a5c" data-tip="T-MARK PLUMBING · $88,156 · 001-1620-0440 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-4" style="height:7.87px;background:#3d7ebf" data-tip="G &amp; G MUNICIPAL CONSULTING · $52,626 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-5" style="height:5.93px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $39,609 · 609-8397-0203 · Water/Sewer Analysis · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-6" style="height:3.82px;background:#3d7ebf" data-tip="NATIONAL GRID · $25,524 · 002-8320-0460 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-7" style="height:3.18px;background:#c07a24" data-tip="ELEVATOR MAINT. OF BUFFALO · $21,250 · 605-1997-0204 · City Hall Upgrades 2023-2024 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-8" style="height:2.95px;background:#1b3a5c" data-tip="NCA COMP INC. · $19,707 · 001-9040-0804 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-9" style="height:2.63px;background:#c07a24" data-tip="NIAGARA TRUCK EQUIPMENT · $17,583 · 621-5110-0209 · Dump Body Dpw · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-10" style="height:2.60px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,362 · 001-5110-0480 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-11" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-12" style="height:1.29px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $8,620 · 004-8130-0480 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-13" style="height:1.22px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,181 · 001-9060-0807 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-14" style="height:1.21px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,074 · 001-9060-0807 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-15" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 08/15/2025"></div>
+<div class="slat" id="s-17-16" style="height:1.13px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $7,520 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/15/2025"></div>
+<div class="fuzz" style="height:25.18px" data-tip="277 claims under $7,352 totalling $168,322 · warrant of 08/15/2025 · every one is in the register"><span class="slbl mut">277 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$168,322</span></span></div>
+<div class="wmark"><span class="num">08/05/2025</span><span>438 claims</span><span class="num">$1,527,810</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-16-0" style="height:32.77px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $219,019 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 08/05/2025"><span class="slbl">PROFESSIONAL METERS INC&nbsp;&mdash;&nbsp;<span class="num">$219,019</span>&nbsp;&middot;&nbsp;City-Wide Water Meter Upgrad</span></div>
+<div class="slat" id="s-16-1" style="height:17.33px;background:#c07a24" data-tip="MASTER'S EDGE, INC. · $115,818 · 621-5140-0201 · Sidewalk R&Amp;R · warrant of 08/05/2025"><span class="slbl">MASTER'S EDGE, INC.&nbsp;&mdash;&nbsp;<span class="num">$115,818</span>&nbsp;&middot;&nbsp;Sidewalk R&Amp;R</span></div>
+<div class="slat" id="s-16-2" style="height:15.72px;background:#c07a24" data-tip="MUNICIPAL MILLING · $105,062 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"><span class="slbl">MUNICIPAL MILLING&nbsp;&mdash;&nbsp;<span class="num">$105,062</span>&nbsp;&middot;&nbsp;Maintenance Of Streets</span></div>
+<div class="slat" id="s-16-3" style="height:13.41px;background:#c07a24" data-tip="NOVA SITE COMPANY LLC · $89,600 · 600-7997-0205 · Erie Canal Bike Path Exte · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-4" style="height:13.30px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $88,892 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-5" style="height:11.34px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $75,803 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-6" style="height:10.69px;background:#c07a24" data-tip="NUSSBAUMER &amp; CLARKE INC · $71,435 · 619-8397-0440 · Generator Repacement_Wtp · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-7" style="height:9.27px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $61,952 · 001-9060-0808 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-8" style="height:7.98px;background:#c07a24" data-tip="ARCHITECTURAL RESOURCES · $53,315 · 618-7110-0205 · 500 Wheatfield Expanison · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-9" style="height:6.15px;background:#1b3a5c" data-tip="NCA COMP INC. · $41,133 · 001-9040-0804 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-10" style="height:5.76px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $38,525 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-11" style="height:3.11px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $20,796 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-12" style="height:2.94px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $19,628 · 001-5110-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-13" style="height:2.86px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $19,101 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-14" style="height:2.59px;background:#3d7ebf" data-tip="ERDMAN ANTHONY · $17,307 · 603-3110-0201 · Traffic Singal Upgrades · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-15" style="height:2.51px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $16,756 · 001-5110-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-16" style="height:2.35px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $15,735 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-17" style="height:2.30px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $15,361 · 001-8160-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-18" style="height:2.21px;background:#1b3a5c" data-tip="ELDERLEE, INC. · $14,781 · 001-5110-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-19" style="height:2.15px;background:#c07a24" data-tip="AMRIZE GREAT LAKES INC · $14,341 · 615-5110-0200 · Maintenance Of Streets · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-20" style="height:2.06px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $13,792 · 004-8130-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-21" style="height:2.00px;background:#1b3a5c" data-tip="CSEA EMPLOYEE BENEFIT FUND · $13,370 · 001-9060-0807 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-22" style="height:1.95px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $13,002 · 618-7180-0246 · Comprehensive City Plan · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-23" style="height:1.84px;background:#1b3a5c" data-tip="WEBSTER SZANYI, LLP · $12,276 · 001-1930-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-24" style="height:1.65px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $11,034 · 618-7180-0245 · Lwrp Waterway Design · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-25" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-26" style="height:1.65px;background:#1b3a5c" data-tip="NCA COMP INC. · $10,996 · 001-9040-0804 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-27" style="height:1.61px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $10,758 · 004-8130-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-28" style="height:1.50px;background:#3d7ebf" data-tip="1ST EQUIPMENT FINANCE · $10,040 · 002-8340-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-29" style="height:1.42px;background:#1b3a5c" data-tip="KARCZ, JOHN W. JR · $9,500 · 001-1930-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-30" style="height:1.42px;background:#1b3a5c" data-tip="KARCZ, JENNIFER A. · $9,500 · 001-1930-0480 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-31" style="height:1.39px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $9,313 · 609-8397-0207 · Water Treatment Plant Criticar · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-32" style="height:1.27px;background:#1b3a5c" data-tip="FM COMMUNICATIONS INC · $8,514 · 001-3120-0231 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-33" style="height:1.19px;background:#c07a24" data-tip="LaBELLA ASSOCIATES · $7,923 · 622-6989-0446 · Smartgrowth 2.0 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-34" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 08/05/2025"></div>
+<div class="slat" id="s-16-35" style="height:1.12px;background:#8b8f98" data-tip="SKYLIGHTERS OF NEW YORK · $7,500 · 007-0000-0089 · warrant of 08/05/2025"></div>
+<div class="fuzz" style="height:36.96px" data-tip="402 claims under $7,352 totalling $247,013 · warrant of 08/05/2025 · every one is in the register"><span class="slbl mut">402 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$247,013</span></span></div>
+<div class="wmark"><span class="num">07/14/2025</span><span>327 claims</span><span class="num">$679,516</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-15-0" style="height:29.04px;background:#1b3a5c" data-tip="MASTER'S EDGE, INC. · $194,127 · 001-5410-0420 · warrant of 07/14/2025"><span class="slbl">MASTER'S EDGE, INC.&nbsp;&mdash;&nbsp;<span class="num">$194,127</span></span></div>
+<div class="slat" id="s-15-1" style="height:10.78px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $72,075 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-2" style="height:6.74px;background:#3f7d74" data-tip="NATIONAL GRID · $45,028 · 004-8130-0460 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-3" style="height:5.08px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $33,950 · 609-8397-0203 · Water/Sewer Analysis · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-4" style="height:4.36px;background:#3d7ebf" data-tip="ACI CONTROLS INC. · $29,141 · 613-8130-0201 · Wasterwater Treatment · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-5" style="height:3.82px;background:#3d7ebf" data-tip="NATIONAL GRID · $25,544 · 002-8320-0460 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-6" style="height:2.68px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $17,942 · 001-8160-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-7" style="height:2.19px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $14,654 · 004-8130-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-8" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-9" style="height:1.83px;background:#1b3a5c" data-tip="GHD SERVICES INC · $12,255 · 001-8091-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-10" style="height:1.81px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $12,068 · 004-8130-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-11" style="height:1.73px;background:#3f7d74" data-tip="JM DAVIDSON ENGINEERING, D.P.C · $11,553 · 004-8130-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-12" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-13" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-14" style="height:1.50px;background:#1b3a5c" data-tip="US POSTAL SERVICE · $10,000 · 001-1670-0410 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-15" style="height:1.28px;background:#1b3a5c" data-tip="GHD SERVICES INC · $8,525 · 001-1440-0480 · warrant of 07/14/2025"></div>
+<div class="slat" id="s-15-16" style="height:1.27px;background:#1b3a5c" data-tip="GHD CONSULTING SERVICES INC · $8,500 · 001-8090-0440 · warrant of 07/14/2025"></div>
+<div class="fuzz" style="height:22.29px" data-tip="310 claims under $7,352 totalling $149,009 · warrant of 07/14/2025 · every one is in the register"><span class="slbl mut">310 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$149,009</span></span></div>
+<div class="wmark"><span class="num">06/17/2025</span><span>361 claims</span><span class="num">$1,140,720</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-14-0" style="height:19.51px;background:#1b3a5c" data-tip="NATIONAL GRID · $130,376 · 001-5182-0460 · warrant of 06/17/2025"><span class="slbl">NATIONAL GRID&nbsp;&mdash;&nbsp;<span class="num">$130,376</span></span></div>
+<div class="slat" id="s-14-1" style="height:18.76px;background:#1b3a5c" data-tip="ARTHUR J. GALLAGHER RISK · $125,362 · 001-1910-0480 · warrant of 06/17/2025"><span class="slbl">ARTHUR J. GALLAGHER RISK&nbsp;&mdash;&nbsp;<span class="num">$125,362</span></span></div>
+<div class="slat" id="s-14-2" style="height:12.56px;background:#c07a24" data-tip="ISLAND TECH SERVICES, LLC · $83,962 · 620-3497-0204 · Fire · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-3" style="height:12.48px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $83,435 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-4" style="height:11.02px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $73,649 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-5" style="height:8.51px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $56,856 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-6" style="height:6.39px;background:#3f7d74" data-tip="NATIONAL GRID · $42,736 · 004-8130-0460 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-7" style="height:6.05px;background:#1b3a5c" data-tip="NCA COMP INC. · $40,431 · 001-9040-0804 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-8" style="height:5.04px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $33,713 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-9" style="height:4.84px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $32,320 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-10" style="height:4.29px;background:#c07a24" data-tip="HOLCIM QUARRIES NY, INC. · $28,646 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-11" style="height:3.39px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $22,634 · 609-8397-0203 · Water/Sewer Analysis · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-12" style="height:2.81px;background:#1b3a5c" data-tip="NORTH TONAWANDA TREASURER · $18,750 · 001-9060-0807 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-13" style="height:2.76px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $18,468 · 004-8130-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-14" style="height:2.55px;background:#c07a24" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $17,068 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-15" style="height:2.16px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $14,468 · 001-8160-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-16" style="height:1.97px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $13,144 · 001-7250-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-17" style="height:1.82px;background:#1b3a5c" data-tip="WEBSTER SZANYI, LLP · $12,160 · 001-1930-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-18" style="height:1.63px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $10,877 · 004-8130-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-19" style="height:1.55px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,344 · 004-8130-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-20" style="height:1.41px;background:#3d7ebf" data-tip="ENVIRONMENTAL SERVICE GROUP · $9,424 · 002-8330-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-21" style="height:1.24px;background:#3f7d74" data-tip="NATIONAL GRID · $8,304 · 004-8120-0460 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-22" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-23" style="height:1.18px;background:#1b3a5c" data-tip="GHD SERVICES INC · $7,865 · 001-8091-0480 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-24" style="height:1.18px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $7,858 · 001-9060-0807 · warrant of 06/17/2025"></div>
+<div class="slat" id="s-14-25" style="height:1.15px;background:#1b3a5c" data-tip="FALLS AUTO SPRING INC · $7,691 · 001-3410-0420 · warrant of 06/17/2025"></div>
+<div class="fuzz" style="height:33.25px" data-tip="335 claims under $7,352 totalling $222,262 · warrant of 06/17/2025 · every one is in the register"><span class="slbl mut">335 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$222,262</span></span></div>
+<div class="wmark"><span class="num">06/03/2025</span><span>311 claims</span><span class="num">$781,524</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-13-0" style="height:27.02px;background:#3d7ebf" data-tip="PROFESSIONAL METERS INC · $180,569 · 609-8397-0206 · City-Wide Water Meter Upgrad · warrant of 06/03/2025"><span class="slbl">PROFESSIONAL METERS INC&nbsp;&mdash;&nbsp;<span class="num">$180,569</span>&nbsp;&middot;&nbsp;City-Wide Water Meter Upgrad</span></div>
+<div class="slat" id="s-13-1" style="height:13.84px;background:#c07a24" data-tip="MUNICIPAL MILLING · $92,525 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-2" style="height:13.21px;background:#c07a24" data-tip="MUNICIPAL MILLING · $88,280 · 615-5110-0200 · Maintenance Of Streets · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-3" style="height:10.78px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $72,075 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-4" style="height:4.61px;background:#1b3a5c" data-tip="CASCADE ENGINEERING · $30,825 · 001-8160-0480 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-5" style="height:3.52px;background:#3d7ebf" data-tip="NATIONAL GRID · $23,518 · 002-8320-0460 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-6" style="height:2.68px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,922 · 001-5110-0480 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-7" style="height:2.57px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $17,155 · 001-5110-0480 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-8" style="height:1.61px;background:#1b3a5c" data-tip="FIRST TURF &amp; ORNAMENTAL CORP. · $10,756 · 001-7250-0480 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-9" style="height:1.33px;background:#1b3a5c" data-tip="CAMBRIA ASPHALT PRODUCTS, INC. · $8,862 · 001-5110-0421 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-10" style="height:1.23px;background:#1b3a5c" data-tip="NCA COMP INC. · $8,231 · 001-9040-0804 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-11" style="height:1.14px;background:#1b3a5c" data-tip="TOM FEZER COLLISION · $7,597 · 001-3120-0420 · warrant of 06/03/2025"></div>
+<div class="slat" id="s-13-12" style="height:1.11px;background:#1b3a5c" data-tip="CHAFFEE WARD EQUIPMENT · $7,400 · 001-5110-0420 · warrant of 06/03/2025"></div>
+<div class="fuzz" style="height:32.29px" data-tip="298 claims under $7,352 totalling $215,810 · warrant of 06/03/2025 · every one is in the register"><span class="slbl mut">298 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$215,810</span></span></div>
+<div class="wmark"><span class="num">05/20/2025</span><span>342 claims</span><span class="num">$606,542</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-12-0" style="height:11.22px;background:#3d7ebf" data-tip="C &amp; S ENGINEERS, INC. · $75,000 · 603-5110-0244 · Tcmh Feasibility Study · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-1" style="height:9.92px;background:#1b3a5c" data-tip="NATIONAL GRID · $66,332 · 001-5182-0460 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-2" style="height:9.11px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $60,918 · 001-9060-0808 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-3" style="height:8.33px;background:#3f7d74" data-tip="NATIONAL GRID · $55,659 · 004-8130-0460 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-4" style="height:3.26px;background:#3d7ebf" data-tip="NATIONAL GRID · $21,820 · 002-8340-0460 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-5" style="height:2.72px;background:#1b3a5c" data-tip="TOKIO MARINE HCC - PRG · $18,152 · 001-1930-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-6" style="height:2.45px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $16,377 · 001-5110-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-7" style="height:2.36px;background:#1b3a5c" data-tip="AMCHAR WHOLESALE INC · $15,763 · 001-3120-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-8" style="height:2.05px;background:#1b3a5c" data-tip="WHITE CAP, L.P. · $13,729 · 001-5410-0420 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-9" style="height:1.72px;background:#1b3a5c" data-tip="NATIONAL GRID · $11,526 · 001-5110-0460 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-10" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-11" style="height:1.61px;background:#3d7ebf" data-tip="1ST EQUIPMENT FINANCE · $10,740 · 002-8340-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-12" style="height:1.52px;background:#1b3a5c" data-tip="NUTTALL GOLF CAR LEASING, LLC · $10,144 · 001-7250-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-13" style="height:1.45px;background:#1b3a5c" data-tip="FLEET MAINTENANCE · $9,672 · 001-5110-0420 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-14" style="height:1.37px;background:#3f7d74" data-tip="NATIONAL GRID · $9,178 · 004-8120-0460 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-15" style="height:1.25px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $8,361 · 618-7180-0246 · Comprehensive City Plan · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-16" style="height:1.23px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,253 · 001-9060-0807 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-17" style="height:1.23px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $8,221 · 004-8130-0480 · warrant of 05/20/2025"></div>
+<div class="slat" id="s-12-18" style="height:1.11px;background:#c07a24" data-tip="C &amp; S ENGINEERS, INC. · $7,386 · 618-7180-0245 · Lwrp Waterway Design · warrant of 05/20/2025"></div>
+<div class="fuzz" style="height:25.18px" data-tip="323 claims under $7,352 totalling $168,313 · warrant of 05/20/2025 · every one is in the register"><span class="slbl mut">323 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$168,313</span></span></div>
+<div class="torn"><div class="tornlbl">05/06/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="torn"><div class="tornlbl">04/15/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="torn"><div class="tornlbl">04/01/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="torn"><div class="tornlbl">03/18/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="torn"><div class="tornlbl">03/04/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="wmark"><span class="num">02/18/2025</span><span>357 claims</span><span class="num">$881,620</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-6-0" style="height:10.56px;background:#1b3a5c" data-tip="NATIONAL GRID · $70,588 · 001-5182-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-1" style="height:9.14px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $61,105 · 001-9060-0808 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-2" style="height:9.02px;background:#1b3a5c" data-tip="HIGHMARK BCBS OF WNY · $60,309 · 001-9060-0808 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-3" style="height:8.05px;background:#3f7d74" data-tip="NATIONAL GRID · $53,782 · 004-8130-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-4" style="height:7.19px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $48,050 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-5" style="height:6.13px;background:#c07a24" data-tip="LaBELLA ASSOCIATES · $40,975 · 623-5997-0245 · Oliver Street Walkability · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-6" style="height:5.87px;background:#3d7ebf" data-tip="SANTANDER BANK, N.A. · $39,247 · 002-8340-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-7" style="height:4.33px;background:#1b3a5c" data-tip="NCA COMP INC. · $28,918 · 001-9040-0804 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-8" style="height:3.89px;background:#3d7ebf" data-tip="NATIONAL GRID · $26,029 · 002-8320-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-9" style="height:3.52px;background:#3f7d74" data-tip="FERGUSON ELECTRIC CO. INC. · $23,560 · 004-8130-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-10" style="height:3.06px;background:#1b3a5c" data-tip="NOCO ENERGY CORP - FUELS · $20,451 · 001-5110-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-11" style="height:2.31px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $15,418 · 001-5142-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-12" style="height:2.10px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $14,017 · 609-8397-0203 · Water/Sewer Analysis · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-13" style="height:1.80px;background:#3d7ebf" data-tip="IDG MARKETING &amp; GRAPHICS · $12,060 · 002-8310-0410 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-14" style="height:1.75px;background:#1b3a5c" data-tip="NCA COMP INC. · $11,684 · 001-9040-0804 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-15" style="height:1.70px;background:#3f7d74" data-tip="PVS TECHNOLOGIES, INC. · $11,368 · 004-8130-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-16" style="height:1.65px;background:#1b3a5c" data-tip="VSI RENTALS, LLC · $11,000 · 001-5110-0481 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-17" style="height:1.52px;background:#1b3a5c" data-tip="AMERICAN ROCK SALT CO. LLC · $10,147 · 001-5142-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-18" style="height:1.50px;background:#1b3a5c" data-tip="MONROE TRACTOR &amp; IMPLEMENT CO · $10,007 · 001-5110-0420 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-19" style="height:1.49px;background:#3d7ebf" data-tip="IDG MARKETING &amp; GRAPHICS · $9,980 · 002-8310-0410 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-20" style="height:1.35px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $9,008 · 004-8130-0480 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-21" style="height:1.30px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $8,662 · 004-8130-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-22" style="height:1.27px;background:#3f7d74" data-tip="NATIONAL GRID · $8,478 · 004-8120-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-23" style="height:1.26px;background:#1b3a5c" data-tip="ALLIED ADMIN FOR DELTA DENTAL · $8,424 · 001-9060-0807 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-24" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-25" style="height:1.18px;background:#3f7d74" data-tip="NRG BUSINESS MARKETING · $7,911 · 004-8130-0460 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-6-26" style="height:1.12px;background:#1b3a5c" data-tip="CARY COMPANY, THE · $7,496 · 001-3310-0480 · warrant of 02/18/2025"></div>
+<div class="fuzz" style="height:36.66px" data-tip="330 claims under $7,352 totalling $245,030 · warrant of 02/18/2025 · every one is in the register"><span class="slbl mut">330 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$245,030</span></span></div>
+<div class="wmark"><span class="num">02/18/2025</span><span>30 claims</span><span class="num">$181,395</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-5-0" style="height:11.22px;background:#3d7ebf" data-tip="C &amp; S ENGINEERS, INC. · $75,000 · 603-5110-0244 · Tcmh Feasibility Study · warrant of 02/18/2025"></div>
+<div class="slat" id="s-5-1" style="height:3.38px;background:#1b3a5c" data-tip="FIRSTOUT RESCUE EQUIPMENT · $22,571 · 001-3410-0263 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-5-2" style="height:2.99px;background:#1b3a5c" data-tip="N.T.P.F.F.A. · $20,000 · 001-9060-0807 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-5-3" style="height:2.34px;background:#1b3a5c" data-tip="FIRSTOUT RESCUE EQUIPMENT · $15,626 · 001-3410-0260 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-5-4" style="height:2.15px;background:#1b3a5c" data-tip="DRESCHER &amp; MALECKI LLP · $14,382 · 001-1315-0440 · warrant of 02/18/2025"></div>
+<div class="slat" id="s-5-5" style="height:2.08px;background:#1b3a5c" data-tip="TOKIO MARINE HCC - PRG · $13,884 · 001-1930-0480 · warrant of 02/18/2025"></div>
+<div class="fuzz" style="height:2.98px" data-tip="24 claims under $7,352 totalling $19,931 · warrant of 02/18/2025 · every one is in the register"></div>
+<div class="wmark"><span class="num">02/13/2025</span><span>35 claims</span><span class="num">$57,229</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-4-0" style="height:6.97px;background:#1b3a5c" data-tip="MODERN DISPOSAL SERVICES · $46,557 · 001-8160-0480 · warrant of 02/13/2025"></div>
+<div class="fuzz" style="height:2.50px" data-tip="34 claims under $7,352 totalling $10,672 · warrant of 02/13/2025 · every one is in the register"></div>
+<div class="wmark"><span class="num">02/04/2025</span><span>44 claims</span><span class="num">$90,357</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-3-0" style="height:5.03px;background:#1b3a5c" data-tip="BUFFALO RECYCLING ENTERPRISES · $33,603 · 001-8160-0480 · warrant of 02/04/2025"></div>
+<div class="slat" id="s-3-1" style="height:1.38px;background:#1b3a5c" data-tip="NYS UNEMPLOYMENT INSURANCE · $9,227 · 001-9050-0806 · warrant of 02/04/2025"></div>
+<div class="slat" id="s-3-2" style="height:1.31px;background:#3f7d74" data-tip="FERGUSON ELECTRIC CO. INC. · $8,759 · 004-8130-0480 · warrant of 02/04/2025"></div>
+<div class="slat" id="s-3-3" style="height:1.28px;background:#3d7ebf" data-tip="F.N.B. EQUIPMENT FINANCE · $8,540 · 002-8340-0480 · warrant of 02/04/2025"></div>
+<div class="fuzz" style="height:4.52px" data-tip="40 claims under $7,352 totalling $30,228 · warrant of 02/04/2025 · every one is in the register"></div>
+<div class="torn"><div class="tornlbl">01/21/2025 — published as an image scan; unreadable, so its height here is unknown</div></div>
+<div class="wmark"><span class="num">01/07/2025</span><span>1 claims</span><span class="num">$74</span><span class="tick">&#10003; ties</span></div>
+<div class="fuzz" style="height:2.50px" data-tip="1 claims under $7,352 totalling $74 · warrant of 01/07/2025 · every one is in the register"></div>
+<div class="wmark"><span class="num">01/07/2025</span><span>255 claims</span><span class="num">$729,333</span><span class="tick">&#10003; ties</span></div>
+<div class="slat" id="s-0-0" style="height:39.22px;background:#1b3a5c" data-tip="NCA COMP INC. · $262,155 · 001-9040-0804 · warrant of 01/07/2025"><span class="slbl">NCA COMP INC.&nbsp;&mdash;&nbsp;<span class="num">$262,155</span></span></div>
+<div class="slat" id="s-0-1" style="height:10.06px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $67,270 · 613-8197-0245 · 2022 Sewer Improvements · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-2" style="height:6.05px;background:#1b3a5c" data-tip="NAPA AUTO PARTS · $40,406 · 001-5110-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-3" style="height:3.55px;background:#1b3a5c" data-tip="1ST EQUIPMENT FINANCE · $23,753 · 001-3120-0231 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-4" style="height:2.93px;background:#1b3a5c" data-tip="FORD MOTOR CREDIT COMPANY · $19,565 · 001-7110-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-5" style="height:2.93px;background:#1b3a5c" data-tip="FORD MOTOR CREDIT COMPANY · $19,565 · 001-7250-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-6" style="height:2.90px;background:#3d7ebf" data-tip="HAZEN AND SAWYER · $19,417 · 609-8397-0203 · Water/Sewer Analysis · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-7" style="height:2.32px;background:#1b3a5c" data-tip="LUMBER CITY DEVELOPMENT CORP. · $15,500 · 001-8020-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-8" style="height:2.32px;background:#1b3a5c" data-tip="LUMBER CITY DEVELOPMENT CORP. · $15,500 · 001-8020-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-9" style="height:1.93px;background:#3f7d74" data-tip="MODERN DISPOSAL SERVICES · $12,921 · 004-8130-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-10" style="height:1.79px;background:#3d7ebf" data-tip="CHAFFEE WARD EQUIPMENT · $11,980 · 002-8340-0420 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-11" style="height:1.65px;background:#1b3a5c" data-tip="AXON ENTERPRISE INC. · $11,000 · 001-3120-0222 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-12" style="height:1.64px;background:#3f7d74" data-tip="JCI JONES CHEMICALS, INC. · $10,950 · 004-8130-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-13" style="height:1.31px;background:#1b3a5c" data-tip="INNOVATIVE MUNICIPAL PRODUCTS · $8,776 · 001-5142-0480 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-14" style="height:1.29px;background:#1b3a5c" data-tip="CAPITAL MARKETS ADVISORS, LLC · $8,601 · 001-1315-0442 · warrant of 01/07/2025"></div>
+<div class="slat" id="s-0-15" style="height:1.18px;background:#1b3a5c" data-tip="PREMIER CONSULTING ASSOC · $7,917 · 001-9060-0807 · warrant of 01/07/2025"></div>
+<div class="fuzz" style="height:26.04px" data-tip="239 claims under $7,352 totalling $174,058 · warrant of 01/07/2025 · every one is in the register"><span class="slbl mut">239 smaller claims&nbsp;&mdash;&nbsp;<span class="num">$174,058</span></span></div>
+  </div></div>
+  <div class="close">
+    <div class="sum num">$28,072,606.45</div>
+    <div class="cap">the whole record above, closed — ties to 36 printed control totals &#10003;</div>
+  </div>
+
+  <div class="foot">Concept study &middot; Public Ledger. Tap any slat for its claim; the textured
+    bands hold the smaller claims, counted, never dropped. When the city posts its next warrant,
+    Issue No. 37 writes itself.</div>
+</div>
+<div class="tip" id="tip"></div>
+<script>
+var tip=document.getElementById('tip'),tt=null;
+document.addEventListener('pointerover',function(e){
+  var s=e.target.closest('[data-tip]'); if(!s) return;
+  tip.textContent=s.getAttribute('data-tip'); tip.classList.add('on');
+  clearTimeout(tt); tt=setTimeout(function(){tip.classList.remove('on');},4000);
+});
+document.addEventListener('click',function(e){
+  var ev=e.target.closest('.ev'); if(!ev) return;
+  var s=document.getElementById(ev.getAttribute('data-slat')); if(!s) return;
+  document.querySelectorAll('.slat.lit').forEach(function(x){x.classList.remove('lit');});
+  s.classList.add('lit'); s.scrollIntoView({block:'center',behavior:'smooth'});
+  tip.textContent=s.getAttribute('data-tip'); tip.classList.add('on');
+  clearTimeout(tt); tt=setTimeout(function(){tip.classList.remove('on');},4000);
+});
+</script>
+</body></html>
