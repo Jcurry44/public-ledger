@@ -28,6 +28,9 @@ def esc(t):
     return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+POPS = json.load(open(os.path.join(ROOT, "data", "populations.json"), encoding="utf-8"))
+POP = POPS["munis"]
+
 munis = {}          # name -> {cls, series:{yr:{rev,exp}}, cats:{label:amt} latest}
 rows_read = 0
 
@@ -106,7 +109,7 @@ def card(name, m):
     net = s["rev"] - s["exp"]
     have = set(yrs)
     gaps = [y for y in range(yrs[0], yrs[-1] + 1) if y not in have]
-    filing = "filed %d of %d years since %d" % (len(yrs), yrs[-1] - yrs[0] + 1, yrs[0])
+    filing = ("pop {:,} · ".format(POP[name]) + "filed %d of %d years since %d" % (len(yrs), yrs[-1] - yrs[0] + 1, yrs[0]))
     if gaps:
         gtxt = ", ".join(str(g) for g in gaps[:6]) + (" …" if len(gaps) > 6 else "")
         filing += ' · <span class="gap">missing %s</span>' % gtxt
@@ -123,6 +126,7 @@ def card(name, m):
             '<div class="mrow"><span>Revenue · %d</span><span class="num">$%s</span></div>'
             '<div class="mrow"><span>Expenditure</span><span class="num">$%s</span></div>'
             '<div class="mrow mnet"><span>Net</span><span class="num" style="color:%s">%s$%s</span></div>'
+            '<div class="mrow"><span>Spending per resident</span><span class="num">$%s</span></div>'
             '%s'
             '<div class="mspark">%s</div>'
             '<div class="mfile">%s</div>'
@@ -132,6 +136,7 @@ def card(name, m):
                "{:,.0f}".format(s["rev"]), "{:,.0f}".format(s["exp"]),
                "var(--bad)" if net < 0 else "var(--ok)",
                "−" if net < 0 else "+", "{:,.0f}".format(abs(net)),
+               "{:,.0f}".format(s["exp"] / POP[name]),
                topline, spark_dual(m), filing))
 
 
@@ -242,7 +247,8 @@ __CARDS__
 
   <div class="foot">
     <p><b>Method.</b> Parsed from the NYS Comptroller&rsquo;s statewide class files (cities, towns,
-      villages), joined on county, flows only. Self-reported AFR data. Each card&rsquo;s figures are
+      villages), joined on county, flows only. Self-reported AFR data. Populations are the 2020
+      Census via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj). Each card&rsquo;s figures are
       that government&rsquo;s latest filing; sparklines span __Y0__–__Y1__ at each government&rsquo;s
       own scale.</p>
     <p>Companions: <a href="./">the City of North Tonawanda edition</a> (reconciled warrant register,

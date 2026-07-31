@@ -49,6 +49,15 @@ def esc(t):
     return (t or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
+def shortname(ent):
+    return (ent.replace("City of ", "").replace("Town of ", "")
+            .replace("Village of ", ""))
+
+
+def slug(ent, cls):
+    return cls + "-" + re.sub(r"[^a-z0-9]+", "-", shortname(ent).lower()).strip("-")
+
+
 # ---------------- one pass over the three class zips ------------------------
 munis = {}      # entity -> {cls, code, rows:[raw], series:{yr:{rev,exp}}}
 for cls, tag in CLASSES:
@@ -75,14 +84,39 @@ for cls, tag in CLASSES:
 
 assert len(munis) == 20, "expected 20 municipalities, found %d" % len(munis)
 
+POPS = json.load(open(os.path.join(ROOT, "data", "populations.json"), encoding="utf-8"))
+POP = POPS["munis"]
+POPCITE = ("Populations are the 2020 Census, via New York State&rsquo;s official mirror "
+           "(data.ny.gov sxhg-qquj, retrieved " + POPS["retrieved"] + ").")
 
-def shortname(ent):
-    return (ent.replace("City of ", "").replace("Town of ", "")
-            .replace("Village of ", ""))
+# Every government's LATEST-year level-1 totals, both sections - the shared
+# cross-county table every page embeds. Amounts raw; the page divides by the
+# population it also carries, so nothing is pre-rounded.
+XC = {"0": {}, "1": {}}
+XC_ALL = []
+for _ent, _mu in sorted(munis.items()):
+    _latest = max(_mu["series"])
+    XC_ALL.append([shortname(_ent), _mu["cls"], POP[_ent], _latest])
+    _l1 = {"0": {}, "1": {}}
+    for _yr, _sec, _c1, _c2, _obj, _narr, _acct, _amt in _mu["raw"]:
+        if _yr != _latest:
+            continue
+        _k = title_label((_c1 or "").strip()) or "Unclassified"
+        _d = _l1[str(_sec)]
+        _d[_k] = _d.get(_k, 0) + _amt
+    for _sec in ("0", "1"):
+        for _k, _v in _l1[_sec].items():
+            if _v <= 0:
+                continue
+            XC[_sec].setdefault(_k, []).append(
+                [shortname(_ent), _mu["cls"], round(_v, 2), POP[_ent], _latest])
+for _sec in XC:
+    for _k in XC[_sec]:
+        XC[_sec][_k].sort(key=lambda r: -(r[2] / r[3]))
 
-
-def slug(ent, cls):
-    return cls + "-" + re.sub(r"[^a-z0-9]+", "-", shortname(ent).lower()).strip("-")
+with open(os.path.join(ROOT, "data", "crossmuni.json"), "w", encoding="utf-8") as _f:
+    json.dump({"xc": XC, "all": XC_ALL, "popcite": POPCITE.replace("&rsquo;", "'")},
+              _f, separators=(",", ":"))
 
 
 # ---------------- derive the page template from the county's ----------------
@@ -214,6 +248,90 @@ tpl = swap(tpl, '  <section id="method">', """  <section id="aid">
 
   <section id="method">""", "aid+neighbors")
 
+# fourth modal tab: Across the county
+tpl = swap(tpl, "'<button type=\"button\" role=\"tab\" data-tab=\"composition\" aria-selected=\"false\">Composition</button>';",
+           "'<button type=\"button\" role=\"tab\" data-tab=\"composition\" aria-selected=\"false\">Composition</button>'+\n"
+           "    '<button type=\"button\" role=\"tab\" data-tab=\"across\" aria-selected=\"false\">Across the county</button>';",
+           "tab-button")
+tpl = swap(tpl, "  var subs=subSeriesFor(sec,label);",
+           """  if(tab==='across'){ renderAcross(body,sec,label); return; }
+  var subs=subSeriesFor(sec,label);""", "tab-branch")
+tpl = swap(tpl, "/* ---- per-account history (ported; county general ledger) ---- */",
+           """/* ---- across the county: the same category, all twenty governments ---- */
+function renderAcross(body,sec,label){
+  var rows=((O.xc||{})[String(sec)]||{})[label]||[];
+  var here={}; rows.forEach(function(r){here[r[0]]=1;});
+  var zeros=(O.xcAll||[]).filter(function(a){return !here[a[0]];});
+  var per=function(r){return r[2]/r[3];};
+  var self=null, rank=0;
+  rows.forEach(function(r,i){ if(r[0]===O.selfShort){self=r;rank=i+1;} });
+  var med=0;
+  if(rows.length){ var ps=rows.map(per).slice().sort(function(a,b){return a-b;});
+    med=ps[Math.floor(ps.length/2)]; }
+  var max=rows.length?per(rows[0]):1;
+  var h='<div class="mstats">'+
+    '<div class="mstat"><div class="k">'+esc(O.selfShort)+'</div><div class="v num">'+
+      (self?'$'+Math.round(per(self)).toLocaleString('en-US')+'<span style="font-size:12px;color:var(--muted)">/res</span>':'files none')+'</div></div>'+
+    '<div class="mstat"><div class="k">Rank</div><div class="v num">'+
+      (self?rank+' of '+rows.length:'—')+'</div></div>'+
+    '<div class="mstat"><div class="k">Median of filers</div><div class="v num">$'+
+      Math.round(med).toLocaleString('en-US')+'</div></div>'+
+    '<div class="mstat"><div class="k">File none</div><div class="v num">'+zeros.length+' of 20</div></div>'+
+  '</div>';
+  h+='<h4>'+esc(label)+' per resident — every government that files it</h4><div class="rank">'+
+    rows.map(function(r){
+      var me=r[0]===O.selfShort, pv=per(r);
+      return '<div class="rk"><span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
+        esc(r[0])+' <span class="clsch">'+r[1].toUpperCase()+'</span></span>'+
+        '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+Math.round(pv).toLocaleString('en-US')+'</span>'+
+        '<span class="tr"><i style="width:'+(pv/max*100).toFixed(1)+'%;background:'+
+          (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
+        '<span class="pc num">$'+Math.round(r[2]).toLocaleString('en-US')+' total · '+r[4]+' · pop '+r[3].toLocaleString('en-US')+'</span></div>';
+    }).join('')+'</div>';
+  if(zeros.length)
+    h+='<p class="note">Files none (or files it at zero): '+zeros.map(function(a){return esc(a[0]);}).join(', ')+
+       '. A missing filer usually means the county, a district or another layer runs that service there.</p>';
+  h+='<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — '+
+     'service levels and structures differ. Each figure is that government&rsquo;s own latest filing. __POPCITE__</p>';
+  body.innerHTML=h;
+}
+
+/* ---- per-account history (ported; county general ledger) ---- */""", "render-across")
+# neighbours toggle: seg + wiring
+tpl = swap(tpl, """      <div class="sub">Every __CLS__ in Niagara County by latest-filed expenditure — totals as filed,
+        not per resident; sizes differ. Select one to open its ledger.</div>
+      <div class="rank">__SIBLINGS__</div>""",
+           """      <div class="sub">Every __CLS__ in Niagara County by latest-filed expenditure.
+        Select one to open its ledger.</div>
+      <div class="seg" id="sibSeg" role="tablist">
+        <button type="button" data-mode="abs" aria-selected="true">Totals</button>
+        <button type="button" data-mode="per" aria-selected="false">Per resident</button>
+      </div>
+      <div class="rank" id="sibRank">__SIBLINGS__</div>""", "sib-markup")
+tpl = swap(tpl, "/* ---- bars grow once on view ---- */",
+           """/* ---- neighbours toggle: totals vs per resident ---- */
+(function(){
+  var seg=document.getElementById('sibSeg'), host=document.getElementById('sibRank');
+  if(!seg||!host) return;
+  seg.addEventListener('click',function(e){
+    var b=e.target.closest('button[data-mode]'); if(!b) return;
+    [].forEach.call(seg.querySelectorAll('button'),function(x){
+      x.setAttribute('aria-selected',x===b?'true':'false');});
+    var mode=b.getAttribute('data-mode');
+    [].forEach.call(host.querySelectorAll('a.rk'),function(a){
+      var v=+a.getAttribute('data-'+mode), w=a.getAttribute('data-w'+mode);
+      a.querySelector('.vl').textContent='$'+v.toLocaleString('en-US');
+      a.querySelector('.tr i').style.width=w+'%';
+      a.querySelector('.pc').textContent=(mode==='per'?'per resident · ':'latest filing · ')+
+        'pop '+(+a.getAttribute('data-pop')).toLocaleString('en-US');
+    });
+  });
+})();
+
+/* ---- bars grow once on view ---- */""", "sib-toggle")
+tpl = swap(tpl, "Peer populations are the 2020\n      Census (P1).",
+           "__POPCITE__", "pop-cite")
+
 MUNI_TEMPLATE = tpl
 
 
@@ -275,6 +393,9 @@ for ent, mu in sorted(munis.items()):
         "schemaBreak": SCHEMA_BREAK,
         "peers": [],
         "peerYear": yrs[-1],
+        "xc": XC,
+        "xcAll": XC_ALL,
+        "selfShort": shortname(ent),
     }
     latest = yrs[-1]
     rl, el2 = mu["series"][latest]["rev"], mu["series"][latest]["exp"]
@@ -288,17 +409,24 @@ for ent, mu in sorted(munis.items()):
 
     sibs = by_cls[cls]
     rank = [i for i, (n, _) in enumerate(sibs) if n == ent][0]
-    rankline = ("__SHORT__ runs the %s %s budget in the county."
-                % (ORD[rank], CLS_WORD[cls])) if len(sibs) > 1 else ""
+    rankline = ("__SHORT__ runs the %s %s budget in the county — "
+                '<span class="num">$%s</span> of spending per resident '
+                '(2020 pop <span class="num">%s</span>).'
+                % (ORD[rank], CLS_WORD[cls], "{:,.0f}".format(el2 / POP[ent]),
+                   "{:,}".format(POP[ent]))) if len(sibs) > 1 else ""
     mxs = sibs[0][1]
+    mxp = max(v / POP[n2] for n2, v in sibs)
     sib_rows = "".join(
-        ('<a class="rk can" href="{href}" style="text-decoration:none;color:inherit">'
+        ('<a class="rk can" href="{href}" style="text-decoration:none;color:inherit" '
+         'data-abs="{v:.0f}" data-per="{pv:.0f}" data-wabs="{w:.1f}" data-wper="{wp:.1f}" '
+         'data-pop="{pop}">'
          '<span class="lb"{hl}>{n}</span><span class="vl num">${v:,.0f}</span>'
          '<span class="tr"><i style="width:{w:.1f}%;background:{bg}"></i></span>'
-         '<span class="pc num">latest filing</span></a>').format(
+         '<span class="pc num">latest filing · pop {pop:,}</span></a>').format(
             href=slug(n, cls) + ".html",
             hl=' style="font-weight:700"' if n == ent else ' style="color:var(--muted)"',
-            n=esc(shortname(n)), v=v, w=v / mxs * 100,
+            n=esc(shortname(n)), v=v, pv=v / POP[n], w=v / mxs * 100,
+            wp=(v / POP[n]) / mxp * 100, pop=POP[n],
             bg="var(--exp)" if n == ent else "var(--rule-strong)")
         for n, v in sibs)
 
@@ -314,6 +442,7 @@ for ent, mu in sorted(munis.items()):
             .replace("__AIDY0__", str(yrs[0])).replace("__AIDY1__", str(latest))
             .replace("__AIDSPARK__", spark_path(aid_vals))
             .replace("__SIBLINGS__", sib_rows)
+            .replace("__POPCITE__", POPCITE)
             .replace("__Y0__", str(yrs[0])).replace("__Y1__", str(latest))
             .replace("__YEARS__", str(len(yrs)))
             .replace("__LATEST__", str(latest))

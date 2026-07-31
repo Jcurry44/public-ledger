@@ -1,0 +1,31 @@
+{
+ "source": "https://data.ny.gov/resource/sxhg-qquj.json?$limit=5000",
+ "dataset": "data.ny.gov sxhg-qquj (NYS mirror of 2020 Decennial Census P1)",
+ "retrieved": "2026-07-31",
+ "county": {
+  "name": "Niagara County",
+  "pop2020": 212666
+ },
+ "munis": {
+  "City of Niagara Falls": 48671,
+  "City of North Tonawanda": 30496,
+  "City of Lockport": 20876,
+  "Town of Lockport": 20563,
+  "Town of Wheatfield": 18638,
+  "Town of Lewiston": 15944,
+  "Town of Newfane": 9304,
+  "Town of Niagara": 7903,
+  "Town of Pendleton": 7035,
+  "Town of Royalton": 7517,
+  "Town of Cambria": 5743,
+  "Town of Wilson": 5847,
+  "Town of Porter": 6513,
+  "Town of Hartland": 3874,
+  "Town of Somerset": 2597,
+  "Village of Lewiston": 2531,
+  "Village of Youngstown": 1859,
+  "Village of Wilson": 1247,
+  "Village of Middleport": 1729,
+  "Village of Barker": 575
+ }
+}

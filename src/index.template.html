@@ -286,6 +286,8 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .rk:focus-visible,tr.doc-row:focus-visible,tr[data-acct]:focus-visible{
   outline:2px solid var(--accent);outline-offset:1px}
 .rk .see{color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap}
+.xcch{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.08em;border-radius:4px;
+  padding:1.5px 5px;margin-left:6px;vertical-align:1px;background:var(--accent-soft);color:var(--accent)}
 .rk[data-other]:hover{background:var(--accent-soft);border-radius:6px;margin:0 -7px;padding:3px 7px}
 .tailx{margin:2px 0 10px}
 .tailx summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;
@@ -1024,6 +1026,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 <script id="osc-data" type="application/json">/*__OSC__*/</script>
 <script id="tax-data" type="application/json">/*__TAX__*/</script>
 <script id="school-data" type="application/json">/*__SCHOOL__*/</script>
+<script id="xc-data" type="application/json">/*__XC__*/</script>
 <script>
 (function(){
 "use strict";
@@ -1450,7 +1453,8 @@ function openModal(year, sec, label, cssVar, opener){
   document.getElementById('mTabs').innerHTML =
     '<button type="button" role="tab" data-tab="breakdown" aria-selected="true">Breakdown</button>'+
     '<button type="button" role="tab" data-tab="trend" aria-selected="false">Trend</button>'+
-    '<button type="button" role="tab" data-tab="composition" aria-selected="false">Composition</button>';
+    '<button type="button" role="tab" data-tab="composition" aria-selected="false">Composition</button>'+
+    '<button type="button" role="tab" data-tab="across" aria-selected="false">Across the county</button>';
   var rows=flowsFor(year,sec,label);
   var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
   var secTot=sectionSeries(sec)[O.years.indexOf(year)]||0;
@@ -1581,6 +1585,8 @@ function renderTab(tab){
     renderLine(document.getElementById('mShare'), share, {color:col, name:'Share', pct:true, h:170});
     return;
   }
+
+  if(tab==='across'){ renderAcrossCounty(body,sec,label); return; }
 
   // composition
   var subs=subSeriesFor(sec,label);
@@ -1720,6 +1726,45 @@ function renderProjectTab(tab, body){
 /* Click an account line -> its thirty-year history plus an automatic read:
    latest vs the prior-year median. The audit gesture - 'Unclassified is
    $485K; is that normal?' - built in. */
+/* ---- across the county: this category, all twenty governments ---- */
+var XCDATA=JSON.parse(document.getElementById('xc-data').textContent);
+function renderAcrossCounty(body,sec,label){
+  var rows=((XCDATA.xc||{})[String(sec)]||{})[label]||[];
+  var here={}; rows.forEach(function(r){here[r[0]]=1;});
+  var zeros=(XCDATA.all||[]).filter(function(a){return !here[a[0]];});
+  var SELF='North Tonawanda';
+  var per=function(r){return r[2]/r[3];};
+  var self=null, rank=0;
+  rows.forEach(function(r,i){ if(r[0]===SELF){self=r;rank=i+1;} });
+  var med=0;
+  if(rows.length){ var ps=rows.map(per).slice().sort(function(a,b){return a-b;});
+    med=ps[Math.floor(ps.length/2)]; }
+  var max=rows.length?per(rows[0]):1;
+  var h='<div class="mstats">'+
+    '<div class="mstat"><div class="k">North Tonawanda</div><div class="v num">'+
+      (self?'$'+Math.round(per(self)).toLocaleString('en-US')+'<span style="font-size:12px;color:var(--muted)">/res</span>':'files none')+'</div></div>'+
+    '<div class="mstat"><div class="k">Rank</div><div class="v num">'+(self?rank+' of '+rows.length:'—')+'</div></div>'+
+    '<div class="mstat"><div class="k">Median of filers</div><div class="v num">$'+Math.round(med).toLocaleString('en-US')+'</div></div>'+
+    '<div class="mstat"><div class="k">File none</div><div class="v num">'+zeros.length+' of 20</div></div>'+
+  '</div>';
+  h+='<h4>'+esc(label)+' per resident — every government in Niagara County that files it</h4><div class="rank">'+
+    rows.map(function(r){
+      var me=r[0]===SELF, pv=per(r);
+      return '<div class="rk"><span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
+        esc(r[0])+' <span class="xcch">'+r[1].toUpperCase()+'</span></span>'+
+        '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+Math.round(pv).toLocaleString('en-US')+'</span>'+
+        '<span class="tr"><i style="width:'+(pv/max*100).toFixed(1)+'%;background:'+
+          (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
+        '<span class="pc num">$'+Math.round(r[2]).toLocaleString('en-US')+' total · '+r[4]+' · pop '+r[3].toLocaleString('en-US')+'</span></div>';
+    }).join('')+'</div>';
+  if(zeros.length)
+    h+='<p class="note">Files none (or at zero): '+zeros.map(function(a){return esc(a[0]);}).join(', ')+
+       '. A missing filer usually means the county, a district or another layer runs that service there.</p>';
+  h+='<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — service '+
+     'levels and structures differ. Each figure is that government&rsquo;s own latest filing. '+esc(XCDATA.popcite)+'</p>';
+  body.innerHTML=h;
+}
+
 function acctHistory(tr){
   var next=tr.nextElementSibling;
   if(next && next.className==='acct-hist'){ next.remove(); return; }
