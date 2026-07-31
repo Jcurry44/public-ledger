@@ -291,6 +291,16 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .tailx summary::before{content:'\25B8';margin-right:6px;display:inline-block;transition:transform .12s}
 .tailx[open] summary::before{transform:rotate(90deg)}
 .tailx summary:hover{text-decoration:underline}
+.sb.can{cursor:pointer;border-radius:6px;margin:0 -6px;padding:2px 6px}
+.sb.can:hover{background:var(--accent-soft)}
+.sb.on>span:first-child{font-weight:700}
+.sb .onmark,.sharelegend .onmark{color:var(--ok);font-weight:700}
+.sharebar i.on{outline:2px solid var(--ink);outline-offset:-2px}
+.sharelegend .can{cursor:pointer}
+.sharelegend .can:hover{text-decoration:underline}
+.sharelegend .on{font-weight:700;color:var(--ink)}
+.sb:focus-visible,.sharelegend .can:focus-visible,.sharebar i:focus-visible{
+  outline:2px solid var(--accent);outline-offset:1px}
 
 /* ---------- modal ---------- */
 .modal[hidden]{display:none}
@@ -1146,48 +1156,71 @@ function rankTable(items, total){
       '<span class="rpct num">'+(x[1]/total*100).toFixed(1)+'%</span></div>';
   }).join('')+'</div>';
 }
-function shareBar(items, total){
+function shareBar(items, total, filterKey, activeVal){
   var head=items.slice(0,3), tail=items.slice(3);
   var parts=head.map(function(x,i){return {label:x[0], v:x[1], css:'var('+SHARE_COLORS[i]+')'};});
   var tv=tail.reduce(function(s,x){return s+x[1];},0);
   if(tv>0) parts.push({label:'All other ('+tail.length+')', v:tv, css:'#c6bfb0', mut:1});
-  var h='<div class="tb-bar" style="height:26px;margin:6px 0 10px">'+parts.map(function(p){
-    return '<i style="width:'+(p.v/total*100).toFixed(2)+'%;background:'+p.css+'" title="'+
+  var attr=function(p){
+    if(!filterKey || p.mut) return '';
+    return ' '+filterKey+'="'+escA(p.label)+'" role="button" tabindex="0"';
+  };
+  var h='<div class="tb-bar sharebar" style="height:26px;margin:6px 0 10px">'+parts.map(function(p){
+    var act = filterKey && activeVal===p.label;
+    return '<i'+attr(p)+(act?' class="on"':'')+' style="width:'+(p.v/total*100).toFixed(2)+
+      '%;background:'+p.css+(filterKey&&!p.mut?';cursor:pointer':'')+'" title="'+
       esc(p.label)+' — '+money0(p.v)+' ('+(p.v/total*100).toFixed(1)+'%)"></i>';}).join('')+'</div>';
   h+='<div class="sharelegend">'+parts.map(function(p){
-    return '<span'+(p.mut?' style="color:var(--muted)"':'')+'><b style="background:'+p.css+'"></b>'+
-      esc(p.label)+' <span class="num">'+money0(p.v)+' · '+(p.v/total*100).toFixed(1)+'%</span></span>';
+    var act = filterKey && activeVal===p.label;
+    return '<span'+attr(p)+' class="'+(filterKey&&!p.mut?'can ':'')+(act?'on':'')+'"'+
+      (p.mut?' style="color:var(--muted)"':'')+'><b style="background:'+p.css+'"></b>'+
+      esc(p.label)+(act?' <b class="onmark">&#10003;</b>':'')+
+      ' <span class="num">'+money0(p.v)+' · '+(p.v/total*100).toFixed(1)+'%</span></span>';
   }).join('')+'</div>';
   // 'All other' stays openable: a native details, so it needs no wiring even
   // inside modal bodies that are re-rendered wholesale.
   if(tv>0)
     h+='<details class="tailx"><summary>See the '+tail.length+' grouped as “All other”</summary>'+
-       miniBars(tail,total)+'</details>';
+       miniBars(tail,total,'--exp',filterKey,activeVal)+'</details>';
   return h;
 }
-function miniBars(items, total, cssVar){
+function escA(v){ return esc(v).replace(/"/g,'&quot;'); }
+function miniBars(items, total, cssVar, attrKey, activeVal){
   var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0)||1;
   return '<div class="minis">'+items.map(function(x){
-    return '<div class="sb"><span>'+esc(x[0])+'</span>'+
+    var act = attrKey && activeVal===x[0];
+    return '<div class="sb'+(attrKey?' can':'')+(act?' on':'')+'"'+
+        (attrKey?' '+attrKey+'="'+escA(x[0])+'" role="button" tabindex="0"':'')+'>'+
+      '<span>'+esc(x[0])+(act?' <b class="onmark">&#10003;</b>':'')+'</span>'+
       '<span class="num">'+money0(x[1])+' <span style="color:var(--faint)">'+
         (total?(x[1]/total*100).toFixed(1):'0')+'%</span></span>'+
       '<span class="t"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:var('+cssVar+')"></i></span></div>';
   }).join('')+'</div>';
 }
 function drillHTML(year, sec, label, cssVar){
-  var rows=flowsFor(year, sec, label);
-  if(!rows.length) return '';
-  var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
-  var l2=sumBy(rows,'l2',FI_L2), obj=sumBy(rows,'obj',FI_OBJ);
+  var all=flowsFor(year, sec, label);
+  if(!all.length) return '';
+  var fL2=MODAL.fL2||null, fObj=MODAL.fObj||null;
+  var byL2=function(f){return !fL2 || FD.l2[f[FI_L2]]===fL2;};
+  var byObj=function(f){return !fObj || FD.obj[f[FI_OBJ]]===fObj;};
+  var rows=all.filter(function(f){return byL2(f)&&byObj(f);});
+  // cross-filter: each chart answers "given the OTHER selection" - pick
+  // Contractual and the Within bars re-tell themselves for contractual only.
+  var l2rows=all.filter(byObj), objrows=all.filter(byL2);
+  var l2=sumBy(l2rows,'l2',FI_L2), obj=sumBy(objrows,'obj',FI_OBJ);
+  var l2t=l2rows.reduce(function(s,f){return s+f[FI_AMT];},0);
+  var objt=objrows.reduce(function(s,f){return s+f[FI_AMT];},0);
   var h='';
-  if(l2.length>1 || (l2.length===1 && l2[0][0]!==label))
-    h+='<h4>Within '+esc(label)+'</h4>'+miniBars(l2,total,cssVar);
-  if(obj.length>1)
-    h+='<h4>By type of spending</h4>'+shareBar(obj,total);
-  // Revenue rows carry no object of expenditure - drop the column rather than
-  // printing a wall of 'Unclassified'.
+  if(l2.length>1 || (l2.length===1 && l2[0][0]!==label) || fL2)
+    h+='<h4>Within '+esc(label)+'</h4>'+miniBars(l2,l2t,cssVar,'data-fl2',fL2);
+  if(obj.length>1 || fObj)
+    h+='<h4>By type of spending</h4>'+shareBar(obj,objt,'data-fobj',fObj);
   var showObj = obj.length>1 || (obj.length===1 && obj[0][0]!=='Unclassified');
-  h+='<h4>'+rows.length+' account line'+(rows.length===1?'':'s')+
+  var chips='';
+  if(fL2) chips+=' <span class="chip-f">'+esc(fL2)+'<button type="button" data-cclear="l2" aria-label="Clear">&#10005;</button></span>';
+  if(fObj) chips+=' <span class="chip-f">'+esc(fObj)+'<button type="button" data-cclear="obj" aria-label="Clear">&#10005;</button></span>';
+  var countTxt=(fL2||fObj) ? rows.length+' of '+all.length : String(all.length);
+  h+='<h4>'+countTxt+' account line'+(rows.length===1?'':'s')+chips+
     ' <span style="text-transform:none;letter-spacing:0">— select one for its thirty-year history</span></h4>'+
     '<table class="acct"><tbody>'+
     rows.slice().sort(function(a,b){return b[FI_AMT]-a[FI_AMT];}).map(function(f){
@@ -1196,6 +1229,8 @@ function drillHTML(year, sec, label, cssVar){
         (showObj?'<td class="c">'+esc(FD.obj[f[FI_OBJ]])+'</td>':'')+
         '<td class="a num">'+money0(f[FI_AMT])+'</td></tr>';
     }).join('')+'</tbody></table>';
+  if(!rows.length)
+    h+='<p class="lede">Nothing matches both selections — clear one above.</p>';
   return h;
 }
 
@@ -1378,6 +1413,7 @@ function openModal(year, sec, label, cssVar, opener){
   MODAL.kind='cat';
   MODAL.year=year; MODAL.sec=sec; MODAL.label=label; MODAL.color=cssVar;
   MODAL.tab='breakdown'; MODAL.opener=opener||null;
+  MODAL.fL2=null; MODAL.fObj=null;
   document.getElementById('mTabs').innerHTML =
     '<button type="button" role="tab" data-tab="breakdown" aria-selected="true">Breakdown</button>'+
     '<button type="button" role="tab" data-tab="trend" aria-selected="false">Trend</button>'+
@@ -1698,6 +1734,17 @@ function acctHistory(tr){
     if(p && MODAL.kind==='list' && MODAL.onPick){
       MODAL.onPick(MODAL.pickItems[+p.getAttribute('data-pick')]);
       return;
+    }
+    if(MODAL.kind==='cat' && MODAL.tab==='breakdown'){
+      var cc=e.target.closest('[data-cclear]');
+      if(cc){ if(cc.getAttribute('data-cclear')==='l2') MODAL.fL2=null; else MODAL.fObj=null;
+        renderTab('breakdown'); return; }
+      var f2=e.target.closest('[data-fl2]');
+      if(f2){ var v2=f2.getAttribute('data-fl2');
+        MODAL.fL2 = (MODAL.fL2===v2)?null:v2; renderTab('breakdown'); return; }
+      var fo=e.target.closest('[data-fobj]');
+      if(fo){ var vo=fo.getAttribute('data-fobj');
+        MODAL.fObj = (MODAL.fObj===vo)?null:vo; renderTab('breakdown'); return; }
     }
     var tr=e.target.closest('tr[data-acct]');
     if(tr) acctHistory(tr);
@@ -2773,7 +2820,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
    button - ranked rows, tie-out rows, account-history rows. */
 document.addEventListener('keydown',function(e){
   if(e.key!=='Enter' && e.key!==' ') return;
-  var t=e.target.closest('[data-rank],[data-exp],[data-acct],[data-other],[data-pick],tr.doc-row:not(.scan)');
+  var t=e.target.closest('[data-rank],[data-exp],[data-acct],[data-other],[data-pick],[data-fl2],[data-fobj],[data-cclear],tr.doc-row:not(.scan)');
   if(!t || t.tagName==='BUTTON' || t.tagName==='A') return;
   e.preventDefault();
   t.click();

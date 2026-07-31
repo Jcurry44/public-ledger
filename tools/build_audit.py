@@ -153,6 +153,11 @@ h1{font:600 21px/1.3 ui-serif,Georgia,serif;margin:18px 0 2px}
   border-radius:99px;background:var(--card);color:var(--muted);cursor:pointer}
 .toolbar button:hover{color:var(--ink);border-color:var(--navy)}
 .toolbar .back{font-size:12.5px;margin-left:auto}
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:99px;background:#eae6dc;margin:0 0 12px}
+.seg button{border:0;background:transparent;color:var(--muted);font:600 12px/1 system-ui;
+  padding:7px 13px;border-radius:99px;cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+#s3tab.fexp tr.frev,#s3tab.frev tr.fexp{display:none}
 h2{font:600 11px/1 system-ui;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);
   margin:24px 0 4px;display:flex;gap:10px;align-items:center}
 h2::after{content:'';flex:1;height:1px;background:var(--rule)}
@@ -213,7 +218,8 @@ details.morex[open] .mx{display:none}
 .ctxrow{display:flex;justify-content:space-between;gap:12px;font-size:12px;
   padding:3px 0;border-bottom:1px solid var(--rule)}
 .ctxrow:last-child{border-bottom:0}
-@media print{html{border-top:0;background:#fff}body{background:#fff}
+@media print{.seg{display:none}#s3tab tbody tr{display:table-row!important}
+  html{border-top:0;background:#fff}body{background:#fff}
   .page{padding:0;margin:0;max-width:none;box-shadow:none;border-radius:0}
   a{color:inherit;text-decoration:none}.toolbar{display:none}}
 """
@@ -283,20 +289,29 @@ h += ('<p class="q"><b>The question:</b> which of these are one-time events, and
       'Capital-fund accounts (H-prefix) are excluded — one-time by design, and covered by the capital '
       'projects section of the ledger. Every account over the threshold is listed — nothing is '
       'truncated.</p>')
-h += ('<table><thead><tr><th>Account</th><th>Category</th><th class="r">%d</th>'
+n_exp3 = sum(1 for x in spikes if x["sec"] == 1) + sum(1 for x in newcomers if x["sec"] == 1)
+n_rev3 = sum(1 for x in spikes if x["sec"] == 0) + sum(1 for x in newcomers if x["sec"] == 0)
+h += ('<div class="seg" id="s3seg" role="tablist">'
+      '<button type="button" data-f="all" aria-selected="true">All (%d)</button>'
+      '<button type="button" data-f="exp" aria-selected="false">Spending (%d)</button>'
+      '<button type="button" data-f="rev" aria-selected="false">Revenue (%d)</button>'
+      '</div>') % (n_exp3 + n_rev3, n_exp3, n_rev3)
+h += ('<table id="s3tab"><thead><tr><th>Account</th><th>Category</th><th class="r">%d</th>'
       '<th class="r">Median</th><th class="r">Multiple</th></tr></thead><tbody>') % LATEST
 for x in spikes:
-    h += ('<tr><td>%s <span class="fnt num">%s</span></td><td class="mut" data-l="Category">%s %s</td>'
+    h += ('<tr class="f%s"><td>%s <span class="fnt num">%s</span></td><td class="mut" data-l="Category">%s %s</td>'
           '<td class="r num" data-l="%d">%s</td><td class="r num" data-l="median">%s</td>'
           '<td class="r num key" data-l="Multiple"><b>%.1f&times;</b></td></tr>'
-          % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
+          % ("rev" if x["sec"] == 0 else "exp",
+             esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
              LATEST, money0(x["latest"]), money0(x["med"]), x["ratio"]))
 for x in newcomers:
-    h += ('<tr><td>%s <span class="fnt num">%s</span><span class="pill">NEW</span></td>'
+    h += ('<tr class="f%s"><td>%s <span class="fnt num">%s</span><span class="pill">NEW</span></td>'
           '<td class="mut" data-l="Category">%s %s</td><td class="r num" data-l="%d">%s</td>'
           '<td class="r num" data-l="median">—</td>'
           '<td class="r num key keysm" data-l="Multiple"><b>first year</b></td></tr>'
-          % (esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
+          % ("rev" if x["sec"] == 0 else "exp",
+             esc(x["narr"]), x["code"], "Rev" if x["sec"] == 0 else "Exp", esc(x["l1"][:26]),
              LATEST, money0(x["latest"])))
 h += '</tbody></table>'
 
@@ -361,7 +376,15 @@ h += ('<p class="note"><b>Method.</b> Generated automatically by '
       'Approvals and filings as published, not audited actuals. This sample was prepared from public '
       'records and was not requested by or produced for the City.</p>'
       % (len(docs), YEARS[0], LATEST))
-h = h.replace('<table>', '<div class="tw"><table>').replace('</table>', '</table></div>')
+h = h.replace('<table id="s3tab">', '<div class="tw"><table id="s3tab">').replace('<table>', '<div class="tw"><table>').replace('</table>', '</table></div>')
+h += ('<script>(function(){var g=document.getElementById("s3seg"),t=document.getElementById("s3tab");'
+      'if(!g||!t)return;g.addEventListener("click",function(e){'
+      'var b=e.target.closest("button[data-f]");if(!b)return;'
+      'var f=b.getAttribute("data-f");'
+      '[].forEach.call(g.querySelectorAll("button"),function(x){'
+      'x.setAttribute("aria-selected",x===b?"true":"false");});'
+      't.classList.remove("fexp","frev");if(f!=="all")t.classList.add("f"+f);'
+      '});})();</script>')
 h += '</div></body></html>'
 
 path = os.path.join(ROOT, "audit.html")
