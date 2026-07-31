@@ -542,6 +542,18 @@ footer p{margin:0 0 7px;max-width:80ch}
 }
 
 /* ---------- craft ---------- */
+.wchart{position:relative}
+#warrantChart{touch-action:pan-y}
+#warrantChart rect.scr{fill:var(--accent)}
+.wtip{position:absolute;top:-6px;transform:translate(-50%,-100%);background:var(--ink);
+  color:var(--paper);font-size:12px;line-height:1.45;padding:7px 10px;border-radius:8px;
+  pointer-events:none;white-space:nowrap;box-shadow:0 10px 30px -12px rgba(10,12,15,.5);z-index:5}
+.wtip b{font-weight:700}
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+  .modal .sheet{animation:sheetIn .18s cubic-bezier(.2,.8,.3,1)}
+  @keyframes sheetIn{from{opacity:0;transform:translateY(14px) scale(.985)}}
+}
 html{-webkit-tap-highlight-color:transparent}
 ::selection{background:color-mix(in srgb,var(--accent) 24%,transparent)}
 a{text-underline-offset:2.5px;text-decoration-thickness:1px}
@@ -733,7 +745,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
     <div class="panel" style="margin-bottom:14px">
       <h3>Approvals by warrant <a id="wcBrief" class="briefbtn tot" target="_blank" rel="noopener" hidden></a></h3>
       <div class="sub" id="warrantSub"></div>
-      <div id="warrantChart"></div>
+      <div class="wchart"><div id="warrantChart"></div><div class="wtip num" id="wTip" hidden></div></div>
     </div>
 
     <div class="trio">
@@ -2468,7 +2480,7 @@ function renderSummary(rows){
   })();
   document.getElementById('warrantSub').textContent=
     perDoc.filter(function(x){return x.n>0;}).length+' of '+D.docs.length+
-    ' warrants contain selected lines · hover a bar for its total, select to filter · '+
+    ' warrants contain selected lines · slide across the bars for each meeting, tap to filter · '+
     'the spring-2025 gap is the five image-scan meetings';
   // a selected warrant earns its download button
   var bb=document.getElementById('wcBrief');
@@ -2595,12 +2607,50 @@ document.getElementById('tryChips').addEventListener('click',function(e){
   reset(); setSearch(b.getAttribute('data-try'));
 });
 
-document.getElementById('warrantChart').addEventListener('click',function(e){
-  var c=e.target.closest('[data-doc]'); if(!c) return;
-  var i=c.getAttribute('data-doc');
-  state.doc = (state.doc===i) ? '' : i;      // click again to clear
-  fDoc.value=state.doc; reset(); renderRows();
-});
+/* Slide a finger (or the mouse) across the warrant bars: the nearest
+   meeting highlights and a tooltip follows - the same scrub language as the
+   hero trend. A tap still filters; a drag never does. */
+(function(){
+  var host=document.getElementById('warrantChart'), tip=document.getElementById('wTip');
+  var downX=null, moved=false, cur=null, hideT=null;
+  function rects(){ return [].slice.call(host.querySelectorAll('rect[data-doc]')); }
+  function clearScr(){ if(cur){cur.classList.remove('scr');} cur=null; }
+  function scrub(clientX){
+    var rs=rects(); if(!rs.length) return;
+    var best=null,bd=1e9;
+    rs.forEach(function(r){
+      var b=r.getBoundingClientRect(), c=b.left+b.width/2, d=Math.abs(clientX-c);
+      if(d<bd){bd=d;best=r;}
+    });
+    if(!best || bd>70) { clearScr(); tip.hidden=true; return; }
+    if(cur!==best){ clearScr(); cur=best; best.classList.add('scr'); }
+    var t=best.querySelector('title'); if(!t) return;
+    var txt=t.textContent.split(' · ')[0];
+    var hb=host.getBoundingClientRect(), rb=best.getBoundingClientRect();
+    tip.innerHTML=txt.replace(' — ','<br><b>').replace(' across ','</b> · ');
+    tip.hidden=false;
+    var xpos=rb.left+rb.width/2-hb.left;
+    tip.style.left=Math.max(70,Math.min(hb.width-70,xpos))+'px';
+    clearTimeout(hideT); hideT=setTimeout(function(){tip.hidden=true;clearScr();},2600);
+  }
+  host.addEventListener('pointerdown',function(e){downX=e.clientX;moved=false;scrub(e.clientX);});
+  host.addEventListener('pointermove',function(e){
+    if(downX!==null && Math.abs(e.clientX-downX)>8) moved=true;
+    scrub(e.clientX);
+  });
+  host.addEventListener('pointerup',function(){downX=null;});
+  host.addEventListener('pointerleave',function(){
+    clearTimeout(hideT); hideT=setTimeout(function(){tip.hidden=true;clearScr();},350);
+    downX=null;
+  });
+  host.addEventListener('click',function(e){
+    if(moved){ moved=false; return; }        // a drag is a scrub, not a choice
+    var c=e.target.closest('[data-doc]'); if(!c) return;
+    var i=c.getAttribute('data-doc');
+    state.doc = (state.doc===i) ? '' : i;    // click again to clear
+    fDoc.value=state.doc; reset(); renderRows();
+  });
+})();
 
 document.addEventListener('click',function(e){
   var t=e.target.closest('[data-vendor]');
@@ -2736,6 +2786,32 @@ document.addEventListener('keydown',function(e){
     });
   },{threshold:.15});
   lists.forEach(function(el){io.observe(el);});
+})();
+
+/* Stat tiles roll up once, the first time their grid enters the viewport -
+   the same voice as the hero. Later filter re-renders set values instantly. */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  if(!('IntersectionObserver' in window)) return;
+  function rollText(el){
+    var m=el.textContent.match(/^([^0-9]*)([\d,]+)(.*)$/); if(!m) return;
+    var pre=m[1], target=+m[2].replace(/,/g,''), suf=m[3];
+    if(!target) return;
+    var t0=performance.now(), D=650;
+    (function tick(t){
+      var p=Math.min(1,(t-t0)/D); p=1-Math.pow(1-p,3);
+      el.textContent=pre+Math.round(target*p).toLocaleString('en-US')+suf;
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(en){
+      if(!en.isIntersecting) return;
+      io.unobserve(en.target);
+      [].forEach.call(en.target.querySelectorAll('.tile .v'),rollText);
+    });
+  },{threshold:.3});
+  [].forEach.call(document.querySelectorAll('.tiles'),function(g){io.observe(g);});
 })();
 
 var themeBtn=document.getElementById('theme');
