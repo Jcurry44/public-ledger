@@ -251,10 +251,15 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
   .mv thead{display:none}
   .mv tr{display:grid;grid-template-columns:1fr auto;gap:1px 10px;padding:10px 2px;border-bottom:1px solid var(--rule)}
   .mv td{display:block;padding:0;border:0}
-  .mv td.m-name{font-weight:600}
+  .mv td.m-name{font-weight:600;grid-row:1 / span 2;grid-column:1}
   .mv td.m-vals{display:none}
-  .mv td.m-delta{grid-row:1;grid-column:2;text-align:right}
+  .mv td.m-delta{grid-row:1;grid-column:2;text-align:right;font-weight:600}
+  .mv td.m-pct{grid-row:2;grid-column:2;text-align:right;font-size:11px;margin-top:1px}
 }
+.m-range{display:block;font-weight:400;font-size:11px;color:var(--faint);margin-top:2px}
+@media (min-width:641px){.m-range{display:none}}
+.mv tr[data-mvlabel]{cursor:pointer}
+.mv tr[data-mvlabel]:hover td{background:var(--accent-soft)}
 /* ---------- the method, set in ink ---------- */
 #method{background:#10151b;border-radius:14px;margin:34px -14px 12px;padding:26px 26px 20px;
   --paper:#10151b;--card:#171d24;--ink:#eceae3;--muted:#a9aeb6;--faint:#7f858e;
@@ -929,6 +934,18 @@ function acctHistory(tr){
       if(fo){var vo=fo.getAttribute('data-fobj');
         MODAL.fObj=(MODAL.fObj===vo)?null:vo;renderTab('breakdown');return;}
     }
+    if(MODAL.kind==='compare'){
+      var mv=e.target.closest('tr[data-mvlabel]');
+      if(mv){
+        var lbl=mv.getAttribute('data-mvlabel'), ms=+mv.getAttribute('data-mvsec');
+        var toYear=+document.getElementById('cmpB').value;
+        openModal(toYear, ms, lbl, ms?'--exp':'--rev', null);
+        renderTab('trend');
+        [].forEach.call(document.querySelectorAll('#mTabs button'),function(x){
+          x.setAttribute('aria-selected', x.dataset.tab==='trend'?'true':'false');});
+        return;
+      }
+    }
     var tr=e.target.closest('tr[data-acct]');
     if(tr) acctHistory(tr);
   });
@@ -1006,8 +1023,8 @@ function renderCompare(){
       '</th><th class="r">Change</th><th class="r">%</th></tr></thead><tbody>'+
       rows.map(function(m){
         var outpaced=sec===1&&m.pct!==null&&m.d>0&&m.pct>revGrowth;
-        return '<tr><td class="m-name">'+esc(m.k)+
-            (outpaced?'<span class="flag">OUTPACED REVENUE</span>':'')+'</td>'+
+        return '<tr data-mvlabel="'+escA(m.k)+'" data-mvsec="'+sec+'" role="button" tabindex="0" title="Open — full history and drill"><td class="m-name">'+esc(m.k)+
+            (outpaced?'<span class="flag">OUTPACED REVENUE</span>':'')+'<span class="m-range num">'+a+' '+money0(m.a)+' → '+b+' '+money0(m.b)+'</span></td>'+
           '<td class="r num m-vals">'+money0(m.a)+'</td>'+
           '<td class="r num m-vals">'+money0(m.b)+'</td>'+
           '<td class="r num m-delta '+cls(m.d)+'">'+sign(m.d)+'</td>'+
@@ -1314,7 +1331,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
 /* ---- keyboard for row-like controls ---- */
 document.addEventListener('keydown',function(e){
   if(e.key!=='Enter'&&e.key!==' ')return;
-  var t=e.target.closest('[data-rank],[data-exp],[data-acct],[data-other],[data-fl2],[data-fobj],[data-cclear]');
+  var t=e.target.closest('[data-rank],[data-exp],[data-acct],[data-other],[data-fl2],[data-fobj],[data-cclear],[data-mvlabel]');
   if(!t||t.tagName==='BUTTON'||t.tagName==='A')return;
   e.preventDefault();
   t.click();
