@@ -243,8 +243,24 @@ h2::before,h2::after{{content:'';flex:1;height:1px;background:var(--rule)}}
 .scalehead .chip{{border:1px solid var(--strong);border-radius:99px;padding:3px 10px;background:var(--card)}}
 .legend{{display:flex;gap:6px 12px;flex-wrap:wrap;justify-content:center;font-size:11.5px;color:var(--muted)}}
 .legend b{{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}}
-.taperow{{display:flex;justify-content:center;gap:22px;margin-top:18px}}
-.tape{{width:min(600px,100%);}}
+.howto{{max-width:600px;margin:14px auto 0;background:var(--card);border:1px solid var(--strong);
+  border-radius:10px;padding:13px 16px}}
+.ht-title{{font:600 10px/1 ui-monospace,Menlo,monospace;letter-spacing:.14em;color:var(--faint);
+  text-transform:uppercase;margin:0 0 10px}}
+.ht-grid{{display:grid;grid-template-columns:110px 1fr;gap:14px}}
+.ht-bars .ht-bar{{margin:0 0 3px;border-radius:1px}}
+.ht-fuzz{{height:16px;border-radius:1px;background:repeating-linear-gradient(0deg,#b9b2a2 0 1px,#e7e2d5 1px 3px)}}
+.ht-notes{{font-size:12px;color:var(--muted);line-height:1.45}}
+.ht-notes>div{{display:flex;align-items:center;margin:0 0 3px}}
+.ht-notes b{{color:var(--ink)}}
+.ht-notes .ht-last{{height:auto;display:block;margin-top:4px}}
+.stickscale{{position:sticky;top:8px;z-index:6;display:flex;justify-content:center;margin:16px 0 2px;
+  pointer-events:none}}
+.stickscale .chip{{border:1px solid var(--strong);border-radius:99px;padding:4px 12px;
+  background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(6px);
+  font-size:11px;color:var(--muted);box-shadow:0 6px 20px -10px rgba(20,18,10,.4)}}
+.taperow{{display:flex;justify-content:center;gap:22px;margin-top:14px}}
+.tape{{width:min(600px,100%);-webkit-user-select:none;user-select:none}}
 .slat{{position:relative;margin:0 0 1px;border-radius:1px;overflow:visible;cursor:pointer}}
 .slat:hover,.slat.lit{{outline:2px solid var(--ink);outline-offset:1px;z-index:2}}
 .slbl{{position:absolute;inset:0;display:flex;align-items:center;padding:0 16px 0 10px;font-size:11.5px;
@@ -300,6 +316,29 @@ h2::before,h2::after{{content:'';flex:1;height:1px;background:var(--rule)}}
   </div>
   <div class="legend">{LEGEND}</div>
 
+  <div class="howto">
+    <div class="ht-title">How to read it</div>
+    <div class="ht-grid">
+      <div class="ht-bars">
+        <div class="ht-bar" style="height:64px;background:#c07a24"></div>
+        <div class="ht-bar" style="height:13px;background:#1b3a5c"></div>
+        <div class="ht-bar" style="height:2px;background:#1b3a5c"></div>
+        <div class="ht-fuzz"></div>
+      </div>
+      <div class="ht-notes">
+        <div style="height:64px"><b>Every stripe is one approved payment.</b> Its height is its
+          dollars — this one is about {BIGSAMPLE}.</div>
+        <div style="height:13px">a mid-size claim</div>
+        <div style="height:2px;line-height:1">&nbsp;</div>
+        <div class="ht-last">a hairline &asymp; {PXVAL2}; the texture bundles the hundreds of
+          smaller claims — counted, never dropped. <b>Color is the fund.</b> Tap anything for
+          its claim.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stickscale"><span class="chip num">&#9646; height = dollars &middot; 1px = {PXVAL3} &middot; tap any stripe</span></div>
+
   <div class="taperow"><div class="tape">
 {TAPE}
   </div></div>
@@ -331,6 +370,9 @@ document.addEventListener('click',function(e){{
 </script>
 </body></html>"""
 
+HTML = (HTML.replace("{BIGSAMPLE}", money(SCALE * 64))
+            .replace("{PXVAL2}", money(SCALE))
+            .replace("{PXVAL3}", money(SCALE)))
 out = HTML.format(
     ISSUE=len([1 for i, d in docs if d.get("n")]),
     DATE=ld["d"], LEDE=lede, PXVAL=money(SCALE),
