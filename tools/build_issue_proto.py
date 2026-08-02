@@ -82,11 +82,14 @@ for i, d in docs:
             seen.add(V[r[I_VEN]])
 
 # ---- the latest issue's computed prose -------------------------------------
+FAMORD = {"General Fund": 0, "Water": 1, "Sewer": 2, "Capital projects": 3,
+          "Golf": 4, "Other": 5}
 li, ld = docs_newest[0]
-rows = sorted(by_doc[li], key=lambda r: -r[I_AMT])
+rows = sorted(by_doc[li], key=lambda r: (FAMORD.get(fam(A[r[I_ACC]])[0], 5), -r[I_AMT]))
+biggest_idx = max(range(len(rows)), key=lambda ix: rows[ix][I_AMT])
 lt = sum(r[I_AMT] for r in rows)
 med = statistics.median(parsed_totals[:-1]) if len(parsed_totals) > 1 else lt
-big = rows[0]
+big = rows[biggest_idx]
 big_proj = PROJ[big[I_ACC]]
 news = sorted((r for r in rows if V[r[I_VEN]] in first_in[li]), key=lambda r: -r[I_AMT])
 new_sum = sum(r[I_AMT] for r in news)
@@ -96,9 +99,9 @@ fmix = sorted(((f[1], f[3]) for f in ld["funds"]), key=lambda x: -x[1])
 lede = (
     '<p>On <b>{date}</b> the Common Council was asked to approve <b class="num">{tot}</b> '
     'across <b>{n} claims</b> — {ratio} a typical meeting on this record. The largest single '
-    'claim is <a class="ev" data-slat="s-{li}-0"><b class="num">{bigamt}</b> to {bigven}</a>{proj}. '
+    'claim is <a class="ev" data-slat="s-{li}-{bi}"><b class="num">{bigamt}</b> to {bigven}</a>{proj}. '
     .format(
-        date=ld["d"], tot=money(lt), n=len(rows),
+        date=ld["d"], tot=money(lt), n=len(rows), bi=biggest_idx,
         ratio="{:.1f}&times;".format(lt / med) if med else "",
         li=li, bigamt=money(big[I_AMT]), bigven=esc(V[big[I_VEN]]),
         proj=" for the " + esc(big_proj).title() if big_proj else "",
@@ -149,7 +152,7 @@ for i, d in docs_newest:
             '<div class="torn"><div class="tornlbl">{d} — published as an image scan; '
             'unreadable, so its height here is unknown</div></div>'.format(d=d["d"]))
         continue
-    rr = sorted(by_doc[i], key=lambda r: -r[I_AMT])
+    rr = sorted(by_doc[i], key=lambda r: (FAMORD.get(fam(A[r[I_ACC]])[0], 5), -r[I_AMT]))
     dt = sum(r[I_AMT] for r in rr)
     tape.append(
         '<div class="wmark"><span class="num">{d}</span><span>{n} claims</span>'
@@ -185,7 +188,8 @@ for i, d in docs_newest:
         fh = max(fuzz_sum / SCALE, 2.5)
         lbl = ""
         if fh >= 13:
-            lbl = '<span class="slbl mut">{n} smaller claims&nbsp;&mdash;&nbsp;<span class="num">{s}</span></span>'.format(
+            lbl = ('<span class="slbl mut"><span class="fchip">{n} smaller claims'
+                   '&nbsp;&mdash;&nbsp;<span class="num">{s}</span></span></span>').format(
                 n=fuzz_n, s=money(fuzz_sum))
         tape.append(
             '<div class="fuzz" style="height:{h:.2f}px" data-tip="{n} claims under {m} '
@@ -200,7 +204,8 @@ fams_seen, legend_items = set(), []
 for code, (n, c) in FAMILY.items():
     if n not in fams_seen:
         fams_seen.add(n)
-        legend_items.append('<span><b style="background:%s"></b>%s</span>' % (c, n))
+        legend_items.append('<span><b style="background:%s"></b>%s</span>'
+                            % (c, n.replace("Capital projects", "Capital")))
 legend = "".join(legend_items)
 
 HTML = """<!doctype html>
@@ -236,18 +241,20 @@ h2{{font:600 11px/1 system-ui;letter-spacing:.14em;text-transform:uppercase;colo
 h2::before,h2::after{{content:'';flex:1;height:1px;background:var(--rule)}}
 .scalehead{{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:0 0 14px}}
 .scalehead .chip{{border:1px solid var(--strong);border-radius:99px;padding:3px 10px;background:var(--card)}}
-.legend{{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--muted)}}
+.legend{{display:flex;gap:6px 12px;flex-wrap:wrap;justify-content:center;font-size:11.5px;color:var(--muted)}}
 .legend b{{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}}
 .taperow{{display:flex;justify-content:center;gap:22px;margin-top:18px}}
 .tape{{width:min(600px,100%);}}
 .slat{{position:relative;margin:0 0 1px;border-radius:1px;overflow:visible;cursor:pointer}}
 .slat:hover,.slat.lit{{outline:2px solid var(--ink);outline-offset:1px;z-index:2}}
-.slbl{{position:absolute;inset:0;display:flex;align-items:center;padding:0 10px;font-size:11.5px;
+.slbl{{position:absolute;inset:0;display:flex;align-items:center;padding:0 16px 0 10px;font-size:11.5px;
   color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   text-shadow:0 1px 2px rgba(0,0,0,.35)}}
 .fuzz{{position:relative;margin:0 0 1px;border-radius:1px;cursor:pointer;
   background:repeating-linear-gradient(0deg,#b9b2a2 0 1px,#e7e2d5 1px 3px)}}
 .fuzz .slbl{{color:var(--muted);text-shadow:none;font-weight:500}}
+.fchip{{background:var(--paper);border:1px solid #d8d2c4;border-radius:5px;padding:1px 9px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
 .fuzz:hover{{outline:2px solid var(--muted);outline-offset:1px}}
 .wmark{{display:flex;gap:12px;align-items:baseline;font-size:11px;color:var(--faint);
   border-top:1px solid var(--strong);margin:14px 0 5px;padding-top:4px;flex-wrap:wrap}}
