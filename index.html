@@ -581,7 +581,7 @@ footer p{margin:0 0 7px;max-width:80ch}
 @media (max-width:640px){
   .findtab,.findtab tbody{display:block;width:100%}
   .findtab thead{display:none}
-  .findtab tr{display:block;position:relative;padding:12px 2px 12px;border-bottom:1px solid var(--rule)}
+  .findtab tr{display:block;position:relative;padding:11px 2px 10px;border-bottom:1px solid var(--rule)}
   .findtab tr:last-child{border-bottom:0}
   /* a stat strip, not an inline mumble: label over value, the finding
      (account count) emphasized, the comparison bar restored full-width */
@@ -595,9 +595,11 @@ footer p{margin:0 0 7px;max-width:80ch}
     text-underline-offset:3px}
   .findtab td.key{position:absolute;top:12px;right:2px;padding:0;font-size:14.5px;font-weight:700}
   .findtab td.key::before{content:none}
-  .findtab td[data-l="Accounts"],.findtab td[data-l="Vendor codes"]{display:block;padding:6px 0 0}
-  .findtab td[data-l="Accounts"] b{font-size:16px}
-  .findtab td[data-l="Accounts"] .bar{display:block;width:100%;margin-top:4px;height:7px;
+  .findtab td[data-l="Accounts"],.findtab td[data-l="Vendor codes"]{display:block;padding:5px 0 0}
+  .findtab td[data-l="Accounts"] b{font-size:16px;display:inline-block;vertical-align:middle;
+    min-width:34px}
+  .findtab td[data-l="Accounts"] .bar{display:inline-block;vertical-align:middle;
+    width:calc(100% - 50px);margin-left:6px;height:7px;
     background:var(--gridline);border-radius:2px;overflow:hidden}
   .findtab td[data-l="Accounts"] .bar i{display:block;height:100%;background:var(--exp);
     border-radius:0 3px 3px 0}
