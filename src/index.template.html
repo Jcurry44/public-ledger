@@ -1821,7 +1821,6 @@ var GLOSS={
  '1081':'Payments in lieu of taxes (PILOTs) from tax-exempt or IDA-abated properties.',
  '1090':'Interest and penalties collected on late property taxes.',
  '1120':'This government\u2019s share of the county\u2019s sales-tax distribution.',
- '1170':'Franchise fees - what utilities and cable pay to use public rights-of-way.',
  '2401':'Interest earned on the government\u2019s own deposits and investments.',
  '2610':'Fines and forfeited bail from courts and violations.',
  '2650':'Proceeds from selling scrap and surplus equipment.',
@@ -1830,6 +1829,14 @@ var GLOSS={
  '2770':'The state\u2019s catch-all account - its own name says \u201c(specify)\u201d.',
  '3001':'State revenue sharing (AIM) - general unrestricted state aid.',
  '3005':'Mortgage tax - the county-collected tax on recorded mortgages, shared out.',
+ '3110':'The sheriff\u2019s office - county law enforcement.',
+ '3150':'The county jail.',
+ '4310':'Mental-health administration.',
+ '4322':'Contracted community mental-health program services.',
+ '6010':'Social-services administration.',
+ '6100':'Medicaid - the county\u2019s share of program payments.',
+ '6140':'Safety-net assistance - locally funded public assistance.',
+ '1165':'The district attorney\u2019s office.',
  '3101':'Basic Formula (Foundation) Aid - the state\u2019s main school operating aid, set by a statewide formula from enrollment, district wealth and student need.',
  '3102':'Lottery Aid - the same foundation aid stream, funded from lottery receipts; a budget label, not extra money.',
  '3103':'BOCES Aid - state reimbursement for shared-service costs run through BOCES.',
@@ -1861,10 +1868,21 @@ var GLOSS={
  '9901':'Transfers to other funds - internal moves, not outside spending.',
  '9950':'Transfers to capital project funds - internal moves, not outside spending.'
 };
-function glossFor(code){
+/* codes that mean different things on the revenue vs spending side */
+var GLOSS2={
+ '1170':{r:'Franchise fees - what utilities and cable pay to use public rights-of-way.',
+         e:'The public defender\u2019s office.'}
+};
+function glossFor(code,sec){
   var d=(code||'').replace(/[^0-9]/g,'');
-  if(d.length>=4 && GLOSS[d.slice(0,4)]) return GLOSS[d.slice(0,4)];
-  return null;
+  if(d.length<4) return null;
+  var fn=d.slice(0,4);
+  if(GLOSS2[fn]){
+    if(sec===0||sec==='r') return GLOSS2[fn].r;
+    if(sec===1||sec==='e') return GLOSS2[fn].e;
+    return null;  /* side unknown - say nothing rather than guess */
+  }
+  return GLOSS[fn]||null;
 }
 
 function acctHistory(tr){
@@ -1897,7 +1915,7 @@ function acctHistory(tr){
     read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — no meaningful prior history.';
   }
   if(firstIdx>0) read+=' First appears FY'+O.years[firstIdx]+'.';
-  var g=glossFor(code);
+  var g=glossFor(code, MODAL.sec);
   if(g) read+='<span class="gloss">What this is: '+g+'</span>';
   if(/Unclassified/i.test(narr))
     read+=' The 2770-series is the state&rsquo;s catch-all — its own name says <i>&ldquo;(specify)&rdquo;</i>, '+

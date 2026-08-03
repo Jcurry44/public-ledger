@@ -69,8 +69,9 @@ topcap_html = "".join(
 GLOSS_JS = open(ROOT / "tools" / "build_county.py", encoding="utf-8").read()
 _g0 = GLOSS_JS.index("var GLOSS={")
 _g1 = GLOSS_JS.index("};", _g0) + 2
-_g2 = GLOSS_JS.index("function glossFor(code){", _g1)
-_g3 = GLOSS_JS.index("}", GLOSS_JS.index("return null;", _g2)) + 1
+_g2 = GLOSS_JS.index("/* codes that mean different things", _g1)
+_g3 = GLOSS_JS.index("return GLOSS[fn]||null;", _g2)
+_g3 = GLOSS_JS.index("}", _g3) + 1
 GLOSS_JS = GLOSS_JS[_g0:_g1] + "\n" + GLOSS_JS[_g2:_g3]
 assert "'3101'" in GLOSS_JS
 
