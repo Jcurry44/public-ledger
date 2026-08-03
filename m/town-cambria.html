@@ -142,6 +142,7 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
 .chip-f button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:13px;line-height:1;padding:0 2px;opacity:.7}
 .chip-f button:hover{opacity:1}
 .fnt{color:var(--faint);font-size:12px}
+.gloss{display:block;margin-top:6px;color:var(--muted);font-size:12px;font-style:italic;border-left:2px solid var(--rule-strong);padding-left:9px}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 12px}
 /* ---------- modal ---------- */
@@ -585,6 +586,31 @@ function renderLine(host, values, opts){
     tip.style.top='2px';
   });
   hit.addEventListener('mouseleave',function(){tip.style.opacity=0;tip.style.left='0px';xh.style.opacity=0;});
+  hit.style.touchAction='none';
+  var tX0=0,tXl=0,tMoved=false;
+  hit.addEventListener('touchstart',function(ev){
+    var t=ev.touches&&ev.touches[0]; if(!t) return;
+    tX0=tXl=t.clientX; tMoved=false;
+    hit.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY,bubbles:true}));
+    ev.preventDefault();
+  },{passive:false});
+  hit.addEventListener('touchmove',function(ev){
+    var t=ev.touches&&ev.touches[0]; if(!t) return;
+    tXl=t.clientX; if(Math.abs(t.clientX-tX0)>8) tMoved=true;
+    hit.dispatchEvent(new MouseEvent('mousemove',{clientX:t.clientX,clientY:t.clientY,bubbles:true}));
+    ev.preventDefault();
+  },{passive:false});
+  hit.addEventListener('touchend',function(){
+    tip.style.opacity=0;tip.style.left='0px';xh.style.opacity=0;
+    /* a tap (no drag) still selects a year on charts that support it
+       (renderHist has no opts in scope, hence the typeof guard) */
+    if(!tMoved && typeof opts!=='undefined' && opts.onPick){
+      var r=svg.getBoundingClientRect();
+      var i=Math.round(((tXl-r.left)/r.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
+      opts.onPick(Math.max(0,Math.min(yrs.length-1,i)));
+    }
+  });
+
   if(opts.onPick) hit.addEventListener('click',function(ev){
     var r=svg.getBoundingClientRect();
     var i=Math.round(((ev.clientX-r.left)/r.width*W-ml)/((W-ml-mr)/(yrs.length-1)));
@@ -878,6 +904,59 @@ function renderAcross(body,sec,label){
 }
 
 /* ---- per-account history (ported; county general ledger) ---- */
+/* Plain-English guide to the recurring state account codes - hand-curated,
+   simplified, and silent where a code is not confidently known. */
+var GLOSS={
+ '1001':'The property-tax levy - the amount raised directly on taxable property.',
+ '1081':'Payments in lieu of taxes (PILOTs) from tax-exempt or IDA-abated properties.',
+ '1090':'Interest and penalties collected on late property taxes.',
+ '1120':'This government\u2019s share of the county\u2019s sales-tax distribution.',
+ '1170':'Franchise fees - what utilities and cable pay to use public rights-of-way.',
+ '2401':'Interest earned on the government\u2019s own deposits and investments.',
+ '2610':'Fines and forfeited bail from courts and violations.',
+ '2650':'Proceeds from selling scrap and surplus equipment.',
+ '2680':'Insurance recoveries - claim payouts received for losses.',
+ '2701':'Refunds of money spent in earlier years.',
+ '2770':'The state\u2019s catch-all account - its own name says \u201c(specify)\u201d.',
+ '3001':'State revenue sharing (AIM) - general unrestricted state aid.',
+ '3005':'Mortgage tax - the county-collected tax on recorded mortgages, shared out.',
+ '3101':'Basic Formula (Foundation) Aid - the state\u2019s main school operating aid, set by a statewide formula from enrollment, district wealth and student need.',
+ '3102':'Lottery Aid - the same foundation aid stream, funded from lottery receipts; a budget label, not extra money.',
+ '3103':'BOCES Aid - state reimbursement for shared-service costs run through BOCES.',
+ '3190':'State aid for the school lunch program.',
+ '3289':'Other state education aid outside the main formulas.',
+ '3501':'CHIPS - the state\u2019s Consolidated Highway Improvement aid for local roads.',
+ '2110':'Teaching, regular school - classroom instruction salaries and costs.',
+ '2250':'Programs for students with disabilities.',
+ '5510':'Pupil transportation run by the district itself.',
+ '5540':'Pupil transportation bought from contractors.',
+ '1620':'Operating public buildings - custodians, utilities, upkeep.',
+ '1910':'Unallocated insurance - premiums not charged to one department.',
+ '1930':'Judgments and claims paid against the government.',
+ '3120':'The police department.',
+ '3410':'The fire department.',
+ '5110':'Street maintenance - paving, patching, everyday road work.',
+ '5142':'Snow removal.',
+ '8120':'Sewer collection - the pipes.',
+ '8130':'Sewage treatment - the plant.',
+ '8320':'Water source, supply and pumping.',
+ '8330':'Water purification.',
+ '8160':'Refuse and garbage collection.',
+ '9010':'Employer contributions to the state retirement system (ERS).',
+ '9015':'Employer contributions to the police and fire retirement system.',
+ '9030':'Social Security - the employer\u2019s FICA share.',
+ '9040':'Workers\u2019 compensation.',
+ '9060':'Hospital and medical insurance for employees and retirees.',
+ '9710':'Serial bonds - principal and interest on long-term borrowing.',
+ '9901':'Transfers to other funds - internal moves, not outside spending.',
+ '9950':'Transfers to capital project funds - internal moves, not outside spending.'
+};
+function glossFor(code){
+  var d=(code||'').replace(/[^0-9]/g,'');
+  if(d.length>=4 && GLOSS[d.slice(0,4)]) return GLOSS[d.slice(0,4)];
+  return null;
+}
+
 function acctHistory(tr){
   var next=tr.nextElementSibling;
   if(next&&next.className==='acct-hist'){next.remove();return;}
@@ -908,6 +987,8 @@ function acctHistory(tr){
     read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — no meaningful prior history.';
   }
   if(firstIdx>0) read+=' First appears FY'+O.years[firstIdx]+'.';
+  var g=glossFor(code);
+  if(g) read+='<span class="gloss">What this is: '+g+'</span>';
   if(/Unclassified/i.test(narr))
     read+=' The 2770-series is the state&rsquo;s catch-all — its own name says <i>&ldquo;(specify)&rdquo;</i>, '+
       'so a large or growing balance is a standard audit question. The itemisation lives in the '+
