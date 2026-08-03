@@ -48,9 +48,11 @@ for y in sorted(by_year, reverse=True):
     rs = by_year[y]
     v = sum(1 for r in rs if "vote" in r)
     a = sum(1 for r in rs if "cap" in r or "amt" in r)
+    tx = sum(1 for r in rs if r.get("tx"))
     per_year_rows.append(
         f"<tr><td class='num'>{y}</td><td class='num'>{len(by_year_meet[y])}</td>"
-        f"<td class='num'>{len(rs)}</td><td class='num'>{100*v//len(rs)}%</td>"
+        f"<td class='num'>{len(rs)}</td><td class='num'>{100*tx//len(rs)}%</td>"
+        f"<td class='num'>{100*v//len(rs)}%</td>"
         f"<td class='num'>{100*a//len(rs)}%</td></tr>")
 
 dissent_html = "".join(
@@ -306,7 +308,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   agendas and meeting minutes, and links back to the source document.</p>
   <div class="tally">
     <div class="tcell"><div class="tv num">__MEET__</div><div class="tl">Meetings</div></div>
-    <div class="tcell"><div class="tv num">__VPCT__%</div><div class="tl">Votes matched</div></div>
+    <div class="tcell"><div class="tv num">__RVPCT__%</div><div class="tl">Votes matched &middot; readable minutes</div></div>
     <div class="tcell"><div class="tv num">__UNAN__%</div><div class="tl">Passed unanimously</div></div>
     <div class="tcell"><div class="tv num">__CAPTOT__</div><div class="tl">Authorized ceilings</div></div>
   </div>
@@ -378,9 +380,16 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   Every parsed resolution is checked against that list; the parse of a meeting fails loudly rather
   than publishing a partial read.</p>
   <p class="gate">&#10003; __TOTAL__ resolutions parsed across __MEET__ meetings &middot; every id tied out
-  against its meeting&rsquo;s own agenda list &middot; __VPCT__% matched to a recorded vote in the minutes</p>
+  against its meeting&rsquo;s own agenda list &middot; __RVPCT__% of votes matched where minutes are
+  machine-readable</p>
   <div class="mtabwrap"><table class="mtab"><thead><tr><th>Year</th><th>Meetings</th><th>Resolutions</th>
-  <th>Votes matched</th><th>With amounts</th></tr></thead><tbody>__PERYEAR__</tbody></table></div>
+  <th>Text located</th><th>Votes matched</th><th>With amounts</th></tr></thead><tbody>__PERYEAR__</tbody></table></div>
+  <p><b>What a machine cannot read.</b> Of the __TOTAL__ resolutions, __SCANROWS__ sit in meetings
+  whose posted minutes are scanned images with no text layer, __NONEROWS__ in meetings where the
+  county has not posted minutes at all, and __FUTROWS__ on agendas for meetings not yet held.
+  Against the minutes a machine <i>can</i> read, __RVN__ of __RDN__ votes are matched
+  (__RVPCT__%). Nothing here is OCR-guessed &mdash; where the record is an image, this register
+  says so and links it.</p>
   <p><b>Honesty notes.</b> The county&rsquo;s PDFs carry a machine text layer with light OCR noise
   (&ldquo;CmTied&rdquo; for &ldquo;Carried&rdquo;, the digit 1 read as the letter I); parsing tolerates
   the known artifacts and otherwise reports what is printed, including vote totals that occasionally
@@ -467,8 +476,16 @@ function extHTML(r){
     h+='<p class="vline">On the printed agenda for a meeting that hasn&rsquo;t been held yet &mdash; '+
        'the vote will appear here once the county posts the minutes.</p>';
   } else {
-    h+='<p class="vline">No recorded vote found for this item &mdash; in this era some minutes are '+
-       'scanned images a machine can&rsquo;t read. The minutes PDF is the authority.</p>';
+    var ms=(R.mstat||{})[r.date];
+    if(ms==='scan')
+      h+='<p class="vline">The minutes for this meeting are a scanned image with no text layer &mdash; '+
+         'a machine can&rsquo;t read the vote. The linked PDF is the authority.</p>';
+    else if(ms==='none')
+      h+='<p class="vline">The county has not posted minutes for this meeting &mdash; no vote record '+
+         'exists to read.</p>';
+    else
+      h+='<p class="vline">No vote line found for this item in the meeting&rsquo;s minutes &mdash; '+
+         'the minutes PDF is the authority.</p>';
   }
   if(fut&&!(r.am&&r.am.length)&&!r.cap)
     h+='<p class="vline">The posted agenda lists this resolution by title only &mdash; dollar detail '+
@@ -708,7 +725,12 @@ subs = {
     "__TOTAL__": "{:,}".format(S["total"]),
     "__NCONT__": str(sum(1 for r in RECS if r.get("vote", {}).get("noes", 0) > 0)),
     "__MEET__": str(S["meetings"]),
-    "__VPCT__": str(round(100 * S["vote_matched"] / max(1, S["total"]))),
+    "__RVPCT__": str(round(100 * S["readable_voted"] / max(1, S["readable"]))),
+    "__RVN__": "{:,}".format(S["readable_voted"]),
+    "__RDN__": "{:,}".format(S["readable"]),
+    "__SCANROWS__": str(S["scan_rows"]),
+    "__NONEROWS__": str(S["none_rows"]),
+    "__FUTROWS__": str(sum(1 for r in RECS if r["date"] > __import__("datetime").date.today().isoformat())),
     "__UNAN__": str(unan_pct),
     "__UNANN__": "{:,}".format(n_unan),
     "__VOTED__": "{:,}".format(n_vote),

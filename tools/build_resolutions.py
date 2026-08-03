@@ -69,12 +69,49 @@ MONEY_RE = re.compile(r"\$\s*([\d][\d,\. ]{2,14}\d)")
 CAP_RE = re.compile(
     r"(?:not\s+to\s+exceed|shall\s+not\s+exceed|amount\s+not\s+to\s+exceed|an?\s+amount\s+up\s+to|up\s+to\s+the\s+amount\s+of)"
     r"[^$\n]{0,40}\$\s*([\d][\d,\. ]{2,14}\d)", re.I)
+# OCR leaves junk where the clerk's dash should be ("1 Absent ~ Elder",
+# "Absent ~- Elder") and sometimes eats the final period - so name groups
+# stop on a LOOKAHEAD (period, newline, or the next sentence opener) instead
+# of requiring a clean terminator.
 VOTE_RE = re.compile(
-    r"(\d{1,2}|I)\s*Ayes?[,.]?\s*(\d{1,2}|I|O)\s*Noes?"
-    r"(?:\s*[-–]\s*([A-Za-z .,&'\-]+?))?"
-    r"(?:\s*[,.]\s*(\d{1,2}|I)\s*Ab(?:sent|s)[.\s]*[-–]?\s*([A-Za-z .,&'\-]+?))?"
-    r"\s*[.\n]")
-MOVED_RE = re.compile(r"Moved\s+by\s+([A-Z][A-Za-z.'\-]+)\s*,?\s+seconded\s+by\s+([A-Z][A-Za-z.'\-]+)")
+    r"(\d{1,2}|I)\s*Ayes?\s*[,.]?\s*(\d{1,2}|I|O)\s*Noes?"
+    r"(?:\s*[-–~]+\s*([A-Za-z][A-Za-z .,&'\-]{1,60}?))?"
+    r"(?:\s*[,.]?\s*(\d{1,2}|I)\s*Ab(?:sent|s)\.?\s*[-–~_=\s]*([A-Za-z][A-Za-z .,&'\-]{1,60}?))?"
+    r"\s*(?=[.\n;()]|Resolution|Moved|Carried|CmTied|$)")
+# two-step vote parse: the ayes/noes core is stable across eras; the tail
+# ("- Bradt, 1 Absent - Hill" / "Absent- 0" / "~ Elder") varies wildly, so it
+# is parsed order-agnostically from the 150 chars after the core.
+CORE_RE = re.compile(r"(\d{1,2}|I)\s*Ayes?\s*[,.]?\s*(\d{1,2}|I|O)\s*Noes?")
+
+
+def parse_vote_tail(tail):
+    t = re.sub(r"[~\u2013\u2014=_]+", "-", tail)
+    cut = len(t)
+    for stop in ("Resolution", "\n\n", "Moved by"):
+        i = t.find(stop)
+        if i >= 0:
+            cut = min(cut, i)
+    t = t[:cut]
+    out = {}
+    m = re.match(r"\s*-\s*([A-Za-z][A-Za-z .,&'\-]{1,70}?)(?=\s*[,.]\s*(?:\d|I|O)|\s*Ab|[.\n]|$)", t)
+    if m:
+        out["no_names"] = names_list(m.group(1))
+    am = re.search(r"(\d{1,2}|I|O)\s*Ab(?:sent|s)\b", t)
+    if not am:
+        am = re.search(r"Ab(?:sent|s)\.?\s*-?\s*(\d{1,2}|I|O)(?![0-9])", t)
+    if am:
+        out["absent"] = num(am.group(1))
+    nm = re.search(r"Ab(?:sent|s)\.?\s*-\s*([A-Za-z][A-Za-z .,&'\-]{1,70}?)(?=[.\n]|$|,\s*\d)", t)
+    if nm:
+        ns = names_list(nm.group(1))
+        if ns:
+            out["abs_names"] = ns
+            if "absent" not in out:
+                out["absent"] = len(ns)
+    return out
+
+
+MOVED_RE = re.compile(r"Moved\s+by\s+([A-Z][A-Za-z.'\-]+)\s*,?\s+second(?:ed)?\s+by\s+([A-Z][A-Za-z.'\-]+)")
 OUTCOME_RE = re.compile(r"\b(Adopted|Carried|CmTied|Defeated|Failed|Tabled|Referred|Withdrawn|Laid\s+over)\b")
 
 
@@ -317,6 +354,7 @@ if undated:
 # ---- parse ----------------------------------------------------------------
 resolutions = {}          # id -> record
 meeting_src = {}          # date -> source PDF url (once per meeting, not per row)
+meeting_stat = {}         # date -> ok | scan | none  (minutes readability)
 text_titles = {}          # ids listed only in resolution texts
 floor_only = []           # ids recovered from minutes alone
 unknown_prefix = Counter()
@@ -414,21 +452,38 @@ for date in sorted(meetings):
         pdf = CACHE / mn["file"]
         if pdf.exists():
             min_text += "\n" + txt_of(pdf)
+    if not mt["minutes"]:
+        meeting_stat[date] = "none"      # county has not posted minutes
+    elif len(min_text.strip()) < 3000:
+        meeting_stat[date] = "scan"      # posted, but an image with no text layer
+    else:
+        meeting_stat[date] = "ok"
 
+    # From-anchored windows: minutes reprint each resolution under a header
+    # like "CSS-068-26 From: Community Safety..." - anchoring on those stops
+    # cross-references inside a text ("...resolution AD-036-25...") from
+    # splitting the window before its vote line. Eras without From: headers
+    # fall back to every id mention.
     id_pos = []
-    for im in ID_RE.finditer(min_text):
-        if im.group(3) == str(year)[2:]:
-            id_pos.append((im.start(), norm_id(im)))
+    for im in re.finditer(r"([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\s*(?:From|FROM)\s*:", min_text):
+        idm = ID_RE.search(im.group(1))
+        if idm and idm.group(3) == str(year)[2:]:
+            id_pos.append((im.start(), norm_id(idm)))
+    if len(id_pos) < 3:
+        id_pos = []
+        for im in ID_RE.finditer(min_text):
+            if im.group(3) == str(year)[2:]:
+                id_pos.append((im.start(), norm_id(im)))
     votes = {}
     win_texts = {}
     for i, (pos, rid) in enumerate(id_pos):
         end = id_pos[i + 1][0] if i + 1 < len(id_pos) else min(len(min_text), pos + 12000)
         window = min_text[pos:end]
         win_texts.setdefault(rid, window)
-        vms = list(VOTE_RE.finditer(window))
-        if not vms:
+        cores = list(CORE_RE.finditer(window))
+        if not cores:
             continue
-        v = vms[-1]
+        v = cores[-1]
         pre = window[:v.start()]
         mv = MOVED_RE.findall(pre)
         oc = OUTCOME_RE.findall(pre)
@@ -436,12 +491,13 @@ for date in sorted(meetings):
         if ayes is None or noes is None:
             continue
         rec = {"ayes": ayes, "noes": noes}
-        if noes and v.group(3):
-            rec["no_names"] = names_list(v.group(3))
-        if v.group(4) is not None:
-            rec["absent"] = num(v.group(4))
-            if v.group(5):
-                rec["abs_names"] = names_list(v.group(5))
+        tailbits = parse_vote_tail(window[v.end():v.end() + 150])
+        if noes and tailbits.get("no_names"):
+            rec["no_names"] = tailbits["no_names"]
+        if "absent" in tailbits:
+            rec["absent"] = tailbits["absent"]
+        if tailbits.get("abs_names"):
+            rec["abs_names"] = tailbits["abs_names"]
         if mv:
             rec["mover"], rec["second"] = mv[-1][0].rstrip("."), mv[-1][1].rstrip(".")
         out = (oc[-1] if oc else ("Adopted" if ayes > noes else "Not adopted"))
@@ -485,6 +541,10 @@ for date in sorted(meetings):
             # keep the actual sponsoring-committee prose from the agenda line
             rec["cms"] = re.sub(r"\s+", " ", cm_prose).strip(" .,")[:90]
         blk = blocks.get(rid, "")
+        if not blk.strip():
+            blk = win_texts.get(rid, "")   # minutes reprint the text
+        if blk.strip():
+            rec["tx"] = 1                  # full text located somewhere
         caps = [clean_money(c) for c in CAP_RE.findall(blk)]
         caps = [c for c in caps if c]
         if caps:
@@ -507,6 +567,7 @@ for date in sorted(meetings):
         per_year[year]["vote"] += 1 if rid in votes else 0
         per_year[year]["cap"] += 1 if "cap" in rec else 0
         per_year[year]["amt"] += 1 if ("cap" in rec or "amt" in rec) else 0
+        per_year[year]["tx"] += 1 if "tx" in rec else 0
     per_year[year]["meet"] += 1
 
 # ---- legislator-name canonicalization (name fidelity is a gate) -----------
@@ -624,14 +685,15 @@ def canonicalize(resolutions):
 canonicalize(resolutions)
 
 # ---- gates ----------------------------------------------------------------
-print("\nyear  meetings  resolutions  votes-matched  with-amounts")
+print("\nyear  meetings  resolutions  votes-matched  with-amounts  text-found")
 total = 0
 for y in sorted(per_year):
     c = per_year[y]
     total += c["res"]
     pct = 100 * c["vote"] // max(1, c["res"])
     apct = 100 * c["amt"] // max(1, c["res"])
-    print(f"{y}   {c['meet']:>5}     {c['res']:>6}        {pct:>3}%           {apct:>3}%")
+    tpct = 100 * c["tx"] // max(1, c["res"])
+    print(f"{y}   {c['meet']:>5}     {c['res']:>6}        {pct:>3}%           {apct:>3}%        {tpct:>3}%")
     assert c["res"] > 0, f"GATE: {y} parsed zero resolutions - format drift"
 assert total > 1200, f"GATE: only {total} resolutions total (floor 1200)"
 if floor_only:
@@ -650,7 +712,16 @@ for r in recs:
     for nm in r.get("vote", {}).get("no_names", []):
         noes_by[nm] += 1
 topic_counts = Counter(r["tp"] for r in recs)
+n_text = sum(1 for r in resolutions.values() if "tx" in r)
+_readable = [r for r in resolutions.values() if meeting_stat.get(r["date"]) == "ok"]
+n_readable = len(_readable)
+n_rv = sum(1 for r in _readable if "vote" in r)
+n_scanrows = sum(1 for r in resolutions.values() if meeting_stat.get(r["date"]) == "scan")
+n_nonerows = sum(1 for r in resolutions.values() if meeting_stat.get(r["date"]) == "none")
 summary = {
+    "readable": n_readable, "readable_voted": n_rv,
+    "scan_rows": n_scanrows, "none_rows": n_nonerows,
+    "text_found": n_text,
     "topics": [[c, lbl, topic_counts.get(c, 0)] for c, lbl, _ in TOPIC_RULES]
               + [["o", "Everything else", topic_counts.get("o", 0)]],
     "total": len(recs),
@@ -661,9 +732,11 @@ summary = {
     "dissent": noes_by.most_common(12),
     "committees": COMMITTEES,
 }
-OUT.write_text(json.dumps({"summary": summary, "sources": meeting_src, "resolutions": recs},
+OUT.write_text(json.dumps({"summary": summary, "sources": meeting_src, "mstat": meeting_stat, "resolutions": recs},
                           separators=(",", ":")), encoding="utf-8")
 kb = OUT.stat().st_size // 1024
+print(f"readable-minutes denominator: {n_rv}/{n_readable} votes matched "
+      f"({100*n_rv//max(1,n_readable)}%) | scan rows {n_scanrows}, unposted rows {n_nonerows}")
 print(f"\nwrote {OUT} ({kb} KB) - {len(recs)} resolutions, {summary['meetings']} meetings, "
       f"{n_vote} votes matched ({100*n_vote//max(1,len(recs))}%), "
       f"{n_unan} unanimous of voted ({100*n_unan//max(1,n_vote)}%)")
