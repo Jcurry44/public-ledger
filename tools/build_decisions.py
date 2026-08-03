@@ -138,6 +138,44 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .ct{color:var(--muted);font-size:12.5px}
 .cid{color:var(--faint);font-size:11px;white-space:nowrap}
 
+/* topic band: click a bar to filter the register */
+.tpband{margin-top:26px;border-top:1px solid var(--rule);padding-top:18px}
+.tpband h3{margin:0 0 10px;font-size:17px}
+.tprow{display:flex;align-items:center;gap:10px;padding:3px 0;cursor:pointer;border:0;
+  background:none;width:100%;text-align:left;color:inherit;font:inherit}
+.tprow .tl2{width:168px;font-size:13px;flex:none}
+.tprow .tb{flex:1;height:10px;background:var(--gridline);border-radius:2px;overflow:hidden}
+.tprow .tb i{display:block;height:100%;background:var(--exp);opacity:.75;border-radius:0 2px 2px 0;
+  transition:opacity .15s}
+.tprow:hover .tb i{opacity:1}
+.tprow[aria-pressed="true"] .tb i{opacity:1;background:var(--accent)}
+.tprow[aria-pressed="true"] .tl2{font-weight:700}
+.tprow .tn{width:86px;text-align:right;font-size:12px;color:var(--muted);flex:none}
+.tphint{color:var(--faint);font:11px system-ui;margin-top:6px}
+
+/* contested votes */
+.contested{padding:34px 0 6px}
+.contested h2{font-size:26px;margin:0 0 4px}
+.contested .csub{color:var(--muted);font-size:14px;margin:0 0 12px;max-width:70ch}
+.split{display:inline-block;width:64px;height:8px;border-radius:2px;overflow:hidden;
+  background:var(--warn);vertical-align:middle}
+.split i{display:block;height:100%;background:var(--ok);border-radius:0}
+
+/* year digest card */
+.digest{background:var(--card);border:1px solid var(--rule);border-radius:8px;
+  padding:14px 16px 12px;margin:14px 0 6px}
+.digest .dgrid{display:flex;gap:24px;flex-wrap:wrap}
+.digest .dcell .dv{font-size:20px;font-weight:600}
+.digest .dcell .dl{font:600 9.5px/1.5 system-ui;letter-spacing:.09em;color:var(--faint);
+  text-transform:uppercase}
+.digest .dcm{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.digest .dcmb{font:600 11px/1 system-ui;padding:5px 9px;border-radius:12px;cursor:pointer;
+  border:1px solid var(--rule-strong);background:none;color:var(--muted)}
+.digest .dcmb b{font-weight:700}
+.tpclear{display:none;font:600 11px/1 system-ui;padding:6px 10px;border-radius:14px;
+  border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;margin-top:10px}
+.tpclear.on{display:inline-block}
+
 .reg{padding:34px 0 10px}
 .controls{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0 12px;
   border-bottom:1px solid var(--rule);margin-bottom:6px}
@@ -229,7 +267,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 
 <section class="hero"><div class="wrap">
   <div class="eyebrow">Niagara County Legislature &middot; __Y0__&ndash;__Y1__</div>
-  <div class="big"><span class="num" id="bigN" data-n="__TOTAL__">0</span> decisions</div>
+  <div class="big"><span class="num" id="bigN" data-n="__TOTALN__">0</span> decisions</div>
   <p class="lede">The county can&rsquo;t spend a dollar, sign a contract, settle a claim, or move
   budget money without its Legislature voting on a numbered <b>resolution</b>. The
   <a href="county.html">county ledger</a> shows where the money went &mdash; this register is the
@@ -264,6 +302,21 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <p class="fnote">Authorization ceilings are permission to spend up to an amount &mdash;
     they are not payments. The <a href="county.html">ledger</a> shows what was actually spent.</p>
   </div>
+</div>
+  <div class="wrap tpband">
+    <div class="fk">Finding 04 &middot; What the votes are about</div>
+    <h3>One in seven resolutions moves no money and takes no action.</h3>
+    <div id="tpBand"></div>
+    <p class="tphint">Rule-based buckets matched on resolution titles &mdash; imperfect and said so.
+    Select a bar to filter the register to that kind of decision.</p>
+  </div>
+</section>
+
+<section class="contested"><div class="wrap">
+  <h2>Every contested vote</h2>
+  <p class="csub">Twelve years and __TOTAL__ resolutions produced <b>__NCONT__</b> that drew a
+  no vote &mdash; here is every one of them, newest first. Green is the ayes&rsquo; share.</p>
+  <div id="contList"></div>
 </div></section>
 
 <section class="reg" id="register"><div class="wrap">
@@ -275,7 +328,9 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     </div>
     <div class="chips" id="cmChips"></div>
     <div class="years" id="yearRow"></div>
+    <button class="tpclear" id="tpClear"></button>
   </div>
+  <div class="digest" id="digest"></div>
   <div id="list"></div>
   <div class="morex"><button class="pill" id="moreBtn" style="cursor:pointer;background:none">Show more</button></div>
 </div></section>
@@ -321,8 +376,15 @@ var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').
 var byYear={}, years=[];
 RECS.forEach(function(r){var y=r.date.slice(0,4);(byYear[y]=byYear[y]||[]).push(r);});
 years=Object.keys(byYear).sort().reverse();
+/* newest first, everywhere */
+Object.keys(byYear).forEach(function(y){
+  byYear[y].sort(function(a,b){return a.date<b.date?1:(a.date>b.date?-1:(a.id<b.id?-1:1));});
+});
+var TPL={}; (R.summary.topics||[]).forEach(function(t){TPL[t[0]]=t[1];});
+var CONTESTED=RECS.filter(function(r){return r.vote&&r.vote.noes>0;})
+  .sort(function(a,b){return a.date<b.date?1:-1;});
 
-var state={year:years[0], cm:'', q:'', shown:0};
+var state={year:years[0], cm:'', tp:'', q:'', shown:0};
 var PAGE=120;
 
 function cmColor(c){return 'var('+(CMCOLOR[c]||'--cX')+')';}
@@ -338,12 +400,17 @@ function amtBadge(r){
   if(r.amt) return '<span class="ab num" style="opacity:.75">'+money0(r.amt)+' in text</span>';
   return '';
 }
-function rowHTML(r,i){
-  return '<div class="rrow" data-i="'+i+'" tabindex="0" role="button" aria-expanded="false">'+
+function rowHTML(r,i,pool){
+  var split='';
+  if(pool==='c'){
+    var v=r.vote, pc=100*v.ayes/(v.ayes+v.noes);
+    split='<span class="split" title="'+v.ayes+' ayes, '+v.noes+' noes"><i style="width:'+pc.toFixed(0)+'%"></i></span> ';
+  }
+  return '<div class="rrow" data-i="'+i+'"'+(pool?' data-pool="'+pool+'"':'')+' tabindex="0" role="button" aria-expanded="false">'+
     '<div class="rtop">'+
       '<span class="rid num" style="background:'+cmColor(r.cm)+'">'+r.id+'</span>'+
       '<span class="rtitle">'+esc(r.title)+'</span>'+
-      '<span class="rbadges">'+amtBadge(r)+voteBadge(r)+'</span>'+
+      '<span class="rbadges">'+split+amtBadge(r)+voteBadge(r)+'</span>'+
     '</div><div class="rext"></div></div>';
 }
 function extHTML(r){
@@ -374,10 +441,12 @@ function pool(){
   if(state.q.length>=2){
     var q=state.q.toLowerCase();
     p=RECS.filter(function(r){return (r.id+' '+r.title).toLowerCase().indexOf(q)>=0;});
+    p=p.slice().sort(function(a,b){return a.date<b.date?1:-1;});
   } else {
     p=byYear[state.year]||[];
   }
   if(state.cm) p=p.filter(function(r){return r.cm===state.cm;});
+  if(state.tp) p=p.filter(function(r){return (r.tp||'o')===state.tp;});
   return p;
 }
 function render(more){
@@ -390,9 +459,11 @@ function render(more){
     if(!state.q && r.date!==lastDate){
       lastDate=r.date;
       var n=p.filter(function(x){return x.date===r.date;}).length;
-      h+='<div class="mday"><h3>'+fmtDate(r.date)+'</h3><span class="mn num">'+n+' resolutions</span></div>';
+      var fut=r.date>new Date().toISOString().slice(0,10);
+      h+='<div class="mday"><h3>'+fmtDate(r.date)+'</h3><span class="mn num">'+n+' resolutions'+
+        (fut?' &middot; agenda posted, meeting not yet held':'')+'</span></div>';
     }
-    h+=rowHTML(r,i);
+    h+=rowHTML(r,i,'');
   }
   state.shown=upTo;
   document.getElementById('list').innerHTML=h||'<p class="mut" style="padding:30px 0">Nothing matches.</p>';
@@ -401,6 +472,36 @@ function render(more){
   document.getElementById('moreBtn').style.display=upTo<p.length?'':'none';
   document.getElementById('moreBtn').textContent='Show '+Math.min(PAGE,p.length-upTo)+' more of '+p.length;
   window.__pool=p;
+  var tc=document.getElementById('tpClear');
+  tc.classList.toggle('on',!!state.tp);
+  if(state.tp) tc.textContent='Filtered: '+(TPL[state.tp]||state.tp)+'  \u2715';
+  renderDigest();
+}
+function renderDigest(){
+  var el=document.getElementById('digest');
+  if(state.q.length>=2){el.style.display='none';return;}
+  el.style.display='';
+  var y=state.year, rs=byYear[y]||[];
+  var meets={}; rs.forEach(function(r){meets[r.date]=1;});
+  var caps=rs.filter(function(r){return r.cap;});
+  var capSum=caps.reduce(function(a,r){return a+r.cap;},0);
+  var capMax=caps.reduce(function(a,r){return Math.max(a,r.cap);},0);
+  var cont=rs.filter(function(r){return r.vote&&r.vote.noes>0;}).length;
+  var sym=rs.filter(function(r){return r.tp==='s';}).length;
+  var h='<div class="dgrid">'+
+    '<div class="dcell"><div class="dv num">'+rs.length+'</div><div class="dl">Resolutions</div></div>'+
+    '<div class="dcell"><div class="dv num">'+Object.keys(meets).length+'</div><div class="dl">Meetings</div></div>'+
+    '<div class="dcell"><div class="dv num">'+(capSum?money0(capSum):'&mdash;')+'</div><div class="dl">Ceilings authorized</div></div>'+
+    '<div class="dcell"><div class="dv num">'+(capMax?money0(capMax):'&mdash;')+'</div><div class="dl">Largest ceiling</div></div>'+
+    '<div class="dcell"><div class="dv num">'+cont+'</div><div class="dl">Contested</div></div>'+
+    '<div class="dcell"><div class="dv num">'+(rs.length?Math.round(100*sym/rs.length):0)+'%</div><div class="dl">Symbolic</div></div>'+
+  '</div>';
+  var byCm={}; rs.forEach(function(r){byCm[r.cm]=(byCm[r.cm]||0)+1;});
+  var top=Object.keys(byCm).sort(function(a,b){return byCm[b]-byCm[a];}).slice(0,5);
+  h+='<div class="dcm">'+top.map(function(c){
+    return '<button class="dcmb" data-dcm="'+c+'"><b>'+esc(CM[c]||c)+'</b> '+byCm[c]+'</button>';
+  }).join('')+'</div>';
+  el.innerHTML=h;
 }
 function fmtDate(d){
   var mo=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -437,6 +538,58 @@ qEl.addEventListener('input',function(){
   clearTimeout(qt); qt=setTimeout(function(){state.q=qEl.value.trim();render();},140);
 });
 document.getElementById('moreBtn').addEventListener('click',function(){render(true);});
+document.getElementById('tpClear').addEventListener('click',function(){
+  state.tp='';
+  document.querySelectorAll('#tpBand .tprow').forEach(function(x){x.setAttribute('aria-pressed','false');});
+  render();
+});
+document.getElementById('digest').addEventListener('click',function(e){
+  var b2=e.target.closest('[data-dcm]'); if(!b2) return;
+  var c=b2.getAttribute('data-dcm');
+  var chip=document.querySelector('#cmChips [data-cm="'+c+'"]')||document.querySelector('#cmChips [data-cm=""]');
+  chip.click();
+});
+
+/* topic band */
+(function(){
+  var tot=RECS.length;
+  var band=document.getElementById('tpBand');
+  var items=(R.summary.topics||[]).slice().sort(function(a,b){return b[2]-a[2];});
+  var mx=items[0][2]||1;
+  band.innerHTML=items.map(function(t){
+    return '<button class="tprow" data-tp="'+t[0]+'" aria-pressed="false">'+
+      '<span class="tl2">'+esc(t[1])+'</span>'+
+      '<span class="tb"><i style="width:'+(100*t[2]/mx).toFixed(1)+'%"></i></span>'+
+      '<span class="tn num">'+t[2].toLocaleString('en-US')+' &middot; '+Math.round(100*t[2]/tot)+'%</span>'+
+    '</button>';}).join('');
+  band.addEventListener('click',function(e){
+    var b3=e.target.closest('[data-tp]'); if(!b3) return;
+    var tp=b3.getAttribute('data-tp');
+    state.tp=(state.tp===tp?'':tp);
+    band.querySelectorAll('.tprow').forEach(function(x){
+      x.setAttribute('aria-pressed',x.getAttribute('data-tp')===state.tp);});
+    render();
+    document.getElementById('register').scrollIntoView({behavior:'smooth'});
+  });
+})();
+
+/* contested list */
+(function(){
+  var el=document.getElementById('contList');
+  el.innerHTML=CONTESTED.map(function(r,i){return rowHTML(r,i,'c');}).join('');
+  function tog(row){
+    var open=row.classList.toggle('open');
+    row.setAttribute('aria-expanded',open);
+    if(open) row.querySelector('.rext').innerHTML=extHTML(CONTESTED[+row.getAttribute('data-i')]);
+  }
+  el.addEventListener('click',function(e){
+    var row=e.target.closest('.rrow'); if(!row||e.target.closest('a')) return; tog(row);
+  });
+  el.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    var row=e.target.closest('.rrow'); if(!row) return; e.preventDefault(); tog(row);
+  });
+})();
 document.getElementById('list').addEventListener('click',function(e){
   var row=e.target.closest('.rrow'); if(!row||e.target.closest('a')) return;
   toggleRow(row);
@@ -485,7 +638,9 @@ import datetime
 subs = {
     "__Y0__": str(S["years"][0]),
     "__Y1__": str(S["years"][1]),
-    "__TOTAL__": str(S["total"]),
+    "__TOTALN__": str(S["total"]),
+    "__TOTAL__": "{:,}".format(S["total"]),
+    "__NCONT__": str(sum(1 for r in RECS if r.get("vote", {}).get("noes", 0) > 0)),
     "__MEET__": str(S["meetings"]),
     "__VPCT__": str(round(100 * S["vote_matched"] / max(1, S["total"]))),
     "__UNAN__": str(unan_pct),

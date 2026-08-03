@@ -38,6 +38,32 @@ COMMITTEES = {
     "PW": "Public Works",
 }
 
+TOPIC_RULES = [
+    ("s", "Symbolic & advocacy",
+     r"in support|memorial|urg(?:e|ing)|proclaim|recogni|honor|commend|opposi|opposed"),
+    ("c", "Contracts & bids",
+     r"accept bid|reject bid|award|contract|change order|agreement|rfp|purchase|lease|procure"),
+    ("p", "People & positions",
+     r"appoint|hire|salary|position|reclassif|residency|retain|personnel|vacan"),
+    ("g", "Grants & aid accepted",
+     r"grant|accept.{0,24}fund|donation|stipend|\baid\b"),
+    ("b", "Budget moves",
+     r"budget|transfer|approp|amend.{0,20}fund|capital plan|fund balance"),
+    ("l", "Legal & claims",
+     r"settle|litigation|claim|lawsuit|stipulat|certiorari"),
+    ("x", "Property & taxes",
+     r"\btax\b|taxes|assess|foreclos|surplus|convey|easement|acquisition|in rem"),
+]
+
+
+def topic_of(title):
+    t = title.lower()
+    for code, _, pat in TOPIC_RULES:
+        if re.search(pat, t):
+            return code
+    return "o"
+
+
 ID_RE = re.compile(r"\b([A-Z]{1,4})\s?-\s?(\d{2,4})\s?-\s?(\d{2})\b")
 MONEY_RE = re.compile(r"\$\s*([\d][\d,\. ]{2,14}\d)")
 CAP_RE = re.compile(
@@ -121,23 +147,35 @@ def names_list(seg):
     return out[:16]
 
 
-BOILER = ("RESOLUTION", "LEGISLAT", "COMMITTEE", "APPROVED", "REVIEWED",
-          "WHEREAS", "RESOLVED", "COUNTY OF NIAGARA", "STATE OF NEW YORK",
-          "ATTORNEY", "MANAGER", "PAGE ", "AYES", "NOES", "DATED")
+# Anchored: these open ADMINISTRATIVE lines. A real title may itself begin
+# "RESOLUTION URGING..." - only the header forms (RESOLUTION # / No.) are noise.
+BOILER_RE = re.compile(
+    r"^(?:RESOLUTION\s*(?:#|NO\.?\s|No\.)|LEGISLATIVE\s+ACTION|COMMITTEE\s+ACTION|"
+    r"APPROVED|REVIEWED|WHEREAS|RESOLVED|COUNTY\s+OF\s+NIAGARA|STATE\s+OF\s+NEW\s+YORK|"
+    r"DATED|AYES|NOES|PAGE\s*\d|Page\s*\d|MOVED\s+BY|ADOPTED|From:)", re.I)
+
+
+def _capsy(t):
+    letters = [c for c in t if c.isalpha()]
+    return letters and sum(c.isupper() for c in letters) / len(letters) >= 0.7
 
 
 def block_title(block):
-    """First substantially-uppercase line of a resolution's text = its heading."""
-    for ln in block.splitlines()[:60]:
+    """The heading of a resolution's text: the first substantially-uppercase
+    line, joined with up to two continuation lines (titles wrap)."""
+    lines = block.splitlines()[:60]
+    for i, ln in enumerate(lines):
         t = ln.strip()
-        if not (12 <= len(t) <= 160):
+        if not (12 <= len(t) <= 160) or not _capsy(t) or BOILER_RE.match(t):
             continue
-        letters = [c for c in t if c.isalpha()]
-        if not letters or sum(c.isupper() for c in letters) / len(letters) < 0.7:
-            continue
-        if any(bw in t.upper() for bw in BOILER):
-            continue
-        return re.sub(r"\s+", " ", t)
+        parts = [t]
+        for nxt in lines[i + 1:i + 3]:
+            n = nxt.strip()
+            if 3 <= len(n) <= 160 and _capsy(n) and not BOILER_RE.match(n):
+                parts.append(n)
+            else:
+                break
+        return re.sub(r"\s+", " ", " ".join(parts))[:240]
     return None
 
 
@@ -197,6 +235,7 @@ if undated:
 resolutions = {}          # id -> record
 meeting_src = {}          # date -> source PDF url (once per meeting, not per row)
 text_titles = {}          # ids listed only in resolution texts
+floor_only = []           # ids recovered from minutes alone
 unknown_prefix = Counter()
 per_year = defaultdict(lambda: Counter())
 gate_extras = []
@@ -226,12 +265,14 @@ for date in sorted(meetings):
                 continue
             rid = norm_id(idm)
             rest = line_m.group(2).strip()
+            if re.match(r"Page\s*\d", rest, re.I):
+                continue   # "IF-126-25 Page 2" is a sheet marker, not a title
             if rid in agenda_ids and ", re" not in rest:
                 continue
             agenda_ids[rid] = rest
 
-    if not agenda_ids:
-        continue
+    if not agenda_ids and not mt["minutes"]:
+        continue   # nothing parseable at all; minutes alone can still carry votes
 
     # full-text blocks for amounts: RESOLUTION# ID ... (until next header)
     blocks = {}
@@ -264,9 +305,11 @@ for date in sorted(meetings):
         if im.group(3) == str(year)[2:]:
             id_pos.append((im.start(), norm_id(im)))
     votes = {}
+    win_texts = {}
     for i, (pos, rid) in enumerate(id_pos):
         end = id_pos[i + 1][0] if i + 1 < len(id_pos) else min(len(min_text), pos + 12000)
         window = min_text[pos:end]
+        win_texts.setdefault(rid, window)
         vms = list(VOTE_RE.finditer(window))
         if not vms:
             continue
@@ -292,6 +335,19 @@ for date in sorted(meetings):
         if rid not in votes:
             votes[rid] = rec
 
+    # resolutions voted in the minutes but absent from every packet list:
+    # late floor items. The minutes reprint their text, so title and amounts
+    # come from there; flagged ft=2 for the drill note.
+    for rid, v in votes.items():
+        if rid in agenda_ids or rid.rsplit("-", 1)[1] != str(year)[2:]:
+            continue
+        win = win_texts.get(rid, "")
+        t = block_title(win)
+        agenda_ids[rid] = None
+        text_titles[rid] = t or "(title not machine-readable in the county documents)"
+        blocks.setdefault(rid, win)
+        floor_only.append(rid)
+
     # assemble records
     for rid, rest in agenda_ids.items():
         pref = rid.split("-")[0]
@@ -306,9 +362,10 @@ for date in sorted(meetings):
             if m2:
                 cm_prose, title = m2.group(1).strip(), m2.group(2).strip()
         title = re.sub(r"\s+", " ", title).strip(" .")[:240]
-        rec = {"id": rid, "date": date, "cm": pref, "title": title}
+        rec = {"id": rid, "date": date, "cm": pref, "title": title,
+               "tp": topic_of(title)}
         if rest is None:
-            rec["ft"] = 1  # listed from the resolution text, not the agenda list
+            rec["ft"] = 2 if rid in floor_only else 1
         if cm_prose and " and " in cm_prose.lower():
             rec["cm2"] = 1  # co-sponsored across committees
         blk = blocks.get(rid, "")
@@ -458,6 +515,8 @@ for y in sorted(per_year):
     print(f"{y}   {c['meet']:>5}     {c['res']:>6}        {pct:>3}%           {apct:>3}%")
     assert c["res"] > 0, f"GATE: {y} parsed zero resolutions - format drift"
 assert total > 1200, f"GATE: only {total} resolutions total (floor 1200)"
+if floor_only:
+    print(f"note: {len(floor_only)} late floor resolutions recovered from minutes alone")
 if gate_extras:
     print(f"note: {len(gate_extras)} resolutions listed from their text only (not on an agenda list)", gate_extras[:5])
 if unknown_prefix:
@@ -471,7 +530,10 @@ noes_by = Counter()
 for r in recs:
     for nm in r.get("vote", {}).get("no_names", []):
         noes_by[nm] += 1
+topic_counts = Counter(r["tp"] for r in recs)
 summary = {
+    "topics": [[c, lbl, topic_counts.get(c, 0)] for c, lbl, _ in TOPIC_RULES]
+              + [["o", "Everything else", topic_counts.get("o", 0)]],
     "total": len(recs),
     "meetings": sum(per_year[y]["meet"] for y in per_year),
     "years": [min(per_year), max(per_year)],
