@@ -624,6 +624,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
 .pager .lbl{font-size:12px;font-weight:600;padding:0 6px;white-space:nowrap;max-width:44vw;
   overflow:hidden;text-overflow:ellipsis}
 .pager .idx{color:var(--faint);font-weight:400;font-family:ui-monospace,Menlo,Consolas,monospace}
+.biglink{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--accent)}
 </style></head><body>
 <div class="page">
   <div class="mast">
@@ -639,6 +640,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
     <a href="#peers">Nine counties</a>
     <a href="#shared">Sales tax, shared</a>
     <a href="#budget">Budget vs actual</a>
+    <a href="#decisions">The decisions</a>
     <a href="#method">Method</a>
   </div></nav>
 
@@ -765,6 +767,28 @@ body:has(#modal:not([hidden])) .pager{display:none}
       <p class="note">The filing also carries funds the adopted budget does not price:
         __UNBUDGETED__ — self-insurance, capital projects and similar are governed outside the
         budget book, and the H capital fund is one-time by design.</p>
+    </div>
+  </section>
+
+  <section id="decisions">
+    <h2>The decisions behind these dollars</h2>
+    <p class="lede">The county can&rsquo;t spend, contract, settle, or move budget money without
+      its Legislature voting on a numbered <b>resolution</b>. This ledger shows where the money
+      went; the register of resolutions is the record of <b>who voted to send it</b> &mdash;
+      every one parsed from the county&rsquo;s own agendas and minutes, votes and all.</p>
+    <div class="panel" style="margin-top:14px">
+      <div style="display:flex;gap:30px;flex-wrap:wrap;align-items:baseline">
+        <div><div class="num" style="font-size:34px;font-weight:600">__RTOTAL__</div>
+          <div class="sub" style="margin:0">resolutions, __RY0__&ndash;__RY1__</div></div>
+        <div><div class="num" style="font-size:34px;font-weight:600">__RUNAN__%</div>
+          <div class="sub" style="margin:0">passed unanimously</div></div>
+        <div><div class="num" style="font-size:34px;font-weight:600">__RMEET__</div>
+          <div class="sub" style="margin:0">meetings parsed</div></div>
+      </div>
+      <p class="note" style="margin-top:12px">Largest authorization ceiling on record:
+        <b class="num">__RTOPCAP__</b> &mdash; __RTOPTITLE__.</p>
+      <p style="margin:14px 0 2px"><a class="biglink" href="decisions.html">Open the full register
+        &mdash; searchable, by committee, with every recorded vote &rarr;</a></p>
     </div>
   </section>
 
@@ -1835,6 +1859,12 @@ recip_rows = "".join(
     for r in recips)
 dist_vals = [dist_series.get(y, 0) for y in yrs]
 
+# -- decisions teaser (data/resolutions.json is committed; fail loud if absent) --
+_rd = json.load(open(os.path.join(ROOT, "data", "resolutions.json"), encoding="utf-8"))
+_rs = _rd["summary"]
+_rcap = max((r for r in _rd["resolutions"] if "cap" in r), key=lambda r: r["cap"])
+_runan = round(100 * _rs["unanimous"] / max(1, _rs["vote_matched"]))
+
 out = (TEMPLATE
        .replace("__BY__", str(BUDGET_YEAR))
        .replace("__APRINT__", "${:,.0f}".format(A_PRINTED))
@@ -1857,6 +1887,12 @@ out = (TEMPLATE
        .replace("__SCALE__", "%.0f" % (rl / nt_rev))
        .replace("__PEERYEAR__", str(peer_year))
        .replace("__NROWS__", "{:,}".format(len(flows)))
+       .replace("__RTOTAL__", "{:,}".format(_rs["total"]))
+       .replace("__RUNAN__", str(_runan))
+       .replace("__RMEET__", str(_rs["meetings"]))
+       .replace("__RY0__", str(_rs["years"][0])).replace("__RY1__", str(_rs["years"][1]))
+       .replace("__RTOPCAP__", "${:,.0f}".format(_rcap["cap"]))
+       .replace("__RTOPTITLE__", esc(_rcap["title"][:110]))
        .replace("__PAYLOAD__", json.dumps(payload, separators=(",", ":"))))
 
 path = os.path.join(ROOT, "county.html")
