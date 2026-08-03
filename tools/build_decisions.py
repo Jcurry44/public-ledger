@@ -65,6 +65,15 @@ topcap_html = "".join(
     f"<span class='cid num'> {r['id']} · {r['date'][:4]}</span></span></div>"
     for r in top_caps)
 
+# glossary lifted verbatim from build_county.py at build time - one source
+GLOSS_JS = open(ROOT / "tools" / "build_county.py", encoding="utf-8").read()
+_g0 = GLOSS_JS.index("var GLOSS={")
+_g1 = GLOSS_JS.index("};", _g0) + 2
+_g2 = GLOSS_JS.index("function glossFor(code){", _g1)
+_g3 = GLOSS_JS.index("}", GLOSS_JS.index("return null;", _g2)) + 1
+GLOSS_JS = GLOSS_JS[_g0:_g1] + "\n" + GLOSS_JS[_g2:_g3]
+assert "'3101'" in GLOSS_JS
+
 payload = json.dumps(DATA, separators=(",", ":")).replace("</", "<\\/")
 
 HTML = r"""<!DOCTYPE html>
@@ -172,6 +181,27 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .digest .dcmb{font:600 11px/1 system-ui;padding:5px 9px;border-radius:12px;cursor:pointer;
   border:1px solid var(--rule-strong);background:none;color:var(--muted)}
 .digest .dcmb b{font-weight:700}
+.mny,.acs{margin:10px 0 4px}
+.mnh{font:600 10px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+  margin-bottom:4px}
+.mrow{display:flex;gap:8px;align-items:baseline;padding:3px 0;border-bottom:1px dotted var(--rule)}
+.mrow:last-of-type{border-bottom:0}
+.mk{flex:none;font:600 9px/1 system-ui;letter-spacing:.07em;padding:3px 6px;border-radius:3px;
+  background:var(--gridline);color:var(--muted)}
+.mk-cap{background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--accent)}
+.mk-inc{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.mk-dec{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.ms{flex:1;font-size:11.5px;color:var(--faint);font-style:italic;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mv{flex:none;font-weight:600;font-size:12.5px}
+.mnote{font:11px system-ui;color:var(--faint);margin-top:5px}
+.acp{margin:2px 4px 2px 0}
+.acp .acg{font-weight:400;letter-spacing:0;text-transform:none}
+@media (max-width:640px){
+  .mrow{flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--rule)}
+  .ms{flex-basis:100%;order:3;white-space:normal;margin-top:3px;padding-left:8px;
+    border-left:2px solid var(--gridline)}
+}
 .tpclear{display:none;font:600 11px/1 system-ui;padding:6px 10px;border-radius:14px;
   border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;margin-top:10px}
 .tpclear.on{display:inline-block}
@@ -367,6 +397,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 
 <script id="R" type="application/json">__PAYLOAD__</script>
 <script>
+__GLOSSJS__
 var R=JSON.parse(document.getElementById('R').textContent);
 var CM=R.summary.committees, RECS=R.resolutions;
 var CMCOLOR={AD:'--cAD',IF:'--cIF',CSS:'--cCSS',CS:'--cCS',ED:'--cED'};
@@ -429,8 +460,28 @@ function extHTML(r){
     h+='<p class="vline">No vote line matched in this meeting&rsquo;s minutes &mdash; the minutes PDF remains the authority.</p>';
   }
   if(r.cap) h+='<p class="vline">Authorizes spending <b>up to '+money0(r.cap)+'</b> (a ceiling, not a payment).</p>';
-  else if(r.amt) h+='<p class="vline">Largest amount appearing in the text: '+money0(r.amt)+
-    (r.amtn>1?' ('+r.amtn+' amounts mentioned &mdash; bid tabulations include losing bids)':'')+'.</p>';
+  if(r.am&&r.am.length){
+    var KL={cap:'CEILING',inc:'BUDGET +',dec:'BUDGET \u2212',awd:'AWARD',bid:'BID',
+            ret:'RETURNED',rev:'REVENUE',m:'IN TEXT'};
+    h+='<div class="mny"><div class="mnh">The money in this resolution</div>'+
+      r.am.map(function(a2){
+        return '<div class="mrow"><span class="mk mk-'+a2[1]+'">'+KL[a2[1]]+'</span>'+
+          '<span class="ms">&ldquo;&hellip;'+esc(a2[2])+'&rdquo;</span>'+
+          '<span class="mv num">'+money0(a2[0])+'</span></div>';
+      }).join('')+
+      (r.amtn>r.am.length?'<div class="mnote">+ '+(r.amtn-r.am.length)+' more amounts in the text &mdash; see the source PDF.</div>':'')+
+      '<div class="mnote">Excerpts as printed. Ceilings are permission, budget rows move existing money, bids include losers.</div>'+
+    '</div>';
+  }
+  if(r.ac&&r.ac.length){
+    h+='<div class="acs"><div class="mnh">Accounts cited &mdash; trace them in the ledger</div>'+
+      r.ac.map(function(c){
+        var g=glossFor(c);
+        return '<a class="pill acp" href="county.html#acct-'+c+'">'+c+
+          (g?' &middot; <span class="acg">'+esc(g.split(' - ')[0].split(' \u2014 ')[0])+'</span>':'')+'</a>';
+      }).join(' ')+
+      '<div class="mnote">Opens that account&rsquo;s 31-year history on the county ledger.</div></div>';
+  }
   h+='<div class="srcs"><a class="pill" target="_blank" rel="noopener" href="'+esc((R.sources&&R.sources[r.date])||'#')+'">Source PDF &#8599;</a>'+
      '<a class="pill" href="county.html">See the money &rarr;</a></div>';
   return h;
@@ -651,6 +702,7 @@ subs = {
     "__TOPCAPS__": topcap_html,
     "__PERYEAR__": "".join(per_year_rows),
     "__PAYLOAD__": payload,
+    "__GLOSSJS__": GLOSS_JS,
     "__BUILT__": datetime.date.today().isoformat(),
 }
 html = HTML

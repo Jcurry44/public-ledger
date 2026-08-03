@@ -78,6 +78,89 @@ MOVED_RE = re.compile(r"Moved\s+by\s+([A-Z][A-Za-z.'\-]+)\s*,?\s+seconded\s+by\s
 OUTCOME_RE = re.compile(r"\b(Adopted|Carried|CmTied|Defeated|Failed|Tabled|Referred|Withdrawn|Laid\s+over)\b")
 
 
+# chart-of-account tokens inside resolution texts, e.g. A.07.9950.000.79010.10
+# or CM.21.4322.415.74550.06 or bare A4310. OCR reads 1 as l inside codes.
+CODE_RE = re.compile(r"\b([A-Z]{1,3})[.\s]?((?:[0-9l]{1,5}[.\s]){0,2}[0-9l]{4}(?:[.\s][0-9l.\s]{0,14})?)")
+
+AMKIND = [
+    ("cap", r"not\s+to\s+exceed|shall\s+not\s+exceed|up\s+to\s+the\s+amount|an?\s+amount\s+up\s+to"),
+    ("inc", r"increase\s+(?:anticipated\s+)?(?:appropriat|revenue)"),
+    ("dec", r"decrease\s+(?:anticipated\s+)?(?:appropriat|revenue)"),
+    ("awd", r"award|lowest\s+responsible|successful\s+bidder"),
+    ("bid", r"\bbid|proposal\s+received"),
+    ("ret", r"return|reserve|refund"),
+    ("rev", r"grant|reimburs|state\s+share|federal\s+share|county\s+share|revenue"),
+]
+AMKIND_RE = [(k, re.compile(pat, re.I)) for k, pat in AMKIND]
+
+
+def acct_codes(block):
+    """Unique fund+function codes cited in a resolution's text, first-seen order."""
+    out, seen = [], set()
+    FUNDS = {"A", "B", "CD", "CM", "CS", "D", "DM", "E", "EL", "F", "G", "H",
+             "K", "L", "M", "MS", "S", "SF", "SL", "SS", "SW", "T", "V", "W"}
+    for m in CODE_RE.finditer(block):
+        fund = m.group(1)
+        if fund not in FUNDS and not (fund[0] == "H" and len(fund) <= 3):
+            continue   # H-prefixed capital funds carry suffixes (H661 etc.)
+        digits = re.sub(r"[^0-9l]", " ", m.group(2)).replace("l", "1").split()
+        fn = next((d for d in digits if len(d) == 4 and 1000 <= int(d) <= 9999), None)
+        if not fn:
+            # glued form like A4310 / A40599: first 4 digits of the first run
+            run = digits[0] if digits else ""
+            if len(run) >= 4 and 1000 <= int(run[:4]) <= 9999:
+                fn = run[:4]
+        if not fn:
+            continue
+        # years masquerade as functions: accept 1990-2029 only when the code
+        # has real dotted structure (A.16.1680.000...), never from bare tokens
+        if 1990 <= int(fn) <= 2029 and len(digits) < 2:
+            continue
+        code = fund + fn
+        if code not in seen:
+            seen.add(code)
+            out.append(code)
+        if len(out) >= 8:
+            break
+    return out
+
+
+def amounts_ctx(block):
+    """Every dollar figure with its classified clause and a short snippet."""
+    rows = []
+    for m in MONEY_RE.finditer(block):
+        v = clean_money(m.group(1))
+        if v is None:
+            continue
+        pre = block[max(0, m.start() - 220):m.start()]
+        kind = "m"
+        for k, kre in AMKIND_RE:
+            if kre.search(pre[-90:] if k in ("cap", "awd", "bid", "ret") else pre):
+                kind = k
+                break
+        snip = re.sub(r"\s+", " ", pre[-64:]).strip()
+        snip = re.sub(r"^\S{1,8}\s", "", snip) if len(snip) > 40 else snip
+        rows.append([v, kind, snip])
+    # de-dupe identical value+kind (bid tables repeat); keep first snippet
+    seen, out = set(), []
+    for r in rows:
+        key = (r[0], r[1])
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+    prio = {"cap": 0, "inc": 1, "dec": 1, "awd": 2, "ret": 3, "rev": 4, "bid": 5, "m": 6}
+    out.sort(key=lambda r: (prio.get(r[1], 9), -r[0]))
+    # the same table cell often reads under several kinds - keep one, except
+    # inc/dec pairs, whose matching values ARE the story of a transfer
+    seen_v, final = set(), []
+    for r in out:
+        if r[1] in ("inc", "dec") or r[0] not in seen_v:
+            seen_v.add(r[0])
+            final.append(r)
+    return final
+
+
 def num(tok):
     return {"I": 1, "O": 0, "l": 1}.get(tok, None) if tok in ("I", "O", "l") else int(tok)
 
@@ -373,12 +456,15 @@ for date in sorted(meetings):
         caps = [c for c in caps if c]
         if caps:
             rec["cap"] = max(caps)
-        else:
-            ments = [clean_money(c) for c in MONEY_RE.findall(blk)]
-            ments = sorted({c for c in ments if c}, reverse=True)
-            if ments:
-                rec["amt"] = ments[0]
-                rec["amtn"] = len(ments)
+        am = amounts_ctx(blk)
+        if am:
+            if "cap" not in rec:
+                rec["amt"] = max(r0[0] for r0 in am)
+            rec["amtn"] = len(am)
+            rec["am"] = am[:10]
+        ac = acct_codes(blk)
+        if ac:
+            rec["ac"] = ac
         if rid in votes:
             rec["vote"] = votes[rid]
         if src_urls:
