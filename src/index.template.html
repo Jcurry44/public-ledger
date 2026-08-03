@@ -581,18 +581,27 @@ footer p{margin:0 0 7px;max-width:80ch}
 @media (max-width:640px){
   .findtab,.findtab tbody{display:block;width:100%}
   .findtab thead{display:none}
-  .findtab tr{display:block;position:relative;padding:12px 2px 11px;border-bottom:1px solid var(--rule)}
+  .findtab tr{display:block;position:relative;padding:12px 2px 12px;border-bottom:1px solid var(--rule)}
   .findtab tr:last-child{border-bottom:0}
-  .findtab td{display:inline-block;border:0;padding:3px 14px 0 0;font-size:12.5px;
-    text-align:left;vertical-align:baseline}
-  .findtab td::before{content:attr(data-l) ' ';font:600 10px/1 system-ui;letter-spacing:.06em;
-    text-transform:uppercase;color:var(--faint)}
+  /* a stat strip, not an inline mumble: label over value, the finding
+     (account count) emphasized, the comparison bar restored full-width */
+  .findtab td{display:inline-block;border:0;padding:6px 18px 0 0;text-align:left;vertical-align:top}
+  .findtab td::before{content:attr(data-l);display:block;font:600 9px/1.4 system-ui;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+  .findtab td{font-size:13.5px;font-weight:600}
   .findtab td:first-child{display:block;font-weight:600;font-size:13.5px;padding:0 96px 1px 0}
   .findtab td:first-child::before{content:none}
+  .findtab td .linkish{text-decoration-color:color-mix(in srgb,var(--accent) 35%,transparent);
+    text-underline-offset:3px}
   .findtab td.key{position:absolute;top:12px;right:2px;padding:0;font-size:14.5px;font-weight:700}
   .findtab td.key::before{content:none}
-  .findtab td .bar{display:none}
-  .findtab td.codes{display:block;padding:3px 0 0}
+  .findtab td[data-l="Accounts"],.findtab td[data-l="Vendor codes"]{display:block;padding:6px 0 0}
+  .findtab td[data-l="Accounts"] b{font-size:16px}
+  .findtab td[data-l="Accounts"] .bar{display:block;width:100%;margin-top:4px;height:7px;
+    background:var(--gridline);border-radius:2px;overflow:hidden}
+  .findtab td[data-l="Accounts"] .bar i{display:block;height:100%;background:var(--exp);
+    border-radius:0 3px 3px 0}
+  .findtab td.codes{display:block;padding:6px 0 0;font-weight:500}
   .findtab td.codes::before{display:block;margin-bottom:2px}
   .findtab td.act{display:none}
 }

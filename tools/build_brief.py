@@ -125,6 +125,27 @@ details.morex summary::-webkit-details-marker{display:none}
 details.morex .hint::after{content:'\2014 view the list';color:var(--navy);font-weight:600;font-size:11px}
 details.morex[open] .hint::after{content:'\2014 collapse'}
 .printhead{display:none}
+/* On a phone the four-column tables overflowed the page sideways and account
+   codes shattered across three lines. Each row re-lays as a card; codes never
+   wrap. Desktop keeps the tables. */
+@media (max-width:640px){
+  .t-first,.t-lines,.t-depts,.t-proj,
+  .t-first tbody,.t-lines tbody,.t-depts tbody,.t-proj tbody{display:block;width:100%}
+  .t-first tr,.t-lines tr,.t-depts tr,.t-proj tr{display:grid;grid-template-columns:1fr auto;
+    gap:1px 12px;padding:9px 0;border-bottom:1px solid var(--rule)}
+  .t-first td,.t-lines td,.t-depts td,.t-proj td{display:block;padding:0;border:0;text-align:left}
+  .t-first td:first-child,.t-lines td:first-child,.t-depts td:first-child,.t-proj td:first-child{
+    grid-column:1;grid-row:1;font-weight:600}
+  .t-first td:nth-child(2){grid-column:2;grid-row:1;text-align:right;font-weight:600}
+  .t-lines td:nth-child(2){grid-column:1;grid-row:2;white-space:nowrap;font-size:11.5px}
+  .t-lines td:nth-child(3){grid-column:2;grid-row:1;text-align:right;font-weight:600}
+  .t-lines td:nth-child(4){grid-column:2;grid-row:2;text-align:right}
+  .t-depts td:nth-child(2){grid-column:2;grid-row:1;text-align:right;font-weight:600}
+  .t-depts td:nth-child(3){grid-column:1;grid-row:2;font-size:11.5px}
+  .t-depts td:nth-child(4){grid-column:1 / -1;grid-row:3;font-size:11.5px}
+  .t-proj td:nth-child(2){grid-column:2;grid-row:1;text-align:right;font-weight:600}
+  .t-proj td:nth-child(3){grid-column:1 / -1;grid-row:2;font-size:11.5px;text-align:left}
+}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 14px}
 @media print{html{border-top:0;background:#fff}body{background:#fff}.page{padding:0;margin:0;max-width:none;box-shadow:none;border-radius:0}a{color:inherit;text-decoration:none}
@@ -368,7 +389,7 @@ def generate(idx):
 
     h += '<h2>First-time payees</h2>'
     if new_v:
-        h += '<table>' + "".join(
+        h += '<table class="t-first">' + "".join(
             '<tr><td>%s<span class="pill">FIRST APPEARANCE</span></td><td class="r num">%s</td></tr>'
             % (esc(v), money(a)) for v, a in new_v) + '</table>'
         h += ('<p class="fnt">First appearance within the record to that point — a routine check, '
@@ -376,7 +397,7 @@ def generate(idx):
     else:
         h += '<p class="fnt">None — every payee on this warrant had been paid before.</p>'
 
-    h += '<h2>Largest lines</h2><table>'
+    h += '<h2>Largest lines</h2><table class="t-lines">'
     for r in largest:
         proj = ACCT_PROJ.get(r["account"], "")
         h += ('<tr><td>%s<span class="fnt">%s</span></td><td class="mut num">%s</td>'
@@ -387,7 +408,7 @@ def generate(idx):
 
     h += '<h2>Departments far off their run rate</h2>'
     if flags:
-        h += '<table>' + "".join(
+        h += '<table class="t-depts">' + "".join(
             '<tr><td>%s <span class="fnt num">%s</span></td><td class="r num">%s</td>'
             '<td class="r fnt num">%.0f&times; its median %s</td><td class="fnt">driver: %s</td></tr>'
             % (esc(dept_label(k)), k, money0(v), r_, money0(m), drv(k))
@@ -399,7 +420,7 @@ def generate(idx):
         h += '<p class="fnt">None flagged%s.</p>' % (" — baseline too thin this early in the record" if thin else "")
 
     if proj_rows:
-        h += '<h2>Capital projects drawing this warrant</h2><table>' + "".join(
+        h += '<h2>Capital projects drawing this warrant</h2><table class="t-proj">' + "".join(
             '<tr><td>%s</td><td class="r num">%s</td><td class="r fnt num">%s committed to date</td></tr>'
             % (esc(lbl), money(a), money0(proj_cum[lbl])) for lbl, a in proj_rows) + '</table>'
 
