@@ -357,17 +357,49 @@ for date in sorted(meetings):
     if not agenda_ids and not mt["minutes"]:
         continue   # nothing parseable at all; minutes alone can still carry votes
 
-    # full-text blocks for amounts: RESOLUTION# ID ... (until next header)
+    # full-text blocks for amounts. Two header eras: "RESOLUTION# IF-172-25"
+    # (id inline) and 2021+ packets where "RESOLUTION#" is blank and the id is
+    # a stamp pdftotext drops - those blocks are title-keyed against the
+    # meeting's own agenda list instead.
     blocks = {}
-    hdr = list(re.finditer(r"^[ \t]*RESOLUTION\s*(?:#|No\.?)\s*([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})", body_text, re.I | re.M))
+    # Headers appear three ways: "RESOLUTION# IF-172-25" (inline id),
+    # "DATE: ... RESOLUTION# __I_F_-2_1_0_-2_4_" (a fill-in stamp - the id
+    # survives if you de-underscore it), and a bare "RESOLUTION#" whose id
+    # was a graphic stamp (title-keyed below). Case-sensitive + '#' so prose
+    # references ("pursuant to Resolution No. X") never split a block.
+    hdr = list(re.finditer(r"RESOLUTION\s*#", body_text))
+
+    def _norm_t(t):
+        return re.sub(r"[^A-Z0-9]", "", (t or "").upper())
+
+    agenda_norm = {}
+    for _rid, _rest in agenda_ids.items():
+        _t = _rest
+        _m2 = re.match(r"(.{2,120}?),\s*re[:.\s]\s*(.+)$", _rest or "")
+        if _m2:
+            _t = _m2.group(2)
+        agenda_norm[_rid] = _norm_t(_t)[:64]
+
     for i, h in enumerate(hdr):
-        idm = ID_RE.search(h.group(1))
-        if not idm:
-            continue
-        rid = norm_id(idm)
         end = hdr[i + 1].start() if i + 1 < len(hdr) else min(len(body_text), h.end() + 20000)
+        btext = body_text[h.end():end]
+        rid = None
+        tail = re.sub(r"[_\s]", "", btext[:60])
+        # squashed text loses word boundaries (IF-210-24APPROVED), so \b-free
+        idm = re.search(r"(?<![A-Z0-9])([A-Z]{1,4})-(\d{2,4})-(\d{2})(?![0-9])", tail[:26])
+        if idm:
+            rid = norm_id(idm)
+        if rid is None:
+            bt = _norm_t(block_title(btext))[:64]
+            if len(bt) >= 12:
+                cands = [r2 for r2, n in agenda_norm.items()
+                         if n[:28] == bt[:28] or n.startswith(bt[:32]) or bt.startswith(n[:32])]
+                if len(cands) == 1:
+                    rid = cands[0]
+        if rid is None:
+            continue
         blocks.setdefault(rid, "")
-        blocks[rid] += body_text[h.end():end]
+        blocks[rid] += btext
     for rid in blocks:
         if rid not in agenda_ids and rid.rsplit("-", 1)[1] == str(year)[2:]:
             t = block_title(blocks[rid])
