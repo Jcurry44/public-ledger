@@ -450,7 +450,8 @@ for date in sorted(meetings):
         if rest is None:
             rec["ft"] = 2 if rid in floor_only else 1
         if cm_prose and " and " in cm_prose.lower():
-            rec["cm2"] = 1  # co-sponsored across committees
+            # keep the actual sponsoring-committee prose from the agenda line
+            rec["cms"] = re.sub(r"\s+", " ", cm_prose).strip(" .,")[:90]
         blk = blocks.get(rid, "")
         caps = [clean_money(c) for c in CAP_RE.findall(blk)]
         caps = [c for c in caps if c]

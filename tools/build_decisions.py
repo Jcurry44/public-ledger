@@ -420,8 +420,12 @@ var state={year:years[0], cm:'', tp:'', q:'', shown:0};
 var PAGE=120;
 
 function cmColor(c){return 'var('+(CMCOLOR[c]||'--cX')+')';}
+var TODAY=new Date().toISOString().slice(0,10);
 function voteBadge(r){
-  if(!r.vote) return '<span class="vb nov">no vote matched</span>';
+  if(!r.vote){
+    if(r.date>TODAY) return '<span class="vb nov">not yet held</span>';
+    return '<span class="vb nov">no vote matched</span>';
+  }
   var v=r.vote, cls=v.noes>0?'vb dis':'vb';
   var t=v.ayes+'&ndash;'+v.noes;
   if(v.absent) t+=' <span style="opacity:.65">('+v.absent+' abs)</span>';
@@ -447,9 +451,11 @@ function rowHTML(r,i,pool){
 }
 function extHTML(r){
   var h='';
-  var cm=CM[r.cm]||('Committee '+r.cm);
-  h+='<p class="vline"><b>'+esc(cm)+'</b>'+(r.cm2?' (co-sponsored with a second committee)':'')+
-     ' &middot; meeting of '+r.date+'</p>';
+  var cm=r.cms||CM[r.cm]||('Committee '+r.cm);
+  var fut=r.date>TODAY;
+  h+='<p class="vline"><b>'+esc(cm)+'</b> &middot; '+
+     (fut?'scheduled for '+fmtDate(r.date):'meeting of '+fmtDate(r.date))+
+     (r.tp&&TPL[r.tp]&&r.tp!=='o'?' &middot; '+esc(TPL[r.tp]).toLowerCase():'')+'</p>';
   if(r.vote){
     var v=r.vote;
     var line=(v.out||'Adopted')+', '+v.ayes+' ayes to '+v.noes+' noes';
@@ -457,9 +463,16 @@ function extHTML(r){
     if(v.no_names&&v.no_names.length) line+='. Voting no: <b>'+esc(v.no_names.join(', '))+'</b>';
     if(v.mover) line+='. Moved by '+esc(v.mover)+', seconded by '+esc(v.second)+'';
     h+='<p class="vline">'+line+'.</p>';
+  } else if(fut){
+    h+='<p class="vline">On the printed agenda for a meeting that hasn&rsquo;t been held yet &mdash; '+
+       'the vote will appear here once the county posts the minutes.</p>';
   } else {
-    h+='<p class="vline">No vote line matched in this meeting&rsquo;s minutes &mdash; the minutes PDF remains the authority.</p>';
+    h+='<p class="vline">No recorded vote found for this item &mdash; in this era some minutes are '+
+       'scanned images a machine can&rsquo;t read. The minutes PDF is the authority.</p>';
   }
+  if(fut&&!(r.am&&r.am.length)&&!r.cap)
+    h+='<p class="vline">The posted agenda lists this resolution by title only &mdash; dollar detail '+
+       'arrives with the full packet.</p>';
   if(r.cap) h+='<p class="vline">Authorizes spending <b>up to '+money0(r.cap)+'</b> (a ceiling, not a payment).</p>';
   if(r.am&&r.am.length){
     var KL={cap:'CEILING',inc:'BUDGET +',dec:'BUDGET \u2212',awd:'AWARD',bid:'BID',
@@ -484,7 +497,8 @@ function extHTML(r){
       '<div class="mnote">Opens that account&rsquo;s 31-year history on the county ledger.</div></div>';
   }
   h+='<div class="srcs"><a class="pill" target="_blank" rel="noopener" href="'+esc((R.sources&&R.sources[r.date])||'#')+'">Source PDF &#8599;</a>'+
-     '<a class="pill" href="county.html">See the money &rarr;</a></div>';
+     (r.ac&&r.ac.length?'<a class="pill" href="county.html#acct-'+r.ac[0]+'">Trace the money &rarr;</a>':'')+
+     '</div>';
   return h;
 }
 
