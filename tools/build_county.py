@@ -579,13 +579,41 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
 @media (max-width:640px){
   .mv,.mv tbody{display:block;width:100%}
   .mv thead{display:none}
-  .mv tr{display:grid;grid-template-columns:1fr auto;gap:1px 10px;padding:10px 2px;border-bottom:1px solid var(--rule)}
-  .mv td{display:block;padding:0;border:0}
-  .mv td.m-name{font-weight:600;grid-row:1 / span 2;grid-column:1}
-  .mv td.m-vals{display:none}
-  .mv td.m-delta{grid-row:1;grid-column:2;text-align:right;font-weight:600}
-  .mv td.m-pct{grid-row:2;grid-column:2;text-align:right;font-size:11px;margin-top:1px}
+  .mv tr{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:2px 12px;
+    padding:10px 2px 11px;border-bottom:1px solid var(--rule)}
+  .mv td{display:block;padding:0;border:0;text-align:left}
+  .mv td.m-name{font-weight:600;grid-row:1;grid-column:1 / -1;margin-bottom:4px}
+  .mv td.m-vals,.mv td.m-delta{font-size:13px;font-weight:600}
+  .mv td.m-vals::before,.mv td.m-delta::before{content:attr(data-l);display:block;
+    font:600 8.5px/1.5 system-ui;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint)}
+  .mv td.m-vals{grid-row:2}
+  .mv td.m-vals:nth-of-type(2){grid-column:1}
+  .mv td.m-vals:nth-of-type(3){grid-column:2}
+  .mv td.m-delta{grid-row:2;grid-column:3}
+  .mv td.m-pct{grid-row:3;grid-column:3;font-size:11px;text-align:left}
+  .mv tr.bvx-row{display:block;padding:0;border-bottom:1px solid var(--rule)}
 }
+.mv tr.bv{cursor:pointer}
+.mv tr.bv:hover td{background:var(--accent-soft)}
+.bvx{padding:12px 8px 14px;background:var(--card)}
+.bvx .bxbars{margin:8px 0 12px;max-width:520px}
+.bvx .bxb{display:flex;align-items:center;gap:10px;margin:3px 0}
+.bvx .bxb .l{width:64px;font:600 9px/1 system-ui;letter-spacing:.08em;color:var(--faint);
+  text-transform:uppercase;flex:none}
+.bvx .bxb .bar{flex:1;height:12px;background:var(--gridline);border-radius:3px;overflow:hidden}
+.bvx .bxb .bar i{display:block;height:100%;border-radius:0 3px 3px 0}
+.bvx .bxb .v{width:110px;text-align:right;font-size:12.5px;font-weight:600;flex:none}
+.bvx .bxh{font:600 9.5px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);margin:10px 0 3px}
+.bvx .bxr{display:flex;gap:8px;align-items:baseline;padding:2.5px 0;font-size:12.5px;
+  border-bottom:1px dotted var(--rule)}
+.bvx .bxr:last-of-type{border-bottom:0}
+.bvx .bxr .c{flex:none;color:var(--accent);font-size:11px}
+.bvx .bxr .n{flex:1;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.bvx .bxr .a{flex:none;font-weight:600}
+.bvx .bxnote{font:11px system-ui;color:var(--faint);margin-top:8px}
 .m-range{display:block;font-weight:400;font-size:11px;color:var(--faint);margin-top:2px}
 @media (min-width:641px){.m-range{display:none}}
 .mv tr[data-mvlabel]{cursor:pointer}
@@ -1141,6 +1169,71 @@ function renderRank(el,items,cssVar,total,onClick,expand,onOther){
 /* ---- category modal (ported: breakdown / trend / composition) ---- */
 var MODAL={kind:'cat',year:null,sec:0,label:'',color:'--rev',tab:'breakdown',opener:null};
 window.__traceEnv=function(){return {openModal:openModal, O:O};};
+/* budget-vs-actual rows expand into a summary: two bars, the detail accounts
+   inside the line from the filing, and a trace into the ledger */
+(function(){
+  var bud=document.getElementById('budget');
+  if(!bud) return;
+  var BY=O.years[O.years.length-1];
+  function money(v){return '$'+Math.round(v).toLocaleString('en-US');}
+  function buildX(tr){
+    var f0=+tr.getAttribute('data-f0'), f1=+tr.getAttribute('data-f1');
+    var b=+tr.getAttribute('data-b'), a=+tr.getAttribute('data-a');
+    var mx=Math.max(b,a,1);
+    var det=[];
+    O.flows.forEach(function(f){
+      if(f[0]!==BY||f[1]!==1) return;
+      var code=String(f[6]||'');
+      if(code.replace(/[^A-Z]/gi,'').toUpperCase()!=='A') return;
+      var d=code.replace(/[^0-9]/g,'');
+      var fn=+d.slice(0,4);
+      if(!(fn>=f0&&fn<f1)) return;
+      det.push([code,O.dict.narr[f[5]]||'',f[7]]);
+    });
+    det.sort(function(x,y){return Math.abs(y[2])-Math.abs(x[2]);});
+    var top=det.slice(0,6);
+    var rest=det.length-top.length;
+    var h='<div class="bxbars">'+
+      '<div class="bxb"><span class="l">Adopted</span><span class="bar">'+
+        '<i style="width:'+(100*b/mx).toFixed(1)+'%;background:var(--faint)"></i></span>'+
+        '<span class="v num">'+money(b)+'</span></div>'+
+      '<div class="bxb"><span class="l">Actual</span><span class="bar">'+
+        '<i style="width:'+(100*a/mx).toFixed(1)+'%;background:var(--'+(a>b?'bad':'ok')+')"></i></span>'+
+        '<span class="v num">'+money(a)+'</span></div></div>';
+    if(top.length){
+      h+='<div class="bxh">Inside this line &middot; '+BY+' filing</div>';
+      top.forEach(function(r2){
+        h+='<div class="bxr"><span class="c num">'+r2[0]+'</span><span class="n">'+
+          String(r2[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;')+
+          '</span><span class="a num">'+money(r2[2])+'</span></div>';
+      });
+      if(rest>0) h+='<div class="bxnote">+ '+rest+' more accounts in this range.</div>';
+      h+='<div class="bxnote">Amounts are the filed actuals. Selecting an account code in the '+
+         'ledger above shows its 31-year history.</div>';
+    } else {
+      h+='<div class="bxnote">No detail accounts in this range in the '+BY+' filing.</div>';
+    }
+    return h;
+  }
+  bud.addEventListener('click',function(e){
+    var tr=e.target.closest('tr.bv'); if(!tr) return;
+    var nxt=tr.nextElementSibling;
+    if(nxt&&nxt.classList.contains('bvx-row')){
+      nxt.remove(); tr.setAttribute('aria-expanded','false'); return;
+    }
+    var row=document.createElement('tr');
+    row.className='bvx-row';
+    row.innerHTML='<td colspan="5"><div class="bvx">'+buildX(tr)+'</div></td>';
+    tr.parentNode.insertBefore(row,tr.nextSibling);
+    tr.setAttribute('aria-expanded','true');
+  });
+  bud.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    var tr=e.target.closest('tr.bv'); if(!tr) return;
+    e.preventDefault(); tr.click();
+  });
+})();
+
 function openModal(year,sec,label,cssVar,opener){
   MODAL.kind='cat';
   MODAL.year=year;MODAL.sec=sec;MODAL.label=label;MODAL.color=cssVar;
@@ -1857,21 +1950,42 @@ if(location.hash.indexOf('#acct-')===0){
 </script>
 </body></html>"""
 
-def _var_row(name, bud, act, mono_name=False):
+def _var_row(name, bud, act, mono_name=False, rng=None):
+    attrs = ""
+    if rng and act is not None:
+        attrs = (' class="bv" tabindex="0" role="button" aria-expanded="false"'
+                 ' data-f0="%d" data-f1="%d" data-b="%d" data-a="%d"'
+                 % (rng[0], rng[1], round(bud), round(act)))
     if act is None:
-        return ('<tr><td class="m-name">{n}</td><td class="r num m-vals">${b:,.0f}</td>'
-                '<td class="r num m-vals">—</td>'
-                '<td class="r num m-delta">excluded</td><td class="r num m-pct">—</td></tr>'
-               ).format(n=name, b=bud)
+        return ('<tr{at}><td class="m-name">{n}</td>'
+                '<td class="r num m-vals" data-l="Adopted">${b:,.0f}</td>'
+                '<td class="r num m-vals" data-l="Actual">—</td>'
+                '<td class="r num m-delta" data-l="Variance">excluded</td>'
+                '<td class="r num m-pct">—</td></tr>'
+               ).format(at=attrs, n=name, b=bud)
     d = act - bud
     pct = (d / bud * 100) if bud else 0
     cls = "up" if d > 0 else "dn"
-    return ('<tr><td class="m-name">{n}</td><td class="r num m-vals">${b:,.0f}</td>'
-            '<td class="r num m-vals">${a:,.0f}</td>'
-            '<td class="r num m-delta {c}">{sg}${ad:,.0f}</td>'
+    return ('<tr{at}><td class="m-name">{n}</td>'
+            '<td class="r num m-vals" data-l="Adopted">${b:,.0f}</td>'
+            '<td class="r num m-vals" data-l="Actual">${a:,.0f}</td>'
+            '<td class="r num m-delta {c}" data-l="Variance">{sg}${ad:,.0f}</td>'
             '<td class="r num m-pct {c}">{sgp}{p:.1f}%</td></tr>'
-           ).format(n=name, b=bud, a=act, c=cls, sg="+" if d >= 0 else "−",
+           ).format(at=attrs, n=name, b=bud, a=act, c=cls, sg="+" if d >= 0 else "−",
                     ad=abs(d), sgp="+" if d >= 0 else "", p=pct)
+
+
+def _root_range(root):
+    fn = int(root[1:])
+    if fn < 2000:
+        return (fn, fn + 100)
+    if fn < 9000:
+        return (fn, fn + 1000)
+    if fn == 9000:
+        return (9000, 9700)
+    if fn == 9700:
+        return (9700, 9900)
+    return (9900, 10000)
 
 
 rt_rows, covered = [], set()
@@ -1880,13 +1994,14 @@ for r in budget_roots:
     if r["root"] == "A9900":
         rt_rows.append(_var_row(nm, r["approp"], None))
     else:
-        rt_rows.append(_var_row(nm, r["approp"], actual_roots.get(r["root"], 0)))
+        rt_rows.append(_var_row(nm, r["approp"], actual_roots.get(r["root"], 0),
+                                rng=_root_range(r["root"])))
     covered.add(r["root"])
 for k in sorted(actual_roots):
     if k not in covered and k != "A9900":
         rt_rows.append(_var_row(
             '{} <span class="fnt">filed, not separately budgeted</span>'.format(k),
-            0, actual_roots[k]))
+            0, actual_roots[k], rng=_root_range(k)))
 a_act_cmp = sum(v for k, v in actual_roots.items() if k != "A9900")
 a_bud_cmp = sum(r["approp"] for r in budget_roots if r["root"] != "A9900")
 rt_rows.append(_var_row("<b>General Fund total (excl. transfers)</b>", a_bud_cmp, a_act_cmp))

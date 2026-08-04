@@ -250,13 +250,41 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
 @media (max-width:640px){
   .mv,.mv tbody{display:block;width:100%}
   .mv thead{display:none}
-  .mv tr{display:grid;grid-template-columns:1fr auto;gap:1px 10px;padding:10px 2px;border-bottom:1px solid var(--rule)}
-  .mv td{display:block;padding:0;border:0}
-  .mv td.m-name{font-weight:600;grid-row:1 / span 2;grid-column:1}
-  .mv td.m-vals{display:none}
-  .mv td.m-delta{grid-row:1;grid-column:2;text-align:right;font-weight:600}
-  .mv td.m-pct{grid-row:2;grid-column:2;text-align:right;font-size:11px;margin-top:1px}
+  .mv tr{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:2px 12px;
+    padding:10px 2px 11px;border-bottom:1px solid var(--rule)}
+  .mv td{display:block;padding:0;border:0;text-align:left}
+  .mv td.m-name{font-weight:600;grid-row:1;grid-column:1 / -1;margin-bottom:4px}
+  .mv td.m-vals,.mv td.m-delta{font-size:13px;font-weight:600}
+  .mv td.m-vals::before,.mv td.m-delta::before{content:attr(data-l);display:block;
+    font:600 8.5px/1.5 system-ui;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint)}
+  .mv td.m-vals{grid-row:2}
+  .mv td.m-vals:nth-of-type(2){grid-column:1}
+  .mv td.m-vals:nth-of-type(3){grid-column:2}
+  .mv td.m-delta{grid-row:2;grid-column:3}
+  .mv td.m-pct{grid-row:3;grid-column:3;font-size:11px;text-align:left}
+  .mv tr.bvx-row{display:block;padding:0;border-bottom:1px solid var(--rule)}
 }
+.mv tr.bv{cursor:pointer}
+.mv tr.bv:hover td{background:var(--accent-soft)}
+.bvx{padding:12px 8px 14px;background:var(--card)}
+.bvx .bxbars{margin:8px 0 12px;max-width:520px}
+.bvx .bxb{display:flex;align-items:center;gap:10px;margin:3px 0}
+.bvx .bxb .l{width:64px;font:600 9px/1 system-ui;letter-spacing:.08em;color:var(--faint);
+  text-transform:uppercase;flex:none}
+.bvx .bxb .bar{flex:1;height:12px;background:var(--gridline);border-radius:3px;overflow:hidden}
+.bvx .bxb .bar i{display:block;height:100%;border-radius:0 3px 3px 0}
+.bvx .bxb .v{width:110px;text-align:right;font-size:12.5px;font-weight:600;flex:none}
+.bvx .bxh{font:600 9.5px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);margin:10px 0 3px}
+.bvx .bxr{display:flex;gap:8px;align-items:baseline;padding:2.5px 0;font-size:12.5px;
+  border-bottom:1px dotted var(--rule)}
+.bvx .bxr:last-of-type{border-bottom:0}
+.bvx .bxr .c{flex:none;color:var(--accent);font-size:11px}
+.bvx .bxr .n{flex:1;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap}
+.bvx .bxr .a{flex:none;font-weight:600}
+.bvx .bxnote{font:11px system-ui;color:var(--faint);margin-top:8px}
 .m-range{display:block;font-weight:400;font-size:11px;color:var(--faint);margin-top:2px}
 @media (min-width:641px){.m-range{display:none}}
 .mv tr[data-mvlabel]{cursor:pointer}
@@ -425,7 +453,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
     <div class="panel" style="margin-top:14px">
       <h3>General Fund, by chart-of-accounts line</h3>
       <div class="sub">Adopted appropriation vs filed expenditure · variance is actual minus budget</div>
-      <table class="mv"><thead><tr><th>Line</th><th class="r">Adopted</th><th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th></tr></thead><tbody><tr><td class="m-name">Legislature <span class="fnt num">A1000</span></td><td class="r num m-vals">$1,178,211</td><td class="r num m-vals">$1,142,777</td><td class="r num m-delta dn">−$35,434</td><td class="r num m-pct dn">-3.0%</td></tr><tr><td class="m-name">Judicial <span class="fnt num">A1100</span></td><td class="r num m-vals">$17,378,682</td><td class="r num m-vals">$16,002,010</td><td class="r num m-delta dn">−$1,376,672</td><td class="r num m-pct dn">-7.9%</td></tr><tr><td class="m-name">Executive <span class="fnt num">A1200</span></td><td class="r num m-vals">$650,788</td><td class="r num m-vals">$572,453</td><td class="r num m-delta dn">−$78,335</td><td class="r num m-pct dn">-12.0%</td></tr><tr><td class="m-name">Finance <span class="fnt num">A1300</span></td><td class="r num m-vals">$4,006,676</td><td class="r num m-vals">$3,887,120</td><td class="r num m-delta dn">−$119,556</td><td class="r num m-pct dn">-3.0%</td></tr><tr><td class="m-name">Staff <span class="fnt num">A1400</span></td><td class="r num m-vals">$21,987,599</td><td class="r num m-vals">$21,322,232</td><td class="r num m-delta dn">−$665,367</td><td class="r num m-pct dn">-3.0%</td></tr><tr><td class="m-name">Shared Services <span class="fnt num">A1600</span></td><td class="r num m-vals">$16,006,412</td><td class="r num m-vals">$14,474,542</td><td class="r num m-delta dn">−$1,531,870</td><td class="r num m-pct dn">-9.6%</td></tr><tr><td class="m-name">Special Items <span class="fnt num">A1900</span></td><td class="r num m-vals">$73,265,410</td><td class="r num m-vals">$78,429,033</td><td class="r num m-delta up">+$5,163,623</td><td class="r num m-pct up">+7.0%</td></tr><tr><td class="m-name">Education <span class="fnt num">A2000</span></td><td class="r num m-vals">$31,834,408</td><td class="r num m-vals">$30,391,382</td><td class="r num m-delta dn">−$1,443,026</td><td class="r num m-pct dn">-4.5%</td></tr><tr><td class="m-name">Public Safety <span class="fnt num">A3000</span></td><td class="r num m-vals">$72,397,386</td><td class="r num m-vals">$71,356,052</td><td class="r num m-delta dn">−$1,041,334</td><td class="r num m-pct dn">-1.4%</td></tr><tr><td class="m-name">Health <span class="fnt num">A4000</span></td><td class="r num m-vals">$32,695,334</td><td class="r num m-vals">$37,775,813</td><td class="r num m-delta up">+$5,080,479</td><td class="r num m-pct up">+15.5%</td></tr><tr><td class="m-name">Transportation <span class="fnt num">A5000</span></td><td class="r num m-vals">$442,800</td><td class="r num m-vals">$442,800</td><td class="r num m-delta dn">+$0</td><td class="r num m-pct dn">+0.0%</td></tr><tr><td class="m-name">Economic Assistance and Opportunity <span class="fnt num">A6000</span></td><td class="r num m-vals">$150,877,243</td><td class="r num m-vals">$146,230,205</td><td class="r num m-delta dn">−$4,647,038</td><td class="r num m-pct dn">-3.1%</td></tr><tr><td class="m-name">Culture and Recreation <span class="fnt num">A7000</span></td><td class="r num m-vals">$6,132,437</td><td class="r num m-vals">$5,711,791</td><td class="r num m-delta dn">−$420,646</td><td class="r num m-pct dn">-6.9%</td></tr><tr><td class="m-name">Home and Community Services <span class="fnt num">A8000</span></td><td class="r num m-vals">$2,301,543</td><td class="r num m-vals">$2,638,055</td><td class="r num m-delta up">+$336,512</td><td class="r num m-pct up">+14.6%</td></tr><tr><td class="m-name">Employee Benefits <span class="fnt num">A9000</span></td><td class="r num m-vals">$1,264,493</td><td class="r num m-vals">$1,089,742</td><td class="r num m-delta dn">−$174,751</td><td class="r num m-pct dn">-13.8%</td></tr><tr><td class="m-name">Debt Service <span class="fnt num">A9700</span></td><td class="r num m-vals">$6,488,350</td><td class="r num m-vals">$6,072,691</td><td class="r num m-delta dn">−$415,659</td><td class="r num m-pct dn">-6.4%</td></tr><tr><td class="m-name">Interfund Transfers <span class="fnt num">A9900</span></td><td class="r num m-vals">$377,032</td><td class="r num m-vals">—</td><td class="r num m-delta">excluded</td><td class="r num m-pct">—</td></tr><tr><td class="m-name"><b>General Fund total (excl. transfers)</b></td><td class="r num m-vals">$438,907,772</td><td class="r num m-vals">$437,538,698</td><td class="r num m-delta dn">−$1,369,074</td><td class="r num m-pct dn">-0.3%</td></tr></tbody></table>
+      <table class="mv"><thead><tr><th>Line</th><th class="r">Adopted</th><th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th></tr></thead><tbody><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1000" data-f1="1100" data-b="1178211" data-a="1142777"><td class="m-name">Legislature <span class="fnt num">A1000</span></td><td class="r num m-vals" data-l="Adopted">$1,178,211</td><td class="r num m-vals" data-l="Actual">$1,142,777</td><td class="r num m-delta dn" data-l="Variance">−$35,434</td><td class="r num m-pct dn">-3.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1100" data-f1="1200" data-b="17378682" data-a="16002010"><td class="m-name">Judicial <span class="fnt num">A1100</span></td><td class="r num m-vals" data-l="Adopted">$17,378,682</td><td class="r num m-vals" data-l="Actual">$16,002,010</td><td class="r num m-delta dn" data-l="Variance">−$1,376,672</td><td class="r num m-pct dn">-7.9%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1200" data-f1="1300" data-b="650788" data-a="572453"><td class="m-name">Executive <span class="fnt num">A1200</span></td><td class="r num m-vals" data-l="Adopted">$650,788</td><td class="r num m-vals" data-l="Actual">$572,453</td><td class="r num m-delta dn" data-l="Variance">−$78,335</td><td class="r num m-pct dn">-12.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1300" data-f1="1400" data-b="4006676" data-a="3887120"><td class="m-name">Finance <span class="fnt num">A1300</span></td><td class="r num m-vals" data-l="Adopted">$4,006,676</td><td class="r num m-vals" data-l="Actual">$3,887,120</td><td class="r num m-delta dn" data-l="Variance">−$119,556</td><td class="r num m-pct dn">-3.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1400" data-f1="1500" data-b="21987599" data-a="21322232"><td class="m-name">Staff <span class="fnt num">A1400</span></td><td class="r num m-vals" data-l="Adopted">$21,987,599</td><td class="r num m-vals" data-l="Actual">$21,322,232</td><td class="r num m-delta dn" data-l="Variance">−$665,367</td><td class="r num m-pct dn">-3.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1600" data-f1="1700" data-b="16006412" data-a="14474542"><td class="m-name">Shared Services <span class="fnt num">A1600</span></td><td class="r num m-vals" data-l="Adopted">$16,006,412</td><td class="r num m-vals" data-l="Actual">$14,474,542</td><td class="r num m-delta dn" data-l="Variance">−$1,531,870</td><td class="r num m-pct dn">-9.6%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="1900" data-f1="2000" data-b="73265410" data-a="78429033"><td class="m-name">Special Items <span class="fnt num">A1900</span></td><td class="r num m-vals" data-l="Adopted">$73,265,410</td><td class="r num m-vals" data-l="Actual">$78,429,033</td><td class="r num m-delta up" data-l="Variance">+$5,163,623</td><td class="r num m-pct up">+7.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="2000" data-f1="3000" data-b="31834408" data-a="30391382"><td class="m-name">Education <span class="fnt num">A2000</span></td><td class="r num m-vals" data-l="Adopted">$31,834,408</td><td class="r num m-vals" data-l="Actual">$30,391,382</td><td class="r num m-delta dn" data-l="Variance">−$1,443,026</td><td class="r num m-pct dn">-4.5%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="3000" data-f1="4000" data-b="72397386" data-a="71356052"><td class="m-name">Public Safety <span class="fnt num">A3000</span></td><td class="r num m-vals" data-l="Adopted">$72,397,386</td><td class="r num m-vals" data-l="Actual">$71,356,052</td><td class="r num m-delta dn" data-l="Variance">−$1,041,334</td><td class="r num m-pct dn">-1.4%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="4000" data-f1="5000" data-b="32695334" data-a="37775813"><td class="m-name">Health <span class="fnt num">A4000</span></td><td class="r num m-vals" data-l="Adopted">$32,695,334</td><td class="r num m-vals" data-l="Actual">$37,775,813</td><td class="r num m-delta up" data-l="Variance">+$5,080,479</td><td class="r num m-pct up">+15.5%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="5000" data-f1="6000" data-b="442800" data-a="442800"><td class="m-name">Transportation <span class="fnt num">A5000</span></td><td class="r num m-vals" data-l="Adopted">$442,800</td><td class="r num m-vals" data-l="Actual">$442,800</td><td class="r num m-delta dn" data-l="Variance">+$0</td><td class="r num m-pct dn">+0.0%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="6000" data-f1="7000" data-b="150877243" data-a="146230205"><td class="m-name">Economic Assistance and Opportunity <span class="fnt num">A6000</span></td><td class="r num m-vals" data-l="Adopted">$150,877,243</td><td class="r num m-vals" data-l="Actual">$146,230,205</td><td class="r num m-delta dn" data-l="Variance">−$4,647,038</td><td class="r num m-pct dn">-3.1%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="7000" data-f1="8000" data-b="6132437" data-a="5711791"><td class="m-name">Culture and Recreation <span class="fnt num">A7000</span></td><td class="r num m-vals" data-l="Adopted">$6,132,437</td><td class="r num m-vals" data-l="Actual">$5,711,791</td><td class="r num m-delta dn" data-l="Variance">−$420,646</td><td class="r num m-pct dn">-6.9%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="8000" data-f1="9000" data-b="2301543" data-a="2638055"><td class="m-name">Home and Community Services <span class="fnt num">A8000</span></td><td class="r num m-vals" data-l="Adopted">$2,301,543</td><td class="r num m-vals" data-l="Actual">$2,638,055</td><td class="r num m-delta up" data-l="Variance">+$336,512</td><td class="r num m-pct up">+14.6%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="9000" data-f1="9700" data-b="1264493" data-a="1089742"><td class="m-name">Employee Benefits <span class="fnt num">A9000</span></td><td class="r num m-vals" data-l="Adopted">$1,264,493</td><td class="r num m-vals" data-l="Actual">$1,089,742</td><td class="r num m-delta dn" data-l="Variance">−$174,751</td><td class="r num m-pct dn">-13.8%</td></tr><tr class="bv" tabindex="0" role="button" aria-expanded="false" data-f0="9700" data-f1="9900" data-b="6488350" data-a="6072691"><td class="m-name">Debt Service <span class="fnt num">A9700</span></td><td class="r num m-vals" data-l="Adopted">$6,488,350</td><td class="r num m-vals" data-l="Actual">$6,072,691</td><td class="r num m-delta dn" data-l="Variance">−$415,659</td><td class="r num m-pct dn">-6.4%</td></tr><tr><td class="m-name">Interfund Transfers <span class="fnt num">A9900</span></td><td class="r num m-vals" data-l="Adopted">$377,032</td><td class="r num m-vals" data-l="Actual">—</td><td class="r num m-delta" data-l="Variance">excluded</td><td class="r num m-pct">—</td></tr><tr><td class="m-name"><b>General Fund total (excl. transfers)</b></td><td class="r num m-vals" data-l="Adopted">$438,907,772</td><td class="r num m-vals" data-l="Actual">$437,538,698</td><td class="r num m-delta dn" data-l="Variance">−$1,369,074</td><td class="r num m-pct dn">-0.3%</td></tr></tbody></table>
       <p class="note">A9900 interfund transfers are excluded: the budget carries them as an
         appropriation, but the state filing classes them as &ldquo;other uses&rdquo;, outside the
         expenditure section — the two documents define that row differently, so comparing it would
@@ -434,7 +462,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
     <div class="panel" style="margin-top:14px">
       <h3>Every budgeted fund</h3>
       <div class="sub">Adopted vs filed, 2025</div>
-      <table class="mv"><thead><tr><th>Fund</th><th class="r">Adopted</th><th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th></tr></thead><tbody><tr><td class="m-name">General (A)</td><td class="r num m-vals">$439,284,804</td><td class="r num m-vals">$447,166,452</td><td class="r num m-delta up">+$7,881,648</td><td class="r num m-pct up">+1.8%</td></tr><tr><td class="m-name">CM Grant Fund (CM)</td><td class="r num m-vals">$10,426,800</td><td class="r num m-vals">$9,319,203</td><td class="r num m-delta dn">−$1,107,597</td><td class="r num m-pct dn">-10.6%</td></tr><tr><td class="m-name">CD WIOA (Job Training) (CD)</td><td class="r num m-vals">$4,857,032</td><td class="r num m-vals">$4,769,201</td><td class="r num m-delta dn">−$87,831</td><td class="r num m-pct dn">-1.8%</td></tr><tr><td class="m-name">D County Road (D)</td><td class="r num m-vals">$10,402,861</td><td class="r num m-vals">$8,896,211</td><td class="r num m-delta dn">−$1,506,650</td><td class="r num m-pct dn">-14.5%</td></tr><tr><td class="m-name">DM Road Machinery (DM)</td><td class="r num m-vals">$2,848,722</td><td class="r num m-vals">$2,884,475</td><td class="r num m-delta up">+$35,753</td><td class="r num m-pct up">+1.3%</td></tr><tr><td class="m-name">Refuse District (S)</td><td class="r num m-vals">$838,754</td><td class="r num m-vals">$3,007,855</td><td class="r num m-delta up">+$2,169,101</td><td class="r num m-pct up">+258.6%</td></tr><tr><td class="m-name">Water District (FX)</td><td class="r num m-vals">$13,568,395</td><td class="r num m-vals">$9,814,140</td><td class="r num m-delta dn">−$3,754,255</td><td class="r num m-pct dn">-27.7%</td></tr><tr><td class="m-name">Sewer District (G)</td><td class="r num m-vals">$7,750,314</td><td class="r num m-vals">$6,248,012</td><td class="r num m-delta dn">−$1,502,302</td><td class="r num m-pct dn">-19.4%</td></tr></tbody></table>
+      <table class="mv"><thead><tr><th>Fund</th><th class="r">Adopted</th><th class="r">Actual</th><th class="r">Variance</th><th class="r">%</th></tr></thead><tbody><tr><td class="m-name">General (A)</td><td class="r num m-vals" data-l="Adopted">$439,284,804</td><td class="r num m-vals" data-l="Actual">$447,166,452</td><td class="r num m-delta up" data-l="Variance">+$7,881,648</td><td class="r num m-pct up">+1.8%</td></tr><tr><td class="m-name">CM Grant Fund (CM)</td><td class="r num m-vals" data-l="Adopted">$10,426,800</td><td class="r num m-vals" data-l="Actual">$9,319,203</td><td class="r num m-delta dn" data-l="Variance">−$1,107,597</td><td class="r num m-pct dn">-10.6%</td></tr><tr><td class="m-name">CD WIOA (Job Training) (CD)</td><td class="r num m-vals" data-l="Adopted">$4,857,032</td><td class="r num m-vals" data-l="Actual">$4,769,201</td><td class="r num m-delta dn" data-l="Variance">−$87,831</td><td class="r num m-pct dn">-1.8%</td></tr><tr><td class="m-name">D County Road (D)</td><td class="r num m-vals" data-l="Adopted">$10,402,861</td><td class="r num m-vals" data-l="Actual">$8,896,211</td><td class="r num m-delta dn" data-l="Variance">−$1,506,650</td><td class="r num m-pct dn">-14.5%</td></tr><tr><td class="m-name">DM Road Machinery (DM)</td><td class="r num m-vals" data-l="Adopted">$2,848,722</td><td class="r num m-vals" data-l="Actual">$2,884,475</td><td class="r num m-delta up" data-l="Variance">+$35,753</td><td class="r num m-pct up">+1.3%</td></tr><tr><td class="m-name">Refuse District (S)</td><td class="r num m-vals" data-l="Adopted">$838,754</td><td class="r num m-vals" data-l="Actual">$3,007,855</td><td class="r num m-delta up" data-l="Variance">+$2,169,101</td><td class="r num m-pct up">+258.6%</td></tr><tr><td class="m-name">Water District (FX)</td><td class="r num m-vals" data-l="Adopted">$13,568,395</td><td class="r num m-vals" data-l="Actual">$9,814,140</td><td class="r num m-delta dn" data-l="Variance">−$3,754,255</td><td class="r num m-pct dn">-27.7%</td></tr><tr><td class="m-name">Sewer District (G)</td><td class="r num m-vals" data-l="Adopted">$7,750,314</td><td class="r num m-vals" data-l="Actual">$6,248,012</td><td class="r num m-delta dn" data-l="Variance">−$1,502,302</td><td class="r num m-pct dn">-19.4%</td></tr></tbody></table>
       <p class="note">The filing also carries funds the adopted budget does not price:
         CL <span class="num">$1,030,090</span> · H <span class="num">$26,093,735</span> · MS <span class="num">$38,161,964</span> — self-insurance, capital projects and similar are governed outside the
         budget book, and the H capital fund is one-time by design.</p>
@@ -812,6 +840,71 @@ function renderRank(el,items,cssVar,total,onClick,expand,onOther){
 /* ---- category modal (ported: breakdown / trend / composition) ---- */
 var MODAL={kind:'cat',year:null,sec:0,label:'',color:'--rev',tab:'breakdown',opener:null};
 window.__traceEnv=function(){return {openModal:openModal, O:O};};
+/* budget-vs-actual rows expand into a summary: two bars, the detail accounts
+   inside the line from the filing, and a trace into the ledger */
+(function(){
+  var bud=document.getElementById('budget');
+  if(!bud) return;
+  var BY=O.years[O.years.length-1];
+  function money(v){return '$'+Math.round(v).toLocaleString('en-US');}
+  function buildX(tr){
+    var f0=+tr.getAttribute('data-f0'), f1=+tr.getAttribute('data-f1');
+    var b=+tr.getAttribute('data-b'), a=+tr.getAttribute('data-a');
+    var mx=Math.max(b,a,1);
+    var det=[];
+    O.flows.forEach(function(f){
+      if(f[0]!==BY||f[1]!==1) return;
+      var code=String(f[6]||'');
+      if(code.replace(/[^A-Z]/gi,'').toUpperCase()!=='A') return;
+      var d=code.replace(/[^0-9]/g,'');
+      var fn=+d.slice(0,4);
+      if(!(fn>=f0&&fn<f1)) return;
+      det.push([code,O.dict.narr[f[5]]||'',f[7]]);
+    });
+    det.sort(function(x,y){return Math.abs(y[2])-Math.abs(x[2]);});
+    var top=det.slice(0,6);
+    var rest=det.length-top.length;
+    var h='<div class="bxbars">'+
+      '<div class="bxb"><span class="l">Adopted</span><span class="bar">'+
+        '<i style="width:'+(100*b/mx).toFixed(1)+'%;background:var(--faint)"></i></span>'+
+        '<span class="v num">'+money(b)+'</span></div>'+
+      '<div class="bxb"><span class="l">Actual</span><span class="bar">'+
+        '<i style="width:'+(100*a/mx).toFixed(1)+'%;background:var(--'+(a>b?'bad':'ok')+')"></i></span>'+
+        '<span class="v num">'+money(a)+'</span></div></div>';
+    if(top.length){
+      h+='<div class="bxh">Inside this line &middot; '+BY+' filing</div>';
+      top.forEach(function(r2){
+        h+='<div class="bxr"><span class="c num">'+r2[0]+'</span><span class="n">'+
+          String(r2[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;')+
+          '</span><span class="a num">'+money(r2[2])+'</span></div>';
+      });
+      if(rest>0) h+='<div class="bxnote">+ '+rest+' more accounts in this range.</div>';
+      h+='<div class="bxnote">Amounts are the filed actuals. Selecting an account code in the '+
+         'ledger above shows its 31-year history.</div>';
+    } else {
+      h+='<div class="bxnote">No detail accounts in this range in the '+BY+' filing.</div>';
+    }
+    return h;
+  }
+  bud.addEventListener('click',function(e){
+    var tr=e.target.closest('tr.bv'); if(!tr) return;
+    var nxt=tr.nextElementSibling;
+    if(nxt&&nxt.classList.contains('bvx-row')){
+      nxt.remove(); tr.setAttribute('aria-expanded','false'); return;
+    }
+    var row=document.createElement('tr');
+    row.className='bvx-row';
+    row.innerHTML='<td colspan="5"><div class="bvx">'+buildX(tr)+'</div></td>';
+    tr.parentNode.insertBefore(row,tr.nextSibling);
+    tr.setAttribute('aria-expanded','true');
+  });
+  bud.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    var tr=e.target.closest('tr.bv'); if(!tr) return;
+    e.preventDefault(); tr.click();
+  });
+})();
+
 function openModal(year,sec,label,cssVar,opener){
   MODAL.kind='cat';
   MODAL.year=year;MODAL.sec=sec;MODAL.label=label;MODAL.color=cssVar;
