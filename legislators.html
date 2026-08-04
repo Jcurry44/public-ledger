@@ -76,6 +76,12 @@ h2.sect{font-size:24px;margin:30px 0 4px}
 .pt{flex:1;min-width:0;color:var(--muted)}
 .pv{flex:none;font-weight:700;font-size:12px;color:var(--warn)}
 .pmut{color:var(--faint);font-size:12.5px;font-style:italic;margin:2px 0}
+@media (min-width:1000px){
+  .wrap{max-width:1150px}
+  .roster{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  .roster .lcard{margin:0}
+  .big{font-size:52px}
+}
 .method{margin-top:40px;padding:28px 0 34px;background:#22201c;color:#e8e3d8;
   --muted:#a89f8f;--faint:#7a7264;--rule:#3a362e;--accent:#c9a35e}
 .method h2{margin:0 0 8px;font-size:20px}
@@ -112,7 +118,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 <section><div class="wrap">
   <h2 class="sect">Serving in 2026</h2>
   <p class="sectsub">Ordered by activity in the parsed record</p>
-  
+  <div class="roster">
 <div class="lcard" tabindex="0" role="button" aria-expanded="false">
   <div class="ltop">
     <span class="lname">Bradt</span>
@@ -427,10 +433,10 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <div class="ph">Their no votes</div><p class="pmut">No recorded no votes &mdash; never dissented in the parsed record.</p>
     <div class="ph">Resolutions they sponsored</div><div class="prow"><span class="pid num">IL-114-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the St John De LaSalle Food Pantry Through the Use of Community Partnership Funding</span></div><div class="prow"><span class="pid num">IL-115-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Lewiston Harvest &amp; Hops Festival Through the Use of Community Partnership Funding</span></div><div class="prow"><span class="pid num">IL-116-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Kiwanis Club ofLewiston and the 2026 Niagara County Peach Festival Through the Us</span></div><div class="prow"><span class="pid num">IL-117-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Historical Society of North German Settlements in WNY German Heritage Museum Thro</span></div><div class="prow"><span class="pid num">IL-118-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Friends of the Youngstown Library Jubilee Tea Through the Use of Community Partne</span></div><div class="prow"><span class="pid num">IL-119-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Historical Association of Lewiston, Inc. Through the Use of Community Partnership</span></div><div class="prow"><span class="pid num">IL-066-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Community Fishing Day Youth Contest in the Village of Youngstown Through the Use </span></div><div class="prow"><span class="pid num">IL-070-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Lewiston Memorial Day Parade Through the Use of Community Partnership Funding</span></div><div class="prow"><span class="pid num">IL-040-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Northwest Jazz Festival Through the Use of Community Partnership Funding</span></div><div class="prow"><span class="pid num">IL-054-26</span><span class="pd num">2026</span><span class="pt">A Resolution Opposing a Proposed $25 Annual Vehicle Registration Fee to Fund Mass Transit</span></div><div class="prow"><span class="pid num">IL-011-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of Lewiston Beautification Through the Use of Community Partnership Funding</span></div><div class="prow"><span class="pid num">IL-012-26</span><span class="pd num">2026</span><span class="pt">Resolution in Support of the Lewiston GardenFest Through the Use of Community Partnership Funding</span></div><p class="pmut">+ 1 more &mdash; searchable in the register.</p>
   </div>
-</div>
+</div></div>
   <h2 class="sect">Earlier members, 2015&ndash;</h2>
   <p class="sectsub">Members whose service ended before 2026, from the same record</p>
-  
+  <div class="roster">
 <div class="lcard past" tabindex="0" role="button" aria-expanded="false">
   <div class="ltop">
     <span class="lname">Virtuoso</span>
@@ -724,7 +730,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <div class="ph">Their no votes</div><div class="prow"><span class="pid num">B-022-21</span><span class="pd num">2021</span><span class="pt">Adoption of 2022 Budget</span><span class="pv">10&ndash;4</span></div><div class="prow"><span class="pid num">B-023-21</span><span class="pd num">2021</span><span class="pt">Levying of Taxes</span><span class="pv">10&ndash;4</span></div><div class="prow"><span class="pid num">IL-011-21</span><span class="pd num">2021</span><span class="pt">SUPPORT FOR COUNTY FUNDING TO HELP WITH LOCAL MATCH FOR TOWN OF WILSON REDI PROJECTS</span><span class="pv">10&ndash;5</span></div><div class="prow"><span class="pid num">CSS-058-20</span><span class="pd num">2020</span><span class="pt">Budget Modification - Contract for Statewide Expansion of Hurrell-Harring Reform Office ofindigent People - PD</span><span class="pv">11&ndash;3</span></div>
     <div class="ph">Resolutions they sponsored</div><div class="prow"><span class="pid num">IL-034-21</span><span class="pd num">2021</span><span class="pt">Purple Heart Monument</span></div><div class="prow"><span class="pid num">IL-035-21</span><span class="pd num">2021</span><span class="pt">Niagara County Legislature Demands that Henry Wojtaszek Resigns as Head of OTB</span></div><div class="prow"><span class="pid num">IL-029-21</span><span class="pd num">2021</span><span class="pt">Resolution Recognizing Niagara County Employees Working th-ough the COVID-19 Shutdown</span></div><div class="prow"><span class="pid num">IL-025-21</span><span class="pd num">2021</span><span class="pt">Resolution to Direct the Repair ofthe Kenan Center Parking Lot</span></div><div class="prow"><span class="pid num">IL-010-21</span><span class="pd num">2021</span><span class="pt">Financial Stability for Niagara County</span></div><div class="prow"><span class="pid num">IL-029-20</span><span class="pd num">2020</span><span class="pt">Hiring Freeze for 2020</span></div><div class="prow"><span class="pid num">IL-012-20</span><span class="pd num">2020</span><span class="pt">Help Grow New York State Companies</span></div>
   </div>
-</div>
+</div></div>
 </div></section>
 
 <section class="method"><div class="wrap">
@@ -742,7 +748,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 </div></section>
 
 <footer class="foot"><div class="wrap">
-  Public Ledger &middot; The Legislators &middot; built 2026-08-03 from documents published by
+  Public Ledger &middot; The Legislators &middot; built 2026-08-04 from documents published by
   Niagara County &middot; <a href="decisions.html">the decisions</a> &middot;
   <a href="county.html">county ledger</a>
 </div></footer>

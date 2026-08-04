@@ -250,6 +250,14 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 
 .jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:6px;
   padding:9px 13px;font-size:13px;color:var(--muted);margin:12px 0 2px}
+@media (min-width:1100px){
+  .wrap{max-width:1150px}
+  .big{font-size:64px}
+  .fgrid{grid-template-columns:1fr 1fr 1fr;gap:34px}
+  .tprow .tl2{width:200px}
+  .contested .csub{max-width:none}
+  .mtab{font-size:13px}
+}
 .mday{margin:22px 0 4px;display:flex;align-items:baseline;gap:10px}
 .mday h3{margin:0;font-size:16px}
 .mday .mn{font:11px system-ui;color:var(--faint)}

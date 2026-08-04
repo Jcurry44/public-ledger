@@ -207,6 +207,12 @@ h2.sect{font-size:24px;margin:30px 0 4px}
 .pt{flex:1;min-width:0;color:var(--muted)}
 .pv{flex:none;font-weight:700;font-size:12px;color:var(--warn)}
 .pmut{color:var(--faint);font-size:12.5px;font-style:italic;margin:2px 0}
+@media (min-width:1000px){
+  .wrap{max-width:1150px}
+  .roster{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+  .roster .lcard{margin:0}
+  .big{font-size:52px}
+}
 .method{margin-top:40px;padding:28px 0 34px;background:#22201c;color:#e8e3d8;
   --muted:#a89f8f;--faint:#7a7264;--rule:#3a362e;--accent:#c9a35e}
 .method h2{margin:0 0 8px;font-size:20px}
@@ -243,10 +249,10 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 <section><div class="wrap">
   <h2 class="sect">Serving in __Y1__</h2>
   <p class="sectsub">Ordered by activity in the parsed record</p>
-  __CURRENT__
+  <div class="roster">__CURRENT__</div>
   <h2 class="sect">Earlier members, __Y0__&ndash;</h2>
   <p class="sectsub">Members whose service ended before __Y1__, from the same record</p>
-  __FORMER__
+  <div class="roster">__FORMER__</div>
 </div></section>
 
 <section class="method"><div class="wrap">
