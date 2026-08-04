@@ -446,7 +446,9 @@ var state={year:years[0], cm:'', tp:'', q:'', money:false, mover:'', shown:0};
 var PAGE=120;
 
 function cmColor(c){return 'var('+(CMCOLOR[c]||'--cX')+')';}
-var TODAY=new Date().toISOString().slice(0,10);
+/* local date - toISOString is UTC and flips 'today' at 8pm Eastern */
+var TODAY=(function(){var d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');})();
 function voteBadge(r){
   if(!r.vote){
     if(r.date>TODAY) return '<span class="vb nov">not yet held</span>';
@@ -561,7 +563,7 @@ function render(more){
     if(!state.q && r.date!==lastDate){
       lastDate=r.date;
       var n=p.filter(function(x){return x.date===r.date;}).length;
-      var fut=r.date>new Date().toISOString().slice(0,10);
+      var fut=r.date>TODAY;
       h+='<div class="mday"><h3>'+fmtDate(r.date)+'</h3><span class="mn num">'+n+' resolutions'+
         (fut?' &middot; agenda posted, meeting not yet held':'')+'</span></div>';
     }
