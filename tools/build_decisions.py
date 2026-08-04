@@ -92,6 +92,11 @@ HTML = r"""<!DOCTYPE html>
 <meta name="robots" content="noindex">
 <title>The Decisions - Niagara County Legislature, __Y0__-__Y1__ | Public Ledger</title>
 <meta name="description" content="Every resolution the Niagara County Legislature voted on, __Y0__-__Y1__: who moved it, who voted no, and what it authorized - parsed from the county's own meeting records.">
+<meta property="og:title" content="The Decisions - Niagara County Legislature">
+<meta property="og:description" content="__TOTAL__ resolutions, every recorded vote, every dollar authorized - parsed from the county's own minutes, __Y0__-__Y1__.">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-decisions.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <style>
 @font-face{font-family:'Fraunces';src:url('fonts/Fraunces-600-latin.woff2') format('woff2');
   font-weight:600;font-style:normal;font-display:swap}
@@ -309,6 +314,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   <a class="wordmark" href="./">Public Ledger</a>
   <span class="chip">THE DECISIONS</span>
   <nav class="mnav">
+    <a href="legislators.html">The legislators</a>
     <a href="./">City ledger</a><a href="county.html">County edition</a>
     <a href="atlas.html">County atlas</a><a href="school.html">School district</a>
     <button id="themeBtn" aria-label="Toggle theme">&#9789;</button>

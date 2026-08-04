@@ -604,6 +604,14 @@ for date in sorted(meetings):
         title = re.sub(r"\s+", " ", title).strip(" .")[:240]
         rec = {"id": rid, "date": date, "cm": pref, "title": title,
                "tp": topic_of(title)}
+        if pref == "IL" and cm_prose:
+            sp = []
+            for seg in re.split(r"\s*(?:&|\band\b|,)\s*", re.sub(r"Legislators?\s*", "", cm_prose)):
+                toks = [t2.strip(" .") for t2 in seg.split() if t2.strip(" .")]
+                if toks and name_shaped(toks[-1]):
+                    sp.append(toks[-1])
+            if sp:
+                rec["sp"] = sp[:4]
         if rest is None:
             rec["ft"] = 2 if rid in floor_only else 1
         if cm_prose and " and " in cm_prose.lower():
@@ -669,6 +677,10 @@ def canonicalize(resolutions):
     freq = Counter()
 
     def each_name(rec, fn):
+        if "sp" in rec:
+            rec["sp"] = [x for x in (fn(i) for i in rec["sp"]) if x]
+            if not rec["sp"]:
+                del rec["sp"]
         v = rec.get("vote")
         if not v:
             return
