@@ -265,8 +265,8 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
   .mv td.m-pct{grid-row:3;grid-column:3;font-size:11px;text-align:left}
   .mv tr.bvx-row{display:block;padding:0;border-bottom:1px solid var(--rule)}
 }
-.mv tr.bv{cursor:pointer}
-.mv tr.bv:hover td{background:var(--accent-soft)}
+.mv tr.bv{cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){.mv tr.bv:hover td{background:var(--accent-soft)}}
 .bvx{padding:12px 8px 14px;background:var(--card)}
 .bvx .bxbars{margin:8px 0 12px;max-width:520px}
 .bvx .bxb{display:flex;align-items:center;gap:10px;margin:3px 0}
@@ -285,6 +285,10 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
   white-space:nowrap}
 .bvx .bxr .a{flex:none;font-weight:600}
 .bvx .bxnote{font:11px system-ui;color:var(--faint);margin-top:8px}
+.bxmore{display:inline-block;margin-top:9px;font:600 11px/1 system-ui;letter-spacing:.04em;
+  padding:7px 12px;border:1px solid var(--rule-strong);border-radius:14px;background:none;
+  color:var(--muted);cursor:pointer}
+.bxmore:hover{border-color:var(--accent);color:var(--ink)}
 .m-range{display:block;font-weight:400;font-size:11px;color:var(--faint);margin-top:2px}
 @media (min-width:641px){.m-range{display:none}}
 .mv tr[data-mvlabel]{cursor:pointer}
@@ -778,7 +782,7 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
   if(!bud) return;
   var BY=O.years[O.years.length-1];
   function money(v){return '$'+Math.round(v).toLocaleString('en-US');}
-  function buildX(tr){
+  function buildX(tr, all){
     var f0=+tr.getAttribute('data-f0'), f1=+tr.getAttribute('data-f1');
     var b=+tr.getAttribute('data-b'), a=+tr.getAttribute('data-a');
     var mx=Math.max(b,a,1);
@@ -793,7 +797,7 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
       det.push([code,O.dict.narr[f[5]]||'',f[7]]);
     });
     det.sort(function(x,y){return Math.abs(y[2])-Math.abs(x[2]);});
-    var top=det.slice(0,6);
+    var top=all?det:det.slice(0,6);
     var rest=det.length-top.length;
     var h='<div class="bxbars">'+
       '<div class="bxb"><span class="l">Adopted</span><span class="bar">'+
@@ -809,7 +813,7 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
           String(r2[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;')+
           '</span><span class="a num">'+money(r2[2])+'</span></div>';
       });
-      if(rest>0) h+='<div class="bxnote">+ '+rest+' more accounts in this range.</div>';
+      if(rest>0) h+='<button class="bxmore" type="button">Show all '+det.length+' accounts in this range</button>';
       h+='<div class="bxnote">Amounts are the filed actuals. Selecting an account code in the '+
          'ledger above shows its 31-year history.</div>';
     } else {
@@ -818,6 +822,13 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
     return h;
   }
   bud.addEventListener('click',function(e){
+    var more=e.target.closest('.bxmore');
+    if(more){
+      var xrow=more.closest('tr.bvx-row');
+      var src=xrow.previousElementSibling;
+      xrow.querySelector('.bvx').innerHTML=buildX(src,true);
+      return;
+    }
     var tr=e.target.closest('tr.bv'); if(!tr) return;
     var nxt=tr.nextElementSibling;
     if(nxt&&nxt.classList.contains('bvx-row')){
