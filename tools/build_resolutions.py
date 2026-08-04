@@ -309,6 +309,19 @@ def txt_of(pdf: Path) -> str:
     return tf.read_text(encoding="utf-8", errors="replace")
 
 
+ID_JUNK = re.compile(r"([A-Z]{1,4})\s?-\s?([0-9OlI]{2,4})\s?-\s?([0-9OlI]{2})(?![0-9])")
+
+
+def heal_ids(text):
+    """Position-preserving repair of O/l/I misreads inside id-shaped tokens
+    (AD-OO5-16 -> AD-005-16). Same length in, same length out, so window
+    offsets computed on the healed copy slice the raw text correctly."""
+    def fix(m):
+        tr = str.maketrans("OlI", "011")
+        return m.group(1) + m.group(0)[len(m.group(1)):].translate(tr)
+    return ID_JUNK.sub(fix, text)
+
+
 def meeting_date(fname, year):
     # (?<![0-9]) / (?![0-9]) rather than \b: filenames wrap dates in
     # underscores, and _ is a word character, so \b never fires there
@@ -368,6 +381,7 @@ for date in sorted(meetings):
     body_text = ""
     src_urls = []
 
+    votey_packets = []
     for pk in mt["packets"]:
         pdf = CACHE / pk["file"]
         if not pdf.exists():
@@ -377,6 +391,11 @@ for date in sorted(meetings):
             continue
         src_urls.append(pk["url"])
         body_text += "\n" + text
+        # misnamed minutes ("Meeting Mintues.pdf", "MEETING.pdf") classify as
+        # packets by filename; their CONTENT gives them away - real vote lines
+        if len(re.findall(r"Moved by [A-Z]", text)) >= 5 \
+                and len(re.findall(r"\d+\s*Ayes", text)) >= 5:
+            votey_packets.append(text)
         # agenda lines: *ID <Committee prose>, re <Title...>
         for line_m in re.finditer(
                 r"^[ \t*]*([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\s+(.{3,240})$",
@@ -452,7 +471,9 @@ for date in sorted(meetings):
         pdf = CACHE / mn["file"]
         if pdf.exists():
             min_text += "\n" + txt_of(pdf)
-    if not mt["minutes"]:
+    for vt in votey_packets:
+        min_text += "\n" + vt
+    if not mt["minutes"] and not votey_packets:
         meeting_stat[date] = "none"      # county has not posted minutes
     elif len(min_text.strip()) < 3000:
         meeting_stat[date] = "scan"      # posted, but an image with no text layer
@@ -465,13 +486,14 @@ for date in sorted(meetings):
     # splitting the window before its vote line. Eras without From: headers
     # fall back to every id mention.
     id_pos = []
-    for im in re.finditer(r"([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\s*(?:From|FROM)\s*:", min_text):
+    scan_text = heal_ids(min_text)
+    for im in re.finditer(r"([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\s*(?:From|FROM)\s*:", scan_text):
         idm = ID_RE.search(im.group(1))
         if idm and idm.group(3) == str(year)[2:]:
             id_pos.append((im.start(), norm_id(idm)))
     if len(id_pos) < 3:
         id_pos = []
-        for im in ID_RE.finditer(min_text):
+        for im in ID_RE.finditer(scan_text):
             if im.group(3) == str(year)[2:]:
                 id_pos.append((im.start(), norm_id(im)))
     votes = {}
@@ -712,6 +734,7 @@ for r in recs:
     for nm in r.get("vote", {}).get("no_names", []):
         noes_by[nm] += 1
 topic_counts = Counter(r["tp"] for r in recs)
+n_wb = sum(1 for m in manifest if m.get("wb") and (CACHE / m["file"]).exists())
 n_text = sum(1 for r in resolutions.values() if "tx" in r)
 _readable = [r for r in resolutions.values() if meeting_stat.get(r["date"]) == "ok"]
 n_readable = len(_readable)
@@ -719,6 +742,7 @@ n_rv = sum(1 for r in _readable if "vote" in r)
 n_scanrows = sum(1 for r in resolutions.values() if meeting_stat.get(r["date"]) == "scan")
 n_nonerows = sum(1 for r in resolutions.values() if meeting_stat.get(r["date"]) == "none")
 summary = {
+    "wayback_docs": n_wb,
     "readable": n_readable, "readable_voted": n_rv,
     "scan_rows": n_scanrows, "none_rows": n_nonerows,
     "text_found": n_text,

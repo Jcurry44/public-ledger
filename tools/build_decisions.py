@@ -388,8 +388,8 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   whose posted minutes are scanned images with no text layer, __NONEROWS__ in meetings where the
   county has not posted minutes at all, and __FUTROWS__ on agendas for meetings not yet held.
   Against the minutes a machine <i>can</i> read, __RVN__ of __RDN__ votes are matched
-  (__RVPCT__%). Nothing here is OCR-guessed &mdash; where the record is an image, this register
-  says so and links it.</p>
+  (__RVPCT__%).__WBNOTE__ Nothing here is OCR-guessed &mdash; where the record is an image, this
+  register says so and links it.</p>
   <p><b>Honesty notes.</b> The county&rsquo;s PDFs carry a machine text layer with light OCR noise
   (&ldquo;CmTied&rdquo; for &ldquo;Carried&rdquo;, the digit 1 read as the letter I); parsing tolerates
   the known artifacts and otherwise reports what is printed, including vote totals that occasionally
@@ -728,6 +728,10 @@ subs = {
     "__RVPCT__": str(round(100 * S["readable_voted"] / max(1, S["readable"]))),
     "__RVN__": "{:,}".format(S["readable_voted"]),
     "__RDN__": "{:,}".format(S["readable"]),
+    "__WBNOTE__": (" %d documents the county&rsquo;s site no longer serves were recovered from"
+                   " the <a href=\"https://web.archive.org\">Internet Archive</a>&rsquo;s crawl of"
+                   " niagaracounty.gov; their source links point to the archived copies."
+                   % S["wayback_docs"]) if S.get("wayback_docs") else "",
     "__SCANROWS__": str(S["scan_rows"]),
     "__NONEROWS__": str(S["none_rows"]),
     "__FUTROWS__": str(sum(1 for r in RECS if r["date"] > __import__("datetime").date.today().isoformat())),

@@ -64,6 +64,15 @@ for year in YEARS:
     print(f"{year}: {len(seen)} PDFs listed")
     time.sleep(0.4)
 
+# preserve Internet Archive recoveries (tools/recover_wayback.py) across rebuilds
+old_path = CACHE / "manifest.json"
+if old_path.exists():
+    try:
+        for m0 in json.loads(old_path.read_text(encoding="utf-8")):
+            if m0.get("wb"):
+                manifest.append(m0)
+    except Exception:
+        pass
 (CACHE / "manifest.json").write_text(json.dumps(manifest, indent=1), encoding="utf-8")
 print(f"\nmanifest: {len(manifest)} PDFs "
       f"({sum(1 for m in manifest if m['kind']=='packet')} packets, "
