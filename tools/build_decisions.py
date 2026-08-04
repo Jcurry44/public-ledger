@@ -361,7 +361,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 </div>
   <div class="wrap tpband">
     <div class="fk">Finding 04 &middot; What the votes are about</div>
-    <h3>One in seven resolutions moves no money and takes no action.</h3>
+    <h3>One in __ONEIN__ resolutions moves no money and takes no action.</h3>
     <p class="onesev">That claim is the <b>Symbolic &amp; advocacy</b> bar below: __SYMN__
     resolutions (__SYMPCT__%) that support, urge, oppose, honor or proclaim &mdash; positions,
     not spending.</p>
@@ -747,7 +747,7 @@ document.getElementById('digest').addEventListener('click',function(e){
   var mx=items[0][2]||1;
   band.innerHTML=items.map(function(t){
     return '<button class="tprow" data-tp="'+t[0]+'" aria-pressed="false">'+
-      '<span class="tl2">'+esc(t[1])+(t[0]==='s'?'<span class="tag17">the 1 in 7</span>':'')+'</span>'+
+      '<span class="tl2">'+esc(t[1])+(t[0]==='s'?'<span class="tag17">the 1 in __ONEINN__</span>':'')+'</span>'+
       '<span class="tb"><i style="width:'+(100*t[2]/mx).toFixed(1)+'%"></i></span>'+
       '<span class="tn num">'+t[2].toLocaleString('en-US')+' &middot; '+Math.round(100*t[2]/tot)+'%</span>'+
     '</button>';}).join('');
@@ -852,6 +852,9 @@ subs = {
     "__UNANN__": "{:,}".format(n_unan),
     "__VOTED__": "{:,}".format(n_vote),
     "__CAPTOT__": ("$%.1fM" % (cap_total / 1e6)) if cap_total < 995e6 else ("$%.2fB" % (cap_total / 1e9)),
+    "__ONEIN__": {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}.get(
+        round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s"))), "eight"),
+    "__ONEINN__": str(round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s")))),
     "__SYMN__": "{:,}".format(next(t[2] for t in S["topics"] if t[0] == "s")),
     "__SYMPCT__": str(round(100 * next(t[2] for t in S["topics"] if t[0] == "s") / max(1, S["total"]))),
     "__DISSENT__": dissent_html,

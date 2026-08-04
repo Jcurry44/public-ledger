@@ -60,6 +60,11 @@ def topic_of(title):
     t = title.lower()
     for code, _, pat in TOPIC_RULES:
         if re.search(pat, t):
+            # advocacy words lose to action words: "Budget Modification ... In
+            # Support of the Drone Show" moves real money and is not symbolic
+            if code == "s" and re.search(
+                    r"budget\s+(?:modification|amendment)|through\s+the\s+use\s+of\s+\w+\s+fund", t):
+                return "b"
             return code
     return "o"
 
