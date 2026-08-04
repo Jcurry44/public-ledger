@@ -235,6 +235,8 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .yb[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .controls.searching .years{opacity:.35}
 
+.jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:6px;
+  padding:9px 13px;font-size:13px;color:var(--muted);margin:12px 0 2px}
 .mday{margin:22px 0 4px;display:flex;align-items:baseline;gap:10px}
 .mday h3{margin:0;font-size:16px}
 .mday .mn{font:11px system-ui;color:var(--faint)}
@@ -539,6 +541,13 @@ function extHTML(r){
   return h;
 }
 
+function applyFilters(p){
+  if(state.cm) p=p.filter(function(r){return r.cm===state.cm;});
+  if(state.tp) p=p.filter(function(r){return (r.tp||'o')===state.tp;});
+  if(state.money) p=p.filter(function(r){return r.cap||(r.am&&r.am.length);});
+  if(state.mover) p=p.filter(function(r){return r.vote&&r.vote.mover===state.mover;});
+  return p;
+}
 function pool(){
   var p;
   if(state.q.length>=2){
@@ -548,13 +557,27 @@ function pool(){
   } else {
     p=byYear[state.year]||[];
   }
-  if(state.cm) p=p.filter(function(r){return r.cm===state.cm;});
-  if(state.tp) p=p.filter(function(r){return (r.tp||'o')===state.tp;});
-  if(state.money) p=p.filter(function(r){return r.cap||(r.am&&r.am.length);});
-  if(state.mover) p=p.filter(function(r){return r.vote&&r.vote.mover===state.mover;});
-  return p;
+  return applyFilters(p);
+}
+/* a filter that empties the current year jumps to the newest year that has
+   matches - the chip counts span all twelve years, the click means "show me" */
+function autoJump(){
+  if(state.q.length>=2) return null;
+  if(!(state.cm||state.tp||state.money||state.mover)) return null;
+  if(pool().length) return null;
+  for(var i=0;i<years.length;i++){
+    if(applyFilters(byYear[years[i]]||[]).length){
+      var from=state.year;
+      state.year=years[i];
+      yr.querySelectorAll('.yb').forEach(function(x){
+        x.setAttribute('aria-pressed',x.getAttribute('data-y')===state.year);});
+      return {to:years[i], from:from};
+    }
+  }
+  return {none:true};
 }
 function render(more){
+  var jump=more?null:autoJump();
   var p=pool();
   if(!more) state.shown=0;
   var upTo=Math.min(p.length, state.shown+PAGE);
@@ -571,7 +594,26 @@ function render(more){
     h+=rowHTML(r,i,'');
   }
   state.shown=upTo;
-  document.getElementById('list').innerHTML=h||'<p class="mut" style="padding:30px 0">Nothing matches.</p>';
+  if(jump&&jump.to){
+    h='<p class="jumpNote">No matches in '+jump.from+' &mdash; jumped to <b>'+jump.to+
+      '</b>, the newest year with results.</p>'+h;
+  }
+  if(!h){
+    h='<div style="padding:30px 0"><p class="mut">Nothing matches this combination of filters '+
+      'in any year.</p><button class="pill" id="clearAll" style="cursor:pointer;background:none">'+
+      'Clear filters</button></div>';
+  }
+  document.getElementById('list').innerHTML=h;
+  var ca=document.getElementById('clearAll');
+  if(ca) ca.addEventListener('click',function(){
+    state.cm='';state.tp='';state.money=false;state.mover='';
+    document.querySelectorAll('#cmChips .fch').forEach(function(x){
+      x.setAttribute('aria-pressed',x.getAttribute('data-cm')==='');});
+    document.querySelectorAll('#tpBand .tprow').forEach(function(x){x.setAttribute('aria-pressed','false');});
+    var mc=document.getElementById('moneyChip'); mc.setAttribute('aria-pressed','false');
+    var ms=document.getElementById('moverSel'); ms.value=''; ms.classList.remove('on');
+    render();
+  });
   document.getElementById('qn').textContent=state.q.length>=2?(p.length+' match'+(p.length===1?'':'es')):'';
   document.querySelector('.controls').classList.toggle('searching',state.q.length>=2);
   document.getElementById('moreBtn').style.display=upTo<p.length?'':'none';
