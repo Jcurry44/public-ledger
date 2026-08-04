@@ -275,24 +275,72 @@ BOILER_RE = re.compile(
     r"DATED|AYES|NOES|PAGE\s*\d|Page\s*\d|MOVED\s+BY|ADOPTED|From:)", re.I)
 
 
+# stamp fragments that appear ANYWHERE in a line (OCR mangles the openers:
+# COMMITIEE, C~AryTuv APPROVED BY...)
+BOILER_ANY = re.compile(
+    r"APPROVED\s+BY|COMMIT\w{0,5}\s+A\w{0,3}CTION|LEGISLATIVE\s+A\w{0,3}CTION|"
+    r"C[O0]\.\s*(?:ATTORNEY|MANAGER)|REVIEWED\s+C[O0]", re.I)
+# committee-date stamps: "ED - 4/12/17 AD - 4/24/17"
+DATEY = re.compile(r"^[A-Z]{1,4}\s*-\s*\d{1,2}\s*[/-]")
+
+
+def _junky(t):
+    if BOILER_ANY.search(t) or DATEY.match(t):
+        return True
+    if t.rstrip(" .").upper().endswith("COMMITTEE"):
+        return True   # bare committee-name header, not a title
+    if t.strip(" .").upper() in ("NIAGARA COUNTY LEGISLATURE", "COUNTY OF NIAGARA"):
+        return True   # letterhead
+    digits = sum(c.isdigit() for c in t)
+    if digits >= max(4, len(t) * 0.25):
+        # bond captions legitimately embed amounts
+        return not ("BOND" in t.upper() or "$" in t)
+    return False
+
+
 def _capsy(t):
     letters = [c for c in t if c.isalpha()]
     return letters and sum(c.isupper() for c in letters) / len(letters) >= 0.7
 
 
+MIDPHRASE = re.compile(r"^(AND\b|AND/OR|OR\b|NOW,|PROVIDING|IN\s+RELATION|THEREFORE|THERETO|OF\s+THE\b)")
+
+
+def _title_ok(t, maxlen=160):
+    return (3 <= len(t) <= maxlen and _capsy(t)
+            and not BOILER_RE.match(t) and not _junky(t))
+
+
 def block_title(block):
     """The heading of a resolution's text: the first substantially-uppercase
-    line, joined with up to two continuation lines (titles wrap)."""
-    lines = block.splitlines()[:60]
-    for i, ln in enumerate(lines):
-        t = ln.strip()
-        if not (12 <= len(t) <= 160) or not _capsy(t) or BOILER_RE.match(t):
+    line, back-walked if it starts mid-phrase (long bond captions), joined
+    with continuation lines."""
+    lines = [ln.strip() for ln in block.splitlines()[:60]]
+    for i, t in enumerate(lines):
+        if not (12 <= len(t) <= 160) or not _title_ok(t):
             continue
         parts = [t]
-        for nxt in lines[i + 1:i + 3]:
-            n = nxt.strip()
-            if 3 <= len(n) <= 160 and _capsy(n) and not BOILER_RE.match(n):
-                parts.append(n)
+        # bond captions wrap over many lines with BLANK lines between rows -
+        # walks skip the blanks instead of stopping at them
+        j = i
+        steps = 0
+        while MIDPHRASE.match(parts[0]) and j > 0 and steps < 6:
+            j -= 1
+            steps += 1
+            prev = lines[j]
+            if not prev:
+                continue
+            if _title_ok(prev, 200):
+                parts.insert(0, prev)
+            else:
+                break
+        taken = 0
+        for nxt in lines[i + 1:i + 8]:
+            if not nxt:
+                continue
+            if _title_ok(nxt) and taken < 4:
+                parts.append(nxt)
+                taken += 1
             else:
                 break
         return re.sub(r"\s+", " ", " ".join(parts))[:240]
@@ -460,10 +508,9 @@ for date in sorted(meetings):
     for rid in blocks:
         if rid not in agenda_ids and rid.rsplit("-", 1)[1] == str(year)[2:]:
             t = block_title(blocks[rid])
-            if t:
-                agenda_ids[rid] = None  # sentinel: from text, title separate
-                text_titles[rid] = t
-                gate_extras.append((date, rid))
+            agenda_ids[rid] = None  # sentinel: from text, title separate
+            text_titles[rid] = t or "(title not machine-readable in the county documents)"
+            gate_extras.append((date, rid))
 
     # minutes: vote per id
     min_text = ""

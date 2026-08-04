@@ -30,7 +30,13 @@ dmax = dissent[0][1] if dissent else 1
 
 caps = [r["cap"] for r in RECS if "cap" in r]
 cap_total = sum(caps)
-top_caps = sorted((r for r in RECS if "cap" in r), key=lambda r: -r["cap"])[:5]
+import re as _re
+_MID = _re.compile(r"^(AND|AND/OR|OR|NOW,|PROVIDING|IN\s+RELATION|THEREFORE|THERETO|OF\s+THE)")
+def _clean_title(r):
+    t = r["title"]
+    return (not t.startswith("(title not") and len(t) >= 12
+            and not _MID.match(t) and not t.rstrip().endswith(":"))
+top_caps = sorted((r for r in RECS if "cap" in r and _clean_title(r)), key=lambda r: -r["cap"])[:5]
 
 by_cm = Counter(r["cm"] for r in RECS)
 cm_names = S["committees"]
@@ -164,6 +170,8 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .tprow[aria-pressed="true"] .tl2{font-weight:700}
 .tprow .tn{width:86px;text-align:right;font-size:12px;color:var(--muted);flex:none}
 .tphint{color:var(--faint);font:11px system-ui;margin-top:6px}
+.onesev{color:var(--muted);font-size:13px;margin:2px 0 12px;max-width:64ch}
+.tag17{font:600 9px/1 system-ui;letter-spacing:.06em;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:8px;padding:2px 6px;margin-left:6px;white-space:nowrap}
 
 /* contested votes */
 .contested{padding:34px 0 6px}
@@ -348,6 +356,9 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   <div class="wrap tpband">
     <div class="fk">Finding 04 &middot; What the votes are about</div>
     <h3>One in seven resolutions moves no money and takes no action.</h3>
+    <p class="onesev">That claim is the <b>Symbolic &amp; advocacy</b> bar below: __SYMN__
+    resolutions (__SYMPCT__%) that support, urge, oppose, honor or proclaim &mdash; positions,
+    not spending.</p>
     <div id="tpBand"></div>
     <p class="tphint">Rule-based buckets matched on resolution titles &mdash; imperfect and said so.
     Select a bar to filter the register to that kind of decision.</p>
@@ -730,7 +741,7 @@ document.getElementById('digest').addEventListener('click',function(e){
   var mx=items[0][2]||1;
   band.innerHTML=items.map(function(t){
     return '<button class="tprow" data-tp="'+t[0]+'" aria-pressed="false">'+
-      '<span class="tl2">'+esc(t[1])+'</span>'+
+      '<span class="tl2">'+esc(t[1])+(t[0]==='s'?'<span class="tag17">the 1 in 7</span>':'')+'</span>'+
       '<span class="tb"><i style="width:'+(100*t[2]/mx).toFixed(1)+'%"></i></span>'+
       '<span class="tn num">'+t[2].toLocaleString('en-US')+' &middot; '+Math.round(100*t[2]/tot)+'%</span>'+
     '</button>';}).join('');
@@ -835,6 +846,8 @@ subs = {
     "__UNANN__": "{:,}".format(n_unan),
     "__VOTED__": "{:,}".format(n_vote),
     "__CAPTOT__": ("$%.1fM" % (cap_total / 1e6)) if cap_total < 995e6 else ("$%.2fB" % (cap_total / 1e9)),
+    "__SYMN__": "{:,}".format(next(t[2] for t in S["topics"] if t[0] == "s")),
+    "__SYMPCT__": str(round(100 * next(t[2] for t in S["topics"] if t[0] == "s") / max(1, S["total"]))),
     "__DISSENT__": dissent_html,
     "__TOPCAPS__": topcap_html,
     "__PERYEAR__": "".join(per_year_rows),
