@@ -141,6 +141,13 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
   border:1px solid var(--rule-strong);background:none;color:var(--muted);cursor:pointer}
 .fch[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .fch .n{opacity:.65;margin-left:3px}
+.xrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.msel{background:var(--card);border:1px solid var(--rule-strong);border-radius:14px;
+  color:var(--muted);font:600 11px system-ui;padding:6px 26px 6px 10px;cursor:pointer;
+  -webkit-appearance:none;appearance:none;max-width:190px;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center}
+.msel.on{background-color:var(--ink);color:var(--paper);border-color:var(--ink)}
 .years{display:flex;gap:5px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}
 .yb{font:600 12px/1 system-ui;padding:7px 11px;border-radius:5px;border:1px solid var(--rule-strong);
   background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
@@ -279,6 +286,11 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
       <span id="qn"></span>
     </div>
     <div class="chips" id="cmChips"></div>
+    <div class="xrow">
+      <button class="fch" id="moneyChip" aria-pressed="false">$ Mentions dollars
+        <span class="n num" id="moneyN"></span></button>
+      <select class="msel" id="moverSel" aria-label="Filter by who moved it"></select>
+    </div>
     <div class="years" id="yearRow"></div>
     <button class="tpclear" id="tpClear"></button>
   </div>
@@ -403,15 +415,20 @@ var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').
 var byYear={}, years=[];
 RECS.forEach(function(r){var y=r.date.slice(0,4);(byYear[y]=byYear[y]||[]).push(r);});
 years=Object.keys(byYear).sort().reverse();
-/* newest first, everywhere */
-Object.keys(byYear).forEach(function(y){
-  byYear[y].sort(function(a,b){return a.date<b.date?1:(a.date>b.date?-1:(a.id<b.id?-1:1));});
-});
+/* newest first; within a meeting, contested votes surface above the
+   unanimous traffic */
+function regCmp(a,b){
+  if(a.date!==b.date) return a.date<b.date?1:-1;
+  var ca=(a.vote&&a.vote.noes>0)?1:0, cb=(b.vote&&b.vote.noes>0)?1:0;
+  if(ca!==cb) return cb-ca;
+  return a.id<b.id?-1:1;
+}
+Object.keys(byYear).forEach(function(y){ byYear[y].sort(regCmp); });
 var TPL={}; (R.summary.topics||[]).forEach(function(t){TPL[t[0]]=t[1];});
 var CONTESTED=RECS.filter(function(r){return r.vote&&r.vote.noes>0;})
   .sort(function(a,b){return a.date<b.date?1:-1;});
 
-var state={year:years[0], cm:'', tp:'', q:'', shown:0};
+var state={year:years[0], cm:'', tp:'', q:'', money:false, mover:'', shown:0};
 var PAGE=120;
 
 function cmColor(c){return 'var('+(CMCOLOR[c]||'--cX')+')';}
@@ -510,12 +527,14 @@ function pool(){
   if(state.q.length>=2){
     var q=state.q.toLowerCase();
     p=RECS.filter(function(r){return (r.id+' '+r.title).toLowerCase().indexOf(q)>=0;});
-    p=p.slice().sort(function(a,b){return a.date<b.date?1:-1;});
+    p=p.slice().sort(regCmp);
   } else {
     p=byYear[state.year]||[];
   }
   if(state.cm) p=p.filter(function(r){return r.cm===state.cm;});
   if(state.tp) p=p.filter(function(r){return (r.tp||'o')===state.tp;});
+  if(state.money) p=p.filter(function(r){return r.cap||(r.am&&r.am.length);});
+  if(state.mover) p=p.filter(function(r){return r.vote&&r.vote.mover===state.mover;});
   return p;
 }
 function render(more){
@@ -607,6 +626,28 @@ qEl.addEventListener('input',function(){
   clearTimeout(qt); qt=setTimeout(function(){state.q=qEl.value.trim();render();},140);
 });
 document.getElementById('moreBtn').addEventListener('click',function(){render(true);});
+(function(){
+  var mc=document.getElementById('moneyChip');
+  var n=RECS.filter(function(r){return r.cap||(r.am&&r.am.length);}).length;
+  document.getElementById('moneyN').textContent=n.toLocaleString('en-US');
+  mc.addEventListener('click',function(){
+    state.money=!state.money;
+    mc.setAttribute('aria-pressed',state.money);
+    render();
+  });
+  var ms=document.getElementById('moverSel');
+  var movers={};
+  RECS.forEach(function(r){if(r.vote&&r.vote.mover) movers[r.vote.mover]=(movers[r.vote.mover]||0)+1;});
+  var names=Object.keys(movers).filter(function(n2){return movers[n2]>=5;})
+    .sort(function(a,b){return movers[b]-movers[a];});
+  ms.innerHTML='<option value="">Moved by: anyone</option>'+names.map(function(n2){
+    return '<option value="'+esc(n2)+'">Moved by '+esc(n2)+' ('+movers[n2].toLocaleString('en-US')+')</option>';}).join('');
+  ms.addEventListener('change',function(){
+    state.mover=ms.value;
+    ms.classList.toggle('on',!!state.mover);
+    render();
+  });
+})();
 document.getElementById('tpClear').addEventListener('click',function(){
   state.tp='';
   document.querySelectorAll('#tpBand .tprow').forEach(function(x){x.setAttribute('aria-pressed','false');});
