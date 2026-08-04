@@ -332,6 +332,34 @@ body:has(#modal:not([hidden])) .pager{display:none}
   overflow:hidden;text-overflow:ellipsis}
 .pager .idx{color:var(--faint);font-weight:400;font-family:ui-monospace,Menlo,Consolas,monospace}
 .biglink{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--accent)}
+
+#minibar{position:fixed;top:0;left:0;right:0;z-index:60;background:var(--paper);
+  border-bottom:2px solid var(--ink);transform:translateY(-110%);transition:transform .25s ease;
+  padding:7px 0;box-shadow:0 8px 22px -14px rgba(0,0,0,.35)}
+#minibar.on{transform:none}
+#minibar .mb-in{max-width:1140px;margin:0 auto;padding:0 20px;display:flex;
+  justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+#minibar .mb-t{font-weight:700;font-size:13.5px;font-family:'Fraunces',Georgia,serif}
+#minibar .mb-s{font-size:12px;color:var(--muted)}
+#minibar .mb-s b{font-size:13px}
+@media (prefers-reduced-motion:reduce){#minibar{transition:none}}
+
+/* number discipline: expansion detail amounts step back from the leaders */
+.bvx .bxr .a{font-weight:500;color:var(--muted)}
+
+@media print{
+  @page{margin:.5in}
+  html,body{background:#fff}
+  .rail,.themebtn,#minibar,#modal,.morex,.bxmore,button{display:none !important}
+  .gateline{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #method{background:#fff !important;color:#1e1c18 !important;box-shadow:none;
+    border-top:2px solid #1e1c18;border-radius:0;margin:24px 0 0;padding:14px 0 0;
+    --paper:#fff;--ink:#1e1c18;--muted:#5b564c;--faint:#8a8478;--card:#fff;
+    --rule:#dcd5c6;--rule-strong:#c8c0ae;--gridline:#e7e1d3;--accent:#7a5c2e}
+  section{page-break-inside:avoid}
+  .hcard,.panel{page-break-inside:avoid}
+  .bar i,.minis i,.dbar i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 </style></head><body>
 <div class="page">
   <div class="mast">
@@ -341,6 +369,10 @@ body:has(#modal:not([hidden])) .pager{display:none}
       <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a>
       <button class="themebtn" id="theme" type="button" aria-label="Toggle theme"></button></div>
   </div>
+
+  <div id="minibar" aria-hidden="true"><div class="mb-in">
+    <span class="mb-t"></span><span class="mb-s num"></span>
+  </div></div>
 
   <nav class="rail"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
@@ -777,6 +809,26 @@ function renderRank(el,items,cssVar,total,onClick,expand,onOther){
 /* ---- category modal (ported: breakdown / trend / composition) ---- */
 var MODAL={kind:'cat',year:null,sec:0,label:'',color:'--rev',tab:'breakdown',opener:null};
 window.__traceEnv=function(){return {openModal:openModal, O:O};};
+(function(){
+  var mb=document.getElementById('minibar');
+  var hero=document.querySelector('.hcard')||document.querySelector('h1');
+  if(!mb||!hero) return;
+  var h1=document.querySelector('h1');
+  mb.querySelector('.mb-t').textContent=(h1?h1.textContent:'').replace(/\s+/g,' ').trim().slice(0,72);
+  var rv=document.getElementById('hRevV'), ex=document.getElementById('hExpV');
+  function fill(){
+    var a=rv?rv.textContent:'', b=ex?ex.textContent:'';
+    if(a&&a!=='\u2014') mb.querySelector('.mb-s').innerHTML=
+      '<b style="color:var(--rev)">'+a+'</b> in &middot; <b style="color:var(--exp)">'+b+'</b> out';
+  }
+  setTimeout(fill,1400);
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(en){
+      mb.classList.toggle('on', !en[0].isIntersecting);
+    },{threshold:0}).observe(hero);
+  }
+})();
+
 /* budget-vs-actual rows expand into a summary: two bars, the detail accounts
    inside the line from the filing, and a trace into the ledger */
 (function(){
