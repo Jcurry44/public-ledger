@@ -585,9 +585,12 @@ function render(more){
       '</b>, the newest year with results.</p>'+h;
   }
   if(!h){
-    h='<div style="padding:30px 0"><p class="mut">Nothing matches this combination of filters '+
-      'in any year.</p><button class="pill" id="clearAll" style="cursor:pointer;background:none">'+
-      'Clear filters</button></div>';
+    var hasF=state.cm||state.tp||state.money||state.mover;
+    h=hasF
+      ?'<div style="padding:30px 0"><p class="mut">Nothing matches this combination of filters '+
+        'in any year.</p><button class="pill" id="clearAll" style="cursor:pointer;background:none">'+
+        'Clear filters</button></div>'
+      :'<p class="mut" style="padding:30px 0">Nothing matches.</p>';
   }
   document.getElementById('list').innerHTML=h;
   var ca=document.getElementById('clearAll');
