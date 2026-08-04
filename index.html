@@ -637,6 +637,17 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 .rank .tr i{transition:width .55s cubic-bezier(.25,.9,.3,1)}
 .rank.pregrow .rk .tr i{width:0!important}
 @media (prefers-reduced-motion:reduce){.rank .tr i{transition:none}}
+
+/* ultra-wide composition: the tally card pairs with its lede; the canvas
+   opens to 1380 so the revenue|expenditure panels breathe */
+@media (min-width:1520px){
+  .wrap{max-width:1380px}
+  .hero{display:grid;grid-template-columns:minmax(760px,880px) 1fr;column-gap:52px;
+    align-items:center}
+  .hero .hcard{min-width:0}
+  .hero .hcard .v{font-size:34px}
+  .hero .hlede{margin-top:0;max-width:44ch}
+}
 </style>
 </head>
 <body>
