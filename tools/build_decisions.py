@@ -352,13 +352,6 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   </div>
 </section>
 
-<section class="contested"><div class="wrap">
-  <h2>Every contested vote</h2>
-  <p class="csub">Twelve years and __TOTAL__ resolutions produced <b>__NCONT__</b> that drew a
-  no vote &mdash; here is every one of them, newest first. Green is the ayes&rsquo; share.</p>
-  <div id="contList"></div>
-</div></section>
-
 <section class="reg" id="register"><div class="wrap">
   <h2 class="serif" style="font-size:26px;margin:0 0 14px">The register</h2>
   <div class="controls">
@@ -378,6 +371,14 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   <div class="digest" id="digest"></div>
   <div id="list"></div>
   <div class="morex"><button class="pill" id="moreBtn" style="cursor:pointer;background:none">Show more</button></div>
+</div></section>
+
+<section class="contested"><div class="wrap">
+  <h2>Every contested vote</h2>
+  <p class="csub">Twelve years and __TOTAL__ resolutions produced <b>__NCONT__</b> that drew a
+  no vote. The newest are below &mdash; green is the ayes&rsquo; share.</p>
+  <div id="contList"></div>
+  <div class="morex"><button class="pill" id="contMore" style="cursor:pointer;background:none">Show all __NCONT__ contested votes</button></div>
 </div></section>
 
 <section class="method"><div class="wrap">
@@ -699,10 +700,17 @@ document.getElementById('digest').addEventListener('click',function(e){
   });
 })();
 
-/* contested list */
+/* contested list: collapsed preview, expand on demand */
 (function(){
   var el=document.getElementById('contList');
-  el.innerHTML=CONTESTED.map(function(r,i){return rowHTML(r,i,'c');}).join('');
+  var btn=document.getElementById('contMore');
+  var PREVIEW=6;
+  function paint(n){
+    el.innerHTML=CONTESTED.slice(0,n).map(function(r,i){return rowHTML(r,i,'c');}).join('');
+    btn.style.display=n>=CONTESTED.length?'none':'';
+  }
+  paint(PREVIEW);
+  btn.addEventListener('click',function(){paint(CONTESTED.length);});
   function tog(row){
     var open=row.classList.toggle('open');
     row.setAttribute('aria-expanded',open);
