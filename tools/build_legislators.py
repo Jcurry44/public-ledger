@@ -213,6 +213,10 @@ h2.sect{font-size:24px;margin:30px 0 4px}
   .roster .lcard{margin:0}
   .big{font-size:52px}
 }
+@media (min-width:1520px){
+  .wrap{max-width:1380px}
+  .roster{grid-template-columns:1fr 1fr 1fr}
+}
 .method{margin-top:40px;padding:28px 0 34px;background:#22201c;color:#e8e3d8;
   --muted:#a89f8f;--faint:#7a7264;--rule:#3a362e;--accent:#c9a35e}
 .method h2{margin:0 0 8px;font-size:20px}

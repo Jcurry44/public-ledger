@@ -250,6 +250,21 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 
 .jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:6px;
   padding:9px 13px;font-size:13px;color:var(--muted);margin:12px 0 2px}
+@media (min-width:1520px){
+  .wrap{max-width:1380px}
+  .findings>.wrap{max-width:none;margin:0;padding:0}
+  section.findings{display:grid;grid-template-columns:5fr 7fr;column-gap:56px;
+    max-width:1380px;margin:8px auto 0;padding:26px 20px 30px}
+  section.findings .fgrid{grid-template-columns:1fr !important;gap:22px}
+  section.findings .tpband{border-top:0;margin-top:0;padding-top:0}
+  .hero .lede{max-width:66ch}
+  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 420px;column-gap:90px;
+    align-items:center}
+  .hero .wrap>*{min-width:0;grid-column:1}
+  .hero .tally{grid-column:2;grid-row:1 / span 3;align-self:center;margin-top:0;
+    display:grid;grid-template-columns:auto auto;gap:26px 44px;justify-content:start}
+  .hero .tcell .tv{font-size:30px}
+}
 @media (min-width:1100px){
   .wrap{max-width:1150px}
   .big{font-size:64px}
