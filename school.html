@@ -284,6 +284,10 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
 .bvx .bxr .n{flex:1;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;
   white-space:nowrap}
 .bvx .bxr .a{flex:none;font-weight:600}
+.bvx .bxr[data-code]{cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){.bvx .bxr[data-code]:hover{background:var(--accent-soft)}
+  .bvx .bxr[data-code]:hover .c{text-decoration:underline}}
+.bvx .bxr .go{flex:none;color:var(--faint);font-size:15px;line-height:1;padding-left:2px}
 .bvx .bxnote{font:11px system-ui;color:var(--faint);margin-top:8px}
 .bxmore{display:inline-block;margin-top:9px;font:600 11px/1 system-ui;letter-spacing:.04em;
   padding:7px 12px;border:1px solid var(--rule-strong);border-radius:14px;background:none;
@@ -807,13 +811,14 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
     if(top.length){
       h+='<div class="bxh">Inside this line &middot; '+BY+' filing</div>';
       top.forEach(function(r2){
-        h+='<div class="bxr"><span class="c num">'+r2[0]+'</span><span class="n">'+
+        h+='<div class="bxr" data-code="'+r2[0]+'" tabindex="0" role="button">'+
+          '<span class="c num">'+r2[0]+'</span><span class="n">'+
           String(r2[1]).replace(/&/g,'&amp;').replace(/</g,'&lt;')+
-          '</span><span class="a num">'+money(r2[2])+'</span></div>';
+          '</span><span class="a num">'+money(r2[2])+'</span><span class="go">&rsaquo;</span></div>';
       });
       if(rest>0) h+='<button class="bxmore" type="button">Show all '+det.length+' accounts in this range</button>';
-      h+='<div class="bxnote">Amounts are the filed actuals. Selecting an account code in the '+
-         'ledger above shows its 31-year history.</div>';
+      h+='<div class="bxnote">Amounts are the filed actuals. Select any account to open its '+
+         '31-year history.</div>';
     } else {
       h+='<div class="bxnote">No detail accounts in this range in the '+BY+' filing.</div>';
     }
@@ -825,6 +830,14 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
       var xrow=more.closest('tr.bvx-row');
       var src=xrow.previousElementSibling;
       xrow.querySelector('.bvx').innerHTML=buildX(src,true);
+      return;
+    }
+    var bxr=e.target.closest('.bxr[data-code]');
+    if(bxr){
+      var code=bxr.getAttribute('data-code');
+      var fund=code.replace(/[^A-Z]/gi,'').toUpperCase();
+      var fn=code.replace(/[^0-9]/g,'').slice(0,4);
+      traceAcct('#acct-'+fund+fn);
       return;
     }
     var tr=e.target.closest('tr.bv'); if(!tr) return;
