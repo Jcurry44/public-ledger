@@ -360,6 +360,22 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .hcard,.panel{page-break-inside:avoid}
   .bar i,.minis i,.dbar i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
+
+/* ultra-wide composition: the hero pairs with the 31-year chart instead of
+   stacking above it; everything below uses the wider canvas */
+@media (min-width:1520px){
+  .page{max-width:1460px}
+  .wrap,main.wrap{max-width:1380px}
+  #minibar .mb-in{max-width:1420px}
+  main.wrap{display:grid;grid-template-columns:440px minmax(0,1fr);column-gap:56px;
+    grid-template-rows:auto auto 1fr;align-items:start}
+  main.wrap>*{min-width:0}
+  main.wrap>h1{grid-column:1;grid-row:1}
+  main.wrap>.lede{grid-column:1;grid-row:2}
+  main.wrap>.hcard{grid-column:1;grid-row:3;align-self:start}
+  main.wrap>#money{grid-column:2;grid-row:1 / span 3;margin-top:0}
+  main.wrap>section:not(#money){grid-column:1 / -1}
+}
 </style></head><body>
 <div class="page">
   <div class="mast">
