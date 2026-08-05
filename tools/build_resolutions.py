@@ -117,7 +117,7 @@ def parse_vote_tail(tail):
 
 
 MOVED_RE = re.compile(r"Moved\s+by\s+([A-Z][A-Za-z.'\-]+)\s*,?\s+second(?:ed)?\s+by\s+([A-Z][A-Za-z.'\-]+)")
-OUTCOME_RE = re.compile(r"\b(Adopted|Carried|CmTied|Defeated|Failed|Tabled|Referred|Withdrawn|Laid\s+over)\b")
+OUTCOME_RE = re.compile(r"\b(Adopted|Carried|CmTied|Defea\s?ted|Rej\s?ected|Fai\s?led|Tabled|Referred|Withdrawn|Laid\s+over)\b")
 
 
 # chart-of-account tokens inside resolution texts, e.g. A.07.9950.000.79010.10
@@ -575,6 +575,8 @@ for date in sorted(meetings):
         if mv:
             rec["mover"], rec["second"] = mv[-1][0].rstrip("."), mv[-1][1].rstrip(".")
         out = (oc[-1] if oc else ("Adopted" if ayes > noes else "Not adopted"))
+        if out.replace(" ", "") in ("Rejected", "Defeated", "Failed"):
+            out = out.replace(" ", "")
         rec["out"] = {"CmTied": "Carried"}.get(out, out)
         # keep the best vote per id (first seen wins unless replacement has names)
         if rid not in votes:

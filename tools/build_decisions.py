@@ -25,18 +25,51 @@ def money0(v):
 n_vote = S["vote_matched"]
 n_unan = S["unanimous"]
 unan_pct = round(100 * n_unan / max(1, n_vote))
-dissent = [d for d in S["dissent"] if d[1] >= 2][:5]
-dmax = dissent[0][1] if dissent else 1
+# hero money count uses the SAME predicate as the register's $ chip
+money_rows = sum(1 for r in RECS if "cap" in r or r.get("am"))
 
-caps = [r["cap"] for r in RECS if "cap" in r]
-cap_total = sum(caps)
-import re as _re
-_MID = _re.compile(r"^(AND|AND/OR|OR|NOW,|PROVIDING|IN\s+RELATION|THEREFORE|THERETO|OF\s+THE)")
-def _clean_title(r):
-    t = r["title"]
-    return (not t.startswith("(title not") and len(t) >= 12
-            and not _MID.match(t) and not t.rstrip().endswith(":"))
-top_caps = sorted((r for r in RECS if "cap" in r and _clean_title(r)), key=lambda r: -r["cap"])[:5]
+_MONN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+def _mon(dt):
+    return f"{_MONN[int(dt[5:7])-1]} {dt[:4]}"
+
+# the fights: every contested vote, told as episodes (>=3 same meeting = one row)
+cont_rows = [r for r in RECS if r.get("vote", {}).get("noes", 0) > 0]
+_FAILED = {"Not adopted", "Rejected", "Defeated", "Failed"}
+n_defeated = sum(1 for r in cont_rows if r["vote"].get("out") in _FAILED)
+_by_day = defaultdict(list)
+for r in cont_rows:
+    _by_day[r["date"]].append(r)
+fights = []
+for _dt, _rs in _by_day.items():
+    if len(_rs) >= 3:
+        _parts = Counter((r["vote"].get("out", ""), r["vote"]["ayes"], r["vote"]["noes"])
+                         for r in _rs)
+        _seg = " &middot; ".join(
+            f"{c} {o.lower()} {a}&ndash;{n}" for (o, a, n), c in
+            sorted(_parts.items(), key=lambda t: -t[1]))
+        _nb = sum(1 for r in _rs if "budget" in r["title"].lower() or "levy" in r["title"].lower())
+        _lbl = "budget votes" if _nb >= len(_rs) * 0.7 else "contested votes"
+        fights.append({"kind": "day", "date": _dt, "rid": _rs[0]["id"], "n": len(_rs),
+                       "title": f"{len(_rs)} {_lbl} in one meeting",
+                       "seg": _seg, "noes": max(r["vote"]["noes"] for r in _rs)})
+    else:
+        for r in _rs:
+            _v = r["vote"]
+            fights.append({"kind": "one", "date": _dt, "rid": r["id"], "n": 1,
+                           "title": r["title"], "out": _v.get("out", ""),
+                           "ayes": _v["ayes"], "noes": _v["noes"]})
+fights.sort(key=lambda f: f["date"], reverse=True)
+fights.sort(key=lambda f: -f["noes"])
+fights = fights[:8]
+
+_dd = Counter(r["date"] for r in cont_rows
+              if r["vote"].get("out") in _FAILED).most_common(1)
+fights_intro = (f"{len(cont_rows)} of {n_vote:,} recorded votes drew at least one no, and "
+                f"only {n_defeated} resolutions failed outright in twelve years")
+if _dd and _dd[0][1] >= 3:
+    fights_intro += f" &mdash; {_dd[0][1]} of them in the {_mon(_dd[0][0])} meeting."
+else:
+    fights_intro += "."
 
 by_cm = Counter(r["cm"] for r in RECS)
 cm_names = S["committees"]
@@ -61,17 +94,23 @@ for y in sorted(by_year, reverse=True):
         f"<td class='num'>{100*v//len(rs)}%</td>"
         f"<td class='num'>{100*a//len(rs)}%</td></tr>")
 
-dissent_html = "".join(
-    f"<div class='drow'><span class='dn'>{nm}</span>"
-    f"<span class='dbar'><i style='width:{100*c/dmax:.0f}%'></i></span>"
-    f"<span class='dc num'>{c}</span></div>"
-    for nm, c in dissent) or "<p class='mut'>No legislator cast two or more recorded no votes.</p>"
+def _fight_row(f):
+    t = f["title"][:96]
+    t = t.replace("&", "&amp;").replace("<", "&lt;")
+    if len(f["title"]) > 96:
+        t += "&hellip;"
+    if f["kind"] == "day":
+        badge, bcls, meta = f"&times;{f['n']}", " fx-x", f["seg"]
+    else:
+        badge = f"{f['ayes']}&ndash;{f['noes']}"
+        bcls = " fx-lost" if f.get("out") in _FAILED else ""
+        meta = f.get("out", "")
+    meta = (meta + " &middot; " if meta else "") + _mon(f["date"])
+    return (f"<div class='fx-r' data-rid='{f['rid']}' tabindex='0' role='button'>"
+            f"<span class='fx-m num{bcls}'>{badge}</span>"
+            f"<span class='fx-t'>{t}<span class='fx-meta'>{meta}</span></span></div>")
 
-topcap_html = "".join(
-    f"<div class='crow'><span class='cv num'>{money0(r['cap'])}</span>"
-    f"<span class='ct'>{r['title'][:90]}{'…' if len(r['title'])>90 else ''}"
-    f"<span class='cid num'> {r['id']} · {r['date'][:4]}</span></span></div>"
-    for r in top_caps)
+fights_html = "".join(_fight_row(f) for f in fights)
 
 # glossary lifted verbatim from build_county.py at build time - one source
 GLOSS_JS = open(ROOT / "tools" / "build_county.py", encoding="utf-8").read()
@@ -178,6 +217,23 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .onesev{color:var(--muted);font-size:13px;margin:2px 0 12px;max-width:64ch}
 .tag17{font:600 9px/1 system-ui;letter-spacing:.06em;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:8px;padding:2px 6px;margin-left:6px;white-space:nowrap}
 
+/* the fights */
+#fightList{margin:10px 0 2px}
+.fx-r{display:flex;gap:12px;align-items:flex-start;padding:9px 2px;cursor:pointer;
+  border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent}
+.fx-r:last-child{border-bottom:0}
+.fx-m{flex:none;min-width:50px;text-align:right;font-size:13px;font-weight:700;padding-top:2px}
+.fx-m.fx-lost{color:var(--warn)}
+.fx-m.fx-x{color:var(--accent)}
+.fx-t{font-size:13.5px;line-height:1.45;min-width:0}
+.fx-meta{display:block;font:600 9.5px/1.6 system-ui;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--faint);margin-top:1px}
+@media (hover:hover){.fx-r:hover .fx-t{text-decoration:underline}}
+.fx-r:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.tcell{background:none;border:0;padding:0;text-align:left;font:inherit;color:inherit;
+  cursor:pointer;-webkit-tap-highlight-color:transparent}
+@media (hover:hover){button.tcell:hover .tl{color:var(--accent)}}
+
 /* contested votes */
 .contested{padding:34px 0 6px}
 .contested h2{font-size:26px;margin:0 0 4px}
@@ -268,7 +324,7 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 @media (min-width:1100px){
   .wrap{max-width:1150px}
   .big{font-size:64px}
-  .fgrid{grid-template-columns:1fr 1fr 1fr;gap:34px}
+  .fgrid{grid-template-columns:1fr 1fr;gap:44px}
   .tprow .tl2{width:200px}
   .contested .csub{max-width:none}
   .mtab{font-size:13px}
@@ -356,7 +412,7 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <div class="tcell"><div class="tv num">__MEET__</div><div class="tl">Meetings</div></div>
     <div class="tcell"><div class="tv num">__RVPCT__%</div><div class="tl">Votes matched &middot; readable minutes</div></div>
     <div class="tcell"><div class="tv num">__UNAN__%</div><div class="tl">Passed unanimously</div></div>
-    <div class="tcell"><div class="tv num">__CAPTOT__</div><div class="tl">Authorized ceilings</div></div>
+    <button class="tcell" id="tallyMoney"><span class="tv num" style="display:block">__MONEYN__</span><span class="tl" style="display:block">Mention dollar figures &darr;</span></button>
   </div>
 </div></section>
 
@@ -369,21 +425,15 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     no votes. The interesting rows are the exceptions &mdash; use the register below to find them.</p>
   </div>
   <div class="fcell">
-    <div class="fk">Finding 02 &middot; Dissent</div>
-    <h3>Who actually votes no</h3>
-    __DISSENT__
-    <p class="fnote">Recorded no votes per legislator, __Y0__&ndash;__Y1__, as printed in the minutes.</p>
-  </div>
-  <div class="fcell">
-    <div class="fk">Finding 03 &middot; The big authorizations</div>
-    <h3>Largest &ldquo;not to exceed&rdquo; ceilings</h3>
-    __TOPCAPS__
-    <p class="fnote">Authorization ceilings are permission to spend up to an amount &mdash;
-    they are not payments. The <a href="county.html">ledger</a> shows what was actually spent.</p>
+    <div class="fk">Finding 02 &middot; The fights</div>
+    <h3>What actually drew a fight</h3>
+    <p class="fnote" style="margin:4px 0 2px">__FIGHTSINTRO__ Select one to open its full
+    record &mdash; every dissenter named.</p>
+    <div id="fightList">__FIGHTS__</div>
   </div>
 </div>
   <div class="wrap tpband">
-    <div class="fk">Finding 04 &middot; What the votes are about</div>
+    <div class="fk">Finding 03 &middot; What the votes are about</div>
     <h3>One in __ONEIN__ resolutions moves no money and takes no action.</h3>
     <p class="onesev">That claim is the <b>Symbolic &amp; advocacy</b> bar below: __SYMN__
     resolutions (__SYMPCT__%) that support, urge, oppose, honor or proclaim &mdash; positions,
@@ -809,6 +859,39 @@ document.getElementById('digest').addEventListener('click',function(e){
     var row=e.target.closest('.rrow'); if(!row) return; e.preventDefault(); tog(row);
   });
 })();
+/* fights finding -> open that row in the contested record */
+(function(){
+  var fl=document.getElementById('fightList'); if(!fl) return;
+  function openFight(rid){
+    var btn=document.getElementById('contMore');
+    if(btn&&btn.style.display!=='none') btn.click();
+    var i=-1;
+    for(var k=0;k<CONTESTED.length;k++){ if(CONTESTED[k].id===rid){ i=k; break; } }
+    if(i<0) return;
+    var el=document.querySelector('#contList .rrow[data-i="'+i+'"]');
+    if(!el) return;
+    if(!el.classList.contains('open')) el.click();
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  fl.addEventListener('click',function(e){
+    var r=e.target.closest('[data-rid]'); if(!r) return;
+    openFight(r.getAttribute('data-rid'));
+  });
+  fl.addEventListener('keydown',function(e){
+    if(e.key!=='Enter'&&e.key!==' ') return;
+    var r=e.target.closest('[data-rid]'); if(!r) return;
+    e.preventDefault(); openFight(r.getAttribute('data-rid'));
+  });
+})();
+/* hero money tally -> $ filter + register */
+(function(){
+  var t=document.getElementById('tallyMoney'); if(!t) return;
+  t.addEventListener('click',function(){
+    var mc=document.getElementById('moneyChip');
+    if(mc.getAttribute('aria-pressed')!=='true') mc.click();
+    document.getElementById('register').scrollIntoView({behavior:'smooth'});
+  });
+})();
 document.getElementById('list').addEventListener('click',function(e){
   var row=e.target.closest('.rrow'); if(!row||e.target.closest('a')) return;
   toggleRow(row);
@@ -874,14 +957,14 @@ subs = {
     "__UNAN__": str(unan_pct),
     "__UNANN__": "{:,}".format(n_unan),
     "__VOTED__": "{:,}".format(n_vote),
-    "__CAPTOT__": ("$%.1fM" % (cap_total / 1e6)) if cap_total < 995e6 else ("$%.2fB" % (cap_total / 1e9)),
+    "__MONEYN__": f"{money_rows:,}",
     "__ONEIN__": {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}.get(
         round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s"))), "eight"),
     "__ONEINN__": str(round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s")))),
     "__SYMN__": "{:,}".format(next(t[2] for t in S["topics"] if t[0] == "s")),
     "__SYMPCT__": str(round(100 * next(t[2] for t in S["topics"] if t[0] == "s") / max(1, S["total"]))),
-    "__DISSENT__": dissent_html,
-    "__TOPCAPS__": topcap_html,
+    "__FIGHTS__": fights_html,
+    "__FIGHTSINTRO__": fights_intro,
     "__PERYEAR__": "".join(per_year_rows),
     "__PAYLOAD__": payload,
     "__GLOSSJS__": GLOSS_JS,
