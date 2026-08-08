@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Contested — a Public Ledger game</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f6f2ea;--ink:#1e1c18;--muted:#5b564c;--faint:#8a8478;--rule:#dcd5c6;
+    --accent:#7a5c2e;--warn:#a04b2e;--ok:#3d6b40}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.55 Georgia,'Times New Roman',serif;display:flex;justify-content:center;
+    padding:36px 16px}
+  .wrap{max-width:680px;width:100%}
+  .kick{font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.2em;color:var(--faint)}
+  h1{font:600 44px 'Fraunces',Georgia,serif;margin:8px 0 2px;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:6px 0 6px;font-size:15px}
+  .score{font:600 13px 'JetBrains Mono',monospace;color:var(--accent);margin:14px 0 8px}
+  .yr{font:600 11px 'JetBrains Mono',monospace;letter-spacing:.16em;color:var(--faint);
+    margin:18px 0 8px;text-transform:uppercase}
+  .card{border:1px solid var(--rule);background:#fbf8f2;border-radius:10px;padding:16px 18px;
+    margin:10px 0;cursor:pointer;transition:border-color .15s,transform .12s;
+    -webkit-tap-highlight-color:transparent}
+  @media(hover:hover){.card:hover{border-color:var(--accent);transform:translateY(-1px)}}
+  .card.locked{cursor:default;transform:none}
+  .card .t{font-size:15.5px;line-height:1.5}
+  .card .rv{display:none;margin-top:10px;padding-top:10px;border-top:1px dotted var(--rule);
+    font:600 12.5px 'JetBrains Mono',monospace}
+  .card.show .rv{display:block}
+  .card.isfight.show{border-color:var(--warn)}
+  .card.isfight.show .rv{color:var(--warn)}
+  .card.quiet.show .rv{color:var(--ok)}
+  .verdict{display:none;font:600 15px 'Fraunces',Georgia,serif;margin:12px 2px}
+  .verdict.show{display:block}
+  .verdict.right{color:var(--ok)} .verdict.wrong{color:var(--warn)}
+  button.next{display:none;background:var(--ink);color:var(--paper);border:0;border-radius:8px;
+    padding:10px 22px;font:600 13px 'JetBrains Mono',monospace;cursor:pointer;margin:6px 0 20px}
+  button.next.show{display:inline-block}
+  .final{display:none;border-top:2px solid var(--ink);margin-top:26px;padding-top:18px}
+  .final.show{display:block}
+  .big{font:600 52px 'Fraunces',Georgia,serif}
+  .fnote{color:var(--muted);font-size:14px;max-width:56ch}
+  a{color:var(--accent)}
+</style></head><body><div class="wrap">
+  <div class="kick">PUBLIC LEDGER · NIAGARA COUNTY · A GAME OF REAL VOTES</div>
+  <h1>Contested</h1>
+  <p class="lede">Two real resolutions from the same year. One passed without a single no.
+  One started a fight. <b>Can you tell which?</b></p>
+  <div class="score" id="score"></div>
+  <div id="stage"></div>
+  <div class="final" id="final"></div>
+</div>
+<script>
+var PAIRS=[{"y": "2016", "a": {"t": "Lockport Road Bridge Over Bergholz Creek Consultant Amendment No. 2-Final", "id": "IF-050-16", "v": "13–0 · Adopted", "fight": false}, "b": {"t": "NIAGARA COUNTY GRANT WRITING SERVICES", "id": "AD-004-16", "v": "10–4 · Adopted", "fight": true}}, {"y": "2021", "a": {"t": "Budget Modification Sales Tax", "id": "B-009-21", "v": "4–10 · Rejected", "fight": true}, "b": {"t": "Fixing Date and Notice for the Public Hearing for Community Development Block Grant Cares Act Application to Create a Small Business Assistance Fund", "id": "ED-017-21", "v": "14–0 · Adopted", "fight": false}}, {"y": "2022", "a": {"t": "Adoption of a Local law for the Reapportionment Plan for the County ofNiagara, New York", "id": "IL-058-22", "v": "11–3 · Adopted", "fight": true}, "b": {"t": "Budget Modification - Flexible Fund for Family Services - DSS", "id": "CS-015-22", "v": "15–0 · Adopted", "fight": false}}, {"y": "2017", "a": {"t": "Niagara Road Bridge over Bergholz Creek Federal Aid Local Project Agreement- Supplemental No. 1", "id": "IF-136-17", "v": "14–0 · Adopted", "fight": false}, "b": {"t": "2018 BUDGET MODIFICATION REDUCTION IN SALARIES", "id": "B-008-17", "v": "3–10 · Rejected", "fight": true}}, {"y": "2022", "a": {"t": "A Resolution Approving and Confirming an Increase to the Water Rate Schedule of the Niagara County Water District in the County of Niagara, New York", "id": "IF-153-22", "v": "13–1 · Adopted", "fight": true}, "b": {"t": "Budget Modification - Reappropriate Medical Reserve Corps Funds Emergency Planning - Department of Health - PH", "id": "CS-008-22", "v": "12–0 · Adopted", "fight": false}}, {"y": "2021", "a": {"t": "Budget Modification Appropriated Fund Balance", "id": "B-003-21", "v": "4–10 · Rejected", "fight": true}, "b": {"t": "District Attorney Crimes Against Revenue Program Grant Acceptance", "id": "CSS-024-21", "v": "15–0 · Adopted", "fight": false}}, {"y": "2021", "a": {"t": "Acceptance of Gun Involved Violence Elimination Initiative Grant - DA", "id": "CSS-053-21", "v": "15–0 · Adopted", "fight": false}, "b": {"t": "BUDGET MODIFICATION COMMUNITY PARTNERSHIP FUND", "id": "B-013-21", "v": "4–10 · Rejected", "fight": true}}, {"y": "2021", "a": {"t": "Budget Modification Niagara County Sheriffs Department/Jail", "id": "B-012-21", "v": "4–10 · Rejected", "fight": true}, "b": {"t": "BUDGET MODIFICATION ACCEPTANCE OF GRANT FUNDS AMERICAN RESCUE PLAN", "id": "CS-028-21", "v": "14–0 · Adopted", "fight": false}}, {"y": "2021", "a": {"t": "Budget Modification County Auditor", "id": "B-004-21", "v": "4–10 · Rejected", "fight": true}, "b": {"t": "Budget Modification Sales Tax", "id": "B-016-21", "v": "14–0 · Adopted", "fight": false}}, {"y": "2015", "a": {"t": "Resolution to Distribute 2014 Casino Revenue to the Town of Niagara", "id": "IL-029-15", "v": "8–3 · Adopted", "fight": true}, "b": {"t": "ALL BACKDOOR GUN CONTROL VIA EXECUTIVE ACTIONS", "id": "IL-038-15", "v": "15–0 · Adopted", "fight": false}}];
+var i=0, right=0;
+var stage=document.getElementById('stage'), score=document.getElementById('score');
+function card(o,key){
+  return '<div class="card '+(o.fight?'isfight':'quiet')+'" data-k="'+key+'">'+
+    '<div class="t">'+o.t+'</div>'+
+    '<div class="rv">'+o.id+' · voted '+o.v+(o.fight?' — THE FIGHT':' — not a single no')+'</div></div>';
+}
+function paint(){
+  score.textContent='ROUND '+(i+1)+' OF '+PAIRS.length+'  ·  SCORE '+right;
+  var p=PAIRS[i];
+  stage.innerHTML='<div class="yr">'+p.y+'</div>'+card(p.a,'a')+card(p.b,'b')+
+    '<div class="verdict" id="v"></div><button class="next" id="n">'+
+    (i+1<PAIRS.length?'NEXT ROUND':'SEE THE VERDICT')+'</button>';
+  Array.prototype.forEach.call(stage.querySelectorAll('.card'),function(c){
+    c.addEventListener('click',pick);
+  });
+  document.getElementById('n').addEventListener('click',function(){
+    i++; if(i<PAIRS.length){paint();} else {finish();}
+  });
+}
+function pick(e){
+  var c=e.currentTarget;
+  if(c.classList.contains('locked'))return;
+  var p=PAIRS[i], k=c.getAttribute('data-k'), chose=p[k];
+  var v=document.getElementById('v');
+  Array.prototype.forEach.call(stage.querySelectorAll('.card'),function(x){
+    x.classList.add('locked','show');
+  });
+  if(chose.fight){right++;v.textContent='Right — that one drew the fight.';v.className='verdict show right';}
+  else{v.textContent='No — the quiet-looking one was the fight.';v.className='verdict show wrong';}
+  score.textContent='ROUND '+(i+1)+' OF '+PAIRS.length+'  ·  SCORE '+right;
+  document.getElementById('n').classList.add('show');
+}
+function finish(){
+  stage.innerHTML=''; score.textContent='';
+  var f=document.getElementById('final');
+  var msg;
+  if(right>=9)msg='You could sit on the county bench.';
+  else if(right>=7)msg='Sharper than most of the gallery.';
+  else if(right>=5)msg='A coin has your instincts.';
+  else msg='The chamber keeps its secrets.';
+  f.innerHTML='<div class="big">'+right+' / '+PAIRS.length+'</div>'+
+    '<p class="fnote"><b>'+msg+'</b> In twelve real years, 99% of everything passed without a '+
+    'single no — the fights hid in budget lines and politics, rarely in the loudest titles. '+
+    'Every vote here is real: <a href="https://jcurry44.github.io/public-ledger/decisions.html">'+
+    'the full register</a>.</p>'+
+    '<button class="next show" onclick="location.reload()">PLAY AGAIN</button>';
+  f.classList.add('show');
+}
+paint();
+</script></body></html>

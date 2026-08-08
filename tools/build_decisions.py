@@ -503,6 +503,10 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   <i>mentioned</i> in the text (bid tabulations include losing bids) &mdash; neither is a payment
   record. Votes shown as unmatched simply were not found by the parser in that meeting&rsquo;s
   minutes; the minutes remain the authority.</p>
+  <p class="extras"><b>Two other ways in:</b> <a href="poster.html">The Quiet Chamber</a> &mdash;
+  every one of the __TOTAL__ votes on a single poster &mdash; and
+  <a href="contested.html">Contested</a>, a ten-round game: two real resolutions, one drew a
+  fight, can you tell which?</p>
 </div></section>
 
 <footer class="foot"><div class="wrap">
