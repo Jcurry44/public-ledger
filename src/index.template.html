@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Public Ledger">
 <meta property="og:title" content="Public Ledger — City of North Tonawanda">
-<meta property="og:description" content="Where the city's money comes from, where it goes, and how to check it. 8,532 approved claims and 30 years of state filings — 36 of 36 warrants reconcile exactly.">
+<meta property="og:description" content="Where the city's money comes from, where it goes, and how to check it. __OG_ROWS__ approved claims and 30 years of state filings — __OG_EXACT__ of __OG_EXACT__ warrants reconcile exactly.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/">
 <meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
 <meta property="og:image:width" content="1200">
@@ -121,6 +121,17 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opa
 .ghostbtn{display:inline-flex;align-items:center;border:1px solid var(--rule-strong);color:var(--muted);
   border-radius:8px;padding:5px 11px;font-size:11.5px;font-weight:600;text-decoration:none;white-space:nowrap}
 .ghostbtn:hover{color:var(--ink);border-color:var(--accent)}
+
+/* ---------- returning-visitor strip (hidden unless the corpus advanced) ---------- */
+.fresh{background:var(--accent-soft);border-bottom:1px solid var(--rule-strong)}
+.fresh-in{display:flex;align-items:baseline;gap:4px 14px;flex-wrap:wrap;padding:8px 0;
+  font-size:13px;color:var(--muted)}
+.fresh-k{font:600 10.5px/1.7 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.fresh-t b{color:var(--ink);font-weight:600}
+.fresh-a{color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap;margin-left:auto}
+.fresh-a:hover{text-decoration:underline}
+@media (max-width:640px){.fresh-in{font-size:12.5px;padding:7px 0}.fresh-a{margin-left:0}}
 
 /* ---------- nav ---------- */
 .rail{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);
@@ -674,6 +685,12 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
   </div>
 </header>
 
+<div class="fresh" id="fresh" hidden><div class="wrap fresh-in">
+  <span class="fresh-k">New since your last visit</span>
+  <span class="fresh-t" id="freshTxt"></span>
+  <a class="fresh-a" href="#recon">see them &darr;</a>
+</div></div>
+
 <div class="scene" aria-hidden="true"><svg viewBox="0 0 1200 110"
   fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
   <!-- water: the canal meeting the river -->
@@ -977,7 +994,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
     <div class="panel" style="margin-bottom:14px">
       <h3>How this stays current</h3>
       <div class="sub">This is not a one-time export. When the city posts a new warrant, one command
-        re-runs the whole chain — parse, reconcile, and regenerate this page, all 36 council briefs and
+        re-runs the whole chain — parse, reconcile, and regenerate this page, all __N_BRIEFS__ council briefs and
         the exception report together. The reconciliation is a <b>gate, not a report</b>: if any document
         stops tying to its printed control totals, the build halts and nothing updates. The dashboard
         cannot show a number that failed its own check.</div>
@@ -1087,6 +1104,32 @@ document.getElementById('ndocs').textContent = D.meta.docs;
 // denominator - they are declared separately rather than counted as failures.
 var PARSED_DOCS = D.meta.docs - (D.meta.scans||0);
 document.getElementById('badgeNum').textContent = D.meta.exact + ' of ' + PARSED_DOCS;
+
+/* Returning visitors get the delta, not a memory test: if the corpus advanced
+   since this browser last loaded the page, say exactly what arrived — counts
+   and dollars from the same rows everything else renders, nothing editorial.
+   First visits store the watermark and stay silent. */
+(function(){
+  var KEY='pl-seen-through';
+  function dnum(d){var p=(d||'').split('/');
+    return p.length===3 ? (+p[2])*10000+(+p[0])*100+(+p[1]) : 0;}
+  var cur=D.meta.throughDate, prev=null;
+  try{prev=localStorage.getItem(KEY);}catch(e){}
+  try{localStorage.setItem(KEY,cur);}catch(e){}
+  if(!prev || dnum(prev)>=dnum(cur) || !dnum(prev)) return;
+  var nd=D.docs.filter(function(x){return !x.isScan && dnum(x.d)>dnum(prev);});
+  var ns=D.docs.filter(function(x){return x.isScan && dnum(x.d)>dnum(prev);}).length;
+  if(!nd.length && !ns) return;
+  var claims=0, amt=0;
+  nd.forEach(function(x){claims+=x.n||0; amt+=x.sumE||0;});
+  var bits=[];
+  if(nd.length) bits.push('<b>'+nd.length+'</b> warrant'+(nd.length>1?'s':'')+' since '+esc(prev)+
+    ' — <b class="num">'+claims.toLocaleString('en-US')+'</b> claims &middot; <b class="num">'+
+    money0(amt)+'</b>, reconciled exactly');
+  if(ns) bits.push(ns+' image-only scan'+(ns>1?'s':'')+' declared');
+  document.getElementById('freshTxt').innerHTML=bits.join(' &middot; ')+'.';
+  document.getElementById('fresh').hidden=false;
+})();
 
 /* ---------- tie-out ---------- */
 (function(){
