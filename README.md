@@ -17,7 +17,7 @@ or from a USB stick.
   to sub-category, object of expenditure, and individual account lines. Compare
   any two years and see which categories outgrew revenue.
 - **The register** — every claim the city approved across 2025 and 2026:
-  8,532 line items, 937 payees, summarised first and filterable, with each line
+  8,865 line items, 960 payees, summarised first and filterable, with each line
   linked to the page of the PDF it was read from.
 - **Capital projects** — 40 named projects, their pace, their contractors, and
   every line behind them.
@@ -37,7 +37,7 @@ or from a USB stick.
   an exception report about silent gaps keeps no silent caps of its own.
 - **`brief.html` + `briefs/` — a council brief for every warrant.** One
   printable page per meeting, auto-generated, using prior-only baselines (an
-  old brief shows only what council could have known that night). 36 and
+  old brief shows only what council could have known that night). 38 and
   counting.
 - **`county.html` — the County Edition.** Niagara County's 31 consecutive
   filings (1995–2025) with the same drill-down machinery, budget-vs-actual
@@ -68,8 +68,8 @@ Each warrant prints its own control figures: *Total P.O. Line Items*,
 *Total List Amount*, and *Total Of All Funds*. Those are the check figures, so
 nothing here is self-graded.
 
-**36 of 36 machine-readable documents reconcile exactly — $0.00 variance.**
-The remaining 6 of 42 are image-only scans with no text layer; they are declared
+**38 of 38 machine-readable documents reconcile exactly — $0.00 variance.**
+The remaining 6 of 44 are image-only scans with no text layer; they are declared
 on the page and excluded from every figure rather than quietly dropped.
 
 `tools/test_fidelity.py` is a build-blocking gate. It fails the build if any
