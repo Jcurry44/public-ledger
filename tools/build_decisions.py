@@ -7,8 +7,10 @@ paired with a closing tally, a searchable drillable register (search reaches
 legislator names and takes ?q= deep links), and the ink method band with the
 honesty notes. Run manually after build_resolutions.py.
 """
+import datetime
 import io
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -60,8 +62,8 @@ for _dt, _rs in _by_day.items():
             fights.append({"kind": "one", "date": _dt, "rid": r["id"], "n": 1,
                            "title": r["title"], "out": _v.get("out", ""),
                            "ayes": _v["ayes"], "noes": _v["noes"]})
+# newest first - a fight from last quarter says more than a wider one from 2018
 fights.sort(key=lambda f: f["date"], reverse=True)
-fights.sort(key=lambda f: -f["noes"])
 fights = fights[:8]
 
 _dd = Counter(r["date"] for r in cont_rows
@@ -113,6 +115,97 @@ def _fight_row(f):
             f"<span class='fx-t'>{t}<span class='fx-meta'>{meta}</span></span></div>")
 
 fights_html = "".join(_fight_row(f) for f in fights)
+
+# ---- the money: what the votes put dollars behind --------------------------
+_esc = lambda s: s.replace("&", "&amp;").replace("<", "&lt;")
+_CMVAR = {"AD": "--cAD", "IF": "--cIF", "CSS": "--cCSS", "CS": "--cCS", "ED": "--cED"}
+_TODAY = datetime.date.today().isoformat()
+
+caps_year = {}
+for r in RECS:
+    if "cap" in r:
+        y = r["date"][:4]
+        s, c = caps_year.get(y, (0, 0))
+        caps_year[y] = (s + r["cap"], c + 1)
+CEIL_TOTAL = sum(s for s, _ in caps_year.values())
+CEIL_N = sum(c for _, c in caps_year.values())
+
+def _mm(v):
+    return "$%dM" % round(v / 1e6) if v >= 950_000 else "$%dK" % round(v / 1e3)
+
+_ys = sorted(caps_year)
+_mx = max(s for s, _ in caps_year.values())
+_W, _H, _T, _B = 640, 190, 26, 30
+_bars = []
+for _i, _y in enumerate(_ys):
+    _s, _c = caps_year[_y]
+    _x = _W * (_i + 0.5) / len(_ys)
+    _bw = _W / len(_ys) * 0.6
+    _h = max((_H - _T - _B) * _s / _mx, 2)
+    _y0 = _H - _B - _h
+    _cur = " cur" if _y == _TODAY[:4] else ""
+    _bars.append(
+        f"<g><title>{_y}: {money0(_s)} across {_c} ceilings</title>"
+        f"<rect class='cbar{_cur}' x='{_x-_bw/2:.1f}' y='{_y0:.1f}' width='{_bw:.1f}' height='{_h:.1f}' rx='2'/>"
+        f"<text class='cv num' x='{_x:.1f}' y='{_y0-6:.1f}' text-anchor='middle'>{_mm(_s)}</text>"
+        f"<text class='cy num' x='{_x:.1f}' y='{_H-9}' text-anchor='middle'>&rsquo;{_y[2:]}</text></g>")
+cap_chart = (f"<svg class='capchart' viewBox='0 0 {_W} {_H}' role='img' "
+             f"aria-label='Authorization ceilings by year'>"
+             f"<line class='cax' x1='4' y1='{_H-_B+5}' x2='{_W-4}' y2='{_H-_B+5}'/>"
+             + "".join(_bars) + "</svg>")
+
+# the ten largest permissions on record; long 147(f) bond captions get a
+# readable label built from their own project parenthetical
+_BOND_PRE = re.compile(r"^(?:Resolution|RESOLUTION) of the .{0,60}Legislature", re.I)
+
+def _cap_label(r):
+    t = r["title"]
+    if _BOND_PRE.match(t):
+        ps = [m for m in re.finditer(r"\(\s*([^()]{4,90}?)\s*\)", t)
+              if '"' not in m.group(1) and "Code" not in m.group(1)
+              and not re.match(r"[IVXivx]+$|the\b", m.group(1))]
+        if ps:
+            sm = re.search(r"Series\s+(\d{4})", t[ps[-1].end():ps[-1].end() + 26], re.I)
+            kind = "Refunding bonds" if re.search(r"refunding", t, re.I) else "Revenue bonds"
+            return (kind + " &mdash; " + _esc(ps[-1].group(1))
+                    + (", Series " + sm.group(1) if sm else ""))
+    return _esc(t[:150]) + ("&hellip;" if len(t) > 150 else "")
+
+_top = sorted((r for r in RECS if "cap" in r), key=lambda r: -r["cap"])[:10]
+_capmax = _top[0]["cap"]
+top_caps_html = "".join(
+    f"<button class='tcap' type='button' data-rid='{r['id']}' "
+    f"style='--cmcol:var({_CMVAR.get(r['cm'], '--cX')})'>"
+    f"<span class='tc-rank num'>{i+1:02d}</span>"
+    f"<span class='tc-main'><span class='tc-t'>{_cap_label(r)}</span>"
+    f"<span class='tc-meta'><b class='num'>{r['id']}</b> &middot; {_mon(r['date'])}</span>"
+    f"<span class='tc-bar'><i style='width:{100*r['cap']/_capmax:.1f}%'></i></span></span>"
+    f"<span class='tc-v num'>{money0(r['cap'])}</span></button>"
+    for i, r in enumerate(_top))
+
+# ---- the latest meeting, at a glance ---------------------------------------
+_lm = max((r["date"] for r in RECS if r["date"] <= _TODAY), default=RECS[-1]["date"])
+_lms = [r for r in RECS if r["date"] == _lm]
+_lm_caps = sum(r["cap"] for r in _lms if "cap" in r)
+_lm_cont = sum(1 for r in _lms if r.get("vote", {}).get("noes", 0) > 0)
+_lm_big = max((r for r in _lms if "cap" in r), key=lambda r: r["cap"], default=None)
+_MONFULL = ["January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"]
+
+def _fmtd(d):
+    return f"{_MONFULL[int(d[5:7])-1]} {int(d[8:])}, {d[:4]}"
+
+_lm_bits = [f"<b>{len(_lms)}</b> resolutions"]
+if _lm_caps:
+    _lm_bits.append(f"<b>{money0(_lm_caps)}</b> in new spending ceilings")
+_lm_bits.append(f"<b>{_lm_cont}</b> contested" if _lm_cont
+                else "no vote drew a no")
+latest_html = (
+    f"<span class='fresh-k'>The latest meeting</span>"
+    f"<span class='fresh-t'><b>{_fmtd(_lm)}</b> &middot; " + " &middot; ".join(_lm_bits) +
+    ((" &middot; biggest: " + _esc(_lm_big["title"][:72]) +
+      (f" &mdash; up to <b class='num'>{money0(_lm_big['cap'])}</b>")) if _lm_big else "") +
+    "</span><a class='fresh-a' href='#register'>Open the meeting &rarr;</a>")
 
 # glossary lifted verbatim from build_county.py at build time - one source
 GLOSS_JS = open(ROOT / "tools" / "build_county.py", encoding="utf-8").read()
@@ -273,6 +366,53 @@ section{scroll-margin-top:56px}
 .badge .arrow{margin-left:auto;opacity:.6;transition:transform .12s}
 .badge:hover{background:color-mix(in srgb,var(--ok) 16%,transparent)}
 .badge:hover .arrow{transform:translateX(3px)}
+
+/* ---------- the latest meeting strip ---------- */
+.fresh{background:var(--accent-soft);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.fresh-in{display:flex;align-items:baseline;gap:4px 14px;flex-wrap:wrap;padding:9px 0;
+  font:13px system-ui;color:var(--muted)}
+.fresh-k{font:600 10.5px/1.7 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.fresh-t b{color:var(--ink);font-weight:600}
+.fresh-a{color:var(--accent);text-decoration:none;font-weight:600;white-space:nowrap;margin-left:auto}
+.fresh-a:hover{text-decoration:underline}
+@media (max-width:640px){.fresh-in{font-size:12.5px;padding:8px 0}.fresh-a{margin-left:0}}
+
+/* ---------- the money ---------- */
+.moneysec{padding:34px 0 8px}
+.moneysec h2{font-size:clamp(26px,4vw,38px);margin:0 0 6px}
+.bigmoney{color:var(--accent)}
+.mpair{display:grid;gap:14px;margin-top:14px}
+@media (min-width:1100px){.mpair{grid-template-columns:1.15fr 1fr;align-items:start}}
+.mpanel{background:var(--card);border:1px solid var(--rule);border-radius:12px;
+  padding:16px 18px 12px;box-shadow:var(--shadow)}
+.mpanel h3{margin:0 0 2px;font:600 15px/1.3 system-ui}
+.mpanel .psub{color:var(--muted);font:12.5px system-ui;margin:0 0 10px}
+.capchart{display:block;width:100%;height:auto;margin-top:6px}
+.capchart .cbar{fill:var(--accent);opacity:.78;transition:opacity .12s}
+.capchart .cbar.cur{opacity:.4}
+.capchart g:hover .cbar{opacity:1}
+.capchart .cv{font-size:11.5px;fill:var(--muted)}
+.capchart .cy{font-size:11px;fill:var(--faint)}
+.capchart .cax{stroke:var(--rule-strong)}
+@media (max-width:640px){.capchart .cv{font-size:15.5px}.capchart .cy{font-size:14.5px}}
+.chnote{font:11px system-ui;color:var(--faint);margin-top:8px}
+.chnote a{color:var(--muted)}
+.tcap{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:0;
+  background:none;color:inherit;font:inherit;padding:9px 2px;cursor:pointer;
+  border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent}
+.tcap:last-child{border-bottom:0}
+@media (hover:hover){.tcap:hover{background:var(--accent-soft)}.tcap:hover .tc-t{text-decoration:underline}}
+.tcap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tc-rank{flex:none;font-size:11px;color:var(--faint);padding-top:3px}
+.tc-main{flex:1;min-width:0}
+.tc-t{display:block;font-size:13.5px;line-height:1.4}
+.tc-meta{display:block;font:600 9.5px/1.9 system-ui;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faint)}
+.tc-meta b{color:var(--cmcol,var(--faint))}
+.tc-bar{display:block;height:5px;background:var(--gridline);border-radius:2px;overflow:hidden;margin-top:3px}
+.tc-bar i{display:block;height:100%;background:var(--cmcol,var(--accent));opacity:.7;border-radius:0 2px 2px 0}
+.tc-v{flex:none;font-weight:600;font-size:13px;padding-top:2px}
 
 /* ---------- section furniture ---------- */
 .sched{font:600 10.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
@@ -623,12 +763,12 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 </svg></div>
 
 <nav class="rail"><div class="wrap rail-in">
-  <a href="#findings" class="on">The findings</a>
+  <a href="#money" class="on">The money</a>
+  <a href="#findings">The findings</a>
   <a href="#register">The register</a>
   <a href="#contested">Contested votes</a>
   <a href="#method">How this was built</a>
   <a href="poster.html">The poster</a>
-  <a href="contested.html">The game</a>
 </div></nav>
 
 <section class="hero"><div class="wrap hero-grid">
@@ -648,6 +788,30 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <a class="badge" href="#method"><span class="tick">&#10003;</span>
       <b>every id tied out</b> <span>against its meeting&rsquo;s own agenda</span>
       <span class="arrow">&rarr;</span></a>
+  </div>
+</div></section>
+
+<div class="fresh"><div class="wrap fresh-in">__LATEST__</div></div>
+
+<section class="moneysec" id="money"><div class="wrap">
+  <div class="sched">The money &middot; what the votes put dollars behind</div>
+  <h2><span class="bigmoney">__CEILSUM__</span> in spending ceilings</h2>
+  <p class="slede">Across __CEILN__ resolutions, __Y0__&ndash;__Y1__: contract caps, county
+  borrowing, and the IDA bond issues the law makes the Legislature sign off on. A ceiling is
+  <b>permission, not a payment</b> &mdash; the <a href="county.html">county ledger</a> shows
+  what was actually spent.</p>
+  <div class="mpair">
+    <div class="mpanel"><h3>Ceilings by year</h3>
+      <p class="psub">Not-to-exceed amounts in the resolutions each year&rsquo;s meetings adopted.</p>
+      __CAPCHART__
+      <p class="chnote">Earlier packets are partly scanned images a machine can&rsquo;t read &mdash;
+      these are the ceilings the text yields, a floor not a census (see
+      <a href="#method">the method</a>). &rsquo;__YCUR__ is a part year.</p>
+    </div>
+    <div class="mpanel"><h3>The largest permissions on record</h3>
+      <p class="psub">Select one to open its full record in the register.</p>
+      <div id="topCaps">__TOPCAPS__</div>
+    </div>
   </div>
 </div></section>
 
@@ -998,6 +1162,11 @@ function render(more){
   document.getElementById('moreBtn').style.display=upTo<p.length?'':'none';
   document.getElementById('moreBtn').textContent='Show '+Math.min(PAGE,p.length-upTo)+' more of '+p.length;
   window.__pool=p;
+  /* a search that lands on exactly one row opens its record */
+  if(state.q.length>=2&&p.length===1){
+    var one=document.querySelector('#list .rrow');
+    if(one&&!one.classList.contains('open')) toggleRow(one);
+  }
   var tc=document.getElementById('tpClear');
   tc.classList.toggle('on',!!state.tp);
   if(state.tp) tc.textContent='Filtered: '+(TPL[state.tp]||state.tp)+'  ✕';
@@ -1122,6 +1291,17 @@ document.getElementById('digest').addEventListener('click',function(e){
     qEl.value=b.getAttribute('data-q');
     state.q=qEl.value; render(); syncURL();
     qEl.focus();
+  });
+})();
+
+/* the largest-permissions list opens that record in the register */
+(function(){
+  var el=document.getElementById('topCaps'); if(!el) return;
+  el.addEventListener('click',function(e){
+    var b=e.target.closest('[data-rid]'); if(!b) return;
+    qEl.value=b.getAttribute('data-rid');
+    state.q=qEl.value; render(); syncURL();
+    document.getElementById('register').scrollIntoView({behavior:'smooth'});
   });
 })();
 
@@ -1299,10 +1479,15 @@ themeIcon();
 </script>
 </body></html>"""
 
-import datetime
 _last_held = max((r["date"] for r in RECS if r["date"] <= datetime.date.today().isoformat()),
                  default=max(r["date"] for r in RECS))
 subs = {
+    "__LATEST__": latest_html,
+    "__CEILSUM__": "$%d million" % round(CEIL_TOTAL / 1e6),
+    "__CEILN__": f"{CEIL_N:,}",
+    "__CAPCHART__": cap_chart,
+    "__TOPCAPS__": top_caps_html,
+    "__YCUR__": _ys[-1][2:],
     "__Y0__": str(S["years"][0]),
     "__Y1__": str(S["years"][1]),
     "__TOTALN__": str(S["total"]),

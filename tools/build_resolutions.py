@@ -117,6 +117,9 @@ def parse_vote_tail(tail):
 
 
 MOVED_RE = re.compile(r"Moved\s+by\s+([A-Z][A-Za-z.'\-]+)\s*,?\s+second(?:ed)?\s+by\s+([A-Z][A-Za-z.'\-]+)")
+# a real vote line follows the chamber's motion/outcome language; quoted
+# tallies inside recitals don't (case-sensitive: minutes print Titlecase)
+MOTION_RE = re.compile(r"Moved\s+by|second(?:ed)?\s+by|\b(?:Adopted|Carried|CmTied|Defeated|Rejected|Failed|Tabled)\b")
 OUTCOME_RE = re.compile(r"\b(Adopted|Carried|CmTied|Defea\s?ted|Rej\s?ected|Fai\s?led|Tabled|Referred|Withdrawn|Laid\s+over)\b")
 
 
@@ -417,7 +420,7 @@ def block_title(block):
                 taken += 1
             else:
                 break
-        return re.sub(r"\s+", " ", " ".join(parts))[:240]
+        return re.sub(r"\s+", " ", " ".join(parts))[:448]
     return None
 
 
@@ -465,7 +468,7 @@ def agenda_entries(text, year):
         parts = [rest] if len(rest) >= 3 else []
         j = i + 1
         joined = blanks = 0
-        while j < n and joined < 6 and sum(len(p) + 1 for p in parts) < 320:
+        while j < n and joined < 6 and sum(len(p) + 1 for p in parts) < 470:
             ln = lines[j].strip()
             if not ln:
                 blanks += 1
@@ -491,7 +494,11 @@ def agenda_entries(text, year):
             joined += 1
             j += 1
         if parts:
-            yield rid, re.sub(r"\s+", " ", " ".join(parts)).strip()
+            joined_rest = re.sub(r"\s+", " ", " ".join(parts)).strip()
+            # a resolution page's stamp line ("GJ-022-19 ----") is not an
+            # agenda entry - real entries carry words
+            if sum(c.isalpha() for c in joined_rest) >= 3:
+                yield rid, joined_rest
         i = j if joined else i + 1
 
 
@@ -649,9 +656,24 @@ for date in sorted(meetings):
             continue
         blocks.setdefault(rid, "")
         blocks[rid] += btext
-    for rid in blocks:
+    for rid in list(blocks):
         if rid not in agenda_ids and rid.rsplit("-", 1)[1] == str(year)[2:]:
             t = block_title(blocks[rid])
+            # an OCR-mangled stamp id ("GJ-022-19" where the agenda says
+            # CW-022-19) creates a phantom duplicate row. If this block's
+            # printed heading uniquely names a row already on this meeting's
+            # agenda, it IS that row misread - drop the phantom, and leave
+            # the real row's money to its own cleanly-keyed text (a merged
+            # block here can carry a NEIGHBOR's dollars).
+            if rid.split("-")[0] not in COMMITTEES and t:
+                bt2 = _norm_t(t)[:64]
+                if len(bt2) >= 12:
+                    cands2 = [r2 for r2, n2 in agenda_norm.items()
+                              if n2[:28] == bt2[:28] or n2.startswith(bt2[:32])
+                              or bt2.startswith(n2[:32])]
+                    if len(cands2) == 1:
+                        del blocks[rid]
+                        continue
             agenda_ids[rid] = None  # sentinel: from text, title separate
             text_titles[rid] = fix_title(t) if t else "(title not machine-readable in the county documents)"
             gate_extras.append((date, rid))
@@ -692,11 +714,27 @@ for date in sorted(meetings):
     for i, (pos, rid) in enumerate(id_pos):
         end = id_pos[i + 1][0] if i + 1 < len(id_pos) else min(len(min_text), pos + 12000)
         window = min_text[pos:end]
-        win_texts.setdefault(rid, window)
         cores = list(CORE_RE.finditer(window))
-        if not cores:
+        # an item ENDS at its own vote line, and its own vote is the first
+        # ayes/noes core that follows a MOTION line. Neither end of the
+        # window is safe alone: recitals QUOTE tallies (state-bill votes,
+        # prior resolutions), so the first core can be a quotation - and a
+        # resolution pulled from the slate is reprinted with no "From:"
+        # header, so its text and vote otherwise bleed into the PREVIOUS
+        # item's window (the $19M OAHS housing bond read as a ceiling on a
+        # DA grant). Everything after the chosen vote line is the next item.
+        v = None
+        for c in cores:
+            if MOTION_RE.search(window[max(0, c.start() - 250):c.start()]):
+                v = c
+                break
+        if v is None and cores:
+            v = cores[-1]
+        if v is not None:
+            window = window[:v.end() + 180]
+        win_texts.setdefault(rid, window)
+        if v is None:
             continue
-        v = cores[-1]
         pre = window[:v.start()]
         mv = MOVED_RE.findall(pre)
         oc = OUTCOME_RE.findall(pre)
@@ -789,7 +827,7 @@ for date in sorted(meetings):
                 if len(b) > len(a) and (b.startswith(a[:32]) or (
                         len(a) >= 24 and a[:24] == b[:24])):
                     title = bt
-        title = title[:240]
+        title = title[:448]
         rec = {"id": rid, "date": date, "cm": pref, "title": title,
                "tp": topic_of(title)}
         if pref == "IL" and cm_prose:
