@@ -1,9 +1,11 @@
 """Render decisions.html - the Niagara County Legislature resolutions register.
 
 Reads data/resolutions.json (built by build_resolutions.py). Standalone page in
-the product's own language: Fraunces, paper/ink, count-up hero, findings, a
-searchable drillable register, and an ink method band with the honesty notes.
-Run manually after build_resolutions.py.
+the product's own physical-document language: the folio sheet on a desk, laid
+paper grain, an engraved chamber letterhead, Fraunces display, a count-up hero
+paired with a closing tally, a searchable drillable register (search reaches
+legislator names and takes ?q= deep links), and the ink method band with the
+honesty notes. Run manually after build_resolutions.py.
 """
 import io
 import json
@@ -89,10 +91,10 @@ for y in sorted(by_year, reverse=True):
     a = sum(1 for r in rs if "cap" in r or "amt" in r)
     tx = sum(1 for r in rs if r.get("tx"))
     per_year_rows.append(
-        f"<tr><td class='num'>{y}</td><td class='num'>{len(by_year_meet[y])}</td>"
-        f"<td class='num'>{len(rs)}</td><td class='num'>{100*tx//len(rs)}%</td>"
-        f"<td class='num'>{100*v//len(rs)}%</td>"
-        f"<td class='num'>{100*a//len(rs)}%</td></tr>")
+        f"<tr><td class='num c-y'>{y}</td><td class='num c-mt'>{len(by_year_meet[y])}</td>"
+        f"<td class='num c-rs'>{len(rs)}</td><td class='num c-tx'>{100*tx//len(rs)}%</td>"
+        f"<td class='num c-vm'>{100*v//len(rs)}%</td>"
+        f"<td class='num c-am'>{100*a//len(rs)}%</td></tr>")
 
 def _fight_row(f):
     t = f["title"][:96]
@@ -139,88 +141,176 @@ HTML = r"""<!DOCTYPE html>
 <style>
 @font-face{font-family:'Fraunces';src:url('fonts/Fraunces-600-latin.woff2') format('woff2');
   font-weight:600;font-style:normal;font-display:swap}
-:root{--paper:#f6f2ea;--ink:#1e1c18;--muted:#5b564c;--faint:#8a8478;--rule:#dcd5c6;
-  --rule-strong:#c8c0ae;--card:#fbf8f2;--accent:#7a5c2e;--ok:#3d6b40;--warn:#a04b2e;
-  --gridline:#e7e1d3;--rev:#3d6b40;--exp:#8a4b2a;
+
+/* ---------- the record room's palette: warm paper, bronze accent ---------- */
+:root{
+  --paper:#f7f3ea; --card:#fdfaf2; --ink:#1e1c18; --muted:#5b564c; --faint:#8a8478;
+  --rule:#e2dbc9; --rule-strong:#cbc2ad;
+  --accent:#7a5c2e; --accent-soft:#f0e8d5;
+  --ok:#3d6b40; --ok-soft:#e6efe3; --warn:#a04b2e; --warn-soft:#f6e6dc;
+  --gridline:#e9e2d1; --desk:#e7dfca;
+  --shadow:0 1px 2px rgba(30,28,24,.05), 0 8px 24px -12px rgba(30,28,24,.2);
   --cAD:#39557e;--cIF:#8a5a24;--cCSS:#7e3b3b;--cCS:#3d6b46;--cED:#5d4a7e;--cX:#6b675e}
-:root[data-theme="dark"]{--paper:#161513;--ink:#e8e3d8;--muted:#a89f8f;--faint:#7a7264;
-  --rule:#312e28;--rule-strong:#413d34;--card:#1d1b18;--accent:#c9a35e;--ok:#7fb884;
-  --warn:#d98b64;--gridline:#26241f;--rev:#7fb884;--exp:#d98b64;
-  --cAD:#7d9cc9;--cIF:#c99b5c;--cCSS:#c97d7d;--cCS:#7fb88a;--cED:#a48fc9;--cX:#9a948a}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#161513;--ink:#e8e3d8;
-  --muted:#a89f8f;--faint:#7a7264;--rule:#312e28;--rule-strong:#413d34;--card:#1d1b18;
-  --accent:#c9a35e;--ok:#7fb884;--warn:#d98b64;--gridline:#26241f;--rev:#7fb884;--exp:#d98b64;
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#161513; --card:#1d1b18; --ink:#e8e3d8; --muted:#a89f8f; --faint:#7a7264;
+  --rule:#312e28; --rule-strong:#413d34;
+  --accent:#c9a35e; --accent-soft:#2b2416;
+  --ok:#7fb884; --ok-soft:#1b271c; --warn:#d98b64; --warn-soft:#2d1e16;
+  --gridline:#26241f; --desk:#0c0b09;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
   --cAD:#7d9cc9;--cIF:#c99b5c;--cCSS:#c97d7d;--cCS:#7fb88a;--cED:#a48fc9;--cX:#9a948a}}
+:root[data-theme="dark"]{
+  --paper:#161513; --card:#1d1b18; --ink:#e8e3d8; --muted:#a89f8f; --faint:#7a7264;
+  --rule:#312e28; --rule-strong:#413d34;
+  --accent:#c9a35e; --accent-soft:#2b2416;
+  --ok:#7fb884; --ok-soft:#1b271c; --warn:#d98b64; --warn-soft:#2d1e16;
+  --gridline:#26241f; --desk:#0c0b09;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  --cAD:#7d9cc9;--cIF:#c99b5c;--cCSS:#c97d7d;--cCS:#7fb88a;--cED:#a48fc9;--cX:#9a948a}
+
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--paper);color:var(--ink);
-  font:15px/1.55 Georgia,'Times New Roman',serif;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;
+  border-top:5px solid var(--accent);background:var(--desk)}
+body{margin:0;background:var(--desk);color:var(--ink);
+  font:15px/1.55 Georgia,'Times New Roman',serif}
 .num{font-family:'SF Mono',SFMono-Regular,ui-monospace,Menlo,Consolas,monospace;
   font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1020px;margin:0 auto;padding:0 20px}
 a{color:inherit}
 h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em}
 
-.mast{border-bottom:2px solid var(--ink);padding:14px 0 10px}
-.mrow{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.wordmark{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:19px;text-decoration:none}
-.chip{font:600 10px/1 system-ui;letter-spacing:.12em;padding:4px 8px;border:1px solid var(--rule-strong);
-  border-radius:3px;color:var(--muted);white-space:nowrap}
-.mnav{margin-left:auto;display:flex;gap:14px;font:12px system-ui;flex-wrap:wrap}
-.mnav a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:1px}
-.mnav a:hover{color:var(--ink);border-bottom-color:var(--accent)}
-#themeBtn{background:none;border:1px solid var(--rule-strong);border-radius:3px;color:var(--muted);
-  cursor:pointer;font-size:12px;padding:3px 7px;line-height:1}
+/* ---------- the desk and the sheet ----------
+   Same object language as the city ledger: the register is a bounded document
+   lying on a desk, not a website that happens to be beige. */
+.folio{position:relative;max-width:1380px;margin:0 auto;min-height:100vh;background:var(--paper);
+  box-shadow:0 0 0 1px var(--rule-strong),0 30px 80px -34px rgba(28,24,14,.5)}
+/* the clerk's red margin rule, shown only when the desk is visible */
+.folio::before{content:'';position:absolute;top:0;bottom:0;left:34px;width:3px;pointer-events:none;
+  border-left:1px solid rgba(158,43,40,.16);border-right:1px solid rgba(158,43,40,.16);z-index:1}
+@media (max-width:1440px){.folio::before{display:none}}
+@media (max-width:700px){.folio{box-shadow:none}}
+/* laid-paper grain: kills the flat screen tone without fighting the ink */
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E")}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::after{opacity:.05}}
+:root[data-theme="dark"] body::after{opacity:.05}
 
-.hero{padding:44px 0 26px}
+/* ---------- masthead ---------- */
+.masthead{border-bottom:1px solid var(--rule-strong);background:var(--card)}
+.mast-in{display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap;padding:24px 0 16px}
+.mark{font:600 29px/1 'Fraunces',Georgia,serif;letter-spacing:.01em;white-space:nowrap}
+.mark span{color:var(--accent)}
+.tag{color:var(--muted);font-size:13.5px;max-width:54ch;margin-bottom:2px;font-family:system-ui,sans-serif}
+.stampacts{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.stamp{display:flex;flex-direction:column;align-items:flex-end;text-align:right;
+  font:12px system-ui;color:var(--faint);line-height:1.6}
+.stamp b{color:var(--muted);font-weight:600}
+.stamp a{color:var(--muted)}
+.stamp .dot{display:none}
+.acts{display:flex;gap:8px;align-items:center}
+.briefbtn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:var(--paper);
+  border-radius:8px;padding:6px 12px;font:600 11.5px system-ui;text-decoration:none;white-space:nowrap}
+.briefbtn:hover{filter:brightness(1.12)}
+.ghostbtn{display:inline-flex;align-items:center;border:1px solid var(--rule-strong);color:var(--muted);
+  border-radius:8px;padding:5px 11px;font:600 11.5px system-ui;text-decoration:none;white-space:nowrap}
+.ghostbtn:hover{color:var(--ink);border-color:var(--accent)}
+.themebtn{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:8px;
+  width:31px;height:31px;padding:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.themebtn svg{width:15px;height:15px;display:block}
+.themebtn:hover{color:var(--ink);border-color:var(--accent)}
+@media (max-width:640px){
+  .mast-in{padding:15px 0 12px;gap:7px}
+  .mark{font-size:24px}
+  .tag{font-size:12.5px;max-width:none}
+  .stampacts{margin-left:0;flex-direction:column-reverse;align-items:flex-start;gap:9px}
+  .stamp{flex-direction:row;flex-wrap:wrap;gap:0 6px;align-items:baseline;text-align:left;font-size:11.5px}
+  .stamp .dot{display:inline;color:var(--rule-strong)}
+}
+
+/* the chamber, in engraver's ink - fifteen desks because the vote lines
+   below total fifteen; scales by centering, never by cropping */
+.scene{background:var(--card);border-bottom:1px solid var(--rule-strong);overflow:hidden}
+.scene svg{display:block;margin:0 auto;height:84px;width:auto;max-width:100%;color:var(--ink);opacity:.42}
+@media (max-width:640px){.scene svg{height:60px}}
+
+/* ---------- section rail ---------- */
+.rail{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.rail-in{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.rail-in::-webkit-scrollbar{display:none}
+.rail a{padding:12px 14px;font:13px system-ui;color:var(--muted);text-decoration:none;white-space:nowrap;
+  border-bottom:2px solid transparent}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--ink);border-bottom-color:var(--accent);font-weight:600}
+section{scroll-margin-top:56px}
+
+/* ---------- hero: the count paired with the closing tally ---------- */
+.hero{padding:36px 0 14px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;align-items:center}
+@media (min-width:980px){.hero-grid{grid-template-columns:minmax(0,1fr) 380px;column-gap:56px}}
+@media (min-width:1520px){.hero-grid{grid-template-columns:minmax(0,1fr) 420px;column-gap:90px}}
 .eyebrow{font:600 11px/1 system-ui;letter-spacing:.16em;color:var(--faint);text-transform:uppercase}
-.big{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(40px,8vw,72px);
+.big{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(40px,7.4vw,74px);
   line-height:1.02;margin:10px 0 4px}
-.big .num{font-family:'Fraunces',Georgia,serif}
-.lede{max-width:66ch;color:var(--muted);font-size:16px}
-.tally{display:flex;gap:26px;flex-wrap:wrap;margin-top:18px}
-.tcell .tv{font-size:22px;font-weight:600}
-.tcell .tl{font:600 10px/1.4 system-ui;letter-spacing:.1em;color:var(--faint);text-transform:uppercase}
+.big .num{font-family:'Fraunces',Georgia,serif;letter-spacing:0}
+.lede{max-width:64ch;color:var(--muted);font-size:15.5px;margin:8px 0 0}
+.hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;
+  padding:14px 17px 0;box-shadow:var(--shadow)}
+.hrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:7px 0;
+  width:100%;border:0;background:none;color:inherit;text-align:left}
+.hrow .hk{font:600 10.5px/1.5 system-ui;letter-spacing:.09em;color:var(--faint);text-transform:uppercase}
+.hrow .hv{font:600 22px/1.1 'Fraunces',Georgia,serif}
+.hrow+.hrow{border-top:1px dotted var(--rule)}
+.hrow.hlink{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hrow.hlink .hv{display:inline-block;border-bottom:3px double var(--rule-strong);padding-bottom:4px;
+  color:var(--accent)}
+@media (hover:hover){.hrow.hlink:hover .hk{color:var(--accent)}}
+.badge{display:flex;align-items:center;gap:8px;margin:8px -17px 0;text-decoration:none;
+  background:var(--ok-soft);color:var(--ok);border-top:1px solid color-mix(in srgb,var(--ok) 30%,transparent);
+  border-radius:0 0 11px 11px;padding:10px 16px;font:12.5px system-ui}
+.badge b{font-weight:700;white-space:nowrap}
+.badge .tick{font-weight:700}
+.badge .arrow{margin-left:auto;opacity:.6;transition:transform .12s}
+.badge:hover{background:color-mix(in srgb,var(--ok) 16%,transparent)}
+.badge:hover .arrow{transform:translateX(3px)}
 
+/* ---------- section furniture ---------- */
+.sched{font:600 10.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.sched::after{content:'';flex:1;height:1px;background:var(--rule);max-width:180px}
+h2{font:600 22px/1.3 'Fraunces',Georgia,serif;margin:0 0 4px}
+.slede{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:76ch;font-family:system-ui,sans-serif}
+
+/* ---------- findings band ---------- */
 .findings{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
-  background:var(--card);padding:26px 0 30px;margin-top:8px}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+  background:var(--card);padding:28px 0 30px;margin-top:22px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
 .fcell h3{margin:0 0 2px;font-size:17px}
 .fcell .fk{font:600 10px/1.6 system-ui;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
-.fbig{font-size:40px;font-weight:600;font-family:'Fraunces',Georgia,serif;line-height:1.05}
-.fnote{color:var(--muted);font-size:13px;margin-top:4px}
-.drow{display:flex;align-items:center;gap:10px;padding:4px 0}
-.dn{width:96px;font-size:13px}
-.dbar{flex:1;height:8px;background:var(--gridline);border-radius:2px;overflow:hidden}
-.dbar i{display:block;height:100%;background:var(--warn);border-radius:0 2px 2px 0}
-.dc{width:22px;text-align:right;font-weight:600;font-size:13px}
-.crow{display:flex;gap:10px;padding:5px 0;border-bottom:1px dotted var(--rule);align-items:baseline}
-.crow:last-child{border-bottom:0}
-.cv{font-weight:600;white-space:nowrap;font-size:13.5px}
-.ct{color:var(--muted);font-size:12.5px}
-.cid{color:var(--faint);font-size:11px;white-space:nowrap}
-
-/* topic band: click a bar to filter the register */
-.tpband{margin-top:26px;border-top:1px solid var(--rule);padding-top:18px}
+.fbig{font-size:44px;font-weight:600;font-family:'Fraunces',Georgia,serif;line-height:1.05}
+.fnote{color:var(--muted);font-size:13px;margin-top:4px;font-family:system-ui,sans-serif}
+.tpband{margin-top:28px;border-top:1px solid var(--rule);padding-top:20px}
 .tpband h3{margin:0 0 10px;font-size:17px}
 .tprow{display:flex;align-items:center;gap:10px;padding:3px 0;cursor:pointer;border:0;
-  background:none;width:100%;text-align:left;color:inherit;font:inherit}
+  background:none;width:100%;text-align:left;color:inherit;font:inherit;
+  -webkit-tap-highlight-color:transparent}
 .tprow .tl2{width:168px;font-size:13px;flex:none}
 .tprow .tb{flex:1;height:10px;background:var(--gridline);border-radius:2px;overflow:hidden}
-.tprow .tb i{display:block;height:100%;background:var(--exp);opacity:.75;border-radius:0 2px 2px 0;
+.tprow .tb i{display:block;height:100%;background:var(--warn);opacity:.7;border-radius:0 2px 2px 0;
   transition:opacity .15s}
 .tprow:hover .tb i{opacity:1}
 .tprow[aria-pressed="true"] .tb i{opacity:1;background:var(--accent)}
 .tprow[aria-pressed="true"] .tl2{font-weight:700}
 .tprow .tn{width:86px;text-align:right;font-size:12px;color:var(--muted);flex:none}
+.tprow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tphint{color:var(--faint);font:11px system-ui;margin-top:6px}
-.onesev{color:var(--muted);font-size:13px;margin:2px 0 12px;max-width:64ch}
+.onesev{color:var(--muted);font-size:13px;margin:2px 0 12px;max-width:64ch;font-family:system-ui,sans-serif}
 .tag17{font:600 9px/1 system-ui;letter-spacing:.06em;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:8px;padding:2px 6px;margin-left:6px;white-space:nowrap}
 
 /* the fights */
 #fightList{margin:10px 0 2px}
 .fx-r{display:flex;gap:12px;align-items:flex-start;padding:9px 2px;cursor:pointer;
-  border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent}
+  border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent;border-radius:6px}
 .fx-r:last-child{border-bottom:0}
 .fx-m{flex:none;min-width:50px;text-align:right;font-size:13px;font-weight:700;padding-top:2px}
 .fx-m.fx-lost{color:var(--warn)}
@@ -228,31 +318,115 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
 .fx-t{font-size:13.5px;line-height:1.45;min-width:0}
 .fx-meta{display:block;font:600 9.5px/1.6 system-ui;letter-spacing:.07em;text-transform:uppercase;
   color:var(--faint);margin-top:1px}
-@media (hover:hover){.fx-r:hover .fx-t{text-decoration:underline}}
+@media (hover:hover){.fx-r:hover{background:var(--accent-soft)}.fx-r:hover .fx-t{text-decoration:underline}}
 .fx-r:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-button.tcell{background:none;border:0;padding:0;text-align:left;font:inherit;color:inherit;
-  cursor:pointer;-webkit-tap-highlight-color:transparent}
-@media (hover:hover){button.tcell:hover .tl{color:var(--accent)}}
 
-/* contested votes */
-.contested{padding:34px 0 6px}
-.contested h2{font-size:26px;margin:0 0 4px}
-.contested .csub{color:var(--muted);font-size:14px;margin:0 0 12px;max-width:70ch}
-.split{display:inline-block;width:64px;height:8px;border-radius:2px;overflow:hidden;
-  background:var(--warn);vertical-align:middle}
-.split i{display:block;height:100%;background:var(--ok);border-radius:0}
+/* ---------- the register ---------- */
+.reg{padding:36px 0 10px}
+.controls{position:sticky;top:44px;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:10px 0 12px;border-bottom:1px solid var(--rule);margin-bottom:8px}
+.searchrow{display:flex;gap:10px;align-items:center}
+#q{flex:1;background:var(--card);border:1px solid var(--rule-strong);border-radius:8px;
+  color:var(--ink);font:15px Georgia,serif;padding:10px 14px;min-width:0;box-shadow:var(--shadow)}
+#q:focus{outline:2px solid var(--accent);outline-offset:-1px}
+#qn{font:12px system-ui;color:var(--faint);white-space:nowrap}
+.kbd{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--faint);
+  border:1px solid var(--rule-strong);border-bottom-width:2px;border-radius:5px;padding:3px 6px}
+@media (max-width:640px){.kbd{display:none}}
+.try{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:9px}
+.try>span{font:600 10.5px/1 system-ui;letter-spacing:.08em;color:var(--faint);text-transform:uppercase}
+.tryb{font:600 11px system-ui;padding:5px 10px;border-radius:12px;border:1px solid var(--rule-strong);
+  background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tryb:hover{color:var(--accent);border-color:var(--accent)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+@media (max-width:640px){
+  /* one thumb-scrollable row instead of five stacked rows of chrome */
+  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+  .chips::-webkit-scrollbar{display:none}
+  .chips .fch{white-space:nowrap;flex:0 0 auto}
+}
+.fch{font:600 11px/1 system-ui;letter-spacing:.04em;padding:6px 10px;border-radius:14px;
+  border:1px solid var(--rule-strong);background:none;color:var(--muted);cursor:pointer}
+.fch[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.fch .n{opacity:.65;margin-left:3px}
+.xrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.msel{background:var(--card);border:1px solid var(--rule-strong);border-radius:14px;
+  color:var(--muted);font:600 11px system-ui;padding:6px 26px 6px 10px;cursor:pointer;
+  -webkit-appearance:none;appearance:none;max-width:190px;
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 9px center}
+.msel.on{background-color:var(--ink);color:var(--paper);border-color:var(--ink)}
+.years{display:flex;gap:5px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}
+.years::-webkit-scrollbar{height:5px}
+.years::-webkit-scrollbar-thumb{background:var(--rule-strong);border-radius:3px}
+.yb{flex:0 0 auto;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;padding:7px 12px;
+  border-radius:99px;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
+  cursor:pointer;white-space:nowrap;transition:background .12s,color .12s,border-color .12s}
+.yb:hover{color:var(--ink);border-color:var(--accent)}
+.yb[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.controls.searching .years{opacity:.35}
+.tpclear{display:none;font:600 11px/1 system-ui;padding:6px 10px;border-radius:14px;
+  border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;margin-top:10px}
+.tpclear.on{display:inline-block}
 
-/* year digest card */
-.digest{background:var(--card);border:1px solid var(--rule);border-radius:8px;
-  padding:14px 16px 12px;margin:14px 0 6px}
-.digest .dgrid{display:flex;gap:24px;flex-wrap:wrap}
+.jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:8px;
+  padding:9px 13px;font:13px system-ui;color:var(--muted);margin:12px 0 2px}
+
+/* year digest: the year at a glance, as stat tiles */
+.digest{margin:14px 0 6px}
+.digest .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.digest .dcell{background:var(--card);border:1px solid var(--rule);border-radius:10px;
+  padding:11px 13px;box-shadow:var(--shadow)}
 .digest .dcell .dv{font-size:20px;font-weight:600}
-.digest .dcell .dl{font:600 9.5px/1.5 system-ui;letter-spacing:.09em;color:var(--faint);
-  text-transform:uppercase}
+.digest .dcell .dl{font:600 9.5px/1.5 system-ui;letter-spacing:.08em;color:var(--faint);
+  text-transform:uppercase;margin-top:2px}
 .digest .dcm{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
 .digest .dcmb{font:600 11px/1 system-ui;padding:5px 9px;border-radius:12px;cursor:pointer;
   border:1px solid var(--rule-strong);background:none;color:var(--muted)}
 .digest .dcmb b{font-weight:700}
+@media (max-width:640px){.digest .dgrid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .digest .dcell{padding:9px 11px}.digest .dcell .dv{font-size:17px}}
+
+/* register rows: a carded sheet; each row carries its committee's color as a
+   spine, the id in mono, the vote and money as quiet badges */
+.regbox{background:var(--card);border:1px solid var(--rule);border-radius:12px;
+  box-shadow:var(--shadow);overflow:hidden;margin-top:10px}
+.mday{margin:0;display:flex;align-items:baseline;gap:10px;padding:12px 16px 8px;
+  border-bottom:1px solid var(--rule);background:color-mix(in srgb,var(--paper) 55%,var(--card))}
+.rrow+.mday,.mday+.mday{border-top:1px solid var(--rule-strong)}
+.mday h3{margin:0;font-size:15px}
+.mday .mn{font:11px system-ui;color:var(--faint)}
+.rrow{border-bottom:1px solid var(--rule);padding:10px 16px 10px 13px;cursor:pointer;
+  border-left:3px solid var(--cmcol,transparent);-webkit-tap-highlight-color:transparent}
+.rrow:last-child{border-bottom:0}
+@media (hover:hover){.rrow:hover{background:var(--accent-soft)}}
+.rrow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.rtop{display:flex;gap:10px;align-items:baseline}
+.rid{font-size:11px;font-weight:600;color:var(--cmcol,var(--muted));white-space:nowrap}
+.rtitle{flex:1;font-size:14px;min-width:0}
+.rbadges{display:flex;gap:6px;align-items:baseline;white-space:nowrap}
+.vb{font:600 11.5px system-ui;padding:2px 8px;border-radius:10px;
+  background:var(--gridline);color:var(--muted)}
+.vb.dis{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.vb.nov{background:none;border:1px dashed var(--rule-strong);color:var(--faint);font-weight:400}
+.ab{font-size:11.5px;color:var(--accent);font-weight:600;white-space:nowrap}
+.mwhy{font:600 9.5px/1.5 system-ui;letter-spacing:.04em;color:var(--accent);
+  background:var(--accent-soft);border-radius:8px;padding:3px 7px;white-space:nowrap}
+.rext{display:none;padding:10px 4px 6px;color:var(--muted);font-size:13px;border-left:2px solid var(--rule-strong);
+  margin:8px 0 2px 4px;padding-left:12px}
+.rrow.open{background:color-mix(in srgb,var(--accent-soft) 55%,transparent)}
+.rrow.open .rext{display:block}
+.rext .vline{margin:0 0 6px}
+.rext .srcs{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-block;font:600 11px/1 system-ui;letter-spacing:.05em;padding:6px 10px;
+  border:1px solid var(--rule-strong);border-radius:14px;color:var(--muted);text-decoration:none;
+  background:var(--card)}
+.pill:hover{border-color:var(--accent);color:var(--ink)}
+.morex{margin:16px 0 30px;text-align:center}
+.mut{color:var(--muted)}
+
+/* the money drill inside a row */
 .mny,.acs{margin:10px 0 4px}
 .mnh{font:600 10px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
   margin-bottom:4px}
@@ -274,113 +448,98 @@ button.tcell{background:none;border:0;padding:0;text-align:left;font:inherit;col
   .ms{flex-basis:100%;order:3;white-space:normal;margin-top:3px;padding-left:8px;
     border-left:2px solid var(--gridline)}
 }
-.tpclear{display:none;font:600 11px/1 system-ui;padding:6px 10px;border-radius:14px;
-  border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;margin-top:10px}
-.tpclear.on{display:inline-block}
 
-.reg{padding:34px 0 10px}
-.controls{position:sticky;top:0;z-index:5;background:var(--paper);padding:10px 0 12px;
-  border-bottom:1px solid var(--rule);margin-bottom:6px}
-.searchrow{display:flex;gap:10px;align-items:center}
-#q{flex:1;background:var(--card);border:1px solid var(--rule-strong);border-radius:6px;
-  color:var(--ink);font:15px Georgia,serif;padding:9px 13px;min-width:0}
-#q:focus{outline:2px solid var(--accent);outline-offset:-1px}
-#qn{font:12px system-ui;color:var(--faint);white-space:nowrap}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.fch{font:600 11px/1 system-ui;letter-spacing:.04em;padding:6px 10px;border-radius:14px;
-  border:1px solid var(--rule-strong);background:none;color:var(--muted);cursor:pointer}
-.fch[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.fch .n{opacity:.65;margin-left:3px}
-.xrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-.msel{background:var(--card);border:1px solid var(--rule-strong);border-radius:14px;
-  color:var(--muted);font:600 11px system-ui;padding:6px 26px 6px 10px;cursor:pointer;
-  -webkit-appearance:none;appearance:none;max-width:190px;
-  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%23888'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 9px center}
-.msel.on{background-color:var(--ink);color:var(--paper);border-color:var(--ink)}
-.years{display:flex;gap:5px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:thin}
-.yb{font:600 12px/1 system-ui;padding:7px 11px;border-radius:5px;border:1px solid var(--rule-strong);
-  background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
-.yb[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-.controls.searching .years{opacity:.35}
+/* ---------- contested votes ---------- */
+.contested{padding:36px 0 6px}
+.contested .csub{color:var(--muted);font-size:13.5px;margin:0 0 12px;max-width:70ch;
+  font-family:system-ui,sans-serif}
+.split{display:inline-block;width:64px;height:8px;border-radius:2px;overflow:hidden;
+  background:var(--warn);vertical-align:middle}
+.split i{display:block;height:100%;background:var(--ok);border-radius:0}
 
-.jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:6px;
-  padding:9px 13px;font-size:13px;color:var(--muted);margin:12px 0 2px}
-@media (min-width:1520px){
-  .wrap{max-width:1380px}
-  .findings>.wrap{max-width:none;margin:0;padding:0}
-  section.findings{display:grid;grid-template-columns:5fr 7fr;column-gap:56px;
-    max-width:1380px;margin:8px auto 0;padding:26px 20px 30px}
-  section.findings .fgrid{grid-template-columns:1fr !important;gap:22px}
-  section.findings .tpband{border-top:0;margin-top:0;padding-top:0}
-  .hero .lede{max-width:66ch}
-  .hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 420px;column-gap:90px;
-    align-items:center}
-  .hero .wrap>*{min-width:0;grid-column:1}
-  .hero .tally{grid-column:2;grid-row:1 / span 3;align-self:center;margin-top:0;
-    display:grid;grid-template-columns:auto auto;gap:26px 44px;justify-content:start}
-  .hero .tcell .tv{font-size:30px}
+/* ---------- the method, set in ink ----------
+   One dark band in a paper document: the verification section inverts to ink
+   so the gates read as the vault. Children style themselves from scoped vars. */
+.method{margin:40px 14px 14px;padding:30px 26px 30px;border-radius:14px;
+  --paper:#22201c;--card:#2a2723;--ink:#e8e3d8;--muted:#a89f8f;--faint:#7a7264;
+  --rule:#3a362e;--rule-strong:#4a453a;--accent:#c9a35e;--ok:#7fb884;
+  --gridline:#33302a;--accent-soft:#332b1c;
+  background:#22201c;color:var(--ink);scroll-margin-top:64px;
+  box-shadow:0 18px 50px -22px rgba(15,12,8,.55)}
+:root[data-theme="dark"] .method{background:#0f0e0d;--paper:#0f0e0d;--card:#181614;
+  box-shadow:0 0 0 1px #221f1b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .method{
+  background:#0f0e0d;--paper:#0f0e0d;--card:#181614;box-shadow:0 0 0 1px #221f1b}}
+.method .wrap{padding:0 6px}
+.method h2{margin:0 0 10px}
+.method p{color:var(--muted);max-width:76ch;font-size:13.5px}
+.method a{color:var(--accent)}
+.gate{font:600 12.5px/1.6 system-ui;background:color-mix(in srgb,var(--ok) 13%,transparent);
+  color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent);
+  border-radius:8px;padding:10px 13px;margin:14px 0;max-width:76ch;
+  box-shadow:0 0 26px rgba(127,184,132,.14)}
+.mtab{border-collapse:collapse;font-size:12.5px;margin:12px 0;font-family:system-ui,sans-serif}
+.mtab th{font:600 10px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:right;padding:4px 14px 4px 0}
+.mtab td{text-align:right;padding:3px 14px 3px 0;color:var(--muted);border-top:1px solid var(--rule)}
+.mtab th:first-child,.mtab td:first-child{text-align:left;color:var(--ink);font-weight:600}
+.mgrid{display:grid;gap:0 56px}
+@media (min-width:1100px){
+  .mgrid{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:start}
+  .mgrid .mtab{margin-top:6px;width:100%}
+  .mgrid .mtab th:last-child,.mgrid .mtab td:last-child{padding-right:0}
+  .mcols{column-count:2;column-gap:56px;margin-top:8px}
+  .mcols p{break-inside:avoid;margin:0 0 14px}
 }
+@media (max-width:640px){.method{margin:32px 10px 10px;padding:22px 16px 22px;border-radius:12px}}
+
+/* on a phone the six-column coverage table becomes one card per year -
+   nothing scrolls sideways, nothing truncates */
+@media (max-width:640px){
+  .mtab,.mtab tbody{display:block;width:100%}
+  .mtab thead{display:none}
+  .mtab tr{display:grid;grid-template-columns:repeat(3,1fr);gap:2px 10px;
+    padding:9px 2px;border-top:1px solid var(--rule)}
+  .mtab td{display:block;padding:0;border:0;text-align:left;font-size:12.5px}
+  .mtab td.c-y{grid-column:1/-1;font-size:14px;margin-bottom:2px}
+  .mtab td::after{display:block;font:600 8.5px/1.4 system-ui;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--faint)}
+  .mtab td.c-mt::after{content:'Meetings'}
+  .mtab td.c-rs::after{content:'Resolutions'}
+  .mtab td.c-tx::after{content:'Text located'}
+  .mtab td.c-vm::after{content:'Votes matched'}
+  .mtab td.c-am::after{content:'With amounts'}
+}
+
+/* ---------- footer ---------- */
+.foot{padding:26px 0 44px;color:var(--faint);font:12.5px/1.7 system-ui}
+.foot a{color:var(--muted)}
+.foot p{max-width:86ch}
+
+/* ---------- widths ---------- */
 @media (min-width:1100px){
   .wrap{max-width:1150px}
-  .big{font-size:64px}
   .fgrid{grid-template-columns:1fr 1fr;gap:44px}
   .tprow .tl2{width:200px}
   .contested .csub{max-width:none}
-  .mtab{font-size:13px}
 }
-.mday{margin:22px 0 4px;display:flex;align-items:baseline;gap:10px}
-.mday h3{margin:0;font-size:16px}
-.mday .mn{font:11px system-ui;color:var(--faint)}
-.rrow{border-bottom:1px solid var(--rule);padding:10px 2px;cursor:pointer}
-.rrow:hover{background:var(--card)}
-.rtop{display:flex;gap:10px;align-items:baseline}
-.rid{font-size:11px;font-weight:600;padding:2px 6px;border-radius:3px;color:#fff;white-space:nowrap}
-.rtitle{flex:1;font-size:14px;min-width:0}
-.rbadges{display:flex;gap:6px;align-items:baseline;white-space:nowrap}
-.vb{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:10px;
-  background:var(--gridline);color:var(--muted)}
-.vb.dis{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
-.vb.nov{background:none;border:1px dashed var(--rule-strong);color:var(--faint);font-weight:400}
-.ab{font-size:11.5px;color:var(--accent);font-weight:600;white-space:nowrap}
-.rext{display:none;padding:10px 4px 6px;color:var(--muted);font-size:13px;border-left:2px solid var(--rule-strong);
-  margin:8px 0 2px 4px;padding-left:12px}
-.rrow.open .rext{display:block}
-.rext .vline{margin:0 0 6px}
-.rext .srcs{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
-.pill{display:inline-block;font:600 11px/1 system-ui;letter-spacing:.05em;padding:6px 10px;
-  border:1px solid var(--rule-strong);border-radius:14px;color:var(--muted);text-decoration:none}
-.pill:hover{border-color:var(--accent);color:var(--ink)}
-.morex{margin:16px 0 30px;text-align:center}
-.mut{color:var(--muted)}
-
-.method{margin-top:40px;padding:30px 0 34px;
-  --paper:#22201c;--ink:#e8e3d8;--muted:#a89f8f;--faint:#7a7264;--rule:#3a362e;
-  --rule-strong:#4a453a;--card:#2a2723;--accent:#c9a35e;--ok:#7fb884;
-  background:#22201c;color:#e8e3d8}
-:root[data-theme="dark"] .method{background:#101010;background:#0f0e0d}
-.method h2{margin:0 0 10px;font-size:22px}
-.method p{color:var(--muted);max-width:76ch;font-size:13.5px}
-.method a{color:var(--accent)}
-.gate{color:var(--ok);font:600 12px/1.5 system-ui}
-.mtab{border-collapse:collapse;font-size:12.5px;margin:12px 0}
-.mtab th{font:600 10px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--faint);text-align:right;padding:3px 12px 3px 0}
-.mtab td{text-align:right;padding:2px 12px 2px 0;color:var(--muted);border-top:1px solid var(--rule)}
-.mtab th:first-child,.mtab td:first-child{text-align:left}
-
-.foot{padding:26px 0 44px;color:var(--faint);font:12px system-ui}
-.foot a{color:var(--muted)}
+@media (min-width:1520px){
+  .wrap{max-width:1300px}
+  .findings>.wrap{max-width:none;margin:0;padding:0}
+  section.findings{display:grid;grid-template-columns:5fr 7fr;column-gap:56px;
+    max-width:1300px;margin:22px auto 0;padding:28px 20px 30px}
+  section.findings .fgrid{grid-template-columns:1fr !important;gap:24px}
+  section.findings .tpband{border-top:0;margin-top:0;padding-top:0}
+}
 @media (max-width:640px){
   .wrap{padding:0 14px}
+  .hero{padding:20px 0 8px}
+  .lede{font-size:13.5px}
   .rtop{flex-wrap:wrap}
   .rtitle{flex-basis:100%;order:3;margin-top:3px}
   .rbadges{margin-left:auto}
-  .dn{width:84px}
-  .mtab{width:100%}
-  .mtab th,.mtab td{padding-right:8px}
-  .mtabwrap{overflow-x:auto}
-  .tally{gap:18px}
+  .rrow{padding:10px 12px 10px 10px}
+  .mday{padding:11px 12px 8px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
@@ -388,35 +547,111 @@ button.tcell{background:none;border:0;padding:0;text-align:left;font:inherit;col
 try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}
 </script>
 </head><body>
+<div class="folio">
 
-<header class="mast"><div class="wrap mrow">
-  <a class="wordmark" href="./">Public Ledger</a>
-  <span class="chip">THE DECISIONS</span>
-  <nav class="mnav">
-    <a href="legislators.html">The legislators</a>
-    <a href="./">City ledger</a><a href="county.html">County edition</a>
-    <a href="atlas.html">County atlas</a><a href="school.html">School district</a>
-    <button id="themeBtn" aria-label="Toggle theme">&#9789;</button>
-  </nav>
+<header class="masthead"><div class="wrap mast-in">
+  <div class="mast-main">
+    <div class="mark"><a href="./" style="text-decoration:none">Public <span>Ledger</span></a></div>
+    <div class="tag">The Decisions &mdash; every resolution the Niagara County Legislature has
+      voted on, parsed from its own published agendas and minutes.</div>
+  </div>
+  <div class="stampacts">
+    <div class="stamp">
+      <span>Meetings through <b>__LASTMEET__</b></span><span class="dot">&middot;</span>
+      <span><b>__TOTAL__</b> resolutions</span><span class="dot">&middot;</span>
+      <span>source <a href="https://www.niagaracounty.gov/government/legislature/agendas_legislative_meetings/index.php">niagaracounty.gov</a></span>
+    </div>
+    <div class="acts">
+      <a class="briefbtn" href="legislators.html">The legislators</a>
+      <a class="ghostbtn" href="county.html">County ledger</a>
+      <button class="themebtn" id="themeBtn" type="button" aria-label="Toggle light and dark theme"></button>
+    </div>
+  </div>
 </div></header>
 
-<section class="hero"><div class="wrap">
-  <div class="eyebrow">Niagara County Legislature &middot; __Y0__&ndash;__Y1__</div>
-  <div class="big"><span class="num" id="bigN" data-n="__TOTALN__">0</span> decisions</div>
-  <p class="lede">The county can&rsquo;t spend a dollar, sign a contract, settle a claim, or move
-  budget money without its Legislature voting on a numbered <b>resolution</b>. The
-  <a href="county.html">county ledger</a> shows where the money went &mdash; this register is the
-  record of who voted to send it. Every row below is parsed from the county&rsquo;s own published
-  agendas and meeting minutes, and links back to the source document.</p>
-  <div class="tally">
-    <div class="tcell"><div class="tv num">__MEET__</div><div class="tl">Meetings</div></div>
-    <div class="tcell"><div class="tv num">__RVPCT__%</div><div class="tl">Votes matched &middot; readable minutes</div></div>
-    <div class="tcell"><div class="tv num">__UNAN__%</div><div class="tl">Passed unanimously</div></div>
-    <button class="tcell" id="tallyMoney"><span class="tv num" style="display:block">__MONEYN__</span><span class="tl" style="display:block">Mention dollar figures &darr;</span></button>
+<div class="scene" aria-hidden="true"><svg viewBox="0 0 1200 110"
+  fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+  <!-- back wall: entablature over the dais, arched windows down the chamber walls -->
+  <path d="M452 10 H748" opacity=".5" stroke-width="1.1"/>
+  <path d="M468 14 v24 M732 14 v24" opacity=".45" stroke-width="1.1"/>
+  <path d="M140 40 v-20 q11 -9 22 0 v20 M151 21 v19 M225 40 v-20 q11 -9 22 0 v20 M236 21 v19"
+    opacity=".5" stroke-width="1.1"/>
+  <path d="M1038 40 v-20 q11 -9 22 0 v20 M1049 21 v19 M953 40 v-20 q11 -9 22 0 v20 M964 21 v19"
+    opacity=".5" stroke-width="1.1"/>
+  <!-- pendant lamps -->
+  <path d="M352 0 v9 M848 0 v9" opacity=".45" stroke-width="1.1"/>
+  <circle cx="352" cy="13" r="3.6" opacity=".5" stroke-width="1.2"/>
+  <circle cx="848" cy="13" r="3.6" opacity=".5" stroke-width="1.2"/>
+  <!-- county seal -->
+  <circle cx="600" cy="19" r="8" opacity=".8"/>
+  <circle cx="600" cy="19" r="4.4" opacity=".5" stroke-width="1.1"/>
+  <!-- the dais: bench front, panel lines, three chairs behind -->
+  <path d="M538 42 h124 v16 h-124 z"/>
+  <path d="M562 42 v16 M586 42 v16 M614 42 v16 M638 42 v16" opacity=".4" stroke-width="1"/>
+  <path d="M556 42 v-9 h13 v9 M593 42 v-12 h14 v12 M631 42 v-9 h13 v9" opacity=".8"/>
+  <!-- flags flanking the bench -->
+  <path d="M520 58 V 18 M680 58 V 18" opacity=".75"/>
+  <path d="M520 19 l15 4 l-15 4 z M680 19 l-15 4 l15 4 z" opacity=".65"/>
+  <!-- the clerk's table, front and center -->
+  <path d="M572 68 h56 v10 h-56 z" opacity=".8"/>
+  <path d="M575 78 v4 M625 78 v4" opacity=".6" stroke-width="1.2"/>
+  <path d="M596 66 h8" opacity=".7" stroke-width="1.2"/>
+  <!-- the tiered floor: two faint arcs the desks stand on -->
+  <path d="M120 90 Q 600 122 1080 90" opacity=".3" stroke-width="1.1"/>
+  <path d="M270 74 Q 600 100 930 74" opacity=".25" stroke-width="1.1"/>
+  <!-- fifteen member desks in two arcs facing the dais: eight out, seven in;
+       the arcs dip toward the viewer at the center aisle -->
+  <g opacity=".75">
+    <path d="M134 71 h32 v9 h-32 z M138 80 v5 M162 80 v5 M244 83 h32 v9 h-32 z M248 92 v5 M272 92 v5"/>
+    <path d="M354 91 h32 v9 h-32 z M358 100 v5 M382 100 v5 M459 95 h32 v9 h-32 z M463 104 v5 M487 104 v5"/>
+    <path d="M709 95 h32 v9 h-32 z M713 104 v5 M737 104 v5 M814 91 h32 v9 h-32 z M818 100 v5 M842 100 v5"/>
+    <path d="M924 83 h32 v9 h-32 z M928 92 v5 M952 92 v5 M1034 71 h32 v9 h-32 z M1038 80 v5 M1062 80 v5"/>
+  </g>
+  <g opacity=".6">
+    <path d="M289 56 h30 v8 h-30 z M293 64 v4 M315 64 v4 M379 64 h30 v8 h-30 z M383 72 v4 M405 72 v4"/>
+    <path d="M469 70 h30 v8 h-30 z M473 78 v4 M495 78 v4"/>
+    <path d="M585 84 h30 v8 h-30 z M589 92 v4 M611 92 v4"/>
+    <path d="M701 70 h30 v8 h-30 z M705 78 v4 M727 78 v4"/>
+    <path d="M791 64 h30 v8 h-30 z M795 72 v4 M817 72 v4 M881 56 h30 v8 h-30 z M885 64 v4 M907 64 v4"/>
+  </g>
+  <!-- the public gallery at the chamber's edges -->
+  <path d="M26 78 h62 M20 86 h74 M26 94 h84" opacity=".5" stroke-width="1.2"/>
+  <path d="M1112 78 h62 M1106 86 h74 M1090 94 h84" opacity=".5" stroke-width="1.2"/>
+  <text x="1188" y="108" text-anchor="end" font-family="ui-monospace,Menlo,Consolas,monospace"
+    font-size="9.5" letter-spacing=".14em" fill="currentColor" stroke="none"
+    opacity=".8">THE CHAMBER &#183; FIFTEEN SEATS &#183; NIAGARA COUNTY</text>
+</svg></div>
+
+<nav class="rail"><div class="wrap rail-in">
+  <a href="#findings" class="on">The findings</a>
+  <a href="#register">The register</a>
+  <a href="#contested">Contested votes</a>
+  <a href="#method">How this was built</a>
+  <a href="poster.html">The poster</a>
+  <a href="contested.html">The game</a>
+</div></nav>
+
+<section class="hero"><div class="wrap hero-grid">
+  <div class="hero-main">
+    <div class="eyebrow">Niagara County Legislature &middot; __Y0__&ndash;__Y1__</div>
+    <h1 class="big"><span class="num" id="bigN" data-n="__TOTALN__">0</span> decisions</h1>
+    <p class="lede">The county can&rsquo;t spend a dollar, sign a contract, settle a claim, or move
+    budget money without its Legislature voting on a numbered <b>resolution</b>. The
+    <a href="county.html">county ledger</a> shows where the money went &mdash; this register is the
+    record of who voted to send it. Every row links back to the county&rsquo;s own source document.</p>
+  </div>
+  <div class="hcard">
+    <div class="hrow"><span class="hk">Meetings parsed</span><span class="hv num">__MEET__</span></div>
+    <div class="hrow"><span class="hk">Votes matched &middot; readable minutes</span><span class="hv num">__RVPCT__%</span></div>
+    <div class="hrow"><span class="hk">Passed unanimously</span><span class="hv num">__UNAN__%</span></div>
+    <button class="hrow hlink" id="tallyMoney" type="button"><span class="hk">Mention dollar figures</span><span class="hv num">__MONEYN__</span></button>
+    <a class="badge" href="#method"><span class="tick">&#10003;</span>
+      <b>every id tied out</b> <span>against its meeting&rsquo;s own agenda</span>
+      <span class="arrow">&rarr;</span></a>
   </div>
 </div></section>
 
-<section class="findings"><div class="wrap fgrid">
+<section class="findings" id="findings"><div class="wrap fgrid">
   <div class="fcell">
     <div class="fk">Finding 01 &middot; Consensus</div>
     <div class="fbig num">__UNAN__%</div>
@@ -445,12 +680,18 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 </section>
 
 <section class="reg" id="register"><div class="wrap">
-  <h2 class="serif" style="font-size:26px;margin:0 0 14px">The register</h2>
+  <div class="sched">The register &middot; every resolution, __Y0__&ndash;__Y1__</div>
+  <h2>Look up any vote</h2>
+  <p class="slede">Search reaches titles, resolution ids, and legislators&rsquo; names &mdash;
+  who moved a resolution, who seconded it, who voted no, who was absent. Open any row for the
+  full record and the source PDF.</p>
   <div class="controls">
     <div class="searchrow">
-      <input id="q" type="search" placeholder="Search __TOTAL__ resolutions &mdash; try &ldquo;mortgage tax&rdquo;, &ldquo;landfill&rdquo;, a vendor, a road&hellip;" aria-label="Search resolutions">
+      <input id="q" type="search" placeholder="Search __TOTAL__ resolutions &mdash; a topic, a road, a vendor, a legislator&hellip;" aria-label="Search resolutions">
+      <span class="kbd" title="Press / to search">/</span>
       <span id="qn"></span>
     </div>
+    <div class="try" id="tryRow"><span>Try</span></div>
     <div class="chips" id="cmChips"></div>
     <div class="xrow">
       <button class="fch" id="moneyChip" aria-pressed="false">$ Mentions dollars
@@ -461,20 +702,24 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
     <button class="tpclear" id="tpClear"></button>
   </div>
   <div class="digest" id="digest"></div>
-  <div id="list"></div>
-  <div class="morex"><button class="pill" id="moreBtn" style="cursor:pointer;background:none">Show more</button></div>
+  <div class="regbox"><div id="list"></div></div>
+  <div class="morex"><button class="pill" id="moreBtn" style="cursor:pointer">Show more</button></div>
 </div></section>
 
-<section class="contested"><div class="wrap">
+<section class="contested" id="contested"><div class="wrap">
+  <div class="sched">The exceptions &middot; every no vote on record</div>
   <h2>Every contested vote</h2>
   <p class="csub">Twelve years and __TOTAL__ resolutions produced <b>__NCONT__</b> that drew a
   no vote. The newest are below &mdash; green is the ayes&rsquo; share.</p>
-  <div id="contList"></div>
-  <div class="morex"><button class="pill" id="contMore" style="cursor:pointer;background:none">Show all __NCONT__ contested votes</button></div>
+  <div class="regbox"><div id="contList"></div></div>
+  <div class="morex"><button class="pill" id="contMore" style="cursor:pointer">Show all __NCONT__ contested votes</button></div>
 </div></section>
 
-<section class="method"><div class="wrap">
-  <h2>How this register is built</h2>
+<section class="method" id="method"><div class="wrap">
+  <div class="sched">How this register is built</div>
+  <div class="mgrid">
+  <div>
+  <h2>The record, verified against itself</h2>
   <p><b>Sources.</b> The Niagara County Legislature publishes agendas, resolution packets, and
   meeting minutes for every session at
   <a href="https://www.niagaracounty.gov/government/legislature/agendas_legislative_meetings/index.php">niagaracounty.gov</a>.
@@ -487,8 +732,13 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   <p class="gate">&#10003; __TOTAL__ resolutions parsed across __MEET__ meetings &middot; every id tied out
   against its meeting&rsquo;s own agenda list &middot; __RVPCT__% of votes matched where minutes are
   machine-readable</p>
-  <div class="mtabwrap"><table class="mtab"><thead><tr><th>Year</th><th>Meetings</th><th>Resolutions</th>
-  <th>Text located</th><th>Votes matched</th><th>With amounts</th></tr></thead><tbody>__PERYEAR__</tbody></table></div>
+  </div>
+  <div>
+  <table class="mtab"><thead><tr><th>Year</th><th>Meetings</th><th>Resolutions</th>
+  <th>Text located</th><th>Votes matched</th><th>With amounts</th></tr></thead><tbody>__PERYEAR__</tbody></table>
+  </div>
+  </div>
+  <div class="mcols">
   <p><b>What a machine cannot read.</b> Of the __TOTAL__ resolutions, __SCANROWS__ sit in meetings
   whose posted minutes are scanned images with no text layer, __NONEROWS__ in meetings where the
   county has not posted minutes at all, and __FUTROWS__ on agendas for meetings not yet held.
@@ -507,12 +757,20 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
   every one of the __TOTAL__ votes on a single poster &mdash; and
   <a href="contested.html">Contested</a>, a ten-round game: two real resolutions, one drew a
   fight, can you tell which?</p>
+  </div>
 </div></section>
 
 <footer class="foot"><div class="wrap">
-  Public Ledger &middot; The Decisions &middot; built __BUILT__ from documents published by
-  Niagara County &middot; <a href="county.html">county ledger</a> &middot; <a href="./">city ledger</a>
+  <p>Companions: <a href="./">the City Ledger</a> &mdash; North Tonawanda&rsquo;s approved claims and
+  30 years of filings &mdash; <a href="county.html">the County Edition</a>,
+  <a href="legislators.html">the Legislators</a>, <a href="atlas.html">the County Atlas</a>, and
+  <a href="school.html">the School District</a>.</p>
+  <p>Built by Joe Curry from public records published by Niagara County. Not affiliated with,
+  endorsed by, or produced for the County. Corrections welcome &mdash; every row links to its
+  meeting&rsquo;s source PDF. Built __BUILT__.</p>
 </div></footer>
+
+</div><!-- /folio -->
 
 <script id="R" type="application/json">__PAYLOAD__</script>
 <script>
@@ -522,6 +780,13 @@ var CM=R.summary.committees, RECS=R.resolutions;
 var CMCOLOR={AD:'--cAD',IF:'--cIF',CSS:'--cCSS',CS:'--cCS',ED:'--cED'};
 var money0=function(v){return '$'+Math.round(v).toLocaleString('en-US');};
 var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');};
+
+/* search reaches names: one lowercase haystack per record, built once */
+RECS.forEach(function(r){
+  var v=r.vote||{};
+  r._s=(r.id+' '+r.title+' '+(r.cms||'')+' '+(v.mover||'')+' '+(v.second||'')+' '+
+    (v.no_names||[]).join(' ')+' '+(v.abs_names||[]).join(' ')+' '+(r.sp||[]).join(' ')).toLowerCase();
+});
 
 var byYear={}, years=[];
 RECS.forEach(function(r){var y=r.date.slice(0,4);(byYear[y]=byYear[y]||[]).push(r);});
@@ -554,11 +819,24 @@ function voteBadge(r){
   var v=r.vote, cls=v.noes>0?'vb dis':'vb';
   var t=v.ayes+'&ndash;'+v.noes;
   if(v.absent) t+=' <span style="opacity:.65">('+v.absent+' abs)</span>';
-  return '<span class="'+cls+'">'+t+'</span>';
+  return '<span class="'+cls+' num">'+t+'</span>';
 }
 function amtBadge(r){
   if(r.cap) return '<span class="ab num">up to '+money0(r.cap)+'</span>';
   if(r.amt) return '<span class="ab num" style="opacity:.75">'+money0(r.amt)+' in text</span>';
+  return '';
+}
+/* in search mode, say WHY a row matched when its title alone doesn't */
+function matchWhy(r,q){
+  if(!q||(r.id+' '+r.title).toLowerCase().indexOf(q)>=0) return '';
+  var v=r.vote||{}, i;
+  function has(n){return n&&n.toLowerCase().indexOf(q)>=0;}
+  if(has(v.mover)) return 'moved by '+v.mover;
+  if(has(v.second)) return 'seconded by '+v.second;
+  for(i=0;i<(v.no_names||[]).length;i++) if(has(v.no_names[i])) return 'voted no: '+v.no_names[i];
+  for(i=0;i<(v.abs_names||[]).length;i++) if(has(v.abs_names[i])) return 'absent: '+v.abs_names[i];
+  for(i=0;i<(r.sp||[]).length;i++) if(has(r.sp[i])) return 'sponsor: '+r.sp[i];
+  if((r.cms||'').toLowerCase().indexOf(q)>=0) return 'committee';
   return '';
 }
 function rowHTML(r,i,pool){
@@ -567,11 +845,14 @@ function rowHTML(r,i,pool){
     var v=r.vote, pc=100*v.ayes/(v.ayes+v.noes);
     split='<span class="split" title="'+v.ayes+' ayes, '+v.noes+' noes"><i style="width:'+pc.toFixed(0)+'%"></i></span> ';
   }
-  return '<div class="rrow" data-i="'+i+'"'+(pool?' data-pool="'+pool+'"':'')+' tabindex="0" role="button" aria-expanded="false">'+
+  var why=pool?'':matchWhy(r,state.q.length>=2?state.q.toLowerCase():'');
+  return '<div class="rrow" data-i="'+i+'"'+(pool?' data-pool="'+pool+'"':'')+
+    ' style="--cmcol:'+cmColor(r.cm)+'" tabindex="0" role="button" aria-expanded="false">'+
     '<div class="rtop">'+
-      '<span class="rid num" style="background:'+cmColor(r.cm)+'">'+r.id+'</span>'+
+      '<span class="rid num">'+r.id+'</span>'+
       '<span class="rtitle">'+esc(r.title)+'</span>'+
-      '<span class="rbadges">'+split+amtBadge(r)+voteBadge(r)+'</span>'+
+      '<span class="rbadges">'+(why?'<span class="mwhy">'+esc(why)+'</span>':'')+
+        split+amtBadge(r)+voteBadge(r)+'</span>'+
     '</div><div class="rext"></div></div>';
 }
 function extHTML(r){
@@ -608,7 +889,7 @@ function extHTML(r){
        'arrives with the full packet.</p>';
   if(r.cap) h+='<p class="vline">Authorizes spending <b>up to '+money0(r.cap)+'</b> (a ceiling, not a payment).</p>';
   if(r.am&&r.am.length){
-    var KL={cap:'CEILING',inc:'BUDGET +',dec:'BUDGET \u2212',awd:'AWARD',bid:'BID',
+    var KL={cap:'CEILING',inc:'BUDGET +',dec:'BUDGET −',awd:'AWARD',bid:'BID',
             ret:'RETURNED',rev:'REVENUE',m:'IN TEXT'};
     h+='<div class="mny"><div class="mnh">The money in this resolution</div>'+
       r.am.map(function(a2){
@@ -625,7 +906,7 @@ function extHTML(r){
       r.ac.map(function(c){
         var g=glossFor(c);
         return '<a class="pill acp" href="county.html#acct-'+c+'">'+c+
-          (g?' &middot; <span class="acg">'+esc(g.split(' - ')[0].split(' \u2014 ')[0])+'</span>':'')+'</a>';
+          (g?' &middot; <span class="acg">'+esc(g.split(' - ')[0].split(' — ')[0])+'</span>':'')+'</a>';
       }).join(' ')+
       '<div class="mnote">Opens that account&rsquo;s 31-year history on the county ledger.</div></div>';
   }
@@ -646,7 +927,7 @@ function pool(){
   var p;
   if(state.q.length>=2){
     var q=state.q.toLowerCase();
-    p=RECS.filter(function(r){return (r.id+' '+r.title).toLowerCase().indexOf(q)>=0;});
+    p=RECS.filter(function(r){return r._s.indexOf(q)>=0;});
     p=p.slice().sort(regCmp);
   } else {
     p=byYear[state.year]||[];
@@ -688,19 +969,20 @@ function render(more){
     h+=rowHTML(r,i,'');
   }
   state.shown=upTo;
+  var pre='';
   if(jump&&jump.to){
-    h='<p class="jumpNote">No matches in '+jump.from+' &mdash; jumped to <b>'+jump.to+
-      '</b>, the newest year with results.</p>'+h;
+    pre='<p class="jumpNote" style="margin:10px 14px">No matches in '+jump.from+' &mdash; jumped to <b>'+jump.to+
+      '</b>, the newest year with results.</p>';
   }
   if(!h){
     var hasF=state.cm||state.tp||state.money||state.mover;
     h=hasF
-      ?'<div style="padding:30px 0"><p class="mut">Nothing matches this combination of filters '+
-        'in any year.</p><button class="pill" id="clearAll" style="cursor:pointer;background:none">'+
+      ?'<div style="padding:22px 16px 26px"><p class="mut">Nothing matches this combination of filters '+
+        'in any year.</p><button class="pill" id="clearAll" style="cursor:pointer">'+
         'Clear filters</button></div>'
-      :'<p class="mut" style="padding:30px 0">Nothing matches.</p>';
+      :'<p class="mut" style="padding:22px 16px 26px">Nothing matches.</p>';
   }
-  document.getElementById('list').innerHTML=h;
+  document.getElementById('list').innerHTML=pre+h;
   var ca=document.getElementById('clearAll');
   if(ca) ca.addEventListener('click',function(){
     state.cm='';state.tp='';state.money=false;state.mover='';
@@ -718,7 +1000,7 @@ function render(more){
   window.__pool=p;
   var tc=document.getElementById('tpClear');
   tc.classList.toggle('on',!!state.tp);
-  if(state.tp) tc.textContent='Filtered: '+(TPL[state.tp]||state.tp)+'  \u2715';
+  if(state.tp) tc.textContent='Filtered: '+(TPL[state.tp]||state.tp)+'  ✕';
   renderDigest();
 }
 function renderDigest(){
@@ -778,8 +1060,16 @@ cc.addEventListener('click',function(e){
   render();
 });
 var qEl=document.getElementById('q'), qt=null;
+function syncURL(){
+  try{
+    var u=new URL(location.href);
+    if(state.q.length>=2) u.searchParams.set('q',state.q);
+    else u.searchParams.delete('q');
+    history.replaceState(null,'',u);
+  }catch(e){}
+}
 qEl.addEventListener('input',function(){
-  clearTimeout(qt); qt=setTimeout(function(){state.q=qEl.value.trim();render();},140);
+  clearTimeout(qt); qt=setTimeout(function(){state.q=qEl.value.trim();render();syncURL();},140);
 });
 document.getElementById('moreBtn').addEventListener('click',function(){render(true);});
 (function(){
@@ -815,6 +1105,25 @@ document.getElementById('digest').addEventListener('click',function(e){
   var chip=document.querySelector('#cmChips [data-cm="'+c+'"]')||document.querySelector('#cmChips [data-cm=""]');
   chip.click();
 });
+
+/* try-chips: worked examples, one of each kind of search */
+(function(){
+  var tr=document.getElementById('tryRow');
+  var seeds=['casino funding','landfill','sheriff','mortgage tax'];
+  /* one legislator name, picked live so it always exists in the data */
+  var movers={};
+  RECS.forEach(function(r){if(r.vote&&r.vote.mover) movers[r.vote.mover]=(movers[r.vote.mover]||0)+1;});
+  var top=Object.keys(movers).sort(function(a,b){return movers[b]-movers[a];})[0];
+  if(top) seeds.splice(2,0,top);
+  tr.insertAdjacentHTML('beforeend',seeds.map(function(s){
+    return '<button class="tryb" type="button" data-q="'+esc(s)+'">'+esc(s)+'</button>';}).join(''));
+  tr.addEventListener('click',function(e){
+    var b=e.target.closest('[data-q]'); if(!b) return;
+    qEl.value=b.getAttribute('data-q');
+    state.q=qEl.value; render(); syncURL();
+    qEl.focus();
+  });
+})();
 
 /* topic band */
 (function(){
@@ -913,7 +1222,29 @@ function toggleRow(row){
     row.querySelector('.rext').innerHTML=extHTML(r);
   }
 }
+
+/* deep links: ?q=Bradt (or #q=) opens the register pre-searched - campaign
+   and record pages can point straight at a lookup */
+(function(){
+  var q0='';
+  try{q0=new URLSearchParams(location.search).get('q')||'';}catch(e){}
+  if(!q0&&location.hash.indexOf('q=')===1) q0=decodeURIComponent(location.hash.slice(3));
+  if(q0){
+    qEl.value=q0; state.q=q0.trim();
+    setTimeout(function(){
+      document.getElementById('register').scrollIntoView();
+    },60);
+  }
+})();
 render();
+
+/* press / anywhere to search */
+document.addEventListener('keydown',function(e){
+  if(e.key!=='/'||e.ctrlKey||e.metaKey||e.altKey) return;
+  var t=(e.target.tagName||'');
+  if(t==='INPUT'||t==='TEXTAREA'||t==='SELECT') return;
+  e.preventDefault(); qEl.focus(); qEl.select();
+});
 
 /* hero count-up */
 (function(){
@@ -929,18 +1260,48 @@ render();
   requestAnimationFrame(step);
 })();
 
+/* rail scrollspy */
+(function(){
+  var links=[].slice.call(document.querySelectorAll('.rail a[href^="#"]'));
+  var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));});
+  var tick=false;
+  function paint(){
+    tick=false;
+    var y=window.scrollY+130, on=0;
+    for(var i=0;i<secs.length;i++){ if(secs[i]&&secs[i].offsetTop<=y) on=i; }
+    links.forEach(function(a,i){a.classList.toggle('on',i===on);});
+  }
+  window.addEventListener('scroll',function(){
+    if(!tick){tick=true;requestAnimationFrame(paint);}
+  },{passive:true});
+  paint();
+})();
+
 /* theme */
-document.getElementById('themeBtn').addEventListener('click',function(){
+var themeBtn=document.getElementById('themeBtn');
+function themeNow(){
   var cur=document.documentElement.getAttribute('data-theme');
-  var next=cur==='dark'?'light':(cur==='light'?'dark':
-    (matchMedia('(prefers-color-scheme:dark)').matches?'light':'dark'));
+  if(!cur){cur=window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}
+  return cur;
+}
+function themeIcon(){
+  themeBtn.innerHTML = themeNow()==='dark'
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg>';
+}
+themeBtn.addEventListener('click',function(){
+  var next=themeNow()==='dark'?'light':'dark';
   document.documentElement.setAttribute('data-theme',next);
   try{localStorage.setItem('pl-theme',next);}catch(e){}
+  themeIcon();
 });
+themeIcon();
 </script>
 </body></html>"""
 
 import datetime
+_last_held = max((r["date"] for r in RECS if r["date"] <= datetime.date.today().isoformat()),
+                 default=max(r["date"] for r in RECS))
 subs = {
     "__Y0__": str(S["years"][0]),
     "__Y1__": str(S["years"][1]),
@@ -957,7 +1318,7 @@ subs = {
                    % S["wayback_docs"]) if S.get("wayback_docs") else "",
     "__SCANROWS__": str(S["scan_rows"]),
     "__NONEROWS__": str(S["none_rows"]),
-    "__FUTROWS__": str(sum(1 for r in RECS if r["date"] > __import__("datetime").date.today().isoformat())),
+    "__FUTROWS__": str(sum(1 for r in RECS if r["date"] > datetime.date.today().isoformat())),
     "__UNAN__": str(unan_pct),
     "__UNANN__": "{:,}".format(n_unan),
     "__VOTED__": "{:,}".format(n_vote),
@@ -973,6 +1334,10 @@ subs = {
     "__PAYLOAD__": payload,
     "__GLOSSJS__": GLOSS_JS,
     "__BUILT__": datetime.date.today().isoformat(),
+    "__LASTMEET__": "{} {}, {}".format(
+        ["January","February","March","April","May","June","July","August",
+         "September","October","November","December"][int(_last_held[5:7]) - 1],
+        int(_last_held[8:]), _last_held[:4]),
 }
 html = HTML
 for k, v in subs.items():
