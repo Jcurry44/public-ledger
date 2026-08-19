@@ -272,6 +272,73 @@ def names_list(seg):
     return out[:16]
 
 
+# ---- title repair -----------------------------------------------------------
+# Two mechanical extraction faults, not editorial judgment. (1) pdftotext drops
+# the space where an agenda line wraps a proper noun: "County ofNiagara",
+# "Town ofPorter", ", reAcceptance". Only a lowercase STOPWORD glued to a
+# capital is split - camelcase names (McNall, LaSalle, DelSignore) never match.
+GLUE_RE = re.compile(
+    r"\b(of|and|the|to|for|in|on|at|by|from|with|between|through|re)"
+    r"([A-Z][A-Za-z])")
+
+# (2) the scanned type in these packets reads lowercase r as 1, o as 0, and rt
+# as 11/1i/i1 inside words (Suppo1t, N01th, Depa1iment, Culve11). The repair
+# runs only inside a word that carries a 0/1 where letters belong - real
+# numbers (5762.99, "No. 2", 501(c)3) never qualify - and maps by position:
+# 11|1i|i1 -> rt, 0 -> o, 1 -> r, cased from the surrounding letters.
+WORD01_RE = re.compile(r"\b[A-Za-z][A-Za-z01]*[01][A-Za-z01]*\b")
+
+
+def _fix_word01(m):
+    w = m.group(0)
+    if len(w) < 3 or sum(c.isalpha() for c in w) < max(2, len(w) - 3):
+        return w
+    if len(w) < 4 and "i" in w:
+        return w   # "A1i" is as likely the name Ali as the word Art - leave it
+    up = sum(1 for c in w if c.isupper()) > sum(1 for c in w if c.islower())
+    def c(s):
+        return s.upper() if up else s
+    s = w
+    if len(w) >= 4:
+        s = re.sub(r"(?:11|1i|i1)", c("rt"), s)
+    s = s.replace("0", c("o")).replace("1", c("r"))
+    return s if s.isalpha() else w
+
+
+def fix_title(t):
+    """Repair glue + letterform artifacts; changes are auditable in the diff.
+    U+FFFD is a byte the decoder could not read, not a printed glyph - it
+    renders as junk, so it goes (the underlying PDF remains the authority)."""
+    t = re.sub(r"\s*�+\s*", " ", t).strip()
+    return WORD01_RE.sub(_fix_word01, GLUE_RE.sub(r"\1 \2", t))
+
+
+# an agenda entry that stops mid-phrase kept wrapping on the printed page -
+# the tail is on the next line (or in the resolution's own text heading)
+STOPTAIL_RE = re.compile(
+    r"(?:\b(?:the|of|and|to|for|a|an|in|on|at|by|from|or|its|with|any|all)|,|&|-)$", re.I)
+
+
+# agendas print the marker both ways: "Committee, re Title" and "; re Title"
+RE_MARK = re.compile(r"[;,]\s*re[:.\s]")
+
+
+def _midphrase(t):
+    """A bare title that stops on a stopword/comma kept wrapping in print."""
+    return bool(STOPTAIL_RE.search((t or "").rstrip()))
+
+
+def _entry_open(rest):
+    """Join-time test on the full agenda line: still open while the committee
+    prose has not reached its ", re <title>" or the text stops mid-phrase."""
+    rest = (rest or "").rstrip()
+    if not rest:
+        return True
+    if not RE_MARK.search(rest):
+        return True   # committee prose still open - the ", re <title>" never arrived
+    return _midphrase(rest)
+
+
 # Anchored: these open ADMINISTRATIVE lines. A real title may itself begin
 # "RESOLUTION URGING..." - only the header forms (RESOLUTION # / No.) are noise.
 BOILER_RE = re.compile(
@@ -339,17 +406,93 @@ def block_title(block):
                 parts.insert(0, prev)
             else:
                 break
+        # long bond captions wrap over 5-8 printed lines; the 240-char cap
+        # below is the real limiter, not the line count
         taken = 0
-        for nxt in lines[i + 1:i + 8]:
+        for nxt in lines[i + 1:i + 14]:
             if not nxt:
                 continue
-            if _title_ok(nxt) and taken < 4:
+            if _title_ok(nxt) and taken < 8:
                 parts.append(nxt)
                 taken += 1
             else:
                 break
         return re.sub(r"\s+", " ", " ".join(parts))[:240]
     return None
+
+
+AGENDA_LINE_RE = re.compile(r"^[ \t*]*([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\b[ \t]*(.*)$")
+AGENDA_FOOT_RE = re.compile(
+    r"^\s*(\*?\s*Indicates\s+Preferred|Attachments\s+for\s+resolutions|"
+    r"The\s+next\s+meeting|Adjournment|PUBLIC\s+HEARING)", re.I)
+
+
+def _noise_line(ln):
+    """Letterhead scan-garbage ("~~~~ Ni~~aa~ounty Legislature") - too many
+    characters that never appear in real agenda prose."""
+    return sum(1 for c in ln if not (c.isalnum() or c in " .,&'’-()/:;#$%–—")) >= 3
+
+
+def agenda_entries(text, year):
+    """Agenda listing lines with their printed wrap continuations joined.
+
+    The county's agendas wrap long entries onto following lines - sometimes
+    directly, sometimes with pdftotext double-spacing every physical line, and
+    sometimes with the id alone on its line and the entry body further down.
+    Blank lines therefore carry no meaning; an entry runs until the next id
+    line, a footer/boiler line, or the join rules stop accepting. A wrap is
+    joined only while the entry still reads unfinished (committee prose with
+    no ", re" yet, or a mid-phrase stop) or the line itself starts lowercase.
+    """
+    lines = text.replace("\f", "\n").splitlines()
+    yy = str(year)[2:]
+    n = len(lines)
+    i = 0
+    while i < n:
+        m = AGENDA_LINE_RE.match(lines[i])
+        if not m:
+            i += 1
+            continue
+        idm = ID_RE.search(m.group(1))
+        if not idm or idm.group(3) != yy:
+            i += 1
+            continue
+        rid = norm_id(idm)
+        rest = m.group(2).strip()
+        if re.match(r"Page\s*\d", rest, re.I):
+            i += 1
+            continue   # "IF-126-25 Page 2" is a sheet marker, not a title
+        parts = [rest] if len(rest) >= 3 else []
+        j = i + 1
+        joined = blanks = 0
+        while j < n and joined < 6 and sum(len(p) + 1 for p in parts) < 320:
+            ln = lines[j].strip()
+            if not ln:
+                blanks += 1
+                if blanks > 4:
+                    break
+                j += 1
+                continue
+            blanks = 0
+            nm = AGENDA_LINE_RE.match(lines[j])
+            if nm and ID_RE.search(nm.group(1)):
+                break
+            if (AGENDA_FOOT_RE.match(ln) or BOILER_RE.match(ln) or _junky(ln)
+                    or _noise_line(ln) or re.match(r"Page\s*\d+\s*$", ln, re.I)):
+                break
+            if not parts:
+                # id sat alone on its line: only a committee-prose line may
+                # open the entry - anything else is not this entry's body
+                if not RE_MARK.search(ln[:130]) and not ln.startswith("Legislator"):
+                    break
+            elif not (_entry_open(" ".join(parts)) or ln[:1].islower()):
+                break
+            parts.append(ln)
+            joined += 1
+            j += 1
+        if parts:
+            yield rid, re.sub(r"\s+", " ", " ".join(parts)).strip()
+        i = j if joined else i + 1
 
 
 def txt_of(pdf: Path) -> str:
@@ -449,18 +592,12 @@ for date in sorted(meetings):
         if len(re.findall(r"Moved by [A-Z]", text)) >= 5 \
                 and len(re.findall(r"\d+\s*Ayes", text)) >= 5:
             votey_packets.append(text)
-        # agenda lines: *ID <Committee prose>, re <Title...>
-        for line_m in re.finditer(
-                r"^[ \t*]*([A-Z]{1,4}\s?-\s?\d{2,4}\s?-\s?\d{2})\s+(.{3,240})$",
-                text, re.M):
-            idm = ID_RE.search(line_m.group(1))
-            if not idm or idm.group(3) != str(year)[2:]:
-                continue
-            rid = norm_id(idm)
-            rest = line_m.group(2).strip()
-            if re.match(r"Page\s*\d", rest, re.I):
-                continue   # "IF-126-25 Page 2" is a sheet marker, not a title
-            if rid in agenda_ids and ", re" not in rest:
+        # agenda lines: *ID <Committee prose>, re <Title...> (+ printed wraps)
+        for rid, rest in agenda_entries(text, year):
+            old = agenda_ids.get(rid)
+            # meetings list twice (RESOLUTIONS + B RESOLUTIONS + archive
+            # copies) - the fullest capture of an entry wins
+            if old is not None and (not RE_MARK.search(rest) or len(rest) <= len(old)):
                 continue
             agenda_ids[rid] = rest
 
@@ -480,12 +617,14 @@ for date in sorted(meetings):
     hdr = list(re.finditer(r"RESOLUTION\s*#", body_text))
 
     def _norm_t(t):
-        return re.sub(r"[^A-Z0-9]", "", (t or "").upper())
+        # letterform artifacts differ between the agenda's type and the
+        # resolution page's type - repair BOTH sides so keys converge
+        return re.sub(r"[^A-Z0-9]", "", fix_title(t or "").upper())
 
     agenda_norm = {}
     for _rid, _rest in agenda_ids.items():
         _t = _rest
-        _m2 = re.match(r"(.{2,120}?),\s*re[:.\s]\s*(.+)$", _rest or "")
+        _m2 = re.match(r"(.{2,120}?)[;,]\s*re[:.\s]\s*(.+)$", _rest or "")
         if _m2:
             _t = _m2.group(2)
         agenda_norm[_rid] = _norm_t(_t)[:64]
@@ -514,7 +653,7 @@ for date in sorted(meetings):
         if rid not in agenda_ids and rid.rsplit("-", 1)[1] == str(year)[2:]:
             t = block_title(blocks[rid])
             agenda_ids[rid] = None  # sentinel: from text, title separate
-            text_titles[rid] = t or "(title not machine-readable in the county documents)"
+            text_titles[rid] = fix_title(t) if t else "(title not machine-readable in the county documents)"
             gate_extras.append((date, rid))
 
     # minutes: vote per id
@@ -591,12 +730,40 @@ for date in sorted(meetings):
         win = win_texts.get(rid, "")
         t = block_title(win)
         agenda_ids[rid] = None
-        text_titles[rid] = t or "(title not machine-readable in the county documents)"
+        text_titles[rid] = fix_title(t) if t else "(title not machine-readable in the county documents)"
         blocks.setdefault(rid, win)
         floor_only.append(rid)
 
     # assemble records
     for rid, rest in agenda_ids.items():
+        # packets recap the PREVIOUS meeting's late additions ("Resolutions
+        # not on previous agenda: ... - Approved"), so an id can surface in
+        # two meetings. The record assembled at its voted meeting is the
+        # authority; a later voteless recapture must not clobber it - but a
+        # recap packet often reprints the full resolution text, so let it
+        # fill money detail the voted meeting's minutes window lacked.
+        prev = resolutions.get(rid)
+        if prev is not None and ("vote" in prev or rid not in votes):
+            blk2 = blocks.get(rid, "") or win_texts.get(rid, "")
+            if blk2.strip():
+                prev.setdefault("tx", 1)
+                if "cap" not in prev:
+                    caps2 = [c for c in (clean_money(x) for x in CAP_RE.findall(blk2)) if c]
+                    if caps2:
+                        prev["cap"] = max(caps2)
+                        prev.pop("amt", None)
+                am2 = amounts_ctx(blk2)
+                if am2 and len(am2) > prev.get("amtn", 0):
+                    # the reprint carries the fuller text - its parse wins whole
+                    if "cap" not in prev:
+                        prev["amt"] = max(r0[0] for r0 in am2)
+                    prev["amtn"] = len(am2)
+                    prev["am"] = am2[:10]
+                if "ac" not in prev:
+                    ac2 = acct_codes(blk2)
+                    if ac2:
+                        prev["ac"] = ac2
+            continue
         pref = rid.split("-")[0]
         if pref not in COMMITTEES:
             unknown_prefix[pref] += 1
@@ -604,11 +771,25 @@ for date in sorted(meetings):
         if rest is None:
             title = text_titles.get(rid, rid)
         else:
+            rest = fix_title(rest)
             title = rest
-            m2 = re.match(r"(.{2,120}?),\s*re[:.\s]\s*(.+)$", rest)
+            m2 = re.match(r"(.{2,120}?)[;,]\s*re[:.\s]\s*(.+)$", rest)
             if m2:
                 cm_prose, title = m2.group(1).strip(), m2.group(2).strip()
-        title = re.sub(r"\s+", " ", title).strip(" .")[:240]
+        title = re.sub(r"\s+", " ", title).strip(" .")
+        # an agenda title that still stops mid-phrase lost its wrap to the
+        # page layout - the resolution text's own printed heading has the
+        # full one. Only a heading that verifiably EXTENDS this title is
+        # accepted (normalized-prefix match), and it is used as printed.
+        if rest is not None and (_midphrase(title) or len(title) < 12):
+            bt = block_title(blocks.get(rid, "") or win_texts.get(rid, ""))
+            if bt:
+                bt = re.sub(r"\s+", " ", fix_title(bt)).strip(" .")
+                a, b = _norm_t(title), _norm_t(bt)
+                if len(b) > len(a) and (b.startswith(a[:32]) or (
+                        len(a) >= 24 and a[:24] == b[:24])):
+                    title = bt
+        title = title[:240]
         rec = {"id": rid, "date": date, "cm": pref, "title": title,
                "tp": topic_of(title)}
         if pref == "IL" and cm_prose:
