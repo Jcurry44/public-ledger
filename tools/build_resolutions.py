@@ -740,7 +740,10 @@ def canonicalize(resolutions):
             canon.remove(n)
             fixes[n] = None
 
-    HAND = {"McK": "McKimmie"}
+    HAND = {"McK": "McKimmie",
+            # 8-4-26 minutes print the absent name as "McKirrunie" — an rn/m
+            # scan mangle of McKimmie, 4 edits out (past every distance rule).
+            "McKirrunie": "McKimmie"}
     for h, target in HAND.items():
         if h in canon and target in canon:
             canon.remove(h)
