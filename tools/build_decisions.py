@@ -36,45 +36,6 @@ _MONN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
 def _mon(dt):
     return f"{_MONN[int(dt[5:7])-1]} {dt[:4]}"
 
-# the fights: every contested vote, told as episodes (>=3 same meeting = one row)
-cont_rows = [r for r in RECS if r.get("vote", {}).get("noes", 0) > 0]
-_FAILED = {"Not adopted", "Rejected", "Defeated", "Failed"}
-n_defeated = sum(1 for r in cont_rows if r["vote"].get("out") in _FAILED)
-_by_day = defaultdict(list)
-for r in cont_rows:
-    _by_day[r["date"]].append(r)
-fights = []
-for _dt, _rs in _by_day.items():
-    if len(_rs) >= 3:
-        _parts = Counter((r["vote"].get("out", ""), r["vote"]["ayes"], r["vote"]["noes"])
-                         for r in _rs)
-        _seg = " &middot; ".join(
-            f"{c} {o.lower()} {a}&ndash;{n}" for (o, a, n), c in
-            sorted(_parts.items(), key=lambda t: -t[1]))
-        _nb = sum(1 for r in _rs if "budget" in r["title"].lower() or "levy" in r["title"].lower())
-        _lbl = "budget votes" if _nb >= len(_rs) * 0.7 else "contested votes"
-        fights.append({"kind": "day", "date": _dt, "rid": _rs[0]["id"], "n": len(_rs),
-                       "title": f"{len(_rs)} {_lbl} in one meeting",
-                       "seg": _seg, "noes": max(r["vote"]["noes"] for r in _rs)})
-    else:
-        for r in _rs:
-            _v = r["vote"]
-            fights.append({"kind": "one", "date": _dt, "rid": r["id"], "n": 1,
-                           "title": r["title"], "out": _v.get("out", ""),
-                           "ayes": _v["ayes"], "noes": _v["noes"]})
-# newest first - a fight from last quarter says more than a wider one from 2018
-fights.sort(key=lambda f: f["date"], reverse=True)
-fights = fights[:8]
-
-_dd = Counter(r["date"] for r in cont_rows
-              if r["vote"].get("out") in _FAILED).most_common(1)
-fights_intro = (f"{len(cont_rows)} of {n_vote:,} recorded votes drew at least one no, and "
-                f"only {n_defeated} resolutions failed outright in twelve years")
-if _dd and _dd[0][1] >= 3:
-    fights_intro += f" &mdash; {_dd[0][1]} of them in the {_mon(_dd[0][0])} meeting."
-else:
-    fights_intro += "."
-
 by_cm = Counter(r["cm"] for r in RECS)
 cm_names = S["committees"]
 
@@ -98,61 +59,30 @@ for y in sorted(by_year, reverse=True):
         f"<td class='num c-vm'>{100*v//len(rs)}%</td>"
         f"<td class='num c-am'>{100*a//len(rs)}%</td></tr>")
 
-def _fight_row(f):
-    t = f["title"][:96]
-    t = t.replace("&", "&amp;").replace("<", "&lt;")
-    if len(f["title"]) > 96:
-        t += "&hellip;"
-    if f["kind"] == "day":
-        badge, bcls, meta = f"&times;{f['n']}", " fx-x", f["seg"]
-    else:
-        badge = f"{f['ayes']}&ndash;{f['noes']}"
-        bcls = " fx-lost" if f.get("out") in _FAILED else ""
-        meta = f.get("out", "")
-    meta = (meta + " &middot; " if meta else "") + _mon(f["date"])
-    return (f"<div class='fx-r' data-rid='{f['rid']}' tabindex='0' role='button'>"
-            f"<span class='fx-m num{bcls}'>{badge}</span>"
-            f"<span class='fx-t'>{t}<span class='fx-meta'>{meta}</span></span></div>")
-
-fights_html = "".join(_fight_row(f) for f in fights)
-
 # ---- the money: what the votes put dollars behind --------------------------
+# ceilings are deliberately NEVER summed into one headline number: change
+# orders restate a whole contract's total as work changes, refunding bonds
+# reissue old debt, and the biggest figures are IDA conduit issues the county
+# approves but never spends. The page shows the permissions themselves.
 _esc = lambda s: s.replace("&", "&amp;").replace("<", "&lt;")
 _CMVAR = {"AD": "--cAD", "IF": "--cIF", "CSS": "--cCSS", "CS": "--cCS", "ED": "--cED"}
 _TODAY = datetime.date.today().isoformat()
 
-caps_year = {}
-for r in RECS:
-    if "cap" in r:
-        y = r["date"][:4]
-        s, c = caps_year.get(y, (0, 0))
-        caps_year[y] = (s + r["cap"], c + 1)
-CEIL_TOTAL = sum(s for s, _ in caps_year.values())
-CEIL_N = sum(c for _, c in caps_year.values())
+_caps = [r for r in RECS if "cap" in r]
+CEIL_N = len(_caps)
 
 def _mm(v):
     return "$%dM" % round(v / 1e6) if v >= 950_000 else "$%dK" % round(v / 1e3)
 
-_ys = sorted(caps_year)
-_mx = max(s for s, _ in caps_year.values())
-_W, _H, _T, _B = 640, 190, 26, 30
-_bars = []
-for _i, _y in enumerate(_ys):
-    _s, _c = caps_year[_y]
-    _x = _W * (_i + 0.5) / len(_ys)
-    _bw = _W / len(_ys) * 0.6
-    _h = max((_H - _T - _B) * _s / _mx, 2)
-    _y0 = _H - _B - _h
-    _cur = " cur" if _y == _TODAY[:4] else ""
-    _bars.append(
-        f"<g><title>{_y}: {money0(_s)} across {_c} ceilings</title>"
-        f"<rect class='cbar{_cur}' x='{_x-_bw/2:.1f}' y='{_y0:.1f}' width='{_bw:.1f}' height='{_h:.1f}' rx='2'/>"
-        f"<text class='cv num' x='{_x:.1f}' y='{_y0-6:.1f}' text-anchor='middle'>{_mm(_s)}</text>"
-        f"<text class='cy num' x='{_x:.1f}' y='{_H-9}' text-anchor='middle'>&rsquo;{_y[2:]}</text></g>")
-cap_chart = (f"<svg class='capchart' viewBox='0 0 {_W} {_H}' role='img' "
-             f"aria-label='Authorization ceilings by year'>"
-             f"<line class='cax' x1='4' y1='{_H-_B+5}' x2='{_W-4}' y2='{_H-_B+5}'/>"
-             + "".join(_bars) + "</svg>")
+_IDA_RE = re.compile(r"Approving the Issuance|Revenue Bonds", re.I)
+_REFUND_RE = re.compile(r"refunding", re.I)
+_CO_RE = re.compile(r"change order|amendment|supplemental agreement", re.I)
+_ida = [r for r in _caps if _IDA_RE.search(r["title"])]
+IDA_N, IDA_SUM = len(_ida), sum(r["cap"] for r in _ida)
+CO_N = sum(1 for r in _caps if _CO_RE.search(r["title"]))
+_county_side = [r for r in _caps
+                if not _IDA_RE.search(r["title"]) and not _REFUND_RE.search(r["title"])]
+BIG_CTY = max(_county_side, key=lambda r: r["cap"])
 
 # the ten largest permissions on record; long 147(f) bond captions get a
 # readable label built from their own project parenthetical
@@ -171,14 +101,24 @@ def _cap_label(r):
                     + (", Series " + sm.group(1) if sm else ""))
     return _esc(t[:150]) + ("&hellip;" if len(t) > 150 else "")
 
-_top = sorted((r for r in RECS if "cap" in r), key=lambda r: -r["cap"])[:10]
+_top = sorted(_caps, key=lambda r: -r["cap"])[:10]
 _capmax = _top[0]["cap"]
+
+def _cap_class(r):
+    if _IDA_RE.search(r["title"]):
+        return " &middot; IDA pass-through, not county spending"
+    if _REFUND_RE.search(r["title"]):
+        return " &middot; reissues existing debt"
+    if _CO_RE.search(r["title"]):
+        return " &middot; restated contract total"
+    return ""
+
 top_caps_html = "".join(
     f"<button class='tcap' type='button' data-rid='{r['id']}' "
     f"style='--cmcol:var({_CMVAR.get(r['cm'], '--cX')})'>"
     f"<span class='tc-rank num'>{i+1:02d}</span>"
     f"<span class='tc-main'><span class='tc-t'>{_cap_label(r)}</span>"
-    f"<span class='tc-meta'><b class='num'>{r['id']}</b> &middot; {_mon(r['date'])}</span>"
+    f"<span class='tc-meta'><b class='num'>{r['id']}</b> &middot; {_mon(r['date'])}{_cap_class(r)}</span>"
     f"<span class='tc-bar'><i style='width:{100*r['cap']/_capmax:.1f}%'></i></span></span>"
     f"<span class='tc-v num'>{money0(r['cap'])}</span></button>"
     for i, r in enumerate(_top))
@@ -186,7 +126,6 @@ top_caps_html = "".join(
 # ---- the latest meeting, at a glance ---------------------------------------
 _lm = max((r["date"] for r in RECS if r["date"] <= _TODAY), default=RECS[-1]["date"])
 _lms = [r for r in RECS if r["date"] == _lm]
-_lm_caps = sum(r["cap"] for r in _lms if "cap" in r)
 _lm_cont = sum(1 for r in _lms if r.get("vote", {}).get("noes", 0) > 0)
 _lm_big = max((r for r in _lms if "cap" in r), key=lambda r: r["cap"], default=None)
 _MONFULL = ["January", "February", "March", "April", "May", "June", "July",
@@ -195,9 +134,9 @@ _MONFULL = ["January", "February", "March", "April", "May", "June", "July",
 def _fmtd(d):
     return f"{_MONFULL[int(d[5:7])-1]} {int(d[8:])}, {d[:4]}"
 
+# no meeting-level ceiling sum here for the same reason there is no era
+# total: a meeting's change orders restate contract totals
 _lm_bits = [f"<b>{len(_lms)}</b> resolutions"]
-if _lm_caps:
-    _lm_bits.append(f"<b>{money0(_lm_caps)}</b> in new spending ceilings")
 _lm_bits.append(f"<b>{_lm_cont}</b> contested" if _lm_cont
                 else "no vote drew a no")
 latest_html = (
@@ -380,24 +319,20 @@ section{scroll-margin-top:56px}
 
 /* ---------- the money ---------- */
 .moneysec{padding:34px 0 8px}
-.moneysec h2{font-size:clamp(26px,4vw,38px);margin:0 0 6px}
-.bigmoney{color:var(--accent)}
-.mpair{display:grid;gap:14px;margin-top:14px}
-@media (min-width:1100px){.mpair{grid-template-columns:1.15fr 1fr;align-items:start}}
+.moneysec h2{font-size:clamp(24px,3.4vw,32px);margin:0 0 6px}
+.mtiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+.mtile{background:var(--card);border:1px solid var(--rule);border-radius:10px;
+  padding:12px 14px;box-shadow:var(--shadow)}
+.mtile .mtv{font-size:21px;font-weight:600;font-family:'Fraunces',Georgia,serif}
+.mtile .mtl{font:600 9.5px/1.5 system-ui;letter-spacing:.07em;color:var(--faint);
+  text-transform:uppercase;margin-top:3px}
 .mpanel{background:var(--card);border:1px solid var(--rule);border-radius:12px;
   padding:16px 18px 12px;box-shadow:var(--shadow)}
 .mpanel h3{margin:0 0 2px;font:600 15px/1.3 system-ui}
 .mpanel .psub{color:var(--muted);font:12.5px system-ui;margin:0 0 10px}
-.capchart{display:block;width:100%;height:auto;margin-top:6px}
-.capchart .cbar{fill:var(--accent);opacity:.78;transition:opacity .12s}
-.capchart .cbar.cur{opacity:.4}
-.capchart g:hover .cbar{opacity:1}
-.capchart .cv{font-size:11.5px;fill:var(--muted)}
-.capchart .cy{font-size:11px;fill:var(--faint)}
-.capchart .cax{stroke:var(--rule-strong)}
-@media (max-width:640px){.capchart .cv{font-size:15.5px}.capchart .cy{font-size:14.5px}}
-.chnote{font:11px system-ui;color:var(--faint);margin-top:8px}
-.chnote a{color:var(--muted)}
+.tc2{display:grid}
+@media (min-width:1100px){.tc2{grid-template-columns:1fr 1fr;column-gap:44px}
+  .tc2 .tcap:nth-child(5){border-bottom:0}}
 .tcap{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:0;
   background:none;color:inherit;font:inherit;padding:9px 2px;cursor:pointer;
   border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent}
@@ -420,46 +355,6 @@ section{scroll-margin-top:56px}
 .sched::after{content:'';flex:1;height:1px;background:var(--rule);max-width:180px}
 h2{font:600 22px/1.3 'Fraunces',Georgia,serif;margin:0 0 4px}
 .slede{color:var(--muted);font-size:13.5px;margin:0 0 16px;max-width:76ch;font-family:system-ui,sans-serif}
-
-/* ---------- findings band ---------- */
-.findings{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
-  background:var(--card);padding:28px 0 30px;margin-top:22px}
-.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px}
-.fcell h3{margin:0 0 2px;font-size:17px}
-.fcell .fk{font:600 10px/1.6 system-ui;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
-.fbig{font-size:44px;font-weight:600;font-family:'Fraunces',Georgia,serif;line-height:1.05}
-.fnote{color:var(--muted);font-size:13px;margin-top:4px;font-family:system-ui,sans-serif}
-.tpband{margin-top:28px;border-top:1px solid var(--rule);padding-top:20px}
-.tpband h3{margin:0 0 10px;font-size:17px}
-.tprow{display:flex;align-items:center;gap:10px;padding:3px 0;cursor:pointer;border:0;
-  background:none;width:100%;text-align:left;color:inherit;font:inherit;
-  -webkit-tap-highlight-color:transparent}
-.tprow .tl2{width:168px;font-size:13px;flex:none}
-.tprow .tb{flex:1;height:10px;background:var(--gridline);border-radius:2px;overflow:hidden}
-.tprow .tb i{display:block;height:100%;background:var(--warn);opacity:.7;border-radius:0 2px 2px 0;
-  transition:opacity .15s}
-.tprow:hover .tb i{opacity:1}
-.tprow[aria-pressed="true"] .tb i{opacity:1;background:var(--accent)}
-.tprow[aria-pressed="true"] .tl2{font-weight:700}
-.tprow .tn{width:86px;text-align:right;font-size:12px;color:var(--muted);flex:none}
-.tprow:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.tphint{color:var(--faint);font:11px system-ui;margin-top:6px}
-.onesev{color:var(--muted);font-size:13px;margin:2px 0 12px;max-width:64ch;font-family:system-ui,sans-serif}
-.tag17{font:600 9px/1 system-ui;letter-spacing:.06em;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);border-radius:8px;padding:2px 6px;margin-left:6px;white-space:nowrap}
-
-/* the fights */
-#fightList{margin:10px 0 2px}
-.fx-r{display:flex;gap:12px;align-items:flex-start;padding:9px 2px;cursor:pointer;
-  border-bottom:1px dotted var(--rule);-webkit-tap-highlight-color:transparent;border-radius:6px}
-.fx-r:last-child{border-bottom:0}
-.fx-m{flex:none;min-width:50px;text-align:right;font-size:13px;font-weight:700;padding-top:2px}
-.fx-m.fx-lost{color:var(--warn)}
-.fx-m.fx-x{color:var(--accent)}
-.fx-t{font-size:13.5px;line-height:1.45;min-width:0}
-.fx-meta{display:block;font:600 9.5px/1.6 system-ui;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--faint);margin-top:1px}
-@media (hover:hover){.fx-r:hover{background:var(--accent-soft)}.fx-r:hover .fx-t{text-decoration:underline}}
-.fx-r:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* ---------- the register ---------- */
 .reg{padding:36px 0 10px}
@@ -506,9 +401,6 @@ h2{font:600 22px/1.3 'Fraunces',Georgia,serif;margin:0 0 4px}
 .yb:hover{color:var(--ink);border-color:var(--accent)}
 .yb[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .controls.searching .years{opacity:.35}
-.tpclear{display:none;font:600 11px/1 system-ui;padding:6px 10px;border-radius:14px;
-  border:1px solid var(--accent);background:none;color:var(--accent);cursor:pointer;margin-top:10px}
-.tpclear.on{display:inline-block}
 
 .jumpNote{background:var(--card);border:1px solid var(--rule);border-radius:8px;
   padding:9px 13px;font:13px system-ui;color:var(--muted);margin:12px 0 2px}
@@ -659,17 +551,10 @@ h2{font:600 22px/1.3 'Fraunces',Georgia,serif;margin:0 0 4px}
 /* ---------- widths ---------- */
 @media (min-width:1100px){
   .wrap{max-width:1150px}
-  .fgrid{grid-template-columns:1fr 1fr;gap:44px}
-  .tprow .tl2{width:200px}
   .contested .csub{max-width:none}
 }
 @media (min-width:1520px){
   .wrap{max-width:1300px}
-  .findings>.wrap{max-width:none;margin:0;padding:0}
-  section.findings{display:grid;grid-template-columns:5fr 7fr;column-gap:56px;
-    max-width:1300px;margin:22px auto 0;padding:28px 20px 30px}
-  section.findings .fgrid{grid-template-columns:1fr !important;gap:24px}
-  section.findings .tpband{border-top:0;margin-top:0;padding-top:0}
 }
 @media (max-width:640px){
   .wrap{padding:0 14px}
@@ -764,11 +649,11 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 
 <nav class="rail"><div class="wrap rail-in">
   <a href="#money" class="on">The money</a>
-  <a href="#findings">The findings</a>
   <a href="#register">The register</a>
   <a href="#contested">Contested votes</a>
   <a href="#method">How this was built</a>
   <a href="poster.html">The poster</a>
+  <a href="contested.html">The game</a>
 </div></nav>
 
 <section class="hero"><div class="wrap hero-grid">
@@ -795,53 +680,25 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
 
 <section class="moneysec" id="money"><div class="wrap">
   <div class="sched">The money &middot; what the votes put dollars behind</div>
-  <h2><span class="bigmoney">__CEILSUM__</span> in spending ceilings</h2>
-  <p class="slede">Across __CEILN__ resolutions, __Y0__&ndash;__Y1__: contract caps, county
-  borrowing, and the IDA bond issues the law makes the Legislature sign off on. A ceiling is
-  <b>permission, not a payment</b> &mdash; the <a href="county.html">county ledger</a> shows
-  what was actually spent.</p>
-  <div class="mpair">
-    <div class="mpanel"><h3>Ceilings by year</h3>
-      <p class="psub">Not-to-exceed amounts in the resolutions each year&rsquo;s meetings adopted.</p>
-      __CAPCHART__
-      <p class="chnote">Earlier packets are partly scanned images a machine can&rsquo;t read &mdash;
-      these are the ceilings the text yields, a floor not a census (see
-      <a href="#method">the method</a>). &rsquo;__YCUR__ is a part year.</p>
-    </div>
-    <div class="mpanel"><h3>The largest permissions on record</h3>
-      <p class="psub">Select one to open its full record in the register.</p>
-      <div id="topCaps">__TOPCAPS__</div>
-    </div>
+  <h2>The largest permissions on record</h2>
+  <p class="slede">__CEILN__ of the __TOTAL__ resolutions carry a &ldquo;not to exceed&rdquo;
+  ceiling. They are deliberately never summed into one headline number: change orders restate a
+  whole contract&rsquo;s total as the work changes, refunding bonds reissue existing debt, and
+  the biggest figures are IDA bond issues the county approves but never spends. So this page
+  shows the permissions themselves, biggest first, each labeled for what it is &mdash; and the
+  <a href="county.html">county ledger</a> shows what was actually spent.</p>
+  <div class="mtiles">
+    <div class="mtile"><div class="mtv num">__CEILN__</div><div class="mtl">Resolutions with a spending ceiling</div></div>
+    <div class="mtile"><div class="mtv num">__IDASUM__</div><div class="mtl">IDA bond sign-offs &middot; __IDAN__ issues, pass-through</div></div>
+    <div class="mtile"><div class="mtv num">__CON__</div><div class="mtl">Change-order &amp; amendment ceilings</div></div>
+    <div class="mtile"><div class="mtv num">__BIGCTY__</div><div class="mtl">__BIGCTYL__</div></div>
+  </div>
+  <div class="mpanel" style="margin-top:14px">
+    <p class="psub" style="margin-bottom:4px">Select any permission to open its full record &mdash;
+    the vote, the clauses, the source PDF.</p>
+    <div id="topCaps" class="tc2">__TOPCAPS__</div>
   </div>
 </div></section>
-
-<section class="findings" id="findings"><div class="wrap fgrid">
-  <div class="fcell">
-    <div class="fk">Finding 01 &middot; Consensus</div>
-    <div class="fbig num">__UNAN__%</div>
-    <h3>Nearly everything passes without a fight.</h3>
-    <p class="fnote">Of the __VOTED__ resolutions with a recorded vote, __UNANN__ drew zero
-    no votes. The interesting rows are the exceptions &mdash; use the register below to find them.</p>
-  </div>
-  <div class="fcell">
-    <div class="fk">Finding 02 &middot; The fights</div>
-    <h3>What actually drew a fight</h3>
-    <p class="fnote" style="margin:4px 0 2px">__FIGHTSINTRO__ Select one to open its full
-    record &mdash; every dissenter named.</p>
-    <div id="fightList">__FIGHTS__</div>
-  </div>
-</div>
-  <div class="wrap tpband">
-    <div class="fk">Finding 03 &middot; What the votes are about</div>
-    <h3>One in __ONEIN__ resolutions moves no money and takes no action.</h3>
-    <p class="onesev">That claim is the <b>Symbolic &amp; advocacy</b> bar below: __SYMN__
-    resolutions (__SYMPCT__%) that support, urge, oppose, honor or proclaim &mdash; positions,
-    not spending.</p>
-    <div id="tpBand"></div>
-    <p class="tphint">Rule-based buckets matched on resolution titles &mdash; imperfect and said so.
-    Select a bar to filter the register to that kind of decision.</p>
-  </div>
-</section>
 
 <section class="reg" id="register"><div class="wrap">
   <div class="sched">The register &middot; every resolution, __Y0__&ndash;__Y1__</div>
@@ -861,9 +718,9 @@ try{var t=localStorage.getItem('pl-theme');if(t)document.documentElement.setAttr
       <button class="fch" id="moneyChip" aria-pressed="false">$ Mentions dollars
         <span class="n num" id="moneyN"></span></button>
       <select class="msel" id="moverSel" aria-label="Filter by who moved it"></select>
+      <select class="msel" id="tpSel" aria-label="Filter by what the decision is about"></select>
     </div>
     <div class="years" id="yearRow"></div>
-    <button class="tpclear" id="tpClear"></button>
   </div>
   <div class="digest" id="digest"></div>
   <div class="regbox"><div id="list"></div></div>
@@ -1152,9 +1009,9 @@ function render(more){
     state.cm='';state.tp='';state.money=false;state.mover='';
     document.querySelectorAll('#cmChips .fch').forEach(function(x){
       x.setAttribute('aria-pressed',x.getAttribute('data-cm')==='');});
-    document.querySelectorAll('#tpBand .tprow').forEach(function(x){x.setAttribute('aria-pressed','false');});
     var mc=document.getElementById('moneyChip'); mc.setAttribute('aria-pressed','false');
     var ms=document.getElementById('moverSel'); ms.value=''; ms.classList.remove('on');
+    var ts=document.getElementById('tpSel'); ts.value=''; ts.classList.remove('on');
     render();
   });
   document.getElementById('qn').textContent=state.q.length>=2?(p.length+' match'+(p.length===1?'':'es')):'';
@@ -1167,9 +1024,8 @@ function render(more){
     var one=document.querySelector('#list .rrow');
     if(one&&!one.classList.contains('open')) toggleRow(one);
   }
-  var tc=document.getElementById('tpClear');
-  tc.classList.toggle('on',!!state.tp);
-  if(state.tp) tc.textContent='Filtered: '+(TPL[state.tp]||state.tp)+'  ✕';
+  var ts2=document.getElementById('tpSel');
+  if(ts2){ts2.value=state.tp;ts2.classList.toggle('on',!!state.tp);}
   renderDigest();
 }
 function renderDigest(){
@@ -1263,11 +1119,17 @@ document.getElementById('moreBtn').addEventListener('click',function(){render(tr
     render();
   });
 })();
-document.getElementById('tpClear').addEventListener('click',function(){
-  state.tp='';
-  document.querySelectorAll('#tpBand .tprow').forEach(function(x){x.setAttribute('aria-pressed','false');});
-  render();
-});
+(function(){
+  var ts=document.getElementById('tpSel');
+  var items=(R.summary.topics||[]).slice().sort(function(a,b){return b[2]-a[2];});
+  ts.innerHTML='<option value="">About: anything</option>'+items.map(function(t){
+    return '<option value="'+t[0]+'">'+esc(t[1])+' ('+t[2].toLocaleString('en-US')+')</option>';}).join('');
+  ts.addEventListener('change',function(){
+    state.tp=ts.value;
+    ts.classList.toggle('on',!!state.tp);
+    render();
+  });
+})();
 document.getElementById('digest').addEventListener('click',function(e){
   var b2=e.target.closest('[data-dcm]'); if(!b2) return;
   var c=b2.getAttribute('data-dcm');
@@ -1305,29 +1167,6 @@ document.getElementById('digest').addEventListener('click',function(e){
   });
 })();
 
-/* topic band */
-(function(){
-  var tot=RECS.length;
-  var band=document.getElementById('tpBand');
-  var items=(R.summary.topics||[]).slice().sort(function(a,b){return b[2]-a[2];});
-  var mx=items[0][2]||1;
-  band.innerHTML=items.map(function(t){
-    return '<button class="tprow" data-tp="'+t[0]+'" aria-pressed="false">'+
-      '<span class="tl2">'+esc(t[1])+(t[0]==='s'?'<span class="tag17">the 1 in __ONEINN__</span>':'')+'</span>'+
-      '<span class="tb"><i style="width:'+(100*t[2]/mx).toFixed(1)+'%"></i></span>'+
-      '<span class="tn num">'+t[2].toLocaleString('en-US')+' &middot; '+Math.round(100*t[2]/tot)+'%</span>'+
-    '</button>';}).join('');
-  band.addEventListener('click',function(e){
-    var b3=e.target.closest('[data-tp]'); if(!b3) return;
-    var tp=b3.getAttribute('data-tp');
-    state.tp=(state.tp===tp?'':tp);
-    band.querySelectorAll('.tprow').forEach(function(x){
-      x.setAttribute('aria-pressed',x.getAttribute('data-tp')===state.tp);});
-    render();
-    document.getElementById('register').scrollIntoView({behavior:'smooth'});
-  });
-})();
-
 /* contested list: collapsed preview, expand on demand */
 (function(){
   var el=document.getElementById('contList');
@@ -1350,30 +1189,6 @@ document.getElementById('digest').addEventListener('click',function(e){
   el.addEventListener('keydown',function(e){
     if(e.key!=='Enter'&&e.key!==' ') return;
     var row=e.target.closest('.rrow'); if(!row) return; e.preventDefault(); tog(row);
-  });
-})();
-/* fights finding -> open that row in the contested record */
-(function(){
-  var fl=document.getElementById('fightList'); if(!fl) return;
-  function openFight(rid){
-    var btn=document.getElementById('contMore');
-    if(btn&&btn.style.display!=='none') btn.click();
-    var i=-1;
-    for(var k=0;k<CONTESTED.length;k++){ if(CONTESTED[k].id===rid){ i=k; break; } }
-    if(i<0) return;
-    var el=document.querySelector('#contList .rrow[data-i="'+i+'"]');
-    if(!el) return;
-    if(!el.classList.contains('open')) el.click();
-    el.scrollIntoView({behavior:'smooth',block:'center'});
-  }
-  fl.addEventListener('click',function(e){
-    var r=e.target.closest('[data-rid]'); if(!r) return;
-    openFight(r.getAttribute('data-rid'));
-  });
-  fl.addEventListener('keydown',function(e){
-    if(e.key!=='Enter'&&e.key!==' ') return;
-    var r=e.target.closest('[data-rid]'); if(!r) return;
-    e.preventDefault(); openFight(r.getAttribute('data-rid'));
   });
 })();
 /* hero money tally -> $ filter + register */
@@ -1483,11 +1298,17 @@ _last_held = max((r["date"] for r in RECS if r["date"] <= datetime.date.today().
                  default=max(r["date"] for r in RECS))
 subs = {
     "__LATEST__": latest_html,
-    "__CEILSUM__": "$%d million" % round(CEIL_TOTAL / 1e6),
     "__CEILN__": f"{CEIL_N:,}",
-    "__CAPCHART__": cap_chart,
     "__TOPCAPS__": top_caps_html,
-    "__YCUR__": _ys[-1][2:],
+    "__IDASUM__": _mm(IDA_SUM),
+    "__IDAN__": str(IDA_N),
+    "__CON__": str(CO_N),
+    "__BIGCTY__": money0(BIG_CTY["cap"]),
+    # the phrase is hand-verified against the raw text for the id it names;
+    # if the data ever crowns a new leader the label falls back to its id
+    "__BIGCTYL__": "Biggest county-side ceiling &middot; " + {
+        "CW-018-18": "2018 energy-performance equipment lease",
+    }.get(BIG_CTY["id"], BIG_CTY["id"] + ", " + BIG_CTY["date"][:4]),
     "__Y0__": str(S["years"][0]),
     "__Y1__": str(S["years"][1]),
     "__TOTALN__": str(S["total"]),
@@ -1505,16 +1326,7 @@ subs = {
     "__NONEROWS__": str(S["none_rows"]),
     "__FUTROWS__": str(sum(1 for r in RECS if r["date"] > datetime.date.today().isoformat())),
     "__UNAN__": str(unan_pct),
-    "__UNANN__": "{:,}".format(n_unan),
-    "__VOTED__": "{:,}".format(n_vote),
     "__MONEYN__": f"{money_rows:,}",
-    "__ONEIN__": {6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}.get(
-        round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s"))), "eight"),
-    "__ONEINN__": str(round(S["total"] / max(1, next(t[2] for t in S["topics"] if t[0] == "s")))),
-    "__SYMN__": "{:,}".format(next(t[2] for t in S["topics"] if t[0] == "s")),
-    "__SYMPCT__": str(round(100 * next(t[2] for t in S["topics"] if t[0] == "s") / max(1, S["total"]))),
-    "__FIGHTS__": fights_html,
-    "__FIGHTSINTRO__": fights_intro,
     "__PERYEAR__": "".join(per_year_rows),
     "__PAYLOAD__": payload,
     "__GLOSSJS__": GLOSS_JS,

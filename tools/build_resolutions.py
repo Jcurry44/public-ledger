@@ -992,18 +992,60 @@ def canonicalize(resolutions):
         each_name(r, fix)
 
 
+# ---- fold dropped-letter phantom ids into their real rows ------------------
+# scan noise eats the first letter of a stamp id ("F-130-25" for IF-130-25,
+# "L-058-19" for IL-058-19): the same meeting then holds the row twice, and
+# the vote or the dollars can land on the mangled copy. Same number, same
+# meeting, known prefix ending with the unknown one = the same resolution.
+_bmn = defaultdict(list)
+for _rid, _r in resolutions.items():
+    _bmn[(_r["date"], _rid.split("-", 1)[1])].append(_rid)
+_folded = []
+for _rid in list(resolutions):
+    _pref = _rid.split("-")[0]
+    if _pref in COMMITTEES:
+        continue
+    _r = resolutions[_rid]
+    _twins = [t for t in _bmn[(_r["date"], _rid.split("-", 1)[1])]
+              if t != _rid and t.split("-")[0] in COMMITTEES
+              and t.split("-")[0].endswith(_pref)]
+    if len(_twins) != 1:
+        continue
+    _tw = resolutions[_twins[0]]
+    for _k in ("vote", "cap", "amtn", "am", "ac", "tx", "cms", "sp"):
+        if _k in _r and _k not in _tw:
+            _tw[_k] = _r[_k]
+    if "cap" in _tw:
+        _tw.pop("amt", None)   # amt is only the headline when no ceiling exists
+    elif "amt" in _r and "amt" not in _tw:
+        _tw["amt"] = _r["amt"]
+    del resolutions[_rid]
+    _folded.append((_rid, _twins[0]))
+if _folded:
+    print("dropped-letter phantom ids folded into their real rows:",
+          len(_folded), _folded[:6])
+
 canonicalize(resolutions)
 
 # ---- gates ----------------------------------------------------------------
+# per-year coverage is recomputed from the FINAL records (folds above change
+# the counts); meetings-per-year keeps the loop's tally
 print("\nyear  meetings  resolutions  votes-matched  with-amounts  text-found")
+per_final = defaultdict(Counter)
+for _r in resolutions.values():
+    _c = per_final[int(_r["date"][:4])]
+    _c["res"] += 1
+    _c["vote"] += 1 if "vote" in _r else 0
+    _c["amt"] += 1 if ("cap" in _r or "amt" in _r) else 0
+    _c["tx"] += 1 if "tx" in _r else 0
 total = 0
-for y in sorted(per_year):
-    c = per_year[y]
+for y in sorted(per_final):
+    c = per_final[y]
     total += c["res"]
     pct = 100 * c["vote"] // max(1, c["res"])
     apct = 100 * c["amt"] // max(1, c["res"])
     tpct = 100 * c["tx"] // max(1, c["res"])
-    print(f"{y}   {c['meet']:>5}     {c['res']:>6}        {pct:>3}%           {apct:>3}%        {tpct:>3}%")
+    print(f"{y}   {per_year[y]['meet']:>5}     {c['res']:>6}        {pct:>3}%           {apct:>3}%        {tpct:>3}%")
     assert c["res"] > 0, f"GATE: {y} parsed zero resolutions - format drift"
 assert total > 1200, f"GATE: only {total} resolutions total (floor 1200)"
 if floor_only:
