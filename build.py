@@ -32,14 +32,26 @@ STEPS = [
     ("build_brief.py", "sample council Warrant Brief (brief.html) + briefs/"),
     ("build_audit.py", "Exception Report (audit.html)"),
     ("build_site.py", "inline all payloads into index.html"),
+    # County-legislature chain. fetch_resolutions.py is NOT a step (network
+    # fetch of new meetings — run manually, it lays down data/resolutions/);
+    # build_issue_proto.py is NOT a step (prototype by its own docstring).
+    ("build_resolutions.py", "parse minutes cache -> resolutions.json (gated)"),
+    ("build_decisions.py", "Decisions register (decisions.html) + poster.html"),
+    ("build_legislators.py", "per-member records (legislators.html)"),
+    ("gen_og_card.py", "og-card.png + apple-touch-icon from live meta counts"),
+    ("build_og.py", "og cards for decisions + legislators (Playwright)"),
 ]
 
 # Annual-data builders: slow, and their inputs (OSC/census) change once a
 # year — but a FULL build runs them so county.html, m/ and atlas.html can
 # never silently drift from the city pages (the exact defect class the
-# tie-out gates exist to catch).
+# tie-out gates exist to catch). build_resolutions.py (762-file PDF parse)
+# and build_og.py (browser render) skip on --fast for the same reason;
+# build_decisions.py / build_legislators.py are cheap renders of the
+# committed resolutions.json, so they stay in every build.
 SLOW = {"build_osc.py", "build_populations.py", "build_county.py",
-        "build_school.py", "build_munis.py", "build_atlas.py"}
+        "build_school.py", "build_munis.py", "build_atlas.py",
+        "build_resolutions.py", "build_og.py"}
 
 for script, label in STEPS:
     if FAST and script in SLOW:
@@ -53,7 +65,7 @@ for script, label in STEPS:
         print("   " + line)
     if r.returncode != 0:
         print("   " + (r.stderr or "").strip()[-800:])
-        print("\nBUILD FAILED at %s -- index.html NOT updated." % script)
+        print("\nBUILD FAILED at %s -- remaining steps not run." % script)
         sys.exit(1)
 
-print("\nBuild complete: index.html is current with data/ and src/.")
+print("\nBuild complete: every page is current with data/ and src/.")
