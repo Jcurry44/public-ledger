@@ -344,6 +344,151 @@ body:has(#modal:not([hidden])) .pager{display:none}
 #minibar .mb-s b{font-size:13px}
 @media (prefers-reduced-motion:reduce){#minibar{transition:none}}
 
+/* ---------- premium mobile pass ---------- */
+@media (max-width:640px){
+  html{border-top-width:4px}
+  body{font-size:14.5px;line-height:1.58}
+  .page{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+  .wrap{padding:0 15px}
+
+  /* Compact, intentional masthead: identity first, provenance directly beneath. */
+  .mast{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px 10px;
+    padding:15px 15px 13px}
+  .mark{font-size:23px;grid-column:1}
+  .edition{grid-column:2;justify-self:start;font-size:8.5px;padding:4px 6px}
+  .mast .meta{grid-column:1 / 4;display:grid;grid-template-columns:1fr auto;align-items:center;
+    gap:8px;margin:0;font-size:11.5px;line-height:1.35;color:var(--faint)}
+  .mast .meta a{font-weight:600}
+  .themebtn{grid-column:2;grid-row:1 / 3;justify-self:end;width:34px;height:34px;border-radius:99px;
+    background:color-mix(in srgb,var(--card) 88%,transparent)}
+
+  .rail{box-shadow:0 7px 22px -20px rgba(20,22,26,.45)}
+  .rail-in{gap:0;padding:0 7px;scroll-snap-type:x proximity}
+  .rail a{padding:11px 12px;font-size:12px;scroll-snap-align:start}
+
+  section{padding:38px 0 4px;scroll-margin-top:54px}
+  h1{font-size:26px;line-height:1.08;margin:25px 0 10px}
+  .lede{font-size:14px;line-height:1.58;margin-bottom:18px}
+  h2{margin:18px 0 12px;font-size:10px;line-height:1.25;letter-spacing:.14em}
+  h2::after{min-width:26px}
+
+  .panel,.hcard{border-radius:14px;box-shadow:0 1px 1px rgba(20,22,26,.04),
+    0 14px 34px -24px rgba(20,22,26,.38)}
+  .panel{padding:16px 15px}
+  .panel h3{font-size:16px;line-height:1.25}
+  .panel h3 .tot{font-size:14px}
+  .panel .sub{font-size:12px;line-height:1.45;margin-top:4px}
+  .note{font-size:11.5px;line-height:1.55;margin-top:12px}
+
+  .hcard{padding:13px 16px 4px}
+  .hrow{padding:8px 0}
+  .hrow .k{font-size:9px;letter-spacing:.12em}
+  .hrow .v{font-size:22px;letter-spacing:-.035em}
+  .hfoot{padding:11px 16px;margin-left:-16px;margin-right:-16px;line-height:1.55}
+
+  .years{margin:0 -15px;padding:3px 15px 11px;scroll-padding-left:15px}
+  .yp{min-height:32px;padding:6px 12px}
+  .pair{gap:12px}
+  .rank{gap:10px}
+  .rk{gap:4px 10px;padding:2px 0}
+  .rk .lb{font-size:12.5px}
+  .rk .vl{font-size:12px}
+  .rk .tr{height:8px}
+
+  .seg{display:flex;width:100%;margin:2px 0 15px}
+  .seg button{flex:1;padding:8px 7px;font-size:11.5px}
+  .gateline{font-size:11.5px;line-height:1.55;padding:10px 12px;border-radius:10px}
+
+  /* Budget rows become small comparison cards instead of a squeezed spreadsheet. */
+  #budget>.panel{margin-left:-2px;margin-right:-2px;padding:17px 13px}
+  #budget>.panel>h3{font:600 19px/1.18 'Fraunces',ui-serif,Georgia,serif}
+  #budget .mv tbody{display:grid;gap:9px}
+  #budget .mv tr:not(.bvx-row){position:relative;display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 18px;
+    padding:13px 13px 12px;border:1px solid var(--rule);border-radius:11px;
+    background:color-mix(in srgb,var(--card) 90%,var(--paper));
+    box-shadow:0 8px 22px -22px rgba(20,22,26,.55)}
+  #budget .mv tr:not(.bvx-row)::after{content:'\2192';position:absolute;left:50%;top:55px;
+    transform:translateX(-50%);color:var(--faint);font:500 14px/1 system-ui}
+  #budget .mv td.m-name{grid-row:1;grid-column:1 / -1;display:flex;align-items:center;
+    min-width:0;margin:0 0 11px;padding:0 0 10px;border-bottom:1px solid var(--rule);
+    font-size:14.5px;line-height:1.25}
+  #budget .mv td.m-name .fnt{margin-left:5px;font-size:10.5px}
+  #budget .mv tr.bv td.m-name::after{content:'Details';margin-left:auto;padding-left:10px;
+    color:var(--accent);font:700 9px/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+  #budget .mv tr.bv[aria-expanded="true"] td.m-name::after{content:'Close'}
+  #budget .mv td.m-vals{grid-row:2;font-size:13px;font-weight:650;letter-spacing:-.02em}
+  #budget .mv td.m-vals::before,#budget .mv td.m-delta::before{font-size:8px;letter-spacing:.12em}
+  #budget .mv td.m-vals:nth-of-type(2){grid-column:1}
+  #budget .mv td.m-vals:nth-of-type(3){grid-column:2;text-align:right}
+  #budget .mv td.m-delta{grid-row:3;grid-column:1;margin-top:11px;padding-top:10px;
+    border-top:1px dashed var(--rule);font-size:12.5px;text-align:left}
+  #budget .mv td.m-pct{grid-row:3;grid-column:2;align-self:end;justify-self:end;
+    margin-top:9px;padding:4px 8px;border-radius:99px;font-size:10.5px;font-weight:700;
+    line-height:1.2;text-align:right}
+  #budget .mv td.m-pct.up{background:color-mix(in srgb,var(--bad) 10%,transparent)}
+  #budget .mv td.m-pct.dn{background:color-mix(in srgb,var(--ok) 11%,transparent)}
+  #budget .mv tr.bv{transition:border-color .14s,transform .14s,box-shadow .14s}
+  #budget .mv tr.bv:active{transform:scale(.992);border-color:var(--accent)}
+  #budget .mv tr.bvx-row{display:block;margin:-2px 3px 5px;border:1px solid var(--rule);
+    border-top:0;border-radius:0 0 11px 11px;overflow:hidden}
+  #budget .mv tr.bvx-row td{display:block;width:100%}
+  #budget .bvx{padding:14px 12px 15px;background:var(--accent-soft)}
+  #budget .bvx .bxb{display:grid;grid-template-columns:55px minmax(0,1fr);gap:5px 8px;
+    margin:8px 0}
+  #budget .bvx .bxb .l{width:auto}
+  #budget .bvx .bxb .bar{height:10px}
+  #budget .bvx .bxb .v{grid-column:2;width:auto;text-align:left;font-size:11.5px}
+  #budget .bvx .bxr{padding:6px 0;align-items:flex-start}
+  #budget .bvx .bxr .n{white-space:normal;line-height:1.35}
+  #budget .bvx .bxr .a{font-size:11.5px}
+  #budget>.panel:first-of-type .mv tr:last-child:not(.bvx-row){background:var(--accent-soft);border-color:var(--accent)}
+  #budget>.panel:first-of-type .mv tr:nth-last-child(2):not(.bvx-row){background:color-mix(in srgb,var(--warn-soft) 58%,var(--card))}
+
+  /* The decisions read as a deliberate proof strip rather than wrapping stat fragments. */
+  #decisions .panel>div:first-child{display:grid!important;grid-template-columns:repeat(3,1fr);
+    gap:0!important;align-items:start!important}
+  #decisions .panel>div:first-child>div{min-width:0;padding:3px 8px 5px;border-right:1px solid var(--rule)}
+  #decisions .panel>div:first-child>div:first-child{padding-left:0}
+  #decisions .panel>div:first-child>div:last-child{padding-right:0;border-right:0}
+  #decisions .panel>div:first-child .num{font-size:25px!important;letter-spacing:-.04em}
+  #decisions .panel>div:first-child .sub{font-size:9.5px;line-height:1.35}
+  .biglink{display:block;font-size:17px;line-height:1.35}
+
+  /* A one-line evidence bar replaces the two-line sticky headline while reading. */
+  #minibar{padding:0;border-bottom:1px solid var(--rule-strong);background:color-mix(in srgb,var(--paper) 93%,transparent);
+    backdrop-filter:blur(14px) saturate(1.15)}
+  #minibar .mb-in{height:48px;padding:0 15px;display:grid;grid-template-columns:auto 1fr;
+    align-items:center;gap:12px;flex-wrap:nowrap}
+  #minibar .mb-t{font:700 11px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;
+    white-space:nowrap}
+  #minibar .mb-s{min-width:0;text-align:right;white-space:nowrap;font-size:10.5px;
+    overflow:hidden;text-overflow:ellipsis}
+  #minibar .mb-s b{font-size:11.5px}
+
+  /* The section control disappears while content is moving, then returns briefly at rest. */
+  .pager{bottom:calc(12px + env(safe-area-inset-bottom));min-height:40px;padding:3px 5px;
+    background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(16px) saturate(1.2);
+    box-shadow:0 10px 34px -16px rgba(20,22,26,.5)}
+  .pager button{width:34px;height:32px}
+  .pager .lbl{max-width:58vw;font-size:11.5px}
+
+  .modal{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
+  .sheet header{padding:17px 16px 12px}
+  .sheet h3{font-size:20px}
+  .tabs{overflow-x:auto;padding:0 8px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{white-space:nowrap;padding:12px 11px}
+  .mbody{padding:15px 15px calc(24px + env(safe-area-inset-bottom))}
+}
+
+@media (max-width:370px){
+  .hrow .v{font-size:20px}
+  #budget .mv tr:not(.bvx-row){padding-left:11px;padding-right:11px;gap:0 13px}
+  #budget .mv td.m-vals{font-size:12px}
+  #decisions .panel>div:first-child .num{font-size:22px!important}
+}
+
 /* number discipline: expansion detail amounts step back from the leaders */
 .bvx .bxr .a{font-weight:500;color:var(--muted)}
 
@@ -381,8 +526,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
   <div class="mast">
     <div class="mark"><a href="./">Public <span>Ledger</span></a></div>
     <span class="edition">COUNTY EDITION</span>
-    <div class="meta">Niagara County · filings <b>1995–2025</b> · source
-      <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a>
+    <div class="meta"><span>Niagara County · filings <b>1995–2025</b> · source
+      <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span>
       <button class="themebtn" id="theme" type="button" aria-label="Toggle theme"></button></div>
   </div>
 
@@ -575,7 +720,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </main>
 </div>
 
-<div class="pager" id="pager">
+<div class="pager away" id="pager">
   <button type="button" id="pgUp" aria-label="Previous section">&#9650;</button>
   <span class="lbl"><span class="idx" id="pgIdx"></span> <span id="pgName"></span></span>
   <button type="button" id="pgDn" aria-label="Next section">&#9660;</button>
@@ -906,10 +1051,16 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
   var h1=document.querySelector('h1');
   mb.querySelector('.mb-t').textContent=(h1?h1.textContent:'').replace(/\s+/g,' ').trim().slice(0,72);
   var rv=document.getElementById('hRevV'), ex=document.getElementById('hExpV');
+  function compactMoney(s){
+    var n=Number(String(s||'').replace(/[^0-9.-]/g,''));
+    return isFinite(n)?'$'+(n/1000000).toFixed(1)+'M':s;
+  }
   function fill(){
     var a=rv?rv.textContent:'', b=ex?ex.textContent:'';
+    if(innerWidth<=640) mb.querySelector('.mb-t').textContent='Niagara County';
     if(a&&a!=='\u2014') mb.querySelector('.mb-s').innerHTML=
-      '<b style="color:var(--rev)">'+a+'</b> in &middot; <b style="color:var(--exp)">'+b+'</b> out';
+      '<b style="color:var(--rev)">'+(innerWidth<=640?compactMoney(a):a)+'</b> in &middot; '+
+      '<b style="color:var(--exp)">'+(innerWidth<=640?compactMoney(b):b)+'</b> out';
   }
   setTimeout(fill,1400);
   if('IntersectionObserver' in window){
@@ -1631,15 +1782,18 @@ pgDn.addEventListener('click',function(){goSection(1);});
 var hideT;
 window.addEventListener('scroll',function(){
   syncNav();
-  pager.classList.remove('away');
+  pager.classList.add('away');
   clearTimeout(hideT);
-  hideT=setTimeout(function(){pager.classList.add('away');},2400);
+  hideT=setTimeout(function(){
+    pager.classList.remove('away');
+    hideT=setTimeout(function(){pager.classList.add('away');},1700);
+  },innerWidth<=640?420:0);
 },{passive:true});
 syncNav();
 hideT=setTimeout(function(){pager.classList.add('away');},2400);
 ['pointerdown','keydown'].forEach(function(ev){
   document.addEventListener(ev,function(){pager.classList.remove('away');
-    clearTimeout(hideT);hideT=setTimeout(function(){pager.classList.add('away');},2400);},{passive:true});
+    clearTimeout(hideT);hideT=setTimeout(function(){pager.classList.add('away');},1700);},{passive:true});
 });
 
 /* ---- bars grow once on view ---- */
