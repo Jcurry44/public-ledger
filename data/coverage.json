@@ -1,0 +1,1300 @@
+{
+ "note": "Per-meeting vote-record coverage for the Niagara County Legislature. matched = every vote source was readable (native text layer, or a partial one that still covered every row); scan-recovered = image-only minutes read by local OCR (votes flagged, tallies bounded by the 15-seat chamber); scan-unreadable = image-only minutes OCR could not read; never-posted = the county has not published minutes. Votes are parsed, never inferred - a gap is reported as a gap.",
+ "totals": {
+  "resolutions": 5953,
+  "votes_matched": 5692,
+  "pct_matched": 95.6,
+  "meetings": {
+   "matched": 161,
+   "scan-recovered": 16,
+   "never-posted": 2,
+   "scan-unreadable": 2
+  },
+  "rows": {
+   "matched": [
+    5192,
+    5379
+   ],
+   "never-posted": [
+    0,
+    42
+   ],
+   "scan-recovered": [
+    500,
+    532
+   ],
+   "scan-unreadable": [
+    0,
+    0
+   ]
+  }
+ },
+ "meetings": [
+  {
+   "date": "2015-01-06",
+   "status": "matched",
+   "res": 2,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2001-06-15.pdf?t=202206071423450"
+  },
+  {
+   "date": "2015-01-20",
+   "status": "matched",
+   "res": 15,
+   "voted": 14,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2001-20-15.pdf?t=202206071422500"
+  },
+  {
+   "date": "2015-02-17",
+   "status": "matched",
+   "res": 52,
+   "voted": 52,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%202-17-15.pdf?t=202206071421430"
+  },
+  {
+   "date": "2015-03-03",
+   "status": "matched",
+   "res": 39,
+   "voted": 37,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2003-03-15.pdf?t=202206071419300"
+  },
+  {
+   "date": "2015-03-17",
+   "status": "matched",
+   "res": 19,
+   "voted": 18,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2003-17-15.pdf?t=202206071418370"
+  },
+  {
+   "date": "2015-03-19",
+   "status": "matched",
+   "res": 0,
+   "voted": 0
+  },
+  {
+   "date": "2015-04-17",
+   "status": "matched",
+   "res": 3,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%204-17-15.pdf?t=202206071404090"
+  },
+  {
+   "date": "2015-04-21",
+   "status": "matched",
+   "res": 40,
+   "voted": 40,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%204-21-15.pdf?t=202206071402240"
+  },
+  {
+   "date": "2015-05-05",
+   "status": "matched",
+   "res": 22,
+   "voted": 20,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%205-5-15.pdf?t=202206071400140"
+  },
+  {
+   "date": "2015-05-19",
+   "status": "matched",
+   "res": 18,
+   "voted": 18,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%205-19-15.pdf?t=202206071345510"
+  },
+  {
+   "date": "2015-06-16",
+   "status": "scan-recovered",
+   "res": 39,
+   "voted": 39,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2006-16-15.pdf?t=202206071344480"
+  },
+  {
+   "date": "2015-08-04",
+   "status": "matched",
+   "res": 60,
+   "voted": 59,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2008-04-15.pdf?t=202206071341570"
+  },
+  {
+   "date": "2015-09-08",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2009-08-15.pdf?t=202206071340480"
+  },
+  {
+   "date": "2015-09-15",
+   "status": "matched",
+   "res": 44,
+   "voted": 41,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2009-15-15.pdf?t=202206071339570"
+  },
+  {
+   "date": "2015-09-29",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2009-29-15.pdf?t=202206071338480"
+  },
+  {
+   "date": "2015-10-20",
+   "status": "matched",
+   "res": 27,
+   "voted": 23,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2010-20-15.pdf?t=202206071337500"
+  },
+  {
+   "date": "2015-11-17",
+   "status": "matched",
+   "res": 22,
+   "voted": 21,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2011-17-15.pdf?t=202206071335050"
+  },
+  {
+   "date": "2015-12-01",
+   "status": "matched",
+   "res": 17,
+   "voted": 16,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2012-01-15.pdf?t=202206071334070"
+  },
+  {
+   "date": "2015-12-08",
+   "status": "matched",
+   "res": 35,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/B%20RESOLUTIONS%2012-08-15.pdf?t=202206071331420"
+  },
+  {
+   "date": "2016-01-05",
+   "status": "matched",
+   "res": 2,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2001-05-16.pdf?t=202206071035580"
+  },
+  {
+   "date": "2016-01-19",
+   "status": "matched",
+   "res": 8,
+   "voted": 5,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2001-19-16.pdf?t=202206071034580"
+  },
+  {
+   "date": "2016-02-23",
+   "status": "matched",
+   "res": 65,
+   "voted": 65
+  },
+  {
+   "date": "2016-03-11",
+   "status": "matched",
+   "res": 1,
+   "voted": 1
+  },
+  {
+   "date": "2016-03-22",
+   "status": "matched",
+   "res": 50,
+   "voted": 46,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/agenda%20resolutions%2003%2022%202016%20a.pdf?t=202206071017250"
+  },
+  {
+   "date": "2016-04-19",
+   "status": "matched",
+   "res": 22,
+   "voted": 22,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/agenda4-19-16.pdf?t=202206071016090"
+  },
+  {
+   "date": "2016-05-03",
+   "status": "matched",
+   "res": 21,
+   "voted": 20,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%205-3-16.pdf?t=202206071014320"
+  },
+  {
+   "date": "2016-05-24",
+   "status": "matched",
+   "res": 25,
+   "voted": 23,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/Resolutions%205-24-16.pdf?t=202206071013310"
+  },
+  {
+   "date": "2016-06-21",
+   "status": "matched",
+   "res": 34,
+   "voted": 28,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%206-21-16.pdf?t=202206071012190"
+  },
+  {
+   "date": "2016-07-25",
+   "status": "matched",
+   "res": 3,
+   "voted": 3
+  },
+  {
+   "date": "2016-08-02",
+   "status": "matched",
+   "res": 44,
+   "voted": 44,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%208-2-16.pdf?t=202206071009550"
+  },
+  {
+   "date": "2016-09-14",
+   "status": "matched",
+   "res": 2,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-12-16%20Special%20Meeting.pdf?t=202206070928090"
+  },
+  {
+   "date": "2016-09-22",
+   "status": "matched",
+   "res": 30,
+   "voted": 30,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%209-22-16-1.pdf?t=202206070920260"
+  },
+  {
+   "date": "2016-10-18",
+   "status": "scan-recovered",
+   "res": 27,
+   "voted": 27,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-18-16.pdf?t=202206070919130"
+  },
+  {
+   "date": "2016-11-15",
+   "status": "scan-recovered",
+   "res": 34,
+   "voted": 33,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2011-15-16.pdf?t=202206070918050"
+  },
+  {
+   "date": "2016-12-06",
+   "status": "never-posted",
+   "res": 32,
+   "voted": 0,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-6-16%20RESOLUTIONS.pdf?t=202206070915350"
+  },
+  {
+   "date": "2017-01-17",
+   "status": "matched",
+   "res": 7,
+   "voted": 7,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-17-17%20AGENDA.pdf?t=202206021449040"
+  },
+  {
+   "date": "2017-02-21",
+   "status": "matched",
+   "res": 83,
+   "voted": 82,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2-21-2017-A.pdf?t=202206021451360"
+  },
+  {
+   "date": "2017-03-21",
+   "status": "matched",
+   "res": 46,
+   "voted": 44,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-21-17%20RESOLUTIONS%203.pdf?t=202206021457230"
+  },
+  {
+   "date": "2017-04-04",
+   "status": "matched",
+   "res": 11,
+   "voted": 11,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-4-17%20AGENDA.pdf?t=202206021523270"
+  },
+  {
+   "date": "2017-05-02",
+   "status": "matched",
+   "res": 36,
+   "voted": 35,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/NEW%205-2%20AGENDA.pdf?t=202206021524420"
+  },
+  {
+   "date": "2017-05-16",
+   "status": "matched",
+   "res": 32,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-16-17%20AGENDA.pdf?t=202206021525560"
+  },
+  {
+   "date": "2017-05-30",
+   "status": "scan-unreadable",
+   "res": 0,
+   "voted": 0
+  },
+  {
+   "date": "2017-06-12",
+   "status": "matched",
+   "res": 1,
+   "voted": 1
+  },
+  {
+   "date": "2017-06-20",
+   "status": "matched",
+   "res": 40,
+   "voted": 40,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-20-17.pdf?t=202206021530250"
+  },
+  {
+   "date": "2017-07-12",
+   "status": "scan-unreadable",
+   "res": 0,
+   "voted": 0
+  },
+  {
+   "date": "2017-08-01",
+   "status": "matched",
+   "res": 40,
+   "voted": 40,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-1-17%20RESOLUTIONS%20and%20AGENDA.pdf?t=202206021533110"
+  },
+  {
+   "date": "2017-08-10",
+   "status": "matched",
+   "res": 4,
+   "voted": 3,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-10-17%20SPECIAL%20MEETING.pdf?t=202206021536550"
+  },
+  {
+   "date": "2017-09-11",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-11-17%20SPECIAL%20MEETING.pdf?t=202206021535270"
+  },
+  {
+   "date": "2017-09-19",
+   "status": "matched",
+   "res": 54,
+   "voted": 50,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-19-17%20AGENDA.pdf?t=202206021538280"
+  },
+  {
+   "date": "2017-10-17",
+   "status": "matched",
+   "res": 36,
+   "voted": 35,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%2010-17%20PT.%201.pdf?t=202206061511140"
+  },
+  {
+   "date": "2017-11-21",
+   "status": "matched",
+   "res": 30,
+   "voted": 28,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-21%20AGENDA.pdf?t=202206061553490"
+  },
+  {
+   "date": "2017-12-05",
+   "status": "matched",
+   "res": 14,
+   "voted": 14,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-5-17%20AGENDA.pdf?t=202206061555020"
+  },
+  {
+   "date": "2017-12-12",
+   "status": "matched",
+   "res": 19,
+   "voted": 19,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-12-17%20Agenda.pdf?t=202206061555550"
+  },
+  {
+   "date": "2018-01-02",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-18%20AGENDA.pdf?t=202206021138360"
+  },
+  {
+   "date": "2018-01-16",
+   "status": "matched",
+   "res": 14,
+   "voted": 14,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-16-18%20AGENDA-RESOLUTIONS.pdf?t=202206021143170"
+  },
+  {
+   "date": "2018-02-20",
+   "status": "matched",
+   "res": 71,
+   "voted": 64,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDA%20%20RESOLUTIONS%202-20-18.pdf?t=202206021146300"
+  },
+  {
+   "date": "2018-03-20",
+   "status": "matched",
+   "res": 33,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-20-18.pdf?t=202206021304060"
+  },
+  {
+   "date": "2018-04-17",
+   "status": "matched",
+   "res": 33,
+   "voted": 29,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-17-18%20AGENDA.pdf?t=202206021305430"
+  },
+  {
+   "date": "2018-05-01",
+   "status": "matched",
+   "res": 6,
+   "voted": 6,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-1-18%20AGENDA.pdf?t=202206021307180"
+  },
+  {
+   "date": "2018-05-21",
+   "status": "matched",
+   "res": 1,
+   "voted": 0,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-21-18%20Special%20Meeting.pdf?t=202206021308440"
+  },
+  {
+   "date": "2018-06-19",
+   "status": "matched",
+   "res": 31,
+   "voted": 31,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-19-18%20resolutions%20and%20agenda.pdf?t=202206021313120"
+  },
+  {
+   "date": "2018-08-07",
+   "status": "scan-recovered",
+   "res": 53,
+   "voted": 48,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AUGUST%207,2018%20AGENDA.pdf?t=202206021314510"
+  },
+  {
+   "date": "2018-09-18",
+   "status": "matched",
+   "res": 55,
+   "voted": 53,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/91818%20RESOLUTIONS%20-AGENDA.pdf?t=202206021317390"
+  },
+  {
+   "date": "2018-10-16",
+   "status": "matched",
+   "res": 34,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-16-18%20RESOLUTIONS%20AND%20AGENDA.pdf?t=202206021318490"
+  },
+  {
+   "date": "2018-11-20",
+   "status": "scan-recovered",
+   "res": 33,
+   "voted": 33,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-20-18%20Agenda%20and%20Resolutions.pdf?t=202206021320080"
+  },
+  {
+   "date": "2018-12-04",
+   "status": "matched",
+   "res": 20,
+   "voted": 19,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-4-18%20RESOLUTIONS%20AND%20AGENDA.pdf?t=202206021321290"
+  },
+  {
+   "date": "2018-12-11",
+   "status": "never-posted",
+   "res": 10,
+   "voted": 0,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-11-18%20BUDGET%20AGENDA.pdf?t=202206021323210"
+  },
+  {
+   "date": "2019-01-02",
+   "status": "matched",
+   "res": 2,
+   "voted": 2,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-19%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202206011455430"
+  },
+  {
+   "date": "2019-01-15",
+   "status": "matched",
+   "res": 26,
+   "voted": 26,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-15-19%20RESOLUTIONS%20AND%20AGENDA.pdf?t=202206011456560"
+  },
+  {
+   "date": "2019-02-19",
+   "status": "matched",
+   "res": 56,
+   "voted": 55,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDA%202-19-19.pdf?t=202206011458430"
+  },
+  {
+   "date": "2019-03-19",
+   "status": "scan-recovered",
+   "res": 39,
+   "voted": 38,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-19%20RESOLUTIONS.pdf?t=202206011500250"
+  },
+  {
+   "date": "2019-04-09",
+   "status": "scan-recovered",
+   "res": 39,
+   "voted": 38,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/agenda%20and%20resos%204-9-19%20mtg-rev.pdf?t=202206011502050"
+  },
+  {
+   "date": "2019-05-07",
+   "status": "matched",
+   "res": 21,
+   "voted": 19,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/RESOLUTIONS%205-7-19.pdf?t=202206011503480"
+  },
+  {
+   "date": "2019-05-21",
+   "status": "matched",
+   "res": 29,
+   "voted": 29,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-21-19%20agenda%20and%20resolutions-1.pdf?t=202206011505430"
+  },
+  {
+   "date": "2019-06-18",
+   "status": "scan-recovered",
+   "res": 33,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-18-19%20RESOLUTIONS%20AND%20AGENDAS.pdf?t=202206011506540"
+  },
+  {
+   "date": "2019-07-10",
+   "status": "scan-recovered",
+   "res": 1,
+   "voted": 1,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/7-10-19.pdf?t=202206011508130"
+  },
+  {
+   "date": "2019-08-06",
+   "status": "scan-recovered",
+   "res": 52,
+   "voted": 47,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-6-19%20agenda%20and%20resolutions.pdf?t=202206011509370"
+  },
+  {
+   "date": "2019-09-04",
+   "status": "scan-recovered",
+   "res": 2,
+   "voted": 2,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-4-19%20SPECIAL%20MEETING.pdf?t=202206011510570"
+  },
+  {
+   "date": "2019-09-19",
+   "status": "scan-recovered",
+   "res": 53,
+   "voted": 50,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-19-19%20RESOLUTIONS%20AND%20AGENDA.pdf?t=202206011512330"
+  },
+  {
+   "date": "2019-10-15",
+   "status": "scan-recovered",
+   "res": 46,
+   "voted": 41,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-14-19-1.pdf?t=202206011514350"
+  },
+  {
+   "date": "2019-11-19",
+   "status": "scan-recovered",
+   "res": 37,
+   "voted": 35,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-19-19%20Agenda.pdf?t=202206011517290"
+  },
+  {
+   "date": "2019-12-03",
+   "status": "scan-recovered",
+   "res": 21,
+   "voted": 17,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-3-19%20AGENDA.pdf?t=202206011518340"
+  },
+  {
+   "date": "2019-12-10",
+   "status": "scan-recovered",
+   "res": 23,
+   "voted": 19,
+   "packet_ocr": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-10%20AGENDA.pdf?t=202206011519310"
+  },
+  {
+   "date": "2020-01-07",
+   "status": "matched",
+   "res": 0,
+   "voted": 0,
+   "packet_ocr": 1
+  },
+  {
+   "date": "2020-01-21",
+   "status": "matched",
+   "res": 30,
+   "voted": 23,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-21-20%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202206011404100"
+  },
+  {
+   "date": "2020-02-18",
+   "status": "matched",
+   "res": 59,
+   "voted": 53,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2-18-20%20AGENDA.pdf?t=202206011406150"
+  },
+  {
+   "date": "2020-03-10",
+   "status": "matched",
+   "res": 18,
+   "voted": 17,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-10-20%20AGENDA.pdf?t=202206011409200"
+  },
+  {
+   "date": "2020-03-13",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-13-20%20SPECIAL%20MEETING%20NOTICE.pdf?t=202206011413130"
+  },
+  {
+   "date": "2020-03-27",
+   "status": "matched",
+   "res": 3,
+   "voted": 3
+  },
+  {
+   "date": "2020-04-21",
+   "status": "matched",
+   "res": 35,
+   "voted": 35,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-21-20%20AGENDA%20.pdf?t=202206011434500"
+  },
+  {
+   "date": "2020-05-12",
+   "status": "matched",
+   "res": 22,
+   "voted": 21,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-12-20%20agenda%20and%20resolutions-1.pdf?t=202206011439260"
+  },
+  {
+   "date": "2020-06-16",
+   "status": "matched",
+   "res": 21,
+   "voted": 21,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-16-20%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202206011441030"
+  },
+  {
+   "date": "2020-08-04",
+   "status": "matched",
+   "res": 44,
+   "voted": 43,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-4-20%20Agenda%20and%20Resolutions.pdf?t=202206011442210"
+  },
+  {
+   "date": "2020-09-15",
+   "status": "matched",
+   "res": 43,
+   "voted": 41,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-15-20%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202206011443280"
+  },
+  {
+   "date": "2020-10-20",
+   "status": "matched",
+   "res": 32,
+   "voted": 31,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-20-20%20AGENDA%20and%20RESOLUTIONS.pdf?t=202206011446020"
+  },
+  {
+   "date": "2020-11-17",
+   "status": "matched",
+   "res": 22,
+   "voted": 22,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDA%20AND%20RESOLUTION%2011-17-20.pdf?t=202206011447240"
+  },
+  {
+   "date": "2020-12-01",
+   "status": "matched",
+   "res": 16,
+   "voted": 16,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-1-20%20Agendas%20&%20Resolutions.pdf?t=202206011448300"
+  },
+  {
+   "date": "2020-12-08",
+   "status": "matched",
+   "res": 24,
+   "voted": 20,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-8-20%20AGENDA%20AND%20RESOS.pdf?t=202206011449400"
+  },
+  {
+   "date": "2021-01-05",
+   "status": "matched",
+   "res": 3,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-5-21%20AGENDA.pdf?t=202205201424150"
+  },
+  {
+   "date": "2021-01-19",
+   "status": "matched",
+   "res": 28,
+   "voted": 27,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-19-21%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202205201425450"
+  },
+  {
+   "date": "2021-02-16",
+   "status": "matched",
+   "res": 33,
+   "voted": 32,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2-16-21%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202205201427300"
+  },
+  {
+   "date": "2021-03-23",
+   "status": "matched",
+   "res": 53,
+   "voted": 49,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDA%20AND%20RESOLUTIONS%203-23-21.pdf?t=202205201429560"
+  },
+  {
+   "date": "2021-04-20",
+   "status": "matched",
+   "res": 42,
+   "voted": 40,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/4-20-21%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202402081313530"
+  },
+  {
+   "date": "2021-05-11",
+   "status": "matched",
+   "res": 31,
+   "voted": 30,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/MAY%2011,%202021%20AGENDA.pdf?t=202205201432560"
+  },
+  {
+   "date": "2021-06-15",
+   "status": "matched",
+   "res": 47,
+   "voted": 46,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-15-21%20RESOLUTIONS%20AND%20AGENDAS.pdf?t=202205201437200"
+  },
+  {
+   "date": "2021-08-03",
+   "status": "matched",
+   "res": 38,
+   "voted": 38,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDA%20AND%20RESOLUTIONS%208-3-21.pdf?t=202206061346230"
+  },
+  {
+   "date": "2021-09-13",
+   "status": "matched",
+   "res": 5,
+   "voted": 5,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-13-21%20Special%20Meeting%20Agenda.pdf?t=202206061348150"
+  },
+  {
+   "date": "2021-09-21",
+   "status": "matched",
+   "res": 53,
+   "voted": 51,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-21-21.pdf?t=202206061349530"
+  },
+  {
+   "date": "2021-10-19",
+   "status": "matched",
+   "res": 28,
+   "voted": 21,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-19-21%20agenda%20and%20resolutions-1_1.pdf?t=202206061351200"
+  },
+  {
+   "date": "2021-11-09",
+   "status": "matched",
+   "res": 2,
+   "voted": 0,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-9-21%20SPECIAL%20MEETING.pdf?t=202206061352560"
+  },
+  {
+   "date": "2021-11-16",
+   "status": "matched",
+   "res": 26,
+   "voted": 26,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-16-21.pdf?t=202206061354190"
+  },
+  {
+   "date": "2021-12-07",
+   "status": "matched",
+   "res": 3,
+   "voted": 3,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-7-21%20AGENDA.pdf?t=202206061355370"
+  },
+  {
+   "date": "2021-12-14",
+   "status": "matched",
+   "res": 38,
+   "voted": 36,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-14-21%20AGENDA%20&%20RESOLUTIONS.pdf?t=202206061357380"
+  },
+  {
+   "date": "2022-01-04",
+   "status": "matched",
+   "res": 0,
+   "voted": 0
+  },
+  {
+   "date": "2022-01-18",
+   "status": "matched",
+   "res": 35,
+   "voted": 35,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-18-22%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202205201056310"
+  },
+  {
+   "date": "2022-02-15",
+   "status": "matched",
+   "res": 41,
+   "voted": 39,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2-15-22%20RESOLUTIONS%20AND%20AGENDA.pdf?t=202205201056350"
+  },
+  {
+   "date": "2022-03-22",
+   "status": "matched",
+   "res": 58,
+   "voted": 57,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-22-22%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202205201427150"
+  },
+  {
+   "date": "2022-04-25",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-25-22%20SPECIAL%20LEGISLATURE%20MEETING.pdf?t=202205201058510"
+  },
+  {
+   "date": "2022-05-03",
+   "status": "matched",
+   "res": 43,
+   "voted": 43,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-3-22%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202205201100500"
+  },
+  {
+   "date": "2022-05-17",
+   "status": "matched",
+   "res": 38,
+   "voted": 37,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-17%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202205201101520"
+  },
+  {
+   "date": "2022-06-21",
+   "status": "matched",
+   "res": 61,
+   "voted": 57,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDAS%20AND%20RESOLUTIONS%206-21-22.pdf?t=202209271113280"
+  },
+  {
+   "date": "2022-08-02",
+   "status": "matched",
+   "res": 58,
+   "voted": 56,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-2-22%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202209271109010"
+  },
+  {
+   "date": "2022-09-13",
+   "status": "matched",
+   "res": 68,
+   "voted": 66,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9_13_22%20AGENDAS%20&%20RESOLUTIONS.pdf?t=202209271059450"
+  },
+  {
+   "date": "2022-10-18",
+   "status": "matched",
+   "res": 51,
+   "voted": 49,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-18%20-22%20RESOLUTIONS%20AND%20AGENDAS.pdf?t=202210141049280"
+  },
+  {
+   "date": "2022-11-15",
+   "status": "matched",
+   "res": 68,
+   "voted": 65,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/11-15-22%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202211101635360"
+  },
+  {
+   "date": "2022-12-06",
+   "status": "matched",
+   "res": 31,
+   "voted": 25,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-6-22%20ANGENDAS%20AND%20RESOLUTIONS.pdf?t=202212131428380"
+  },
+  {
+   "date": "2022-12-13",
+   "status": "matched",
+   "res": 22,
+   "voted": 19,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-13-22%20AGENDA.pdf?t=202212131426160"
+  },
+  {
+   "date": "2023-01-03",
+   "status": "matched",
+   "res": 4,
+   "voted": 4,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-3-23%20AGENDA.pdf?t=202301031400070"
+  },
+  {
+   "date": "2023-01-17",
+   "status": "matched",
+   "res": 37,
+   "voted": 36,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-17-23%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202301171056040"
+  },
+  {
+   "date": "2023-02-21",
+   "status": "matched",
+   "res": 77,
+   "voted": 76,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/AGENDAS%20AND%20RESOLUTIONS%202-21-23.pdf?t=202302171028130"
+  },
+  {
+   "date": "2023-03-21",
+   "status": "matched",
+   "res": 41,
+   "voted": 40,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/3-21-23%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202303161608370"
+  },
+  {
+   "date": "2023-04-17",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-17-23%20SPECIAL%20LEGISLATURE%20MEETING.pdf?t=202304051357110"
+  },
+  {
+   "date": "2023-04-25",
+   "status": "matched",
+   "res": 57,
+   "voted": 56,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/4-25-23%20RESOLUTIONS%20AND%20AGENDAS.pdf?t=202304251434170"
+  },
+  {
+   "date": "2023-05-16",
+   "status": "matched",
+   "res": 38,
+   "voted": 37,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/5-16-23%20Agenda%20and%20Resolutions.pdf?t=202305161433260"
+  },
+  {
+   "date": "2023-06-20",
+   "status": "matched",
+   "res": 72,
+   "voted": 68,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/6-20-23%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202306151657070"
+  },
+  {
+   "date": "2023-08-01",
+   "status": "matched",
+   "res": 64,
+   "voted": 62,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/8-1-23%20AGENDAS%20AND%20RESOLTIONS.pdf?t=202308011417550"
+  },
+  {
+   "date": "2023-09-19",
+   "status": "matched",
+   "res": 49,
+   "voted": 49,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/9-19-23%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202309191505220"
+  },
+  {
+   "date": "2023-10-17",
+   "status": "matched",
+   "res": 65,
+   "voted": 62,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/10-17-23%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202310171044040"
+  },
+  {
+   "date": "2023-11-14",
+   "status": "matched",
+   "res": 79,
+   "voted": 79,
+   "src": "https://www.niagaracounty.gov/11-14-23%20agenda%20and%20resolutions.pdf?t=202311141101080"
+  },
+  {
+   "date": "2023-11-27",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/11-27-23%20SPECIAL%20MEETING.pdf?t=202311201447560"
+  },
+  {
+   "date": "2023-12-05",
+   "status": "matched",
+   "res": 27,
+   "voted": 26,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-5-23%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202311301630160"
+  },
+  {
+   "date": "2023-12-12",
+   "status": "matched",
+   "res": 14,
+   "voted": 14,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/12-12-23%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202312071552080"
+  },
+  {
+   "date": "2024-01-02",
+   "status": "matched",
+   "res": 1,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-24%20AGENDA%20.pdf?t=202312281618040"
+  },
+  {
+   "date": "2024-01-23",
+   "status": "matched",
+   "res": 58,
+   "voted": 58,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-23-24%20Resolutions%20and%20Agendas.pdf?t=202401231427370"
+  },
+  {
+   "date": "2024-02-20",
+   "status": "matched",
+   "res": 61,
+   "voted": 57,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/2-20-24%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202402201109580"
+  },
+  {
+   "date": "2024-03-19",
+   "status": "matched",
+   "res": 71,
+   "voted": 71,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/3-19-24%20Agendas%20and%20Resolutions.pdf?t=202403191302480"
+  },
+  {
+   "date": "2024-04-23",
+   "status": "matched",
+   "res": 62,
+   "voted": 62,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/4-23-24%20AGENDA%20AND%20RESOLUTIONS%20.pdf?t=202404181618390"
+  },
+  {
+   "date": "2024-05-14",
+   "status": "matched",
+   "res": 64,
+   "voted": 59,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/5-14%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202405141411050"
+  },
+  {
+   "date": "2024-06-18",
+   "status": "matched",
+   "res": 67,
+   "voted": 67,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/6-18-24%20AGENDA%20AND%20RESOLUTION.pdf?t=202406171318510"
+  },
+  {
+   "date": "2024-07-15",
+   "status": "matched",
+   "res": 2,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/7-15-24%20SPECIAL%20MEETING%20AGENDA.pdf?t=202407101437280"
+  },
+  {
+   "date": "2024-08-06",
+   "status": "matched",
+   "res": 41,
+   "voted": 38,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/8-6-24%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202408061128380"
+  },
+  {
+   "date": "2024-09-17",
+   "status": "matched",
+   "res": 60,
+   "voted": 59,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/9-17-24%20Agenda%20and%20Resolutions.pdf?t=202409171238440"
+  },
+  {
+   "date": "2024-10-15",
+   "status": "matched",
+   "res": 80,
+   "voted": 80,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/10-15-24%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202410101549210"
+  },
+  {
+   "date": "2024-11-12",
+   "status": "matched",
+   "res": 61,
+   "voted": 61,
+   "src": "https://www.niagaracounty.gov/11-12-24%20agenda%20and%20resolutions.pdf?t=202411071421010"
+  },
+  {
+   "date": "2024-12-03",
+   "status": "matched",
+   "res": 59,
+   "voted": 59,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/12-3-24%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202412021448200"
+  },
+  {
+   "date": "2024-12-10",
+   "status": "matched",
+   "res": 14,
+   "voted": 14,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2024/12-10-24%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202412051503460"
+  },
+  {
+   "date": "2025-01-07",
+   "status": "matched",
+   "res": 2,
+   "voted": 1,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/1-7-25%20AGENDA%20and%20RESOLUTIONS.pdf?t=202501021506480"
+  },
+  {
+   "date": "2025-01-21",
+   "status": "matched",
+   "res": 59,
+   "voted": 58,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/1-21-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202501161630040"
+  },
+  {
+   "date": "2025-02-18",
+   "status": "matched",
+   "res": 71,
+   "voted": 67,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/2-18-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202502141600490"
+  },
+  {
+   "date": "2025-03-18",
+   "status": "matched",
+   "res": 78,
+   "voted": 78,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/3-18-25%20Agendas%20and%20Resolutions.pdf?t=202503171209460"
+  },
+  {
+   "date": "2025-04-08",
+   "status": "matched",
+   "res": 25,
+   "voted": 25,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/4-8-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202504031608350"
+  },
+  {
+   "date": "2025-05-06",
+   "status": "matched",
+   "res": 56,
+   "voted": 56,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/5-6-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202505061027440"
+  },
+  {
+   "date": "2025-05-20",
+   "status": "matched",
+   "res": 31,
+   "voted": 30,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/5-20-25%20AGENDA%20AND%20RESOLUTIONS.pdf?t=202505201224430"
+  },
+  {
+   "date": "2025-06-17",
+   "status": "matched",
+   "res": 49,
+   "voted": 49,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/6-17%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202506171508240"
+  },
+  {
+   "date": "2025-08-05",
+   "status": "matched",
+   "res": 62,
+   "voted": 62,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/8-5-25%20agenda%20and%20resolutions.pdf?t=202508051127180"
+  },
+  {
+   "date": "2025-08-18",
+   "status": "matched",
+   "res": 1,
+   "voted": 0,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/8-18-25%20SPECIAL%20MEETING.pdf?t=202508131651210"
+  },
+  {
+   "date": "2025-09-16",
+   "status": "matched",
+   "res": 60,
+   "voted": 59,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/9-16-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202509161252110"
+  },
+  {
+   "date": "2025-10-21",
+   "status": "matched",
+   "res": 50,
+   "voted": 50,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/10-21%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202510211254470"
+  },
+  {
+   "date": "2025-11-18",
+   "status": "matched",
+   "res": 54,
+   "voted": 54,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/11-18-25%20AGENDA%20AND%20RESOLUTION.pdf?t=202511131604320"
+  },
+  {
+   "date": "2025-12-02",
+   "status": "matched",
+   "res": 21,
+   "voted": 21,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/12-2-25%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202511261430260"
+  },
+  {
+   "date": "2025-12-09",
+   "status": "matched",
+   "res": 13,
+   "voted": 13,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/12-9-25%20MEETING%20AGENDA.pdf?t=202512041503070"
+  },
+  {
+   "date": "2026-01-06",
+   "status": "matched",
+   "res": 0,
+   "voted": 0
+  },
+  {
+   "date": "2026-01-20",
+   "status": "matched",
+   "res": 45,
+   "voted": 45,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/1-20-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202601151609310"
+  },
+  {
+   "date": "2026-02-17",
+   "status": "matched",
+   "res": 74,
+   "voted": 74,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/2-17-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202602121554430"
+  },
+  {
+   "date": "2026-03-24",
+   "status": "matched",
+   "res": 82,
+   "voted": 82,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/3-24-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202603191604580"
+  },
+  {
+   "date": "2026-04-21",
+   "status": "matched",
+   "res": 67,
+   "voted": 67,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/4-21-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202604171037360"
+  },
+  {
+   "date": "2026-05-05",
+   "status": "matched",
+   "res": 10,
+   "voted": 10,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/5-5-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202604301416140"
+  },
+  {
+   "date": "2026-05-19",
+   "status": "matched",
+   "res": 38,
+   "voted": 38,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/5-19-26%20agenda%20and%20resolutions.pdf?t=202605141547440"
+  },
+  {
+   "date": "2026-05-28",
+   "status": "matched",
+   "res": 3,
+   "voted": 2,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/5-28-26%20SPECIAL%20MEETING.pdf?t=202605261636380"
+  },
+  {
+   "date": "2026-06-16",
+   "status": "matched",
+   "res": 54,
+   "voted": 53,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/6-16-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202606121336070"
+  },
+  {
+   "date": "2026-08-04",
+   "status": "matched",
+   "res": 61,
+   "voted": 56,
+   "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/8-4-26%20AGENDAS%20AND%20RESOLUTIONS.pdf?t=202607301610550"
+  }
+ ]
+}
