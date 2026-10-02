@@ -1,0 +1,114 @@
+{
+  "_doc": "Does Public Ledger hold an itemised claims register for this government? status = 'ingested' (the register is in Public Ledger; source = where it is posted) | 'absent-verified' (someone checked the government's own site on 'checked' and found no itemised claims register; source = the page checked) | 'unchecked' (nobody has looked - the default). Only 'absent-verified' lets a page say the government 'does not publish' one; 'unchecked' says what has not been checked. Keys are page slugs; tools/muni_routes.py validates this file at build time.",
+  "city-north-tonawanda": {
+    "status": "ingested",
+    "checked": "2026-10-01",
+    "source": "https://www.northtonawanda.gov/accounting",
+    "note": "Every warrant posted by the city is parsed and tied out on the flagship page (index.html)."
+  },
+  "city-lockport": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "city-niagara-falls": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-cambria": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-hartland": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-lewiston": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-lockport": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-newfane": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-niagara": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-pendleton": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-porter": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-royalton": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-somerset": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-wheatfield": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "town-wilson": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "village-barker": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "village-lewiston": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "village-middleport": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "village-wilson": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "village-youngstown": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "county": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  },
+  "school-district": {
+    "status": "unchecked",
+    "checked": null,
+    "source": null
+  }
+}

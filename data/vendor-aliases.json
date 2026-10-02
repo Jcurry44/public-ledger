@@ -1,0 +1,26 @@
+{
+  "_note": "One-word brand heads. Never Spectrum or Wendel.",
+  "aliases": [
+    {
+      "key": "amazon",
+      "payee_substrings": [
+        "AMAZON"
+      ],
+      "note": "City AMAZON CAPITAL SERVICES; county titles name Amazon. Name match only."
+    },
+    {
+      "key": "walmart",
+      "payee_substrings": [
+        "WALMART"
+      ],
+      "note": "City WALMART SUPERCENTER; county may name Walmart."
+    },
+    {
+      "key": "national fuel",
+      "payee_substrings": [
+        "NATIONAL FUEL"
+      ],
+      "note": "City NATIONAL FUEL / NATIONAL FUEL GAS; county titles use National Fuel."
+    }
+  ]
+}
