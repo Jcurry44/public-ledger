@@ -1,0 +1,947 @@
+{
+ "built": "2026-10-02",
+ "builtLabel": "10/02/2026",
+ "site": "https://jcurry44.github.io/public-ledger",
+ "pageFeed": {
+  "index": "warrants",
+  "brief": "warrants",
+  "audit": "warrants",
+  "briefs": "warrants",
+  "decisions": "decisions",
+  "legislators": "decisions",
+  "poster": "decisions",
+  "contested": "decisions",
+  "county": "osc",
+  "atlas": "osc",
+  "school": "osc",
+  "munis": "osc"
+ },
+ "feeds": {
+  "warrants": {
+   "id": "warrants",
+   "label": "City warrants",
+   "through": "2026-09-15",
+   "throughLabel": "09/15/2026",
+   "count": 48,
+   "cadence": "1st or 3rd Tuesday (measured)",
+   "next": "2026-10-06",
+   "nextLabel": "Tue 10/06",
+   "unread": [],
+   "items": [
+    {
+     "id": "Warrant report 9.15.26.pdf",
+     "date": "2026-09-15",
+     "title": "Warrant report 9.15.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-9-15-26.html",
+     "lines": 239,
+     "sumE": 1774250.22,
+     "exact": true
+    },
+    {
+     "id": "warrant report 9.1.26 - VISA.pdf",
+     "date": "2026-09-01",
+     "title": "warrant report 9.1.26 - VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-9-1-26-visa.html",
+     "lines": 57,
+     "sumE": 67351.64,
+     "exact": true
+    },
+    {
+     "id": "warrant report 9.1.26.pdf",
+     "date": "2026-09-01",
+     "title": "warrant report 9.1.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-9-1-26.html",
+     "lines": 322,
+     "sumE": 1563226.48,
+     "exact": true
+    },
+    {
+     "id": "Warrant report 8.18.26.pdf",
+     "date": "2026-08-18",
+     "title": "Warrant report 8.18.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-8-18-26.html",
+     "lines": 358,
+     "sumE": 1749866.0,
+     "exact": true
+    },
+    {
+     "id": "Warrant report 8.4.26 VISA.pdf",
+     "date": "2026-08-04",
+     "title": "Warrant report 8.4.26 VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-8-4-26-visa.html",
+     "lines": 55,
+     "sumE": 115705.45,
+     "exact": true
+    },
+    {
+     "id": "Warrant report 8.4.26.pdf",
+     "date": "2026-08-04",
+     "title": "Warrant report 8.4.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-8-4-26.html",
+     "lines": 278,
+     "sumE": 1409462.13,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 7.21.26.pdf",
+     "date": "2026-07-21",
+     "title": "Warrant Report 7.21.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-7-21-26.html",
+     "lines": 375,
+     "sumE": 1692019.97,
+     "exact": true
+    },
+    {
+     "id": "Warrant report 7.7.26.pdf",
+     "date": "2026-07-07",
+     "title": "Warrant report 7.7.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-7-7-26.html",
+     "lines": 312,
+     "sumE": 1275398.18,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 7.7.26 - VISA.pdf",
+     "date": "2026-06-22",
+     "title": "Warrant Report 7.7.26 - VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-7-7-26-visa.html",
+     "lines": 32,
+     "sumE": 43049.77,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 6.16.26.pdf",
+     "date": "2026-06-16",
+     "title": "Warrant Report 6.16.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-6-16-26.html",
+     "lines": 370,
+     "sumE": 878551.65,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 6.2.26.pdf",
+     "date": "2026-06-02",
+     "title": "Warrant Report 6.2.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-6-2-26.html",
+     "lines": 211,
+     "sumE": 383304.11,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 6.2.26 VISA.pdf",
+     "date": "2026-06-01",
+     "title": "Warrant Report 6.2.26 VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-6-2-26-visa.html",
+     "lines": 48,
+     "sumE": 108140.48,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 5.19.26.pdf",
+     "date": "2026-05-19",
+     "title": "Warrant Report 5.19.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-5-19-26.html",
+     "lines": 270,
+     "sumE": 837118.72,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 5.5.26 - VISA.pdf",
+     "date": "2026-05-05",
+     "title": "Warrant Report 5.5.26 - VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-5-5-26-visa.html",
+     "lines": 58,
+     "sumE": 57912.43,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 5.5.26.pdf",
+     "date": "2026-05-05",
+     "title": "Warrant Report 5.5.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-5-5-26.html",
+     "lines": 309,
+     "sumE": 980836.06,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 4.21.26.pdf",
+     "date": "2026-04-21",
+     "title": "Warrant Report 4.21.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-4-21-26.html",
+     "lines": 288,
+     "sumE": 882733.31,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 4.7.26 VISA.pdf",
+     "date": "2026-04-07",
+     "title": "Warrant Report 4.7.26 VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-4-7-26-visa.html",
+     "lines": 39,
+     "sumE": 5902.87,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 4.7.26.pdf",
+     "date": "2026-04-07",
+     "title": "Warrant Report 4.7.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-4-7-26.html",
+     "lines": 482,
+     "sumE": 1097476.36,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 3.17.26.pdf",
+     "date": "2026-03-17",
+     "title": "Warrant Report 3.17.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-3-17-26.html",
+     "lines": 314,
+     "sumE": 1063095.43,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 3.3.26 - 2026.pdf",
+     "date": "2026-03-03",
+     "title": "Warrant Report 3.3.26 - 2026",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-3-3-26-2026.html",
+     "lines": 193,
+     "sumE": 620647.82,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.17.26 - 2026.pdf",
+     "date": "2026-02-17",
+     "title": "Warrant Report 2.17.26 - 2026",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-17-26-2026.html",
+     "lines": 272,
+     "sumE": 1150126.15,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.3.26-2025 Charges.pdf",
+     "date": "2026-02-03",
+     "title": "Warrant Report 2.3.26-2025 Charges",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-3-26-2025-charges.html",
+     "lines": 60,
+     "sumE": 400334.48,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.3.26-2026 Charges.pdf",
+     "date": "2026-02-03",
+     "title": "Warrant Report 2.3.26-2026 Charges",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-3-26-2026-charges.html",
+     "lines": 181,
+     "sumE": 335635.12,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 1.20.26 - 2026.pdf",
+     "date": "2026-01-20",
+     "title": "Warrant Report 1.20.26 - 2026",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-1-20-26-2026.html",
+     "lines": 134,
+     "sumE": 984052.27,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 12.2.25.pdf",
+     "date": "2025-12-02",
+     "title": "Warrant Report 12.2.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-12-2-25.html",
+     "lines": 212,
+     "sumE": 1812804.98,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 11.18.25.pdf",
+     "date": "2025-11-18",
+     "title": "Warrant Report 11.18.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-11-18-25.html",
+     "lines": 328,
+     "sumE": 883030.14,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 11.5.25.pdf",
+     "date": "2025-11-04",
+     "title": "Warrant Report 11.5.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-11-5-25.html",
+     "lines": 285,
+     "sumE": 1164616.64,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 10.7.25.pdf",
+     "date": "2025-10-07",
+     "title": "Warrant Report 10.7.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-10-7-25.html",
+     "lines": 421,
+     "sumE": 1347872.82,
+     "exact": true
+    },
+    {
+     "id": "Warrant report 9.16.25.pdf",
+     "date": "2025-09-16",
+     "title": "Warrant report 9.16.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-9-16-25.html",
+     "lines": 284,
+     "sumE": 647820.48,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 9.2.25.pdf",
+     "date": "2025-09-02",
+     "title": "Warrant Report 9.2.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-9-2-25.html",
+     "lines": 259,
+     "sumE": 1502424.66,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 8.19.25.pdf",
+     "date": "2025-08-15",
+     "title": "Warrant Report 8.19.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-8-19-25.html",
+     "lines": 294,
+     "sumE": 846855.68,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 8.5.25.pdf",
+     "date": "2025-08-05",
+     "title": "Warrant Report 8.5.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-8-5-25.html",
+     "lines": 438,
+     "sumE": 1511538.42,
+     "exact": true
+    },
+    {
+     "id": "warrant report 7.15.25.pdf",
+     "date": "2025-07-14",
+     "title": "warrant report 7.15.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-7-15-25.html",
+     "lines": 327,
+     "sumE": 672445.95,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 6.17.25.pdf",
+     "date": "2025-06-17",
+     "title": "Warrant Report 6.17.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-6-17-25.html",
+     "lines": 361,
+     "sumE": 1135248.61,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 6.3.25.pdf",
+     "date": "2025-06-03",
+     "title": "Warrant Report 6.3.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-6-3-25.html",
+     "lines": 311,
+     "sumE": 776857.15,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 5.20.25.pdf",
+     "date": "2025-05-20",
+     "title": "Warrant Report 5.20.25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-5-20-25.html",
+     "lines": 342,
+     "sumE": 596982.15,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 5.6.25.b.pdf",
+     "date": "2025-05-06",
+     "title": "Warrant Report 5.6.25.b",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 4.15.25.pdf",
+     "date": "2025-04-15",
+     "title": "Warrant Report 4.15.25",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 4.1.25.pdf",
+     "date": "2025-04-01",
+     "title": "Warrant Report 4.1.25",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 3-18-25.pdf",
+     "date": "2025-03-18",
+     "title": "Warrant Report 3-18-25",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 3.4.25.pdf",
+     "date": "2025-03-04",
+     "title": "Warrant Report 3.4.25",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 2.18.25 - 2024.pdf",
+     "date": "2025-02-18",
+     "title": "Warrant Report 2.18.25 - 2024",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-18-25-2024.html",
+     "lines": 30,
+     "sumE": 180341.17,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.18.25 - 2025.pdf",
+     "date": "2025-02-18",
+     "title": "Warrant Report 2.18.25 - 2025",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-18-25-2025.html",
+     "lines": 357,
+     "sumE": 867005.05,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.18.25 - VISA.pdf",
+     "date": "2025-02-13",
+     "title": "Warrant Report 2.18.25 - VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-2-18-25-visa.html",
+     "lines": 35,
+     "sumE": 55165.27,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 2.4.25 - 2024 charges.pdf",
+     "date": "2025-02-04",
+     "title": "Warrant Report 2.4.25 - 2024 charges",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-2-4-25-2024-charges.html",
+     "lines": 44,
+     "sumE": 90357.05,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 1-21-25.pdf",
+     "date": "2025-01-21",
+     "title": "Warrant Report 1-21-25",
+     "kind": "scan",
+     "url": "index.html#explore",
+     "lines": 0,
+     "sumE": 0,
+     "exact": false
+    },
+    {
+     "id": "Warrant Report 1.7 (004).25.pdf",
+     "date": "2025-01-07",
+     "title": "Warrant Report 1.7 (004).25",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-1-7-004-25.html",
+     "lines": 255,
+     "sumE": 720603.07,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 1.7 (005).25 pre issue.pdf",
+     "date": "2025-01-07",
+     "title": "Warrant Report 1.7 (005).25 pre issue",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-1-7-005-25-pre-issue.html",
+     "lines": 1,
+     "sumE": 73.75,
+     "exact": true
+    }
+   ],
+   "grammar": "Through Sep 15, 2026 \u00b7 built Oct 2, 2026"
+  },
+  "decisions": {
+   "id": "decisions",
+   "label": "County resolutions",
+   "through": "2026-09-22",
+   "throughLabel": "09/22/2026",
+   "count": 6051,
+   "cadence": "Legislature meetings",
+   "next": null,
+   "nextLabel": null,
+   "unread": [],
+   "items": [
+    {
+     "id": "2026-09-22",
+     "date": "2026-09-22",
+     "title": "Meeting 09/22/2026 \u00b7 98 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-09-22",
+     "n": 98
+    },
+    {
+     "id": "2026-08-04",
+     "date": "2026-08-04",
+     "title": "Meeting 08/04/2026 \u00b7 61 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-08-04",
+     "n": 61
+    },
+    {
+     "id": "2026-06-16",
+     "date": "2026-06-16",
+     "title": "Meeting 06/16/2026 \u00b7 54 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-06-16",
+     "n": 54
+    },
+    {
+     "id": "2026-05-28",
+     "date": "2026-05-28",
+     "title": "Meeting 05/28/2026 \u00b7 3 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-05-28",
+     "n": 3
+    },
+    {
+     "id": "2026-05-19",
+     "date": "2026-05-19",
+     "title": "Meeting 05/19/2026 \u00b7 38 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-05-19",
+     "n": 38
+    },
+    {
+     "id": "2026-05-05",
+     "date": "2026-05-05",
+     "title": "Meeting 05/05/2026 \u00b7 10 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-05-05",
+     "n": 10
+    },
+    {
+     "id": "2026-04-21",
+     "date": "2026-04-21",
+     "title": "Meeting 04/21/2026 \u00b7 67 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-04-21",
+     "n": 67
+    },
+    {
+     "id": "2026-03-24",
+     "date": "2026-03-24",
+     "title": "Meeting 03/24/2026 \u00b7 82 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-03-24",
+     "n": 82
+    },
+    {
+     "id": "2026-02-17",
+     "date": "2026-02-17",
+     "title": "Meeting 02/17/2026 \u00b7 74 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-02-17",
+     "n": 74
+    },
+    {
+     "id": "2026-01-20",
+     "date": "2026-01-20",
+     "title": "Meeting 01/20/2026 \u00b7 45 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-01-20",
+     "n": 45
+    },
+    {
+     "id": "2025-12-09",
+     "date": "2025-12-09",
+     "title": "Meeting 12/09/2025 \u00b7 13 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-12-09",
+     "n": 13
+    },
+    {
+     "id": "2025-12-02",
+     "date": "2025-12-02",
+     "title": "Meeting 12/02/2025 \u00b7 21 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-12-02",
+     "n": 21
+    },
+    {
+     "id": "2025-11-18",
+     "date": "2025-11-18",
+     "title": "Meeting 11/18/2025 \u00b7 54 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-11-18",
+     "n": 54
+    },
+    {
+     "id": "2025-10-21",
+     "date": "2025-10-21",
+     "title": "Meeting 10/21/2025 \u00b7 50 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-10-21",
+     "n": 50
+    },
+    {
+     "id": "2025-09-16",
+     "date": "2025-09-16",
+     "title": "Meeting 09/16/2025 \u00b7 60 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-09-16",
+     "n": 60
+    },
+    {
+     "id": "2025-08-18",
+     "date": "2025-08-18",
+     "title": "Meeting 08/18/2025 \u00b7 1 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-08-18",
+     "n": 1
+    },
+    {
+     "id": "2025-08-05",
+     "date": "2025-08-05",
+     "title": "Meeting 08/05/2025 \u00b7 62 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-08-05",
+     "n": 62
+    },
+    {
+     "id": "2025-06-17",
+     "date": "2025-06-17",
+     "title": "Meeting 06/17/2025 \u00b7 49 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-06-17",
+     "n": 49
+    },
+    {
+     "id": "2025-05-20",
+     "date": "2025-05-20",
+     "title": "Meeting 05/20/2025 \u00b7 31 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-05-20",
+     "n": 31
+    },
+    {
+     "id": "2025-05-06",
+     "date": "2025-05-06",
+     "title": "Meeting 05/06/2025 \u00b7 56 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-05-06",
+     "n": 56
+    },
+    {
+     "id": "2025-04-08",
+     "date": "2025-04-08",
+     "title": "Meeting 04/08/2025 \u00b7 25 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-04-08",
+     "n": 25
+    },
+    {
+     "id": "2025-03-18",
+     "date": "2025-03-18",
+     "title": "Meeting 03/18/2025 \u00b7 78 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-03-18",
+     "n": 78
+    },
+    {
+     "id": "2025-02-18",
+     "date": "2025-02-18",
+     "title": "Meeting 02/18/2025 \u00b7 71 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-02-18",
+     "n": 71
+    },
+    {
+     "id": "2025-01-21",
+     "date": "2025-01-21",
+     "title": "Meeting 01/21/2025 \u00b7 59 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-01-21",
+     "n": 59
+    },
+    {
+     "id": "2025-01-07",
+     "date": "2025-01-07",
+     "title": "Meeting 01/07/2025 \u00b7 2 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2025-01-07",
+     "n": 2
+    },
+    {
+     "id": "2024-12-10",
+     "date": "2024-12-10",
+     "title": "Meeting 12/10/2024 \u00b7 14 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-12-10",
+     "n": 14
+    },
+    {
+     "id": "2024-12-03",
+     "date": "2024-12-03",
+     "title": "Meeting 12/03/2024 \u00b7 59 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-12-03",
+     "n": 59
+    },
+    {
+     "id": "2024-11-12",
+     "date": "2024-11-12",
+     "title": "Meeting 11/12/2024 \u00b7 61 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-11-12",
+     "n": 61
+    },
+    {
+     "id": "2024-10-15",
+     "date": "2024-10-15",
+     "title": "Meeting 10/15/2024 \u00b7 80 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-10-15",
+     "n": 80
+    },
+    {
+     "id": "2024-09-17",
+     "date": "2024-09-17",
+     "title": "Meeting 09/17/2024 \u00b7 60 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-09-17",
+     "n": 60
+    },
+    {
+     "id": "2024-08-06",
+     "date": "2024-08-06",
+     "title": "Meeting 08/06/2024 \u00b7 41 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-08-06",
+     "n": 41
+    },
+    {
+     "id": "2024-07-15",
+     "date": "2024-07-15",
+     "title": "Meeting 07/15/2024 \u00b7 2 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-07-15",
+     "n": 2
+    },
+    {
+     "id": "2024-06-18",
+     "date": "2024-06-18",
+     "title": "Meeting 06/18/2024 \u00b7 67 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-06-18",
+     "n": 67
+    },
+    {
+     "id": "2024-05-14",
+     "date": "2024-05-14",
+     "title": "Meeting 05/14/2024 \u00b7 64 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-05-14",
+     "n": 64
+    },
+    {
+     "id": "2024-04-23",
+     "date": "2024-04-23",
+     "title": "Meeting 04/23/2024 \u00b7 62 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-04-23",
+     "n": 62
+    },
+    {
+     "id": "2024-03-19",
+     "date": "2024-03-19",
+     "title": "Meeting 03/19/2024 \u00b7 71 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-03-19",
+     "n": 71
+    },
+    {
+     "id": "2024-02-20",
+     "date": "2024-02-20",
+     "title": "Meeting 02/20/2024 \u00b7 61 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-02-20",
+     "n": 61
+    },
+    {
+     "id": "2024-01-23",
+     "date": "2024-01-23",
+     "title": "Meeting 01/23/2024 \u00b7 58 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-01-23",
+     "n": 58
+    },
+    {
+     "id": "2024-01-02",
+     "date": "2024-01-02",
+     "title": "Meeting 01/02/2024 \u00b7 1 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2024-01-02",
+     "n": 1
+    },
+    {
+     "id": "2023-12-12",
+     "date": "2023-12-12",
+     "title": "Meeting 12/12/2023 \u00b7 14 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2023-12-12",
+     "n": 14
+    }
+   ],
+   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 2, 2026"
+  },
+  "osc": {
+   "id": "osc",
+   "label": "Annual filings (OSC)",
+   "through": "2024",
+   "throughLabel": "2024",
+   "count": 30,
+   "cadence": "annual",
+   "next": null,
+   "nextLabel": null,
+   "unread": [],
+   "items": [
+    {
+     "id": "2024",
+     "date": "2024-12-31",
+     "title": "OSC filing 2024",
+     "kind": "filing",
+     "url": "county.html#y=2024"
+    },
+    {
+     "id": "2023",
+     "date": "2023-12-31",
+     "title": "OSC filing 2023",
+     "kind": "filing",
+     "url": "county.html#y=2023"
+    },
+    {
+     "id": "2022",
+     "date": "2022-12-31",
+     "title": "OSC filing 2022",
+     "kind": "filing",
+     "url": "county.html#y=2022"
+    },
+    {
+     "id": "2021",
+     "date": "2021-12-31",
+     "title": "OSC filing 2021",
+     "kind": "filing",
+     "url": "county.html#y=2021"
+    },
+    {
+     "id": "2020",
+     "date": "2020-12-31",
+     "title": "OSC filing 2020",
+     "kind": "filing",
+     "url": "county.html#y=2020"
+    },
+    {
+     "id": "2019",
+     "date": "2019-12-31",
+     "title": "OSC filing 2019",
+     "kind": "filing",
+     "url": "county.html#y=2019"
+    },
+    {
+     "id": "2018",
+     "date": "2018-12-31",
+     "title": "OSC filing 2018",
+     "kind": "filing",
+     "url": "county.html#y=2018"
+    },
+    {
+     "id": "2017",
+     "date": "2017-12-31",
+     "title": "OSC filing 2017",
+     "kind": "filing",
+     "url": "county.html#y=2017"
+    },
+    {
+     "id": "2016",
+     "date": "2016-12-31",
+     "title": "OSC filing 2016",
+     "kind": "filing",
+     "url": "county.html#y=2016"
+    },
+    {
+     "id": "2015",
+     "date": "2015-12-31",
+     "title": "OSC filing 2015",
+     "kind": "filing",
+     "url": "county.html#y=2015"
+    },
+    {
+     "id": "2014",
+     "date": "2014-12-31",
+     "title": "OSC filing 2014",
+     "kind": "filing",
+     "url": "county.html#y=2014"
+    },
+    {
+     "id": "2013",
+     "date": "2013-12-31",
+     "title": "OSC filing 2013",
+     "kind": "filing",
+     "url": "county.html#y=2013"
+    }
+   ],
+   "grammar": "Through 2024 \u00b7 built Oct 2, 2026"
+  }
+ }
+}

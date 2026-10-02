@@ -1170,6 +1170,13 @@ footer p{margin:0 0 7px;max-width:80ch}
 .wchart{position:relative}
 #warrantChart{touch-action:pan-y}
 #warrantChart rect.scr{fill:var(--accent)}
+/* Move 10 leftover: county-resolution diamonds on the city's warrant clock (shape + luminance, not hue) */
+#warrantChart .vx-dia{fill:var(--paper);stroke:var(--ink);stroke-width:1.1;cursor:pointer}
+#warrantChart .vx-dia.scr{stroke:var(--accent);stroke-width:1.6;fill:var(--paper)}
+#warrantChart .vx-dia-earlier{font-size:11px;fill:var(--muted)}
+.vx-dia-cap{margin:4px 0 0;font-size:11.5px;line-height:1.35;color:var(--muted)}
+.vx-dia-cap[hidden]{display:none!important}
+#csvDl{min-height:44px;margin-left:8px}
 /* the image-scan stub is ONE mark everywhere it appears: the warrant strip, the six Pace cards, the Pace sheet */
 svg.trend rect.stub,#warrantChart rect.stub,#mBody rect.stub{fill:none;stroke:var(--faint);stroke-dasharray:2 2;stroke-width:1.2}
 /* the tip stays INSIDE the chart (top of the plot, or just above the axis under a tall bar) - never over the caption */
@@ -1605,6 +1612,7 @@ __SOURCE_BAR__
       <div class="sub" id="warrantSub"></div>
       <div class="wchart"><div id="warrantChart"></div><div class="wtip num" id="wTip" hidden></div></div>
       <div class="wsel" id="wSel"></div>
+      <p class="vx-dia-cap" id="vxDiaCap" hidden>diamond = a county resolution naming this payee (permission, not payment)</p>
       <div class="rx-host" id="evHost" hidden></div>
       <div class="ev-actions" id="evActs" hidden><button type="button" class="pill" id="evSave">Save evidence card</button></div>
     </div>
@@ -1671,6 +1679,8 @@ __SOURCE_BAR__
         lines behind it — each one links to the page of the source PDF it was read from.</div>
       <button class="pill" id="detailToggle" type="button" aria-expanded="false" aria-controls="detailWrap">
         Open line detail</button>
+      <button class="pill" id="csvDl" type="button" title="Download the filtered rows as CSV">Download these rows (CSV)</button>
+      <a class="pill" id="jsonDl" href="updates.json" download style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none">updates.json</a>
       <div id="detailWrap" hidden>
         <div class="scroll" style="margin-top:13px">
           <table class="lines">
@@ -5003,6 +5013,57 @@ function renderSummary(rows){
       }
     }
     p.push('</svg>');
+    /* Move 10 leftover / GAP4-08: county-resolution diamonds on this clock when the
+       selection is one same-name payee. Shape + luminance only; never hue. Older
+       resolutions left of the chart collapse to "N earlier · YYYY". */
+    var vxE = null;
+    if (typeof vxEntryForPayees === 'function') {
+      if (state.payee && state.payee.length) vxE = vxEntryForPayees(state.payee);
+      else {
+        var _pset = {}, _pn = [];
+        rows.forEach(function(r){ var n = V[r[I_VEN]]; if (!_pset[n]){ _pset[n]=1; _pn.push(n); } });
+        if (_pn.length && _pn.length <= 3) vxE = vxEntryForPayees(_pn);
+      }
+    }
+    var diaCap = document.getElementById('vxDiaCap');
+    host.__vxDiamonds = [];
+    if (vxE && vxE.res && vxE.res.length && dated.length) {
+      var diaH = 14, diaR = 3.5;
+      /* rebuild SVG taller by one diamond lane under the axis labels */
+      var H2 = H + diaH, laneY = H;
+      p[0] = '<svg class="trend" viewBox="0 0 '+W+' '+H2+'" style="font-size:'+fs+'px">';
+      var inRange = [], earlier = [];
+      (vxE.res || []).forEach(function(rr){
+        if (!rr || !rr.d) return;
+        var parts = rr.d.split('-');
+        if (parts.length < 3) return;
+        var tt = new Date(+parts[0], +parts[1]-1, +parts[2]).getTime();
+        if (tt < t0) earlier.push(rr);
+        else if (tt <= t1) inRange.push({r:rr, t:tt});
+      });
+      inRange.sort(function(a,b){ return a.t - b.t; });
+      earlier.sort(function(a,b){ return (a.d||'').localeCompare(b.d||''); });
+      inRange.forEach(function(it){
+        var cx = x(it.t), cy = laneY + diaH/2;
+        var tip = (it.r.id||'') + ' · ' + (it.r.t||'') + (it.r.v ? (' · ' + it.r.v) : '');
+        tip += ' — permission, not payment. Tap to open.';
+        p.push('<polygon class="vx-dia" data-vx="'+esc(it.r.id)+'" points="'+
+          cx.toFixed(1)+','+(cy-diaR).toFixed(1)+' '+
+          (cx+diaR).toFixed(1)+','+cy.toFixed(1)+' '+
+          cx.toFixed(1)+','+(cy+diaR).toFixed(1)+' '+
+          (cx-diaR).toFixed(1)+','+cy.toFixed(1)+
+          '"><title>'+esc(tip)+'</title></polygon>');
+        host.__vxDiamonds.push({id: it.r.id, t: it.t, el: null});
+      });
+      if (earlier.length) {
+        var ey = earlier[0].d ? earlier[0].d.slice(0,4) : '';
+        p.push('<text class="vx-dia-earlier" x="'+ml+'" y="'+(laneY+diaH-2)+'" text-anchor="start">'+
+          earlier.length+' earlier'+(ey ? (' · '+ey) : '')+'</text>');
+      }
+      if (diaCap) diaCap.hidden = false;
+    } else if (diaCap) {
+      diaCap.hidden = true;
+    }
     host.innerHTML=p.join('');
     host.__nScan=nScan; host.__vmax=vmax;
   })();
@@ -5261,6 +5322,30 @@ document.getElementById('tryChips').addEventListener('click',function(e){
   function rects(){ return [].slice.call(host.querySelectorAll('rect[data-doc]')); }
   function clearScr(){ if(cur){cur.classList.remove('scr');} cur=null; }
   function scrub(clientX, target){
+    /* diamonds first: scrub picks the nearest county resolution without lighting a warrant bar */
+    var overDia=(target&&target.closest)?target.closest('.vx-dia[data-vx]'):null;
+    if(!overDia){
+      var dias=[].slice.call(host.querySelectorAll('.vx-dia[data-vx]'));
+      var bestD=null, bdD=1e9;
+      dias.forEach(function(d){
+        var b=d.getBoundingClientRect(), c=b.left+b.width/2, dist=Math.abs(clientX-c);
+        if(dist<bdD){bdD=dist;bestD=d;}
+      });
+      if(bestD && bdD<=14) overDia=bestD;
+    }
+    if(overDia){
+      clearScr(); cur=overDia; overDia.classList.add('scr');
+      var tD=overDia.querySelector('title');
+      var hbD=host.getBoundingClientRect(), rbD=overDia.getBoundingClientRect();
+      tip.innerHTML=(tD?tD.textContent:overDia.getAttribute('data-vx')||'').replace(' — ','<br>');
+      tip.hidden=false;
+      tip.classList.toggle('low', rbD.top-hbD.top<44);
+      var xposD=rbD.left+rbD.width/2-hbD.left, halfD=(tip.offsetWidth||140)/2;
+      tip.style.left=Math.max(halfD,Math.min(hbD.width-halfD,xposD))+'px';
+      clearTimeout(hideT); hideT=setTimeout(function(){tip.hidden=true;clearScr();},2600);
+      return;
+    }
+
     var rs=rects(); if(!rs.length) return;
     /* the bar under the pointer wins outright (it is the one the hover-link pair names, so the panel sub, the
        ticked facets, the tooltip and the readout all name ONE meeting); between bars, the nearest by x - and
@@ -5300,6 +5385,13 @@ document.getElementById('tryChips').addEventListener('click',function(e){
   });
   host.addEventListener('click',function(e){
     if(moved){ moved=false; return; }        // a drag is a scrub, not a choice
+    /* a county diamond: open that resolution (permission, not payment) — never filters the bars */
+    var dia=(e.target.closest)?e.target.closest('.vx-dia[data-vx]'):null;
+    if(dia){
+      var vid=dia.getAttribute('data-vx');
+      if(vid) location.href='decisions.html?q='+encodeURIComponent(vid)+'&from=city';
+      return;
+    }
     /* a fingertip covers three 6px bars: a tap that misses every bar takes the nearest one (the scrubbed bar) */
     var c=e.target.closest('[data-doc]') || cur; if(!c) return;
     var i=c.getAttribute('data-doc');
@@ -5325,6 +5417,37 @@ document.addEventListener('click',function(e){
     document.getElementById('q').value=''; reset(); renderRows();
     landOnAnswer(); }
 });
+
+/* Move 8 Phase 2: download the filtered register rows as CSV (client-side Blob). */
+(function(){
+  var btn=document.getElementById('csvDl'); if(!btn) return;
+  btn.addEventListener('click',function(){
+    var rows=filtered();
+    var head=['Payee','Account','Description','PO','Item','Amount','Credit','Warrant','Page','Source'];
+    function cell(s){
+      s=String(s==null?'':s);
+      if(/[",\n\r]/.test(s)) return '"'+s.replace(/"/g,'""')+'"';
+      return s;
+    }
+    var lines=[head.join(',')];
+    rows.forEach(function(r){
+      var doc=D.docs[r[I_DOC]];
+      lines.push([
+        cell(V[r[I_VEN]]), cell(A[r[I_ACC]]), cell(AD[r[I_ACC]]),
+        cell(r[I_PO]), cell(r[I_ITEM]), cell(r[I_AMT]),
+        cell(r[I_CR]?1:0), cell(doc&&doc.d||''), cell(r[I_PAGE]),
+        cell(doc&&doc.u||'')
+      ].join(','));
+    });
+    var blob=new Blob([lines.join('\r\n')], {type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='public-ledger-rows.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+  });
+})();
+
 renderRows();
 /* phone: the findings tables show five rows, then 'See all N'; the lower-stakes limit cards fold */
 (function(){

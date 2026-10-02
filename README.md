@@ -109,9 +109,12 @@ page can drift from the others; every `--fast` skip is printed, never silent.
 
 Things that silently corrupt totals, learned the hard way:
 
-- Use `pdftotext -table`, never `-layout` — `-layout` reassigns account
+- Use **Xpdf** `pdftotext -table`, never `-layout` — `-layout` reassigns account
   descriptions at a 2:1 stride and loses ~30% of dollars while row counts stay
-  plausible.
+  plausible. Poppler's `pdftotext` (often on PATH) has no `-table` and must not
+  parse warrants. The build resolves Xpdf via `tools/_pdftotext.py` (honours
+  `PL_PDFTOTEXT`, then `%LOCALAPPDATA%\xpdf-tools\...\bin64`). Optional shim:
+  `%USERPROFILE%\bin\pdftotext-xpdf.cmd` — does not replace Poppler for other tools.
 - **Vendor credits print as `96.13 -`** — trailing minus, no currency symbol.
   Missing them overstates spend.
 - Never hard-code whitespace: `Total  Of All Funds` appears with a double space
