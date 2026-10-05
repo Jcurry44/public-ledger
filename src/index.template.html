@@ -3506,7 +3506,7 @@ function renderTab(tab){
       '<h4>'+esc(label)+' by year — select any year to decompose it <span style="text-transform:none;letter-spacing:0;font-weight:500">'+
         '&middot; &#9679; the selected year &middot; &#9675; its other largest one-year moves</span></h4><div id="mLine"></div>'+
       '<div id="mMove"></div>'+
-      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShare"></div>'+
+      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShareChart"></div>'+
       '<p class="note">Figures either side of '+O.schemaBreak+' sit on different reporting bases '+
       '(marked by the dashed line) and are not strictly comparable.</p>';
 
@@ -3557,7 +3557,7 @@ function renderTab(tab){
     }
     // open pre-answered: the biggest anomaly is already decomposed
     if(marks.length) renderMove(marks[0]); else drawMain(null);
-    renderLine(document.getElementById('mShare'), share, {color:col, name:'Share', pct:true, h:170});
+    renderLine(document.getElementById('mShareChart'), share, {color:col, name:'Share', pct:true, h:170});
     return;
   }
 

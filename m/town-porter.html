@@ -2192,7 +2192,7 @@ function renderTab(tab){
       '</div>'+
       '<h4>'+esc(label)+' by year — select any year to decompose it</h4><div id="mLine"></div>'+
       '<div id="mMove"></div>'+
-      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShare"></div>'+
+      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShareChart"></div>'+
       '<p class="note">Figures either side of '+O.schemaBreak+' sit on different reporting bases '+
       '(marked by the dashed line) and are not strictly comparable.</p>';
     function drawMain(sel){
@@ -2238,7 +2238,7 @@ function renderTab(tab){
       document.getElementById('mMove').innerHTML=h;
     }
     if(marks.length) renderMove(marks[0]); else drawMain(null);
-    renderLine(document.getElementById('mShare'),share,{color:col,name:'Share',pct:true,h:170});
+    renderLine(document.getElementById('mShareChart'),share,{color:col,name:'Share',pct:true,h:170});
     return;
   }
   if(tab==='across'){ renderAcross(body,sec,label); return; }
