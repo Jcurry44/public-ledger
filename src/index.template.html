@@ -225,6 +225,10 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
 .badge b{font-weight:700;white-space:nowrap}
 .badge .tick{font-weight:700}
 .badge .arrow{opacity:.6;transition:transform .12s}
+/* the checkbook card's tie-out link: the hero's trust row already carries the green stamp, so this one is a quiet link */
+.badge.badge-quiet{background:none;border:0;padding:12px 0;min-height:44px;box-sizing:border-box;color:var(--ink);font-weight:500}
+.badge.badge-quiet .tick{color:var(--ok)}
+.badge.badge-quiet span:not(.tick):not(.arrow){color:var(--muted)}
 @media (hover:hover){.badge:hover{background:color-mix(in srgb,var(--ok) 16%,transparent)}}
 @media (hover:hover){.badge:hover .arrow{transform:translateX(3px)}}
 /* On a phone the three figures become one artifact: a closing tally - labels
@@ -1343,7 +1347,107 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
   .rk .lb{white-space:normal;line-height:1.25}
 }
 
-/* ---------- the front page: The Ledger, Issue No. N (Move 19) ----------
+/* ---------- the first screen: "This week's bills" ----------
+   One story about the latest warrant: a kicker, one headline, one plain sentence, where it went (four labelled bars, each a
+   button into the register), the trust row, two buttons. The bars are ONE hue in four luminance steps (never a second hue:
+   the owner is colour blind), every row says its amount and its share in words, and the largest is the longest. On a phone
+   everything stacks and the whole story is above the fold; from 900px the same story is two columns - the words and the
+   buttons left, the bars and the trust row right - so there is no empty half. */
+.front{background:var(--card);border-bottom:1px solid var(--rule-strong);padding:0;
+  --fh-b1:#1b3a5c;--fh-b2:#3f6189;--fh-b3:#7a95b4;--fh-b4:#aebfd2}
+:root[data-theme="dark"] .front{--fh-b1:#8fb6dd;--fh-b2:#6d8fb3;--fh-b3:#55708f;--fh-b4:#45556b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .front{--fh-b1:#8fb6dd;--fh-b2:#6d8fb3;--fh-b3:#55708f;--fh-b4:#45556b}}
+.front-in{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;padding-top:16px;padding-bottom:20px}
+.fh-copy{display:flex;flex-direction:column;gap:8px;min-width:0}
+.fh-k{margin:0;font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.fh-t{margin:0;font:600 33px/1.12 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.015em;color:var(--ink)}
+.fh-s{margin:0;font-size:16px;line-height:1.5;color:color-mix(in srgb,var(--ink) 88%,var(--card))}
+.fh-s b{color:var(--ink);font-weight:600}
+/* the two pressed phrases of the words: the headline's total (the tie-out) and the largest claim (its line in the register) -
+   one solid underline each; nothing else in the first screen's prose is underlined */
+.fh-amt,.fh-big{color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in srgb,var(--accent) 55%,transparent);
+  text-underline-offset:4px;border-radius:3px;cursor:pointer}
+.fh-amt{text-decoration-thickness:2px;text-underline-offset:6px;white-space:nowrap}
+.fh-big{text-decoration-thickness:1.5px}
+@media (hover:hover){.fh-amt:hover,.fh-big:hover{color:var(--accent);text-decoration-color:var(--accent)}}
+.fh-where{display:flex;flex-direction:column;min-width:0}
+.fh-wh{font:600 13px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted);margin:0 0 4px}
+.fh-bars{display:flex;flex-direction:column;gap:2px}
+.fh-row{display:flex;flex-direction:column;gap:5px;width:calc(100% + 16px);min-height:44px;margin:0 -8px;padding:5px 8px;border:0;border-radius:8px;
+  background:transparent;color:var(--ink);text-align:left;font:inherit;cursor:pointer}
+.fh-r1{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:15px;line-height:1.3}
+.fh-l{min-width:0}
+.fh-v{display:inline-flex;align-items:baseline;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.fh-pc{font-weight:400;color:var(--muted);margin-left:6px;min-width:2.4em;text-align:right}
+.fh-v::after{content:'\203A';margin-left:8px;color:var(--faint);font-size:20px;line-height:0;position:relative;top:1px}
+.fh-track{display:block;height:8px;border-radius:4px;background:var(--gridline)}
+.fh-bar{display:block;height:100%;width:var(--w);border-radius:4px;background:var(--fh-b1);transition:filter .12s}
+.fh-row.r2 .fh-bar{background:var(--fh-b2)}
+.fh-row.r3 .fh-bar{background:var(--fh-b3)}
+.fh-row.r4 .fh-bar{background:var(--fh-b4)}
+@media (hover:hover){
+  .fh-row:hover{background:var(--accent-soft)}
+  .fh-row:hover .fh-bar{filter:brightness(1.12)}
+  .fh-row:hover .fh-v::after{color:var(--accent)}
+}
+.fh-row:focus-visible{outline:2px solid var(--accent);outline-offset:0}
+.fh-trust{display:flex;align-items:flex-start;gap:12px;margin-top:8px;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:var(--ok);
+  border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);text-decoration:none;min-height:44px}
+.fh-trust svg{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
+.fh-tt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 auto}
+.fh-tt b{font-size:15px;font-weight:600;line-height:1.3}
+.fh-tt span{font-size:13px;line-height:1.4}
+.fh-trust::after{content:'\2192';align-self:center;opacity:.65;transition:transform .12s}
+@media (hover:hover){.fh-trust:hover{background:color-mix(in srgb,var(--ok) 14%,var(--card))}.fh-trust:hover::after{transform:translateX(3px)}}
+.fh-acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.fh-btn{height:48px;padding:0 10px;border-radius:12px;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);
+  font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fh-pri{background:var(--accent);border-color:var(--accent);color:var(--card)}
+@media (hover:hover){.fh-btn:hover{border-color:var(--accent)}.fh-pri:hover{filter:brightness(1.12)}}
+.fh-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (min-width:900px){
+  .front-in{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);grid-template-rows:1fr auto;grid-template-areas:"copy where" "acts where";column-gap:64px;row-gap:26px;
+    padding-top:34px;padding-bottom:36px;align-items:start}
+  .fh-copy{grid-area:copy}
+  .fh-where{grid-area:where;align-self:center}
+  .fh-acts{grid-area:acts;align-self:end;max-width:430px}
+  .fh-t{font-size:clamp(38px,3.3vw,48px)}
+  .fh-s{font-size:18px;line-height:1.5;max-width:30em}
+  .fh-wh{font-size:14px}
+  .fh-r1{font-size:16px}
+  .fh-row{padding:9px 8px}
+}
+@media (max-width:640px){
+  .fh-amt,.fh-big{position:relative;padding:10px 0;margin:-10px 0}   /* a 44px hit area on a pressed phrase; the line box does not grow */
+}
+@media (max-width:359px){
+  .fh-t{font-size:29px}
+  .fh-btn{font-size:14px}
+}
+/* the answer strip is the next section: the same card, one rule under the first screen (the generic section padding is not for it) */
+.answers-sec{background:var(--card);border-bottom:1px solid var(--rule-strong);padding:0 0 4px}
+.answers-sec .answers{margin:0;border-top:0}
+.reg-below-wrap{background:var(--card);border-bottom:1px solid var(--rule-strong)}
+.reg-below{margin:0;padding:6px 0}
+.reg-below-wrap:has(.reg-below:empty){display:none}
+.past>.issue{border-bottom:0}
+/* 'Past meetings': the meeting stepper, folded under the answers (the first screen is the latest meeting) */
+.past{background:var(--card);border-bottom:1px solid var(--rule-strong)}
+.past-sum{display:flex;align-items:center;justify-content:space-between;gap:4px 16px;flex-wrap:wrap;list-style:none;cursor:pointer;min-height:56px;
+  padding-top:8px;padding-bottom:8px}                                    /* (.wrap carries the measure and the side gutters) */
+.past-sum::-webkit-details-marker{display:none}
+.past-t{font:600 17px/1.2 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink)}
+.past-t::before{content:'\25B8';margin-right:9px;display:inline-block;font-size:13px;color:var(--accent);transition:transform .12s}
+.past[open]>.past-sum .past-t::before{transform:rotate(90deg)}
+.past-n{font-size:13px;color:var(--muted)}
+@media (hover:hover){.past-sum:hover .past-t{color:var(--accent)}}
+.past-sum:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.past[open]>.past-sum{border-bottom:1px solid var(--rule)}
+/* the section pager stays out of the way until the reader has scrolled past the first screen (phones and tablets; from 900px it is
+   the rail's stepper and is always there) */
+@media (max-width:899px){.pager.pre{visibility:hidden;opacity:0;pointer-events:none}}
+
+/* ---------- Past meetings: the register's lede, one meeting at a time (Move 19) ----------
    The register's lede, above the section rail: one paragraph the record writes about the latest
    council meeting - every number presses through to its evidence (the proof row, the line in the
    register, the fund facet) - and the meeting's claims drawn to scale in one line. Capped so the
@@ -1353,7 +1457,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
    the proof). The rest sits in a .ph-fold whose own label is the counts line (.keep: visible on both): on a desk the
    fold is open and reversed, so the left column reads lede, rest, counts as a muted footer, and the tape with its key
    holds the right; on a phone the counts line is the 44px fold under the tape, the rest one tap away */
-.issue-in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);grid-template-areas:"head head" "lede side" "more side" "ans ans";
+.issue-in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);grid-template-areas:"head head" "lede side" "more side";
   gap:6px 44px;padding-top:10px;padding-bottom:10px;align-items:start}
 /* the control / footer arithmetic behind 'ties to the penny' sits one tap under the second paragraph */
 .issue-how{margin:4px 0 0;max-width:76ch}
@@ -1424,7 +1528,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 .ev-lit{animation:evLit 2.4s ease-out both}
 @keyframes evLit{0%,40%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 3px transparent}}
 @media (prefers-reduced-motion:reduce){.ev-lit{animation:none;box-shadow:0 0 0 3px var(--accent)}}
-@media (max-width:899px){.issue-in{grid-template-columns:1fr;grid-template-areas:"head" "lede" "side" "more" "ans";gap:8px}}
+@media (max-width:899px){.issue-in{grid-template-columns:1fr;grid-template-areas:"head" "lede" "side" "more";gap:8px}}
 @media (max-width:640px){
   .issue-in{padding-top:8px;padding-bottom:4px;gap:5px}
   /* the head as two rows on the left (eyebrow over title) with the 44px stepper spanning both on the right */
@@ -1673,36 +1777,35 @@ __SOURCE_BAR__
     letter-spacing=".14em" fill="currentColor" stroke="none" opacity=".8">GATEWAY HARBOR &#183; THE TONAWANDAS</text>
 </svg></div>
 
-<!-- THE FRONT PAGE. Written by the record about the latest council meeting, at build time
-     (tools/build_site.py issue_lede / issue_tape); the script re-derives it, steps through
-     earlier meetings in place, and reports any drift between the two as a console error. -->
-<section class="issue" id="issue" aria-labelledby="issueT" data-issue="__ISSUE_ISO__">
-  <div class="wrap issue-in">
-    <div class="issue-head">
-      <span class="issue-k" id="issueK"><span class="ph-xs">The Ledger &middot; </span><b>Issue No. __ISSUE_NO__</b> of __ISSUE_OF__</span>
-      <h2 class="issue-t" id="issueT"><span id="issueWhat">__ISSUE_WHAT__</span> <span class="num" id="issueDate">__ISSUE_DATE__</span></h2>
-      <span class="issue-step" role="group" aria-label="Issues by date">
-        <button class="hreset" id="issueLatest" type="button" hidden aria-label="Latest issue"><span class="lt">Latest</span></button>
-        <button type="button" id="issuePrev" aria-label="Earlier date">&lsaquo;</button>
-        <button type="button" id="issueNext" aria-label="Later date" disabled>&rsaquo;</button>
-      </span>
+<!-- THE FIRST SCREEN: "This week's bills". One story about the LATEST warrant, written by the record at build time
+     (tools/build_site.py hero_model); the script re-derives every piece of it (frontHero) and reports any drift between the
+     two as a console error, which the page gate fails on. Bars, the trust row, the headline's total and the biggest claim
+     are all presses into the register / the tie-out; 'Past meetings' opens the meeting stepper below the answers. -->
+<section class="front" id="front" aria-labelledby="frontT" data-iso="__FRONT_ISO__" data-doc="__FRONT_DOC__" data-by="__FRONT_BY__">
+  <div class="wrap front-in">
+    <div class="fh-copy">
+      <p class="fh-k" id="frontK" title="The date printed on the warrant">__FRONT_K__</p>
+      <h2 class="fh-t" id="frontT">__FRONT_T__</h2>
+      <p class="fh-s" id="frontS">__FRONT_S__</p>
     </div>
-    <p class="issue-lede" id="issueLede">__ISSUE_LEDE__</p>
-    <details class="ph-fold keep issue-more" data-open-wide>
-      <summary class="issue-counts" id="issueCounts">__ISSUE_COUNTS__</summary>
-      <p class="issue-lede" id="issueLede2">__ISSUE_LEDE2__</p>
-      <!-- the control / footer arithmetic behind 'ties to the penny': one tap away, never the second sentence -->
-      <details class="tailx issue-how" id="issueHow"__ISSUE_HOW_ATTR__><summary>How the tie-out is worked out</summary><div id="issueHowT">__ISSUE_HOW__</div></details>
-    </details>
-    <div class="issue-side">
-      <div class="itape" id="issueTape">__ISSUE_TAPE__</div>
-      <div class="itape-key" id="issueKey">__ISSUE_KEY__</div>
+    <div class="fh-where">
+      <div class="fh-wh" id="frontWH">Where it went</div>
+      <div class="fh-bars" id="frontBars" role="group" aria-labelledby="frontWH">__FRONT_BARS__</div>
+      <a class="fh-trust" id="frontTrust" href="#recon" data-ev="tie" data-docs="__FRONT_DOC__">__FRONT_TRUST__</a>
     </div>
-    <!-- THE ANSWER STRIP closes the front page: the three resident questions, every figure PRERENDERED by
-         tools/build_site.py from the same data the page hydrates from (the script re-computes each one and
-         reports a console error, which fails the page gate, if the two disagree). The CHECKBOOK cell is the
-         register's standing line - the three figures the texted card carries and the tie-out badge - so the
-         first screen on a phone and on a laptop reads the whole book, not one warrant. -->
+    <div class="fh-acts">
+      <button class="fh-btn fh-pri" id="frontBills" type="button" data-ev="bills" data-docs="__FRONT_DOC__">__FRONT_BILLS__</button>
+      <button class="fh-btn" id="frontPast" type="button" data-open="past" aria-controls="past">Past meetings</button>
+    </div>
+  </div>
+</section>
+
+<!-- THE ANSWER STRIP: the three resident questions, the next section under the first screen. Every figure PRERENDERED by
+     tools/build_site.py from the same data the page hydrates from (the script re-computes each one and reports a console
+     error, which fails the page gate, if the two disagree). The CHECKBOOK cell is the register's standing line - the three
+     figures the texted card carries and the tie-out badge. -->
+<section class="answers-sec" aria-label="What it costs, what changed, the whole checkbook">
+  <div class="wrap">
     <div class="answers" id="answers">
       <a class="ans" id="ansTax" href="#taxes" aria-labelledby="ansTaxK ansTaxV" aria-describedby="ansTaxT">
         <span class="ans-k" id="ansTaxK">What it costs a homeowner</span>
@@ -1719,10 +1822,9 @@ __SOURCE_BAR__
       <div class="ans ans-book" id="ansBook">
         <span class="ans-k" id="ansBookK">__BOOK_K__</span>
         <span class="ans-v reghead num" id="regHead">__REG_HEAD__</span>
-        <a class="badge" href="#recon"><span class="tick">&#10003;</span>
-          <b id="badgeNum">__BADGE_NUM__</b> <span>parsed warrants tie to the penny</span>
+        <a class="badge badge-quiet" href="#recon"><span class="tick">&#10003;</span>
+          <b id="badgeNum">__BADGE_NUM__</b> <span>warrants tie exactly &mdash; see the proof</span>
           <span class="arrow">&rarr;</span></a>
-        <span class="regnote" id="regNote">__REG_NOTE__</span>
       </div>
     </div>
   </div>
@@ -1733,6 +1835,40 @@ __SOURCE_BAR__
     PL.fitMin(c,__CHG_TALL__,function(probe,s){ probe.querySelector('.ans-k').innerHTML=s[0]; probe.querySelector('.ans-v').innerHTML=s[1];
       probe.querySelector('.ans-t').innerHTML=s[2]; }); })();</script>
 </section>
+
+<!-- PAST MEETINGS: every readable meeting, one at a time (the stepper), written by the record the same way (tools/build_site.py
+     issue_lede / issue_tape; the script re-derives it, steps in place, and reports any drift as a console error). Folded under the
+     answers: the first screen is the latest meeting; this is the way back through the other dates. -->
+<details class="past" id="past">
+  <summary class="past-sum wrap"><span class="past-t">Past meetings</span><span class="past-n">__PAST_N__</span></summary>
+<section class="issue" id="issue" aria-labelledby="issueT" data-issue="__ISSUE_ISO__">
+  <div class="wrap issue-in">
+    <div class="issue-head">
+      <span class="issue-k" id="issueK"><b>Meeting __ISSUE_NO__</b> of __ISSUE_OF__</span>
+      <h2 class="issue-t" id="issueT"><span id="issueWhat">__ISSUE_WHAT__</span> <span class="num" id="issueDate">__ISSUE_DATE__</span></h2>
+      <span class="issue-step" role="group" aria-label="Meetings by date">
+        <button class="hreset" id="issueLatest" type="button" hidden aria-label="Latest meeting"><span class="lt">Latest</span></button>
+        <button type="button" id="issuePrev" aria-label="Earlier date">&lsaquo;</button>
+        <button type="button" id="issueNext" aria-label="Later date" disabled>&rsaquo;</button>
+      </span>
+    </div>
+    <p class="issue-lede" id="issueLede">__ISSUE_LEDE__</p>
+    <details class="ph-fold keep issue-more" data-open-wide>
+      <summary class="issue-counts" id="issueCounts">__ISSUE_COUNTS__</summary>
+      <p class="issue-lede" id="issueLede2">__ISSUE_LEDE2__</p>
+      <!-- the control / footer arithmetic behind 'ties to the penny': one tap away, never the second sentence -->
+      <details class="tailx issue-how" id="issueHow"__ISSUE_HOW_ATTR__><summary>How the tie-out is worked out</summary><div id="issueHowT">__ISSUE_HOW__</div></details>
+    </details>
+    <div class="issue-side">
+      <div class="itape" id="issueTape">__ISSUE_TAPE__</div>
+      <div class="itape-key" id="issueKey">__ISSUE_KEY__</div>
+    </div>
+  </div>
+</section>
+</details>
+<!-- the two bookkeeping notes of the checkbook (image scans declared, payees under several vendor codes): a quiet line under the
+     fold, not first-screen material; the tie-out (#recon) and the findings carry them in full -->
+<div class="reg-below-wrap"><div class="wrap"><p class="regnote reg-below" id="regNote">__REG_NOTE__</p></div></div>
 
 <!-- the rail's three destination tabs and the H2s they land on carry the one name the chrome's glossary gives that
      destination (tools/_chrome.py DESTINATIONS: build_site.py fills __N_CLAIMS__ / __N_TAXES__ / __N_RECON__), so the
@@ -2149,7 +2285,7 @@ __SOURCE_BAR__
 </footer>
 </div><!-- /folio -->
 
-<div class="pager" id="pager" role="navigation" aria-label="Page sections">
+<div class="pager pre" id="pager" role="navigation" aria-label="Page sections">
   <button type="button" id="pgUp" aria-label="Previous section">&#9650;</button>
   <button type="button" class="lbl" id="pgMenu" aria-haspopup="true" aria-expanded="false" aria-controls="pgList"
     title="Every section"><span class="idx" id="pgIdx"></span> <span id="pgName"></span></button>
@@ -5451,7 +5587,7 @@ D.docs.forEach(function(d,i){
 
 /* payee: an exact set of payee names (a facet row, a Findings link, ?payee=); proj: one capital project
    (fund|name) from the department facet; q: the free-text substring search (the Try chips, ?q=) */
-var state={q:'',fund:'',doc:'',credit:false,payee:null,proj:null};
+var state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null};
 // Line detail is an audit tool, not the view: closed by default and paged small.
 var LIMIT=25, shownLimit=LIMIT, detailOpen=false;
 var haystack = R.map(function(r){
@@ -5460,7 +5596,13 @@ var CAPF={}; (D.capitalFunds||[]).forEach(function(f){CAPF[f]=1;});
 var PROJ=D.acctProj||[];
 /* a capital line belongs to its project (fund|name), never to a 'department' */
 function projOf(r){ var acc=A[r[I_ACC]], f=fundOf(acc); return (CAPF[f] && PROJ[r[I_ACC]]) ? f+'|'+PROJ[r[I_ACC]] : null; }
-function hasFilter(){ return !!(state.q||state.fund||state.doc!==''||state.credit||state.payee||state.proj); }
+/* the first screen's four fund groups (tools/build_site.py fund_group() is the twin): the capital funds, the general fund (001), the
+   funds the city's own list names water / sewer / golf, and everything else. state.fg filters the register to one of them. */
+var FG_LABEL={cap:'Capital projects',gen:'General fund',ent:'Water, sewer &amp; golf',oth:'Other funds'};
+var FG_ENT=/water|sewer|golf/i;
+function fgOf(acct){ var f=fundOf(acct); if(CAPF[f]) return 'cap'; if(f==='001') return 'gen'; return FG_ENT.test(D.fundNames[f]||'')?'ent':'oth'; }
+function fgText(k){ return (FG_LABEL[k]||'').replace(/&amp;/g,'&'); }
+function hasFilter(){ return !!(state.q||state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj); }
 
 /* A name typed the way another government spells it ('National Fuel Gas Company', 'Galls LLC', 'M.H. Thilk Electric
    LLC') is not a substring of the city's own spelling. filtered() tries the search AS TYPED first; only when that
@@ -5486,6 +5628,7 @@ function filtered(){
       if(state.payee && state.payee.indexOf(V[r[I_VEN]])<0) continue;
       if(state.proj && projOf(r)!==state.proj) continue;
       if(state.fund && fundOf(A[r[I_ACC]])!==state.fund) continue;
+      if(state.fg && fgOf(A[r[I_ACC]])!==state.fg) continue;
       if(state.doc!=='' && r[I_DOC]!==+state.doc) continue;
       if(state.credit && !r[I_CR]) continue;
       if(test && !test(i)) continue;
@@ -5615,10 +5758,10 @@ function renderSummary(rows){
     }
   }
   /* a lone image-scan document selected has no lines BY DESIGN (its evidence card says so): that is not a failed search */
-  var scanOnly=state.doc!=='' && D.docs[+state.doc] && D.docs[+state.doc].isScan && !state.q && !state.fund && !state.credit && !state.payee && !state.proj;
+  var scanOnly=state.doc!=='' && D.docs[+state.doc] && D.docs[+state.doc].isScan && !state.q && !state.fund && !state.fg && !state.credit && !state.payee && !state.proj;
   var zero=hasFilter() && !rows.length && !scanOnly;
   if(zero){
-    var oth=!!(state.fund||state.doc!==''||state.credit||state.payee||state.proj);
+    var oth=!!(state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj);
     if(!state.q || oth) html='<b>No approved line matches these filters together.</b> Remove one of the chips above to widen the selection.';
     else {
       var near=nearPayees(state.q,3);
@@ -5965,6 +6108,7 @@ function renderChips(){
   if(state.q) out.push(['Search: '+state.q,'q']);
   if(QM) out.push(['Matched \u201c'+QM.used+'\u201d','qm','Search exactly what you typed instead','No line contains \u201c'+QM.asked+'\u201d as typed. This is the payee name \u201c'+QM.used+'\u201d (punctuation and Inc / LLC / Company endings ignored'+(QM.kind==='short'?', last word dropped':'')+').']);
   if(state.fund) out.push(['Fund '+state.fund+(D.fundNames[state.fund]?' — '+D.fundNames[state.fund]:''),'fund']);
+  if(state.fg) out.push([fgText(state.fg),'fg']);
   if(state.doc!=='') out.push([D.docs[+state.doc].f.replace(/\.pdf$/i,''),'doc']);
   if(state.credit) out.push(['Credits only','credit']);
   var host=document.getElementById('chips');
@@ -5974,7 +6118,7 @@ function renderChips(){
       + '<button class="chip-clear" type="button" data-clear="all">Clear all</button>'
       + '<button class="chip-link" type="button" data-copylink title="Copy a link to this selection">'+LINK_ICON+'Copy link</button>'
     : '';
-  var n=(state.fund?1:0)+(state.doc!==''?1:0)+(state.credit?1:0);
+  var n=(state.fund?1:0)+(state.fg?1:0)+(state.doc!==''?1:0)+(state.credit?1:0);
   var fn=document.getElementById('filtN'); if(fn) fn.textContent = n ? String(n) : '';
   document.body.classList.toggle('has-filter', hasFilter());
 }
@@ -6077,6 +6221,7 @@ function clearFilter(k){
   if(k==='payee'||k==='all'){ state.payee=null; }
   if(k==='proj'||k==='all'){ state.proj=null; }
   if(k==='fund'||k==='all'){ state.fund=''; fFund.value=''; }
+  if(k==='fg'||k==='all'){ state.fg=''; }
   if(k==='doc'||k==='all'){ state.doc=''; fDoc.value=''; }
   if(k==='credit'||k==='all'){ state.credit=false; document.getElementById('fCredit').classList.remove('on'); }
   reset(); renderRows();
@@ -6098,7 +6243,7 @@ document.getElementById('payeeLine').addEventListener('click',function(e){
 });
 document.getElementById('tryChips').addEventListener('click',function(e){
   var b=e.target.closest('[data-try]'); if(!b) return;
-  state.fund=''; fFund.value=''; state.doc=''; fDoc.value=''; state.payee=null; state.proj=null;
+  state.fund=''; fFund.value=''; state.fg=''; state.doc=''; fDoc.value=''; state.payee=null; state.proj=null;
   state.credit=false; document.getElementById('fCredit').classList.remove('on');
   reset(); setSearch(b.getAttribute('data-try'));
 });
@@ -6298,7 +6443,12 @@ function paint(){
   pager.classList.toggle('filt', isPhone() && hasFilter() && !!secs[current] && secs[current].id==='explore');
   if(!pgList.hidden) buildMenu();
 }
+/* the dock stays out of the first screen: hidden (phones and tablets; it is the rail's stepper from 900px) until the reader has scrolled past it */
+var frontEl=document.getElementById('front');
+function preFront(){ if(frontEl) pager.classList.toggle('pre', frontEl.getBoundingClientRect().bottom>0); }
+window.addEventListener('resize',preFront);
 function syncNav(){
+  preFront();
   if(performance.now()<navUntil){ paint(); return; }
   var y=window.scrollY+92, best=0;
   secs.forEach(function(s,i){ if(s.offsetTop<=y) best=i; });
@@ -6675,9 +6825,9 @@ var ISSUE=(function(){
   /* a multiple of the median issue from a quarter up, a share below it (a card statement is never '0.0x'), 'about' inside 5% */
   function ratioPhrase(total,med){
     var ratio=med?total/med:0;
-    if(med && ratio<0.25) return 'about <b class="num">'+Math.round(ratio*100)+'%</b> of the median issue on this record';
-    if(med && (ratio>=1.05||ratio<=0.95)) return '<b class="num">'+ratio.toFixed(1)+'&times;</b> the median issue on this record';
-    return 'about the median issue on this record';
+    if(med && ratio<0.25) return 'about <b class="num">'+Math.round(ratio*100)+'%</b> of the median meeting on this record';
+    if(med && (ratio>=1.05||ratio<=0.95)) return '<b class="num">'+ratio.toFixed(1)+'&times;</b> the median meeting on this record';
+    return 'about the median meeting on this record';
   }
   /* what the tape draws (amounts above zero) and what it cannot: credits and zero lines, counted and summed */
   function drawnParts(rows){
@@ -6731,7 +6881,7 @@ var ISSUE=(function(){
       how=lead+gap+foot;
     } else {
       var vr=0; m.docs.forEach(function(i){ vr+=Math.abs(D.docs[i].var||0); });
-      rest+='This issue does not publish: a printed control total does not tie (variance '+ev('tie',money(vr),{docs:docsS})+'). The build halts on a failed tie-out; nothing here updates until it ties.';
+      rest+='This list does not publish: a printed control total does not tie (variance '+ev('tie',money(vr),{docs:docsS})+'). The build halts on a failed tie-out; nothing here updates until it ties.';
     }
     if(m.scans.length) rest+= m.scans.length===1 ? ' One further document of this date is an image scan, not read.'
       : ' '+capword(numword(m.scans.length))+' further documents of this date are image scans, not read.';
@@ -6775,11 +6925,11 @@ var ISSUE=(function(){
     p.push('<span class="ph-x">'+drawn+' &middot; press any number or stripe for its evidence</span>');
     return p.join('');
   }
-  function head(m){ return '<span class="ph-xs">The Ledger &middot; </span>'+(m.docs.length ? '<b>Issue No. '+m.no+'</b> of '+ISSUES.length : '<b>No issue</b> &middot; image scan'); }
+  function head(m){ return m.docs.length ? '<b>Meeting '+m.no+'</b> of '+ISSUES.length : '<b>No meeting read</b> &middot; image scan'; }
   var scansN=D.meta.scans||0;
   /* the second half is phone-hidden (.ph-x: textContent unchanged for the drift check) - on a phone the checkbook card's
      badge, right under this line, already says the documents read and tie; tools/build_site.py paints the same markup */
-  var counts='<b>'+ISSUES.length+'</b> issue'+(ISSUES.length===1?'':'s')+' from <b>'+M.length+'</b> dates on record<span class="ph-x"> &middot; <b>'+PARSED_DOCS+
+  var counts='<b>'+ISSUES.length+'</b> meeting'+(ISSUES.length===1?'':'s')+' read of <b>'+M.length+'</b> dates on record<span class="ph-x"> &middot; <b>'+PARSED_DOCS+
     '</b> documents read, <b>'+D.meta.exact+'</b> tie to the penny &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read</span>';
   /* a label stays only where its stripe can hold it (measured after layout, again when the width changes) */
   function fitLabels(){
@@ -6809,6 +6959,72 @@ var ISSUE=(function(){
   API.show=function(m){ if(!m || m===cur) return; cur=m; API.cur=m; paint(m,false); syncURL(false); };
   paint(latest,true);                          /* the build painted this issue; hydrate checks it said the same */
   PL.refit(fitLabels);
+  /* ---- THE FIRST SCREEN: "This week's bills" - the script twin of tools/build_site.py hero_model(): the same words and the same
+     arithmetic, so PL.hydrate reports any drift between the build and this page as a console error (which fails the page gate) ---- */
+  var FRONT=document.getElementById('front');
+  var FG_ORDER=['cap','gen','ent','oth'], FG_NOUN={cap:'construction',gen:'day-to-day operations',ent:'water, sewer and golf',oth:'other funds'};
+  var MS=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+  /* a total as a headline says it: '$1.79 million' (two decimals under $10M, one under $100M, none above, trailing zeros dropped),
+     '$415 thousand' from $100K to $995K, exact dollars below - integer arithmetic, the same doubles as the build's headline_money() */
+  function headlineMoney(v){
+    if(v>=995000){
+      var m=v/1e6, c, d;
+      if(m<10){ c=Math.floor(m*100+0.5); d=2; }
+      else if(m<100){ c=Math.floor(m*10+0.5); d=1; }
+      else return '$'+Math.floor(m+0.5)+' million';
+      var pw=Math.pow(10,d), fr=String(c%pw); while(fr.length<d) fr='0'+fr; fr=fr.replace(/0+$/,'');
+      return '$'+Math.floor(c/pw)+(fr?'.'+fr:'')+' million';
+    }
+    if(v>=100000) return '$'+Math.floor(v/1e3+0.5)+' thousand';
+    return money0(v);
+  }
+  function sharePhrase(sh){
+    var T=[[.92,'Nearly all of it'],[.82,'Most of it'],[.72,'Three-quarters'],[.62,'Two-thirds'],[.53,'More than half'],[.47,'About half'],[.38,'Over a third'],[.28,'About a third']];
+    for(var i=0;i<T.length;i++) if(sh>=T[i][0]) return T[i][1];
+    return 'About a quarter';
+  }
+  var CORP_WORD={INC:'Inc.',CORP:'Corp.',CO:'Co.',LTD:'Ltd.'};
+  function proseName(v){ return titleLabel(v).replace(/\b(INC|CORP|CO|LTD)\b\.?/g,function(m,w){ return CORP_WORD[w]; }).replace(/'S\b/g,"'s"); }
+  function heroDoc(m){ var nc=m.docs.filter(function(i){ return !D.docs[i].isCard; }); return (nc.length?nc:m.docs)[0]; }
+  function frontHero(m){
+    var di=heroDoc(m), d=D.docs[di], rows=rowsBy[di]||[], total=d.pubAmt, by=FRONT.getAttribute('data-by');
+    var sums={cap:0,gen:0,ent:0,oth:0};
+    rows.forEach(function(r){ sums[fgOf(A[r[I_ACC]])]+=r[I_AMT]; });
+    var ranked=FG_ORDER.filter(function(k){ return sums[k]>0.005; }).sort(function(a,b){ return sums[b]-sums[a]; });
+    var big=rows[0]; rows.forEach(function(r){ if(r[I_AMT]>big[I_AMT]) big=r; });
+    var name=proseName(V[big[I_VEN]]), proj=PROJ[big[I_ACC]]||'';
+    if(!proj){ var dk=A[big[I_ACC]].split('-').slice(0,2).join('-'); proj=(D.depts[dk]||'').replace(/\s*\(& \d+ others?\)\s*$/,''); }
+    var tail=proj?' for '+esc(titleLabel(proj)):'', word=d.isCard?'card charges':'bills', top=ranked[0];
+    var dl=MS[+d.d.slice(0,2)-1]+' '+(+d.d.slice(3,5))+(d.d.slice(6,10)===by?'':', '+d.d.slice(6,10));
+    var out={doc:di};
+    out.k=dl+' &middot; Common Council';
+    out.t='The council approved <a class="fh-amt" href="#recon" data-ev="tie" data-docs="'+di+'">'+headlineMoney(total)+'</a> in '+word+'.';
+    out.s=sharePhrase(sums[top]/total)+' is '+FG_NOUN[top]+'. The biggest: <a class="fh-big" href="#explore" data-ev="line" data-doc="'+big[I_DOC]+'" data-payee="'+
+      escA(V[big[I_VEN]])+'"><b>'+money0(big[I_AMT])+'</b> to '+esc(name)+'</a>'+tail+((!tail && /\.$/.test(name))?'':'.');
+    out.bars=ranked.map(function(g,rank){
+      var share=sums[g]/total*100, pct=share<0.5?'&lt;1%':Math.floor(share+0.5)+'%', w=(Math.floor(Math.max(share,1.5)*10+0.5)/10).toFixed(1);
+      return '<button type="button" class="fh-row r'+(rank+1)+'" data-ev="fg" data-fg="'+g+'" data-docs="'+di+'" style="--w:'+w+'%"><span class="fh-r1"><span class="fh-l">'+
+        FG_LABEL[g]+'</span> <span class="fh-v">'+money0(sums[g])+' <span class="fh-pc">'+pct+'</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button>';
+    }).join('');
+    var firstDoc=D.docs.filter(function(x){ return x.d && !x.isScan; }).sort(function(a,b){ var p=isoOf(a), q=isoOf(b); return p<q?-1:p>q?1:0; })[0].d;
+    var since=MS[+firstDoc.slice(0,2)-1]+' '+firstDoc.slice(6,10), ok=(D.meta.exact===PARSED_DOCS);
+    var chk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    out.trust= ok ? chk+'<span class="fh-tt"><b>Matches the city&rsquo;s own printed totals</b> <span>'+D.meta.exact+' of '+PARSED_DOCS+' readable warrants since '+since+', to the penny</span></span>'
+      : chk+'<span class="fh-tt"><b>'+D.meta.exact+' of '+PARSED_DOCS+' readable warrants match the city&rsquo;s printed totals</b> <span>'+(PARSED_DOCS-D.meta.exact)+' do not tie yet: the proof lists each</span></span>';
+    var n=rows.length;
+    out.bills= n===1 ? 'See the bill' : 'See all '+n.toLocaleString('en-US')+' '+(d.isCard?'card charges':'bills');
+    return out;
+  }
+  if(FRONT){ var H=frontHero(latest);
+    hydrate('frontK',H.k); hydrate('frontT',H.t); hydrate('frontS',H.s); hydrate('frontBars',H.bars); hydrate('frontTrust',H.trust); hydrate('frontBills',H.bills); }
+  /* 'Past meetings' opens the stepper folded under the answers (and a ?i= address or a #past link opens it too) */
+  var PAST=document.getElementById('past');
+  API.openPast=function(scroll){
+    if(!PAST) return; PAST.open=true; fitLabels();
+    if(scroll) PAST.scrollIntoView({block:'start',behavior:scrollMode()});
+  };
+  if(PAST) PAST.addEventListener('toggle',function(){ if(PAST.open) fitLabels(); });
+  if(FRONT) FRONT.addEventListener('click',function(e){ if(e.target.closest('[data-open="past"]')){ e.preventDefault(); API.openPast(true); } });
   var pv=document.getElementById('issuePrev'), nx=document.getElementById('issueNext'), lt=document.getElementById('issueLatest');
   if(pv) pv.addEventListener('click',function(){ var i=M.indexOf(cur); if(i>0) API.show(M[i-1]); });
   if(nx) nx.addEventListener('click',function(){ var i=M.indexOf(cur); if(i<M.length-1) API.show(M[i+1]); });
@@ -6823,11 +7039,18 @@ var ISSUE=(function(){
   /* PRESS: every number lands on its evidence and lights it */
   function flash(el){ if(!el) return; el.classList.remove('ev-lit'); void el.offsetWidth; el.classList.add('ev-lit'); setTimeout(function(){ el.classList.remove('ev-lit'); },2600); }
   function docsOf(el){ return (el.getAttribute('data-docs')||el.getAttribute('data-doc')||'').split(',').filter(Boolean).map(Number); }
-  sec.addEventListener('click',function(e){
+  function onPress(e){
     var b=e.target.closest('[data-ev]'); if(!b) return;
     e.preventDefault();
     if(TIP) TIP.hide();
     var kind=b.getAttribute('data-ev'), docs=docsOf(b);
+    if(kind==='bills'||kind==='fg'){
+      /* the first screen's two doors into the register: the warrant's every claim, or its claims in one fund group (a chip says which) */
+      state={q:'',fund:'',fg:kind==='fg'?(b.getAttribute('data-fg')||''):'',doc:String(docs[0]),credit:false,payee:null,proj:null};
+      syncControls(); reset(); renderRows(); landOnAnswer();
+      flash(document.getElementById('regTiles'));
+      return;
+    }
     if(kind==='doc'||kind==='tie'){
       /* the proof row(s) of the meeting: opened, centred, lit */
       var first=null;
@@ -6840,14 +7063,14 @@ var ISSUE=(function(){
     if(kind==='line'||kind==='new'){
       /* the line(s) in the register: the answer card prints them with their source page */
       var names=(b.getAttribute('data-payee')||'').split('|').filter(Boolean);
-      state={q:'',fund:'',doc:String(docs[0]),credit:false,payee:names.length?names:null,proj:null};
+      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:names.length?names:null,proj:null};
       syncControls(); reset(); renderRows(); landOnAnswer();
       var pl=document.getElementById('payeeLine'); flash((pl&&!pl.hidden)?pl:document.getElementById('regTiles'));
       return;
     }
     if(kind==='cap'){
       /* the meeting in the register, its fund facet in view, the capital funds lit */
-      state={q:'',fund:'',doc:String(docs[0]),credit:false,payee:null,proj:null};
+      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:null,proj:null};
       syncControls(); reset(); renderRows();
       var seg=document.querySelector('#facetSeg button[data-facet="fund"]'); if(seg && isPhone()) seg.click();
       var panel=document.querySelector('#trio .panel[data-facet="fund"]'); if(panel) panel.scrollIntoView({block:'start',behavior:scrollMode()});
@@ -6857,16 +7080,18 @@ var ISSUE=(function(){
     }
     if(kind==='reg'){
       /* the whole register: any filter cleared, the tiles (the same three figures, as tiles) lit */
-      if(hasFilter()){ state={q:'',fund:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
       landOnAnswer(); flash(document.getElementById('regTiles'));
       return;
     }
     if(kind==='payees'){
       /* every payee, ranked: the complete list in a sheet (Back closes it; a pick filters the register to that payee) */
-      if(hasFilter()){ state={q:'',fund:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
       if(LISTS.payee) LISTS.payee(b);
     }
-  });
+  }
+  sec.addEventListener('click',onPress);
+  if(FRONT) FRONT.addEventListener('click',onPress);       /* the first screen's numbers, bars, trust row and buttons press the same way */
   return API;
 })();
 
@@ -6879,6 +7104,7 @@ function syncURL(push){
   if(state.proj) p.set('proj',state.proj);
   if(state.q) p.set('q',state.q);
   if(state.fund) p.set('fund',state.fund);
+  if(state.fg) p.set('fg',state.fg);
   if(state.doc!=='') p.set('doc',docKey(+state.doc));
   if(state.credit) p.set('credit','1');
   if(selYear!==O.latest) p.set('y',String(selYear));
@@ -6891,7 +7117,7 @@ function syncURL(push){
      '?q=AMAZON' never lands a recipient on the hero */
   var hash=location.hash;
   if(URLS.owner){ hash='#'+URLS.owner; URLS.owner=''; }
-  else if(!hash){ if(hasFilter()) hash='#explore'; else if(TIE.open) hash='#recon'; }
+  else if(!hash){ if(hasFilter()) hash='#explore'; else if(TIE.open) hash='#recon'; else if(ISSUE && ISSUE.cur!==ISSUE.latest) hash='#past'; }
   var url=location.pathname+(qs?'?'+qs:'')+hash;
   var cur=location.pathname+location.search+location.hash;
   if(url===cur && !push) return true;
@@ -6899,7 +7125,7 @@ function syncURL(push){
   catch(e){ return false; }
 }
 function readParams(p){
-  return {q:p.get('q')||'', payee:p.get('payee')||'', fund:p.get('fund')||'', doc:p.get('doc')||'',
+  return {q:p.get('q')||'', payee:p.get('payee')||'', fund:p.get('fund')||'', fg:p.get('fg')||'', doc:p.get('doc')||'',
           credit:p.get('credit')==='1', proj:p.get('proj')||'', y:p.get('y')||'', m:p.get('m')||'', w:p.get('w')||'', i:p.get('i')||''};
 }
 /* an address that names an account: the sheet is already open on the right category and tab; find its row, open the
@@ -6983,14 +7209,14 @@ function applyParams(p, fromPop){
     var sheetPayees = (s.m==='payee') ? payees.filter(function(n){ return V.indexOf(n)>=0; }) : [];
     if(s.m==='payee') payees=[];
     var proj = (s.proj && PROJECTS.some(function(x){return x.key===s.proj;})) ? s.proj : null;
-    var ns={q:s.q, fund:fundCodes[s.fund]?s.fund:'', doc:di>=0?String(di):'', credit:s.credit,
+    var ns={q:s.q, fund:fundCodes[s.fund]?s.fund:'', fg:FG_LABEL[s.fg]?s.fg:'', doc:di>=0?String(di):'', credit:s.credit,
             payee:payees.length?payees:null, proj:proj};
     if(JSON.stringify(ns)!==JSON.stringify(state)){ state=ns; syncControls(); reset(); renderRows(); }
     var y=+s.y;
     if(s.y && O.years.indexOf(y)>=0){ if(y!==selYear) renderYear(y); }
     else if(fromPop && selYear!==O.latest) renderYear(O.latest);
     if(s.w) TIE.openDoc(s.w);
-    if(ISSUE){ if(s.i && ISSUE.byIso(s.i)) ISSUE.show(ISSUE.byIso(s.i)); else if(fromPop || !s.i) ISSUE.show(ISSUE.latest); }
+    if(ISSUE){ if(s.i && ISSUE.byIso(s.i)){ ISSUE.show(ISSUE.byIso(s.i)); ISSUE.openPast(false); } else if(fromPop || !s.i) ISSUE.show(ISSUE.latest); }
     var m=document.getElementById('modal');
     if(s.m==='payee'){
       var same = modalKey()==='payee' && MODAL.payees && MODAL.payees.join('|')===sheetPayees.join('|');
@@ -7032,6 +7258,7 @@ window.addEventListener('hashchange',function(){
    the browser's own scroll position), after the browser's own fragment scroll, and only when the hash is empty
    or names the owning section (an explicit other hash wins) */
 (function(){
+  if(location.hash==='#past' && ISSUE) ISSUE.openPast(false);      /* a link to the stepper opens it */
   var nav=''; try{ var e=performance.getEntriesByType('navigation')[0]; nav=e?e.type:''; }catch(x){}
   if(nav==='reload'||nav==='back_forward') return;
   var h=location.hash, target=null;
