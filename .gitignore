@@ -16,3 +16,6 @@ Thumbs.db
 __pycache__/
 *.pyc
 data/resolutions/
+
+# post kit output (tools/gen_social.py): local only, never published
+social/

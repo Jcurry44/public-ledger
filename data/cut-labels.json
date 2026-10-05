@@ -1,0 +1,15 @@
+{
+  "note": "Project and department labels the city's accounting system cut short (its description field truncates them). Public Ledger never completes the city's words; it shows these with a cut mark (…) so a reader never takes 'Upgrad' for a finished word. Checked 2026-10-05: none of these is spelled out in full anywhere in the warrant data. Add a label here when a new one appears; remove it if the city's full spelling ever shows up (the build then prefers that spelling).",
+  "labels": [
+    "CITY-WIDE WATER METER UPGRAD",
+    "CENTRAL COMMUNICATION SYSTE",
+    "CITYWIDE PROPERTY V&V PROJEC",
+    "IMPROVEMENTS TO PARKS AND RE",
+    "IMPROVEMENTS TO THE DEERWOOR",
+    "WATER TREATMENT PLANT CRITICAR",
+    "CLEARANCE, DEMOLITION, AND RE",
+    "RECONSTRUCTION OF DOCKS AT GRATWICK PA",
+    "ACQ., CONS., & RECONS., OF WATER IM",
+    "IMPROV TO DEERWOOD GOLFCOU"
+  ]
+}

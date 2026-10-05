@@ -1391,6 +1391,30 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
   .fh-row:hover .fh-v::after{color:var(--accent)}
 }
 .fh-row:focus-visible{outline:2px solid var(--accent);outline-offset:0}
+/* the switch beside 'Where it went': By fund (the default) | By project. The same warrant, grouped the other way; both views are in the
+   page (the hidden one carries the hidden attribute), the same number of rows, so the choice never moves the page. The house .seg pill,
+   buttons held to 44px. 'By project' rows say what each group is (a capital project or a department) on the bar's own line. */
+.fh-wrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px 0 0}
+.fh-wrow .fh-wh{margin:0}
+.fh-seg{margin:0;padding:2px;flex:0 0 auto}
+.fh-seg button{min-height:44px;padding:0 14px;font-size:13px}
+.fh-seg button[aria-pressed=true]{box-shadow:0 0 0 1px var(--rule-strong),0 1px 3px rgba(0,0,0,.12)}      /* the chosen view has an edge as well as a lighter fill (dark mode's two fills are close) */
+.fh-seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (min-width:900px){.fh-kind{font-size:12px}}
+.fh-bars[hidden]{display:none}
+.fh-r2{display:flex;align-items:center;gap:10px;height:8px}      /* the bar's own height: the tag's glyphs overhang it, so a By-project row is exactly as tall as a By fund row */
+.fh-r2 .fh-track{flex:1 1 0;min-width:0}
+.fh-kind{flex:0 0 7.4em;text-align:right;font:500 11px/8px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted);white-space:nowrap}
+/* the 'everything else' row is an aggregate, not a project: the lightest step of the ramp AND a stripe, so it never reads as a fourth project */
+.fh-row.rest .fh-bar{background:repeating-linear-gradient(135deg,var(--fh-b4) 0 5px,color-mix(in srgb,var(--fh-b4) 42%,var(--gridline)) 5px 9px)}
+/* a project's name can run to 28 characters (the city's own, cut where its field ends): on a narrow phone the name, amount and share are set
+   a step tighter so a name keeps to one line and the By-project view stays as tall as the By fund view */
+@media (max-width:400px){
+  #frontProj .fh-r1{font-size:14px;gap:8px}
+  #frontProj .fh-pc{min-width:2.1em;margin-left:4px}
+  #frontProj .fh-v::after{margin-left:5px}
+}
+@media (max-width:340px){#frontProj .fh-r1{font-size:13px;gap:6px}#frontProj .fh-pc{min-width:0}}
 .fh-trust{display:flex;align-items:flex-start;gap:12px;margin-top:8px;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:var(--ok);
   border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);text-decoration:none;min-height:44px}
 .fh-trust svg{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
@@ -1789,8 +1813,15 @@ __SOURCE_BAR__
       <p class="fh-s" id="frontS">__FRONT_S__</p>
     </div>
     <div class="fh-where">
-      <div class="fh-wh" id="frontWH">Where it went</div>
+      <div class="fh-wrow">
+        <div class="fh-wh" id="frontWH">Where it went</div>
+        <div class="seg fh-seg" id="frontSeg" role="group" aria-label="Group the warrant by">
+          <button type="button" data-view="fund" aria-pressed="true">By fund</button>
+          <button type="button" data-view="proj" aria-pressed="false">By project</button>
+        </div>
+      </div>
       <div class="fh-bars" id="frontBars" role="group" aria-labelledby="frontWH">__FRONT_BARS__</div>
+      <div class="fh-bars" id="frontProj" role="group" aria-labelledby="frontWH" hidden>__FRONT_PROJ__</div>
       <a class="fh-trust" id="frontTrust" href="#recon" data-ev="tie" data-docs="__FRONT_DOC__">__FRONT_TRUST__</a>
     </div>
     <div class="fh-acts">
@@ -5587,7 +5618,7 @@ D.docs.forEach(function(d,i){
 
 /* payee: an exact set of payee names (a facet row, a Findings link, ?payee=); proj: one capital project
    (fund|name) from the department facet; q: the free-text substring search (the Try chips, ?q=) */
-var state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null};
+var state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null,pj:''};
 // Line detail is an audit tool, not the view: closed by default and paged small.
 var LIMIT=25, shownLimit=LIMIT, detailOpen=false;
 var haystack = R.map(function(r){
@@ -5602,7 +5633,34 @@ var FG_LABEL={cap:'Capital projects',gen:'General fund',ent:'Water, sewer &amp; 
 var FG_ENT=/water|sewer|golf/i;
 function fgOf(acct){ var f=fundOf(acct); if(CAPF[f]) return 'cap'; if(f==='001') return 'gen'; return FG_ENT.test(D.fundNames[f]||'')?'ent':'oth'; }
 function fgText(k){ return (FG_LABEL[k]||'').replace(/&amp;/g,'&'); }
-function hasFilter(){ return !!(state.q||state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj); }
+function hasFilter(){ return !!(state.q||state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj||state.pj); }
+/* the first screen's By-project view (tools/build_site.py pj_key() / pj_model() are the twin). A claim is its capital PROJECT ('p|fund|name',
+   projOf) or its DEPARTMENT ('d|fund-dept'); the top groups by amount are named and the rest are one 'rest' row, so the rows add up to the
+   warrant's total; the view has as many rows as the fund view (never fewer than three). state.pj filters the register to one department
+   ('d|fund-dept') or to the rest ('rest', within state.doc); a capital project is the register's existing state.proj. */
+function pjOf(r){ var pk=projOf(r); return pk ? 'p|'+pk : 'd|'+deptOf(A[r[I_ACC]]); }
+var PJM={};
+function pjModel(di){
+  if(PJM[di]) return PJM[di];
+  var amt={}, order=[], fs={cap:0,gen:0,ent:0,oth:0};
+  R.forEach(function(r){
+    if(r[I_DOC]!==di) return;
+    fs[fgOf(A[r[I_ACC]])]+=r[I_AMT];
+    var k=pjOf(r); if(!(k in amt)){ amt[k]=0; order.push(k); } amt[k]+=r[I_AMT];
+  });
+  var nFund=0; for(var g in fs) if(fs[g]>0.005) nFund++;
+  var n=Math.max(3,nFund), ranked=order.slice().sort(function(a,b){ return (amt[b]-amt[a]) || (a<b?-1:a>b?1:0); });
+  var named=ranked.length>n ? n-1 : ranked.length, top=ranked.slice(0,named), rest=ranked.slice(named), inTop={}, restAmt=0;
+  top.forEach(function(k){ inTop[k]=1; });
+  R.forEach(function(r){ if(r[I_DOC]===di && !inTop[pjOf(r)]) restAmt+=r[I_AMT]; });
+  return PJM[di]={amt:amt, top:top, rest:rest, restAmt:restAmt, inTop:inTop};
+}
+function pjPass(r){
+  if(state.pj==='rest') return state.doc==='' || !pjModel(+state.doc).inTop[pjOf(r)];
+  return pjOf(r)===state.pj;
+}
+var DEPTK=null;
+function deptKnown(k){ if(!DEPTK){ DEPTK={}; A.forEach(function(a){ DEPTK[deptOf(a)]=1; }); } return !!DEPTK[k]; }
 
 /* A name typed the way another government spells it ('National Fuel Gas Company', 'Galls LLC', 'M.H. Thilk Electric
    LLC') is not a substring of the city's own spelling. filtered() tries the search AS TYPED first; only when that
@@ -5630,6 +5688,7 @@ function filtered(){
       if(state.fund && fundOf(A[r[I_ACC]])!==state.fund) continue;
       if(state.fg && fgOf(A[r[I_ACC]])!==state.fg) continue;
       if(state.doc!=='' && r[I_DOC]!==+state.doc) continue;
+      if(state.pj && !pjPass(r)) continue;
       if(state.credit && !r[I_CR]) continue;
       if(test && !test(i)) continue;
       out.push(r);
@@ -5758,10 +5817,10 @@ function renderSummary(rows){
     }
   }
   /* a lone image-scan document selected has no lines BY DESIGN (its evidence card says so): that is not a failed search */
-  var scanOnly=state.doc!=='' && D.docs[+state.doc] && D.docs[+state.doc].isScan && !state.q && !state.fund && !state.fg && !state.credit && !state.payee && !state.proj;
+  var scanOnly=state.doc!=='' && D.docs[+state.doc] && D.docs[+state.doc].isScan && !state.q && !state.fund && !state.fg && !state.credit && !state.payee && !state.proj && !state.pj;
   var zero=hasFilter() && !rows.length && !scanOnly;
   if(zero){
-    var oth=!!(state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj);
+    var oth=!!(state.fund||state.fg||state.doc!==''||state.credit||state.payee||state.proj||state.pj);
     if(!state.q || oth) html='<b>No approved line matches these filters together.</b> Remove one of the chips above to widen the selection.';
     else {
       var near=nearPayees(state.q,3);
@@ -6105,6 +6164,8 @@ function renderChips(){
   var out=[];
   if(state.payee) out.push(['Payee: '+state.payee.join(' | '),'payee']);
   if(state.proj) out.push(['Project: '+state.proj.split('|')[1]+' (fund '+state.proj.split('|')[0]+')','proj']);
+  if(state.pj) out.push([state.pj==='rest' ? 'All other projects & departments'
+    : 'Department: '+((ISSUE && ISSUE.pjLabel) ? ISSUE.pjLabel(state.pj) : state.pj.slice(2))+' ('+state.pj.slice(2)+')','pj']);
   if(state.q) out.push(['Search: '+state.q,'q']);
   if(QM) out.push(['Matched \u201c'+QM.used+'\u201d','qm','Search exactly what you typed instead','No line contains \u201c'+QM.asked+'\u201d as typed. This is the payee name \u201c'+QM.used+'\u201d (punctuation and Inc / LLC / Company endings ignored'+(QM.kind==='short'?', last word dropped':'')+').']);
   if(state.fund) out.push(['Fund '+state.fund+(D.fundNames[state.fund]?' — '+D.fundNames[state.fund]:''),'fund']);
@@ -6220,6 +6281,7 @@ function clearFilter(k){
   if(k==='q'||k==='all'){ state.q=''; document.getElementById('q').value=''; }
   if(k==='payee'||k==='all'){ state.payee=null; }
   if(k==='proj'||k==='all'){ state.proj=null; }
+  if(k==='pj'||k==='all'||(k==='doc' && state.pj==='rest')){ state.pj=''; }
   if(k==='fund'||k==='all'){ state.fund=''; fFund.value=''; }
   if(k==='fg'||k==='all'){ state.fg=''; }
   if(k==='doc'||k==='all'){ state.doc=''; fDoc.value=''; }
@@ -6243,7 +6305,7 @@ document.getElementById('payeeLine').addEventListener('click',function(e){
 });
 document.getElementById('tryChips').addEventListener('click',function(e){
   var b=e.target.closest('[data-try]'); if(!b) return;
-  state.fund=''; fFund.value=''; state.fg=''; state.doc=''; fDoc.value=''; state.payee=null; state.proj=null;
+  state.fund=''; fFund.value=''; state.fg=''; state.doc=''; fDoc.value=''; state.payee=null; state.proj=null; state.pj='';
   state.credit=false; document.getElementById('fCredit').classList.remove('on');
   reset(); setSearch(b.getAttribute('data-try'));
 });
@@ -6354,7 +6416,7 @@ document.addEventListener('click',function(e){
   // 'show these N lines' inside an expanded tie-out row. Scoped to .detail so it
   // cannot also catch the warrant column chart, which uses the same attribute.
   var d=e.target.closest('.detail [data-doc]');
-  if(d){ state.doc=d.getAttribute('data-doc'); fDoc.value=state.doc; state.q=''; state.payee=null; state.proj=null;
+  if(d){ state.doc=d.getAttribute('data-doc'); fDoc.value=state.doc; state.q=''; state.payee=null; state.proj=null; state.pj='';
     document.getElementById('q').value=''; reset(); renderRows();
     landOnAnswer(); }
 });
@@ -6963,6 +7025,12 @@ var ISSUE=(function(){
      arithmetic, so PL.hydrate reports any drift between the build and this page as a console error (which fails the page gate) ---- */
   var FRONT=document.getElementById('front');
   var FG_ORDER=['cap','gen','ent','oth'], FG_NOUN={cap:'construction',gen:'day-to-day operations',ent:'water, sewer and golf',oth:'other funds'};
+  /* the By-project label: a project or department name the way the first screen says one (title case, '(& N others)' dropped); build_site.py pj_label() is the twin */
+  var DEPT_SUFFIX=/\s*\(& \d+ others?\)\s*$/;
+  var PJ_CUT=__PJ_CUT__;   /* labels the city's system cut short: a cut mark, never a completion (data/cut-labels.json) */
+  function pjLabel(k){ var name=(k.charAt(0)==='p') ? k.split('|').slice(2).join('|') : (D.depts[k.slice(2)]||('Dept '+k.slice(2)));
+    var raw=name.replace(DEPT_SUFFIX,''), lab=titleLabel(raw); return PJ_CUT[raw.trim().toUpperCase()] ? lab+'…' : lab; }
+  API.pjLabel=pjLabel;
   var MS=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
   /* a total as a headline says it: '$1.79 million' (two decimals under $10M, one under $100M, none above, trailing zeros dropped),
      '$415 thousand' from $100K to $995K, exact dollars below - integer arithmetic, the same doubles as the build's headline_money() */
@@ -7006,6 +7074,13 @@ var ISSUE=(function(){
       return '<button type="button" class="fh-row r'+(rank+1)+'" data-ev="fg" data-fg="'+g+'" data-docs="'+di+'" style="--w:'+w+'%"><span class="fh-r1"><span class="fh-l">'+
         FG_LABEL[g]+'</span> <span class="fh-v">'+money0(sums[g])+' <span class="fh-pc">'+pct+'</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button>';
     }).join('');
+    var pm=pjModel(di), items=pm.top.map(function(k){ return {pk:k, lab:esc(pjLabel(k)), tag:(k.charAt(0)==='p'?'capital project':'department'), v:pm.amt[k], rest:false}; });
+    if(pm.rest.length) items.push({pk:'rest', lab:'Everything else ('+pm.rest.length+')', tag:'projects &amp; depts', v:pm.restAmt, rest:true});
+    out.proj=items.map(function(it,rank){
+      var share=it.v/total*100, pct=share<0.5?'&lt;1%':Math.floor(share+0.5)+'%', w=(Math.floor(Math.max(share,1.5)*10+0.5)/10).toFixed(1);
+      return '<button type="button" class="fh-row r'+(rank+1)+(it.rest?' rest':'')+'" data-ev="pj" data-pj="'+escA(it.pk)+'" data-docs="'+di+'" style="--w:'+w+'%"><span class="fh-r1"><span class="fh-l">'+
+        it.lab+'</span> <span class="fh-v">'+money0(it.v)+' <span class="fh-pc">'+pct+'</span></span></span><span class="fh-r2"><span class="fh-track"><span class="fh-bar"></span></span><span class="fh-kind">'+it.tag+'</span></span></button>';
+    }).join('');
     var firstDoc=D.docs.filter(function(x){ return x.d && !x.isScan; }).sort(function(a,b){ var p=isoOf(a), q=isoOf(b); return p<q?-1:p>q?1:0; })[0].d;
     var since=MS[+firstDoc.slice(0,2)-1]+' '+firstDoc.slice(6,10), ok=(D.meta.exact===PARSED_DOCS);
     var chk='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -7016,7 +7091,21 @@ var ISSUE=(function(){
     return out;
   }
   if(FRONT){ var H=frontHero(latest);
-    hydrate('frontK',H.k); hydrate('frontT',H.t); hydrate('frontS',H.s); hydrate('frontBars',H.bars); hydrate('frontTrust',H.trust); hydrate('frontBills',H.bills); }
+    hydrate('frontK',H.k); hydrate('frontT',H.t); hydrate('frontS',H.s); hydrate('frontBars',H.bars); hydrate('frontProj',H.proj); hydrate('frontTrust',H.trust); hydrate('frontBills',H.bills); }
+  /* the switch beside 'Where it went': By fund (the default) | By project - one warrant, grouped either way. Both views are in the page; the
+     choice is remembered on this device (localStorage, never required) */
+  (function(){
+    var seg=document.getElementById('frontSeg'), fund=document.getElementById('frontBars'), proj=document.getElementById('frontProj'), KEY='pl:front-view';
+    if(!seg || !fund || !proj) return;
+    function view(v,save){
+      var p=(v==='proj'); fund.hidden=p; proj.hidden=!p;
+      [].forEach.call(seg.querySelectorAll('button[data-view]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-view')===(p?'proj':'fund'))); });
+      if(save){ try{ localStorage.setItem(KEY,p?'proj':'fund'); }catch(e){} }
+    }
+    seg.addEventListener('click',function(e){ var b=e.target.closest('button[data-view]'); if(b) view(b.getAttribute('data-view'),true); });
+    var saved=null; try{ saved=localStorage.getItem(KEY); }catch(e){}
+    if(saved==='proj') view('proj',false);
+  })();
   /* 'Past meetings' opens the stepper folded under the answers (and a ?i= address or a #past link opens it too) */
   var PAST=document.getElementById('past');
   API.openPast=function(scroll){
@@ -7046,7 +7135,16 @@ var ISSUE=(function(){
     var kind=b.getAttribute('data-ev'), docs=docsOf(b);
     if(kind==='bills'||kind==='fg'){
       /* the first screen's two doors into the register: the warrant's every claim, or its claims in one fund group (a chip says which) */
-      state={q:'',fund:'',fg:kind==='fg'?(b.getAttribute('data-fg')||''):'',doc:String(docs[0]),credit:false,payee:null,proj:null};
+      state={q:'',fund:'',fg:kind==='fg'?(b.getAttribute('data-fg')||''):'',doc:String(docs[0]),credit:false,payee:null,proj:null,pj:''};
+      syncControls(); reset(); renderRows(); landOnAnswer();
+      flash(document.getElementById('regTiles'));
+      return;
+    }
+    if(kind==='pj'){
+      /* a By-project row: the warrant's claims in one capital project (the register's project filter), one department, or everything the
+         view did not name (a chip says which) */
+      var pk=b.getAttribute('data-pj')||'', pp=pk.split('|');
+      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:null,proj:(pp[0]==='p' ? pp[1]+'|'+pp.slice(2).join('|') : null),pj:(pk==='rest' || pp[0]==='d') ? pk : ''};
       syncControls(); reset(); renderRows(); landOnAnswer();
       flash(document.getElementById('regTiles'));
       return;
@@ -7063,14 +7161,14 @@ var ISSUE=(function(){
     if(kind==='line'||kind==='new'){
       /* the line(s) in the register: the answer card prints them with their source page */
       var names=(b.getAttribute('data-payee')||'').split('|').filter(Boolean);
-      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:names.length?names:null,proj:null};
+      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:names.length?names:null,proj:null,pj:''};
       syncControls(); reset(); renderRows(); landOnAnswer();
       var pl=document.getElementById('payeeLine'); flash((pl&&!pl.hidden)?pl:document.getElementById('regTiles'));
       return;
     }
     if(kind==='cap'){
       /* the meeting in the register, its fund facet in view, the capital funds lit */
-      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:null,proj:null};
+      state={q:'',fund:'',fg:'',doc:String(docs[0]),credit:false,payee:null,proj:null,pj:''};
       syncControls(); reset(); renderRows();
       var seg=document.querySelector('#facetSeg button[data-facet="fund"]'); if(seg && isPhone()) seg.click();
       var panel=document.querySelector('#trio .panel[data-facet="fund"]'); if(panel) panel.scrollIntoView({block:'start',behavior:scrollMode()});
@@ -7080,13 +7178,13 @@ var ISSUE=(function(){
     }
     if(kind==='reg'){
       /* the whole register: any filter cleared, the tiles (the same three figures, as tiles) lit */
-      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null,pj:''}; syncControls(); reset(); renderRows(); }
       landOnAnswer(); flash(document.getElementById('regTiles'));
       return;
     }
     if(kind==='payees'){
       /* every payee, ranked: the complete list in a sheet (Back closes it; a pick filters the register to that payee) */
-      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      if(hasFilter()){ state={q:'',fund:'',fg:'',doc:'',credit:false,payee:null,proj:null,pj:''}; syncControls(); reset(); renderRows(); }
       if(LISTS.payee) LISTS.payee(b);
     }
   }
@@ -7102,6 +7200,7 @@ function syncURL(push){
   var pz=(MODAL.kind==='payee' && MODAL.payees && !document.getElementById('modal').hidden) ? MODAL.payees : null;
   if(pz) p.set('payee',pz.join('|')); else if(state.payee) p.set('payee',state.payee.join('|'));
   if(state.proj) p.set('proj',state.proj);
+  if(state.pj==='rest') p.set('rest','1'); else if(state.pj) p.set('dept',state.pj.slice(2));
   if(state.q) p.set('q',state.q);
   if(state.fund) p.set('fund',state.fund);
   if(state.fg) p.set('fg',state.fg);
@@ -7126,7 +7225,7 @@ function syncURL(push){
 }
 function readParams(p){
   return {q:p.get('q')||'', payee:p.get('payee')||'', fund:p.get('fund')||'', fg:p.get('fg')||'', doc:p.get('doc')||'',
-          credit:p.get('credit')==='1', proj:p.get('proj')||'', y:p.get('y')||'', m:p.get('m')||'', w:p.get('w')||'', i:p.get('i')||''};
+          credit:p.get('credit')==='1', proj:p.get('proj')||'', dept:p.get('dept')||'', rest:p.get('rest')==='1', y:p.get('y')||'', m:p.get('m')||'', w:p.get('w')||'', i:p.get('i')||''};
 }
 /* an address that names an account: the sheet is already open on the right category and tab; find its row, open the
    thirty-year history under it and bring it to the middle of the sheet */
@@ -7209,8 +7308,10 @@ function applyParams(p, fromPop){
     var sheetPayees = (s.m==='payee') ? payees.filter(function(n){ return V.indexOf(n)>=0; }) : [];
     if(s.m==='payee') payees=[];
     var proj = (s.proj && PROJECTS.some(function(x){return x.key===s.proj;})) ? s.proj : null;
+    /* ?rest=1 means 'everything the first screen's By-project view did not name' on THAT warrant, so it needs ?doc= */
+    var pj = (s.rest && di>=0) ? 'rest' : ((s.dept && deptKnown(s.dept)) ? 'd|'+s.dept : '');
     var ns={q:s.q, fund:fundCodes[s.fund]?s.fund:'', fg:FG_LABEL[s.fg]?s.fg:'', doc:di>=0?String(di):'', credit:s.credit,
-            payee:payees.length?payees:null, proj:proj};
+            payee:payees.length?payees:null, proj:proj, pj:pj};
     if(JSON.stringify(ns)!==JSON.stringify(state)){ state=ns; syncControls(); reset(); renderRows(); }
     var y=+s.y;
     if(s.y && O.years.indexOf(y)>=0){ if(y!==selYear) renderYear(y); }
