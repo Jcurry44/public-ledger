@@ -1,21 +1,21 @@
 government,class,population_2020_census,filing_year,filings_in_span,span_years,filing_completeness_pct,revenue_usd_latest_filing,expenditure_usd_latest_filing,spending_usd_per_resident_2020_census,net_usd_per_resident_2020_census,spending_rank_within_class,governments_in_class,spending_growth_pct_since_2013,first_filing_year_on_current_basis,county_sales_tax_a1120_usd_2024,share_of_sales_tax_pot_pct,ledger_page
-Niagara Falls,city,48671,2025,31,31,100,237426466,230306551,4731.91,146.29,1,3,30.9,2013,13108755,18.94,https://jcurry44.github.io/public-ledger/m/city-niagara-falls.html
-Lockport,city,20876,2024,30,31,96.8,53505235,51271235,2455.99,107.01,2,3,24.7,2013,5610593,8.11,https://jcurry44.github.io/public-ledger/m/city-lockport.html
-North Tonawanda,city,30496,2024,30,31,96.8,63519207,66023474,2164.99,-82.12,3,3,35.1,2013,10741427,15.52,https://jcurry44.github.io/public-ledger/index.html
-Somerset,town,2597,2025,31,31,100,3858626,4592075,1768.22,-282.42,1,12,86,2013,714755,1.03,https://jcurry44.github.io/public-ledger/m/town-somerset.html
-Niagara,town,7903,2025,31,31,100,13161078,13777911,1743.38,-78.05,2,12,73.6,2013,2783627,4.02,https://jcurry44.github.io/public-ledger/m/town-niagara.html
-Lewiston,town,15944,2025,31,31,100,25927237,25664410,1609.66,16.48,3,12,27.6,2013,4947393,7.15,https://jcurry44.github.io/public-ledger/m/town-lewiston.html
-Lockport,town,20563,2025,31,31,100,26500787,27171348,1321.37,-32.61,4,12,86.6,2013,7242784,10.47,https://jcurry44.github.io/public-ledger/m/town-lockport.html
-Newfane,town,9304,2025,31,31,100,11312876,11602471,1247.04,-31.13,5,12,44.7,2013,3277093,4.74,https://jcurry44.github.io/public-ledger/m/town-newfane.html
-Hartland,town,3874,2025,31,31,100,4974425.78,4817398.58,1243.52,40.53,6,12,35.6,2013,1326502,1.92,https://jcurry44.github.io/public-ledger/m/town-hartland.html
-Cambria,town,5743,2024,30,31,96.8,6849700,6106538,1063.3,129.4,7,12,22.1,2013,2022823,2.92,https://jcurry44.github.io/public-ledger/m/town-cambria.html
-Porter,town,6513,2025,31,31,100,6126810,6478752,994.74,-54.04,8,12,44.8,2013,1745981,2.52,https://jcurry44.github.io/public-ledger/m/town-porter.html
-Royalton,town,7517,2024,30,31,96.8,8387054,7365228,979.81,135.94,9,12,28.3,2013,2359963,3.41,https://jcurry44.github.io/public-ledger/m/town-royalton.html
-Pendleton,town,7035,2025,31,31,100,6985529,6479410,921.02,71.94,10,12,80.1,2013,2477896,3.58,https://jcurry44.github.io/public-ledger/m/town-pendleton.html
-Wheatfield,town,18638,2025,31,31,100,16829117.78,15326860.62,822.34,80.6,11,12,37.8,2013,6564752.9,9.49,https://jcurry44.github.io/public-ledger/m/town-wheatfield.html
-Wilson,town,5847,2025,31,31,100,4791691,4491005,768.09,51.43,12,12,39.4,2013,1751109,2.53,https://jcurry44.github.io/public-ledger/m/town-wilson.html
-Lewiston,village,2531,2025,31,31,100,5862160,5912748,2336.13,-19.99,1,5,74,2013,1105814,1.6,https://jcurry44.github.io/public-ledger/m/village-lewiston.html
-Wilson,village,1247,2025,31,31,100,2509245.28,2423287.18,1943.29,68.93,2,5,71.4,2013,337442.68,0.49,https://jcurry44.github.io/public-ledger/m/village-wilson.html
-Barker,village,575,2025,31,31,100,1116190.15,1028991.03,1789.55,151.65,3,5,-10.2,2013,203762.11,0.29,https://jcurry44.github.io/public-ledger/m/village-barker.html
-Youngstown,village,1859,2025,31,31,100,3470364.24,2358909.88,1268.91,597.88,4,5,39.3,2013,554564.93,0.8,https://jcurry44.github.io/public-ledger/m/village-youngstown.html
-Middleport,village,1729,2025,31,31,100,2283588.33,2064092.33,1193.81,126.95,5,5,35.3,2013,321359.11,0.46,https://jcurry44.github.io/public-ledger/m/village-middleport.html
+Niagara Falls,city,48671,2025,31,32,96.9,237426466,230306551,4731.91,146.29,1,3,30.9,2013,13108755,18.94,https://jcurry44.github.io/public-ledger/m/city-niagara-falls.html
+Lockport,city,20876,2025,31,32,96.9,58420782,57173996,2738.74,59.72,2,3,39.1,2013,5610593,8.11,https://jcurry44.github.io/public-ledger/m/city-lockport.html
+North Tonawanda,city,30496,2024,30,32,93.8,63519207,66023474,2164.99,-82.12,3,3,35.1,2013,10741427,15.52,https://jcurry44.github.io/public-ledger/index.html
+Somerset,town,2597,2025,31,32,96.9,3858626,4592075,1768.22,-282.42,1,12,86,2013,714755,1.03,https://jcurry44.github.io/public-ledger/m/town-somerset.html
+Niagara,town,7903,2025,31,32,96.9,13161078,13777911,1743.38,-78.05,2,12,73.6,2013,2783627,4.02,https://jcurry44.github.io/public-ledger/m/town-niagara.html
+Lewiston,town,15944,2025,31,32,96.9,25927237,25664410,1609.66,16.48,3,12,27.6,2013,4947393,7.15,https://jcurry44.github.io/public-ledger/m/town-lewiston.html
+Lockport,town,20563,2025,31,32,96.9,26500787,27171348,1321.37,-32.61,4,12,86.6,2013,7242784,10.47,https://jcurry44.github.io/public-ledger/m/town-lockport.html
+Newfane,town,9304,2025,31,32,96.9,11312876,11602471,1247.04,-31.13,5,12,44.7,2013,3277093,4.74,https://jcurry44.github.io/public-ledger/m/town-newfane.html
+Hartland,town,3874,2025,31,32,96.9,4974425.78,4817398.58,1243.52,40.53,6,12,35.6,2013,1326502,1.92,https://jcurry44.github.io/public-ledger/m/town-hartland.html
+Cambria,town,5743,2025,31,32,96.9,6943286,6705011,1167.51,41.49,7,12,34,2013,2022823,2.92,https://jcurry44.github.io/public-ledger/m/town-cambria.html
+Porter,town,6513,2025,31,32,96.9,6126810,6478752,994.74,-54.04,8,12,44.8,2013,1745981,2.52,https://jcurry44.github.io/public-ledger/m/town-porter.html
+Royalton,town,7517,2024,30,32,93.8,8387054,7365228,979.81,135.94,9,12,28.3,2013,2359963,3.41,https://jcurry44.github.io/public-ledger/m/town-royalton.html
+Pendleton,town,7035,2025,31,32,96.9,6985529,6479410,921.02,71.94,10,12,80.1,2013,2477896,3.58,https://jcurry44.github.io/public-ledger/m/town-pendleton.html
+Wheatfield,town,18638,2025,31,32,96.9,16829117.78,15326860.62,822.34,80.6,11,12,37.8,2013,6564752.9,9.49,https://jcurry44.github.io/public-ledger/m/town-wheatfield.html
+Wilson,town,5847,2025,31,32,96.9,4791691,4491005,768.09,51.43,12,12,39.4,2013,1751109,2.53,https://jcurry44.github.io/public-ledger/m/town-wilson.html
+Youngstown,village,1859,2026,32,32,100,3012518.78,3672362.92,1975.45,-354.95,1,5,116.8,2013,554564.93,0.8,https://jcurry44.github.io/public-ledger/m/village-youngstown.html
+Lewiston,village,2531,2026,32,32,100,5022988,4877222,1926.99,57.59,2,5,43.5,2013,1105814,1.6,https://jcurry44.github.io/public-ledger/m/village-lewiston.html
+Middleport,village,1729,2026,32,32,100,2121977.61,1985710.92,1148.47,78.81,3,5,30.1,2013,321359.11,0.46,https://jcurry44.github.io/public-ledger/m/village-middleport.html
+Wilson,village,1247,2026,32,32,100,1477794.05,1324874.15,1062.45,122.63,4,5,-6.3,2013,337442.68,0.49,https://jcurry44.github.io/public-ledger/m/village-wilson.html
+Barker,village,575,2026,32,32,100,624436.19,538535.14,936.58,149.39,5,5,-53,2013,203762.11,0.29,https://jcurry44.github.io/public-ledger/m/village-barker.html
