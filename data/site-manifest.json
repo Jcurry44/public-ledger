@@ -392,51 +392,56 @@
      "id": "Warrant Report 5.6.25.b.pdf",
      "date": "2025-05-06",
      "title": "Warrant Report 5.6.25.b",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-5-6-25-b.html",
+     "lines": 440,
+     "sumE": 873350.97,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 4.15.25.pdf",
      "date": "2025-04-15",
      "title": "Warrant Report 4.15.25",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-4-15-25.html",
+     "lines": 337,
+     "sumE": 718785.48,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 4.1.25.pdf",
      "date": "2025-04-01",
      "title": "Warrant Report 4.1.25",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-4-1-25.html",
+     "lines": 262,
+     "sumE": 715244.43,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 3-18-25.pdf",
      "date": "2025-03-18",
      "title": "Warrant Report 3-18-25",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-3-18-25.html",
+     "lines": 375,
+     "sumE": 764683.16,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 3.4.25.pdf",
      "date": "2025-03-04",
      "title": "Warrant Report 3.4.25",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-3-4-25.html",
+     "lines": 304,
+     "sumE": 843417.91,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 2.18.25 - 2024.pdf",
@@ -482,11 +487,12 @@
      "id": "Warrant Report 1-21-25.pdf",
      "date": "2025-01-21",
      "title": "Warrant Report 1-21-25",
-     "kind": "scan",
-     "url": "index.html#explore",
-     "lines": 0,
-     "sumE": 0,
-     "exact": false
+     "kind": "warrant",
+     "url": "briefs/warrant-report-1-21-25.html",
+     "lines": 342,
+     "sumE": 1064856.22,
+     "exact": true,
+     "read": "ocr"
     },
     {
      "id": "Warrant Report 1.7 (004).25.pdf",

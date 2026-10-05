@@ -1,0 +1,4647 @@
+{
+ "engine": "tesseract psm6 eng 300dpi",
+ "scans": [
+  {
+   "file": "Warrant Report 1-21-25.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "date repaired": 5,
+    "account exact": 335,
+    "account snapped": 1,
+    "invoice: leading $ read as S": 2,
+    "item number snapped to the sequence": 17,
+    "account not-in-chart": 6,
+    "invoice unreadable (left blank)": 2,
+    "vendor lines snapped": 242,
+    "vendor lines exact": 74,
+    "vendor lines unsnapped": 26
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-27",
+     "range": "V4-04893 to V5-00105",
+     "date": "01/21/2025",
+     "ok": true,
+     "rows": 342,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 342,
+       "printed": 342,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 1070053.86,
+       "printed": 1070053.86,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 1064856.22,
+       "printed": 1064856.22,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 196,
+       "printed": 196,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (56 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 735664.38,
+       "printed": 735664.38,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 39956.34,
+       "printed": 39956.34,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 116503.93,
+       "printed": 116503.93,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 5197.64,
+       "printed": 5197.64,
+       "ok": true
+      },
+      {
+       "name": "fund 600 expend (yearfund)",
+       "parsed": 6371.73,
+       "printed": 6371.73,
+       "ok": true
+      },
+      {
+       "name": "fund 600 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 600 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (yearfund)",
+       "parsed": 87651.64,
+       "printed": 87651.64,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (yearfund)",
+       "parsed": 22375.2,
+       "printed": 22375.2,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (yearfund)",
+       "parsed": 48050.0,
+       "printed": 48050.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (yearfund)",
+       "parsed": 8283.0,
+       "printed": 8283.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 735664.38,
+       "printed": 735664.38,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 39956.34,
+       "printed": 39956.34,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 116503.93,
+       "printed": 116503.93,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 5197.64,
+       "printed": 5197.64,
+       "ok": true
+      },
+      {
+       "name": "fund 600 expend (fund)",
+       "parsed": 6371.73,
+       "printed": 6371.73,
+       "ok": true
+      },
+      {
+       "name": "fund 600 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 600 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (fund)",
+       "parsed": 87651.64,
+       "printed": 87651.64,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (fund)",
+       "parsed": 22375.2,
+       "printed": 22375.2,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (fund)",
+       "parsed": 48050.0,
+       "printed": 48050.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (fund)",
+       "parsed": 8283.0,
+       "printed": 8283.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 735664.38,
+       "printed": 735664.38,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (breakdown)",
+       "parsed": 39956.34,
+       "printed": 39956.34,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (breakdown)",
+       "parsed": 116503.93,
+       "printed": 116503.93,
+       "ok": true
+      },
+      {
+       "name": "fund 600 expend (breakdown)",
+       "parsed": 6371.73,
+       "printed": 6371.73,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (breakdown)",
+       "parsed": 87651.64,
+       "printed": 87651.64,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (breakdown)",
+       "parsed": 22375.2,
+       "printed": 22375.2,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (breakdown)",
+       "parsed": 48050.0,
+       "printed": 48050.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (breakdown)",
+       "parsed": 8283.0,
+       "printed": 8283.0,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 26,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        1064856.22
+       ],
+       [
+        "fund total",
+        1064856.22
+       ],
+       [
+        "fund fund lines foot",
+        1064856.22
+       ],
+       [
+        "breakdown total",
+        1064856.22
+       ],
+       [
+        "breakdown fund lines foot",
+        1064856.22
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        1070053.86
+       ],
+       [
+        "yearfund fund lines foot",
+        1070053.86
+       ],
+       [
+        "fund total",
+        1070053.86
+       ],
+       [
+        "fund fund lines foot",
+        1070053.86
+       ]
+      ]
+     },
+     "overruled_prints": []
+    }
+   ],
+   "events": [
+    {
+     "kind": "account snapped",
+     "page": 1,
+     "po": "V4-04896",
+     "ocr": "001-6142-0480",
+     "published": "001-5142-0480",
+     "ocr_description": "SNOW REMOVAL - OPERATIONS"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 6,
+     "po": "V4-04940",
+     "ocr": "002-8340-0410",
+     "published": "002-8340-0410",
+     "ocr_description": "WATER DISTRIBUTION - ADMINISTF"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 11,
+     "po": "V4-04972",
+     "ocr": "601-1440-0201",
+     "published": "601-1440-0201",
+     "ocr_description": "LIVE HOSE FLOOR IMPROVEMENT!"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 12,
+     "po": "V4-04982",
+     "ocr": "001-3410-0215",
+     "published": "001-3410-0215",
+     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 13,
+     "po": "V4-04991",
+     "ocr": "002-8340-0410",
+     "published": "002-8340-0410",
+     "ocr_description": "WATER DISTRIBUTION - ADMINISTF"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 21,
+     "po": "V5-00080",
+     "ocr": "001-8160-0481",
+     "published": "001-8160-0481",
+     "ocr_description": "GARBAGE AND REFUSE - RENTALE"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 23,
+     "po": "V5-00094",
+     "ocr": "601-1440-0201",
+     "published": "601-1440-0201",
+     "ocr_description": "LIVE HOSE FLOOR IMPROVEMENT:"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04898",
+     "name": "APPLIED CONCEPTS, INC.",
+     "ocr_code": "APPLIO15",
+     "published_code": "APPLI015"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04900",
+     "name": "AXBERG, GLEN P.",
+     "ocr_code": "AXBEROO5",
+     "published_code": "AXBER005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04901",
+     "name": "BRAUER, ROBERT",
+     "ocr_code": "BRAUEO10",
+     "published_code": "BRAUE010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04902",
+     "name": "BRENNTAG LUBRICANTS, LLC",
+     "ocr_code": "BRENNOQO5",
+     "published_code": "BRENN005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04903",
+     "name": "CEVAER, ANTHONY",
+     "ocr_code": "CEVAEO005",
+     "published_code": "CEVAE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V4-04907",
+     "name": "CONTROL SERVICES",
+     "ocr_code": "CONTRO10",
+     "published_code": "CONTR010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 4,
+     "po": "V4-04916",
+     "name": "ENERGSMART",
+     "ocr_code": "ENERGO10",
+     "published_code": "ENERG010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 5,
+     "po": "V4-04926",
+     "name": "HARRIS BEACH, PLLC",
+     "ocr_code": "HARRIOOS",
+     "published_code": "HARRI005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 6,
+     "po": "V4-04936",
+     "name": "KREMPA, LINDA",
+     "ocr_code": "KREMP005",
+     "published_code": "KREMP005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 6,
+     "po": "V4-04937",
+     "name": "KURK FUEL COMPANY",
+     "ocr_code": "KURKFOO5",
+     "published_code": "KURKF005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 6,
+     "po": "V4-04939",
+     "name": "LADUCA, MARK",
+     "ocr_code": "LADUCOOS5",
+     "published_code": "LADUCOOS5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V4-04942",
+     "name": "MCCABE, MAXWELL",
+     "ocr_code": "MCCABO0S",
+     "published_code": "MCCAB005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 8,
+     "po": "V4-04955",
+     "name": "ROCKWELL AUTOMATION INC FIIX",
+     "ocr_code": "ROCKWO05",
+     "published_code": "ROCKW005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 9,
+     "po": "V4-04963",
+     "name": "TW CABLE LLC",
+     "ocr_code": "TWCABOOS",
+     "published_code": "TWCAB005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 11,
+     "po": "V4-04972",
+     "name": "WALTER S.JOHNSON BLDG. CO.",
+     "ocr_code": "WALTEOO05",
+     "published_code": "WALTE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 16,
+     "po": "V5-00028",
+     "name": "ALTEC CAPITAL SERVICES, LLC",
+     "ocr_code": "ALTECQ10",
+     "published_code": "ALTEC010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 16,
+     "po": "V5-00033",
+     "name": "BRAUN, DONNA",
+     "ocr_code": "BRAUNOOS",
+     "published_code": "BRAUN005"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 19,
+     "po": "V5-00060",
+     "ocr": "JC! JONES CHEMICALS, INC.",
+     "published": "JCI JONES CHEMICALS, INC.",
+     "ocr_code": "JCIJO005",
+     "master_code": "JCIJO005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 20,
+     "po": "V5-00069",
+     "name": "MODERN CORPORATION",
+     "ocr_code": "MODERO10",
+     "published_code": "MODER010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-00073",
+     "name": "N. COUNTY ASSESSOR'S ASSOC.",
+     "ocr_code": "NIAGAQ15",
+     "published_code": "NIAGA015"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-00074",
+     "name": "NIAGARA COUNTY CLERK",
+     "ocr_code": "NIAGAQ6S",
+     "published_code": "NIAGA065"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-00077",
+     "name": "NYCOM",
+     "ocr_code": "NYCOM005",
+     "published_code": "NYCOM005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-00079",
+     "name": "RANK, KEVINA.",
+     "ocr_code": "RANKKOOS",
+     "published_code": "RANKK005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-00082",
+     "name": "SIKORA, JOSEPH - PETTY CASH",
+     "ocr_code": "SIKOROO5",
+     "published_code": "SIKOR005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 23,
+     "po": "V5-00091",
+     "name": "UNIVERSITY EMERGENCY MEDICAL",
+     "ocr_code": "UNIVEO10",
+     "published_code": "UNIVE010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 23,
+     "po": "V5-00094",
+     "name": "WALTER S.JOHNSON BLDG. CO.",
+     "ocr_code": "WALTE005",
+     "published_code": "WALTE005"
+    }
+   ]
+  },
+  {
+   "file": "Warrant Report 3.4.25.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "item number snapped to the sequence": 12,
+    "account exact": 302,
+    "account not-in-chart": 2,
+    "invoice unreadable (left blank)": 1,
+    "vendor lines exact": 97,
+    "vendor lines snapped": 200,
+    "vendor lines unsnapped": 7,
+    "date repaired": 1
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-24",
+     "range": "V5-00502 to V5-00690",
+     "date": "03/04/2025",
+     "ok": true,
+     "rows": 286,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 286,
+       "printed": 286,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 735345.6,
+       "printed": 735345.6,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 725626.39,
+       "printed": 725626.39,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 189,
+       "printed": 189,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (46 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 508434.88,
+       "printed": 508434.88,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 22558.29,
+       "printed": 22558.29,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 31585.32,
+       "printed": 31585.32,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 9719.21,
+       "printed": 9719.21,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (yearfund)",
+       "parsed": 3032.6,
+       "printed": 3032.6,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (yearfund)",
+       "parsed": 114406.8,
+       "printed": 114406.8,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (yearfund)",
+       "parsed": 36430.5,
+       "printed": 36430.5,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (yearfund)",
+       "parsed": 3028.0,
+       "printed": 3028.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 expend (yearfund)",
+       "parsed": 6150.0,
+       "printed": 6150.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 508434.88,
+       "printed": 508434.88,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 22558.29,
+       "printed": 22558.29,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 31585.32,
+       "printed": 31585.32,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 9719.21,
+       "printed": 9719.21,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (fund)",
+       "parsed": 3032.6,
+       "printed": 3032.6,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (fund)",
+       "parsed": 114406.8,
+       "printed": 114406.8,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (fund)",
+       "parsed": 36430.5,
+       "printed": 36430.5,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (fund)",
+       "parsed": 3028.0,
+       "printed": 3028.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 expend (fund)",
+       "parsed": 6150.0,
+       "printed": 6150.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 508434.88,
+       "printed": 508434.88,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (breakdown)",
+       "parsed": 22558.29,
+       "printed": 22558.29,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (breakdown)",
+       "parsed": 31585.32,
+       "printed": 31585.32,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (breakdown)",
+       "parsed": 3032.6,
+       "printed": 3032.6,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (breakdown)",
+       "parsed": 114406.8,
+       "printed": 114406.8,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (breakdown)",
+       "parsed": 36430.5,
+       "printed": 36430.5,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (breakdown)",
+       "parsed": 3028.0,
+       "printed": 3028.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 expend (breakdown)",
+       "parsed": 6150.0,
+       "printed": 6150.0,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 26,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund total",
+        725626.39
+       ],
+       [
+        "yearfund fund lines foot",
+        725626.39
+       ],
+       [
+        "fund fund lines foot",
+        725626.39
+       ],
+       [
+        "breakdown total",
+        725626.39
+       ],
+       [
+        "breakdown fund lines foot",
+        725626.39
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        735345.6
+       ],
+       [
+        "yearfund total",
+        735345.6
+       ],
+       [
+        "yearfund fund lines foot",
+        735345.6
+       ],
+       [
+        "fund fund lines foot",
+        735345.6
+       ]
+      ]
+     },
+     "overruled_prints": []
+    },
+    {
+     "pages": "25-28",
+     "range": "V4-05057 to V4-05068",
+     "date": "03/04/2025",
+     "ok": true,
+     "rows": 18,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 18,
+       "printed": 18,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 117791.52,
+       "printed": 117791.52,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 117791.52,
+       "printed": 117791.52,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 12,
+       "printed": 12,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (3 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 38791.52,
+       "printed": 38791.52,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (yearfund)",
+       "parsed": 79000.0,
+       "printed": 79000.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 38791.52,
+       "printed": 38791.52,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (fund)",
+       "parsed": 79000.0,
+       "printed": 79000.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 38791.52,
+       "printed": 38791.52,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (breakdown)",
+       "parsed": 79000.0,
+       "printed": 79000.0,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 6,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund total",
+        117791.52
+       ],
+       [
+        "yearfund fund lines foot",
+        117791.52
+       ],
+       [
+        "fund total",
+        117791.52
+       ],
+       [
+        "fund fund lines foot",
+        117791.52
+       ],
+       [
+        "breakdown total",
+        117791.52
+       ],
+       [
+        "breakdown fund lines foot",
+        117791.52
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        117791.52
+       ],
+       [
+        "yearfund total",
+        117791.52
+       ],
+       [
+        "yearfund fund lines foot",
+        117791.52
+       ],
+       [
+        "fund total",
+        117791.52
+       ],
+       [
+        "fund fund lines foot",
+        117791.52
+       ]
+      ]
+     },
+     "overruled_prints": []
+    }
+   ],
+   "events": [
+    {
+     "kind": "account not-in-chart",
+     "page": 10,
+     "po": "V5-00579",
+     "ocr": "621-5110-0207",
+     "published": "621-5110-0207",
+     "ocr_description": "Acquisition of Machinery and Apparatu"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 20,
+     "po": "V5-00674",
+     "ocr": "001-3410-0215",
+     "published": "001-3410-0215",
+     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V5-00510",
+     "name": "APALACHEE",
+     "ocr_code": "APALAOQOS",
+     "published_code": "APALA005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 5,
+     "po": "V5-00545",
+     "name": "EJ USA, INC.",
+     "ocr_code": "EJUSA005",
+     "published_code": "EJUSA005"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 6,
+     "po": "V5-00547",
+     "ocr": "ENVIRONMENTAL SERVICE GROUP, T",
+     "published": "ENVIRONMENTAL SERVICE GROUP",
+     "ocr_code": "ENVIROQ5",
+     "master_code": "ENVIR005"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 6,
+     "po": "V5-00548",
+     "ocr": "ENVIRONMENTAL SERVICE GROUP, T",
+     "published": "ENVIRONMENTAL SERVICE GROUP",
+     "ocr_code": "ENVIROOS",
+     "master_code": "ENVIR005"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 6,
+     "po": "V5-00549",
+     "ocr": "EVUROFINS ENVIRONMENT TESTING",
+     "published": "EUROFINS ENVIRONMENT TESTING",
+     "ocr_code": "EUROF005",
+     "master_code": "EUROF005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V5-00558",
+     "name": "GEITER DONE OF WNY, INC.",
+     "ocr_code": "GEITEO005",
+     "published_code": "GEITE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 10,
+     "po": "V5-00583",
+     "name": "KURK FUEL COMPANY",
+     "ocr_code": "KURKFOO5",
+     "published_code": "KURKF005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 11,
+     "po": "V5-00590",
+     "name": "MEISTER, ERIC",
+     "ocr_code": "MEISTOO05",
+     "published_code": "MEIST005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 11,
+     "po": "V5-00591",
+     "name": "METAL SUPERMARKETS",
+     "ocr_code": "METALOO05",
+     "published_code": "METAL005"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 15,
+     "po": "V5-00627",
+     "ocr": "ORLOWSK!, DOUGLAS - PETTY CASH",
+     "published": "ORLOWSKI, DOUGLAS - PETTY CASH",
+     "ocr_code": "SIKOROO5",
+     "master_code": "SIKOR005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 26,
+     "po": "V4-05067",
+     "name": "MONGOLD, JEFFREY",
+     "ocr_code": "MONGOO0S5",
+     "published_code": "MONGOO0S5"
+    }
+   ]
+  },
+  {
+   "file": "Warrant Report 3-18-25.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "account exact": 373,
+    "item number snapped to the sequence": 11,
+    "invoice: leading $ read as S": 3,
+    "invoice unreadable (left blank)": 5,
+    "account not-in-chart": 2,
+    "vendor lines exact": 120,
+    "vendor lines snapped": 230,
+    "vendor lines unsnapped": 25
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-26",
+     "range": "V5-00770 to V5-00955",
+     "date": "03/18/2025",
+     "ok": true,
+     "rows": 346,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 346,
+       "printed": 346,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 735222.92,
+       "printed": 735222.92,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 734416.95,
+       "printed": 734416.95,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 186,
+       "printed": 186,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (67 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 422759.12,
+       "printed": 422759.12,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 93592.21,
+       "printed": 93592.21,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 208.0,
+       "printed": 208.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 92281.35,
+       "printed": 92281.35,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 478.0,
+       "printed": 478.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 119.97,
+       "printed": 119.97,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (yearfund)",
+       "parsed": 379.05,
+       "printed": 379.05,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (yearfund)",
+       "parsed": 8507.64,
+       "printed": 8507.64,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (yearfund)",
+       "parsed": 51016.04,
+       "printed": 51016.04,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (yearfund)",
+       "parsed": 39469.82,
+       "printed": 39469.82,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 615 expend (yearfund)",
+       "parsed": 21456.63,
+       "printed": 21456.63,
+       "ok": true
+      },
+      {
+       "name": "fund 615 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 615 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (yearfund)",
+       "parsed": 4955.09,
+       "printed": 4955.09,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 422759.12,
+       "printed": 422759.12,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 93592.21,
+       "printed": 93592.21,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 208.0,
+       "printed": 208.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 92281.35,
+       "printed": 92281.35,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 478.0,
+       "printed": 478.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 119.97,
+       "printed": 119.97,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (fund)",
+       "parsed": 379.05,
+       "printed": 379.05,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (fund)",
+       "parsed": 8507.64,
+       "printed": 8507.64,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (fund)",
+       "parsed": 51016.04,
+       "printed": 51016.04,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (fund)",
+       "parsed": 39469.82,
+       "printed": 39469.82,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 615 expend (fund)",
+       "parsed": 21456.63,
+       "printed": 21456.63,
+       "ok": true
+      },
+      {
+       "name": "fund 615 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 615 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (fund)",
+       "parsed": 4955.09,
+       "printed": 4955.09,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 422759.12,
+       "printed": 422759.12,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (breakdown)",
+       "parsed": 93592.21,
+       "printed": 93592.21,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (breakdown)",
+       "parsed": 92281.35,
+       "printed": 92281.35,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (breakdown)",
+       "parsed": 379.05,
+       "printed": 379.05,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (breakdown)",
+       "parsed": 8507.64,
+       "printed": 8507.64,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (breakdown)",
+       "parsed": 51016.04,
+       "printed": 51016.04,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (breakdown)",
+       "parsed": 39469.82,
+       "printed": 39469.82,
+       "ok": true
+      },
+      {
+       "name": "fund 615 expend (breakdown)",
+       "parsed": 21456.63,
+       "printed": 21456.63,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (breakdown)",
+       "parsed": 4955.09,
+       "printed": 4955.09,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 29,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        734416.95
+       ],
+       [
+        "fund fund lines foot",
+        734416.95
+       ],
+       [
+        "breakdown total",
+        734416.95
+       ],
+       [
+        "breakdown fund lines foot",
+        734416.95
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        735222.92
+       ],
+       [
+        "yearfund fund lines foot",
+        735222.92
+       ],
+       [
+        "fund fund lines foot",
+        735222.92
+       ]
+      ]
+     },
+     "overruled_prints": []
+    },
+    {
+     "pages": "27-30",
+     "range": "25-00093 to 25-00179",
+     "date": "03/18/2025",
+     "ok": true,
+     "rows": 29,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 29,
+       "printed": 29,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 31655.86,
+       "printed": 31655.86,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 30266.21,
+       "printed": 30266.21,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 27,
+       "printed": 27,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (2 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 29265.34,
+       "printed": 29265.34,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 838.88,
+       "printed": 838.88,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 161.99,
+       "printed": 161.99,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 1389.65,
+       "printed": 1389.65,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 29265.34,
+       "printed": 29265.34,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 838.88,
+       "printed": 838.88,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 161.99,
+       "printed": 161.99,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 1389.65,
+       "printed": 1389.65,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 8,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        30266.21
+       ],
+       [
+        "fund fund lines foot",
+        30266.21
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        31655.86
+       ],
+       [
+        "yearfund fund lines foot",
+        31655.86
+       ],
+       [
+        "fund fund lines foot",
+        31655.86
+       ]
+      ]
+     },
+     "overruled_prints": []
+    }
+   ],
+   "events": [
+    {
+     "kind": "account not-in-chart",
+     "page": 18,
+     "po": "V5-00906",
+     "ocr": "601-1440-0201",
+     "published": "601-1440-0201",
+     "ocr_description": "LIVE HOSE FLOOR IMPROVEMENT:"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 21,
+     "po": "V5-00927",
+     "ocr": "001-3410-0215",
+     "published": "001-3410-0215",
+     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V5-00781",
+     "name": "BRUBAKER, JASON",
+     "ocr_code": "BRUBAOQOS",
+     "published_code": "BRUBA005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V5-00782",
+     "name": "BURRUANO, ALBERT",
+     "ocr_code": "BURRUOOS",
+     "published_code": "BURRU005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 6,
+     "po": "V5-00815",
+     "name": "GLYNN GROUP ENGINEERING",
+     "ocr_code": "GLYNNOOS5",
+     "published_code": "GLYNNOOS5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V5-00823",
+     "name": "HARTLEY, DAVID L.",
+     "ocr_code": "HARTLOOS",
+     "published_code": "HARTL005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 8,
+     "po": "V5-00826",
+     "name": "HEMPEL, NICHOLAS",
+     "ocr_code": "HEMPE0O10",
+     "published_code": "HEMPE010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 13,
+     "po": "V5-00865",
+     "name": "NEW YORK SECTION AWWA",
+     "ocr_code": "NEWYOO080",
+     "published_code": "NEWYO080"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 15,
+     "po": "V5-00885",
+     "name": "STEVENS, JUSTINE",
+     "ocr_code": "STEVEO10",
+     "published_code": "STEVE010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 17,
+     "po": "V5-00902",
+     "name": "VERSARE",
+     "ocr_code": "VERSA005",
+     "published_code": "VERSA005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 18,
+     "po": "V5-00905",
+     "name": "WALTER S.JOHNSON BLDG. CO.",
+     "ocr_code": "WALTE005",
+     "published_code": "WALTE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 18,
+     "po": "V5-00906",
+     "name": "WALTER S.JOHNSON BLDG. CO.",
+     "ocr_code": "WALTE00S5",
+     "published_code": "WALTE00S5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-00916",
+     "name": "XCALLIBER",
+     "ocr_code": "XCALLO05",
+     "published_code": "XCALL005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-00917",
+     "name": "ZMUDA, JOHN L.",
+     "ocr_code": "ZMUDAQ05",
+     "published_code": "ZMUDA005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 27,
+     "po": "25-00095",
+     "name": "AMAZON",
+     "ocr_code": "AMAZO005",
+     "published_code": "AMAZO005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 27,
+     "po": "25-00097",
+     "name": "GCSAOF NY",
+     "ocr_code": "GCSAO005",
+     "published_code": "GCSAO005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 27,
+     "po": "25-00098",
+     "name": "GOLF COURSE SUPERINTENDENTS",
+     "ocr_code": "GOLFCO05",
+     "published_code": "GOLFC005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 27,
+     "po": "25-00099",
+     "name": "TRUCKS MAINTAIN INC",
+     "ocr_code": "TRUCK010",
+     "published_code": "TRUCK010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 28,
+     "po": "25-00105",
+     "name": "NEW YORK TACTICAL OFFICERS",
+     "ocr_code": "NEWYO025",
+     "published_code": "NEWYO025"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 28,
+     "po": "25-00106",
+     "name": "OFFICE DEPOT INC",
+     "ocr_code": "OFFICO0S5",
+     "published_code": "OFFICO0S5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 29,
+     "po": "25-00113",
+     "name": "NATIONAL PARTS",
+     "ocr_code": "NATIOO75",
+     "published_code": "NATIO075"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 29,
+     "po": "25-00116",
+     "name": "FLAGSHIP ONE",
+     "ocr_code": "FLAGSOO0S5",
+     "published_code": "FLAGSOO0S5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 29,
+     "po": "25-00118",
+     "name": "NORTHERN TOOL & EQUIPMENT",
+     "ocr_code": "NORTHO80",
+     "published_code": "NORTH080"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 29,
+     "po": "25-00119",
+     "name": "LAPELPINNOW.COM",
+     "ocr_code": "LAPELOOS",
+     "published_code": "LAPEL005"
+    }
+   ]
+  },
+  {
+   "file": "Warrant Report 4.1.25.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "item number snapped to the sequence": 8,
+    "account exact": 259,
+    "account snapped": 1,
+    "account not-in-chart": 2,
+    "invoice: leading $ read as S": 3,
+    "vendor lines snapped": 174,
+    "vendor lines exact": 78,
+    "vendor lines unsnapped": 10
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-22",
+     "range": "V5-00958 to V5-01738",
+     "date": "04/01/2025",
+     "ok": true,
+     "rows": 262,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 262,
+       "printed": 262,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 722788.9,
+       "printed": 722788.9,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 715244.43,
+       "printed": 715244.43,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 180,
+       "printed": 180,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (40 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 552504.92,
+       "printed": 552504.92,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 16701.39,
+       "printed": 16701.39,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 91344.43,
+       "printed": 91344.43,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 47.0,
+       "printed": 47.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 7497.47,
+       "printed": 7497.47,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (yearfund)",
+       "parsed": 11738.74,
+       "printed": 11738.74,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (yearfund)",
+       "parsed": 3943.2,
+       "printed": 3943.2,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (yearfund)",
+       "parsed": 10165.99,
+       "printed": 10165.99,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (yearfund)",
+       "parsed": 22375.2,
+       "printed": 22375.2,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (yearfund)",
+       "parsed": 6470.56,
+       "printed": 6470.56,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 552504.92,
+       "printed": 552504.92,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 16701.39,
+       "printed": 16701.39,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 91344.43,
+       "printed": 91344.43,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 47.0,
+       "printed": 47.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 7497.47,
+       "printed": 7497.47,
+       "ok": true
+      },
+      {
+       "name": "fund 601 expend (fund)",
+       "parsed": 11738.74,
+       "printed": 11738.74,
+       "ok": true
+      },
+      {
+       "name": "fund 601 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 601 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (fund)",
+       "parsed": 3943.2,
+       "printed": 3943.2,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (fund)",
+       "parsed": 10165.99,
+       "printed": 10165.99,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (fund)",
+       "parsed": 22375.2,
+       "printed": 22375.2,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 expend (fund)",
+       "parsed": 6470.56,
+       "printed": 6470.56,
+       "ok": true
+      },
+      {
+       "name": "fund 619 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 619 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 18,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund total",
+        715244.43
+       ],
+       [
+        "yearfund fund lines foot",
+        715244.43
+       ],
+       [
+        "fund fund lines foot",
+        715244.43
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        722788.9
+       ],
+       [
+        "yearfund total",
+        722788.9
+       ],
+       [
+        "yearfund fund lines foot",
+        722788.9
+       ],
+       [
+        "fund fund lines foot",
+        722788.9
+       ]
+      ]
+     },
+     "overruled_prints": []
+    }
+   ],
+   "events": [
+    {
+     "kind": "account snapped",
+     "page": 9,
+     "po": "V5-01033",
+     "ocr": "0074-5110-0420",
+     "published": "001-5110-0420",
+     "ocr_description": "MAINTENANCE OF STREETS - REF?"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 10,
+     "po": "V5-01044",
+     "ocr": "001-1210-0481",
+     "published": "001-1210-0481",
+     "ocr_description": "MAYOR - OPERATIONS - NIMAC"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 16,
+     "po": "V5-01096",
+     "ocr": "601-1440-0201",
+     "published": "601-1440-0201",
+     "ocr_description": "LIVE HOSE FLOOR IMPROVEMENT:"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 2,
+     "po": "V5-00969",
+     "name": "CARROT-TOP INDUSTRIES, INC.",
+     "ocr_code": "CARROOOS",
+     "published_code": "CARRO005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 4,
+     "po": "V5-00985",
+     "name": "ESTATE OF DALE ROGERS",
+     "ocr_code": "ESTATO20",
+     "published_code": "ESTAT020"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 5,
+     "po": "V5-00995",
+     "name": "FOXY'S TOPS & UPHOLSTRY",
+     "ocr_code": "FOXYS005",
+     "published_code": "FOXYS005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V5-01015",
+     "name": "KANOUFF, MARK S.",
+     "ocr_code": "KANOUOGO5",
+     "published_code": "KANOU005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V5-01017",
+     "name": "KEL-MIK FARMS",
+     "ocr_code": "KELMI005",
+     "published_code": "KELMI005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 9,
+     "po": "V5-01039",
+     "name": "NEWMAN, ESTHER",
+     "ocr_code": "NEWMA005",
+     "published_code": "NEWMA005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 10,
+     "po": "V5-01044",
+     "name": "NIMAC",
+     "ocr_code": "NIMACO05",
+     "published_code": "NIMAC005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 12,
+     "po": "V5-01068",
+     "name": "SUNNKING, INC.",
+     "ocr_code": "SUNNKOO5",
+     "published_code": "SUNNK005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 15,
+     "po": "V5-01092",
+     "name": "VAN BORTEL CHEVROLET",
+     "ocr_code": "VANBOO10",
+     "published_code": "VANBO010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 16,
+     "po": "V5-01096",
+     "name": "WALTER S.JOHNSON BLDG. Co.",
+     "ocr_code": "WALTEO05",
+     "published_code": "WALTE005"
+    }
+   ]
+  },
+  {
+   "file": "Warrant Report 4.15.25.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "account exact": 334,
+    "account snapped": 1,
+    "item number snapped to the sequence": 8,
+    "item number skips ahead (a line may be missing)": 1,
+    "account not-in-chart": 2,
+    "invoice: leading $ read as S": 2,
+    "invoice unreadable (left blank)": 3,
+    "vendor lines snapped": 225,
+    "vendor lines exact": 102,
+    "vendor lines unsnapped": 10
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-26",
+     "range": "V5-01153 to V5-01352",
+     "date": "04/15/2025",
+     "ok": true,
+     "rows": 337,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 337,
+       "printed": 337,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 719200.48,
+       "printed": 719200.48,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 718785.48,
+       "printed": 718785.48,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 199,
+       "printed": 199,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (54 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 390122.06,
+       "printed": 390122.06,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 45303.43,
+       "printed": 45303.43,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 100.0,
+       "printed": 100.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 70362.44,
+       "printed": 70362.44,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 315.0,
+       "printed": 315.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (yearfund)",
+       "parsed": 2561.44,
+       "printed": 2561.44,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (yearfund)",
+       "parsed": 16224.89,
+       "printed": 16224.89,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (yearfund)",
+       "parsed": 3337.71,
+       "printed": 3337.71,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 expend (yearfund)",
+       "parsed": 171737.0,
+       "printed": 171737.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 expend (yearfund)",
+       "parsed": 10560.51,
+       "printed": 10560.51,
+       "ok": true
+      },
+      {
+       "name": "fund 622 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 expend (yearfund)",
+       "parsed": 8576.0,
+       "printed": 8576.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 390122.06,
+       "printed": 390122.06,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 45303.43,
+       "printed": 45303.43,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 100.0,
+       "printed": 100.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 70362.44,
+       "printed": 70362.44,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 315.0,
+       "printed": 315.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (fund)",
+       "parsed": 2561.44,
+       "printed": 2561.44,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (fund)",
+       "parsed": 16224.89,
+       "printed": 16224.89,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (fund)",
+       "parsed": 3337.71,
+       "printed": 3337.71,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 expend (fund)",
+       "parsed": 171737.0,
+       "printed": 171737.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 621 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 expend (fund)",
+       "parsed": 10560.51,
+       "printed": 10560.51,
+       "ok": true
+      },
+      {
+       "name": "fund 622 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 expend (fund)",
+       "parsed": 8576.0,
+       "printed": 8576.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 18,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        718785.48
+       ],
+       [
+        "fund total",
+        748785.48
+       ],
+       [
+        "fund fund lines foot",
+        718785.48
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        719200.48
+       ],
+       [
+        "yearfund fund lines foot",
+        719200.48
+       ],
+       [
+        "fund total",
+        749200.48
+       ],
+       [
+        "fund fund lines foot",
+        719200.48
+       ]
+      ]
+     },
+     "overruled_prints": [
+      {
+       "control": "expend",
+       "value": "748785.48 x1"
+      },
+      {
+       "control": "list",
+       "value": "749200.48 x1"
+      }
+     ]
+    }
+   ],
+   "events": [
+    {
+     "kind": "account snapped",
+     "page": 1,
+     "po": "V5-01156",
+     "ocr": "0014-1315-0410",
+     "published": "001-1315-0410",
+     "ocr_description": "ACCOUNTING - ADMINISTRATION"
+    },
+    {
+     "kind": "item number skips ahead (kept as printed)",
+     "page": 5,
+     "po": "V5-01189",
+     "expected": 2,
+     "read": 3
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 7,
+     "po": "V5-01209",
+     "ocr": "609-8397-0201",
+     "published": "609-8397-0201",
+     "ocr_description": "8397 - WATER PLANT IMPROVEMERN"
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 13,
+     "po": "V5-01262",
+     "ocr": "621-5110-0207",
+     "published": "621-5110-0207",
+     "ocr_description": "Acquisition of Machinery and Apparatu"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 4,
+     "po": "V5-01178",
+     "name": "MAIN FRAME, THE",
+     "ocr_code": "MAINFO0O5",
+     "published_code": "MAINF005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 5,
+     "po": "V5-01192",
+     "name": "PREMIER BODY ARMOR",
+     "ocr_code": "PREMIO15",
+     "published_code": "PREMI015"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 7,
+     "po": "V5-01204",
+     "name": "ACUITY SPECIALTY PRODUCTS",
+     "ocr_code": "ACUITO0S",
+     "published_code": "ACUIT005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 11,
+     "po": "V5-01241",
+     "name": "GOPHER",
+     "ocr_code": "GOPHE005",
+     "published_code": "GOPHE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 12,
+     "po": "V5-01251",
+     "name": "HUNTER BUFFALO PETERBILT",
+     "ocr_code": "HUNTE005",
+     "published_code": "HUNTE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 14,
+     "po": "V5-01264",
+     "name": "KUBALA, KIMBERLY",
+     "ocr_code": "KUBALOOS",
+     "published_code": "KUBAL005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 18,
+     "po": "V5-01298",
+     "name": "SAN TER SEWING LLLC",
+     "ocr_code": "SANTE005",
+     "published_code": "SANTE005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-01306",
+     "name": "STEVENS, RACHEL",
+     "ocr_code": "STEVE015",
+     "published_code": "STEVE015"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-01329",
+     "name": "NIAGARA COUNTY CLERK",
+     "ocr_code": "NIAGAO65",
+     "published_code": "NIAGA065"
+    }
+   ]
+  },
+  {
+   "file": "Warrant Report 5.6.25.b.pdf",
+   "accepted": true,
+   "reason": "",
+   "tally": {
+    "account exact": 439,
+    "invoice unreadable (left blank)": 4,
+    "invoice: leading $ read as S": 3,
+    "item number snapped to the sequence": 7,
+    "item number skips ahead (a line may be missing)": 2,
+    "account not-in-chart": 1,
+    "vendor lines snapped": 255,
+    "vendor lines exact": 171,
+    "vendor lines unsnapped": 14
+   },
+   "ocr": "cached",
+   "reports": [
+    {
+     "pages": "1-32",
+     "range": "V5-01372 to V5-01617",
+     "date": "05/06/2025",
+     "ok": true,
+     "rows": 407,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 407,
+       "printed": 407,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 834522.35,
+       "printed": 834522.35,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 823990.77,
+       "printed": 823990.77,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 244,
+       "printed": 244,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (66 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 505520.46,
+       "printed": 505520.46,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 52946.18,
+       "printed": 52946.18,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 77953.46,
+       "printed": 77953.46,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 10531.58,
+       "printed": 10531.58,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (yearfund)",
+       "parsed": 72141.64,
+       "printed": 72141.64,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (yearfund)",
+       "parsed": 2588.05,
+       "printed": 2588.05,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (yearfund)",
+       "parsed": 22465.19,
+       "printed": 22465.19,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 612 expend (yearfund)",
+       "parsed": 13742.17,
+       "printed": 13742.17,
+       "ok": true
+      },
+      {
+       "name": "fund 612 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 612 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (yearfund)",
+       "parsed": 57660.0,
+       "printed": 57660.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (yearfund)",
+       "parsed": 3266.88,
+       "printed": 3266.88,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 expend (yearfund)",
+       "parsed": 4159.93,
+       "printed": 4159.93,
+       "ok": true
+      },
+      {
+       "name": "fund 622 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 expend (yearfund)",
+       "parsed": 11546.81,
+       "printed": 11546.81,
+       "ok": true
+      },
+      {
+       "name": "fund 623 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 505520.46,
+       "printed": 505520.46,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 52946.18,
+       "printed": 52946.18,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 77953.46,
+       "printed": 77953.46,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 10531.58,
+       "printed": 10531.58,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (fund)",
+       "parsed": 72141.64,
+       "printed": 72141.64,
+       "ok": true
+      },
+      {
+       "name": "fund 605 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 605 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (fund)",
+       "parsed": 2588.05,
+       "printed": 2588.05,
+       "ok": true
+      },
+      {
+       "name": "fund 607 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 607 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (fund)",
+       "parsed": 22465.19,
+       "printed": 22465.19,
+       "ok": true
+      },
+      {
+       "name": "fund 609 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 609 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 612 expend (fund)",
+       "parsed": 13742.17,
+       "printed": 13742.17,
+       "ok": true
+      },
+      {
+       "name": "fund 612 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 612 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (fund)",
+       "parsed": 57660.0,
+       "printed": 57660.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 613 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (fund)",
+       "parsed": 3266.88,
+       "printed": 3266.88,
+       "ok": true
+      },
+      {
+       "name": "fund 618 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 expend (fund)",
+       "parsed": 4159.93,
+       "printed": 4159.93,
+       "ok": true
+      },
+      {
+       "name": "fund 622 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 622 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 expend (fund)",
+       "parsed": 11546.81,
+       "printed": 11546.81,
+       "ok": true
+      },
+      {
+       "name": "fund 623 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 623 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 505520.46,
+       "printed": 505520.46,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (breakdown)",
+       "parsed": 52946.18,
+       "printed": 52946.18,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (breakdown)",
+       "parsed": 77953.46,
+       "printed": 77953.46,
+       "ok": true
+      },
+      {
+       "name": "fund 605 expend (breakdown)",
+       "parsed": 72141.64,
+       "printed": 72141.64,
+       "ok": true
+      },
+      {
+       "name": "fund 607 expend (breakdown)",
+       "parsed": 2588.05,
+       "printed": 2588.05,
+       "ok": true
+      },
+      {
+       "name": "fund 609 expend (breakdown)",
+       "parsed": 22465.19,
+       "printed": 22465.19,
+       "ok": true
+      },
+      {
+       "name": "fund 612 expend (breakdown)",
+       "parsed": 13742.17,
+       "printed": 13742.17,
+       "ok": true
+      },
+      {
+       "name": "fund 613 expend (breakdown)",
+       "parsed": 57660.0,
+       "printed": 57660.0,
+       "ok": true
+      },
+      {
+       "name": "fund 618 expend (breakdown)",
+       "parsed": 3266.88,
+       "printed": 3266.88,
+       "ok": true
+      },
+      {
+       "name": "fund 622 expend (breakdown)",
+       "parsed": 4159.93,
+       "printed": 4159.93,
+       "ok": true
+      },
+      {
+       "name": "fund 623 expend (breakdown)",
+       "parsed": 11546.81,
+       "printed": 11546.81,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 35,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        823990.77
+       ],
+       [
+        "fund fund lines foot",
+        823990.77
+       ],
+       [
+        "breakdown fund lines foot",
+        823990.77
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        834522.35
+       ],
+       [
+        "yearfund fund lines foot",
+        834522.35
+       ],
+       [
+        "fund fund lines foot",
+        834522.35
+       ]
+      ]
+     },
+     "overruled_prints": []
+    },
+    {
+     "pages": "33-38",
+     "range": "25-00181 to 25-00208",
+     "date": "04/28/2025",
+     "ok": true,
+     "rows": 33,
+     "orphan_lines": 0,
+     "checks": [
+      {
+       "name": "line items",
+       "parsed": 33,
+       "printed": 33,
+       "ok": true
+      },
+      {
+       "name": "list amount",
+       "parsed": 50745.2,
+       "printed": 50745.2,
+       "ok": true
+      },
+      {
+       "name": "expend control",
+       "parsed": 49360.2,
+       "printed": 49360.2,
+       "ok": true
+      },
+      {
+       "name": "purchase orders",
+       "parsed": 28,
+       "printed": 28,
+       "ok": true
+      },
+      {
+       "name": "per-P.O. subtotals (4 multi-item P.O.s, 0 unread, 0 disagree)",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "account types",
+       "parsed": [
+        "E",
+        "G"
+       ],
+       "printed": "E/G/R",
+       "ok": true
+      },
+      {
+       "name": "account shape",
+       "parsed": 0,
+       "printed": 0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (yearfund)",
+       "parsed": 47804.1,
+       "printed": 47804.1,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (yearfund)",
+       "parsed": 1325.24,
+       "printed": 1325.24,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (yearfund)",
+       "parsed": 230.86,
+       "printed": 230.86,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (yearfund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (yearfund)",
+       "parsed": 1385.0,
+       "printed": 1385.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (fund)",
+       "parsed": 47804.1,
+       "printed": 47804.1,
+       "ok": true
+      },
+      {
+       "name": "fund 001 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (fund)",
+       "parsed": 1325.24,
+       "printed": 1325.24,
+       "ok": true
+      },
+      {
+       "name": "fund 002 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 002 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (fund)",
+       "parsed": 230.86,
+       "printed": 230.86,
+       "ok": true
+      },
+      {
+       "name": "fund 004 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 004 G/L (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 expend (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 revenue (fund)",
+       "parsed": 0.0,
+       "printed": 0.0,
+       "ok": true
+      },
+      {
+       "name": "fund 007 G/L (fund)",
+       "parsed": 1385.0,
+       "printed": 1385.0,
+       "ok": true
+      },
+      {
+       "name": "fund 001 expend (breakdown)",
+       "parsed": 47804.1,
+       "printed": 47804.1,
+       "ok": true
+      },
+      {
+       "name": "fund 002 expend (breakdown)",
+       "parsed": 1325.24,
+       "printed": 1325.24,
+       "ok": true
+      },
+      {
+       "name": "fund 004 expend (breakdown)",
+       "parsed": 230.86,
+       "printed": 230.86,
+       "ok": true
+      },
+      {
+       "name": "per-fund controls read",
+       "parsed": 11,
+       "printed": ">=1",
+       "ok": true
+      }
+     ],
+     "supports": {
+      "expend": [
+       [
+        "yearfund fund lines foot",
+        49360.2
+       ],
+       [
+        "fund fund lines foot",
+        49360.2
+       ],
+       [
+        "breakdown total",
+        49360.2
+       ],
+       [
+        "breakdown fund lines foot",
+        49360.2
+       ]
+      ],
+      "list": [
+       [
+        "footer",
+        50745.2
+       ],
+       [
+        "yearfund fund lines foot",
+        50745.2
+       ],
+       [
+        "fund fund lines foot",
+        50745.2
+       ]
+      ]
+     },
+     "overruled_prints": []
+    }
+   ],
+   "events": [
+    {
+     "kind": "item number skips ahead (kept as printed)",
+     "page": 15,
+     "po": "V5-01495",
+     "expected": 1,
+     "read": 2
+    },
+    {
+     "kind": "account not-in-chart",
+     "page": 29,
+     "po": "V5-01615",
+     "ocr": "612-1997-0201",
+     "published": "612-1997-0201",
+     "ocr_description": "1997 - TECHNOLOGY SOFTWARE"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 1,
+     "po": "V5-01374",
+     "name": "AMHERST EXTERMINATION",
+     "ocr_code": "AMHERO15",
+     "published_code": "AMHER015"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 3,
+     "po": "V5-01389",
+     "ocr": "D'ANDREAMATTEO, TERR!",
+     "published": "D'ANDREAMATTEO, TERRI",
+     "ocr_code": "DANDROOS",
+     "master_code": "DANDR005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 13,
+     "po": "V5-01481",
+     "name": "BLUE WATER MARINA",
+     "ocr_code": "BLUEWO05",
+     "published_code": "BLUEW005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 13,
+     "po": "V5-01482",
+     "name": "BRONISZEWSKI, MICHAEL",
+     "ocr_code": "BRONI0O05",
+     "published_code": "BRONI005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-01530",
+     "name": "LEXIPOL",
+     "ocr_code": "LEXIP010",
+     "published_code": "LEXIP010"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-01533",
+     "name": "MAR-WAL CONSTRUCTION CO., INC.",
+     "ocr_code": "MARWAQ0S5",
+     "published_code": "MARWAQ0S5"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-01535",
+     "name": "METAL SUPERMARKETS",
+     "ocr_code": "METALOOS",
+     "published_code": "METAL005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 19,
+     "po": "V5-01537",
+     "name": "MILLER ENVIRONMENTAL GROUP INC",
+     "ocr_code": "MILLEO20",
+     "published_code": "MILLE020"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 20,
+     "po": "V5-01543",
+     "name": "NIAGARA COUNTY CLERK",
+     "ocr_code": "NIAGAO65",
+     "published_code": "NIAGA065"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 21,
+     "po": "V5-01552",
+     "name": "PHOENIX GRAPHICS, INC.",
+     "ocr_code": "PHOENO05",
+     "published_code": "PHOEN005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 22,
+     "po": "V5-01560",
+     "name": "State of New York",
+     "ocr_code": "STATE020",
+     "published_code": "STATE020"
+    },
+    {
+     "kind": "payee name corrected to the vendor master",
+     "page": 29,
+     "po": "V5-01615",
+     "ocr": "OpenGoyv, Inc.",
+     "published": "OpenGov, Inc.",
+     "ocr_code": "OPENG00S",
+     "master_code": "OPENG005"
+    },
+    {
+     "kind": "item number skips ahead (kept as printed)",
+     "page": 33,
+     "po": "25-00186",
+     "expected": 1,
+     "read": 2
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 34,
+     "po": "25-00189",
+     "name": "HILTON HOTEL",
+     "ocr_code": "HILTOOOS",
+     "published_code": "HILTO005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 34,
+     "po": "25-00190",
+     "name": "EXXON MOBILE",
+     "ocr_code": "EXXONO05",
+     "published_code": "EXXON005"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 35,
+     "po": "25-00203",
+     "name": "CUSTOM INK",
+     "ocr_code": "CUSTO025",
+     "published_code": "CUSTO025"
+    },
+    {
+     "kind": "payee kept as the OCR read it (not in the vendor master)",
+     "page": 35,
+     "po": "25-00208",
+     "name": "LOWES HOME CENTER",
+     "ocr_code": "LOWES005",
+     "published_code": "LOWES005"
+    }
+   ]
+  }
+ ],
+ "name_folds": [
+  {
+   "from": "WALTER S.JOHNSON BLDG. Co.",
+   "to": "WALTER S.JOHNSON BLDG. CO.",
+   "n": 1
+  }
+ ]
+}

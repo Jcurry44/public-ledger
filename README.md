@@ -68,9 +68,16 @@ Each warrant prints its own control figures: *Total P.O. Line Items*,
 *Total List Amount*, and *Total Of All Funds*. Those are the check figures, so
 nothing here is self-graded.
 
-**38 of 38 machine-readable documents reconcile exactly — $0.00 variance.**
-The remaining 6 of 44 are image-only scans with no text layer; they are declared
-on the page and excluded from every figure rather than quietly dropped.
+**Every warrant in the register reconciles exactly — $0.00 variance** (the count is printed on the page, computed from the data).
+Six 2025 warrants were posted only as image scans with no text layer. `tools/ocr_warrants.py` reads them with
+Tesseract (local, 300 dpi, rotation detected) and a scan enters the register **only if every control it prints
+ties to the cent**: its line-item count, list total, expenditure control, each fund's total, each multi-line
+P.O.'s subtotal and its purchase-order count. Those documents are labelled "read by OCR" wherever their tie-out
+is shown; a payee or account code the OCR could not confirm against the text-read warrants is flagged on the
+line. A scan that does not tie stays an image scan — declared on the page and excluded from every figure rather
+than quietly dropped. Run it alone with `python tools/ocr_warrants.py` (`--selftest` breaks a real scan one way
+at a time and requires the gate to refuse each; the OCR text is cached beside the pdftotext text in `data/txt/`,
+gitignored).
 
 `tools/test_fidelity.py` is a build-blocking gate. It fails the build if any
 document stops tying, if a row count or list amount drifts, or if any published
@@ -92,6 +99,7 @@ page can drift from the others; every `--fast` skip is printed, never silent.
 | File | Role |
 |---|---|
 | `tools/parse_warrants.py` | PDF → line items; tie-out; dedupe; scan detection |
+| `tools/ocr_warrants.py` | OCR lane for the image-only warrants — gated by their own printed controls (`data/ocr-warrants.json` is its audit) |
 | `tools/test_fidelity.py` | **build-blocking gate** |
 | `tools/build_site_data.py` | compact register JSON |
 | `tools/build_osc.py` | 30 years of OSC revenue/expenditure |

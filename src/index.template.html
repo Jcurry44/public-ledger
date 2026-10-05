@@ -347,6 +347,10 @@ tbody tr:last-child td{border-bottom:0}
 .chip.warn{background:var(--warn-soft);color:var(--warn)}
 .chip.bad{background:var(--bad-soft);color:var(--bad)}
 .chip.card{background:var(--accent-soft);color:var(--accent)}
+/* a warrant the city posted only as a scanned image, read here by OCR: an outlined chip with its own word (never a colour alone) */
+.chip.ocr{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--rule-strong)}
+.ocr-flag{display:inline-block;margin-left:6px;padding:0 7px;border-radius:99px;font-size:11.5px;font-weight:600;letter-spacing:.03em;
+  color:var(--muted);box-shadow:inset 0 0 0 1px var(--rule-strong);white-space:nowrap;vertical-align:baseline}
 .detail td{background:color-mix(in srgb,var(--accent-soft) 45%,transparent);padding:0}
 .dpad{padding:14px 16px 18px}
 .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 22px}
@@ -2051,7 +2055,7 @@ __SOURCE_BAR__
     </div>
     <div class="try" id="tryChips">
       <span>Try:</span>
-      <button class="pill" type="button" data-try="AMAZON">AMAZON</button>
+      <button class="pill" type="button" data-try="AMAZON CAPITAL">AMAZON CAPITAL</button>
       <button class="pill" type="button" id="vxTryChip" data-try="__VX_TRY__">__VX_TRY__</button>
       <button class="pill" type="button" data-try="GOLF">GOLF</button>
       <button class="pill" type="button" data-try="LIGHTSPEED">LIGHTSPEED</button>
@@ -2261,9 +2265,9 @@ __SOURCE_BAR__
         the exception report together. The reconciliation is a <b>gate, not a report</b>: if any document
         stops tying to its printed control totals, the build halts and nothing updates. The dashboard
         cannot show a number that failed its own check.</div>
-      <div class="sub" style="margin:8px 0 0">The gate line above is the actual output of the last build. Image-only scans are
-        declared and excluded, never guessed at; a republished duplicate warrant is detected by its
-        content and counted once.</div>
+      <div class="sub" style="margin:8px 0 0">The gate line above is the actual output of the last build. An image-only scan is
+        read by OCR only when every control it prints ties to the cent; otherwise it is declared and excluded, never guessed at.
+        A republished duplicate warrant is detected by its content and counted once.</div>
     </details>
   </section>
 
@@ -2274,9 +2278,7 @@ __SOURCE_BAR__
     <div class="limits" id="limits-list">
       <div class="limit"><h3>Approved, not necessarily paid</h3><p>These are claims presented for approval.
         A line appearing here does not establish that a payment cleared, or in what amount.</p></div>
-      <div class="limit"><h3>Year-over-year is unsafe</h3><p>2025 and 2026 are both here, but every March and
-        April 2025 warrant was published as an image scan and cannot be read. Comparing the two years would
-        report a fall in spending that is an artifact of the filing cabinet.</p></div>
+      __LIMIT_YOY__
       <div class="limit fold"><h3>Nothing is aged</h3><p>The check-date column is populated on well under 1% of rows.
         There is no days-outstanding, no aging bucket, and no open-item view here.</p></div>
       <div class="limit fold"><h3>Duplicate payments can't be detected</h3><p>A warrant is pre-payment approval, not a
@@ -2306,7 +2308,7 @@ __SOURCE_BAR__
   <details class="ph-fold" data-open-wide><summary>Method</summary>
     <p><b>Method.</b> Text extracted from the city's published PDFs with <code>pdftotext -table</code>, parsed to line
      items, and checked against the three control figures each document prints. Vendor names are reproduced verbatim
-     from the source and machine-verified to round-trip against it; no name is normalised, inferred, or shortened.
+     from the source and machine-verified to round-trip against it; no name is normalised, inferred, or shortened.__METHOD_OCR__
      Figures are approvals as published, not audited actuals.</p></details>
   <p>Built by <a href="https://jcurry44.github.io">Joe Curry &middot; Curry Studio</a> from public records
      published by the City of North Tonawanda. Not affiliated with, endorsed by, or produced for the City.
@@ -2493,7 +2495,7 @@ function vxPaintArrive(){
 vxPaintDoor();
 vxPaintArrive();
 
-var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9;
+var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9,I_OCR=10;   /* I_OCR: only OCR-read lines carry it (1 read, 2 read and its payee/account unconfirmed) */
 
 var NF2 = new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});   /* one formatter: toLocaleString(opts) built a new one per call (thousands per boot) */
 function money(n){
@@ -2572,6 +2574,12 @@ await plYield();
   if(n) bits.push('<b>'+n+' of the '+D.meta.docs+' documents are image-only scans</b> with no text layer, '+
     'so they cannot be parsed or reconciled. They are listed below and excluded from every figure on this '+
     'page rather than quietly dropped<span class="ph-x"> — which is why some 2025 months are thinner than they should be</span>.');
+  /* the warrants the city posted only as scanned images, read here by OCR: said once, with the counts the build computed */
+  if(D.meta.ocr) bits.push('<b>'+D.meta.ocr+' of the '+D.meta.docs+' documents were posted only as scanned images</b> and are read here by OCR, '+
+    'not from a text layer. A scan is accepted only if every control it prints ties to the penny &mdash; each of these does. '+
+    (D.meta.ocrUnconfirmed ? D.meta.ocrUnconfirmed.toLocaleString('en-US')+' of the '+D.meta.ocrRows.toLocaleString('en-US')+
+      ' lines carry a payee or account code the OCR could not confirm against the text-read warrants; they are flagged in the register.'
+      : 'Every payee and account code was confirmed against the text-read warrants.'));
   if(sup) bits.push('A further '+sup+' file was a republished copy of a warrant already counted '+
     '(same P.O. range and control total) and was removed, so no claim is counted twice.');
   var el=document.getElementById('reconNote');
@@ -2599,7 +2607,16 @@ function proofLines(doc){
       ' lines outside the fund controls';
   var l2='<div class="pline"><span class="pk">List total</span><span class="pv"><b class="num">'+money(doc.sumAll)+'</b> '+
     (lOk ? '= the printed footer'+tk : 'against a printed footer of <b class="num">'+money(doc.pubAmt)+'</b>')+why+'</span></div>';
-  return '<div class="proof">'+l1+l2+'</div>';
+  /* a scan read by OCR says so where its tie-out is shown, and says what the tie-out does and does not prove about the words */
+  var l3='';
+  if(doc.ocr){
+    var nR=doc.ocr.rep>1 ? ' Its '+doc.ocr.rep+' reports each tie to their own printed totals.' : '';
+    l3='<div class="pline"><span class="pk">Read by OCR</span><span class="pv">From the city&rsquo;s scanned image &mdash; <b>ties to the penny</b>: '+
+      'line count, list total, expenditure control, every fund and every multi-line P.O. subtotal.'+nR+
+      (doc.ocr.u ? ' <b class="num">'+doc.ocr.u+'</b> of its <b class="num">'+doc.ocr.n+'</b> lines carry a payee or account code the OCR could not confirm against the text-read warrants (flagged in the register).'
+                 : ' Every payee and account code was confirmed against the text-read warrants.')+'</span></div>';
+  }
+  return '<div class="proof">'+l1+l2+l3+'</div>';
 }
 /* newest first ('recent at top'). The six image scans are the oldest of all, so they fall to the tail
    where 'declared, excluded' reads naturally; same-day documents keep the register's order, reversed. */
@@ -2629,11 +2646,11 @@ var ENTRIES=PENDING.map(function(u){ return {pend:u, iso:u.date||'', m:pendMonth
   .concat(TIE_ORDER.map(function(i){ return {i:i, iso:isoOf(D.docs[i]), m:monthOf(D.docs[i])}; }))
   .sort(function(a,b){ return a.iso<b.iso ? 1 : a.iso>b.iso ? -1 : 0; });
 ENTRIES.forEach(function(e){
-  var m=e.m, s=monthStats[m]||(monthStats[m]={w:0,c:0,s:0,p:0,amt:0,ex:0,n:0,names:[]});
+  var m=e.m, s=monthStats[m]||(monthStats[m]={w:0,c:0,s:0,o:0,p:0,amt:0,ex:0,n:0,names:[]});
   if(e.pend){ s.p++; return; }
   var doc=D.docs[e.i];
   if(doc.isScan){ s.s++; s.names.push(doc.f.replace(/\.pdf$/i,'').replace(/^Warrant Report /i,'')); }
-  else { if(doc.isCard) s.c++; else s.w++; s.amt+=doc.sumE||0; s.n++; if(doc.status==='EXACT') s.ex++; }
+  else { if(doc.isCard) s.c++; else s.w++; if(doc.ocr) s.o++; s.amt+=doc.sumE||0; s.n++; if(doc.status==='EXACT') s.ex++; }
 });
 ENTRIES.forEach(function(e){
   var m=e.m;
@@ -2645,12 +2662,14 @@ ENTRIES.forEach(function(e){
     var what=[]; if(s.w) what.push(s.w+' warrant'+(s.w===1?'':'s')); if(s.c) what.push(s.c+' card'+(s.c===1?'':'s'));
     var verdict = s.n ? (s.ex===s.n ? (s.n===1?'ties exactly':'all tie exactly')+' <span class="tick">✓</span>' : s.ex+' of '+s.n+' tie') : '';
     var scans = s.s ? (s.s+' image scan'+(s.s===1?'':'s')+' ('+s.names.join(', ')+'), not parsed') : '';
+    /* warrants the city posted only as scanned images, read here by OCR: named in the month they sit in */
+    var ocrM = s.o ? (s.o+' read by OCR from '+(s.o===1?'a scan':'scans')) : '';
     var pend = s.p ? ('<span class="m-pend">'+s.p+' posting'+(s.p===1?'':'s')+' not yet read</span>') : '';
     var label = m==='undated' ? 'Undated' : MONTH_N[+m.slice(5,7)-1]+' '+m.slice(0,4);
     /* three cells on every width: the month (2 columns of the desk table), what it holds (3), its dollars and verdict (3);
        the phone's grid places them by name, so the order is the desk's */
     mr.innerHTML='<td class="m-k" colspan="2">'+label+'</td>'+
-      '<td class="m-s" colspan="3">'+[what.length ? what.join(' + ') : '', scans, pend].filter(Boolean).join(' · ')+'</td>'+
+      '<td class="m-s" colspan="3">'+[what.length ? what.join(' + ') : '', ocrM, scans, pend].filter(Boolean).join(' · ')+'</td>'+
       '<td class="m-v num" colspan="3">'+(s.n ? '$'+(s.amt>=1e6 ? (s.amt/1e6).toFixed(2)+'M' : Math.round(s.amt/1e3).toLocaleString('en-US')+'K') : '')+
         (verdict?'<span class="tick">'+verdict+'</span>':'')+'</td>';
     tb.appendChild(mr);
@@ -2679,6 +2698,8 @@ ENTRIES.forEach(function(e){
            : ok   ? '<span class="chip ok">TIES EXACTLY</span>'
                   : '<span class="chip warn">'+esc(doc.status)+'</span>';
   var card = doc.isCard ? ' <span class="chip card">CARD</span>' : '';
+  /* read from the city's scanned image by OCR: said on the row, next to the tie-out it qualifies */
+  var ocrChip = doc.ocr ? ' <span class="chip ocr" title="Read from the city&rsquo;s scanned image by OCR; every printed control ties to the penny">OCR</span>' : '';
   var dash = '<span style="color:var(--faint)">—</span>';
   var tr = document.createElement('tr');
   tr.className = 'doc-row' + (scan ? ' scan' : '');
@@ -2697,7 +2718,7 @@ ENTRIES.forEach(function(e){
                                         : 'vs printed '+money(doc.ctl)+' · var '+cents(doc.var))+'</span>')+'</td>'+
     '<td class="r num t-ctl">'+(scan?dash:money(doc.ctl))+'</td>'+
     '<td class="r num t-var">'+(scan?dash:money(doc.var))+'</td>'+
-    '<td class="t-status">'+chip+'</td>';
+    '<td class="t-status">'+chip+ocrChip+'</td>';
   tb.appendChild(tr);
   TIE.months[m].docs.push(tr);
   if(scan){                                   // nothing to expand
@@ -6232,7 +6253,8 @@ function renderRows(){
      on the chart with the meeting named under it; hover a bar and every line of that meeting lights here */
   document.getElementById('rowBody').innerHTML = shown.map(function(r){
     var doc=D.docs[r[I_DOC]];
-    return '<tr data-hk="doc|'+r[I_DOC]+'" data-hk-tap><td class="c-payee">'+esc(V[r[I_VEN]])+'</td>'+
+    return '<tr data-hk="doc|'+r[I_DOC]+'" data-hk-tap><td class="c-payee">'+esc(V[r[I_VEN]])+
+      (r[I_OCR]===2 ? ' <span class="ocr-flag" title="Read from a scanned image by OCR; this payee or account code could not be confirmed against the text-read warrants">OCR &middot; unconfirmed</span>' : '')+'</td>'+
       '<td class="num c-acct">'+esc(A[r[I_ACC]])+(r[I_PO]?'<span class="po-in"> · PO '+esc(r[I_PO])+'</span>':'')+'</td>'+
       '<td class="c-desc">'+esc(AD[r[I_ACC]])+'</td>'+
       '<td class="num c-po">'+esc(r[I_PO])+'<span style="color:var(--faint)">·'+r[I_ITEM]+'</span></td>'+
@@ -6934,8 +6956,13 @@ var ISSUE=(function(){
       var oth=0, tset={}; m.docs.forEach(function(i){ oth+=D.docs[i].otherG||0; (D.docs[i].otherT||'').split('').forEach(function(t){ tset[t]=1; }); });
       var kinds=Object.keys(tset).sort().map(function(t){ return OTHER_T[t]||'other'; }).join(' and ')||'other';
       var join=function(a){ return nd===2 ? a.join(' and ') : a.join(', '); };
-      rest+= nd===1 ? 'Every line was read from the city&rsquo;s PDF and checked against the totals the city printed on it: '+ev('tie','it ties to the penny',{docs:docsS})+'.'
-           : 'Every line was read from the city&rsquo;s PDFs and checked against the totals the city printed on them: '+ev('tie','each ties to the penny',{docs:docsS})+'.';
+      /* where the meeting's documents were posted only as scanned images, the sentence says they were read by OCR (every OCR document
+         ties to its printed controls to be here at all); build_site.py issue_lede() writes the same words */
+      var nOcr=0; m.docs.forEach(function(i){ if(D.docs[i].ocr) nOcr++; });
+      var readA = nOcr===0 ? 'Every line was read from the city&rsquo;s '+(nd===1?'PDF':'PDFs')
+                : nOcr===nd ? 'Every line was read by OCR from the city&rsquo;s '+(nd===1?'scanned image':'scanned images')
+                : 'Every line was read from the city&rsquo;s PDFs ('+numword(nOcr)+' by OCR, from a scanned image)';
+      rest+= readA+' and checked against the totals the city printed on '+(nd===1?'it: ':'them: ')+ev('tie',nd===1?'it ties to the penny':'each ties to the penny',{docs:docsS})+'.';
       var lead= nd===1 ? 'Its fund controls foot to the printed control, '+ctls[0]+'; '
               : (nd===2 ? 'Both documents&rsquo;' : 'All '+numword(nd)+' documents&rsquo;')+' fund controls foot to their printed controls, '+join(ctls)+'; ';
       var foot= nd===1 ? 'the list foots to its printed footer, '+foots[0]+'.' : 'each list foots to its printed footer, '+join(foots)+'.';
@@ -6992,7 +7019,8 @@ var ISSUE=(function(){
   /* the second half is phone-hidden (.ph-x: textContent unchanged for the drift check) - on a phone the checkbook card's
      badge, right under this line, already says the documents read and tie; tools/build_site.py paints the same markup */
   var counts='<b>'+ISSUES.length+'</b> meeting'+(ISSUES.length===1?'':'s')+' read of <b>'+M.length+'</b> dates on record<span class="ph-x"> &middot; <b>'+PARSED_DOCS+
-    '</b> documents read, <b>'+D.meta.exact+'</b> tie to the penny &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read</span>';
+    '</b> documents read'+(D.meta.ocr?' (<b>'+D.meta.ocr+'</b> by OCR from scanned images)':'')+', <b>'+D.meta.exact+'</b> tie to the penny'+
+    (scansN?' &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read':'')+'</span>';
   /* a label stays only where its stripe can hold it (measured after layout, again when the width changes) */
   function fitLabels(){
     [].forEach.call(sec.querySelectorAll('.is'),function(s){
