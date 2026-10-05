@@ -1,23 +1,29 @@
 {
- "note": "Per-meeting vote-record coverage for the Niagara County Legislature. matched = every vote source was readable (native text layer, or a partial one that still covered every row); scan-recovered = image-only minutes read by local OCR (votes flagged, tallies bounded by the 15-seat chamber); scan-unreadable = image-only minutes OCR could not read; never-posted = the county has not published minutes. Votes are parsed, never inferred - a gap is reported as a gap.",
+ "note": "Per-meeting vote-record coverage for the Niagara County Legislature. matched = every vote source was readable (native text layer, or a partial one that still covered every row); scan-recovered = image-only minutes read by local OCR (votes flagged, tallies bounded by the 15-seat chamber); scan-unreadable = image-only minutes OCR could not read; never-posted = the county posted later meetings' minutes but never this meeting's; minutes-pending = the agenda is posted and the meeting is newer than the newest minutes the county has posted, so the minutes have simply not followed yet (it is not counted as a gap, and moves to matched when they appear). Votes are parsed, never inferred - a gap is reported as a gap.",
  "totals": {
+  "minutes_frontier": "2026-08-04",
   "resolutions": 6051,
   "votes_matched": 5692,
   "pct_matched": 94.1,
   "meetings": {
    "matched": 161,
    "scan-recovered": 16,
-   "never-posted": 3,
-   "scan-unreadable": 2
+   "never-posted": 2,
+   "scan-unreadable": 2,
+   "minutes-pending": 1
   },
   "rows": {
    "matched": [
     5192,
     5379
    ],
+   "minutes-pending": [
+    0,
+    98
+   ],
    "never-posted": [
     0,
-    140
+    42
    ],
    "scan-recovered": [
     500,
@@ -1298,7 +1304,7 @@
   },
   {
    "date": "2026-09-22",
-   "status": "never-posted",
+   "status": "minutes-pending",
    "res": 98,
    "voted": 0,
    "src": "https://www.niagaracounty.gov/Document_center/Department/G-L/9-22-26%20Meeting.pdf?t=202609221230590"

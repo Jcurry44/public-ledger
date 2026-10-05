@@ -10,13 +10,15 @@
 <meta property="og:title" content="Public Ledger — Town of Hartland">
 <meta property="og:description" content="Town of Hartland's own annual filings, 1995–2025: $4,974,426 of revenue and $4,817,399 of expenditure in 2025, drillable to the account line, with its share of the county sales tax and how it compares across the county.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/m/town-hartland.html">
-<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/m-town-hartland.png?v=f4958efa">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Public Ledger — Town of Hartland">
 <meta name="twitter:description" content="Town of Hartland's own annual filings, 1995–2025: $4,974,426 of revenue and $4,817,399 of expenditure in 2025, drillable to the account line, with its share of the county sales tax and how it compares across the county.">
-<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og-card.png">
+<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/m-town-hartland.png?v=f4958efa">
+<meta property="og:image:alt" content="Share card: Town of Hartland, annual filings 1995 to 2025. Revenue $4,974,426 and expenditure $4,817,399 in 2025, net +$157,027. 31 consecutive annual filings, 1995–2025 — none missing.">
+<meta name="twitter:image:alt" content="Share card: Town of Hartland, annual filings 1995 to 2025. Revenue $4,974,426 and expenditure $4,817,399 in 2025, net +$157,027. 31 consecutive annual filings, 1995–2025 — none missing.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1b3a5c">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c0f">
@@ -326,13 +328,34 @@ h2::after{content:'';flex:1;height:1px;background:var(--rule);min-width:26px}
 section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " \00B7";color:var(--accent);
   font-weight:700;white-space:nowrap}
 .hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;
-  padding:14px 18px 4px;max-width:560px;box-shadow:var(--shadow)}
+  padding:12px 18px 4px;max-width:560px;box-shadow:var(--shadow)}
+/* the card takes focus (tabindex -1) when the 'Latest' chip hides itself under a keyboard press, so the reader never lands on <body> */
+.hcard:focus{outline:none}
+.hcard:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* the register line: what the card is (an annual filing), the basis when it is the earlier one, and the way
+   back to the latest year. The chart beside the card is the year scrubber, so the card FOLLOWS the selected
+   year - and keeps one height while it does: a 24px chip on a 24px line, labels that never wrap (label over
+   figure below 360px, one shape for every year), and the 'what changed' row sized to its tallest year (fitHero) */
+.hreg{position:relative;display:flex;align-items:center;gap:10px;min-height:24px;margin:0 0 4px;
+  font:600 11.5px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.hreg .hreg-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hreg .hreg-t b{color:var(--ink);font-weight:700}
+.hreset{margin-left:auto;flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--accent);border-radius:99px;
+  padding:0 10px;min-height:24px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;
+  cursor:pointer;white-space:nowrap;position:relative}
+.hreset::before{content:'\21BA';margin-right:5px;font-size:13px;line-height:1}
+.hreset::after{content:'';position:absolute;inset:-10px 0}
+@media (hover:hover){.hreset:hover{border-color:var(--accent)}}
 .hrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0}
-.hrow .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600}
-.hrow .v{font:600 24px/1 'Fraunces',ui-serif,Georgia,serif}
+.hrow .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap}
+.hrow .v{font:600 24px/1 'Fraunces',ui-serif,Georgia,serif;white-space:nowrap}
 @media (max-width:420px){.hrow .v{font-size:21px}}
-.hrow:nth-child(2){border-bottom:1px solid var(--rule-strong);padding-bottom:13px}
-.hrow:nth-child(3){padding-top:11px}
+@media (max-width:359px){
+  .hrow{display:grid;grid-template-columns:minmax(0,1fr);justify-items:end;gap:1px 0}
+  .hrow .k{justify-self:start}
+}
+#hExp{border-bottom:1px solid var(--rule-strong);padding-bottom:13px}
+#hNet{padding-top:11px}
 .hrow .v.closed{border-bottom:3px double var(--rule-strong);padding-bottom:5px}
 /* text figures use the ink pair (readable on paper); the chart fills stay --rev/--exp.
    The net is plain ink with its sign glyph: red/green is a verdict, and a colour-blind
@@ -345,14 +368,15 @@ section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " 
 .hfoot{margin:6px -18px 0;border-top:1px solid var(--rule);padding:9px 18px;font-size:12px;color:var(--muted)}
 /* 'what changed' - the first screen's third answer: computed, debt proceeds named, one press
    to the pair's full decomposition (the compare sheet has its own address) */
-.hmove{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline;margin:8px -18px 0;padding:10px 18px;min-height:44px;
+.hmove{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline;align-content:flex-start;margin:8px -18px 0;padding:10px 18px;min-height:44px;
   border-top:1px solid var(--rule);text-decoration:none;color:var(--ink);font-size:12.5px;line-height:1.4}
 .hmove .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;flex:0 0 100%}
 .hmove .mv1{white-space:nowrap}
 .hmove .mv1 b{font-weight:600}
 .hmove .go{margin-left:auto;color:var(--accent);font-weight:600;white-space:nowrap}
 .hmove .dbtn{flex:0 0 100%;font-size:12px;color:var(--muted)}
-@media (hover:hover){.hmove:hover{background:var(--accent-soft)}.hmove:hover .go{text-decoration:underline}}
+.hmove[aria-disabled=true]{cursor:default}
+@media (hover:hover){.hmove[href]:hover{background:var(--accent-soft)}.hmove[href]:hover .go{text-decoration:underline}}
 /* share: every sheet and the selected year have an address; this hands it over */
 .shr{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:0 11px;border:1px solid var(--rule-strong);
   border-radius:9px;background:var(--card);color:var(--muted);font:600 12px/1 system-ui;cursor:pointer;white-space:nowrap}
@@ -385,6 +409,7 @@ section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " 
 @media (max-width:640px){.potbar{height:44px}.potread a{margin-left:0}}
 /* below 560px a segment is too short to carry a name: the readout and the rows name it */
 @media (max-width:560px){.potbar i span{display:none}}
+@media (forced-colors:active){.potbar i{forced-color-adjust:none;border:1px solid CanvasText}.potbar i.lit{outline:3px solid Highlight}}
 /* the docked readout above the trend: the figures under the finger, never under it (it is the
    only readout: a floating tip would cover the annotations and the data it repeats) */
 .tread{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;min-height:24px;font-size:12.5px;color:var(--muted);margin:0 0 8px}
@@ -449,8 +474,10 @@ svg.trend .lead{fill:none;stroke-width:1;opacity:.7}
 .rk{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:baseline;cursor:default}
 .rk .lb{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rk .vl{font-size:12.5px;font-weight:600}
-.rk .tr{grid-column:1/-1;height:9px;background:var(--gridline);border-radius:2px;overflow:hidden}
+/* a 6px bar on an 8%-ink track; 'All other' is hatched (a pattern, never a second hue) */
+.rk .tr{grid-column:1/-1;height:6px;background:color-mix(in srgb,var(--ink) 8%,transparent);border-radius:2px;overflow:hidden}
 .rk .tr i{display:block;height:100%;border-radius:0 4px 4px 0;transition:width .55s cubic-bezier(.25,.9,.3,1)}
+.rk .tr i.oth{background:repeating-linear-gradient(135deg,var(--rule-strong) 0 3px,transparent 3px 6px)}
 .rank.pregrow .rk .tr i{width:0!important}
 @media (prefers-reduced-motion:reduce){.rk .tr i{transition:none}}
 .rk .pc{font-size:12px;color:var(--muted);grid-column:1/-1;margin-top:-2px}
@@ -734,7 +761,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .rk{gap:4px 10px;padding:2px 0}
   .rk .lb{font-size:13px;white-space:normal;line-height:1.25;overflow:visible}
   .rk .vl{font-size:12.5px}
-  .rk .tr{height:8px}
+  .rk .tr{height:6px}
   /* a drillable bar row is a control: two lines centred in a 44px target */
   .rk[role=button],a.rk{min-height:44px;align-content:center}
   .pill{min-height:44px;padding:0 15px;display:inline-flex;align-items:center}
@@ -803,34 +830,39 @@ body:has(#modal:not([hidden])) .pager{display:none}
     background:var(--card);box-shadow:0 1px 1px rgba(20,22,26,.04),
     0 18px 38px -28px rgba(20,22,26,.55)}
   #budget .mv tbody{display:block;width:100%}
+  /* two lines and a rule per budget line (C-C2): the name with its variance in words pinned right; then adopted -> actual with the
+     variance amount at the far end; under both, the zero-centred bar. Every label stays in the accessibility tree. */
   #budget .mv tr:not(.bvx-row){position:relative;display:grid;
-    grid-template-columns:minmax(0,1fr) auto;gap:0 18px;padding:16px 14px 14px;
+    grid-template-columns:max-content max-content minmax(0,1fr);gap:4px 10px;padding:11px 14px 12px;
     border:0;border-bottom:1px solid var(--rule);background:var(--card)}
   #budget .mv tr:last-child:not(.bvx-row){border-bottom:0}
-  #budget .mv td.m-name{grid-row:1;grid-column:1;display:flex;align-items:center;min-width:0;
-    margin:0;padding:0;border:0;font-size:14.5px;line-height:1.2;font-weight:650}
+  #budget .mv td.m-name{grid-row:1;grid-column:1 / -1;display:flex;align-items:center;min-width:0;
+    margin:0;padding:0 112px 0 0;border:0;font-size:14.5px;line-height:1.2;font-weight:650}
+  #budget .mv tr[data-wp] td.m-name{padding-right:122px}
   #budget .mv td.m-name .fnt{margin-left:5px;font-size:11.5px;font-weight:500}
   #budget .mv tr.bv td.m-name::after{content:'\203A';margin-left:7px;color:var(--faint);
     font:400 22px/.7 system-ui;transition:transform .15s,color .15s}
   #budget .mv tr.bv[aria-expanded="true"] td.m-name::after{transform:rotate(90deg);color:var(--accent)}
-  #budget .mv td.m-pct{grid-row:1;grid-column:2;align-self:center;justify-self:end;
+  #budget .mv td.m-pct{position:absolute;top:8px;right:14px;grid-area:auto;
     margin:0;padding:5px 9px;border-radius:99px;font-size:0;font-weight:750;line-height:1;
     background:var(--accent-soft);border:1px solid var(--rule-strong)}
   #budget .mv td.m-pct::after{content:attr(data-mobile-label);font:750 11.5px/1 system-ui;
     letter-spacing:.015em;white-space:nowrap}
-  #budget .mv td.m-vals{grid-row:2;margin-top:13px;font-size:13.5px;font-weight:650;
-    letter-spacing:-.025em}
-  #budget .mv td.m-vals::before{font-size:11px;letter-spacing:.1em;margin-bottom:2px}
+  #budget .mv td.m-vals{grid-row:2;margin:0;align-self:center;font-size:13px;font-weight:650;letter-spacing:-.025em;white-space:nowrap}
+  #budget .mv td.m-vals::before{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);font-size:0}
   #budget .mv td.m-vals:nth-of-type(2){grid-column:1;text-align:left}
-  #budget .mv td.m-vals:nth-of-type(3){grid-column:2;text-align:right}
-  #budget .mv td.m-dev{display:block;grid-row:3;grid-column:1 / -1;margin:12px 0 8px;padding:0;border:0;width:auto}
-  #budget .mv td.m-dev.ex .dv{display:none}
-  #budget .mv td.m-delta{grid-row:4;grid-column:1 / -1;margin:0;padding:0;border:0;
-    display:flex;align-items:baseline;gap:6px;font-size:0;text-align:left}
-  #budget .mv td.m-delta::before{content:attr(data-l);font:650 11px/1 system-ui;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  #budget .mv td.m-vals:nth-of-type(3){grid-column:2;text-align:left}
+  #budget .mv td.m-vals:nth-of-type(3)::before{content:'\2192';position:static;width:auto;height:auto;overflow:visible;clip-path:none;
+    display:inline;margin-right:7px;font:400 13px/1 system-ui;color:var(--faint)}
+  #budget .mv td.m-dev{display:block;grid-row:3;grid-column:1 / -1;margin:0;padding:0;border:0;width:auto}
+  #budget .mv td.m-dev.ex{display:none}
+  #budget .mv .dv{height:6px}
+  #budget .mv .dv::before{top:-2px;bottom:-2px}
+  #budget .mv td.m-delta{grid-row:2;grid-column:3;align-self:center;margin:0;padding:0;border:0;
+    display:flex;justify-content:flex-end;font-size:0;text-align:right}
+  #budget .mv td.m-delta::before{content:attr(data-l);position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);font-size:0}
   #budget .mv td.m-delta::after{content:attr(data-mobile-amount);font:650 12px/1 ui-monospace,
-    Menlo,Consolas,monospace;letter-spacing:-.02em}
+    Menlo,Consolas,monospace;letter-spacing:-.02em;white-space:nowrap}
   #budget .mv tr.bv{transition:background .14s}
   #budget .mv tr.bv:active,#budget .mv tr.bv[aria-expanded="true"]{background:var(--accent-soft)}
   #budget .mv tr.bvx-row{display:block;margin:0;border:0;border-bottom:1px solid var(--rule);overflow:hidden}
@@ -854,10 +886,73 @@ body:has(#modal:not([hidden])) .pager{display:none}
   /* the phone has no floating pager: the rail is the section nav and it never hides */
   .pager{display:none}
 }
+/* ---------- phone density (C-C2): the secondary tables fold, rows keep two lines, every honesty note stays in view ---------- */
+.morebtn,.ystep,.mvkey{display:none}
+.fold-b{font-size:12px;line-height:1.55;color:var(--muted);margin:2px 0 8px;max-width:76ch}
+.fold-b p{margin:0 0 7px}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.morewrap{margin-top:12px}
+.morewrap:has(>[hidden]){display:none}
+@media (min-width:641px){.fold[data-wide-open]>summary{display:none}}
+@media (max-width:640px){
+  section{padding:26px 0 2px}
+  h2{margin:12px 0 10px}
+  .lede{margin-bottom:14px}
+  .panel{padding:13px 14px}
+  .panel .sub{margin:3px 0 8px}
+  .panel h3{font-size:15.5px}
+  .rank{gap:4px}
+  .rank:not(.open) .fold-m{display:none}
+  .pill.morebtn{display:inline-flex;margin-top:10px}
+  .pillrow{margin-top:8px}
+  .legend{gap:3px 12px;margin:0 0 8px}
+  .note{margin-top:8px}
+  /* a row with a share line under its bar (peers, across the county) keeps TWO lines: the bar and the figure share one */
+  .rk:has(.pc.num) .vl{justify-self:end;text-align:right}
+  .rk:has(.pc.num) .tr{grid-column:1;grid-row:2;align-self:center}
+  .rk:has(.pc.num) .pc{grid-column:2;grid-row:2;align-self:center;margin:0;white-space:nowrap}
+  /* the hero card: tighter rows, the same words */
+  .hcard{padding:12px 16px 2px}
+  .hrow{padding:6px 0}
+  #hExp{padding-bottom:10px}
+  #hNet{padding-top:9px}
+  .hmove{margin-top:4px;padding:8px 16px}
+  .hproof{margin-top:4px;padding:8px 16px 2px;gap:2px;font-size:12px;line-height:1.4}
+  .hfoot{margin-top:4px;padding:9px 16px;font-size:12px;line-height:1.5}
+  /* the filing year: a 44px stepper; the 31 pills are the grid behind its middle button (a pill never scrolls out of view) */
+  .ystep{display:flex;gap:6px;margin:0 0 8px}
+  .ystep button{min-height:44px;border:1px solid var(--rule-strong);background:var(--card);color:var(--ink);border-radius:12px;
+    font:600 15px/1 ui-monospace,Menlo,Consolas,monospace;cursor:pointer}
+  .ystep .ys-s{flex:0 0 52px;font-size:22px;padding:0 0 3px}
+  .ystep .ys-y{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 10px}
+  .ystep .ys-h{font:500 12px/1 system-ui;color:var(--muted)}
+  .ystep .ys-y::after{content:'\25BE';font-size:13px;color:var(--muted);transition:transform .15s}
+  .ystep .ys-y[aria-expanded="true"]::after{transform:rotate(180deg)}
+  .ystep button:disabled{opacity:.35;cursor:default}
+  .ystep button:active:not(:disabled){background:var(--accent-soft)}
+  .years{display:none;margin:0;padding:0}
+  .years.open{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0 0 10px;overflow:visible;
+    -webkit-mask-image:none;mask-image:none}
+  .years.open .yp{padding:0;min-height:44px}
+  /* the budget key: what the two figures on each line are */
+  .mvkey{display:block;margin:0 0 6px;font:600 11px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  /* the decisions rows: titles keep to three lines (the register has the whole title) */
+  .drow{padding:10px 8px}
+  .drow .dt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+  /* 'Across the county' on a phone: a tighter tile strip, the same four facts */
+  #acBody .mstats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  #acBody .mstat{padding:7px 10px}
+  #acBody .mstat .v{font-size:16px;margin-top:1px}
+  /* the dark method card: the gate line and the self-reported-data note stay open; the how-it-was-built prose folds */
+  #method .tailx summary{color:var(--accent)}
+}
 @media (max-width:370px){
   .hrow .v{font-size:20px}
-  #budget .mv tr:not(.bvx-row){padding-left:11px;padding-right:11px;gap:0 13px}
+  #budget .mv tr:not(.bvx-row){padding-left:11px;padding-right:11px;gap:4px 8px}
   #budget .mv td.m-vals{font-size:12.5px}
+  /* the widest line (adopted -> actual + the variance) no longer fits one row: the variance takes the next one */
+  #budget .mv td.m-delta{grid-row:3;grid-column:1 / -1;justify-content:flex-start}
+  #budget .mv td.m-dev{grid-row:4}
 }
 @media (hover:none){
   .rk.can:active,.sb.can:active,.mv tr[data-mvlabel]:active td{background:var(--accent-soft)}
@@ -902,7 +997,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
 </style><link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="../updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="../updates.json">
 </head><body>
 <div class="page">
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Town filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Hartland</b></span><span>filings 1995–2025</span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span>built <b>10/02/2026</b></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>County Atlas</a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>County Atlas</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through 09/15/2026</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">9,841 lines · 1,002 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2025</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,051 resolutions · 182 meetings · latest 09/22/2026</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">42 of 42 parsed warrants tie exactly · 6 scans declared</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · unsolicited, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">42 warrants · one printable page each</span></a></div></div></nav><div class="pl-scrim" id="plScrim" hidden></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2.2 5.3-5.3 2.2 2.2-5.3z"/></svg><span>Go to</span><svg class="pl-gochev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Town filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Hartland</b></span><span>filings 1995–2025</span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span>built <b>10/04/2026</b></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>County Atlas</a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>County Atlas</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through 09/15/2026</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">9,841 lines · 1,002 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2025</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,051 resolutions · 182 meetings · latest 09/22/2026</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">42 of 42 parsed warrants tie exactly · 6 scans declared</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · unsolicited, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">42 warrants · one printable page each</span></a></div></div></nav><div class="pl-scrim" id="plScrim" hidden></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2.2 5.3-5.3 2.2 2.2-5.3z"/></svg><span>Go to</span><svg class="pl-gochev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button></div></div></div></header>
 
   <nav class="rail" aria-label="Sections"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
@@ -914,12 +1009,14 @@ body:has(#modal:not([hidden])) .pager{display:none}
 
   <main class="wrap" id="main">
   <h1>Where Hartland&rsquo;s money comes from, and where it goes</h1>
-  <div class="intro"><p class="lede">31 years of the town&rsquo;s own annual filings to the state — self-reported, desk-reviewed but not audited by OSC, parsed on the same method as every page of <a href="../index.html">Public Ledger</a>. Public Ledger holds no claims register for this government — we have not checked whether it posts one — so this edition is the filings story: complete, and drillable to the account line.</p></div>
+  <div class="intro"><p class="lede">31 years of the town&rsquo;s own annual filings to the state — self-reported, desk-reviewed but not audited by OSC. Public Ledger holds no claims register for this government — we have not checked whether it posts one — so this edition is the filings story: complete, and drillable to the account line.</p></div>
 
-  <div class="hcard">
+  <div class="hcard" tabindex="-1">
+    <div class="hreg"><span class="hreg-t" id="hRegT">Annual filing<span class="ph-x"> · NYS Comptroller</span></span>
+      <button class="hreset" id="heroReset" type="button" hidden title="Back to the latest filing" aria-label="Back to the latest filing, 2025">Latest<span class="ph-xs"> · 2025</span></button></div>
     <div class="hrow" id="hRev"><span class="k">Revenue · 2025</span><span class="v num" id="hRevV">$4,974,426</span></div>
     <div class="hrow" id="hExp"><span class="k">Expenditure · 2025</span><span class="v num" id="hExpV">$4,817,399</span></div>
-    <div class="hrow"><span class="k">Net · 2025 filing</span><span class="v num closed" id="hNetV">+$157,027</span></div>
+    <div class="hrow" id="hNet"><span class="k">Net · 2025 filing</span><span class="v num closed" id="hNetV">+$157,027</span></div>
     <a class="hmove" href="#cmp=2024|2025"><span class="k">What changed · 2024 &rarr; 2025</span><span class="mv1">Revenue <b class="num">+21.0%</b></span><span class="mv1">Expenditure <b class="num">+12.7%</b></span><span class="go">What moved &rarr;</span></a>
     <ul class="hproof"><li><span class="ck" aria-hidden="true">&#10003;</span><span><b>31 consecutive</b> annual filings, 1995&ndash;2025 &mdash; none missing</span></li><li><span class="ck" aria-hidden="true">&#10003;</span><span><b>4,380</b> account-level rows read &mdash; every figure as filed, never interpolated</span></li></ul>
     <div class="hfoot">On the current reporting basis (2013–2025), revenue exceeded expenditure in 9 of 13 filings. A single-year filing gap is not a deficit claim — fund balance, transfers
@@ -939,9 +1036,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
              aria-label="Town of Hartland revenue and expenditure, 1995 to 2025" aria-describedby="trendDesc"></svg>
       </div>
       <p class="pl-vh" id="trendDesc"></p>
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="pill" id="cmpOpen" type="button">
-        Compare two years — what moved</button>
-        <button class="shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link to this year</span></button></div>
+      <div class="pillrow"><button class="pill" id="cmpOpen" type="button">Compare two years<span class="ph-x"> — what moved</span></button>
+        <button class="shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link<span class="ph-x"> to this year</span></span></button></div>
       <details class="tailx" id="trendData"><summary>The same figures as a table</summary><div id="trendTable"></div></details>
       <p class="note" id="trendNote"></p>
     </div>
@@ -949,25 +1045,31 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </section>
 
   <section id="filing">
-    <h2>The filing, year by year — slide the chart or pick a pill</h2>
+    <h2><span>The filing, year by year<span class="ph-x"> — slide the chart or pick a pill</span></span></h2>
+    <div class="ystep" id="yearStep">
+      <button class="ys-s" id="ysPrev" type="button" aria-label="Earlier filing year">&lsaquo;</button>
+      <button class="ys-y" id="ysMid" type="button" aria-expanded="false" aria-controls="yearPills" aria-label="Pick a filing year">
+        <span class="ys-v" id="ysV"></span><span class="ys-h">all years</span></button>
+      <button class="ys-s" id="ysNext" type="button" aria-label="Later filing year">&rsaquo;</button>
+    </div>
     <div class="years" id="yearPills" role="tablist" aria-label="Filing year"></div>
     <div class="pair">
       <div class="panel">
         <h3>Revenue <span class="tot num" id="revTot" style="color:var(--rev-ink)"></span></h3>
         <div class="sub" id="revSub"></div>
         <div class="rank" id="revRank"></div>
-        <div style="margin-top:12px"><button class="pill" id="revMore" type="button" hidden></button></div>
+        <div class="morewrap"><button class="pill" id="revMore" type="button" hidden></button></div>
       </div>
       <div class="panel">
         <h3>Expenditure <span class="tot num" id="expTot" style="color:var(--exp-ink)"></span></h3>
         <div class="sub" id="expSub"></div>
         <div class="rank" id="expRank"></div>
-        <div style="margin-top:12px"><button class="pill" id="expMore" type="button" hidden></button></div>
+        <div class="morewrap"><button class="pill" id="expMore" type="button" hidden></button></div>
       </div>
     </div>
-    <p class="note">Open any category for its breakdown, its 31-year trend with the biggest
-      moves marked and decomposable, and its composition over time. Every account line inside opens
-      its own 31-year history. &ldquo;All other&rdquo; always opens — nothing is truncated.</p>
+    <p class="note">Open any category for its breakdown, its 31-year trend and its composition over time;
+      every account line inside opens its own 31-year history. &ldquo;All other&rdquo; always
+      opens — nothing is truncated.</p>
   </section>
 
   <section id="aid">
@@ -977,7 +1079,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
       <div class="sub">Account A1120, &ldquo;Non-Property Tax Distribution by County&rdquo;, as this
         government filed it, 1995–2025. The county-side line reconciles on
         <a href="../county.html#shared">the County Edition</a>.</div>
-      <div class="spk"><span class="spk-v num" style="left:0.0%">1995: $119K</span><span class="spk-v spk-r num">2025: $260K</span><svg viewBox="0 0 260 44" preserveAspectRatio="none" role="img" aria-label="Annual amount filed under account A1120, 1995 to 2025"><line x1="151.7" y1="0" x2="151.7" y2="44" stroke="var(--rule-strong)" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><path d="M0.0 24.6 L8.7 27.5 L17.3 27.2 L26.0 27.9 L34.7 24.5 L43.3 25.0 L52.0 26.7 L60.7 27.5 L69.3 26.6 L78.0 22.2 L86.7 21.7 L95.3 20.2 L104.0 34.8 L112.7 26.9 L121.3 36.1 L130.0 25.6 L138.7 23.3 L147.3 22.7 L156.0 29.5 L164.7 31.7 L173.3 24.7 L182.0 25.0 L190.7 25.6 L199.3 24.4 L208.0 24.0 L216.7 24.4 L225.3 17.3 L234.0 32.3 L242.7 17.1 L251.3 14.7 L260.0 5.0 L260.0 44 L0.0 44 Z" fill="var(--exp)" opacity=".10"/><path d="M0.0 24.6 L8.7 27.5 L17.3 27.2 L26.0 27.9 L34.7 24.5 L43.3 25.0 L52.0 26.7 L60.7 27.5 L69.3 26.6 L78.0 22.2 L86.7 21.7 L95.3 20.2 L104.0 34.8 L112.7 26.9 L121.3 36.1 L130.0 25.6 L138.7 23.3 L147.3 22.7 L156.0 29.5 L164.7 31.7 L173.3 24.7 L182.0 25.0 L190.7 25.6 L199.3 24.4 L208.0 24.0 L216.7 24.4 L225.3 17.3 L234.0 32.3 L242.7 17.1 L251.3 14.7 L260.0 5.0" fill="none" stroke="var(--exp)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><div class="spk-ax num" aria-hidden="true"><span style="left:0">1995</span><span style="left:33.3%;transform:translateX(-50%)">2005</span><span style="left:66.7%;transform:translateX(-50%)">2015</span><span style="right:0">2025</span></div></div>
+      <div class="spk"><span class="spk-v num" style="left:min(0.0%,calc(100% - 178px))">1995: $119K</span><span class="spk-v spk-r num">2025: $260K</span><svg viewBox="0 0 260 44" preserveAspectRatio="none" role="img" aria-label="Annual amount filed under account A1120, 1995 to 2025"><line x1="151.7" y1="0" x2="151.7" y2="44" stroke="var(--rule-strong)" stroke-width="1" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><path d="M0.0 24.6 L8.7 27.5 L17.3 27.2 L26.0 27.9 L34.7 24.5 L43.3 25.0 L52.0 26.7 L60.7 27.5 L69.3 26.6 L78.0 22.2 L86.7 21.7 L95.3 20.2 L104.0 34.8 L112.7 26.9 L121.3 36.1 L130.0 25.6 L138.7 23.3 L147.3 22.7 L156.0 29.5 L164.7 31.7 L173.3 24.7 L182.0 25.0 L190.7 25.6 L199.3 24.4 L208.0 24.0 L216.7 24.4 L225.3 17.3 L234.0 32.3 L242.7 17.1 L251.3 14.7 L260.0 5.0 L260.0 44 L0.0 44 Z" fill="var(--exp)" opacity=".10"/><path d="M0.0 24.6 L8.7 27.5 L17.3 27.2 L26.0 27.9 L34.7 24.5 L43.3 25.0 L52.0 26.7 L60.7 27.5 L69.3 26.6 L78.0 22.2 L86.7 21.7 L95.3 20.2 L104.0 34.8 L112.7 26.9 L121.3 36.1 L130.0 25.6 L138.7 23.3 L147.3 22.7 L156.0 29.5 L164.7 31.7 L173.3 24.7 L182.0 25.0 L190.7 25.6 L199.3 24.4 L208.0 24.0 L216.7 24.4 L225.3 17.3 L234.0 32.3 L242.7 17.1 L251.3 14.7 L260.0 5.0" fill="none" stroke="var(--exp)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg><div class="spk-ax num" aria-hidden="true"><span style="left:0">1995</span><span style="left:33.3%;transform:translateX(-50%)">2005</span><span style="left:66.7%;transform:translateX(-50%)">2015</span><span style="right:0">2025</span></div></div>
     </div>
   </section>
 
@@ -990,7 +1092,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
         <button type="button" data-mode="abs" aria-pressed="true">Totals</button>
         <button type="button" data-mode="per" aria-pressed="false">Per resident</button>
       </div>
-      <div class="rank" id="sibRank"><a class="rk can" href="town-lockport.html" data-abs="27171348" data-per="1321" data-wabs="100.0" data-wper="74.7" data-pop="20563"><span class="lb" style="color:var(--muted)">Lockport <span class="fnt num">pop 20,563</span></span><span class="vl num">$27,171,348</span><span class="tr"><i style="width:100.0%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-lewiston.html" data-abs="25664410" data-per="1610" data-wabs="94.5" data-wper="91.0" data-pop="15944"><span class="lb" style="color:var(--muted)">Lewiston <span class="fnt num">pop 15,944</span></span><span class="vl num">$25,664,410</span><span class="tr"><i style="width:94.5%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-wheatfield.html" data-abs="15326861" data-per="822" data-wabs="56.4" data-wper="46.5" data-pop="18638"><span class="lb" style="color:var(--muted)">Wheatfield <span class="fnt num">pop 18,638</span></span><span class="vl num">$15,326,861</span><span class="tr"><i style="width:56.4%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-niagara.html" data-abs="13777911" data-per="1743" data-wabs="50.7" data-wper="98.6" data-pop="7903"><span class="lb" style="color:var(--muted)">Niagara <span class="fnt num">pop 7,903</span></span><span class="vl num">$13,777,911</span><span class="tr"><i style="width:50.7%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-newfane.html" data-abs="11602471" data-per="1247" data-wabs="42.7" data-wper="70.5" data-pop="9304"><span class="lb" style="color:var(--muted)">Newfane <span class="fnt num">pop 9,304</span></span><span class="vl num">$11,602,471</span><span class="tr"><i style="width:42.7%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-royalton.html" data-abs="7365228" data-per="980" data-wabs="27.1" data-wper="55.4" data-pop="7517"><span class="lb" style="color:var(--muted)">Royalton <span class="fnt num">pop 7,517</span></span><span class="vl num">$7,365,228</span><span class="tr"><i style="width:27.1%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-pendleton.html" data-abs="6479410" data-per="921" data-wabs="23.8" data-wper="52.1" data-pop="7035"><span class="lb" style="color:var(--muted)">Pendleton <span class="fnt num">pop 7,035</span></span><span class="vl num">$6,479,410</span><span class="tr"><i style="width:23.8%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-porter.html" data-abs="6478752" data-per="995" data-wabs="23.8" data-wper="56.3" data-pop="6513"><span class="lb" style="color:var(--muted)">Porter <span class="fnt num">pop 6,513</span></span><span class="vl num">$6,478,752</span><span class="tr"><i style="width:23.8%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-cambria.html" data-abs="6106538" data-per="1063" data-wabs="22.5" data-wper="60.1" data-pop="5743"><span class="lb" style="color:var(--muted)">Cambria <span class="fnt num">pop 5,743</span></span><span class="vl num">$6,106,538</span><span class="tr"><i style="width:22.5%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-hartland.html" data-abs="4817399" data-per="1244" data-wabs="17.7" data-wper="70.3" data-pop="3874"><span class="lb" style="font-weight:700">Hartland <span class="fnt num">pop 3,874</span></span><span class="vl num">$4,817,399</span><span class="tr"><i style="width:17.7%;background:var(--exp)"></i></span></a><a class="rk can" href="town-somerset.html" data-abs="4592075" data-per="1768" data-wabs="16.9" data-wper="100.0" data-pop="2597"><span class="lb" style="color:var(--muted)">Somerset <span class="fnt num">pop 2,597</span></span><span class="vl num">$4,592,075</span><span class="tr"><i style="width:16.9%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-wilson.html" data-abs="4491005" data-per="768" data-wabs="16.5" data-wper="43.4" data-pop="5847"><span class="lb" style="color:var(--muted)">Wilson <span class="fnt num">pop 5,847</span></span><span class="vl num">$4,491,005</span><span class="tr"><i style="width:16.5%;background:var(--rule-strong)"></i></span></a></div>
+      <div class="rank" id="sibRank"><a class="rk can" href="town-lockport.html" data-abs="27171348" data-per="1321" data-wabs="100.0" data-wper="74.7" data-pop="20563"><span class="lb" style="color:var(--muted)">Lockport <span class="fnt num">pop 20,563</span></span><span class="vl num">$27,171,348</span><span class="tr"><i style="width:100.0%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-lewiston.html" data-abs="25664410" data-per="1610" data-wabs="94.5" data-wper="91.0" data-pop="15944"><span class="lb" style="color:var(--muted)">Lewiston <span class="fnt num">pop 15,944</span></span><span class="vl num">$25,664,410</span><span class="tr"><i style="width:94.5%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-wheatfield.html" data-abs="15326861" data-per="822" data-wabs="56.4" data-wper="46.5" data-pop="18638"><span class="lb" style="color:var(--muted)">Wheatfield <span class="fnt num">pop 18,638</span></span><span class="vl num">$15,326,861</span><span class="tr"><i style="width:56.4%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-niagara.html" data-abs="13777911" data-per="1743" data-wabs="50.7" data-wper="98.6" data-pop="7903"><span class="lb" style="color:var(--muted)">Niagara <span class="fnt num">pop 7,903</span></span><span class="vl num">$13,777,911</span><span class="tr"><i style="width:50.7%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-newfane.html" data-abs="11602471" data-per="1247" data-wabs="42.7" data-wper="70.5" data-pop="9304"><span class="lb" style="color:var(--muted)">Newfane <span class="fnt num">pop 9,304</span></span><span class="vl num">$11,602,471</span><span class="tr"><i style="width:42.7%;background:var(--rule-strong)"></i></span></a><a class="rk can fold-m" href="town-royalton.html" data-abs="7365228" data-per="980" data-wabs="27.1" data-wper="55.4" data-pop="7517"><span class="lb" style="color:var(--muted)">Royalton <span class="fnt num">pop 7,517</span></span><span class="vl num">$7,365,228</span><span class="tr"><i style="width:27.1%;background:var(--rule-strong)"></i></span></a><a class="rk can fold-m" href="town-pendleton.html" data-abs="6479410" data-per="921" data-wabs="23.8" data-wper="52.1" data-pop="7035"><span class="lb" style="color:var(--muted)">Pendleton <span class="fnt num">pop 7,035</span></span><span class="vl num">$6,479,410</span><span class="tr"><i style="width:23.8%;background:var(--rule-strong)"></i></span></a><a class="rk can fold-m" href="town-porter.html" data-abs="6478752" data-per="995" data-wabs="23.8" data-wper="56.3" data-pop="6513"><span class="lb" style="color:var(--muted)">Porter <span class="fnt num">pop 6,513</span></span><span class="vl num">$6,478,752</span><span class="tr"><i style="width:23.8%;background:var(--rule-strong)"></i></span></a><a class="rk can fold-m" href="town-cambria.html" data-abs="6106538" data-per="1063" data-wabs="22.5" data-wper="60.1" data-pop="5743"><span class="lb" style="color:var(--muted)">Cambria <span class="fnt num">pop 5,743</span></span><span class="vl num">$6,106,538</span><span class="tr"><i style="width:22.5%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="town-hartland.html" data-abs="4817399" data-per="1244" data-wabs="17.7" data-wper="70.3" data-pop="3874"><span class="lb" style="font-weight:700">Hartland <span class="fnt num">pop 3,874</span></span><span class="vl num">$4,817,399</span><span class="tr"><i style="width:17.7%;background:var(--exp)"></i></span></a><a class="rk can fold-m" href="town-somerset.html" data-abs="4592075" data-per="1768" data-wabs="16.9" data-wper="100.0" data-pop="2597"><span class="lb" style="color:var(--muted)">Somerset <span class="fnt num">pop 2,597</span></span><span class="vl num">$4,592,075</span><span class="tr"><i style="width:16.9%;background:var(--rule-strong)"></i></span></a><a class="rk can fold-m" href="town-wilson.html" data-abs="4491005" data-per="768" data-wabs="16.5" data-wper="43.4" data-pop="5847"><span class="lb" style="color:var(--muted)">Wilson <span class="fnt num">pop 5,847</span></span><span class="vl num">$4,491,005</span><span class="tr"><i style="width:16.5%;background:var(--rule-strong)"></i></span></a></div><button class="pill morebtn" type="button" data-fold="sibRank" data-more="Show all 12 towns" data-less="Show fewer" aria-expanded="false" aria-controls="sibRank">Show all 12 towns</button>
     </div>
     <div class="panel" id="acrossPanel" style="margin-top:14px" hidden>
       <h3 id="acTitle">Across the county</h3>
@@ -1002,13 +1104,14 @@ body:has(#modal:not([hidden])) .pager{display:none}
 
   <section id="method">
     <h2 style="color:var(--faint)">The method</h2>
+    <details class="tailx fold" data-wide-open><summary>How it was built</summary>
     <p class="lede" style="color:var(--muted)">Built exactly like every Public Ledger edition. Parsed
       from the Comptroller&rsquo;s statewide town files — <span class="num">4,380</span>
       account-level rows for Hartland, 1995–2025 — joined on municipal code (never entity
       name), flows only, balance-sheet rows excluded. The 2013 schema change is resolved by column name
       per era and marked on every chart. <b style="color:var(--ink)">The build is a gate, not a
       report:</b> if any year goes missing or a total turns implausible, the generator halts and
-      this page does not update.</p>
+      this page does not update.</p></details>
     <div class="gateline num">&#10003; BUILD GATES PASS: 31 consecutive years · totals in
       bounds · schema mapping continuous</div>
     <p class="lede" style="color:var(--muted);margin-top:12px;margin-bottom:4px">Self-reported AFR
@@ -1662,18 +1765,22 @@ function drillHTML(year,sec,label,cssVar){
   return h;
 }
 
-/* ---- ranked lists (ported) ---- */
-function renderRank(el,items,cssVar,total,onClick,expand,onOther){
+/* ---- ranked lists (ported) ----
+   opts.hk(x,i): the row's hover-linking key (data-key, the chrome's PL.hl) so a chart mark can light it and it can
+   light the chart; 'All other' rows never carry one. Two lines per row: label + figure, then the bar. */
+function renderRank(el,items,cssVar,total,onClick,expand,onOther,opts){
+  opts=opts||{};
   var max=items.reduce(function(m,x){return Math.max(m,x[1]);},0);
   el.innerHTML=items.map(function(x,i){
     var pct=total?(x[1]/total*100):0;
     var isOther=/^All other/.test(x[0]);
-    var fill=isOther?'var(--rule-strong)':'var('+cssVar+')';
     var clickable=onClick&&!isOther;
     var drillable=expand&&!isOther;
     var otherable=isOther&&onOther;
     var interactive=clickable||drillable||otherable;
-    return '<div class="rk'+(drillable?' can':'')+'"'+
+    var hk=(opts.hk&&!isOther)?opts.hk(x,i):null;
+    return '<div class="rk'+(drillable?' can':'')+(hk?' pl-hl':'')+'"'+
+        (hk?' data-key="'+escA(hk)+'"':'')+
         (clickable?' data-rank="'+i+'" style="cursor:pointer"':'')+
         (drillable?' data-exp="'+i+'"':'')+
         (otherable?' data-other="1" style="cursor:pointer"':'')+
@@ -1682,7 +1789,7 @@ function renderRank(el,items,cssVar,total,onClick,expand,onOther){
         (otherable?' <span class="see">— view all</span>':'')+'</span>'+
       '<span class="vl num"'+(isOther?' style="color:var(--muted)"':'')+'>'+
         '<span class="sh">'+pct.toFixed(1)+'%<span class="pl-vh"> of total</span></span>'+money0(x[1])+'</span>'+
-      '<span class="tr"><i style="width:'+(x[1]/max*100).toFixed(2)+'%;background:'+fill+'"></i></span>'+
+      '<span class="tr"><i'+(isOther?' class="oth"':'')+' style="width:'+(x[1]/max*100).toFixed(2)+'%'+(isOther?'':';background:var('+cssVar+')')+'"></i></span>'+
     '</div>';}).join('');
   if(!el.__wired){
     el.__wired=true;
@@ -2009,7 +2116,9 @@ function renderAcross(body,sec,label,mini){
   if(!mini&&zeros.length)
     h+='<p class="note">Files none (or files it at zero): '+zeros.map(function(a){return esc(a[0]);}).join(', ')+
        '. A missing filer usually means the county, a district or another layer runs that service there.</p>';
-  h+='<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — '+
+  h+=mini?'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently. Each figure is that '+
+     'government&rsquo;s own latest filing; populations are the 2020 Census.</p>'
+    :'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — '+
      'service levels and structures differ. Each figure is that government&rsquo;s own latest filing. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved 2026-07-31).</p>';
   body.innerHTML=h;
 }
@@ -2350,14 +2459,89 @@ document.getElementById('shareYear').addEventListener('click',function(){
   try{history.replaceState(history.state,'',u.pathname+u.search+u.hash);}catch(e){}
   shareLink(selYear+' filing — '+document.title);});
 
+/* ---- the hero follows the selected year ----
+   The chart beside the card is the year scrubber, so a card fixed on the latest filing would contradict
+   it the moment a reader picks a year. setHero(i) rewrites the three figures and their labels, the
+   register line (the earlier reporting basis is named there), the 'what changed' row (the pair ending in
+   that year, debt proceeds named when they moved the headline - the same words tools/muni_routes.move_row
+   prerenders for the latest pair) and shows the way back. The prerendered latest-year figures are the
+   page's first paint; the script checks them against its own data and reports drift as a console error,
+   which fails the page gate. The card keeps ONE height across every year: fitHero() lays the 'what
+   changed' row out with every year's words offscreen and reserves the tallest, so a pick moves nothing
+   below the card (iOS has no scroll anchoring). */
+var HERO_LI=O.years.length-1;
+var HERO_FY=/\bFY\d{4}/.test((document.querySelector('#hRev .k')||{textContent:''}).textContent)?'FY':'';
+function pct1(a,b){if(!a) return b?'new':'—';var p=(b-a)/Math.abs(a)*100;return (p>=0?'+':'−')+Math.abs(p).toFixed(1)+'%';}
+function heroMove(i){
+  var yrs=O.years;
+  if(i<1) return {html:'<span class="k">What changed</span><span class="mv1">No earlier filing on record to compare with.</span>',href:null};
+  var a=yrs[i-1],b=yrs[i],ra=O.rev[i-1],rb=O.rev[i],ea=O.exp[i-1],eb=O.exp[i];
+  var DL=debtLabel(),da=0,db=0;
+  if(DL){da=catTotals(0,a)[DL]||0;db=catTotals(0,b)[DL]||0;}
+  var asked=Math.abs(db-da)>=1000000&&Math.abs(db-da)>=0.25*Math.abs(rb-ra);
+  var h='<span class="k">What changed · '+a+' &rarr; '+b+'</span>'+
+    '<span class="mv1">Revenue <b class="num">'+pct1(ra,rb)+'</b></span>'+
+    '<span class="mv1">Expenditure <b class="num">'+pct1(ea,eb)+'</b></span>'+
+    '<span class="go">What moved &rarr;</span>';
+  if(asked) h+='<span class="dbtn">As filed, revenue includes debt proceeds (<span class="num">'+money0(da)+'</span> in '+a+', <span class="num">'+money0(db)+
+    '</span> in '+b+'); without them, <b class="num">'+pct1(ra-da,rb-db)+'</b>.</span>';
+  if(a<O.schemaBreak&&b>=O.schemaBreak) h+='<span class="dbtn">These two filings sit on different reporting bases.</span>';
+  return {html:h,href:'#cmp='+a+'|'+b};
+}
+function setHero(i){
+  if(i<0||i>HERO_LI) return;
+  var yr=O.years[i],rev=O.rev[i],exp=O.exp[i],net=rev-exp,pre=yr<O.schemaBreak;
+  function put(id,v){var e=document.getElementById(id);if(e&&e.innerHTML!==v) e.innerHTML=v;}
+  put('hRevV',money0(rev));put('hExpV',money0(exp));put('hNetV',(net<0?'−':'+')+money0(Math.abs(net)));
+  [['hRev','Revenue · '+HERO_FY+yr],['hExp','Expenditure · '+HERO_FY+yr],['hNet','Net · '+HERO_FY+yr+' filing']].forEach(function(p){
+    var k=document.querySelector('#'+p[0]+' .k');if(k&&k.textContent!==p[1]) k.textContent=p[1];});
+  /* the earlier basis takes the line (the chip beside it names the way back); 'reporting' and the source are desk-only
+     (.ph-x) so the line never truncates beside the chip on a phone - the same markup the page prerenders */
+  put('hRegT',pre?'Pre-'+O.schemaBreak+' <span class="ph-x">reporting </span>basis':'Annual filing<span class="ph-x"> · NYS Comptroller</span>');
+  var rs=document.getElementById('heroReset');if(rs) rs.hidden=(i===HERO_LI);
+  var mv=document.querySelector('.hcard .hmove');
+  if(mv){var m=heroMove(i);if(mv.innerHTML!==m.html) mv.innerHTML=m.html;
+    if(m.href){mv.setAttribute('href',m.href);mv.removeAttribute('aria-disabled');}
+    else{mv.removeAttribute('href');mv.setAttribute('aria-disabled','true');}}
+}
+function fitHero(){
+  var mv=document.querySelector('.hcard .hmove');if(!mv) return;
+  var probe=mv.cloneNode(false);
+  probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;left:-9999px;top:0;min-height:0;box-sizing:border-box;width:'+mv.getBoundingClientRect().width+'px';
+  probe.removeAttribute('id');mv.parentNode.appendChild(probe);
+  var best=0;
+  for(var i=0;i<O.years.length;i++){probe.innerHTML=heroMove(i).html;best=Math.max(best,probe.offsetHeight);}
+  probe.remove();mv.style.minHeight=Math.max(best,44)+'px';
+}
+(function(){
+  var li=HERO_LI,e=document.getElementById('hRevV'),x=document.getElementById('hExpV');
+  if(e&&e.textContent!==money0(O.rev[li])) console.error('hero drift: prerendered '+e.textContent+' vs data '+money0(O.rev[li]));
+  if(x&&x.textContent!==money0(O.exp[li])) console.error('hero drift: prerendered '+x.textContent+' vs data '+money0(O.exp[li]));
+  var rs=document.getElementById('heroReset');
+  if(rs){
+    rs.setAttribute('aria-label','Back to the latest filing, '+HERO_FY+O.latest);   /* the arrow glyph is CSS-drawn */
+    rs.addEventListener('click',function(e){
+      renderYear(O.latest);                                   /* hides the chip - under the focus, if a key pressed it */
+      /* a keyboard press (detail 0) moves the focus to the year pill that now holds the selection when it is on screen,
+         else to the card itself (tabindex -1): the reader keeps a place, never <body>. A pointer press parks on the card. */
+      var p=document.querySelector('#yearPills .yp.on'),r=p&&p.getBoundingClientRect();
+      var t=(!e.detail&&p&&r.bottom>0&&r.top<innerHeight)?p:document.querySelector('.hcard');
+      if(t) t.focus({preventScroll:true});
+    });
+  }
+})();
+
 /* ---- year panels (ported) ---- */
-var RANK_TOP=8, rankOpen={rev:false,exp:false};
+/* the top eight categories on a desk, the top five on a phone ('All other' always opens the rest - nothing is truncated) */
+var PHONE=window.matchMedia('(max-width:640px)'), rankOpen={rev:false,exp:false};
+function rankTop(){return PHONE.matches?5:8;}
 var selYear=(function(){var q=+(new URLSearchParams(location.search).get('y')||0);return O.years.indexOf(q)>=0?q:O.latest;})();
 function groupRank(list,open){
-  if(open||list.length<=RANK_TOP+1) return list;
-  var head=list.slice(0,RANK_TOP),tv=0;
-  for(var i=RANK_TOP;i<list.length;i++)tv+=list[i][1];
-  return head.concat([['All other ('+(list.length-RANK_TOP)+' categories)',tv]]);
+  var T=rankTop();
+  if(open||list.length<=T+1) return list;
+  var head=list.slice(0,T),tv=0;
+  for(var i=T;i<list.length;i++)tv+=list[i][1];
+  return head.concat([['All other ('+(list.length-T)+' categories)',tv]]);
 }
 function renderYear(yr){
   selYear=yr;
@@ -2378,16 +2562,20 @@ function renderYear(yr){
     function toggle(){rankOpen[key]=!rankOpen[key];renderYear(selYear);}
     renderRank(el,groupRank(list,rankOpen[key]),col,tot,null,
       function(item,node){openModal(selYear,sec,item[0],col,node);},
-      toggle);
-    /* hover-link: point at a category and its own 31-year series appears on the chart above */
-    if(!el.__ghost&&HOVER){el.__ghost=1;
-      el.addEventListener('pointerover',function(e){var d=e.target.closest&&e.target.closest('[data-exp]');
-        if(d&&el.__items){var lb=el.__items[+d.getAttribute('data-exp')][0];
-          if(typeof ghostTrend==='function') ghostTrend(sec,lb); ghostCard(d,sec,lb,col);}});
-      el.addEventListener('pointerleave',function(){if(typeof ghostTrend==='function') ghostTrend(null); ghostCard(null);});}
-    if(list.length>RANK_TOP+1){
-      btn.hidden=false;
-      btn.textContent=rankOpen[key]?'Show the top '+RANK_TOP
+      toggle,{hk:function(x){return sec+'|'+x[0];}});
+    /* hover-link (the chrome's PL.hl): point at - or focus - a category row and its own 31-year series is
+       ghosted on the chart above and echoed beside the row, and the row lights. On touch the row's tap opens
+       the sheet, whose Trend tab is the same series in full. The root is bound once; rows re-render freely. */
+    if(!el.__hl){el.__hl=1;
+      PL.hl.bind([el],{attr:'data-key',sel:'.rk[data-key]',
+        on:function(k,src){if(!k) return;var j=k.indexOf('|'),s=+k.slice(0,j),lb=k.slice(j+1);
+          if(typeof ghostTrend==='function') ghostTrend(s,lb); if(HOVER&&src) ghostCard(src,s,lb,col);},
+        off:function(){if(typeof ghostTrend==='function') ghostTrend(null); ghostCard(null);}});}
+    var T=rankTop();
+    if(list.length>T+1){
+      /* on a phone the 'All other (N categories) - view all' row is the way in; the button only appears to close it again */
+      btn.hidden=PHONE.matches&&!rankOpen[key];
+      btn.textContent=rankOpen[key]?'Show the top '+T
         :'Show all '+list.length+' categories';
       if(!btn.__wired){btn.__wired=true;btn.addEventListener('click',toggle);}
     } else btn.hidden=true;
@@ -2403,20 +2591,46 @@ function renderYear(yr){
     pills.scrollTo({left:Math.max(0,pills.scrollLeft+(cr.left-pr.left)-(pills.clientWidth-cur.offsetWidth)/2)});
   }
   edgeFade(pills);
+  if(syncYearStep) syncYearStep();                           /* the phone's stepper reads the selected year */
+  setHero(O.years.indexOf(yr));                              /* the hero follows the Schedule */
   if(liveOn){var lq=O.years.indexOf(yr);say(yr+' filing: revenue '+money0(O.rev[lq])+', expenditure '+money0(O.exp[lq])+'.');}
   if(typeof markTrendYear==='function') markTrendYear(yr);
 }
-var liveOn=false;
+var liveOn=false, syncYearStep=null;
 (function(){
   var host=document.getElementById('yearPills');
   host.innerHTML=O.years.slice().reverse().map(function(y){
-    return '<button class="yp" type="button" role="tab" data-year="'+y+'">'+y+'</button>';
+    return '<button class="yp pl-hl" type="button" role="tab" data-year="'+y+'">'+y+'</button>';
   }).join('');
+  /* the phone's year stepper: earlier / later by one filing, and the middle button opens the grid of every year (a pick closes it) */
+  var prev=document.getElementById('ysPrev'), next=document.getElementById('ysNext'), mid=document.getElementById('ysMid'), yv=document.getElementById('ysV');
+  function closeGrid(){host.classList.remove('open');if(mid) mid.setAttribute('aria-expanded','false');}
+  syncYearStep=function(){
+    if(!mid) return;
+    var i=O.years.indexOf(selYear);
+    prev.disabled=i<=0; next.disabled=i>=O.years.length-1;
+    yv.textContent=HERO_FY+selYear;
+    mid.setAttribute('aria-label',HERO_FY+selYear+' filing — pick another year');
+  };
+  if(mid){
+    prev.addEventListener('click',function(){var i=O.years.indexOf(selYear);if(i>0) renderYear(O.years[i-1]);});
+    next.addEventListener('click',function(){var i=O.years.indexOf(selYear);if(i<O.years.length-1) renderYear(O.years[i+1]);});
+    mid.addEventListener('click',function(){var o=host.classList.toggle('open');mid.setAttribute('aria-expanded',o?'true':'false');
+      if(o){var c=host.querySelector('.yp.on');if(c&&c.scrollIntoView) c.scrollIntoView({block:'nearest'});}});
+  }
+  /* Esc closes the open grid from the stepper too (a keyboard user opens it with Enter/Space on the middle button, so focus is THERE, not inside the grid) */
+  var stepEl=document.getElementById('yearStep');
+  if(stepEl) stepEl.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&host.classList.contains('open')){closeGrid();if(mid) mid.focus({preventScroll:true});e.preventDefault();}
+  });
+  PHONE.addEventListener?PHONE.addEventListener('change',function(){closeGrid();renderYear(selYear);}):PHONE.addListener(function(){closeGrid();renderYear(selYear);});
   host.addEventListener('click',function(e){
     var b=e.target.closest('.yp');
-    if(b) renderYear(+b.dataset.year);
+    if(b){var wasOpen=host.classList.contains('open');renderYear(+b.dataset.year);closeGrid();
+      if(wasOpen&&mid&&!e.detail) mid.focus({preventScroll:true});}   /* a keyboard pick from the grid hands the focus to the stepper, never to <body> */
   });
   host.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&host.classList.contains('open')){closeGrid();if(mid) mid.focus({preventScroll:true});return;}
     if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;
     var i=O.years.indexOf(selYear);
     var next=O.years[e.key==='ArrowRight'?Math.min(i+1,O.years.length-1):Math.max(i-1,0)];
@@ -2496,7 +2710,7 @@ function drawTrend(){
      Drawn here, PLACED after layout (placeAnn below): the type is measured, then each label
      takes the band that is clear of the series, the end labels, the basis note, the
      selected-year rule and the other label - and never leaves the chart box. Two lines on a phone. */
-  var b0=Math.max(0,bi), ann=[];
+  var b0=Math.max(0,bi), ann=[], annNote='';
   var gapI=-1,gapV=0;
   for(var ai=b0;ai<=li;ai++){var gv=Math.abs(rev[ai]-exp[ai]);if(gv>gapV){gapV=gv;gapI=ai;}}
   if(gapI>=0&&gapV>0){var above=exp[gapI]>rev[gapI], gl1='Widest gap · '+yrs[gapI], gl2=(above?'expenditure':'revenue')+' above by '+mCompact(gapV);
@@ -2537,27 +2751,37 @@ function drawTrend(){
     var obs=[];
     [].forEach.call(svg.querySelectorAll('text.end,text.bnote'),function(t){var b=bbox(t);if(b)obs.push({x0:b.x-2,y0:b.y-1,x1:b.x+b.width+2,y1:b.y+b.height+1});});
     obs.push({x0:x(selI)-4,y0:mt,x1:x(selI)+4,y1:H-mb});                  /* the selected-year rule */
-    function bandAt(px){var t=Math.max(0,Math.min(n1,(px-plotL)/span*n1)),i=Math.floor(t),j=Math.min(n1,i+1),f=t-i;
-      var r=y(rev[i]+(rev[j]-rev[i])*f),e=y(exp[i]+(exp[j]-exp[i])*f);return [Math.min(r,e)-3,Math.max(r,e)+3];}
+    /* the two LINES at an x (each one on its own: the space between them is clear, and a label may sit in it) */
+    function linesAt(px){var t=Math.max(0,Math.min(n1,(px-plotL)/span*n1)),i=Math.floor(t),j=Math.min(n1,i+1),f=t-i;
+      return [y(rev[i]+(rev[j]-rev[i])*f),y(exp[i]+(exp[j]-exp[i])*f)];}
     function cost(L,T,R,B,a){
-      /* any crossing (10 a sample, sampled every 3 units INCLUDING both edges of the box, so a line
-         clipping a corner is seen) or overlap (30) outranks the longest leader (at most 5) */
-      var c=0, x0=Math.max(L,plotL), x1=Math.min(R,plotR), nS=Math.max(1,Math.ceil((x1-x0)/3));
-      for(var s=0;s<=nS;s++){var b=bandAt(x0+(x1-x0)*s/nS);if(b[1]>=T&&b[0]<=B)c+=10;}
+      /* any crossing (10 a sample, sampled every 1.5 units INCLUDING both edges of the box, so a line
+         clipping a corner is seen; the page gate samples the same way) or overlap (30) outranks the
+         longest leader (at most 5) */
+      var c=0, hits=0, x0=Math.max(L,plotL), x1=Math.min(R,plotR), nS=Math.max(1,Math.ceil((x1-x0)/1.5));
+      for(var s=0;s<=nS;s++){var ye=linesAt(x0+(x1-x0)*s/nS);
+        if((ye[0]>=T-3&&ye[0]<=B+3)||(ye[1]>=T-3&&ye[1]<=B+3))hits++;}
+      /* and every year's own vertex: a one-year spike is a point no x-grid is sure to land on */
+      for(var v=0;v<=n1;v++){var vx=x(v);if(vx<L-1||vx>R+1)continue;
+        var vr=y(rev[v]),ve=y(exp[v]);if((vr>=T-3&&vr<=B+3)||(ve>=T-3&&ve<=B+3))hits++;}
+      c+=hits*10;
       obs.forEach(function(o){if(o.x1>=L&&o.x0<=R&&o.y1>=T&&o.y0<=B)c+=30;});
       var my=a.pt!=null?a.pt:(T>a.yBot?a.yBot:a.yTop);
-      return c+Math.max(0,Math.min(T>my?T-my:my-B,400))/80;
+      return {c:c+Math.max(0,Math.min(T>my?T-my:my-B,400))/80,hits:hits};
     }
     ann.forEach(function(a,k){
       var g=svg.querySelector('.anng[data-k="'+k+'"]'),t=g.querySelector('text'),lead=g.querySelector('path');
       /* the measured glyph box (ascent to descent, every line), not the nominal size */
       var b=bbox(t), w=b?b.width:Math.max.apply(null,a.lines.map(function(s){return s.length;}))*fs*0.58;
       var h=b?b.height:fs*1.3+(a.lines.length-1)*lineH, asc=b?-b.y:fs*0.8, ax=x(a.i), best=null, tops=[], q;
-      for(q=0;q<3;q++) tops.push(mt+2+q*lineH);
-      for(q=0;q<3;q++) tops.push(H-mb-6-h-q*lineH);
-      tops.forEach(function(T){[ax-w/2,ax+6,ax-6-w].forEach(function(L){
+      for(q=0;q<4;q++) tops.push(mt+2+q*lineH);
+      for(q=0;q<4;q++) tops.push(H-mb-6-h-q*lineH);
+      tops.forEach(function(T){[ax-w/2,ax+6,ax-6-w,ax-w/4,ax-3*w/4,ax+6+w/2,ax-6-w*1.5].forEach(function(L){
         L=Math.max(plotL+2,Math.min(L,W-3-w));
-        var c=cost(L,T,L+w,T+h,a); if(!best||c<best.c) best={c:c,L:L,T:T};});});
+        var r=cost(L,T,L+w,T+h,a); if(!best||r.c<best.c) best={c:r.c,hits:r.hits,L:L,T:T};});});
+      /* no band clear of the series at this width (a phone plot narrower than the label): the label leaves
+         the chart rather than sit on a line, and its facts go into the note under the chart instead */
+      if(best.hits){g.style.display='none';annNote+=a.lines.join(', ').replace(' · ',': ')+'. ';return;}
       var L=best.L,T=best.T,R=L+w,B=T+h;
       t.setAttribute('y',(T+asc).toFixed(1));
       [].forEach.call(t.querySelectorAll('tspan'),function(ts){ts.setAttribute('x',L.toFixed(1));});
@@ -2629,18 +2853,25 @@ function drawTrend(){
   /* the year pills point at the chart too */
   var pillsEl=document.getElementById('yearPills');
   if(pillsEl){pillsEl.__show=show;pillsEl.__hide=hide;         /* the newest draw's closures, after any resize */
-    if(!pillsEl.__chart&&HOVER){pillsEl.__chart=1;
-      pillsEl.addEventListener('pointerover',function(e){var b=e.target.closest&&e.target.closest('.yp');if(b){var i=yrs.indexOf(+b.dataset.year);if(i>=0) pillsEl.__show(i);}});
-      pillsEl.addEventListener('pointerleave',function(){pillsEl.__hide();});}}
-  document.getElementById('trendNote').textContent='Series covers '+yrs[0]+'–'+yrs[li]+'. '+
-    'OSC changed its reporting schema in '+O.schemaBreak+'. Both eras publish 15 columns under '+
+    if(!pillsEl.__chart){pillsEl.__chart=1;                     /* the chrome's PL.hl: hover or focus a pill, the chart answers */
+      PL.hl.bind([pillsEl],{attr:'data-year',sel:'.yp',
+        on:function(k){var i=yrs.indexOf(+k);if(i>=0) pillsEl.__show(i);},off:function(){pillsEl.__hide();}});}}
+  /* the mapping detail is desk-only (.ph-x; the Method says it too); what a phone keeps is the part that guards the reading:
+     the basis changed, and figures either side of the dashed line are not strictly comparable */
+  document.getElementById('trendNote').innerHTML=esc(annNote)+'Series covers '+yrs[0]+'–'+yrs[li]+'. '+
+    'OSC changed its reporting schema in '+O.schemaBreak+'.<span class="ph-x"> Both eras publish 15 columns under '+
     'different names, so the mapping is resolved by column name per era (the choice was validated '+
-    'for continuity on the city series). Figures either side of the dashed line are not strictly comparable.';
-  /* the chart speaks: a computed, method-neutral description, and the same figures as a table */
+    'for continuity on the city series).</span> Figures either side of the dashed line are not strictly comparable.';
+  /* the chart speaks: a computed, method-neutral description that counts within ONE basis (never across
+     the break), and the same figures as a table */
+  var cb=Math.max(0,bi),up=0,nb=0;
+  for(var q=cb;q<=li;q++){nb++;if(rev[q]>exp[q]) up++;}
   document.getElementById('trendDesc').textContent=
     'Revenue was '+money0(rev[0])+' in '+yrs[0]+' and '+money0(rev[li])+' in '+yrs[li]+'; expenditure was '+
     money0(exp[0])+' and '+money0(exp[li])+'. The reporting basis changed in '+O.schemaBreak+', so figures on '+
-    'either side are not strictly comparable. The same figures are in the table below the chart.';
+    'either side are not strictly comparable; the chart draws the break and shades the earlier years at half strength. '+
+    (bi>0?'On the post-'+O.schemaBreak+' basis, revenue exceeded expenditure in '+up+' of '+nb+' filings. ':'')+
+    'The same figures are in the table below the chart.';
 }
 (function(){
   var d=document.getElementById('trendData'); if(!d) return;
@@ -2656,8 +2887,10 @@ function drawTrend(){
 })();
 drawTrend();
 renderYear(selYear);
+fitHero();
+if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitHero);
 liveOn=true;
-var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){drawTrend();},150);});
+var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){drawTrend();fitHero();},150);});
 
 /* ---- the pot: one bar of the recipients, hover-linked to their rows; the gate line answers per segment ---- */
 (function(){
@@ -2762,9 +2995,12 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
    replaced first, so Back still closes the sheet in one step. */
 (function(){
   function openFromHash(h,viaLink){
-    var m=/^#cat=([01])[|]([^|]+)(?:[|](breakdown|trend|composition|across))?$/.exec(h);
+    /* the section may be 0|1 (this family's own links) or rev|exp (the city page's 'Across the county' rows,
+       which encode the whole value - IDXB-12); the address is decoded once, as a whole, before it is read */
+    var raw=h; try{raw=decodeURIComponent(h);}catch(e){}
+    var m=/^#cat=(0|1|rev|exp)[|]([^|]+?)(?:[|](breakdown|trend|composition|across))?$/.exec(raw);
     if(m){
-      var sec=+m[1], label; try{label=decodeURIComponent(m[2]);}catch(e){return false;}
+      var sec=m[1]==='exp'?1:m[1]==='rev'?0:+m[1], label=m[2];
       var yr=flowsFor(selYear,sec,label).length?selYear:O.years[O.years.length-1];
       if(!flowsFor(yr,sec,label).length) return false;
       hashReplace('');                                      /* the sheet pushes its own entry */
@@ -2822,6 +3058,22 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
   var io=new IntersectionObserver(function(es){es.forEach(function(en){
     if(!en.isIntersecting)return;en.target.classList.remove('pregrow');io.unobserve(en.target);});},{threshold:.15});
   lists.forEach(function(x){io.observe(x);});
+})();
+
+/* ---- folds (C-C2): a phone shows the top of a long list and one 44px button opens the rest (a desk shows it all);
+   a <details data-wide-open> starts open on a desk and folded on a phone - every honesty note stays outside the folds ---- */
+(function(){
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('[data-fold]'); if(!b) return;
+    var t=document.getElementById(b.getAttribute('data-fold')); if(!t) return;
+    var o=t.classList.toggle('open');
+    b.setAttribute('aria-expanded',o?'true':'false');
+    b.textContent=b.getAttribute(o?'data-less':'data-more');
+  });
+  var wide=window.matchMedia('(min-width:641px)');
+  function openWide(){if(wide.matches) [].forEach.call(document.querySelectorAll('details[data-wide-open]'),function(d){d.open=true;});}
+  openWide();                                    /* a phone turned to landscape gains the desk layout (its summary is hidden): the fold must already be open */
+  if(wide.addEventListener) wide.addEventListener('change',openWide); else wide.addListener(openWide);
 })();
 
 /* ---- keyboard for row-like controls ---- */

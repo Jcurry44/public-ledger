@@ -38,6 +38,9 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opa
 .scene{background:var(--card);border-bottom:1px solid var(--rule-strong);overflow:hidden}
 .scene svg{display:block;margin:0 auto;height:86px;width:auto;max-width:100%;color:var(--ink);opacity:.42}
 @media (max-width:640px){.scene svg{height:62px}}
+/* the caption is drawn at 11.5px on screen where the engraving is full size (>=960px) and left out where it would shrink below that */
+.scene svg text{paint-order:stroke;stroke:var(--card);stroke-width:5px;stroke-linejoin:round}   /* a paper halo knocks the water's ripples out from behind the letters */
+@media (max-width:959px){.scene svg text{display:none}}
 
 /* ---------- 'not yet read': the ledger is behind the city ----------
    Shape and words, never hue: a hatched bar down the left edge and a label. It is
@@ -109,7 +112,7 @@ html.pl-delta .fresh-slot{min-height:45px}
    they fit 390 and 375 on one line, tighten again for 360, and scroll (with the fades) at 320 */
 @media (max-width:640px){.rail a{padding:12px 9px;font-size:12.5px;flex:1 1 auto;justify-content:center}}
 @media (max-width:389px){.rail a{padding:12px 6px;font-size:12px}}
-@media (max-width:367px){.rail a{padding:12px 5px;font-size:11.5px;letter-spacing:-.01em}}
+@media (max-width:367px){.rail a{padding:12px 5px;font-size:11.5px;letter-spacing:-.01em;min-width:44px}}   /* six tabs of >=44px still fit 320 (291px of 320) */
 
 /* ---------- hero ----------
    The opening spread of the folio: TWO labelled registers and the resident's three
@@ -153,7 +156,7 @@ html.pl-delta .fresh-slot{min-height:45px}
    hover reads a year, click picks it (the Schedule below follows). Phone: a tap-only
    sparkline that never claims the page scroll. */
 .htrend{position:relative;margin:14px 0 0}
-.htrend svg.trend{overflow:visible}
+.htrend svg.trend{overflow:visible;height:150px}   /* the height drawHeroTrend() sets: the box is reserved before the script paints it */
 .htrend .htr-cap{font-size:11.5px;color:var(--faint);margin-top:4px;display:flex;justify-content:space-between;gap:10px}
 .htrend .htr-cap b{font-weight:600;color:var(--muted)}
 svg.trend .end{font:700 11.5px ui-monospace,Menlo,Consolas,monospace}
@@ -188,6 +191,14 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
 .regnote{font-size:12px;line-height:1.45;color:var(--muted)}
 .regnote .reg-more{color:var(--accent);text-decoration:none;font-weight:600}
 @media (hover:hover){.regnote .reg-more:hover{text-decoration:underline}}
+@media (max-width:640px){
+  /* the hygiene link is the checkbook card's own 44px row on a phone (its separator is phone-hidden) */
+  .regnote .reg-more{display:flex;align-items:center;min-height:44px}
+}
+@media (max-width:640px),(pointer:coarse){
+  /* an inline link in a line of prose keeps its line box (padding and a matching negative margin), reaches 44px, and sits above the lines it overlaps; it moves as a unit, never splits */
+  #oscLink{display:inline-block;position:relative;padding:13px 0;margin:-13px 0}
+}
 .ans-pair{display:inline-block;white-space:nowrap;margin-right:14px}
 .ans-pair:last-child{margin-right:0}
 .ans-pair b{font-weight:600}
@@ -234,6 +245,7 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
   .hcell:nth-child(3){padding-top:10px}
   .hcell .v.closed{padding-bottom:6px}
   .htrend{margin:6px 0 0}
+  .htrend svg.trend{height:64px}
   .htrend .htr-cap{margin-top:0;font-size:11.5px;justify-content:flex-end}
   .htrend .htr-cap>span:first-child{display:none}   /* the axis already reads 1995 ... 2024 here */
   .hnote{margin:0;padding:8px 0 10px;font-size:12px}
@@ -704,9 +716,12 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 @media (hover:hover){.briefbtn.ghost:hover{border-color:var(--accent);filter:none}}
 .dacts{margin-top:12px;display:flex;gap:10px 14px;align-items:center;flex-wrap:wrap}
 .dacts .dmeta{font-size:12.5px;color:var(--muted)}
+.dacts .dm-all,.wsel .wsel-all{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+@media (hover:hover){.dacts .dm-all:hover,.wsel .wsel-all:hover{text-decoration-thickness:2px}}
 @media (max-width:640px){
   .dacts .briefbtn{min-height:44px;flex:1 1 40%;justify-content:center}
-  .dacts .dmeta{flex:1 1 100%;min-height:44px;display:flex;align-items:center}
+  .dacts .dmeta{flex:1 1 100%;min-height:44px;display:flex;align-items:center;flex-wrap:wrap;gap:0 4px}
+  .dacts .dm-all{display:inline-flex;align-items:center;min-height:44px}
 }
 /* 'How this stays current' folds on phones (the proof rows come first; the method is one tap away) */
 .curr>summary{list-style:none;cursor:pointer}
@@ -732,7 +747,16 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .rx-sub{margin:0;font-size:14px;line-height:1.45;color:var(--muted);max-width:54ch}
 .rx-honest{margin:12px 0 14px;padding:10px 12px;border-radius:8px;background:var(--accent-soft);font-size:13px;line-height:1.45;color:var(--ink)}
 .rx-block{border-left:3px solid var(--rule);padding:8px 0 8px 12px;margin:0 0 10px}
+/* each government's block is a fold: its header row is the summary (open on a desk, a 44px row that opens on a phone) */
+.rx-block>summary{list-style:none;cursor:pointer}
+.rx-block>summary::-webkit-details-marker{display:none}
 .rx-btop{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:baseline;margin-bottom:6px}
+@media (max-width:640px){
+  .rx-block>summary{min-height:44px;align-items:center;margin-bottom:0}
+  .rx-block>summary::after{content:'\25BE';margin-left:auto;color:var(--faint)}
+  .rx-block[open]>summary::after{content:'\25B4'}
+  .rx-block[open]>summary{margin-bottom:4px}
+}
 .rx-bk{font:600 12px/1.3 system-ui;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .rx-bv{font:600 18px/1 Fraunces,Georgia,serif}
 .rx-by{font-size:12px;color:var(--muted)}
@@ -1279,6 +1303,168 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
      Capital tag and the fund that tells two same-named rows apart) */
   .rk .lb{white-space:normal;line-height:1.25}
 }
+
+/* ---------- the front page: The Ledger, Issue No. N (Move 19) ----------
+   The register's lede, above the section rail: one paragraph the record writes about the latest
+   council meeting - every number presses through to its evidence (the proof row, the line in the
+   register, the fund facet) - and the meeting's claims drawn to scale in one line. Capped so the
+   annual-filing figures and the thirty-year chart still open in the first desktop screen. */
+.issue{background:var(--card);border-bottom:1px solid var(--rule-strong);padding:0}   /* the generic section padding (34px) is not for the front page: .issue-in sets its own */
+/* the lede is two paragraphs: the first (total, claims, the largest) and the rest (first appearances, capital share,
+   the proof). The rest sits in a .ph-fold whose own label is the counts line (.keep: visible on both): on a desk the
+   fold is open and reversed, so the left column reads lede, rest, counts as a muted footer, and the tape with its key
+   holds the right; on a phone the counts line is the 44px fold under the tape, the rest one tap away */
+.issue-in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);grid-template-areas:"head head" "lede side" "more side";
+  gap:6px 44px;padding-top:10px;padding-bottom:10px;align-items:start}
+.issue-head{grid-area:head;display:flex;align-items:center;gap:4px 14px;flex-wrap:wrap;min-height:30px}
+#issueLede{grid-area:lede}
+.issue-more{grid-area:more;min-width:0}
+.issue-more .issue-lede{margin:0}
+#issueLede2:empty{display:none}
+.issue-more.ph-fold.keep>summary{font:500 11.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.issue-more.ph-fold.keep>summary b{color:var(--ink);font-weight:700}
+@media (min-width:641px){
+  .issue-more{display:flex;flex-direction:column-reverse}      /* the counts under the rest (older engines: above it, still a plain line) */
+  .issue-more.ph-fold.keep>summary{margin-top:5px}
+}
+.issue-k{font:600 11.5px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.issue-k b{color:var(--ink);font-weight:700}
+.issue-t{margin:0;font:600 19px/1.2 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.01em}
+.issue-step{display:inline-flex;align-items:center;gap:6px;margin-left:auto}
+.issue-step button{border:1px solid var(--rule-strong);background:var(--card);color:var(--ink);border-radius:8px;width:34px;height:30px;
+  font-size:17px;line-height:1;cursor:pointer;padding:0}
+.issue-step button:disabled{opacity:.3;cursor:default}
+/* the 'Latest' chip is a button in the same group: its own width (the arrows' 34px box would clip 'LATEST' over the arrow) */
+.issue-step .hreset{margin:0;order:0;width:auto;height:auto;min-height:30px;padding:0 12px;white-space:nowrap}
+.issue-lede{margin:0;font:400 15px/1.45 ui-serif,Georgia,'Times New Roman',serif;color:var(--ink);max-width:76ch}
+.issue-lede b{font-weight:600}
+/* a pressed number: an inline link in the sentence (its href is the section that holds the evidence; the script lands
+   on the exact row), dotted so it reads as evidence rather than navigation */
+.pev{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:1.5px;
+  text-underline-offset:3px;border-radius:3px;cursor:pointer}
+.pev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (hover:hover){.pev:hover{background:var(--accent-soft);text-decoration-style:solid}}
+.issue-side{grid-area:side;display:flex;flex-direction:column;gap:7px;min-width:0}
+.issue-counts{font:500 11.5px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.issue-counts b{color:var(--ink);font-weight:700}
+/* the tape: one line, every claim of the meeting at its width in dollars, largest first; the fund is the luminance pair
+   (navy general, bronze capital) with the enterprise funds hatched - never a third hue; claims under a pixel share the
+   hatched tail, counted, never dropped */
+.itape-bar{display:flex;height:38px;border-radius:5px;overflow:hidden;background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.is{display:block;flex:0 0 auto;min-width:0;height:100%;position:relative;cursor:pointer;box-shadow:inset -1px 0 0 var(--card);color:#fff}
+.is.f-gen{background:var(--accent)}
+.is.f-cap{background:var(--exp)}
+.is.f-ent{background-color:var(--rev);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.34) 0 2px,transparent 2px 7px)}
+.is.fuzz{background:repeating-linear-gradient(0deg,var(--rule-strong) 0 1px,var(--gridline) 1px 3px);box-shadow:none}
+@media (hover:hover){.is:hover{filter:brightness(1.12)}.is.fuzz:hover{filter:none;outline:2px solid var(--muted);outline-offset:-2px}}
+.is .il{position:absolute;inset:0;display:flex;align-items:center;padding:0 4px;font:500 11.5px/1 system-ui;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.is .il.off,.is .il.il-s{display:none}
+.is .il.il-s:not(.off){display:flex}
+.itape-bar.torn{background:repeating-linear-gradient(-45deg,transparent 0 7px,var(--gridline) 7px 14px);border:2px dashed var(--rule-strong);
+  align-items:center;justify-content:center}
+.itape-bar.torn .il{position:static;color:var(--muted);text-shadow:none;font-weight:500;font-size:12px}
+.itape-key{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:11.5px;color:var(--muted);line-height:1.4}
+.itape-key .sw{display:inline-block;width:11px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px;padding:0;border:0}   /* not the .sw panel */
+.itape-key .sw.f-gen{background:var(--accent)}
+.itape-key .sw.f-cap{background:var(--exp)}
+.itape-key .sw.f-ent{background-color:var(--rev);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.34) 0 1.5px,transparent 1.5px 5px)}
+.itape-key .sw.fuzz{background:repeating-linear-gradient(0deg,var(--rule-strong) 0 1px,var(--gridline) 1px 3px)}
+/* the evidence lights where the press lands: a ring that fades (no hue carries the meaning; the scroll does) */
+.ev-lit{animation:evLit 2.4s ease-out both}
+@keyframes evLit{0%,40%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 3px transparent}}
+@media (prefers-reduced-motion:reduce){.ev-lit{animation:none;box-shadow:0 0 0 3px var(--accent)}}
+@media (max-width:899px){.issue-in{grid-template-columns:1fr;grid-template-areas:"head" "lede" "side" "more";gap:8px}}
+@media (max-width:640px){
+  .issue-in{padding-top:8px;padding-bottom:4px;gap:5px}
+  /* the head as two rows on the left (eyebrow over title) with the 44px stepper spanning both on the right */
+  .issue-head{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"k step" "t step";align-items:center;gap:2px 10px;min-height:44px}
+  .issue-k{grid-area:k}
+  .issue-t{grid-area:t;font-size:17px}
+  .issue-step{grid-area:step;margin-left:0;position:relative;z-index:1}   /* above the lede's padded links (.pev), which reach 10px up into the head */
+  .issue-step button{width:44px;height:44px;font-size:20px}
+  /* the Latest chip is its glyph alone here (the word stays for the accessible name) */
+  .issue-step .hreset{width:44px;min-height:44px;padding:0;display:inline-flex;align-items:center;justify-content:center}
+  .issue-step .hreset::before{margin:0;font-size:20px}
+  .issue-step .hreset .lt{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+  .issue-more.ph-fold.keep>summary{padding:6px 0;line-height:1.5}
+  .issue-more .issue-lede{margin:2px 0 6px}
+  .issue-lede{font-size:14px;line-height:1.45}
+  .issue-side{gap:5px}
+  .itape-key{gap:2px 10px}
+  .pev{padding:10px 0;margin:-10px 0;position:relative}    /* a 44px hit area on a pressed number; the line box does not grow */
+  .itape-bar{height:34px}
+}
+@media (max-width:374px){
+  .issue-in{gap:4px}
+  .itape-bar{height:30px}
+  .issue-more.ph-fold.keep>summary{padding:4px 0;line-height:1.45}
+}
+
+/* ---------- phone density (Move 15) ----------
+   .ph-fold: a <details> that is a plain, open panel on wide screens and a 44px fold on a phone (the summary line
+   stays visible on both only with .keep). The same data-open-wide script drives it. The ledes keep their first
+   sentence on a phone (.ph-x hides the rest); the tiles, ranks and findings run tighter; nothing is removed. */
+.ph-fold>summary{list-style:none;cursor:pointer;color:var(--accent);font-weight:600;font-size:12.5px}
+.ph-fold>summary::-webkit-details-marker{display:none}
+.ph-fold>summary::before{content:'\25B8';margin-right:6px;display:inline-block;transition:transform .12s}
+.ph-fold[open]>summary::before{transform:rotate(90deg)}
+.ph-fold>summary>b{font-weight:600}
+@media (min-width:641px){
+  .ph-fold>summary{display:none}
+  .ph-fold.keep>summary{display:block;pointer-events:none;color:var(--muted);font-weight:400;font-size:12.5px}
+  .ph-fold.keep>summary::before{content:none}
+}
+@media (max-width:640px){
+  .ph-fold>summary{min-height:44px;display:block;box-sizing:border-box;padding:11px 0;line-height:1.4}   /* block, not flex: flex would strip the spaces between its words */
+  .ph-fold>summary+*{margin-top:4px}
+  .panel{padding:14px 14px 12px}
+  section{padding:18px 0 8px}
+  .rk.can{padding:0 7px}
+  /* the split: three parts on one row (label over figure over rate) */
+  .tb-parts{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .tb-part{padding-left:7px}
+  .tb-part .v{font-size:15px}
+  .tb-part .n{font-size:11.5px;line-height:1.3}
+  .issue-lede{font-size:13.5px}
+  .hero{padding:12px 0 4px}
+  .hnote{padding:6px 0 8px}
+  .gatebox{margin:0 0 10px}
+  .tb-controls{margin-bottom:10px}
+  .rx-honest{margin:10px 0 10px}
+  .ph-fold.keep>summary{color:var(--ink);font-weight:500}
+  .ph-fold.keep>summary::before{color:var(--accent)}
+  /* tiles: four on two rows, tighter */
+  .tiles{gap:8px;margin:14px 0 8px}
+  .tile{padding:8px 10px}
+  .tile .v{font-size:18px;margin-top:2px}
+  .tile .n{font-size:11.5px;margin-top:1px}
+  /* ranked lists: rows at the 44px floor, the gap between them halved */
+  .rank{gap:4px}
+  /* the findings: two lines per row - the vendor and its total, then its figures run inline - and three rows first */
+  .findtab tr{display:block;padding:9px 0 8px}
+  .findtab td{display:inline;font-size:12.5px;font-weight:500;padding:0}
+  .findtab td::before{content:none}
+  .findtab td::after{content:' ' attr(data-l);color:var(--faint);font-weight:500;text-transform:lowercase}
+  .findtab td+td+td::before{content:'\00b7';display:inline;color:var(--faint);margin:0 7px 0 5px;font-weight:400}
+  .findtab td:first-child{display:block;padding:0 96px 3px 0;font-size:13.5px;font-weight:600}
+  .findtab td:first-child::after{content:none}
+  .findtab td.key{position:absolute;top:10px;right:0;font-size:14px;font-weight:700}
+  .findtab tbody tr:first-child td.key{top:1px}
+  .findtab td.key::after{content:none}
+  .findtab td.key::before,.findtab td.codes+td::before{content:none}
+  .findtab td[data-l="Accounts"]{display:inline}
+  .findtab td[data-l="Accounts"] b{font-size:13.5px;min-width:0;display:inline}
+  .findtab td[data-l="Accounts"] .bar{display:inline-block;width:46px;margin:0 0 0 5px;height:6px;vertical-align:middle}
+  .findtab td.codes{display:block;padding:3px 0 0;font-size:12px}
+  .findtab td.codes::before{content:none}
+  .findtab td.codes::after{content:none}
+  #sprawlTab.tiered:not(.open) tbody tr:nth-child(n+4){display:none}
+  /* the line-detail panel: the two downloads share one row; the feed file is a desk link */
+  #jsonDl{display:none!important}
+  /* the peers: five rows first (this city always among them) */
+  .dotplot .dp-row.tr-hid{display:none}
+}
 </style>
 <script>
 /* ---- since you last looked ----
@@ -1394,6 +1580,7 @@ window.PL_FEED=__FEED__;
 </script>
 </head>
 <body>
+__PL_RUNTIME__
 <div class="folio">
 
 __MASTHEAD__
@@ -1432,9 +1619,35 @@ __SOURCE_BAR__
   <path d="M1130 62 V 26 h9 V 62 M1127 26 h15 M1140 20 q 10 -4 8 -12 M1148 22 q 12 -2 12 -10" opacity=".8"/>
   <!-- birds over the river -->
   <path d="M320 30 q 5 -5 10 0 q 5 -5 10 0 M356 22 q 4 -4 8 0 q 4 -4 8 0 M905 26 q 4 -4 8 0 q 4 -4 8 0" opacity=".6" stroke-width="1.2"/>
-  <text x="1188" y="106" text-anchor="end" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="9.5"
+  <text x="1188" y="106" text-anchor="end" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="14.7"
     letter-spacing=".14em" fill="currentColor" stroke="none" opacity=".8">GATEWAY HARBOR &#183; THE TONAWANDAS</text>
 </svg></div>
+
+<!-- THE FRONT PAGE. Written by the record about the latest council meeting, at build time
+     (tools/build_site.py issue_lede / issue_tape); the script re-derives it, steps through
+     earlier meetings in place, and reports any drift between the two as a console error. -->
+<section class="issue" id="issue" aria-labelledby="issueT" data-issue="__ISSUE_ISO__">
+  <div class="wrap issue-in">
+    <div class="issue-head">
+      <span class="issue-k" id="issueK"><span class="ph-xs">The Ledger &middot; </span><b>Issue No. __ISSUE_NO__</b> of __ISSUE_OF__</span>
+      <h2 class="issue-t" id="issueT"><span id="issueWhat">__ISSUE_WHAT__</span> <span class="num" id="issueDate">__ISSUE_DATE__</span></h2>
+      <span class="issue-step" role="group" aria-label="Issues by date">
+        <button class="hreset" id="issueLatest" type="button" hidden aria-label="Latest issue"><span class="lt">Latest</span></button>
+        <button type="button" id="issuePrev" aria-label="Earlier date">&lsaquo;</button>
+        <button type="button" id="issueNext" aria-label="Later date" disabled>&rsaquo;</button>
+      </span>
+    </div>
+    <p class="issue-lede" id="issueLede">__ISSUE_LEDE__</p>
+    <details class="ph-fold keep issue-more" data-open-wide>
+      <summary class="issue-counts" id="issueCounts">__ISSUE_COUNTS__</summary>
+      <p class="issue-lede" id="issueLede2">__ISSUE_LEDE2__</p>
+    </details>
+    <div class="issue-side">
+      <div class="itape" id="issueTape">__ISSUE_TAPE__</div>
+      <div class="itape-key" id="issueKey">__ISSUE_KEY__</div>
+    </div>
+  </div>
+</section>
 
 <nav class="rail"><div class="wrap rail-in">
   <a href="#money" class="on" data-short="Spending">Revenue &amp; spending</a>
@@ -1501,6 +1714,13 @@ __SOURCE_BAR__
     </div>
   </div>
 
+  <script>/* the 'What changed' card keeps ONE height across every year (PL.fitMin; the main script measures all of them
+     once the data is in). The build names the longest years' wording, so the height is reserved HERE, before the first
+     paint, and the page below it does not move when the big script ends */
+  (function(){ var c=document.getElementById('ansChange'); if(!c||!window.PL||!PL.fitMin) return;
+    PL.fitMin(c,__CHG_TALL__,function(probe,s){ probe.querySelector('.ans-k').innerHTML=s[0]; probe.querySelector('.ans-v').innerHTML=s[1];
+      probe.querySelector('.ans-t').innerHTML=s[2]; }); })();</script>
+
   <section id="money">
     <div class="sched">Schedule 1 · Annual financial reports, NYS Comptroller</div>
     <h2>Where the money comes from, and where it goes</h2>
@@ -1547,7 +1767,7 @@ __SOURCE_BAR__
       <div class="pl-vh" id="trendLive" role="status" aria-live="polite"></div>
       <div style="margin-top:12px"><button class="pill" id="cmpOpen" type="button">
         Compare two years — what moved</button></div>
-      <p class="note" id="trendNote"></p>
+      <details class="ph-fold" data-open-wide><summary>About these two lines</summary><p class="note" id="trendNote" style="margin-top:4px"></p></details>
       <details class="tailx" id="trendData"><summary>Every filing as a table, and how the two reporting eras were joined</summary>
         <div id="trendTable"></div><p class="note" id="trendNote2" style="margin-top:8px"></p></details>
     </div>
@@ -1555,6 +1775,7 @@ __SOURCE_BAR__
     <div class="panel" style="margin-top:14px">
       <h3><span id="peerH">Nine cities</span>, per resident <span class="tot num" id="peerYear"></span></h3>
       <div class="sub" id="peerLede"></div>
+      <details class="ph-fold" data-open-wide><summary>The <span id="peerFoldN">__PEER_N__</span> cities, ranked</summary>
       <div class="sub" id="peerWho" style="margin-top:-8px"></div>
       <div class="seg" id="peerSeg" role="group" aria-label="Rank by">
         <button type="button" data-peer="exp" aria-pressed="true">Rank by spending</button>
@@ -1563,11 +1784,14 @@ __SOURCE_BAR__
       </div>
       <div class="dotplot" id="peerRank" data-hgroup="peers" data-hdim></div>
       <p class="note">Cities differ in what they run — some operate their own water, sewer or utility
-        systems, so per-resident figures are context, not a scorecard. The property-tax figure is the
+        systems, so per-resident figures are context, not a scorecard.</p>
+      <details class="ph-fold" data-open-wide><summary>What the levy counts, and the sources</summary>
+        <p class="note" style="margin-top:4px">The property-tax figure is the
         <b>city levy only</b>: the school district and the county are separate governments, and together
         they are roughly two-thirds of a homeowner's actual bill. Sources: each city's
         <span id="peerYr2"></span> filing to the NYS Comptroller; 2020 Census populations. The Niagara County
-        cities open their own ledgers.</p>
+        cities open their own ledgers.</p></details>
+      </details>
     </div>
 
   </section>
@@ -1579,8 +1803,8 @@ __SOURCE_BAR__
   <section id="explore">
     <div class="sched">Schedule 2 · The city’s Warrant of Claims, 2025–2026</div>
     <h2>Explore the register</h2>
-    <p class="lede">Every claim the city approved across 2025 and 2026, summarised first. Select any bar
-      to filter — everything recalculates. Approvals only: no revenue, no budget.</p>
+    <p class="lede">Every claim the city approved across 2025 and 2026, summarised first.<span class="ph-x"> Select any bar
+      to filter — everything recalculates.</span> Approvals only: no revenue, no budget.</p>
 
     <div class="controls">
       <input type="search" id="q" placeholder="Search payee, account code, description, PO or invoice…" autocomplete="off"
@@ -1608,7 +1832,7 @@ __SOURCE_BAR__
     <div class="tiles" id="regTiles"></div>
 
     <div class="panel" style="margin-bottom:14px">
-      <h3>Approvals by warrant <a id="wcBrief" class="briefbtn tot" target="_blank" rel="noopener" hidden></a></h3>
+      <h3>Approvals by warrant <a id="wcBrief" class="briefbtn tot" hidden></a></h3>
       <div class="sub" id="warrantSub"></div>
       <div class="wchart"><div id="warrantChart"></div><div class="wtip num" id="wTip" hidden></div></div>
       <div class="wsel" id="wSel"></div>
@@ -1642,15 +1866,15 @@ __SOURCE_BAR__
 
     <div class="panel" style="margin-top:14px">
       <h3>Findings</h3>
-      <div class="sub">Two patterns the register makes visible. Neither is wrongdoing — both are
-        reporting problems, and both are endemic in small-business books too.</div>
+      <div class="sub">Two patterns the register makes visible. Neither is wrongdoing<span class="ph-x"> — both are
+        reporting problems, and both are endemic in small-business books too</span>.</div>
       <div class="seg" id="findTabs" role="tablist">
         <button type="button" role="tab" data-find="sprawl" aria-selected="true">Account coding</button>
         <button type="button" role="tab" data-find="hygiene" aria-selected="false">Vendor records</button>
       </div>
       <div id="findSprawl">
-    <p class="lede">How many charge accounts one vendor's spending lands in. Not wrongdoing — it is why
-      "what did we spend on X" is hard to answer from a ledger.</p>
+    <p class="lede">How many charge accounts one vendor's spending lands in.<span class="ph-x"> Not wrongdoing — it is why
+      "what did we spend on X" is hard to answer from a ledger.</span></p>
     <div class="tbox scroll" data-sr="Vendors by number of accounts, scrolls sideways">
       <table class="findtab" id="sprawlTab">
         <thead><tr><th>Vendor</th><th class="r">Accounts</th><th class="r">Departments</th><th class="r">Line items</th>
@@ -1661,8 +1885,8 @@ __SOURCE_BAR__
     <button class="pill find-more" type="button" data-more="sprawlTab" hidden></button>
       </div>
       <div id="findHygiene" hidden>
-    <p class="lede">One payee carrying several vendor records. Every dollar is properly authorised — but
-      spend for one company splits across records and no single view adds it up.</p>
+    <p class="lede">One payee carrying several vendor records.<span class="ph-x"> Every dollar is properly authorised — but
+      spend for one company splits across records and no single view adds it up.</span></p>
     <div class="tbox scroll" data-sr="Payees with several vendor records, scrolls sideways">
       <table class="findtab" id="hygieneTab">
         <thead><tr><th>Payee</th><th>Vendor codes</th><th class="r">Line items</th><th class="r">Combined total</th><th><span class="pl-vh">Action</span></th></tr></thead>
@@ -1675,11 +1899,11 @@ __SOURCE_BAR__
     </details>
     <div class="panel" style="margin-top:14px">
       <h3>Line detail <span class="tot num" id="rowCount"></span></h3>
-      <div class="sub">The summary above is the intended view. Open this only to audit the individual
+      <div class="sub"><span class="ph-x">The summary above is the intended view. </span>Open this only to audit the individual
         lines behind it — each one links to the page of the source PDF it was read from.</div>
       <button class="pill" id="detailToggle" type="button" aria-expanded="false" aria-controls="detailWrap">
         Open line detail</button>
-      <button class="pill" id="csvDl" type="button" title="Download the filtered rows as CSV">Download these rows (CSV)</button>
+      <button class="pill" id="csvDl" type="button" title="Download the filtered rows as CSV"><span class="ph-x">Download these rows (</span>CSV<span class="ph-x">)</span></button>
       <a class="pill" id="jsonDl" href="updates.json" download style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none">updates.json</a>
       <div id="detailWrap" hidden>
         <div class="scroll" style="margin-top:13px">
@@ -1698,7 +1922,7 @@ __SOURCE_BAR__
     <div class="sched">Schedule 3 · Capital funds within the warrant register</div>
     <h2>Capital projects</h2>
     <p class="lede">The city files capital work in its own funds, so each project's spend can be followed
-      separately. Select one for its vendors, its pace, and every line behind it.</p>
+      separately.<span class="ph-x"> Select one for its vendors, its pace, and every line behind it.</span></p>
     <div class="tiles" id="capTiles"></div>
     <div data-hgroup="cap" data-hdim>
     <div class="panel" style="margin-bottom:14px">
@@ -1713,7 +1937,7 @@ __SOURCE_BAR__
       <div style="margin-top:12px"><button class="pill" id="capMore" type="button" hidden></button></div>
     </div>
     </div>
-    <p class="note" id="capNote"></p>
+    <details class="ph-fold" data-open-wide><summary>Spend, not performance</summary><p class="note" id="capNote" style="margin-top:4px"></p></details>
   </section>
 
 
@@ -1723,11 +1947,11 @@ __SOURCE_BAR__
     <h2>Your tax dollar, itemised</h2>
     <p class="lede">A different lens than the rest of this page: a property-tax bill is
       <b>three governments stacked</b> — and the city everything above tracks is less than a third
-      of it. The school district and the county levy the rest, on their own budgets.</p>
+      of it.<span class="ph-x"> The school district and the county levy the rest, on their own budgets.</span></p>
 
     <div class="panel" data-hgroup="tax" data-hdim>
       <h3>The split at current rates <span class="tot num" id="tbYear"></span></h3>
-      <div class="sub">Enter a home's market value to see it at the published full-value rates. Hover or select a government to follow it through the chart.</div>
+      <div class="sub">Enter a home's market value to see it at the published full-value rates.<span class="ph-x"> Hover or select a government to follow it through the chart.</span></div>
       <div class="tb-controls">
         <label class="tb-val">$ <input type="text" id="tbValue" inputmode="numeric" value="250,000"
           aria-label="Home market value in dollars"></label>
@@ -1748,7 +1972,7 @@ __SOURCE_BAR__
       <div class="tbr num" id="tbRead" aria-hidden="true"></div>
       <details class="tailx" id="tbData"><summary>Every year as a table</summary><div id="tbTable"></div></details>
       <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
-        data, using each city's namesake school district — the arithmetic of the published rates, not a
+        data<span class="ph-x">, using each city's namesake school district</span> — the arithmetic of the published rates, not a
         quote.</p>
       <!-- adjustment rows render in #rxAdj from taxrates.adjustments -->
     </div>
@@ -1756,6 +1980,7 @@ __SOURCE_BAR__
     <div class="panel" style="margin-top:14px">
       <h3>The school district&rsquo;s books <span class="tot num" id="sdTot" style="color:var(--exp-ink)"></span></h3>
       <div class="sub" id="sdSub"></div>
+      <details class="ph-fold" data-open-wide><summary>The district&rsquo;s filings, <span class="num" id="sdFoldYrs">__SD_YRS__</span>, and where its money goes</summary>
       <div class="chartwrap" id="sdSpark"></div>
       <div class="legend" style="margin-top:6px"><span><b style="background:var(--rev)"></b>Revenue</span>
         <span><b style="background:var(--exp)"></b>Expenditure</span></div>
@@ -1764,7 +1989,8 @@ __SOURCE_BAR__
       <div class="minis" id="sdCats"></div>
       <div style="margin-top:11px"><a class="pill" href="school.html" style="display:inline-block;text-decoration:none">
         Open the district&rsquo;s full ledger &rarr;</a></div>
-      <p class="note" id="sdNote"></p>
+      <details class="ph-fold" data-open-wide><summary>About the district&rsquo;s figures</summary><p class="note" id="sdNote" style="margin-top:4px"></p></details>
+      </details>
     </div>
   </section>
 
@@ -1772,12 +1998,12 @@ __SOURCE_BAR__
     <div class="sched">Schedule 5 · The proof</div>
     <h2>How this was verified</h2>
     <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
-      Every machine-readable document reconciles to them exactly — select a row for the per-fund detail.</p>
+      Every machine-readable document reconciles to them exactly<span class="ph-x"> — select a row for the per-fund detail</span>.</p>
     <p class="note" id="reconNote"></p>
     <div class="gatebox">
-      <div class="gateline num">&#10003; ALL GATES PASS: name fidelity &middot; expenditure tie-out &middot;
-        row count &middot; list amount</div>
-      <div class="sub" id="lastRun" style="margin:8px 0 0">__CHECK_LINE__</div>
+      <div class="gateline num">&#10003; __GATE_LINE__</div>
+      <details class="ph-fold keep" id="lastRunFold" data-open-wide style="margin:8px 0 0"><summary>__LAST_RUN__</summary>
+        <div class="sub" id="lastRun" style="margin:0">__CHECK_LINE__</div></details>
     </div>
     <div class="tie-tools"><span id="tieCount"></span><button class="pill" type="button" id="tieAll"></button></div>
     <div class="tbox scroll" id="tie">
@@ -1792,7 +2018,7 @@ __SOURCE_BAR__
     <details class="panel curr" id="currentBox" style="margin-top:14px" data-open-wide>
       <summary><h3>How this stays current</h3></summary>
       <div class="sub" style="margin-top:8px">This is not a one-time export. When the city posts a new warrant, one command
-        re-runs the whole chain — parse, reconcile, and regenerate this page, all __N_BRIEFS__ council briefs and
+        re-runs the whole chain — parse, reconcile, and regenerate this page, all <a href="briefs/index.html">__N_BRIEFS__ council briefs</a> and
         the exception report together. The reconciliation is a <b>gate, not a report</b>: if any document
         stops tying to its printed control totals, the build halts and nothing updates. The dashboard
         cannot show a number that failed its own check.</div>
@@ -1827,11 +2053,12 @@ __SOURCE_BAR__
 </main>
 
 <footer class="wrap">
-  <p>Companions: <a href="decisions.html">County votes</a> · <a href="county.html">the County Edition</a> — Niagara County&rsquo;s 31 years of filings — and <a href="atlas.html">the County Atlas</a>: every one of the 21 governments that tax inside this county, profiled from its own books.</p>
+  <p>__COMPANIONS__</p>
+  <details class="ph-fold" data-open-wide><summary>Method</summary>
     <p><b>Method.</b> Text extracted from the city's published PDFs with <code>pdftotext -table</code>, parsed to line
      items, and checked against the three control figures each document prints. Vendor names are reproduced verbatim
      from the source and machine-verified to round-trip against it; no name is normalised, inferred, or shortened.
-     Figures are approvals as published, not audited actuals.</p>
+     Figures are approvals as published, not audited actuals.</p></details>
   <p>Built by <a href="https://jcurry44.github.io">Joe Curry &middot; Curry Studio</a> from public records
      published by the City of North Tonawanda. Not affiliated with, endorsed by, or produced for the City.
      Corrections welcome — every figure links to its source page.</p>
@@ -1881,7 +2108,7 @@ __TOAST__
 <script id="warrant-data" type="application/json">/*__DATA__*/</script>
 <script id="vx-data" type="application/json">/*__VX__*/</script>
 <script id="rx-data" type="application/json">/*__RX__*/</script>
-__PL_RUNTIME__
+<script id="textfmt-data" type="application/json">__TEXTFMT__</script>
 <script>
 (function(){
 "use strict";
@@ -2023,6 +2250,8 @@ function scrollMode(){return reduced()?'auto':'smooth';}
 /* ---------- URL state ----------
    Every search, filter, payee, year, open sheet and open proof row has an address: the query string
    carries the state (?q=&payee=&fund=&doc=&credit=&proj=&y=&m=&w=), the hash stays the section anchor.
+   Two hashes name a SHEET and become ?m= on load (sheetHash): #acct=<code> (an account's thirty-year history) and
+   #cat=<rev|exp>|<label>[|<tab>]; ?m=cat|e|2024|<label>|breakdown|<code> is the account's address once it is open.
    Register keystrokes replaceState (debounced); a sheet opening pushes ONE entry, so the phone's Back
    button closes the sheet instead of leaving the site (popstate below); the state is parsed before the
    first render and re-opened, so a texted link reproduces the screen it came from. */
@@ -2058,7 +2287,7 @@ var PARSED_DOCS = D.meta.docs - (D.meta.scans||0);
   var bits=[];
   if(n) bits.push('<b>'+n+' of the '+D.meta.docs+' documents are image-only scans</b> with no text layer, '+
     'so they cannot be parsed or reconciled. They are listed below and excluded from every figure on this '+
-    'page rather than quietly dropped — which is why some 2025 months are thinner than they should be.');
+    'page rather than quietly dropped<span class="ph-x"> — which is why some 2025 months are thinner than they should be</span>.');
   if(sup) bits.push('A further '+sup+' file was a republished copy of a warrant already counted '+
     '(same P.O. range and control total) and was removed, so no claim is counted twice.');
   var el=document.getElementById('reconNote');
@@ -2125,7 +2354,7 @@ TIE_ORDER.forEach(function(i){
         (verdict?'<span class="tick">'+verdict+'</span>':'')+'</td>'+
       '<td class="m-s">'+(what.length ? what.join(' + ') : '')+(what.length&&scans ? ' · ' : '')+scans+'</td>';
     tb.appendChild(mr);
-    TIE.months[m]={row:mr, docs:[], open:false};
+    TIE.months[m]={row:mr, docs:[], open:false, idx:Object.keys(TIE.months).length};
     mr.addEventListener('click',function(){ TIE.setMonth(m, !TIE.months[m].open); });
   }
   var ok = doc.status==='EXACT';
@@ -2175,11 +2404,12 @@ TIE_ORDER.forEach(function(i){
     '<div class="dgrid">'+funds+'</div>'+
     proofLines(doc)+
     '<div class="dacts">'+
-      '<a class="briefbtn" href="briefs/'+esc(doc.brief)+'.html" target="_blank" rel="noopener">'+BRIEF_ICON+'Warrant brief</a>'+
+      '<a class="briefbtn" href="briefs/'+esc(doc.brief)+'.html">'+BRIEF_ICON+'Warrant brief</a>'+
       '<a class="briefbtn ghost" href="'+esc(doc.u)+'" target="_blank" rel="noopener">'+PDF_ICON+'Source PDF'+
         (doc.pages?' <span class="num" style="font-weight:500;opacity:.8">· '+doc.pages+' pp.</span>':'')+'</a>'+
       '<span class="dmeta">P.O. range '+esc(doc.range||'—')+
-      ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span></span>'+
+      ' · <span class="linkish" data-doc="'+i+'">show these '+doc.n+' lines</span>'+
+      ' · <a class="dm-all" href="briefs/index.html">all '+PARSED_DOCS+' briefs</a></span>'+
     '</div></div></td>';
   tb.appendChild(det); TIE.months[m].docs.push(det);
   TIE.rows[docKey(i)]={tr:tr, det:det, m:m};
@@ -2195,10 +2425,14 @@ TIE_ORDER.forEach(function(i){
     syncURL(false);
   });
 });
-/* month folding is a PHONE behaviour: wide screens show every row (the month rows are display:none there) */
+/* month folding is a PHONE behaviour: wide screens show every row (the month rows are display:none there).
+   The tape itself is tiered on a phone: the newest TIE_SHOW months first; a month that is opened (a tap, the
+   'New since' landing, a proof link) always shows; 'Show all N documents' unfolds every month. */
+var TIE_SHOW=3;
 TIE.setMonth=function(m,open){
   var M=TIE.months[m]; if(!M) return;
   M.open=open; M.row.classList.toggle('m-open',open); M.row.setAttribute('aria-expanded',open?'true':'false');
+  M.row.hidden = isPhone() && !TIE.all && !open && M.idx>=TIE_SHOW;
   M.docs.forEach(function(r){ r.hidden=!(open||!isPhone()); });
   TIE.paintTools();
 };
@@ -2212,7 +2446,8 @@ TIE.openDoc=function(key){
 TIE.paintTools=function(){
   var ms=Object.keys(TIE.months), openN=ms.filter(function(m){return TIE.months[m].open;}).length;
   var c=document.getElementById('tieCount'), b=document.getElementById('tieAll'); if(!c||!b) return;
-  c.textContent=D.docs.length+' documents in '+ms.length+' months';
+  var tiered = isPhone() && !TIE.all && ms.length>TIE_SHOW;
+  c.textContent=D.docs.length+' documents · '+ms.length+' months'+(tiered ? ', newest '+TIE_SHOW+' first' : '');
   var all = openN===ms.length;
   b.textContent = all ? 'Fold the months' : 'Show all '+D.docs.length+' documents';
   b.setAttribute('aria-expanded', all?'true':'false');
@@ -2221,7 +2456,7 @@ TIE.paintTools=function(){
   var b=document.getElementById('tieAll');
   if(b) b.addEventListener('click',function(){ var ms=Object.keys(TIE.months); TIE.setAll(!ms.every(function(m){return TIE.months[m].open;})); });
   function apply(){ if(isPhone()){ Object.keys(TIE.months).forEach(function(m){TIE.setMonth(m,TIE.months[m].open);}); }
-    else Object.keys(TIE.months).forEach(function(m){TIE.months[m].docs.forEach(function(r){r.hidden=false;});}); TIE.paintTools(); }
+    else Object.keys(TIE.months).forEach(function(m){TIE.months[m].row.hidden=false; TIE.months[m].docs.forEach(function(r){r.hidden=false;});}); TIE.paintTools(); }
   PHONE.addEventListener ? PHONE.addEventListener('change',apply) : PHONE.addListener(apply);
   /* the newest month opens by itself on a phone: the first thing under the gate line is a document, not a fold */
   var first=Object.keys(TIE.months)[0]; if(first) TIE.months[first].open=true;
@@ -2336,7 +2571,7 @@ function setHero(i){
   var hyg=(D.hygiene||[]).length, scans=D.meta.scans||0;
   hydrate('regHead','<b>'+D.meta.rows.toLocaleString('en-US')+'</b> claims &middot; <b>$'+(D.meta.totalAll/1e6).toFixed(1)+'M</b> &middot; <b>'+
     D.meta.vendors.toLocaleString('en-US')+'</b> payees');
-  hydrate('regNote',(scans ? scans+' image scan'+(scans===1?'':'s')+' declared, not parsed' : '')+(scans&&hyg ? ' &middot; ' : '')+
+  hydrate('regNote',(scans ? scans+' image scan'+(scans===1?'':'s')+' declared, not parsed' : '')+(scans&&hyg ? '<span class="ph-x"> &middot; </span>' : '')+
     (hyg ? '<a class="reg-more" href="#explore" data-find="hygiene">'+hyg+' payee'+(hyg===1?'':'s')+' under more than one vendor code</a>' : ''));
   var rs=document.getElementById('heroReset');
   if(rs) rs.addEventListener('click',function(){ if(typeof renderYear==='function') renderYear(O.latest); });
@@ -2677,7 +2912,12 @@ function selectTab(tab){
 /* the sheet's own address: a cat/proj/cmp/list key the URL carries as ?m= (see syncURL) */
 function modalKey(){
   var m=document.getElementById('modal'); if(!m||m.hidden) return '';
-  if(MODAL.kind==='cat') return ['cat', MODAL.sec?'e':'r', MODAL.year, MODAL.label, MODAL.tab].join('|');
+  if(MODAL.kind==='cat'){
+    var k=['cat', MODAL.sec?'e':'r', MODAL.year, MODAL.label, MODAL.tab].join('|');
+    /* an open account history is part of the address: cat|e|2024|<label>|breakdown|<account code> */
+    var ah=document.querySelector('#mBody tr.acct-hist'), at=ah&&ah.previousElementSibling, ac=at&&at.getAttribute('data-acct');
+    return ac ? k+'|'+ac : k;
+  }
   if(MODAL.kind==='project' && MODAL.proj) return ['proj', MODAL.proj.fund, MODAL.proj.name, MODAL.tab].join('|');
   if(MODAL.kind==='compare') return ['cmp', cmpYearA, cmpYearB, cmpEx?'ex':'filed'].join('|');
   if(MODAL.kind==='list') return ['list', MODAL.listKey||''].join('|');
@@ -3146,7 +3386,7 @@ function renderAcrossCounty(body,sec,label){
   h+='<h4>'+esc(label)+' per resident — every government in Niagara County that files it</h4><div class="rank">'+
     rows.map(function(r){
       var me=r[0]===SELF, pv=per(r), slug=!me&&muniSlug(r[1],r[0]);
-      var name = slug ? '<a class="xclink" href="m/'+esc(slug)+'.html#cat='+encodeURIComponent((sec?'exp':'rev')+'|'+label)+'">'+esc(r[0])+'</a>' : esc(r[0]);
+      var name = slug ? '<a class="xclink" href="m/'+esc(slug)+'.html#cat='+(sec?1:0)+'|'+encodeURIComponent(label)+'">'+esc(r[0])+'</a>' : esc(r[0]);
       return '<div class="rk'+(slug?' xc':'')+'"><span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
         name+' <span class="xcch">'+r[1].toUpperCase()+'</span></span>'+
         '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+Math.round(pv).toLocaleString('en-US')+'</span>'+
@@ -3235,7 +3475,7 @@ function glossFor(code,sec){
 
 function acctHistory(tr){
   var next=tr.nextElementSibling;
-  if(next && next.className==='acct-hist'){ next.remove(); return; }
+  if(next && next.className==='acct-hist'){ next.remove(); syncURL(false); return; }
   var already=tr.parentElement.querySelector('.acct-hist');
   if(already) already.remove();
   var code=tr.getAttribute('data-acct');
@@ -3275,6 +3515,7 @@ function acctHistory(tr){
     '<div class="ah-chart"></div><p class="fnt" style="margin:8px 0 0;max-width:76ch">'+read+'</p></td>';
   tr.after(row);
   renderLine(row.querySelector('.ah-chart'), vals, {color:MODAL.color, name:code, h:170});
+  syncURL(false);
 }
 (function(){
   document.getElementById('mBody').addEventListener('click',function(e){
@@ -3515,14 +3756,19 @@ document.getElementById('cmpOpen').addEventListener('click',function(e){
   /* every count and name in the prose comes from the peer list: the heading, who the peers are (smallest to
      largest by population) and which one is the closest population match */
   var hEl=document.getElementById('peerH'); if(hEl) hEl.textContent=capword(numword(n))+' cities';
+  hydrate('peerFoldN', numword(n));                       /* the phone fold's label carries the same count (the build wrote it; drift is reported) */
   var others=peers.filter(function(p){return !p.self;}).sort(function(a,b){return a.pop-b.pop;});
   var closest=null; if(self) others.forEach(function(p){ if(!closest || Math.abs(p.pop-self.pop)<Math.abs(closest.pop-self.pop)) closest=p; });
   var who=document.getElementById('peerWho');
   if(who && others.length) who.innerHTML=capword(numword(others.length))+' peer cities, <span class="num">'+others[0].pop.toLocaleString('en-US')+'</span> ('+esc(others[0].name)+') to <span class="num">'+
     others[others.length-1].pop.toLocaleString('en-US')+'</span> ('+esc(others[others.length-1].name)+') residents'+
     (closest ? '; '+esc(closest.name)+' is the closest population match' : '')+'. Select a city to follow it across all three.';
+  /* phone: the five highest rows first, this city always among them; 'Show all N cities' unfolds the rest */
+  var PEER_SHOW=5, peersAll=false, curSort='exp';
   function render(sortKey){
+    curSort=sortKey;
     var rows=peers.slice().sort(function(a,b){return per(b,sortKey)-per(a,sortKey);});
+    var tier = isPhone() && !peersAll && rows.length>PEER_SHOW, hid=0;
     var max={}, med={};
     COLS.forEach(function(c){ max[c[0]]=Math.max.apply(null,peers.map(function(p){return per(p,c[0]);}))*1.06; med[c[0]]=median(c[0]); });
     var h='<div class="dp-head"><span>City</span>'+COLS.map(function(c){
@@ -3530,10 +3776,11 @@ document.getElementById('cmpOpen').addEventListener('click',function(e){
     }).join('')+'</div>';
     /* the phone head: the three measures named once, over the three cell columns */
     h+='<div class="dp-phead" aria-hidden="true">'+COLS.map(function(c){ return '<span'+(c[0]===sortKey?' class="on"':'')+'>'+c[2]+(c[0]===sortKey?' &darr;':'')+'</span>'; }).join('')+'</div>';
-    h+=rows.map(function(p){
+    h+=rows.map(function(p,i){
       var me=!!p.self, slug=!me&&muniSlug('city',p.name);
       var name = slug ? '<a href="m/'+esc(slug)+'.html">'+esc(p.name)+'</a>' : esc(p.name);
-      return '<div class="dp-row'+(me?' me':'')+'" data-hk="'+escA(p.name)+'" data-hk-tap tabindex="0">'+
+      var folded = tier && i>=PEER_SHOW && !me; if(folded) hid++;
+      return '<div class="dp-row'+(me?' me':'')+(folded?' tr-hid':'')+'" data-hk="'+escA(p.name)+'" data-hk-tap tabindex="0">'+
         '<span class="dp-n">'+name+(me?' <span class="chip ok">THIS CITY</span>':'')+
           '<span class="pop">'+p.pop.toLocaleString('en-US')+' residents</span></span>'+
         '<span class="dp-cells">'+COLS.map(function(c){
@@ -3544,6 +3791,7 @@ document.getElementById('cmpOpen').addEventListener('click',function(e){
             '<span class="dp-v num">$'+Math.round(v).toLocaleString('en-US')+'</span></span>';
         }).join('')+'</span></div>';
     }).join('');
+    if(hid) h+='<button class="pill more-pill" type="button" id="peerMore" style="margin:6px 0 2px">Show all '+numword(n)+' cities</button>';
     h+='<div class="dp-foot"><span><i class="me"></i>'+esc(self?self.name:'this city')+'</span><span><i></i>each other city</span><span><s></s>median of the '+numword(n)+'</span><span>per resident, '+O.peerYear+' filing &divide; 2020 Census population</span></div>';
     document.getElementById('peerRank').innerHTML=h;
   }
@@ -3553,7 +3801,11 @@ document.getElementById('cmpOpen').addEventListener('click',function(e){
       x.setAttribute('aria-pressed', x===b?'true':'false');});
     render(b.dataset.peer);
   });
+  document.getElementById('peerRank').addEventListener('click',function(e){
+    if(e.target.closest('#peerMore')){ peersAll=true; render(curSort); }
+  });
   render('exp');
+  RERENDER.push(function(){ render(curSort); });
 })();
 
 
@@ -3593,7 +3845,7 @@ function rxSavePng(node, filename){
     '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">' +
     '<foreignObject width="100%" height="100%">' +
     '<div xmlns="http://www.w3.org/1999/xhtml" style="font:15px/1.45 Georgia,serif;color:#1e1c18;background:#f6f2ea;padding:20px;box-sizing:border-box;width:'+w+'px">' +
-    node.innerHTML +
+    node.innerHTML.replace(/<details(?![^>]*\sopen\b)/g,'<details open') +   /* the saved receipt shows every line, folded or not */
     '</div></foreignObject></svg>';
   var url = URL.createObjectURL(new Blob([svg], {type: 'image/svg+xml;charset=utf-8'}));
   var img = new Image();
@@ -3642,16 +3894,20 @@ function rxRenderReceipt(host, billParts, homeValue, cityName){
     '<p class="rx-sub">What the <b class="num">'+rxMoney(parts.reduce(function(s,p){return s+(p.bill||0);},0))+'</b> bill on a <b class="num">'+rxMoney(homeValue)+'</b> home buys — spread by each government&rsquo;s own spending mix.</p></div>' +
     '<button type="button" class="pill rx-save" id="rxSave">Save receipt</button></div>' +
     '<p class="rx-honest">'+esc(RX.honesty)+'</p>';
+  /* each government is a fold: open on a desk; on a phone the three header rows ARE the receipt (government, dollars,
+     the mix year, how many lines) and a tap opens its lines - the page is not twenty-four 44px rows tall by default */
+  var phone = isPhone();
   blocks.forEach(function(b){
     var share = byKey[b.key];
     var dollars = share ? share.bill : 0;
     var mix = b.mix || {rows:[]};
-    html += '<div class="rx-block" style="border-left-color:var('+b.css+')">' +
-      '<div class="rx-btop"><span class="rx-bk">'+esc(b.title)+'</span>' +
+    var lines = (mix.rows || []).slice(0, 8);
+    html += '<details class="rx-block"'+(phone?'':' open')+' style="border-left-color:var('+b.css+')">' +
+      '<summary class="rx-btop"><span class="rx-bk">'+esc(b.title)+'</span>' +
       '<span class="rx-bv num">'+rxMoney(dollars)+'</span>' +
-      '<span class="rx-by">FY'+mix.year+' mix</span></div>' +
+      '<span class="rx-by"><span class="ph-x">FY'+mix.year+' mix · </span>'+lines.length+' line'+(lines.length===1?'':'s')+'</span></summary>' +
       '<ul class="rx-lines">';
-    (mix.rows || []).slice(0, 8).forEach(function(row){
+    lines.forEach(function(row){
       var lineAmt = dollars * (row.pct / 100);
       var openAttr = b.open
         ? ' data-rx-cat="'+esc(row.label)+'" data-rx-year="'+mix.year+'"'
@@ -3660,9 +3916,9 @@ function rxRenderReceipt(host, billParts, homeValue, cityName){
         '<span class="rx-lp num">'+row.pct.toFixed(1)+'%</span>' +
         '<span class="rx-la num">'+rxMoney(lineAmt)+'</span></li>';
     });
-    html += '</ul></div>';
+    html += '</ul></details>';
   });
-  html += '<p class="rx-foot">Proportional to spending — not an earmark. City category lines open the books; school and county lines open those ledgers.</p></div>';
+  html += '<p class="rx-foot">Proportional to spending — not an earmark.<span class="ph-x"> City category lines open the books; school and county lines open those ledgers.</span></p></div>';
   host.hidden = false;
   host.innerHTML = html;
   var save = document.getElementById('rxSave');
@@ -3708,8 +3964,10 @@ function rxRenderAdjustments(host, homeValue){
     return '';
   }).join('');
   host.hidden = false;
-  host.innerHTML = '<div class="rx-adjwrap"><h4 class="rx-h">What a real bill adds or subtracts</h4>' + rows +
-    '<details class="tailx"><summary>How the total still ties</summary><p class="note">'+esc(adj.tieNote || '')+'</p></details></div>';
+  /* a fold on a phone (its summary is the heading there), a plain block on a desk */
+  host.innerHTML = '<details class="rx-adjwrap ph-fold"'+(isPhone()?'':' open')+'><summary>What a real bill adds or subtracts</summary>' +
+    '<h4 class="rx-h ph-x">What a real bill adds or subtracts</h4>' + rows +
+    '<details class="tailx"><summary>How the total still ties</summary><p class="note">'+esc(adj.tieNote || '')+'</p></details></details>';
 }
 
 /* Warrant evidence card — tie-out stamp, top lines, save as image */
@@ -3932,10 +4190,10 @@ function evidenceCardHTML(doc, docIdx){
       '</svg></div>';
     var n=yrs.length;
     document.getElementById('tbHistH').innerHTML='The same bill, <span class="num">FY'+yrs[0]+'&ndash;'+yrs[dl]+'</span> &middot; '+(dl+1)+' years';
-    document.getElementById('tbHistSub').textContent=
-      'Combined full-value rate in '+c.name+': '+(tot(0)/k).toFixed(2)+' (FY'+yrs[0]+') → '+
-      (tot(dl)/k).toFixed(2)+' (FY'+yrs[dl]+') per $1,000. Rates fall when market values '+
-      'climb faster than levies — the bill can still rise.'+(narrow&&annoTxt ? ' '+annoTxt+'.' : '');
+    document.getElementById('tbHistSub').innerHTML=
+      'Combined full-value rate in '+esc(c.name)+': '+(tot(0)/k).toFixed(2)+' (FY'+yrs[0]+') → '+
+      (tot(dl)/k).toFixed(2)+' (FY'+yrs[dl]+') per $1,000.<span class="ph-x"> Rates fall when market values '+
+      'climb faster than levies — the bill can still rise.</span>'+(narrow&&annoTxt ? ' '+esc(annoTxt)+'.' : '');
     /* the readout row: fixed under the plot, the latest year until the chart is hovered or scrubbed */
     tbCity=c;
     tbRead=function(i){
@@ -4003,9 +4261,9 @@ var selYear = O.latest;
 /* The payload carries EVERY category; the top-8 + 'All other' grouping happens
    here so the reader can always open it - a build-time tail would be a silent
    cap. Expanded rows stay fully drillable (they are real filing categories). */
-/* eight categories on a wide screen, five on a phone (the two lists run the length of a phone screen
-   each at eight); 'Show all N categories' opens the rest either way */
-function rankTop(){ return isPhone() ? 5 : 8; }
+/* eight categories on a wide screen, four on a phone (the two lists ran the length of a phone screen
+   each at eight; Move 15 pays for the larger type with rows); 'Show all N categories' opens the rest either way */
+function rankTop(){ return isPhone() ? 4 : 8; }
 var rankOpen = {rev:false, exp:false};
 function groupRank(list, open){
   var RANK_TOP=rankTop();
@@ -4597,7 +4855,7 @@ var PROJECTS=(function(){
 
   var capItems=PROJECTS.map(function(p){return [p.name+'  '+p.fund, p.amt, p.key];});
   var capAll=false;
-  function capShow(){ return isPhone() ? 6 : 12; }     /* twelve rows on a wide screen, six on a phone */
+  function capShow(){ return isPhone() ? 4 : 12; }     /* twelve rows on a wide screen, four on a phone (the four drawn above) */
   var capMore=document.getElementById('capMore');
   function renderCap(){
     var CAP_SHOW=capShow();
@@ -4661,7 +4919,7 @@ var PROJECTS=(function(){
     var h3=paces.parentNode.querySelector('h3'); if(h3) h3.firstChild.textContent='The '+numword(six.length)+' largest, at their pace ';
     if(sb) sb.innerHTML='Shared axes &mdash; the register&rsquo;s clock, <b class="num">'+from+'</b> to <b class="num">'+esc(D.meta.throughDate)+
       '</b>, and one $ scale set by the largest. A dot is a warrant that drew'+(nScan?'; hollow stubs are image-scan meetings, lines not read':'')+
-      '. Select a project for its contractors and every line.';
+      '.<span class="ph-x"> Select a project for its contractors and every line.</span>';
   }
   if(paces && !paces.__wired){
     paces.__wired=true;
@@ -4704,8 +4962,8 @@ var maxAcc = sprawl[0].acc;
 document.getElementById('sprawlBody').innerHTML = sprawl.map(function(s){
   return '<tr><td><span class="linkish" data-vendor="'+s.v+'">'+esc(V[s.v])+'</span></td>'+
     '<td class="r num" data-l="Accounts"><b>'+s.acc+'</b><div class="bar"><i style="width:'+(s.acc/maxAcc*100)+'%"></i></div></td>'+
-    '<td class="r num" data-l="Depart­ments">'+s.dept+'</td><td class="r num" data-l="Line items">'+s.n+'</td>'+
-    '<td class="r num" data-l="median line">'+money(s.med)+'</td><td class="r num key" data-l="Total">'+money(s.sum)+'</td>'+
+    '<td class="r num" data-l="depts">'+s.dept+'</td><td class="r num" data-l="lines">'+s.n+'</td>'+
+    '<td class="r num" data-l="median">'+money(s.med)+'</td><td class="r num key" data-l="Total">'+money(s.sum)+'</td>'+
     '<td class="act"><span class="linkish" data-vendor="'+s.v+'">view</span></td></tr>';}).join('');
 
 /* payee names carrying more than one vendor master code */
@@ -4714,7 +4972,7 @@ if(hy.length){
   document.getElementById('hygieneBody').innerHTML = hy.map(function(h){
     return '<tr><td><span class="linkish" data-vendor="'+h.v+'">'+esc(V[h.v])+'</span></td>'+
       '<td class="num codes" data-l="Vendor codes">'+h.codes.map(esc).join('  ')+'</td>'+
-      '<td class="r num" data-l="line items">'+h.n+'</td><td class="r num key" data-l="Combined total">'+money(h.sum)+'</td>'+
+      '<td class="r num" data-l="lines">'+h.n+'</td><td class="r num key" data-l="Combined total">'+money(h.sum)+'</td>'+
       '<td class="act"><span class="linkish" data-vendor="'+h.v+'">view</span></td></tr>';}).join('');
 } else {
   // No duplicate vendor records in this corpus: drop the tab rather than
@@ -5068,7 +5326,7 @@ function renderSummary(rows){
     host.__nScan=nScan; host.__vmax=vmax;
   })();
   var nIn=perDoc.filter(function(x){return x.n>0;}).length, nSc=document.getElementById('warrantChart').__nScan||0;
-  REG.sub0=nIn+' of '+D.docs.length+' warrants contain selected lines · slide across the bars for each meeting, tap one to filter'+
+  REG.sub0=nIn+' of '+D.docs.length+' warrants contain selected lines · '+(isPhone()?'tap a bar to filter':'slide across the bars for each meeting, tap one to filter')+
     (nSc ? ' · hollow stubs are the '+nSc+' image-scan meetings, lines not read' : '');
   document.getElementById('warrantSub').textContent=REG.sub0;
   // a selected warrant earns its download button and a line under the chart
@@ -5085,7 +5343,7 @@ function renderSummary(rows){
     var vmx=document.getElementById('warrantChart').__vmax;
     if(sel){ var pd=perDoc[+state.doc];
       ws.innerHTML='Selected: <b>'+esc(sel.f.replace(/\.pdf$/i,''))+'</b> · <span class="num">'+money(pd.sum)+'</span> across '+pd.n+' line'+(pd.n===1?'':'s')+
-        ' · <button type="button" data-clear="doc">clear</button>'; }
+        ' · <button type="button" data-clear="doc">clear</button> · <a class="wsel-all" href="briefs/index.html">all '+PARSED_DOCS+' briefs</a>'; }
     else if(vmx) ws.innerHTML='Largest meeting in this selection: <b>'+esc(vmx.d.f.replace(/\.pdf$/i,''))+'</b> · <span class="num">'+money(vmx.sum)+'</span> across '+vmx.n+' line'+(vmx.n===1?'':'s')+
         (DOC_MEDIAN ? ' · the register&rsquo;s median meeting is <span class="num">'+money0(DOC_MEDIAN)+'</span>' : '');
     else ws.innerHTML='';
@@ -5099,7 +5357,7 @@ function renderSummary(rows){
   var pickPay=function(item){ closeModal(); setPayee([item[0]], {noScroll:true}); };
   var pickDeptList=function(item){ closeModal(); pickDept(item); };
   var pickFund=function(item){ closeModal(); state.fund=item[0].split('  ').pop(); fFund.value=state.fund; reset(); renderRows(); };
-  var TIER=5;
+  var TIER=4;      /* phone: four facet rows first, then 'Show N more' */
   LISTS.payee=function(node){ openListModal('Every payee in this selection', topBy(rows,kPay), sum, pickPay, node, 'payee'); };
   LISTS.dept=function(node){ openListModal('Every department in this selection', topBy(rows,kDept), sum, pickDeptList, node, 'dept'); };
   LISTS.fund=function(node){ openListModal('Every fund in this selection', topBy(rows,kFund), sum, pickFund, node, 'fund'); };
@@ -5657,10 +5915,11 @@ document.addEventListener('keydown',function(e){
   var S=JSON.parse(document.getElementById('school-data').textContent);
   var li=S.years.length-1, rev=S.rev[li], exp=S.exp[li];
   document.getElementById('sdTot').textContent=money0(exp);
-  document.getElementById('sdSub').textContent=
-    S.entity+' — a separate government with its own elected board and its own budget vote. '+
-    'FY'+S.years[li]+' (July '+(S.years[li]-1)+' – June '+S.years[li]+'): revenue '+money0(rev)+
-    ' against spending '+money0(exp)+'. Filings '+S.years[0]+'–'+S.years[li]+'.';
+  hydrate('sdFoldYrs', S.years[0]+'&ndash;'+S.years[li]);   /* the phone fold's label: the filing span, never a typed 'thirty years' */
+  document.getElementById('sdSub').innerHTML=
+    esc(S.entity)+' — a separate government with its own elected board and its own budget vote. '+
+    'FY'+S.years[li]+'<span class="ph-x"> (July '+(S.years[li]-1)+' – June '+S.years[li]+')</span>: revenue '+money0(rev)+
+    ' against spending '+money0(exp)+'.<span class="ph-x"> Filings '+S.years[0]+'–'+S.years[li]+'.</span>';
   (function(){
     /* drawn at the box's real width (capped at the 640px the stylesheet allows), so the two year labels are
        11.5px on screen - the fixed 560 viewBox painted them at 6px on a phone */
@@ -5746,6 +6005,236 @@ document.addEventListener('keydown',function(e){
 })();
 
 /* ---------- URL state: write, read, Back ---------- */
+/* ---------- THE FRONT PAGE: The Ledger, Issue No. N (Move 19) ----------
+   The script twin of tools/build_site.py issue_lede() / issue_tape() / issue_key(): the same words and the same
+   arithmetic, re-derived here so that (1) PL.hydrate reports any drift between the build and this page as a console
+   error, which the page gate fails on, and (2) the reader can step through earlier meetings in place - every issue
+   writes itself from the record, an image-scan meeting is a declared gap. Every number presses through to its
+   evidence: the proof row (TIE), the line in the register (the answer card), the fund facet. */
+var ISSUE=(function(){
+  var sec=document.getElementById('issue'); if(!sec) return null;
+  /* textfmt.title_label, ported: the tables come from the build so an acronym is never spelled two ways */
+  var TFM={acr:[],small:[]}; try{ TFM=JSON.parse(document.getElementById('textfmt-data').textContent); }catch(e){}
+  var ACR={}, SMALL={}; TFM.acr.forEach(function(a){ACR[a]=1;}); TFM.small.forEach(function(s){SMALL[s]=1;});
+  function tokenCase(tok,first){
+    var core=tok.replace(/^[().,:;'"]+|[().,:;'"]+$/g,'');
+    if(!core) return tok;
+    if(ACR[core.toUpperCase()]) return tok.toUpperCase();
+    if(core.length>=3 && /^[A-Za-z]+$/.test(core) && !/[AEIOUY]/.test(core.toUpperCase())) return tok.toUpperCase();
+    if(/\d/.test(core)) return tok;
+    var low=tok.toLowerCase();
+    if(!first && SMALL[core.toLowerCase()]) return low;
+    return low.replace(/[A-Za-z]+/g,function(w){ return w.charAt(0).toUpperCase()+w.slice(1); });
+  }
+  function titleLabel(s){
+    if(!s) return s;
+    if(s!==s.toUpperCase()) return s;
+    if(!/[A-Za-z]/.test(s)) return s;
+    return s.split(' ').map(function(t,i){ return tokenCase(t,i===0); }).join(' ');
+  }
+  /* meetings, chronological: one per warrant date; its documents in register order */
+  var order=D.docs.map(function(d,i){return i;}).sort(function(a,b){ var x=isoOf(D.docs[a]), y=isoOf(D.docs[b]); return x<y?-1:x>y?1:a-b; });
+  var M=[], by={};
+  order.forEach(function(i){ var k=isoOf(D.docs[i]), m=by[k]; if(!m){ m=by[k]={iso:k,d:D.docs[i].d,docs:[],scans:[]}; M.push(m); }
+    (D.docs[i].isScan?m.scans:m.docs).push(i); });
+  var ISSUES=M.filter(function(m){return m.docs.length;}); ISSUES.forEach(function(m,i){ m.no=i+1; });
+  if(!ISSUES.length) return null;
+  var rowsBy={}; R.forEach(function(r){ (rowsBy[r[I_DOC]]||(rowsBy[r[I_DOC]]=[])).push(r); });
+  var FIRST={}; M.forEach(function(m){ m.docs.forEach(function(i){ (rowsBy[i]||[]).forEach(function(r){ var v=V[r[I_VEN]]; if(!(v in FIRST)) FIRST[v]=m.iso; }); }); });
+  var TOT={}; ISSUES.forEach(function(m){ var t=0; m.docs.forEach(function(i){ (rowsBy[i]||[]).forEach(function(r){ t+=r[I_AMT]; }); }); TOT[m.iso]=t; });
+  function rowsOf(m){ var out=[]; m.docs.forEach(function(i){ out=out.concat(rowsBy[i]||[]); }); return out; }
+  function ev(kind,text,attrs){
+    var a=''; for(var k in attrs) a+=' data-'+k+'="'+escA(String(attrs[k]))+'"';
+    return '<a class="pev" href="'+((kind==='doc'||kind==='tie')?'#recon':'#explore')+'" data-ev="'+kind+'"'+a+'>'+text+'</a>';
+  }
+  /* 'The warrant of' / 'The card statement of' / 'The warrant and card statement of': the kinds of document dated that
+     day. A date is the date PRINTED ON THE DOCUMENT; the city's file names carry the night the council took the list
+     up, which can differ - so the page names the document and never asserts a meeting. */
+  function what(m){
+    var items=m.docs.length?m.docs:m.scans, nc=0; items.forEach(function(i){ if(D.docs[i].isCard) nc++; }); var nw=items.length-nc, p=[];
+    if(nw) p.push(nw===1?'warrant':numword(nw)+' warrants');
+    if(nc) p.push(nc===1?'card statement':numword(nc)+' card statements');
+    return 'The '+p.join(' and ')+' of';
+  }
+  /* a multiple of the median issue from a quarter up, a share below it (a card statement is never '0.0x'), 'about' inside 5% */
+  function ratioPhrase(total,med){
+    var ratio=med?total/med:0;
+    if(med && ratio<0.25) return 'about <b class="num">'+Math.round(ratio*100)+'%</b> of the median issue on this record';
+    if(med && (ratio>=1.05||ratio<=0.95)) return '<b class="num">'+ratio.toFixed(1)+'&times;</b> the median issue on this record';
+    return 'about the median issue on this record';
+  }
+  /* what the tape draws (amounts above zero) and what it cannot: credits and zero lines, counted and summed */
+  function drawnParts(rows){
+    var pos=[], neg=[], ns=0; rows.forEach(function(r){ if(r[I_AMT]>0) pos.push(r); else if(r[I_AMT]<0){ neg.push(r); ns+=r[I_AMT]; } });
+    var zero=rows.length-pos.length-neg.length, parts=[];
+    if(neg.length) parts.push(neg.length.toLocaleString('en-US')+' credit'+(neg.length===1?'':'s')+' ('+money(ns)+') not drawn');
+    if(zero) parts.push(zero.toLocaleString('en-US')+' zero line'+(zero===1?'':'s')+' not drawn');
+    return {pos:pos, parts:parts};
+  }
+  var OTHER_T={G:'trust/general', R:'revenue-type'};
+  /* the lede as two paragraphs: the first stays open on a phone; the rest (and the counts) sit under its fold */
+  function lede(m){
+    if(!m.docs.length) return [what(m)+' <b class="num">'+esc(m.d)+'</b> was published as an image scan: no text layer, so its lines were not read and no issue could be written. Declared and excluded, never guessed at.', ''];
+    var rows=rowsOf(m), n=rows.length, total=TOT[m.iso], docsS=m.docs.join(',');
+    var big=rows[0]; rows.forEach(function(r){ if(r[I_AMT]>big[I_AMT]) big=r; });
+    var proj=PROJ[big[I_ACC]]||'';
+    var others=[]; ISSUES.forEach(function(x){ if(x!==m) others.push(TOT[x.iso]); });
+    var med=others.length?median(others):total, nd=m.docs.length;
+    var first=what(m)+' <b class="num">'+esc(m.d)+'</b> '+(nd===1?'lists':'list')+' '+ev('doc',money0(total),{docs:docsS})+' across '+
+      ev('doc',n.toLocaleString('en-US')+' claims',{docs:docsS})+'<span class="ph-x"> for the Common Council&rsquo;s approval</span> &mdash; '+ratioPhrase(total,med)+'. ';
+    var name=V[big[I_VEN]], tail=proj?' for '+esc(titleLabel(proj)):'';
+    first+='The largest single claim is '+ev('line',money0(big[I_AMT])+' to '+esc(name),{doc:big[I_DOC],payee:name})+tail+((!tail && /\.$/.test(name))?'':'.');
+    var rest='';
+    if(m.no>1){            /* on the first issue every payee is new, which says nothing */
+      var newN={}; rows.forEach(function(r){ var v=V[r[I_VEN]]; if(FIRST[v]===m.iso) newN[v]=1; });
+      var news=Object.keys(newN).sort();
+      if(news.length){
+        var ns=0; rows.forEach(function(r){ if(newN[V[r[I_VEN]]]) ns+=r[I_AMT]; }); var k=news.length;
+        rest+=ev('new',capword(numword(k))+' payee'+(k===1?'':'s'),{doc:m.docs[0],payee:news.join('|')})+' '+(k===1?'appears':'appear')+
+          ' in the record for the first time'+(k>1?', together <b class="num">'+money0(ns)+'</b>':'')+'. ';
+      }
+    }
+    var cap=0; rows.forEach(function(r){ if(CAPF[fundOf(A[r[I_ACC]])]) cap+=r[I_AMT]; });
+    if(total>0 && cap/total>=0.25) rest+=ev('cap',Math.round(cap/total*100)+'%',{docs:docsS})+' of the total is capital work &mdash; projects, not day-to-day operations. ';
+    var ties=m.docs.every(function(i){ return D.docs[i].status==='EXACT'; });
+    if(ties){
+      /* the proof row's two lines in a sentence: the fund controls foot to the printed control; the lines outside them
+         (otherG, by type) are the gap to the list total, which foots to the printed footer (sumAll = pubAmt, gated) */
+      var ctls=m.docs.map(function(i){ return ev('tie','&#10003; '+money(D.docs[i].ctl),{docs:String(i)}); });
+      var foots=m.docs.map(function(i){ return ev('tie',money(D.docs[i].sumAll),{docs:String(i)}); });
+      var oth=0, tset={}; m.docs.forEach(function(i){ oth+=D.docs[i].otherG||0; (D.docs[i].otherT||'').split('').forEach(function(t){ tset[t]=1; }); });
+      var kinds=Object.keys(tset).sort().map(function(t){ return OTHER_T[t]||'other'; }).join(' and ')||'other';
+      var join=function(a){ return nd===2 ? a.join(' and ') : a.join(', '); };
+      var lead= nd===1 ? 'Its fund controls foot to the printed control, '+ctls[0]+'; '
+              : (nd===2 ? 'Both documents&rsquo;' : 'All '+numword(nd)+' documents&rsquo;')+' fund controls foot to their printed controls, '+join(ctls)+'; ';
+      var foot= nd===1 ? 'the list foots to its printed footer, '+foots[0]+'.' : 'each list foots to its printed footer, '+join(foots)+'.';
+      var gap= Math.abs(oth)>0.005 ? '<b class="num">'+money(oth)+'</b> of '+kinds+' lines sit outside them, and ' : 'no line sits outside them, and ';
+      rest+=lead+gap+foot;
+    } else {
+      var vr=0; m.docs.forEach(function(i){ vr+=Math.abs(D.docs[i].var||0); });
+      rest+='This issue does not publish: a printed control total does not tie (variance '+ev('tie',money(vr),{docs:docsS})+'). The build halts on a failed tie-out; nothing here updates until it ties.';
+    }
+    if(m.scans.length) rest+= m.scans.length===1 ? ' One further document of this date is an image scan, not read.'
+      : ' '+capword(numword(m.scans.length))+' further documents of this date are image scans, not read.';
+    return [first.trim(), rest.trim()];
+  }
+  var MINPCT=0.3, LABELPCT=5;
+  function famClass(acct){ var f=fundOf(acct); return CAPF[f]?'f-cap':(f==='001'?'f-gen':'f-ent'); }
+  /* the short label a narrow stripe can hold: the payee's first word (two when the first is an initial) */
+  function shortName(v){ var w=v.split(' '); var s=(w[0].length>2||w.length===1) ? w[0] : w[0]+' '+w[1]; return s.replace(/,$/,''); }
+  function tape(m){
+    if(!m.docs.length) return '<div class="itape-bar torn" role="img" aria-label="Image scan: the claims of '+escA(m.d)+' were not read, so they cannot be drawn"><span class="il">image scan &middot; lines not read</span></div>';
+    var rows=rowsOf(m), dp=drawnParts(rows), pos=dp.pos.sort(function(a,b){return b[I_AMT]-a[I_AMT];});
+    var tot=0; pos.forEach(function(r){ tot+=r[I_AMT]; });
+    var segs=[], fn=0, fs=0;
+    pos.forEach(function(r){
+      var pct=tot?r[I_AMT]/tot*100:0;
+      if(pct<MINPCT){ fn++; fs+=r[I_AMT]; return; }
+      var proj=PROJ[r[I_ACC]]||'';
+      var tip=esc(V[r[I_VEN]])+' &middot; '+money(r[I_AMT])+' &middot; '+esc(A[r[I_ACC]])+(proj?' &middot; '+esc(titleLabel(proj)):'');
+      var label= pct>=LABELPCT ? '<span class="il">'+esc(V[r[I_VEN]])+' '+fmtM1(r[I_AMT])+'</span><span class="il il-s">'+esc(shortName(V[r[I_VEN]]))+' '+fmtM1(r[I_AMT])+'</span>' : '';
+      segs.push('<span class="is '+famClass(A[r[I_ACC]])+'" style="width:'+pct.toFixed(2)+'%" data-ev="line" data-doc="'+r[I_DOC]+'" data-payee="'+escA(V[r[I_VEN]])+'" data-tip="'+tip+'">'+label+'</span>');
+    });
+    if(fn) segs.push('<span class="is fuzz" style="width:'+(fs/tot*100).toFixed(2)+'%" data-ev="doc" data-docs="'+m.docs.join(',')+'" data-tip="'+fn.toLocaleString('en-US')+
+      ' smaller claims, each under '+money0(tot*MINPCT/100)+' &middot; '+money0(fs)+' together &middot; every one is in the register"><span class="pl-vh">'+fn.toLocaleString('en-US')+' smaller claims</span></span>');
+    var aria= dp.parts.length ? pos.length.toLocaleString('en-US')+' of '+rows.length.toLocaleString('en-US')+' claims of '+escA(m.d)+' drawn to scale; '+dp.parts.join('; ')
+            : rows.length.toLocaleString('en-US')+' claims of '+escA(m.d)+', every one drawn to scale';
+    return '<div class="itape-bar" role="img" aria-label="'+aria+'">'+segs.join('')+'</div>';
+  }
+  function key(m){
+    if(!m.docs.length) return '';
+    var rows=rowsOf(m), dp=drawnParts(rows), pos=dp.pos, tot=0; pos.forEach(function(r){ tot+=r[I_AMT]; });
+    var fams={}; pos.forEach(function(r){ fams[famClass(A[r[I_ACC]])]=1; });
+    var small=0; pos.forEach(function(r){ if(tot && r[I_AMT]/tot*100<MINPCT) small++; });
+    var p=[];
+    if(fams['f-gen']) p.push('<span><i class="sw f-gen"></i>General fund</span>');
+    if(fams['f-ent']) p.push('<span><i class="sw f-ent"></i>Water, sewer &amp; golf</span>');
+    if(fams['f-cap']) p.push('<span><i class="sw f-cap"></i>Capital projects</span>');
+    if(small) p.push('<span><i class="sw fuzz"></i>'+small.toLocaleString('en-US')+' claims under '+money0(tot*MINPCT/100)+'</span>');
+    var drawn= dp.parts.length ? pos.length.toLocaleString('en-US')+' claims drawn to scale &middot; '+dp.parts.join(' &middot; ')
+             : rows.length.toLocaleString('en-US')+' claims, every one drawn to scale';
+    p.push('<span class="ph-x">'+drawn+' &middot; press any number or stripe for its evidence</span>');
+    return p.join('');
+  }
+  function head(m){ return '<span class="ph-xs">The Ledger &middot; </span>'+(m.docs.length ? '<b>Issue No. '+m.no+'</b> of '+ISSUES.length : '<b>No issue</b> &middot; image scan'); }
+  var scansN=D.meta.scans||0;
+  var counts='<b>'+ISSUES.length+'</b> issue'+(ISSUES.length===1?'':'s')+' from <b>'+M.length+'</b> dates on record &middot; <b>'+PARSED_DOCS+
+    '</b> documents read, <b>'+D.meta.exact+'</b> tie to the penny &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read';
+  /* a label stays only where its stripe can hold it (measured after layout, again when the width changes) */
+  function fitLabels(){
+    [].forEach.call(sec.querySelectorAll('.is'),function(s){
+      var full=s.querySelector('.il:not(.il-s)'), short=s.querySelector('.il-s'); if(!full) return;
+      full.classList.remove('off'); if(short) short.classList.add('off');
+      var over=function(el){ return el.scrollWidth>el.clientWidth; };       /* the label box IS the stripe; overflow = does not fit */
+      if(over(full)){ full.classList.add('off'); if(short){ short.classList.remove('off'); if(over(short)) short.classList.add('off'); } }
+    });
+  }
+  var latest=ISSUES[ISSUES.length-1], cur=latest, API={latest:latest, cur:cur, meetings:M};
+  API.byIso=function(iso){ return by[iso]||null; };
+  function paint(m, first){
+    var put = first ? hydrate : function(id,html){ var e=document.getElementById(id); if(e) e.innerHTML=html; };
+    var L=lede(m);
+    put('issueK', head(m)); put('issueWhat', what(m)); put('issueDate', esc(m.d)); put('issueLede', L[0]); put('issueLede2', L[1]);
+    put('issueTape', tape(m)); put('issueKey', key(m)); put('issueCounts', counts);
+    sec.setAttribute('data-issue', m.iso);
+    var ix=M.indexOf(m), pv=document.getElementById('issuePrev'), nx=document.getElementById('issueNext'), lt=document.getElementById('issueLatest');
+    if(pv) pv.disabled = ix<=0;
+    if(nx) nx.disabled = ix>=M.length-1;
+    if(lt) lt.hidden = (m===latest);
+    fitLabels();
+  }
+  API.show=function(m){ if(!m || m===cur) return; cur=m; API.cur=m; paint(m,false); syncURL(false); };
+  paint(latest,true);                          /* the build painted this issue; hydrate checks it said the same */
+  PL.refit(fitLabels);
+  var pv=document.getElementById('issuePrev'), nx=document.getElementById('issueNext'), lt=document.getElementById('issueLatest');
+  if(pv) pv.addEventListener('click',function(){ var i=M.indexOf(cur); if(i>0) API.show(M[i-1]); });
+  if(nx) nx.addEventListener('click',function(){ var i=M.indexOf(cur); if(i<M.length-1) API.show(M[i+1]); });
+  if(lt) lt.addEventListener('click',function(){ API.show(latest); });
+  /* the tape's tooltip follows the pointer (hover screens); a tap on a stripe is a press, below */
+  var TIP=PL.tip?PL.tip():null, tapeEl=document.getElementById('issueTape');
+  if(TIP && tapeEl){
+    tapeEl.addEventListener('pointerover',function(e){ if(e.pointerType==='touch') return; var s=e.target.closest('.is[data-tip]'); if(!s) return;
+      TIP.show(esc(s.getAttribute('data-tip')).replace(/ · /g,'<br>'),e.clientX,e.clientY); });
+    tapeEl.addEventListener('pointerout',function(e){ var s=e.target.closest('.is'); if(s && !(e.relatedTarget && s.contains(e.relatedTarget))) TIP.hide(); });
+  }
+  /* PRESS: every number lands on its evidence and lights it */
+  function flash(el){ if(!el) return; el.classList.remove('ev-lit'); void el.offsetWidth; el.classList.add('ev-lit'); setTimeout(function(){ el.classList.remove('ev-lit'); },2600); }
+  function docsOf(el){ return (el.getAttribute('data-docs')||el.getAttribute('data-doc')||'').split(',').filter(Boolean).map(Number); }
+  sec.addEventListener('click',function(e){
+    var b=e.target.closest('[data-ev]'); if(!b) return;
+    e.preventDefault();
+    if(TIP) TIP.hide();
+    var kind=b.getAttribute('data-ev'), docs=docsOf(b);
+    if(kind==='doc'||kind==='tie'){
+      /* the proof row(s) of the meeting: opened, centred, lit */
+      var first=null;
+      docs.forEach(function(i){ var Rw=TIE.rows[docKey(i)]; if(!Rw) return; if(!first) first=Rw.tr;
+        if(Rw.det.style.display==='none') Rw.tr.click(); else TIE.setMonth(Rw.m,true); });
+      var t=first||document.getElementById('tie'); if(!t) return;
+      t.scrollIntoView({block:first?'center':'start',behavior:scrollMode()}); if(first) flash(first);
+      return;
+    }
+    if(kind==='line'||kind==='new'){
+      /* the line(s) in the register: the answer card prints them with their source page */
+      var names=(b.getAttribute('data-payee')||'').split('|').filter(Boolean);
+      state={q:'',fund:'',doc:String(docs[0]),credit:false,payee:names.length?names:null,proj:null};
+      syncControls(); reset(); renderRows(); landOnAnswer();
+      var pl=document.getElementById('payeeLine'); flash((pl&&!pl.hidden)?pl:document.getElementById('regTiles'));
+      return;
+    }
+    if(kind==='cap'){
+      /* the meeting in the register, its fund facet in view, the capital funds lit */
+      state={q:'',fund:'',doc:String(docs[0]),credit:false,payee:null,proj:null};
+      syncControls(); reset(); renderRows();
+      var seg=document.querySelector('#facetSeg button[data-facet="fund"]'); if(seg && isPhone()) seg.click();
+      var panel=document.querySelector('#trio .panel[data-facet="fund"]'); if(panel) panel.scrollIntoView({block:'start',behavior:scrollMode()});
+      [].forEach.call(document.querySelectorAll('#fFundR .rk[data-hk]'),function(row){
+        var code=row.getAttribute('data-hk').slice(5).split('  ').pop(); if(CAPF[code]) flash(row); });
+    }
+  });
+  return API;
+})();
+
 function syncURL(push){
   if(!URLS.ready||URLS.applying) return false;
   var p=new URLSearchParams();
@@ -5757,6 +6246,7 @@ function syncURL(push){
   if(state.credit) p.set('credit','1');
   if(selYear!==O.latest) p.set('y',String(selYear));
   if(TIE.open) p.set('w',TIE.open);
+  if(ISSUE && ISSUE.cur && ISSUE.cur!==ISSUE.latest) p.set('i',ISSUE.cur.iso);
   var mk=modalKey(); if(mk) p.set('m',mk);
   var qs=p.toString().replace(/%7C/gi,'|').replace(/%3A/gi,':').replace(/%2C/gi,',');
   /* the hash names the section the state belongs to: the reader's own last action owns it (a register change
@@ -5773,18 +6263,65 @@ function syncURL(push){
 }
 function readParams(p){
   return {q:p.get('q')||'', payee:p.get('payee')||'', fund:p.get('fund')||'', doc:p.get('doc')||'',
-          credit:p.get('credit')==='1', proj:p.get('proj')||'', y:p.get('y')||'', m:p.get('m')||'', w:p.get('w')||''};
+          credit:p.get('credit')==='1', proj:p.get('proj')||'', y:p.get('y')||'', m:p.get('m')||'', w:p.get('w')||'', i:p.get('i')||''};
+}
+/* an address that names an account: the sheet is already open on the right category and tab; find its row, open the
+   thirty-year history under it and bring it to the middle of the sheet */
+function openAcctRow(code){
+  var rows=document.querySelectorAll('#mBody tr[data-acct]'), tr=null;
+  for(var i=0;i<rows.length;i++) if(rows[i].getAttribute('data-acct')===code){ tr=rows[i]; break; }
+  if(!tr) return false;
+  var nx=tr.nextElementSibling;
+  if(!(nx && nx.className==='acct-hist')) acctHistory(tr);
+  if(tr.scrollIntoView) tr.scrollIntoView({block:'center'});
+  return true;
+}
+/* where an account lives: its newest year, its section and its category (a code is filed under ONE category of ONE
+   section in these filings); a bare function code such as A1010 matches when exactly one account starts with it */
+function acctPlace(code){
+  var want=String(code||'').toUpperCase(), best=null, alt={};
+  for(var i=0;i<F.length;i++){
+    var f=F[i], a=String(f[FI_ACCT]).toUpperCase();
+    if(a===want){ if(!best || f[FI_YR]>best.year) best={year:f[FI_YR], sec:f[FI_SEC], label:FD.l1[f[FI_L1]], code:f[FI_ACCT]}; }
+    else if(want && a.indexOf(want)===0) alt[a]=1;
+  }
+  if(!best){ var ks=Object.keys(alt); if(ks.length===1) return acctPlace(ks[0]); }
+  return best;
+}
+/* The HASH of an address can name a sheet too: an account (#acct=<code>, the links the exception report sends) or a
+   category (#cat=<rev|exp>|<label>[|<tab>], the hash another government's page sends from its 'Across the county' row;
+   0|1 for rev|exp is accepted as well). Either becomes the ?m= key the page already reads, so openFromKey stays the one
+   place a sheet is opened from an address; the hash is then dropped and the address reads ?m=... from there on.
+   null = not a sheet hash; {key:''} = a sheet hash that names nothing in these filings (said, not silently ignored). */
+function sheetHash(h){
+  var m=/^#(acct|cat)[=-](.+)$/.exec(h||''); if(!m) return null;
+  var v; try{ v=decodeURIComponent(m[2]); }catch(e){ return {key:'', what:'That address'}; }
+  if(m[1]==='acct'){
+    var a=acctPlace(v);
+    return {key:a ? ['cat', a.sec?'e':'r', a.year, a.label, 'breakdown', a.code].join('|') : '', what:'Account '+v};
+  }
+  var p=v.split('|'), label=p[1]||'';
+  var sec=/^(exp|e|1)$/i.test(p[0]) ? 1 : (/^(rev|r|0)$/i.test(p[0]) ? 0 : -1);
+  if(sec<0 || !label) return {key:'', what:'That address'};
+  var yq=0; try{ yq=+new URLSearchParams(location.search).get('y'); }catch(e){}
+  var yr=O.years.indexOf(yq)>=0 ? yq : selYear;
+  if(!flowsFor(yr,sec,label).length){
+    yr=0; for(var i=O.years.length-1;i>=0;i--) if(flowsFor(O.years[i],sec,label).length){ yr=O.years[i]; break; }
+  }
+  var tab=/^(breakdown|trend|composition|across)$/.test(p[2]||'') ? p[2] : '';
+  return {key:yr ? ['cat', sec?'e':'r', yr, label, tab].join('|') : '', what:label};
 }
 /* a sheet opened from a link on a later tab: the focus ring sits on the SELECTED tab, not the first */
 function focusTab(){ var b=document.querySelector('#mTabs button[aria-selected="true"]'); if(b) b.focus(); }
 function openFromKey(k){
   var p=k.split('|');
   if(p[0]==='cat' && p.length>=4){
-    var sec=p[1]==='e'?1:0, yr=+p[2], label=p[3], tab=p[4];
+    var sec=p[1]==='e'?1:0, yr=+p[2], label=p[3], tab=p[4], acct=p[5];
     var cats=(sec?O.expByYear:O.revByYear)[String(yr)]||[];
     if(!cats.some(function(x){return x[0]===label;})) return;
     openModal(yr, sec, label, sec?'--exp':'--rev', null);
     if(tab && tab!==MODAL.tab && document.querySelector('#mTabs button[data-tab="'+tab+'"]')){ selectTab(tab); focusTab(); }
+    if(acct) openAcctRow(acct);
   } else if(p[0]==='proj' && p.length>=3){
     var key=p[1]+'|'+p[2];
     if(!PROJECTS.some(function(x){return x.key===key;})) return;
@@ -5813,6 +6350,7 @@ function applyParams(p, fromPop){
     if(s.y && O.years.indexOf(y)>=0){ if(y!==selYear) renderYear(y); }
     else if(fromPop && selYear!==O.latest) renderYear(O.latest);
     if(s.w) TIE.openDoc(s.w);
+    if(ISSUE){ if(s.i && ISSUE.byIso(s.i)) ISSUE.show(ISSUE.byIso(s.i)); else if(fromPop || !s.i) ISSUE.show(ISSUE.latest); }
     var m=document.getElementById('modal');
     if(s.m){ if(modalKey()!==s.m){ if(!m.hidden) closeModalNow(); openFromKey(s.m); } if(fromPop) LAYER.pushed=true; }
     else if(!m.hidden){ closeModalNow(); LAYER.pushed=false; }
@@ -5825,7 +6363,25 @@ window.addEventListener('popstate',function(){
   applyParams(p,true);
 });
 URLS.ready=true;
+var HASHSHEET=sheetHash(location.hash);
+if(HASHSHEET && HASHSHEET.key && !URLQ.get('m')) URLQ.set('m',HASHSHEET.key);
 applyParams(URLQ,false);
+if(HASHSHEET){
+  /* the hash has been turned into state: drop it, and let the address say what is open (?m=...) */
+  try{ history.replaceState({pl:1},'',location.pathname+location.search); }catch(e){}
+  if(HASHSHEET.key) syncURL(false); else toast(HASHSHEET.what+' is not in these filings.');
+}
+/* a same-page link or a pasted address that only changes the hash (#acct=..., #cat=...) opens its sheet too; the
+   hash navigation made a history entry, which is now the sheet's own, so Back closes it */
+window.addEventListener('hashchange',function(){
+  var sh=sheetHash(location.hash); if(!sh) return;
+  try{ history.replaceState({pl:1},'',location.pathname+location.search); }catch(e){}
+  if(!sh.key){ toast(sh.what+' is not in these filings.'); return; }
+  var p=new URLSearchParams(location.search); p.set('m',sh.key);
+  applyParams(p,false);
+  LAYER.pushed=!document.getElementById('modal').hidden;
+  syncURL(false);
+});
 /* a link that carries register state lands on the ANSWER (the chips row, the answer card, the tiles), and one
    that carries an open proof row lands on that row - once, on a fresh navigation only (a reload or Back keeps
    the browser's own scroll position), after the browser's own fragment scroll, and only when the hash is empty
