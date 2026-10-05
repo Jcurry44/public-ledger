@@ -1,0 +1,665 @@
+year,flow,category,amount_usd_as_filed,reporting_basis
+1995,revenue,Real Property Taxes and Assessments,1733658,before_2013
+1995,revenue,Sales and Use Tax,1539235,before_2013
+1995,revenue,Charges for Services,1234131,before_2013
+1995,revenue,State Aid,230218,before_2013
+1995,revenue,Other Local Revenues,50176,before_2013
+1995,revenue,Charges to Other Governments,48023,before_2013
+1995,revenue,Use and Sale of Property,37723,before_2013
+1995,revenue,Other Non-Property Taxes,31203,before_2013
+1995,revenue,Other Real Property Tax Items,13694,before_2013
+1995,expenditure,Sanitation,1433921,before_2013
+1995,expenditure,Transportation,1099285,before_2013
+1995,expenditure,Debt Service,681968,before_2013
+1995,expenditure,General Government,608323,before_2013
+1995,expenditure,Utilities,440159,before_2013
+1995,expenditure,Public Safety,372008,before_2013
+1995,expenditure,Employee Benefits,300484,before_2013
+1995,expenditure,Culture and Recreation,132494,before_2013
+1995,expenditure,Community Services,31045,before_2013
+1995,expenditure,Economic Development,15973,before_2013
+1995,expenditure,Health,7595,before_2013
+1996,revenue,Real Property Taxes and Assessments,1834471,before_2013
+1996,revenue,Sales and Use Tax,1503858,before_2013
+1996,revenue,Charges for Services,1347441,before_2013
+1996,revenue,State Aid,250439,before_2013
+1996,revenue,Charges to Other Governments,155524,before_2013
+1996,revenue,Use and Sale of Property,51637,before_2013
+1996,revenue,Other Local Revenues,36294,before_2013
+1996,revenue,Other Real Property Tax Items,14461,before_2013
+1996,revenue,Other Non-Property Taxes,5779,before_2013
+1996,expenditure,Sanitation,1417526,before_2013
+1996,expenditure,Transportation,944019,before_2013
+1996,expenditure,Debt Service,722845,before_2013
+1996,expenditure,General Government,591114,before_2013
+1996,expenditure,Utilities,504409,before_2013
+1996,expenditure,Public Safety,412968,before_2013
+1996,expenditure,Employee Benefits,410129,before_2013
+1996,expenditure,Culture and Recreation,137940,before_2013
+1996,expenditure,Community Services,29522,before_2013
+1996,expenditure,Economic Development,14867,before_2013
+1996,expenditure,Health,5600,before_2013
+1997,revenue,Real Property Taxes and Assessments,1914655,before_2013
+1997,revenue,Charges for Services,1688519,before_2013
+1997,revenue,Sales and Use Tax,1511230,before_2013
+1997,revenue,Other Local Revenues,281235,before_2013
+1997,revenue,State Aid,201741,before_2013
+1997,revenue,Charges to Other Governments,147499,before_2013
+1997,revenue,Use and Sale of Property,54010,before_2013
+1997,revenue,Other Non-Property Taxes,41162,before_2013
+1997,revenue,Other Real Property Tax Items,15350,before_2013
+1997,expenditure,Sanitation,1609881,before_2013
+1997,expenditure,Transportation,1066118,before_2013
+1997,expenditure,Debt Service,716838,before_2013
+1997,expenditure,General Government,640849,before_2013
+1997,expenditure,Utilities,487800,before_2013
+1997,expenditure,Public Safety,439081,before_2013
+1997,expenditure,Employee Benefits,317333,before_2013
+1997,expenditure,Culture and Recreation,261826,before_2013
+1997,expenditure,Community Services,28100,before_2013
+1997,expenditure,Economic Development,15976,before_2013
+1997,expenditure,Health,7216,before_2013
+1998,revenue,Real Property Taxes and Assessments,2137461,before_2013
+1998,revenue,Charges for Services,1435998,before_2013
+1998,revenue,Sales and Use Tax,1344066,before_2013
+1998,revenue,State Aid,431273,before_2013
+1998,revenue,Use and Sale of Property,104151,before_2013
+1998,revenue,Other Non-Property Taxes,44850,before_2013
+1998,revenue,Charges to Other Governments,44062,before_2013
+1998,revenue,Other Local Revenues,41143,before_2013
+1998,revenue,Other Real Property Tax Items,9117,before_2013
+1998,expenditure,Sanitation,2808328,before_2013
+1998,expenditure,Transportation,963997,before_2013
+1998,expenditure,Debt Service,726684,before_2013
+1998,expenditure,General Government,668300,before_2013
+1998,expenditure,Utilities,519039,before_2013
+1998,expenditure,Public Safety,474471,before_2013
+1998,expenditure,Employee Benefits,329680,before_2013
+1998,expenditure,Culture and Recreation,232622,before_2013
+1998,expenditure,Community Services,31289,before_2013
+1998,expenditure,Economic Development,14309,before_2013
+1998,expenditure,Health,8911,before_2013
+1999,revenue,Real Property Taxes and Assessments,2147540,before_2013
+1999,revenue,Sales and Use Tax,1565484,before_2013
+1999,revenue,Charges for Services,1415955,before_2013
+1999,revenue,State Aid,300011,before_2013
+1999,revenue,Charges to Other Governments,140278,before_2013
+1999,revenue,Use and Sale of Property,81398,before_2013
+1999,revenue,Other Non-Property Taxes,48433,before_2013
+1999,revenue,Other Local Revenues,32679,before_2013
+1999,revenue,Other Real Property Tax Items,13737,before_2013
+1999,expenditure,Sanitation,1432208,before_2013
+1999,expenditure,Transportation,979226,before_2013
+1999,expenditure,Debt Service,854960,before_2013
+1999,expenditure,General Government,665136,before_2013
+1999,expenditure,Utilities,497782,before_2013
+1999,expenditure,Public Safety,485884,before_2013
+1999,expenditure,Employee Benefits,325941,before_2013
+1999,expenditure,Culture and Recreation,179064,before_2013
+1999,expenditure,Community Services,26827,before_2013
+1999,expenditure,Economic Development,17389,before_2013
+1999,expenditure,Health,5576,before_2013
+2000,revenue,Real Property Taxes and Assessments,1922007.71,before_2013
+2000,revenue,Sales and Use Tax,1588515.8599999999,before_2013
+2000,revenue,Charges for Services,1454917.9,before_2013
+2000,revenue,State Aid,242850.47,before_2013
+2000,revenue,Charges to Other Governments,82890.61,before_2013
+2000,revenue,Use and Sale of Property,69208.86,before_2013
+2000,revenue,Other Non-Property Taxes,51717.89,before_2013
+2000,revenue,Other Local Revenues,47595.71,before_2013
+2000,revenue,Other Real Property Tax Items,16909.3,before_2013
+2000,expenditure,Sanitation,1294402.5,before_2013
+2000,expenditure,Transportation,931267.69,before_2013
+2000,expenditure,Debt Service,716133.76,before_2013
+2000,expenditure,General Government,594571.6199999999,before_2013
+2000,expenditure,Public Safety,502629.29,before_2013
+2000,expenditure,Utilities,436854.03,before_2013
+2000,expenditure,Employee Benefits,326653.60000000003,before_2013
+2000,expenditure,Culture and Recreation,162419.8,before_2013
+2000,expenditure,Community Services,38025.869999999995,before_2013
+2000,expenditure,Economic Development,15073.33,before_2013
+2000,expenditure,Health,5702,before_2013
+2001,revenue,Real Property Taxes and Assessments,1943893.46,before_2013
+2001,revenue,Sales and Use Tax,1638431.17,before_2013
+2001,revenue,Charges for Services,1520578.5,before_2013
+2001,revenue,State Aid,247756.36,before_2013
+2001,revenue,Charges to Other Governments,148717.02000000002,before_2013
+2001,revenue,Use and Sale of Property,83805.84000000001,before_2013
+2001,revenue,Other Local Revenues,73684.81,before_2013
+2001,revenue,Other Non-Property Taxes,71762.87,before_2013
+2001,revenue,Other Real Property Tax Items,23518.13,before_2013
+2001,expenditure,Sanitation,1285099.26,before_2013
+2001,expenditure,Transportation,1167545.26,before_2013
+2001,expenditure,General Government,675629.52,before_2013
+2001,expenditure,Public Safety,525613.13,before_2013
+2001,expenditure,Utilities,512977.33999999997,before_2013
+2001,expenditure,Debt Service,498736.4199999999,before_2013
+2001,expenditure,Employee Benefits,372535.13999999996,before_2013
+2001,expenditure,Culture and Recreation,161857.05,before_2013
+2001,expenditure,Community Services,39738.14,before_2013
+2001,expenditure,Economic Development,6942.12,before_2013
+2001,expenditure,Health,6797.5,before_2013
+2002,revenue,Real Property Taxes and Assessments,1883230.65,before_2013
+2002,revenue,Charges for Services,1717581.6799999997,before_2013
+2002,revenue,Sales and Use Tax,1601543,before_2013
+2002,revenue,State Aid,544585.94,before_2013
+2002,revenue,Charges to Other Governments,109170.54,before_2013
+2002,revenue,Use and Sale of Property,76194.34,before_2013
+2002,revenue,Other Non-Property Taxes,65258.58,before_2013
+2002,revenue,Other Local Revenues,49667.4,before_2013
+2002,revenue,Other Real Property Tax Items,9227.8,before_2013
+2002,expenditure,Sanitation,1852372.7199999997,before_2013
+2002,expenditure,Transportation,945898.14,before_2013
+2002,expenditure,General Government,623180.96,before_2013
+2002,expenditure,Public Safety,541703.89,before_2013
+2002,expenditure,Utilities,521393.61,before_2013
+2002,expenditure,Debt Service,501909.75,before_2013
+2002,expenditure,Employee Benefits,425949.24,before_2013
+2002,expenditure,Culture and Recreation,177199.66999999998,before_2013
+2002,expenditure,Community Services,34536.67,before_2013
+2002,expenditure,Economic Development,16561.95,before_2013
+2002,expenditure,Health,7555.5,before_2013
+2003,revenue,Real Property Taxes and Assessments,1990218,before_2013
+2003,revenue,Sales and Use Tax,1800141.1600000001,before_2013
+2003,revenue,Charges for Services,1582410.3699999999,before_2013
+2003,revenue,State Aid,576926.27,before_2013
+2003,revenue,Charges to Other Governments,205943.22,before_2013
+2003,revenue,Use and Sale of Property,83918.93999999999,before_2013
+2003,revenue,Other Non-Property Taxes,58835.74,before_2013
+2003,revenue,Other Local Revenues,50226,before_2013
+2003,revenue,Other Real Property Tax Items,9453.79,before_2013
+2003,expenditure,Sanitation,1717582.5100000002,before_2013
+2003,expenditure,Transportation,1130582.2299999997,before_2013
+2003,expenditure,General Government,721451.5399999999,before_2013
+2003,expenditure,Utilities,599565.13,before_2013
+2003,expenditure,Public Safety,558815.27,before_2013
+2003,expenditure,Debt Service,504704.44000000006,before_2013
+2003,expenditure,Employee Benefits,482631.44999999995,before_2013
+2003,expenditure,Culture and Recreation,171399.65,before_2013
+2003,expenditure,Community Services,32415.55,before_2013
+2003,expenditure,Economic Development,9794.91,before_2013
+2003,expenditure,Health,7175.5,before_2013
+2004,revenue,Real Property Taxes and Assessments,2036081,before_2013
+2004,revenue,Sales and Use Tax,1785740.4100000001,before_2013
+2004,revenue,Charges for Services,917093.66,before_2013
+2004,revenue,State Aid,310503.08,before_2013
+2004,revenue,Other Local Revenues,187347.66999999998,before_2013
+2004,revenue,Charges to Other Governments,116939.16,before_2013
+2004,revenue,Use and Sale of Property,87517.39,before_2013
+2004,revenue,Other Non-Property Taxes,62708.63,before_2013
+2004,revenue,Other Real Property Tax Items,11571.32,before_2013
+2004,expenditure,Sanitation,1564516.4100000001,before_2013
+2004,expenditure,Transportation,1122929.08,before_2013
+2004,expenditure,General Government,742033.47,before_2013
+2004,expenditure,Public Safety,579851.64,before_2013
+2004,expenditure,Utilities,516306.05999999994,before_2013
+2004,expenditure,Debt Service,446388.68000000005,before_2013
+2004,expenditure,Employee Benefits,424515.62,before_2013
+2004,expenditure,Culture and Recreation,171036.35,before_2013
+2004,expenditure,Community Services,34784.99,before_2013
+2004,expenditure,Economic Development,12459.61,before_2013
+2004,expenditure,Health,6060,before_2013
+2005,revenue,Real Property Taxes and Assessments,2069592,before_2013
+2005,revenue,Sales and Use Tax,1821035.7,before_2013
+2005,revenue,Charges for Services,1210695.4,before_2013
+2005,revenue,Other Local Revenues,1025401.4500000001,before_2013
+2005,revenue,State Aid,406477.32999999996,before_2013
+2005,revenue,Use and Sale of Property,164985.30000000002,before_2013
+2005,revenue,Charges to Other Governments,156081.19,before_2013
+2005,revenue,Other Non-Property Taxes,59862.97,before_2013
+2005,revenue,Other Real Property Tax Items,15468.96,before_2013
+2005,expenditure,Sanitation,1549057.75,before_2013
+2005,expenditure,Debt Service,1347245.7100000002,before_2013
+2005,expenditure,Transportation,1076444.42,before_2013
+2005,expenditure,General Government,722228.1200000001,before_2013
+2005,expenditure,Public Safety,605006.47,before_2013
+2005,expenditure,Utilities,590015.99,before_2013
+2005,expenditure,Employee Benefits,503382.51,before_2013
+2005,expenditure,Culture and Recreation,211069.39,before_2013
+2005,expenditure,Community Services,36085.54,before_2013
+2005,expenditure,Health,7803,before_2013
+2005,expenditure,Economic Development,6832.929999999999,before_2013
+2006,revenue,Real Property Taxes and Assessments,1976700.53,before_2013
+2006,revenue,Sales and Use Tax,1913655.97,before_2013
+2006,revenue,Charges for Services,1388505.9300000004,before_2013
+2006,revenue,Use and Sale of Property,358252.53,before_2013
+2006,revenue,State Aid,348622.18,before_2013
+2006,revenue,Charges to Other Governments,134467.46000000002,before_2013
+2006,revenue,Other Local Revenues,112661.7,before_2013
+2006,revenue,Other Non-Property Taxes,50687.85,before_2013
+2006,revenue,Other Real Property Tax Items,16564,before_2013
+2006,expenditure,Sanitation,1901816.86,before_2013
+2006,expenditure,Transportation,1146254.31,before_2013
+2006,expenditure,General Government,725635.7400000001,before_2013
+2006,expenditure,Public Safety,628036.49,before_2013
+2006,expenditure,Employee Benefits,551073.84,before_2013
+2006,expenditure,Utilities,524590.64,before_2013
+2006,expenditure,Debt Service,520498.33,before_2013
+2006,expenditure,Culture and Recreation,432293.13999999996,before_2013
+2006,expenditure,Community Services,43295.130000000005,before_2013
+2006,expenditure,Economic Development,19940.38,before_2013
+2006,expenditure,Health,7981,before_2013
+2007,revenue,Real Property Taxes and Assessments,2053440,before_2013
+2007,revenue,Sales and Use Tax,1801533.8199999998,before_2013
+2007,revenue,Charges for Services,1245045.92,before_2013
+2007,revenue,State Aid,314982.05,before_2013
+2007,revenue,Use and Sale of Property,263345.97000000003,before_2013
+2007,revenue,Charges to Other Governments,239658.5,before_2013
+2007,revenue,Other Local Revenues,83794.65,before_2013
+2007,revenue,Other Non-Property Taxes,24929.27,before_2013
+2007,revenue,Other Real Property Tax Items,19858.34,before_2013
+2007,expenditure,Sanitation,2103834.74,before_2013
+2007,expenditure,Transportation,1231913.0700000003,before_2013
+2007,expenditure,General Government,724799.62,before_2013
+2007,expenditure,Public Safety,638003.16,before_2013
+2007,expenditure,Utilities,607020.03,before_2013
+2007,expenditure,Employee Benefits,563250.1900000001,before_2013
+2007,expenditure,Culture and Recreation,562709.31,before_2013
+2007,expenditure,Debt Service,468785.99000000005,before_2013
+2007,expenditure,Community Services,43902.72,before_2013
+2007,expenditure,Economic Development,19790.36,before_2013
+2007,expenditure,Health,6279,before_2013
+2008,revenue,Sales and Use Tax,2030122,before_2013
+2008,revenue,Real Property Taxes and Assessments,2006044,before_2013
+2008,revenue,Charges for Services,1295897,before_2013
+2008,revenue,State Aid,433480,before_2013
+2008,revenue,Charges to Other Governments,244348,before_2013
+2008,revenue,Other Local Revenues,152408,before_2013
+2008,revenue,Use and Sale of Property,137769,before_2013
+2008,revenue,Other Non-Property Taxes,59355,before_2013
+2008,revenue,Other Real Property Tax Items,22299,before_2013
+2008,expenditure,Sanitation,2749395.42,before_2013
+2008,expenditure,Transportation,2113165.7,before_2013
+2008,expenditure,General Government,942317,before_2013
+2008,expenditure,Employee Benefits,724708,before_2013
+2008,expenditure,Utilities,685815,before_2013
+2008,expenditure,Public Safety,662247.37,before_2013
+2008,expenditure,Debt Service,449767,before_2013
+2008,expenditure,Culture and Recreation,307605,before_2013
+2008,expenditure,Community Services,72217,before_2013
+2008,expenditure,Economic Development,23730,before_2013
+2008,expenditure,Health,5265,before_2013
+2009,revenue,Sales and Use Tax,2058135,before_2013
+2009,revenue,Real Property Taxes and Assessments,2026244,before_2013
+2009,revenue,Charges for Services,1449462,before_2013
+2009,revenue,State Aid,358046,before_2013
+2009,revenue,Other Local Revenues,283765,before_2013
+2009,revenue,Charges to Other Governments,102697,before_2013
+2009,revenue,Use and Sale of Property,68795,before_2013
+2009,revenue,Other Non-Property Taxes,62405,before_2013
+2009,revenue,Other Real Property Tax Items,15248,before_2013
+2009,expenditure,Sanitation,2587369,before_2013
+2009,expenditure,General Government,2310601,before_2013
+2009,expenditure,Transportation,1954705,before_2013
+2009,expenditure,Public Safety,663816,before_2013
+2009,expenditure,Employee Benefits,591407,before_2013
+2009,expenditure,Utilities,574664,before_2013
+2009,expenditure,Debt Service,385403,before_2013
+2009,expenditure,Culture and Recreation,339196,before_2013
+2009,expenditure,Community Services,55619,before_2013
+2009,expenditure,Economic Development,17236,before_2013
+2009,expenditure,Health,25,before_2013
+2010,revenue,Sales and Use Tax,2130726,before_2013
+2010,revenue,Real Property Taxes and Assessments,2107493,before_2013
+2010,revenue,Charges for Services,1377245,before_2013
+2010,revenue,State Aid,602323,before_2013
+2010,revenue,Other Local Revenues,432252,before_2013
+2010,revenue,Charges to Other Governments,248208,before_2013
+2010,revenue,Other Non-Property Taxes,68100,before_2013
+2010,revenue,Use and Sale of Property,45510,before_2013
+2010,revenue,Other Real Property Tax Items,12443,before_2013
+2010,expenditure,Sanitation,1463874,before_2013
+2010,expenditure,Transportation,1178736,before_2013
+2010,expenditure,General Government,1107614,before_2013
+2010,expenditure,Employee Benefits,788487,before_2013
+2010,expenditure,Public Safety,680663,before_2013
+2010,expenditure,Utilities,551453,before_2013
+2010,expenditure,Community Services,401952,before_2013
+2010,expenditure,Debt Service,347268,before_2013
+2010,expenditure,Culture and Recreation,320598,before_2013
+2010,expenditure,Economic Development,20113,before_2013
+2010,expenditure,Health,5934,before_2013
+2011,revenue,Sales and Use Tax,2277636,before_2013
+2011,revenue,Real Property Taxes and Assessments,2151654,before_2013
+2011,revenue,Charges for Services,1429336,before_2013
+2011,revenue,State Aid,319765,before_2013
+2011,revenue,Charges to Other Governments,190382,before_2013
+2011,revenue,Other Local Revenues,98464,before_2013
+2011,revenue,Federal Aid,96668,before_2013
+2011,revenue,Use and Sale of Property,89117,before_2013
+2011,revenue,Other Non-Property Taxes,74635,before_2013
+2011,revenue,Other Real Property Tax Items,12054,before_2013
+2011,expenditure,Sanitation,1528449,before_2013
+2011,expenditure,Transportation,1204607,before_2013
+2011,expenditure,Employee Benefits,882119,before_2013
+2011,expenditure,General Government,844368,before_2013
+2011,expenditure,Public Safety,701395,before_2013
+2011,expenditure,Utilities,672007,before_2013
+2011,expenditure,Community Services,412950,before_2013
+2011,expenditure,Debt Service,376526,before_2013
+2011,expenditure,Culture and Recreation,251951,before_2013
+2011,expenditure,Economic Development,30223,before_2013
+2011,expenditure,Health,7110,before_2013
+2012,revenue,Sales and Use Tax,2369351,before_2013
+2012,revenue,Real Property Taxes and Assessments,2160485,before_2013
+2012,revenue,Charges for Services,1456981,before_2013
+2012,revenue,Federal Aid,413506,before_2013
+2012,revenue,State Aid,292904,before_2013
+2012,revenue,Charges to Other Governments,250382,before_2013
+2012,revenue,Other Non-Property Taxes,77199,before_2013
+2012,revenue,Other Local Revenues,76871,before_2013
+2012,revenue,Use and Sale of Property,36001,before_2013
+2012,revenue,Other Real Property Tax Items,10789,before_2013
+2012,expenditure,Sanitation,1650989,before_2013
+2012,expenditure,Transportation,1211330,before_2013
+2012,expenditure,Employee Benefits,956034,before_2013
+2012,expenditure,General Government,885973,before_2013
+2012,expenditure,Utilities,780246,before_2013
+2012,expenditure,Public Safety,719644,before_2013
+2012,expenditure,Community Services,433606,before_2013
+2012,expenditure,Debt Service,391963,before_2013
+2012,expenditure,Culture and Recreation,310025,before_2013
+2012,expenditure,Economic Development,25939,before_2013
+2012,expenditure,Health,6883,before_2013
+2013,revenue,Sales and Use Tax,2443512,2013_and_after
+2013,revenue,Real Property Taxes and Assessments,2225492,2013_and_after
+2013,revenue,Charges for Services,1345236,2013_and_after
+2013,revenue,Other Sources,625484,2013_and_after
+2013,revenue,State Aid,326403,2013_and_after
+2013,revenue,Charges to Other Governments,304175,2013_and_after
+2013,revenue,Use and Sale of Property,85725,2013_and_after
+2013,revenue,Other Local Revenues,84461,2013_and_after
+2013,revenue,Other Non-Property Taxes,78610,2013_and_after
+2013,revenue,Proceeds of Debt,58913,2013_and_after
+2013,revenue,Federal Aid,21096,2013_and_after
+2013,revenue,Other Real Property Tax Items,9269,2013_and_after
+2013,expenditure,Sanitation,1517738,2013_and_after
+2013,expenditure,Transportation,1280696,2013_and_after
+2013,expenditure,Employee Benefits,949140,2013_and_after
+2013,expenditure,General Government,817125,2013_and_after
+2013,expenditure,Public Safety,725854,2013_and_after
+2013,expenditure,Community Services,691453,2013_and_after
+2013,expenditure,Utilities,678193,2013_and_after
+2013,expenditure,Other Uses,625484,2013_and_after
+2013,expenditure,Debt Service,456825,2013_and_after
+2013,expenditure,Culture and Recreation,245532,2013_and_after
+2013,expenditure,Economic Development,20987,2013_and_after
+2013,expenditure,Health,7302,2013_and_after
+2014,revenue,Sales and Use Tax,2482318,2013_and_after
+2014,revenue,Real Property Taxes and Assessments,2260680,2013_and_after
+2014,revenue,Charges for Services,1310511,2013_and_after
+2014,revenue,State Aid,338714,2013_and_after
+2014,revenue,Charges to Other Governments,255940,2013_and_after
+2014,revenue,Proceeds of Debt,209236,2013_and_after
+2014,revenue,Other Local Revenues,94535,2013_and_after
+2014,revenue,Other Non-Property Taxes,77439,2013_and_after
+2014,revenue,Other Sources,39203,2013_and_after
+2014,revenue,Use and Sale of Property,27506,2013_and_after
+2014,revenue,Other Real Property Tax Items,10816,2013_and_after
+2014,expenditure,Sanitation,1501040,2013_and_after
+2014,expenditure,Transportation,1442244,2013_and_after
+2014,expenditure,Employee Benefits,1011625,2013_and_after
+2014,expenditure,General Government,855226,2013_and_after
+2014,expenditure,Public Safety,747703,2013_and_after
+2014,expenditure,Utilities,590976,2013_and_after
+2014,expenditure,Debt Service,428536,2013_and_after
+2014,expenditure,Community Services,323840,2013_and_after
+2014,expenditure,Culture and Recreation,280336,2013_and_after
+2014,expenditure,Other Uses,39203,2013_and_after
+2014,expenditure,Economic Development,26345,2013_and_after
+2014,expenditure,Health,7014,2013_and_after
+2015,revenue,Sales and Use Tax,2458215,2013_and_after
+2015,revenue,Real Property Taxes and Assessments,2292275,2013_and_after
+2015,revenue,Charges for Services,1323349,2013_and_after
+2015,revenue,State Aid,376081,2013_and_after
+2015,revenue,Other Local Revenues,328311,2013_and_after
+2015,revenue,Other Sources,309140,2013_and_after
+2015,revenue,Charges to Other Governments,287190,2013_and_after
+2015,revenue,Other Non-Property Taxes,75946,2013_and_after
+2015,revenue,Use and Sale of Property,36663,2013_and_after
+2015,revenue,Other Real Property Tax Items,6420,2013_and_after
+2015,revenue,Proceeds of Debt,0,2013_and_after
+2015,expenditure,Sanitation,1720025,2013_and_after
+2015,expenditure,Transportation,1363286,2013_and_after
+2015,expenditure,Community Services,1028096,2013_and_after
+2015,expenditure,Employee Benefits,981394,2013_and_after
+2015,expenditure,General Government,859209,2013_and_after
+2015,expenditure,Public Safety,755397,2013_and_after
+2015,expenditure,Utilities,622603,2013_and_after
+2015,expenditure,Debt Service,431489,2013_and_after
+2015,expenditure,Other Uses,309140,2013_and_after
+2015,expenditure,Culture and Recreation,281596,2013_and_after
+2015,expenditure,Economic Development,38449,2013_and_after
+2015,expenditure,Health,7528,2013_and_after
+2016,revenue,Sales and Use Tax,2412806,2013_and_after
+2016,revenue,Real Property Taxes and Assessments,2312816,2013_and_after
+2016,revenue,Charges for Services,1512815,2013_and_after
+2016,revenue,State Aid,400593,2013_and_after
+2016,revenue,Other Local Revenues,322896,2013_and_after
+2016,revenue,Other Sources,222728,2013_and_after
+2016,revenue,Charges to Other Governments,187931,2013_and_after
+2016,revenue,Other Non-Property Taxes,79734,2013_and_after
+2016,revenue,Proceeds of Debt,62000,2013_and_after
+2016,revenue,Use and Sale of Property,24343,2013_and_after
+2016,revenue,Other Real Property Tax Items,11799,2013_and_after
+2016,expenditure,Sanitation,1636965,2013_and_after
+2016,expenditure,Transportation,1356527,2013_and_after
+2016,expenditure,General Government,904393,2013_and_after
+2016,expenditure,Employee Benefits,900561,2013_and_after
+2016,expenditure,Community Services,852781,2013_and_after
+2016,expenditure,Public Safety,787491,2013_and_after
+2016,expenditure,Utilities,562309,2013_and_after
+2016,expenditure,Debt Service,488327,2013_and_after
+2016,expenditure,Culture and Recreation,290241,2013_and_after
+2016,expenditure,Other Uses,222728,2013_and_after
+2016,expenditure,Economic Development,78728,2013_and_after
+2016,expenditure,Health,2672,2013_and_after
+2017,revenue,Sales and Use Tax,2367588,2013_and_after
+2017,revenue,Real Property Taxes and Assessments,2192167,2013_and_after
+2017,revenue,Charges for Services,1364670,2013_and_after
+2017,revenue,State Aid,511390,2013_and_after
+2017,revenue,Charges to Other Governments,271698,2013_and_after
+2017,revenue,Other Local Revenues,193218,2013_and_after
+2017,revenue,Other Non-Property Taxes,150463,2013_and_after
+2017,revenue,Other Sources,67728,2013_and_after
+2017,revenue,Proceeds of Debt,62000,2013_and_after
+2017,revenue,Use and Sale of Property,32802,2013_and_after
+2017,revenue,Other Real Property Tax Items,8489,2013_and_after
+2017,expenditure,Sanitation,1640798,2013_and_after
+2017,expenditure,Transportation,1362933,2013_and_after
+2017,expenditure,Employee Benefits,952470,2013_and_after
+2017,expenditure,General Government,860229,2013_and_after
+2017,expenditure,Public Safety,785943,2013_and_after
+2017,expenditure,Utilities,530164,2013_and_after
+2017,expenditure,Debt Service,487890,2013_and_after
+2017,expenditure,Culture and Recreation,239198,2013_and_after
+2017,expenditure,Community Services,152950,2013_and_after
+2017,expenditure,Other Uses,67728,2013_and_after
+2017,expenditure,Economic Development,35612,2013_and_after
+2017,expenditure,Health,7781,2013_and_after
+2018,revenue,Sales and Use Tax,2566168,2013_and_after
+2018,revenue,Real Property Taxes and Assessments,2228693,2013_and_after
+2018,revenue,Charges for Services,1447437,2013_and_after
+2018,revenue,State Aid,420958,2013_and_after
+2018,revenue,Charges to Other Governments,257628,2013_and_after
+2018,revenue,Federal Aid,148236,2013_and_after
+2018,revenue,Other Local Revenues,118600,2013_and_after
+2018,revenue,Other Non-Property Taxes,99466,2013_and_after
+2018,revenue,Proceeds of Debt,75000,2013_and_after
+2018,revenue,Other Sources,52522,2013_and_after
+2018,revenue,Use and Sale of Property,32721,2013_and_after
+2018,revenue,Other Real Property Tax Items,8724,2013_and_after
+2018,expenditure,Sanitation,1617543,2013_and_after
+2018,expenditure,Transportation,1590893,2013_and_after
+2018,expenditure,Employee Benefits,1023523,2013_and_after
+2018,expenditure,General Government,937001,2013_and_after
+2018,expenditure,Public Safety,799300,2013_and_after
+2018,expenditure,Utilities,738705,2013_and_after
+2018,expenditure,Debt Service,508609,2013_and_after
+2018,expenditure,Culture and Recreation,330304,2013_and_after
+2018,expenditure,Economic Development,71072,2013_and_after
+2018,expenditure,Other Uses,52522,2013_and_after
+2018,expenditure,Community Services,29390,2013_and_after
+2018,expenditure,Health,7943,2013_and_after
+2019,revenue,Sales and Use Tax,2616571,2013_and_after
+2019,revenue,Real Property Taxes and Assessments,2290524,2013_and_after
+2019,revenue,Charges for Services,1448629,2013_and_after
+2019,revenue,Proceeds of Debt,576000,2013_and_after
+2019,revenue,Charges to Other Governments,371638,2013_and_after
+2019,revenue,State Aid,349650,2013_and_after
+2019,revenue,Federal Aid,244110,2013_and_after
+2019,revenue,Other Local Revenues,182777,2013_and_after
+2019,revenue,Other Non-Property Taxes,107585,2013_and_after
+2019,revenue,Other Sources,49084,2013_and_after
+2019,revenue,Use and Sale of Property,46258,2013_and_after
+2019,revenue,Other Real Property Tax Items,8986,2013_and_after
+2019,expenditure,Sanitation,1559276,2013_and_after
+2019,expenditure,Transportation,1505197,2013_and_after
+2019,expenditure,Employee Benefits,1057165,2013_and_after
+2019,expenditure,General Government,1010397,2013_and_after
+2019,expenditure,Public Safety,828432,2013_and_after
+2019,expenditure,Utilities,747120,2013_and_after
+2019,expenditure,Debt Service,431863,2013_and_after
+2019,expenditure,Community Services,293905,2013_and_after
+2019,expenditure,Culture and Recreation,222847,2013_and_after
+2019,expenditure,Other Uses,49084,2013_and_after
+2019,expenditure,Economic Development,36722,2013_and_after
+2019,expenditure,Health,0,2013_and_after
+2020,revenue,Sales and Use Tax,2562645,2013_and_after
+2020,revenue,Real Property Taxes and Assessments,2348385,2013_and_after
+2020,revenue,Charges for Services,1620506,2013_and_after
+2020,revenue,Charges to Other Governments,513476,2013_and_after
+2020,revenue,State Aid,316286,2013_and_after
+2020,revenue,Federal Aid,281474,2013_and_after
+2020,revenue,Other Sources,266523,2013_and_after
+2020,revenue,Other Local Revenues,161183,2013_and_after
+2020,revenue,Other Non-Property Taxes,117576,2013_and_after
+2020,revenue,Use and Sale of Property,17247,2013_and_after
+2020,revenue,Other Real Property Tax Items,7876,2013_and_after
+2020,expenditure,Sanitation,1750509,2013_and_after
+2020,expenditure,Transportation,1316775,2013_and_after
+2020,expenditure,Employee Benefits,1059393,2013_and_after
+2020,expenditure,General Government,1006116,2013_and_after
+2020,expenditure,Utilities,826023,2013_and_after
+2020,expenditure,Public Safety,822399,2013_and_after
+2020,expenditure,Community Services,685657,2013_and_after
+2020,expenditure,Debt Service,305209,2013_and_after
+2020,expenditure,Other Uses,266523,2013_and_after
+2020,expenditure,Culture and Recreation,140314,2013_and_after
+2020,expenditure,Economic Development,19494,2013_and_after
+2021,revenue,State Aid,9641727,2013_and_after
+2021,revenue,Sales and Use Tax,2909154,2013_and_after
+2021,revenue,Real Property Taxes and Assessments,2736480,2013_and_after
+2021,revenue,Proceeds of Debt,2365000,2013_and_after
+2021,revenue,Charges for Services,1489667,2013_and_after
+2021,revenue,Use and Sale of Property,186839,2013_and_after
+2021,revenue,Other Local Revenues,171850,2013_and_after
+2021,revenue,Charges to Other Governments,132136,2013_and_after
+2021,revenue,Other Non-Property Taxes,122981,2013_and_after
+2021,revenue,Federal Aid,50227,2013_and_after
+2021,revenue,Other Real Property Tax Items,9316,2013_and_after
+2021,revenue,Other Sources,0,2013_and_after
+2021,expenditure,Community Services,9366936,2013_and_after
+2021,expenditure,Debt Service,2688234,2013_and_after
+2021,expenditure,Sanitation,2191446,2013_and_after
+2021,expenditure,Transportation,1657547,2013_and_after
+2021,expenditure,General Government,1341453,2013_and_after
+2021,expenditure,Employee Benefits,1071792,2013_and_after
+2021,expenditure,Utilities,882740,2013_and_after
+2021,expenditure,Public Safety,829514,2013_and_after
+2021,expenditure,Culture and Recreation,181978,2013_and_after
+2021,expenditure,Economic Development,41670,2013_and_after
+2021,expenditure,Other Uses,0,2013_and_after
+2022,revenue,Sales and Use Tax,3119531,2013_and_after
+2022,revenue,State Aid,2803337,2013_and_after
+2022,revenue,Real Property Taxes and Assessments,2570214,2013_and_after
+2022,revenue,Charges for Services,1602189,2013_and_after
+2022,revenue,Federal Aid,567140,2013_and_after
+2022,revenue,Proceeds of Debt,539209,2013_and_after
+2022,revenue,Other Sources,337194,2013_and_after
+2022,revenue,Charges to Other Governments,245424,2013_and_after
+2022,revenue,Other Non-Property Taxes,160051,2013_and_after
+2022,revenue,Other Local Revenues,145478,2013_and_after
+2022,revenue,Use and Sale of Property,88979,2013_and_after
+2022,revenue,Other Real Property Tax Items,8266,2013_and_after
+2022,expenditure,Transportation,2370390,2013_and_after
+2022,expenditure,Community Services,2303904,2013_and_after
+2022,expenditure,Sanitation,2031192,2013_and_after
+2022,expenditure,Utilities,1194541,2013_and_after
+2022,expenditure,General Government,1194073,2013_and_after
+2022,expenditure,Employee Benefits,1024732,2013_and_after
+2022,expenditure,Public Safety,831534,2013_and_after
+2022,expenditure,Debt Service,492568,2013_and_after
+2022,expenditure,Other Uses,337194,2013_and_after
+2022,expenditure,Culture and Recreation,219302,2013_and_after
+2022,expenditure,Economic Development,41707,2013_and_after
+2022,expenditure,Health,172,2013_and_after
+2023,revenue,Sales and Use Tax,3283069,2013_and_after
+2023,revenue,Real Property Taxes and Assessments,2689929,2013_and_after
+2023,revenue,State Aid,2651978,2013_and_after
+2023,revenue,Charges for Services,1794070,2013_and_after
+2023,revenue,Charges to Other Governments,284583,2013_and_after
+2023,revenue,Federal Aid,256174,2013_and_after
+2023,revenue,Other Non-Property Taxes,126108,2013_and_after
+2023,revenue,Other Local Revenues,106395,2013_and_after
+2023,revenue,Other Sources,105887,2013_and_after
+2023,revenue,Use and Sale of Property,105519,2013_and_after
+2023,revenue,Other Real Property Tax Items,11476,2013_and_after
+2023,expenditure,Sanitation,2407979,2013_and_after
+2023,expenditure,Community Services,1753398,2013_and_after
+2023,expenditure,Transportation,1692164,2013_and_after
+2023,expenditure,General Government,1316867,2013_and_after
+2023,expenditure,Employee Benefits,1059817,2013_and_after
+2023,expenditure,Public Safety,907019,2013_and_after
+2023,expenditure,Utilities,888259,2013_and_after
+2023,expenditure,Debt Service,390051,2013_and_after
+2023,expenditure,Culture and Recreation,305329,2013_and_after
+2023,expenditure,Other Uses,105887,2013_and_after
+2023,expenditure,Economic Development,60029,2013_and_after
+2023,expenditure,Health,9030,2013_and_after
+2024,revenue,Sales and Use Tax,3277093,2013_and_after
+2024,revenue,Real Property Taxes and Assessments,2730482,2013_and_after
+2024,revenue,Charges for Services,1884984,2013_and_after
+2024,revenue,State Aid,1659453,2013_and_after
+2024,revenue,Charges to Other Governments,272552,2013_and_after
+2024,revenue,Other Local Revenues,193315,2013_and_after
+2024,revenue,Federal Aid,181703,2013_and_after
+2024,revenue,Other Sources,122533,2013_and_after
+2024,revenue,Other Non-Property Taxes,119837,2013_and_after
+2024,revenue,Use and Sale of Property,103377,2013_and_after
+2024,revenue,Other Real Property Tax Items,12173,2013_and_after
+2024,expenditure,Sanitation,7366645,2013_and_after
+2024,expenditure,Transportation,1882640,2013_and_after
+2024,expenditure,General Government,1362848,2013_and_after
+2024,expenditure,Employee Benefits,1120138,2013_and_after
+2024,expenditure,Utilities,991061,2013_and_after
+2024,expenditure,Public Safety,921923,2013_and_after
+2024,expenditure,Debt Service,358014,2013_and_after
+2024,expenditure,Culture and Recreation,301103,2013_and_after
+2024,expenditure,Community Services,195288,2013_and_after
+2024,expenditure,Other Uses,122533,2013_and_after
+2024,expenditure,Economic Development,30367,2013_and_after
+2024,expenditure,Health,8670,2013_and_after
+2025,revenue,Sales and Use Tax,3494450,2013_and_after
+2025,revenue,Real Property Taxes and Assessments,3083727,2013_and_after
+2025,revenue,Charges for Services,2030114,2013_and_after
+2025,revenue,State Aid,1839879,2013_and_after
+2025,revenue,Charges to Other Governments,407080,2013_and_after
+2025,revenue,Use and Sale of Property,144718,2013_and_after
+2025,revenue,Other Non-Property Taxes,115453,2013_and_after
+2025,revenue,Other Local Revenues,98411,2013_and_after
+2025,revenue,Proceeds of Debt,69000,2013_and_after
+2025,revenue,Other Sources,17324,2013_and_after
+2025,revenue,Other Real Property Tax Items,12720,2013_and_after
+2025,expenditure,Sanitation,3717682,2013_and_after
+2025,expenditure,Transportation,1928177,2013_and_after
+2025,expenditure,General Government,1270966,2013_and_after
+2025,expenditure,Employee Benefits,1265069,2013_and_after
+2025,expenditure,Utilities,942190,2013_and_after
+2025,expenditure,Public Safety,935336,2013_and_after
+2025,expenditure,Culture and Recreation,672258,2013_and_after
+2025,expenditure,Debt Service,519614,2013_and_after
+2025,expenditure,Community Services,279355,2013_and_after
+2025,expenditure,Economic Development,45362,2013_and_after
+2025,expenditure,Other Uses,17324,2013_and_after
+2025,expenditure,Health,9138,2013_and_after

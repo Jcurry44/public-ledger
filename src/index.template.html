@@ -37,7 +37,8 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opa
    bridge on wide monitors) */
 .scene{background:var(--card);border-bottom:1px solid var(--rule-strong);overflow:hidden}
 .scene svg{display:block;margin:0 auto;height:86px;width:auto;max-width:100%;color:var(--ink);opacity:.42}
-@media (max-width:640px){.scene svg{height:62px}}
+/* the vignette is a desk ornament: on a phone the first 664px belong to the front page (the lede, the book, the badge) */
+@media (max-width:640px){.scene{display:none}}
 /* the caption is drawn at 11.5px on screen where the engraving is full size (>=960px) and left out where it would shrink below that */
 .scene svg text{paint-order:stroke;stroke:var(--card);stroke-width:5px;stroke-linejoin:round}   /* a paper halo knocks the water's ripples out from behind the letters */
 @media (max-width:959px){.scene svg text{display:none}}
@@ -121,7 +122,8 @@ html.pl-delta .fresh-slot{min-height:45px}
    tie-out badge and the register headline). Under both, the ANSWER STRIP: what
    it costs a homeowner, what changed, whether anything is wrong - every word
    computed at build time and painted into the HTML before any script runs. */
-.hero{padding:28px 0 6px}
+/* the annual-filing register is Schedule 1's head panel (a desk: one card; >=1100 the figures pair with the chart) */
+.hero{margin:14px 0 12px;padding:16px 18px 12px;background:var(--card);border:1px solid var(--rule);border-radius:10px;box-shadow:var(--shadow)}
 .hreg{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin:0 0 12px;
   font:600 11.5px/1.4 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .hreg::after{content:'';flex:1 1 0;height:1px;background:var(--rule);max-width:140px;order:2}
@@ -165,8 +167,8 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
   svg.trend .draw{stroke-dasharray:2400;stroke-dashoffset:2400;animation:lineIn 1.1s cubic-bezier(.3,.7,.3,1) .1s forwards}
   @keyframes lineIn{to{stroke-dashoffset:0}}
 }
-/* ---- the answer strip: three ruled cells, every figure computed ---- */
-.answers{display:grid;grid-template-columns:1fr 1fr 1.25fr;border-top:1px solid var(--rule-strong);margin:22px 0 0}
+/* ---- the answer strip: three ruled cells, every figure computed; it closes the front page (grid area 'ans') ---- */
+.answers{display:grid;grid-template-columns:1fr 1fr 1.25fr;border-top:1px solid var(--rule-strong);margin:8px 0 0;grid-area:ans}
 .ans{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:15px 20px 13px 0;margin:0;min-width:0;
   text-align:left;color:var(--ink);text-decoration:none;background:none;border:0;border-right:1px solid var(--rule);
   font:inherit;cursor:pointer;position:relative}
@@ -185,9 +187,13 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
 /* the earliest year has no pair to compare: the card is told so and stops being a control */
 .ans:disabled{cursor:default}
 .ans-book{cursor:default}
-.ans-book .badge{margin-top:0;align-self:flex-start}
-.reghead{font:600 13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);letter-spacing:.01em}
-.reghead b{color:var(--ink);font-weight:700}
+.ans-book .badge{margin-top:2px;align-self:flex-start}
+/* the register's standing line is the checkbook cell's VALUE: three figures in the display face, their words in the
+   label face beside them; each figure is a press (the register, the payee list) like every number in the lede */
+.ans-v.reghead{font:600 21px/1.25 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.reghead .w{font:500 12px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);letter-spacing:.04em;margin-left:2px}
+.reghead .pl-sep{color:var(--faint);margin:0 4px;font-weight:400}
+.reghead .pev{text-decoration-thickness:1px}
 .regnote{font-size:12px;line-height:1.45;color:var(--muted)}
 .regnote .reg-more{color:var(--accent);text-decoration:none;font-weight:600}
 @media (hover:hover){.regnote .reg-more:hover{text-decoration:underline}}
@@ -226,9 +232,9 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
    under it. Three big numbers in an L-shape read as dropped-in text; a tally
    card reads as a ledger. Desktop keeps the wide three-across grid. */
 @media (max-width:640px){
-  .hero{padding:16px 0 4px}
-  .hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px 12px 0 0;border-bottom:0;
-    padding:12px 16px 0;box-shadow:var(--shadow)}
+  .hero{margin:8px 0 10px;padding:0;background:none;border:0;border-radius:0;box-shadow:none}
+  .hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;
+    padding:12px 16px 8px;box-shadow:var(--shadow)}
   /* the eyebrow is ALWAYS two lines here ('ANNUAL FILING · FY2024' / 'NYS COMPTROLLER[ · PRE-2013 BASIS]',
      the .ph-br break) and the reset chip hangs in the card's corner out of flow, centred on line one:
      the register's height is the same for every year, so a pick never shifts the Schedule below */
@@ -248,12 +254,13 @@ svg.trend .yr{font:600 11.5px ui-monospace,Menlo,Consolas,monospace;fill:var(--f
   .htrend svg.trend{height:64px}
   .htrend .htr-cap{margin-top:0;font-size:11.5px;justify-content:flex-end}
   .htrend .htr-cap>span:first-child{display:none}   /* the axis already reads 1995 ... 2024 here */
-  .hnote{margin:0;padding:8px 0 10px;font-size:12px}
-  /* the answers stack as rows; the CHECKBOOK register is the tally card's foot, the badge its closing rule */
-  .answers{display:flex;flex-direction:column;border-top:0;margin:0}
-  .ans-book{order:-1;background:var(--card);border:1px solid var(--rule-strong);border-top:1px solid var(--rule);
-    border-radius:0 0 12px 12px;padding:10px 16px 0;gap:4px;box-shadow:var(--shadow);margin-bottom:12px}
-  .ans-book .reghead{font-size:12px}
+  .hnote{margin:0;padding:6px 0 6px;font-size:12px}
+  /* the answers stack as rows; the CHECKBOOK register is a card of its own under the lede, the badge its closing rule */
+  .answers{display:flex;flex-direction:column;border-top:0;margin:2px 0 0}
+  .ans-book{order:-1;background:var(--card);border:1px solid var(--rule-strong);
+    border-radius:12px;padding:10px 16px 0;gap:4px;box-shadow:var(--shadow);margin-bottom:4px}
+  .ans-book .ans-v.reghead{font-size:17px;line-height:1.3}
+  .ans-book .reghead .w{font-size:11.5px}
   .badge{display:flex;margin:8px -16px 0;border-radius:0 0 11px 11px;border:0;align-self:stretch;
     border-top:1px solid color-mix(in srgb,var(--ok) 30%,transparent);padding:10px 16px;font-size:12.5px}
   .badge .arrow{margin-left:auto}
@@ -480,6 +487,18 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 @media (min-width:641px){:root{--pl-toast-b:28px}}
 .mbody{overflow-y:auto;padding:16px 20px 22px}
 .mbody h4{margin:0 0 9px;font:600 11.5px/1 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+/* the payee sheet: four tiles, two plain lines, the departments ranked, the county hop, one action */
+.pz-tiles{margin:0 0 12px}
+.pz-tiles .tile .v{font-size:20px}
+.pz-line{margin:0 0 10px;font-size:13px;line-height:1.5;color:var(--muted)}
+.pz-line b{color:var(--ink)}
+.pz-line .k{font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-right:6px}
+.pz-line .codes{color:var(--ink)}
+.pz-line .al-src{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-weight:600;text-decoration:none;min-height:44px;margin:-12px 0}
+.pz-acts{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px solid var(--rule)}
+.pz-acts .pill{min-height:44px;display:inline-flex;align-items:center}
+.pz-note{font-size:12px;color:var(--muted)}
+#mBody .vx-hop{margin-top:14px}
 .mbody h4:not(:first-child){margin-top:20px}
 .mstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:6px}
 .mstat{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 12px}
@@ -542,15 +561,6 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   .acct tr.acct-hist td{display:block;width:100%}
 }
 
-.years{display:flex;gap:5px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:thin}
-.years::-webkit-scrollbar{height:5px}
-.years::-webkit-scrollbar-thumb{background:var(--rule-strong);border-radius:3px}
-.yp{flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
-  border-radius:99px;padding:5px 11px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;
-  cursor:pointer;transition:background .12s,color .12s,border-color .12s}
-@media (hover:hover){.yp:hover{color:var(--ink);border-color:var(--accent)}}
-.yp.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
-.yp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
 /* On a phone the 6-column line table forces a sideways scroll and clips the
    description to 'M IN M'. Re-lay each row as a compact card instead. */
@@ -606,6 +616,11 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .payee-line .pl-row{display:block;margin-top:6px;padding-top:6px;border-top:1px solid color-mix(in srgb,var(--accent) 18%,transparent);font-size:13px}
 .payee-line .pl-row .k{font:600 11.5px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:6px}
 .payee-line .codes{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+.payee-line .qm-line{font-size:13px;line-height:1.5;margin:0 0 8px;color:var(--ink)}
+.payee-line .qm-line .k{font:600 11.5px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+.vx-near{display:flex;flex-wrap:wrap;gap:6px 8px;margin-top:8px}
+.vx-on{border:0;background:transparent;color:var(--accent);font:inherit;font-size:13px;font-weight:600;text-decoration:underline;cursor:pointer;padding:0 4px;min-height:44px}
+.chip-qm{border-style:dashed}
 .ans-lines{display:flex;flex-direction:column;gap:8px}
 .ans-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 12px;align-items:baseline}
 .ans-line .al-p{font-weight:600;font-size:14.5px;min-width:0;overflow-wrap:anywhere}
@@ -690,11 +705,28 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   .tie tr.detail td{padding:0}
   .tie .dgrid{grid-template-columns:1fr}
 }
-/* the MONTH TAPE (phone): one 44px row per month - documents, dollars, 'all tie exactly' or the scans named -
-   that opens to that month's document cards; the full list is one toggle away ('Show all N documents').
-   Wide screens keep the full table: the month rows are hidden there. */
-.tie tr.mrow{display:none}
-.tie-tools{display:none}
+/* the MONTH TAPE (every width): one row per month - documents, dollars, 'all tie exactly' or the scans named -
+   that opens to that month's documents; the full list is one toggle away ('Show all N documents'). A desk lists
+   every month as a group row of the table; a phone lists the newest months first, each a 44px row. */
+.tie tr.mrow{cursor:pointer}
+.tie tr.mrow td{padding:9px 10px;background:color-mix(in srgb,var(--accent-soft) 55%,var(--card));border-top:1px solid var(--rule-strong);
+  border-bottom:1px solid var(--rule);font-size:13px;vertical-align:middle}
+.tie tr.mrow td.m-k{font-weight:600;white-space:nowrap}
+.tie tr.mrow td.m-k::before{content:'\203A';display:inline-block;width:12px;color:var(--faint);transition:transform .15s}
+.tie tr.mrow.m-open td.m-k::before{transform:rotate(90deg)}
+.tie tr.mrow td.m-s{color:var(--muted);font-size:12.5px}
+.tie tr.mrow td.m-v{text-align:right;white-space:nowrap}
+.tie tr.mrow td.m-v .tick{margin-left:8px}
+.tie tr.mrow .m-pend{font-weight:600;color:var(--ink)}
+@media (hover:hover){.tie tr.mrow:hover td{background:var(--accent-soft)}}
+.tie tr.mrow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.tie-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 2px;font-size:12.5px;color:var(--muted)}
+/* the PENDING row: a posting the city's page lists that this build has not read - hatched (shape, not hue), nothing to open */
+.tie tr.doc-row.pending{cursor:default;background:repeating-linear-gradient(-45deg,transparent 0 6px,var(--gridline) 6px 12px)}
+.tie tr.doc-row.pending td{color:var(--muted)}
+.tie tr.doc-row.pending .t-note{font-weight:400;white-space:normal;font-size:12px}
+.tie tr.doc-row.pending .t-note b{color:var(--ink)}
+.tie tr.doc-row.pending .t-dash{color:var(--faint)}
 @media (max-width:640px){
   .tie,.tie tbody{display:block}
   .tie tr.mrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:0 10px;align-items:center;min-height:48px;
@@ -707,8 +739,11 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   .tie tr.mrow td.m-v{grid-row:1 / span 2;grid-column:2;text-align:right;font-size:12.5px;line-height:1.35;white-space:nowrap}
   .tie tr.mrow td.m-v .tick{display:block}
   .tie tr.mrow.m-open{background:color-mix(in srgb,var(--accent-soft) 60%,transparent)}
+  .tie tr.mrow td{background:none;border-top:0;border-bottom:0;padding:0}
+  .tie tr.mrow td.m-k::before{width:12px}
   .tie tr.doc-row{padding-left:14px;border-left:3px solid var(--rule-strong)}
-  .tie-tools{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 2px;font-size:12.5px;color:var(--muted)}
+  .tie tr.doc-row.pending td.t-sum{display:block;grid-column:1 / -1}
+  .tie tr.doc-row.pending td.t-n{display:none}      /* no line count to show: the phone's ' lines' suffix would read '— lines' */
   .tie-tools .pill{min-height:44px;display:inline-flex;align-items:center}
 }
 /* the proof panel's actions: two 44px buttons (the brief, the source PDF), then the lines row */
@@ -779,6 +814,13 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
 .ev-sub{font-size:13.5px;color:var(--muted);margin-bottom:10px}
 .ev-stamp{display:inline-flex;align-items:center;min-height:32px;padding:0 12px;border-radius:99px;background:var(--ink);color:var(--card);font:600 12px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
 .ev-stamp.ev-soft{background:var(--rule-strong);color:var(--ink)}
+.ev-tot{margin:0 0 12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.ev-tr{display:grid;grid-template-columns:1fr auto;gap:1px 12px;padding:8px 0;align-items:baseline}
+.ev-tr+.ev-tr{border-top:1px dotted var(--rule-strong)}
+.ev-tl{font:600 11.5px/1.3 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.ev-tr b{font-weight:600;font-size:15px}
+.ev-tn{grid-column:1/-1;font-size:12.5px;line-height:1.4;color:var(--muted)}
+.ev-kk{font:600 11px/1 system-ui;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 4px}
 .ev-top{margin:0;padding:0 0 0 1.1rem;font-size:13.5px}
 .ev-top li{display:flex;justify-content:space-between;gap:10px;padding:4px 0}
 .ev-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
@@ -955,6 +997,13 @@ svg.trend .ghost-l{fill:var(--ink);font:700 11.5px ui-monospace,Menlo,Consolas,m
 .tb-bar i.dim::before{content:'';position:absolute;inset:0;background:var(--card);opacity:.62}
 .rk.can.lit{background:var(--accent-soft)}
 .rk.lit:not(.can){background:var(--accent-soft);border-radius:6px;box-shadow:0 0 0 5px var(--accent-soft)}   /* no geometry change on hover */
+/* a line-detail row / an answer-card line and its warrant bar are one pair (IDXB-13): lit = the row on the accent wash,
+   dimmed = its words go --faint (never under 4.5:1), no geometry change */
+.lines tr.lit td{background:var(--accent-soft)}
+.lines tr.dim td,.lines tr.dim td a{color:var(--faint)}
+[data-hgroup][data-hdim].hl-on .lines tr.dim,[data-hgroup][data-hdim].hl-on .ans-line.dim{opacity:1}
+.ans-line.lit{background:var(--accent-soft);box-shadow:0 0 0 6px var(--accent-soft);border-radius:4px}
+.ans-line.dim .al-p,.ans-line.dim .al-a,.ans-line.dim .al-s{color:var(--faint)}
 .rk.lit .lb{color:var(--accent)}
 .rk .onmark{color:var(--ok);font-weight:700;margin-left:6px}
 #warrantChart rect.dim{opacity:.22}
@@ -1197,7 +1246,8 @@ footer p{margin:0 0 7px;max-width:80ch}
 /* Move 10 leftover: county-resolution diamonds on the city's warrant clock (shape + luminance, not hue) */
 #warrantChart .vx-dia{fill:var(--paper);stroke:var(--ink);stroke-width:1.1;cursor:pointer}
 #warrantChart .vx-dia.scr{stroke:var(--accent);stroke-width:1.6;fill:var(--paper)}
-#warrantChart .vx-dia-earlier{font-size:11px;fill:var(--muted)}
+#warrantChart .vx-dia-earlier{font-size:11.5px;fill:var(--muted)}
+#warrantChart .vx-hit{fill:transparent;cursor:pointer}
 .vx-dia-cap{margin:4px 0 0;font-size:11.5px;line-height:1.35;color:var(--muted)}
 .vx-dia-cap[hidden]{display:none!important}
 #csvDl{min-height:44px;margin-left:8px}
@@ -1229,24 +1279,23 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
    .hcard becomes display:contents so ONE markup serves the phone tally card and
    the desktop spread (the chart lives inside the card on a phone). */
 @media (min-width:1100px){
-  .hero{display:grid;grid-template-columns:minmax(560px,640px) minmax(0,1fr);column-gap:52px;row-gap:0;
-    grid-template-areas:"reg trend" "grid trend" "note trend" "ans ans";align-items:start}
+  .hero{display:grid;grid-template-columns:minmax(520px,600px) minmax(0,1fr);column-gap:52px;row-gap:0;
+    grid-template-areas:"reg trend" "grid trend" "note trend" "year trend";align-items:start}
   .hcard{display:contents}
-  .hreg{grid-area:reg} .hgrid{grid-area:grid;max-width:none} .hnote{grid-area:note}
+  .hreg{grid-area:reg} .hgrid{grid-area:grid;max-width:none} .hnote{grid-area:note} .yrow{grid-area:year}
   .htrend{grid-area:trend;align-self:center;margin:0}
-  .answers{grid-area:ans}
   .hcell .v{font-size:clamp(26px,2.1vw,31px)}
 }
 /* ultra-wide: the canvas opens to 1380 so the revenue|expenditure panels breathe */
 @media (min-width:1520px){
   .wrap{max-width:1380px}
-  .hero{grid-template-columns:minmax(640px,740px) minmax(0,1fr);column-gap:64px}
+  .hero{grid-template-columns:minmax(600px,700px) minmax(0,1fr);column-gap:64px}
   .hcell .v{font-size:34px}
 }
-/* the year row under Schedule 1: a stepper + select on phones (the 30-chip strip
-   was a sideways scroller); on wider screens the chips stay and follow the pick */
-.yrow{display:flex;align-items:center;gap:8px;margin:0 0 10px}
-.ystep{display:none;align-items:center;gap:6px}
+/* the year row under the filing register: a stepper + select on every width - the keyboard and screen-reader path
+   beside the chart (the thirty-chip strip it replaced scrolled sideways and said nothing the chart does not) */
+.yrow{display:flex;align-items:center;gap:8px;margin:12px 0 0}
+.ystep{display:flex;align-items:center;gap:6px}
 .ystep button,.ystep select{border:1px solid var(--rule-strong);background:var(--card);color:var(--ink);border-radius:8px;
   font:600 13px/1 ui-monospace,Menlo,Consolas,monospace;min-height:36px;cursor:pointer}
 .ystep button{width:40px;padding:0;font-size:18px;line-height:1}
@@ -1254,18 +1303,10 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 .ystep button:disabled{opacity:.35;cursor:default}
 @media (hover:hover){.ystep button:hover:not(:disabled),.ystep select:hover{border-color:var(--accent)}}
 @media (max-width:640px){
-  .yrow{margin-bottom:6px}
+  .yrow{margin:6px 0 0}
   .ystep{display:flex;width:100%}
   .ystep select{flex:1;font-size:16px;min-height:44px}
   .ystep button{width:44px;min-height:44px}
-  #yearPills{display:none}
-}
-/* the strip's edge fades follow its scroll position (--fl / --fr set by the script): a fade only where
-   chips continue past the edge, never on the last chip when the strip is scrolled to its end */
-@media (min-width:641px){
-  .years{--fl:0px;--fr:0px;
-    mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%)}
 }
 
 /* ---------- touch floors (A2-chrome) ---------- */
@@ -1279,8 +1320,6 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
   .tb-val input{min-height:0}
   .pill,.chip-clear{min-height:44px;padding-top:0;padding-bottom:0;display:inline-flex;align-items:center}
   #moreBtn,#capMore,#fCredit{min-height:44px}
-  .yp{min-height:44px;padding:0 13px;display:inline-flex;align-items:center}
-  .years{padding-bottom:12px}
   /* the Try seeds: compact 44px chips that fit one 390px line and WRAP (never a sideways scroller that
      clips the last chip at 390 and hides it at 320, or scrolls the 'Try:' label away on a tap) */
   .try{gap:6px 5px;margin-bottom:10px}
@@ -1314,8 +1353,14 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
    the proof). The rest sits in a .ph-fold whose own label is the counts line (.keep: visible on both): on a desk the
    fold is open and reversed, so the left column reads lede, rest, counts as a muted footer, and the tape with its key
    holds the right; on a phone the counts line is the 44px fold under the tape, the rest one tap away */
-.issue-in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);grid-template-areas:"head head" "lede side" "more side";
+.issue-in{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);grid-template-areas:"head head" "lede side" "more side" "ans ans";
   gap:6px 44px;padding-top:10px;padding-bottom:10px;align-items:start}
+/* the control / footer arithmetic behind 'ties to the penny' sits one tap under the second paragraph */
+.issue-how{margin:4px 0 0;max-width:76ch}
+.issue-how>summary{font-size:12px}
+.issue-how>div{font:400 13.5px/1.45 ui-serif,Georgia,'Times New Roman',serif;color:var(--muted);margin-top:4px}
+.issue-how>div b{color:var(--ink)}
+.issue-how:empty,.issue-how[hidden]{display:none}
 .issue-head{grid-area:head;display:flex;align-items:center;gap:4px 14px;flex-wrap:wrap;min-height:30px}
 #issueLede{grid-area:lede}
 .issue-more{grid-area:more;min-width:0}
@@ -1353,8 +1398,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 .itape-bar{display:flex;height:38px;border-radius:5px;overflow:hidden;background:color-mix(in srgb,var(--ink) 6%,transparent)}
 .is{display:block;flex:0 0 auto;min-width:0;height:100%;position:relative;cursor:pointer;box-shadow:inset -1px 0 0 var(--card);color:#fff}
 .is.f-gen{background:var(--accent)}
-.is.f-cap{background:var(--exp)}
-.is.f-ent{background-color:var(--rev);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.34) 0 2px,transparent 2px 7px)}
+.is.f-cap{background:var(--exp);color:#16181d}                     /* ink on bronze: 5.1:1 (white on it was 3.5:1) */
+.is.f-ent{background-color:color-mix(in srgb,var(--rev) 78%,#000);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.26) 0 2px,transparent 2px 7px)}   /* white labels: 6.4:1 on the fill (5.5:1 dark), the hatch kept as the shape cue */
+.is.f-cap .il{text-shadow:none}
+/* dark theme: the general-fund bronze is the LIGHT one (it is the accent), so its label turns to ink */
+:root[data-theme="dark"] .is.f-gen{color:#16181d}
+:root[data-theme="dark"] .is.f-gen .il{text-shadow:none}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .is.f-gen{color:#16181d}:root:not([data-theme="light"]) .is.f-gen .il{text-shadow:none}}
 .is.fuzz{background:repeating-linear-gradient(0deg,var(--rule-strong) 0 1px,var(--gridline) 1px 3px);box-shadow:none}
 @media (hover:hover){.is:hover{filter:brightness(1.12)}.is.fuzz:hover{filter:none;outline:2px solid var(--muted);outline-offset:-2px}}
 .is .il{position:absolute;inset:0;display:flex;align-items:center;padding:0 4px;font:500 11.5px/1 system-ui;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;
@@ -1368,13 +1418,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 .itape-key .sw{display:inline-block;width:11px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px;padding:0;border:0}   /* not the .sw panel */
 .itape-key .sw.f-gen{background:var(--accent)}
 .itape-key .sw.f-cap{background:var(--exp)}
-.itape-key .sw.f-ent{background-color:var(--rev);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.34) 0 1.5px,transparent 1.5px 5px)}
+.itape-key .sw.f-ent{background-color:color-mix(in srgb,var(--rev) 78%,#000);background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.34) 0 1.5px,transparent 1.5px 5px)}
 .itape-key .sw.fuzz{background:repeating-linear-gradient(0deg,var(--rule-strong) 0 1px,var(--gridline) 1px 3px)}
 /* the evidence lights where the press lands: a ring that fades (no hue carries the meaning; the scroll does) */
 .ev-lit{animation:evLit 2.4s ease-out both}
 @keyframes evLit{0%,40%{box-shadow:0 0 0 3px var(--accent)}100%{box-shadow:0 0 0 3px transparent}}
 @media (prefers-reduced-motion:reduce){.ev-lit{animation:none;box-shadow:0 0 0 3px var(--accent)}}
-@media (max-width:899px){.issue-in{grid-template-columns:1fr;grid-template-areas:"head" "lede" "side" "more";gap:8px}}
+@media (max-width:899px){.issue-in{grid-template-columns:1fr;grid-template-areas:"head" "lede" "side" "more" "ans";gap:8px}}
 @media (max-width:640px){
   .issue-in{padding-top:8px;padding-bottom:4px;gap:5px}
   /* the head as two rows on the left (eyebrow over title) with the 44px stepper spanning both on the right */
@@ -1641,29 +1691,79 @@ __SOURCE_BAR__
     <details class="ph-fold keep issue-more" data-open-wide>
       <summary class="issue-counts" id="issueCounts">__ISSUE_COUNTS__</summary>
       <p class="issue-lede" id="issueLede2">__ISSUE_LEDE2__</p>
+      <!-- the control / footer arithmetic behind 'ties to the penny': one tap away, never the second sentence -->
+      <details class="tailx issue-how" id="issueHow"__ISSUE_HOW_ATTR__><summary>How the tie-out is worked out</summary><div id="issueHowT">__ISSUE_HOW__</div></details>
     </details>
     <div class="issue-side">
       <div class="itape" id="issueTape">__ISSUE_TAPE__</div>
       <div class="itape-key" id="issueKey">__ISSUE_KEY__</div>
     </div>
+    <!-- THE ANSWER STRIP closes the front page: the three resident questions, every figure PRERENDERED by
+         tools/build_site.py from the same data the page hydrates from (the script re-computes each one and
+         reports a console error, which fails the page gate, if the two disagree). The CHECKBOOK cell is the
+         register's standing line - the three figures the texted card carries and the tie-out badge - so the
+         first screen on a phone and on a laptop reads the whole book, not one warrant. -->
+    <div class="answers" id="answers">
+      <a class="ans" id="ansTax" href="#taxes" aria-labelledby="ansTaxK ansTaxV" aria-describedby="ansTaxT">
+        <span class="ans-k" id="ansTaxK">What it costs a homeowner</span>
+        <span class="ans-v num" id="ansTaxV">__TAX_V__</span>
+        <span class="ans-t" id="ansTaxT">__TAX_T__</span>
+        <span class="ans-go">Your tax bill, itemised <span class="arrow">&rarr;</span></span>
+      </a>
+      <button class="ans" id="ansChange" type="button" aria-labelledby="ansChangeK ansChangeV" aria-describedby="ansChangeT">
+        <span class="ans-k" id="ansChangeK">__CHG_K__</span>
+        <span class="ans-v num" id="ansChangeV">__CHG_V__</span>
+        <span class="ans-t" id="ansChangeT">__CHG_T__</span>
+        <span class="ans-go">Compare the two years <span class="arrow">&rarr;</span></span>
+      </button>
+      <div class="ans ans-book" id="ansBook">
+        <span class="ans-k" id="ansBookK">__BOOK_K__</span>
+        <span class="ans-v reghead num" id="regHead">__REG_HEAD__</span>
+        <a class="badge" href="#recon"><span class="tick">&#10003;</span>
+          <b id="badgeNum">__BADGE_NUM__</b> <span>parsed warrants tie to the penny</span>
+          <span class="arrow">&rarr;</span></a>
+        <span class="regnote" id="regNote">__REG_NOTE__</span>
+      </div>
+    </div>
   </div>
+  <script>/* the 'What changed' card keeps ONE height across every year (PL.fitMin; the main script measures all of them
+     once the data is in). The build names the longest years' wording, so the height is reserved HERE, before the first
+     paint, and the page below it does not move when the big script ends */
+  (function(){ var c=document.getElementById('ansChange'); if(!c||!window.PL||!PL.fitMin) return;
+    PL.fitMin(c,__CHG_TALL__,function(probe,s){ probe.querySelector('.ans-k').innerHTML=s[0]; probe.querySelector('.ans-v').innerHTML=s[1];
+      probe.querySelector('.ans-t').innerHTML=s[2]; }); })();</script>
 </section>
 
+<!-- the rail's three destination tabs and the H2s they land on carry the one name the chrome's glossary gives that
+     destination (tools/_chrome.py DESTINATIONS: build_site.py fills __N_CLAIMS__ / __N_TAXES__ / __N_RECON__), so the
+     switcher, the tab, the heading and the <title> never spell one place two ways -->
 <nav class="rail"><div class="wrap rail-in">
   <a href="#money" class="on" data-short="Spending">Revenue &amp; spending</a>
-  <a href="#explore" data-short="Claims">Every claim</a>
+  <a href="#explore" data-short="Claims">__N_CLAIMS__</a>
   <a href="#capital" data-short="Capital">Capital projects</a>
-  <a href="#taxes" data-short="Tax bill">Your tax bill</a>
-  <a href="#recon" data-short="Proof">How this was verified</a>
+  <a href="#taxes" data-short="Tax bill">__N_TAXES__</a>
+  <a href="#recon" data-short="Proof">__N_RECON__</a>
   <a href="#limits" data-short="Limits">What this cannot show</a>
 </div></nav>
 
 <main class="wrap" id="main">
 
-  <!-- Every figure below is PRERENDERED by tools/build_site.py from the same data the
-       page hydrates from; the script re-computes each one and reports a console error
-       (which fails the page gate) if the two ever disagree. No count-up: the true value
-       is the first value painted. -->
+  <section id="money">
+    <div class="sched">Schedule 1 · Annual financial reports, NYS Comptroller</div>
+    <h2>Where the money comes from, and where it goes</h2>
+    <p class="lede" style="margin-bottom:6px">Self-reported by the city to the
+      <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a> &mdash;
+      desk-reviewed, not audited. Pick a year on the chart, then open any category.</p>
+    <details class="tailx ledex"><summary>What that means</summary>Each annual financial report is certified by the
+      city&rsquo;s chief fiscal officer and filed with the Office of the State Comptroller, which desk-reviews it for
+      completeness and consistency but does not audit it. The figures are the city&rsquo;s own.</details>
+
+  <!-- THE ANNUAL FILING register is Schedule 1's own head (it stopped competing with the front page for the first
+       screen): the selected year's three figures and the thirty-year chart, which IS the year scrubber - hover reads a
+       year, a click or a slide picks it, and the Schedule below follows. The stepper + select beside it is the keyboard
+       and screen-reader path (the thirty-chip strip it replaced scrolled sideways and said nothing the chart does not).
+       Every figure is PRERENDERED by tools/build_site.py from the same data the page hydrates from; the script
+       re-computes each one and reports a console error (which fails the page gate) if the two ever disagree. -->
   <div class="hero" id="hero">
     <div class="hcard">
       <div class="hreg" id="heroReg"><span class="hreg-t" id="heroRegT">__HERO_REG__</span>
@@ -1689,56 +1789,15 @@ __SOURCE_BAR__
         <div class="htr-cap"><span><b>__HERO_FIRST__&ndash;__HERO_YEAR__</b> &middot; __HERO_N__ annual filings</span><span id="heroTrendHint">select a year</span></div>
       </div>
       <p class="hnote" id="heroNote">__HERO_NOTE__</p>
-    </div>
-    <div class="answers" id="answers">
-      <a class="ans" id="ansTax" href="#taxes">
-        <span class="ans-k">What it costs a homeowner</span>
-        <span class="ans-v num" id="ansTaxV">__TAX_V__</span>
-        <span class="ans-t" id="ansTaxT">__TAX_T__</span>
-        <span class="ans-go">Your tax bill, itemised <span class="arrow">&rarr;</span></span>
-      </a>
-      <button class="ans" id="ansChange" type="button">
-        <span class="ans-k" id="ansChangeK">__CHG_K__</span>
-        <span class="ans-v num" id="ansChangeV">__CHG_V__</span>
-        <span class="ans-t" id="ansChangeT">__CHG_T__</span>
-        <span class="ans-go">Compare the two years <span class="arrow">&rarr;</span></span>
-      </button>
-      <div class="ans ans-book" id="ansBook">
-        <span class="ans-k" id="ansBookK">__BOOK_K__</span>
-        <a class="badge" href="#recon"><span class="tick">&#10003;</span>
-          <b id="badgeNum">__BADGE_NUM__</b> <span>parsed warrants tie to the penny</span>
-          <span class="arrow">&rarr;</span></a>
-        <span class="reghead" id="regHead">__REG_HEAD__</span>
-        <span class="regnote" id="regNote">__REG_NOTE__</span>
+      <div class="yrow">
+        <div class="ystep" id="yearStep">
+          <button type="button" id="yPrev" aria-label="Earlier year">&lsaquo;</button>
+          <select id="ySel" aria-label="Filing year"></select>
+          <button type="button" id="yNext" aria-label="Later year">&rsaquo;</button>
+        </div>
       </div>
     </div>
   </div>
-
-  <script>/* the 'What changed' card keeps ONE height across every year (PL.fitMin; the main script measures all of them
-     once the data is in). The build names the longest years' wording, so the height is reserved HERE, before the first
-     paint, and the page below it does not move when the big script ends */
-  (function(){ var c=document.getElementById('ansChange'); if(!c||!window.PL||!PL.fitMin) return;
-    PL.fitMin(c,__CHG_TALL__,function(probe,s){ probe.querySelector('.ans-k').innerHTML=s[0]; probe.querySelector('.ans-v').innerHTML=s[1];
-      probe.querySelector('.ans-t').innerHTML=s[2]; }); })();</script>
-
-  <section id="money">
-    <div class="sched">Schedule 1 · Annual financial reports, NYS Comptroller</div>
-    <h2>Where the money comes from, and where it goes</h2>
-    <p class="lede" style="margin-bottom:6px">Self-reported by the city to the
-      <a href="https://www.osc.ny.gov/local-government/data" id="oscLink">NYS Comptroller</a> &mdash;
-      desk-reviewed, not audited. Pick a year, then open any category.</p>
-    <details class="tailx ledex"><summary>What that means</summary>Each annual financial report is certified by the
-      city&rsquo;s chief fiscal officer and filed with the Office of the State Comptroller, which desk-reviews it for
-      completeness and consistency but does not audit it. The figures are the city&rsquo;s own.</details>
-
-    <div class="yrow">
-      <div class="ystep" id="yearStep">
-        <button type="button" id="yPrev" aria-label="Earlier year">&lsaquo;</button>
-        <select id="ySel" aria-label="Filing year"></select>
-        <button type="button" id="yNext" aria-label="Later year">&rsaquo;</button>
-      </div>
-      <div class="years" id="yearPills" role="tablist" aria-label="Filing year"></div>
-    </div>
 
     <div class="pair" data-hgroup="sched">
       <div class="panel">
@@ -1758,13 +1817,16 @@ __SOURCE_BAR__
     <div class="panel" style="margin-top:14px">
       <h3>Revenue against spending, <span class="num">__HERO_FIRST__&ndash;__HERO_YEAR__</span></h3>
       <div class="sub" id="trendSub"></div>
+      <div id="fig-trend"__CHART_TREND__>
       <div class="legend" id="trendKey"></div>
       <div class="chartwrap" id="trendWrap">
         <svg class="trend" id="trend" viewBox="0 0 900 300" role="img"
              aria-label="North Tonawanda revenue and expenditure, __HERO_FIRST__ to __HERO_YEAR__"></svg>
+        <p class="pl-vh" id="trendDesc"></p>
       </div>
       <div class="readout num" id="trendRead" aria-hidden="true"></div>
       <div class="pl-vh" id="trendLive" role="status" aria-live="polite"></div>
+      </div>
       <div style="margin-top:12px"><button class="pill" id="cmpOpen" type="button">
         Compare two years — what moved</button></div>
       <details class="ph-fold" data-open-wide><summary>About these two lines</summary><p class="note" id="trendNote" style="margin-top:4px"></p></details>
@@ -1773,10 +1835,11 @@ __SOURCE_BAR__
     </div>
 
     <div class="panel" style="margin-top:14px">
-      <h3><span id="peerH">Nine cities</span>, per resident <span class="tot num" id="peerYear"></span></h3>
+      <h3><span><span id="peerH">Nine cities</span>, per resident</span> <span class="tot num" id="peerYear"></span></h3>
       <div class="sub" id="peerLede"></div>
       <details class="ph-fold" data-open-wide><summary>The <span id="peerFoldN">__PEER_N__</span> cities, ranked</summary>
       <div class="sub" id="peerWho" style="margin-top:-8px"></div>
+      <div id="fig-peers"__CHART_PEERS__>
       <div class="seg" id="peerSeg" role="group" aria-label="Rank by">
         <button type="button" data-peer="exp" aria-pressed="true">Rank by spending</button>
         <button type="button" data-peer="rev" aria-pressed="false">by revenue</button>
@@ -1785,6 +1848,7 @@ __SOURCE_BAR__
       <div class="dotplot" id="peerRank" data-hgroup="peers" data-hdim></div>
       <p class="note">Cities differ in what they run — some operate their own water, sewer or utility
         systems, so per-resident figures are context, not a scorecard.</p>
+      </div>
       <details class="ph-fold" data-open-wide><summary>What the levy counts, and the sources</summary>
         <p class="note" style="margin-top:4px">The property-tax figure is the
         <b>city levy only</b>: the school district and the county are separate governments, and together
@@ -1800,9 +1864,11 @@ __SOURCE_BAR__
 
 
 
-  <section id="explore">
+  <!-- data-hgroup="reg" on the SECTION: the warrant bars, the facet rows and the line-detail rows are one hover-linking
+       group (a line row lights its warrant's bar, a bar lights every row and facet of that meeting) -->
+  <section id="explore" data-hgroup="reg" data-hdim>
     <div class="sched">Schedule 2 · The city’s Warrant of Claims, 2025–2026</div>
-    <h2>Explore the register</h2>
+    <h2>__N_CLAIMS__</h2>
     <p class="lede">Every claim the city approved across 2025 and 2026, summarised first.<span class="ph-x"> Select any bar
       to filter — everything recalculates.</span> Approvals only: no revenue, no budget.</p>
 
@@ -1828,15 +1894,17 @@ __SOURCE_BAR__
 
     <div class="vx-arrive" id="vxArrive" hidden></div>
     <div class="payee-line" id="payeeLine" hidden></div>
-    <details class="explore-fold" id="exploreFold" open data-hgroup="reg" data-hdim><summary id="exploreFoldS">Show the breakdown</summary>
+    <details class="explore-fold" id="exploreFold" open><summary id="exploreFoldS">Show the breakdown</summary>
     <div class="tiles" id="regTiles"></div>
 
     <div class="panel" style="margin-bottom:14px">
       <h3>Approvals by warrant <a id="wcBrief" class="briefbtn tot" hidden></a></h3>
       <div class="sub" id="warrantSub"></div>
+      <div id="fig-warrants"__CHART_WARRANTS__>
       <div class="wchart"><div id="warrantChart"></div><div class="wtip num" id="wTip" hidden></div></div>
-      <div class="wsel" id="wSel"></div>
       <p class="vx-dia-cap" id="vxDiaCap" hidden>diamond = a county resolution naming this payee (permission, not payment)</p>
+      </div>
+      <div class="wsel" id="wSel"></div>
       <div class="rx-host" id="evHost" hidden></div>
       <div class="ev-actions" id="evActs" hidden><button type="button" class="pill" id="evSave">Save evidence card</button></div>
     </div>
@@ -1927,8 +1995,10 @@ __SOURCE_BAR__
     <div data-hgroup="cap" data-hdim>
     <div class="panel" style="margin-bottom:14px">
       <h3>The six largest, at their pace <span class="tot num" id="paceSpan"></span></h3>
+      <div id="fig-paces"__CHART_PACES__>
       <div class="sub" id="paceSub"></div>
       <div class="paces" id="paces"></div>
+      </div>
     </div>
     <div class="panel">
       <h3>Committed to date <span class="tot num" id="capTot" style="color:var(--exp-ink)"></span></h3>
@@ -1944,7 +2014,7 @@ __SOURCE_BAR__
 
   <section id="taxes">
     <div class="sched">Schedule 4 · Overlapping property-tax rates, state data</div>
-    <h2>Your tax dollar, itemised</h2>
+    <h2>__N_TAXES__</h2>
     <p class="lede">A different lens than the rest of this page: a property-tax bill is
       <b>three governments stacked</b> — and the city everything above tracks is less than a third
       of it.<span class="ph-x"> The school district and the county levy the rest, on their own budgets.</span></p>
@@ -1968,8 +2038,10 @@ __SOURCE_BAR__
       <div class="tb-mode"><div class="seg" id="tbMode" role="group" aria-label="Show the chart as">
         <button type="button" data-mode="rate" aria-pressed="true">Rate per $1,000</button>
         <button type="button" data-mode="bill" aria-pressed="false">$ on this home</button></div></div>
+      <div id="fig-taxrates"__CHART_TAX__>
       <div id="tbHist"></div>
       <div class="tbr num" id="tbRead" aria-hidden="true"></div>
+      </div>
       <details class="tailx" id="tbData"><summary>Every year as a table</summary><div id="tbTable"></div></details>
       <p class="note">Rates are per $1,000 of <b>full (market) value</b> from the state's overlapping-rates
         data<span class="ph-x">, using each city's namesake school district</span> — the arithmetic of the published rates, not a
@@ -1996,7 +2068,7 @@ __SOURCE_BAR__
 
   <section id="recon">
     <div class="sched">Schedule 5 · The proof</div>
-    <h2>How this was verified</h2>
+    <h2>__N_RECON__</h2>
     <p class="lede">Each warrant prints its own control totals, so nothing here is self-graded.
       Every machine-readable document reconciles to them exactly<span class="ph-x"> — select a row for the per-fund detail</span>.</p>
     <p class="note" id="reconNote"></p>
@@ -2050,6 +2122,16 @@ __SOURCE_BAR__
     </div>
     <button class="pill limits-more" type="button" id="limitsMore" aria-expanded="false" aria-controls="limits-list"></button>
   </section>
+
+  <section id="data">
+    <div class="sched">Schedule 7 · The files</div>
+    <h2>Get the data</h2>
+    <p class="lede">Every schedule on this page, as a file you can open in a spreadsheet. The figures are the ones on screen, tied out before
+      they were written; what each one cannot say travels in the file.</p>
+    <details class="ph-fold" data-open-wide><summary>The four schedules as files, CSV and JSON</summary>
+    __GETDATA__
+    </details>
+  </section>
 </main>
 
 <footer class="wrap">
@@ -2061,7 +2143,9 @@ __SOURCE_BAR__
      Figures are approvals as published, not audited actuals.</p></details>
   <p>Built by <a href="https://jcurry44.github.io">Joe Curry &middot; Curry Studio</a> from public records
      published by the City of North Tonawanda. Not affiliated with, endorsed by, or produced for the City.
-     Corrections welcome — every figure links to its source page.</p>
+     Corrections welcome — every figure links to its source page.
+     <!-- the feed is one tap from the foot of the page as it is from the head (the chrome's C.follow_link) -->
+     <span class="foot-follow">__FOLLOW__</span></p>
 </footer>
 </div><!-- /folio -->
 
@@ -2110,8 +2194,28 @@ __TOAST__
 <script id="rx-data" type="application/json">/*__RX__*/</script>
 <script id="textfmt-data" type="application/json">__TEXTFMT__</script>
 <script>
+/* THE BOOT IS CHUNKED. The page's first screen is prerendered into the HTML; everything below it is drawn by this one script,
+   and drawn in one go it was a single 690 ms task at 4x CPU. It is an async function now: each `await plYield()` hands the
+   thread back (input and paint go first), so no chunk is longer than ~120 ms at 4x. Statement order, scoping and hoisting
+   are exactly what they were. The held iframe below keeps the window's load event waiting until the last chunk ran, so
+   anything that waits for `load` (a test, a screenshot, print) still meets the finished page; html[data-pl-ready] says so too. */
 (function(){
+  var f=document.createElement('iframe'); f.setAttribute('aria-hidden','true'); f.tabIndex=-1; f.title='';
+  f.style.cssText='position:absolute;width:0;height:0;border:0;visibility:hidden;pointer-events:none';
+  document.body.appendChild(f);
+  try{ f.contentDocument.open(); window.__plHold=f; }catch(e){ f.remove(); }
+})();
+(async function(){
 "use strict";
+/* a yield that ALSO lets a frame happen: layout and paint of what the last chunk drew are paid in the frame, not in the next
+   chunk's first forced measurement (scheduler.yield alone resumed before any frame). A hidden tab never fires rAF, so a
+   timer races it and the boot still finishes. */
+var plYield=function(){ return new Promise(function(r){
+  var done=false; function fin(){ if(!done){ done=true; r(); } }
+  requestAnimationFrame(function(){ var c=new MessageChannel(); c.port1.onmessage=function(){ c.port1.close(); fin(); }; c.port2.postMessage(0); });
+  setTimeout(fin,150);
+}); };
+var plAfterParse=function(){ return document.readyState==='loading' ? new Promise(function(r){ document.addEventListener('DOMContentLoaded',function(){ r(); }); }) : Promise.resolve(); };
 var D = JSON.parse(document.getElementById('warrant-data').textContent);
 var R = D.rows, V = D.vendors, A = D.accounts, AD = D.acctDesc;
 /* ===== Move 10: same-name vendor hop (city <-> county) ===== */
@@ -2121,13 +2225,14 @@ var VX = (function(){
 })();
 var VX_HONESTY = (VX && VX.honesty) || (
   'A name match, not a verified link. The county authorises or accepts money in these resolutions; ' +
-  'the city\'s lines are payments. They are never added.');
+  'the city\'s lines are claims the city approved, not necessarily paid. They are never added.');
 var VX_BY_KEY = {};
 var VX_BY_PAYEE = (VX && VX.byPayee) || {};
 if (VX && VX.keys) VX.keys.forEach(function(e){ VX_BY_KEY[e.k] = e; });
 
 function vxNormQ(s){
   s = (s || '').toLowerCase().replace(/'s\b/g, '');
+  s = s.replace(/\b((?:[a-z]\.){2,})/g, function(m){ return m.replace(/\./g, ''); });   /* M.H. -> mh, P.C. -> pc */
   s = s.replace(/\b([a-z])\s*&\s*([a-z])\b/g, '$1$2');
   s = s.replace(/&/g, ' and ');
   s = s.replace(/[^a-z0-9& ]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -2137,10 +2242,10 @@ function vxNormQ(s){
 }
 function vxTopicMix(tp){
   var labels = {c:'contracts & bids',g:'grants accepted',b:'budget',p:'personnel',s:'ceremonial',o:'other',r:'real property',a:'appointments'};
-  var parts = [];
-  Object.keys(tp || {}).sort(function(a,b){ return (tp[b]||0)-(tp[a]||0); }).forEach(function(k){
-    if (tp[k]) parts.push(tp[k] + ' ' + (labels[k] || 'other'));
-  });
+  /* two topic keys can share one word ('o' and an unlisted key are both 'other'): count each word once */
+  var by = {};
+  Object.keys(tp || {}).forEach(function(k){ if (tp[k]) { var w = labels[k] || 'other'; by[w] = (by[w] || 0) + tp[k]; } });
+  var parts = Object.keys(by).sort(function(a,b){ return by[b] - by[a] || (a < b ? -1 : 1); }).map(function(w){ return by[w] + ' ' + w; });
   return parts.slice(0, 3).join(', ');
 }
 function vxEntryForPayees(names){
@@ -2155,14 +2260,18 @@ function vxEntryForPayees(names){
   if (ks.length !== 1) return null;
   return VX_BY_KEY[ks[0]] || null;
 }
-function vxHopHTML(e){
-  if (!e) return '';
+function vxHopBits(e){
   var n = (e.nT || 0) + (e.nX || 0);
   var span = (e.y && e.y.length === 2) ? (e.y[0] === e.y[1] ? e.y[0] : e.y[0] + '\u2013' + e.y[1]) : '';
   var bits = [n + ' (' + (e.nT || 0) + ' in titles, ' + (e.nX || 0) + ' in text)'];
   if (span) bits.push(span);
   var mix = vxTopicMix(e.tp);
   if (mix) bits.push(mix);
+  return bits;
+}
+function vxHopHTML(e){
+  if (!e) return '';
+  var bits = vxHopBits(e);
   var href = 'decisions.html?q=' + encodeURIComponent(e.q) + '&from=city';
   return '<div class="vx-hop" title="' + esc(VX_HONESTY) + '">' +
     '<span class="vx-k">Same name in county resolutions</span>' +
@@ -2202,10 +2311,16 @@ function vxPaintArrive(){
   if (!box) return;
   var u = new URL(location.href);
   if (u.searchParams.get('from') !== 'county'){ box.hidden = true; return; }
+  /* ?payee=A|B is a SET of the city's spellings (decisions.html sends every spelling of one key): the set resolves to its
+     key, whose county search term (e.q) is what the arrival names and what 'Back to county votes' searches for */
   var pay = u.searchParams.get('payee') || '';
+  var names = pay.split('|').filter(Boolean);
+  var e = vxEntryForPayees(names);
+  var shown = e ? e.q : (names.length ? names.join(' / ') : '');
+  var back = e ? e.q : (names[0] || '');
   box.innerHTML = '<span><b>Same name</b> from the county register' +
-    (pay ? ' \u00b7 ' + esc(pay) : '') + '.</span>' +
-    '<a href="decisions.html?q=' + encodeURIComponent(pay || '') + '">Back to county votes \u2192</a>';
+    (shown ? ' \u00b7 ' + esc(shown) : '') + (names.length > 1 ? ' (' + names.length + ' spellings in the city\u2019s books)' : '') + '.</span>' +
+    '<a href="decisions.html?q=' + encodeURIComponent(back) + '">Back to county votes \u2192</a>';
   box.hidden = false;
 }
 vxPaintDoor();
@@ -2213,9 +2328,9 @@ vxPaintArrive();
 
 var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9;
 
+var NF2 = new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});   /* one formatter: toLocaleString(opts) built a new one per call (thousands per boot) */
 function money(n){
-  var s = Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
-  return (n<0?'−$':'$')+s;
+  return (n<0?'−$':'$')+NF2.format(Math.abs(n));
 }
 var money0=PL.money0;                                   /* the chrome's runtime module 'fmt' */
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){
@@ -2282,6 +2397,8 @@ var PARSED_DOCS = D.meta.docs - (D.meta.scans||0);
    (window.PLFresh, fed by the build's own manifest); this script only marks the proof-table rows. */
 
 /* ---------- tie-out ---------- */
+await plAfterParse();          /* the first chunk ends here: the parser finishes, DOMContentLoaded fires, the first frame paints - then the rest */
+await plYield();
 (function(){
   var n=D.meta.scans||0, sup=(D.meta.superseded||[]).length;
   var bits=[];
@@ -2332,14 +2449,27 @@ function docIndexOf(key){ for(var i=0;i<D.docs.length;i++) if(docKey(i)===key) r
 var TIE={open:'', months:{}, rows:{}, all:false};
 var monthOf=function(doc){ var iso=isoOf(doc); return iso ? iso.slice(0,7) : 'undated'; };
 var lastMonth=null, monthStats={};
-TIE_ORDER.forEach(function(i){
-  var doc=D.docs[i], m=monthOf(doc);
-  var s=monthStats[m]||(monthStats[m]={w:0,c:0,s:0,amt:0,ex:0,n:0,names:[]});
+/* THE PENDING STATE: a posting the city's accounting page listed at the last check that this build has not read
+   (D.meta.sourceCheck.unread, build_site_data.py source_check). It is drawn into the tape as a hatched row in its own
+   month, newest first like everything else - 'listed on the city's page as of the <check> check · not yet read' - so the
+   proof never reads 'current' over a gap it knows about. Never 'late': a posting the ledger has not read is the ledger's
+   gap, not the city's. */
+var SC=D.meta.sourceCheck||{}, PENDING=(SC.unread||[]).slice().sort(function(a,b){ return (b.date||'')<(a.date||'')?-1:(b.date||'')>(a.date||'')?1:0; });
+var CHECK_MDY=SC.checkedAt ? SC.checkedAt.slice(5,7)+'/'+SC.checkedAt.slice(8,10) : '';
+function pendMonth(u){ return u.date ? u.date.slice(0,7) : 'undated'; }
+/* the tape's entries in order: pending postings (dated after the through-date, so they lead) then the documents */
+var ENTRIES=PENDING.map(function(u){ return {pend:u, iso:u.date||'', m:pendMonth(u)}; })
+  .concat(TIE_ORDER.map(function(i){ return {i:i, iso:isoOf(D.docs[i]), m:monthOf(D.docs[i])}; }))
+  .sort(function(a,b){ return a.iso<b.iso ? 1 : a.iso>b.iso ? -1 : 0; });
+ENTRIES.forEach(function(e){
+  var m=e.m, s=monthStats[m]||(monthStats[m]={w:0,c:0,s:0,p:0,amt:0,ex:0,n:0,names:[]});
+  if(e.pend){ s.p++; return; }
+  var doc=D.docs[e.i];
   if(doc.isScan){ s.s++; s.names.push(doc.f.replace(/\.pdf$/i,'').replace(/^Warrant Report /i,'')); }
   else { if(doc.isCard) s.c++; else s.w++; s.amt+=doc.sumE||0; s.n++; if(doc.status==='EXACT') s.ex++; }
 });
-TIE_ORDER.forEach(function(i){
-  var doc=D.docs[i], m=monthOf(doc);
+ENTRIES.forEach(function(e){
+  var m=e.m;
   if(m!==lastMonth){
     lastMonth=m;
     var s=monthStats[m], mr=document.createElement('tr');
@@ -2348,15 +2478,34 @@ TIE_ORDER.forEach(function(i){
     var what=[]; if(s.w) what.push(s.w+' warrant'+(s.w===1?'':'s')); if(s.c) what.push(s.c+' card'+(s.c===1?'':'s'));
     var verdict = s.n ? (s.ex===s.n ? (s.n===1?'ties exactly':'all tie exactly')+' <span class="tick">✓</span>' : s.ex+' of '+s.n+' tie') : '';
     var scans = s.s ? (s.s+' image scan'+(s.s===1?'':'s')+' ('+s.names.join(', ')+'), not parsed') : '';
+    var pend = s.p ? ('<span class="m-pend">'+s.p+' posting'+(s.p===1?'':'s')+' not yet read</span>') : '';
     var label = m==='undated' ? 'Undated' : MONTH_N[+m.slice(5,7)-1]+' '+m.slice(0,4);
-    mr.innerHTML='<td class="m-k">'+label+'</td>'+
-      '<td class="m-v num">'+(s.n ? '$'+(s.amt>=1e6 ? (s.amt/1e6).toFixed(2)+'M' : Math.round(s.amt/1e3).toLocaleString('en-US')+'K') : '')+
-        (verdict?'<span class="tick">'+verdict+'</span>':'')+'</td>'+
-      '<td class="m-s">'+(what.length ? what.join(' + ') : '')+(what.length&&scans ? ' · ' : '')+scans+'</td>';
+    /* three cells on every width: the month (2 columns of the desk table), what it holds (3), its dollars and verdict (3);
+       the phone's grid places them by name, so the order is the desk's */
+    mr.innerHTML='<td class="m-k" colspan="2">'+label+'</td>'+
+      '<td class="m-s" colspan="3">'+[what.length ? what.join(' + ') : '', scans, pend].filter(Boolean).join(' · ')+'</td>'+
+      '<td class="m-v num" colspan="3">'+(s.n ? '$'+(s.amt>=1e6 ? (s.amt/1e6).toFixed(2)+'M' : Math.round(s.amt/1e3).toLocaleString('en-US')+'K') : '')+
+        (verdict?'<span class="tick">'+verdict+'</span>':'')+'</td>';
     tb.appendChild(mr);
     TIE.months[m]={row:mr, docs:[], open:false, idx:Object.keys(TIE.months).length};
     mr.addEventListener('click',function(){ TIE.setMonth(m, !TIE.months[m].open); });
+    mr.addEventListener('keydown',function(ev){ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); TIE.setMonth(m, !TIE.months[m].open); } });
   }
+  if(e.pend){
+    /* the hatched row: shape and words, never hue (the owner is colour blind); nothing to open */
+    var u=e.pend, pr=document.createElement('tr'), pd=u.date ? u.date.slice(5,7)+'/'+u.date.slice(8,10)+'/'+u.date.slice(0,4) : '—';
+    pr.className='doc-row pending'; pr.setAttribute('data-m',m); pr.setAttribute('aria-label','Not yet read: '+u.name);
+    var note='listed on the city&rsquo;s page'+(CHECK_MDY ? ' as of the <b>'+CHECK_MDY+'</b> check' : '')+' &middot; not yet read in this ledger';
+    pr.innerHTML='<td class="t-doc"><span class="fn">'+esc(String(u.name).replace(/\.pdf$/i,''))+'</span>'+(u.card?' <span class="chip card">CARD</span>':'')+'</td>'+
+      '<td class="num t-date">'+esc(pd)+'</td>'+
+      '<td class="r num t-n"><span class="t-dash">—</span></td><td class="r num t-pub"><span class="t-dash">—</span></td>'+
+      '<td class="r num t-sum"><span class="t-note">'+note+'</span></td>'+
+      '<td class="r num t-ctl"><span class="t-dash">—</span></td><td class="r num t-var"><span class="t-dash">—</span></td>'+
+      '<td class="t-status"><span class="chip warn">NOT YET READ</span></td>';
+    tb.appendChild(pr); TIE.months[m].docs.push(pr);
+    return;
+  }
+  var i=e.i, doc=D.docs[i];
   var ok = doc.status==='EXACT';
   var scan = !!doc.isScan;
   var chip = scan ? '<span class="chip warn">IMAGE SCAN</span>'
@@ -2425,15 +2574,16 @@ TIE_ORDER.forEach(function(i){
     syncURL(false);
   });
 });
-/* month folding is a PHONE behaviour: wide screens show every row (the month rows are display:none there).
-   The tape itself is tiered on a phone: the newest TIE_SHOW months first; a month that is opened (a tap, the
-   'New since' landing, a proof link) always shows; 'Show all N documents' unfolds every month. */
+/* the MONTH TAPE on every width (IDXB-05): one row per month - what it holds, its dollars, 'all tie exactly' or the
+   scans named - that opens to that month's documents; the newest month opens by itself. A phone lists only the newest
+   TIE_SHOW months at first (a desk lists every month); a month that is opened (a tap, the 'New since' landing, a proof
+   link) always shows; 'Show all N documents' unfolds every month. */
 var TIE_SHOW=3;
 TIE.setMonth=function(m,open){
   var M=TIE.months[m]; if(!M) return;
   M.open=open; M.row.classList.toggle('m-open',open); M.row.setAttribute('aria-expanded',open?'true':'false');
   M.row.hidden = isPhone() && !TIE.all && !open && M.idx>=TIE_SHOW;
-  M.docs.forEach(function(r){ r.hidden=!(open||!isPhone()); });
+  M.docs.forEach(function(r){ r.hidden=!open; });
   TIE.paintTools();
 };
 TIE.setAll=function(open){ TIE.all=open; Object.keys(TIE.months).forEach(function(m){TIE.setMonth(m,open);}); };
@@ -2447,7 +2597,8 @@ TIE.paintTools=function(){
   var ms=Object.keys(TIE.months), openN=ms.filter(function(m){return TIE.months[m].open;}).length;
   var c=document.getElementById('tieCount'), b=document.getElementById('tieAll'); if(!c||!b) return;
   var tiered = isPhone() && !TIE.all && ms.length>TIE_SHOW;
-  c.textContent=D.docs.length+' documents · '+ms.length+' months'+(tiered ? ', newest '+TIE_SHOW+' first' : '');
+  c.textContent=D.docs.length+' documents · '+ms.length+' months'+(tiered ? ', newest '+TIE_SHOW+' first' : '')+
+    (PENDING.length ? ' · '+PENDING.length+' posting'+(PENDING.length===1?'':'s')+' not yet read' : '');
   var all = openN===ms.length;
   b.textContent = all ? 'Fold the months' : 'Show all '+D.docs.length+' documents';
   b.setAttribute('aria-expanded', all?'true':'false');
@@ -2455,17 +2606,18 @@ TIE.paintTools=function(){
 (function(){
   var b=document.getElementById('tieAll');
   if(b) b.addEventListener('click',function(){ var ms=Object.keys(TIE.months); TIE.setAll(!ms.every(function(m){return TIE.months[m].open;})); });
-  function apply(){ if(isPhone()){ Object.keys(TIE.months).forEach(function(m){TIE.setMonth(m,TIE.months[m].open);}); }
-    else Object.keys(TIE.months).forEach(function(m){TIE.months[m].row.hidden=false; TIE.months[m].docs.forEach(function(r){r.hidden=false;});}); TIE.paintTools(); }
+  function apply(){ Object.keys(TIE.months).forEach(function(m){TIE.setMonth(m,TIE.months[m].open);}); TIE.paintTools(); }
   PHONE.addEventListener ? PHONE.addEventListener('change',apply) : PHONE.addListener(apply);
-  /* the newest month opens by itself on a phone: the first thing under the gate line is a document, not a fold */
+  /* the newest month opens by itself: the first thing under the gate line is a document, not a fold */
   var first=Object.keys(TIE.months)[0]; if(first) TIE.months[first].open=true;
   apply();
 })();
 /* details that are a fold on phones and plain panels on wide screens */
 (function(){
   var ds=[].slice.call(document.querySelectorAll('details[data-open-wide]'));
-  function apply(){ ds.forEach(function(d){ if(!isPhone()) d.open=true; else if(!d.__touched) d.open=false; }); }
+  /* ?embed=<id>: the chrome opened every fold around that chart (and runs after the first chunk of this script): leave them open */
+  var embedded=/[?&]embed=/.test(location.search);
+  function apply(){ if(embedded) return; ds.forEach(function(d){ if(!isPhone()) d.open=true; else if(!d.__touched) d.open=false; }); }
   ds.forEach(function(d){ d.addEventListener('toggle',function(){ if(isPhone()) d.__touched=true; }); });
   PHONE.addEventListener ? PHONE.addEventListener('change',apply) : PHONE.addListener(apply);
   apply();
@@ -2485,6 +2637,15 @@ var O = JSON.parse(document.getElementById('osc-data').textContent);
    dashes. The only motion on load is the double rule and the chart lines being drawn. */
 var HERO={latest:O.years.length-1};
 var hydrate=PL.hydrate;                                  /* the chrome's runtime module 'hydrate' */
+/* the checkbook's standing line, 'N claims · $X.XM · P payees': every figure a press (data-ev handled by the front
+   page's press handler - 'reg' lands on the register, 'payees' opens the complete payee list). One function, one
+   markup; tools/build_site.py reg_head writes the identical string for the first paint. */
+function regHeadHTML(rows, total, payees){
+  var SEP=' <span class="pl-sep" aria-hidden="true">&middot;</span> ';
+  return '<a class="pev" href="#explore" data-ev="reg"><b>'+rows.toLocaleString('en-US')+'</b></a> <span class="w">claims</span>'+SEP+
+    '<a class="pev" href="#explore" data-ev="reg"><b>$'+(total/1e6).toFixed(1)+'M</b></a>'+SEP+
+    '<a class="pev" href="#explore" data-ev="payees"><b>'+payees.toLocaleString('en-US')+'</b></a> <span class="w">payees</span>';
+}
 var DEBT='Proceeds of Debt';
 function debtOf(yr){ return catTotals(0,yr)[DEBT]||0; }
 function pct1(v){ return (v<0?'−':'+')+Math.abs(v).toFixed(1)+'%'; }
@@ -2522,8 +2683,14 @@ function setChange(i){
    height and nothing below it (Schedule 1, the stepper under the reader's thumb) moves. Re-run on
    resize and once the display face has loaded. */
 var YEAR_STATES=O.years.map(function(y,i){ return i; });
-function fitChange(){
-  PL.fitMin(document.getElementById('ansChange'), YEAR_STATES, function(probe,i){
+function fitChange(top){
+  /* top = N: measure only the N wordiest years (the boot's call; the tallest card is one of them); no argument = every year (idle, fonts, resize) */
+  var states=YEAR_STATES;
+  if(top){
+    var wt=function(i){ var c=changeParts(i); return (c.k+c.v+c.t).length; };
+    states=YEAR_STATES.slice().sort(function(a,b){ return wt(b)-wt(a); }).slice(0,top);
+  }
+  PL.fitMin(document.getElementById('ansChange'), states, function(probe,i){
     var c=changeParts(i), go=probe.querySelector('.ans-go');
     probe.querySelector('.ans-k').innerHTML=c.k; probe.querySelector('.ans-v').innerHTML=c.v; probe.querySelector('.ans-t').innerHTML=c.t;
     if(go) go.hidden=(i<1);
@@ -2569,8 +2736,9 @@ function setHero(i){
   hydrate('ansBookK','Checkbook'+(span?'<span class="ph-x"> &middot; <b>'+span+'</b></span>':'')+' &middot; warrants through '+esc(D.meta.throughDate)+
     (behind ? ' &middot; <b>'+behind+' not yet read</b>' : ''));
   var hyg=(D.hygiene||[]).length, scans=D.meta.scans||0;
-  hydrate('regHead','<b>'+D.meta.rows.toLocaleString('en-US')+'</b> claims &middot; <b>$'+(D.meta.totalAll/1e6).toFixed(1)+'M</b> &middot; <b>'+
-    D.meta.vendors.toLocaleString('en-US')+'</b> payees');
+  /* the standing line: three pressable figures (the register, the register's value, the complete payee list) with
+     their words beside them - the same markup tools/build_site.py paints (textContent is what the drift check reads) */
+  hydrate('regHead', regHeadHTML(D.meta.rows, D.meta.totalAll, D.meta.vendors));
   hydrate('regNote',(scans ? scans+' image scan'+(scans===1?'':'s')+' declared, not parsed' : '')+(scans&&hyg ? '<span class="ph-x"> &middot; </span>' : '')+
     (hyg ? '<a class="reg-more" href="#explore" data-find="hygiene">'+hyg+' payee'+(hyg===1?'':'s')+' under more than one vendor code</a>' : ''));
   var rs=document.getElementById('heroReset');
@@ -2890,7 +3058,7 @@ function renderRank(el, items, cssVar, total, onClick, expand, onOther, opts){
         return;
       }
       var t = e.target.closest('[data-rank]');
-      if(t && el.__click) el.__click(el.__items[+t.getAttribute('data-rank')]);
+      if(t && el.__click) el.__click(el.__items[+t.getAttribute('data-rank')], t);     /* the row is the sheet's opener */
     });
   }
   el.__items = items; el.__click = onClick; el.__expand = expand; el.__other = onOther;
@@ -2921,6 +3089,7 @@ function modalKey(){
   if(MODAL.kind==='project' && MODAL.proj) return ['proj', MODAL.proj.fund, MODAL.proj.name, MODAL.tab].join('|');
   if(MODAL.kind==='compare') return ['cmp', cmpYearA, cmpYearB, cmpEx?'ex':'filed'].join('|');
   if(MODAL.kind==='list') return ['list', MODAL.listKey||''].join('|');
+  if(MODAL.kind==='payee') return 'payee';           /* the names ride ?payee= (syncURL): ?payee=NAME&m=payee */
   return '';
 }
 /* a sheet that just OPENED pushes one history entry (so the phone's Back closes it); a sheet that changed
@@ -3045,6 +3214,112 @@ function openListModal(title, items, total, onPick, opener, key){
   (isPhone() ? document.querySelector('#modal .xbtn') : find).focus();
   modalSynced();
 }
+/* THE PAYEE SHEET (IDXB-03): a facet row, a Findings row or a pick in the complete list opens one payee IN PLACE - the
+   register under it does not move or change. What it holds is computed over the WHOLE register (never the current
+   filter): the total, the lines, the charge accounts and departments, the warrants it sits in with the first and last
+   date, the largest single line, the vendor codes it is carried under, the same-name county hop. Its address is
+   ?payee=NAME&m=payee (Back closes it, a reload reopens it); 'Show its lines' closes it and filters the register. */
+function payeeFacts(names){
+  var set={}; names.forEach(function(n){ set[n]=1; });
+  var rows=[], sum=0, accts={}, depts={}, docs={}, big=null, credits=0, credSum=0;
+  for(var i=0;i<R.length;i++){
+    var r=R[i]; if(!set[V[r[I_VEN]]]) continue;
+    rows.push(r); sum+=r[I_AMT]; accts[r[I_ACC]]=1; depts[deptOf(A[r[I_ACC]])]=1; docs[r[I_DOC]]=1;
+    if(!big||r[I_AMT]>big[I_AMT]) big=r;
+    if(r[I_CR]){ credits++; credSum+=r[I_AMT]; }
+  }
+  var di=Object.keys(docs).map(Number), dated=di.map(function(k){ return isoOf(D.docs[k]); }).filter(Boolean).sort();
+  return {rows:rows, sum:sum, nAcct:Object.keys(accts).length, nDept:Object.keys(depts).length, nDoc:di.length, big:big,
+          first:dated[0]||'', last:dated[dated.length-1]||'', credits:credits, credSum:credSum};
+}
+function mdyOf(iso){ return iso ? iso.slice(5,7)+'/'+iso.slice(8,10)+'/'+iso.slice(0,4) : '—'; }
+function openPayeeSheet(names, opener){
+  names=(names||[]).filter(function(n){ return V.indexOf(n)>=0; });
+  if(!names.length) return false;
+  var f=payeeFacts(names), n=f.rows.length;
+  MODAL.kind='payee'; MODAL.payees=names; MODAL.opener=opener||null; MODAL.listKey='';
+  document.getElementById('mTabs').innerHTML='';
+  document.getElementById('mEyebrow').textContent='Payee · across the whole register';
+  document.getElementById('mTitle').textContent=names.join(' / ');
+  document.getElementById('mBig').innerHTML='<span class="num">'+money0(f.sum)+'</span> <span>'+n.toLocaleString('en-US')+' approved line'+(n===1?'':'s')+'</span>';
+  var body=document.getElementById('mBody'), h='';
+  h+='<div class="tiles pz-tiles">'+[
+      ['Approved lines', n.toLocaleString('en-US'), n===1 ? 'one claim' : 'claims, not payments'],
+      ['Total', money0(f.sum), f.credits ? f.credits+' credit'+(f.credits===1?'':'s')+' ('+money(f.credSum)+') inside' : 'approved, not necessarily paid'],
+      ['Charge accounts', String(f.nAcct), f.nDept+' department'+(f.nDept===1?'':'s')],
+      ['Warrants', f.nDoc+' of '+D.docs.length, f.first ? (f.first===f.last ? mdyOf(f.first) : mdyOf(f.first)+' → '+mdyOf(f.last)) : '']
+    ].map(function(t){ return '<div class="tile"><div class="k">'+t[0]+'</div><div class="v num">'+t[1]+'</div><div class="n">'+esc(t[2])+'</div></div>'; }).join('')+'</div>';
+  if(f.big){
+    var bd=D.docs[f.big[I_DOC]];
+    h+='<p class="pz-line">Largest single line <b class="num">'+money(f.big[I_AMT])+'</b> · '+esc(AD[f.big[I_ACC]])+' <span class="num">'+esc(A[f.big[I_ACC]])+'</span>'+
+       ' · <span class="num">'+esc(bd.d||bd.f)+'</span> <a class="al-src" href="'+esc(bd.u)+'#page='+f.big[I_PAGE]+'" target="_blank" rel="noopener">Open source · p.'+f.big[I_PAGE]+(bd.pages?' of '+bd.pages:'')+' <span class="arrow">&#8599;</span></a></p>';
+  }
+  var hg=[]; names.forEach(function(nm){ var vi=V.indexOf(nm); (D.hygiene||[]).forEach(function(x){ if(x.v===vi) hg.push(x); }); });
+  if(hg.length){
+    var codes=[]; hg.forEach(function(x){ codes=codes.concat(x.codes); });
+    h+='<p class="pz-line"><span class="k">Vendor codes</span> Carried under <b>'+codes.length+' vendor codes</b>: <span class="codes">'+codes.map(esc).join(' · ')+'</span> — one payee, several records (a reporting problem, not wrongdoing).</p>';
+  }
+  var td=topBy(f.rows,kDept,6);
+  if(td.length){ h+='<h4>Departments it is charged to</h4><div class="rank" id="pzDept"></div>'; }
+  var ve=vxEntryForPayees(names); if(ve) h+=vxHopHTML(ve);
+  h+='<div class="pz-acts"><button type="button" class="pill" data-pz="lines">Show its '+n.toLocaleString('en-US')+' line'+(n===1?'':'s')+' in the register →</button>'+
+     '<button type="button" class="pill" data-pz="card">Save payee card</button>'+
+     '<span class="pz-note">Every line links to the page of the city’s PDF it was read from.</span></div>';
+  body.innerHTML=h;
+  var dep=document.getElementById('pzDept');
+  if(dep) renderRank(dep, td, '--exp', f.sum, null, null, null, {label:deptLabel});
+  showModal();
+  (isPhone() ? document.querySelector('#modal .xbtn') : body.querySelector('[data-pz]')).focus();
+  modalSynced();
+  return true;
+}
+/* SAVE PAYEE CARD: the sheet as a house-styled PNG, drawn (plCardCanvas) from the same facts the sheet shows - the total and
+   the lines, the warrants and their dates, the departments it is charged to, the register's tie-out stamp, the same-name
+   county line with its honesty sentence, and the source. Its address is the sheet's own permanent one, ?payee=NAME&m=payee. */
+function payeeAddress(names){
+  var u=plPageURL(); if(!u) return '';
+  var q=new URLSearchParams(); q.set('payee', names.join('|')); q.set('m','payee');
+  return u+'?'+q.toString();
+}
+function payeeCardModel(names){
+  var f=payeeFacts(names), n=f.rows.length, ve=vxEntryForPayees(names), ls=function(k){ return k.toLocaleString('en-US'); };
+  var span=f.first ? (f.first===f.last ? mdyOf(f.first) : mdyOf(f.first)+' \u2192 '+mdyOf(f.last)) : '';
+  var td=topBy(f.rows,kDept,6);
+  var foot=[];
+  if(f.big){
+    var bd=D.docs[f.big[I_DOC]];
+    foot.push('Largest single line '+money(f.big[I_AMT])+' \u00b7 '+AD[f.big[I_ACC]]+' '+A[f.big[I_ACC]]+' \u00b7 '+(bd.d||bd.f)+', page '+f.big[I_PAGE]+' of the city\u2019s PDF.');
+  }
+  if(ve) foot.push('Same name in county resolutions: '+vxHopBits(ve).join(' \u00b7 ')+'. '+VX_HONESTY);
+  foot.push('Source: the City of North Tonawanda\u2019s published warrant PDFs ('+ls(D.meta.rows)+' lines read, '+D.meta.exact+' of '+PARSED_DOCS+
+    ' parsed warrants tie to the penny). Every line in the ledger links to its page.');
+  return {kicker:'Public Ledger \u00b7 North Tonawanda \u00b7 payee', title:names.join(' / '),
+    sub:money0(f.sum)+' approved across '+ls(n)+' line'+(n===1?'':'s')+' in '+f.nDoc+' warrant'+(f.nDoc===1?'':'s')+(span?', '+span:'')+'.',
+    stamp:D.meta.exact+' of '+PARSED_DOCS+' parsed warrants tie to the penny',
+    note:'The city\u2019s lines are claims the city approved, not necessarily paid.',
+    totals:[
+      {l:'Approved lines', v:ls(n), n:n===1?'one claim':'claims, not payments'},
+      {l:'Total', v:money0(f.sum), n:f.credits ? f.credits+' credit'+(f.credits===1?'':'s')+' ('+money(f.credSum)+') inside' : 'approved, not necessarily paid'},
+      {l:'Charge accounts', v:String(f.nAcct), n:f.nDept+' department'+(f.nDept===1?'':'s')},
+      {l:'Warrants', v:f.nDoc+' of '+D.docs.length, n:span}
+    ],
+    sections:td.length ? [{head:'Departments it is charged to', rows:td.map(function(x){
+      var pp=x[0].split('  ');
+      return {l:pp[0]+(/\|cap$/.test(pp[1]||'')?' (capital)':''), p:f.sum?(x[1]/f.sum*100).toFixed(1)+'%':'', a:money0(x[1])};
+    })}] : [],
+    foot:foot, mark:'Public Ledger \u00b7 North Tonawanda', url:payeeAddress(names).replace(/^https?:\/\//,'')};
+}
+(function(){
+  var body=document.getElementById('mBody'); if(!body) return;
+  body.addEventListener('click',function(e){
+    var b=e.target.closest('[data-pz="lines"]');
+    if(b && MODAL.kind==='payee'){ var names=MODAL.payees||[]; closeModal(); setPayee(names); return; }
+    b=e.target.closest('[data-pz="card"]'); if(!b || MODAL.kind!=='payee') return;
+    var m=payeeCardModel(MODAL.payees||[]);
+    var plain=[m.title, m.sub, m.note].concat(m.totals.map(function(t){ return t.l+' '+t.v+(t.n?' ('+t.n+')':''); }), m.foot, [m.url]).filter(Boolean).join('\n');
+    rxSavePng(m, 'payee-'+(String((MODAL.payees||['payee'])[0]).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40)||'payee')+'.png', plain);
+  });
+})();
 /* header actions: Copy link / Share (the sheet's URL is the page's URL while it is open) */
 (function(){
   var c=document.getElementById('mCopy'), s=document.getElementById('mShare');
@@ -3575,8 +3850,10 @@ function acctHistory(tr){
 })();
 
 /* ---- compare two filing years ---- */
+var CAT_MEMO={};      /* (section, year) -> totals: the 'What changed' card measures 30 years x 2 on boot; callers only read the result */
 function catTotals(sec, yr){
-  var m={};
+  var ck=sec+'|'+yr; if(CAT_MEMO[ck]) return CAT_MEMO[ck];
+  var m=CAT_MEMO[ck]={};
   for(var i=0;i<F.length;i++){
     var f=F[i];
     if(f[FI_YR]!==yr || f[FI_SEC]!==sec) continue;
@@ -3821,7 +4098,12 @@ function paintEvidence(docIdx){
   if (acts){
     acts.hidden = false;
     var b = document.getElementById('evSave');
-    if (b){ b.onclick = function(){ rxSavePng(document.getElementById('evCard'), 'warrant-evidence.png'); }; }
+    if (b){ b.onclick = function(){
+      var m = evidenceModel(doc, docIdx);
+      var plain = [m.title, m.sub, m.totals.map(function(t){ return t.l+' '+t.v+(t.n?' ('+t.n+')':''); }).join('; '),
+        'Largest lines: '+m.sections[0].rows.map(function(r){ return r.l+' '+r.a; }).join('; ')].join('\n');
+      rxSavePng(m, 'warrant-evidence.png', plain);
+    }; }
   }
 }
 
@@ -3837,39 +4119,180 @@ function rxMoney(n){
   if (n >= 1e3) return '$' + Math.round(n).toLocaleString('en-US');
   return '$' + Math.round(n);
 }
-function rxSavePng(node, filename){
-  if (!node) return;
-  var w = Math.ceil(node.scrollWidth || node.offsetWidth || 720);
-  var h = Math.ceil(node.scrollHeight || node.offsetHeight || 400);
-  var svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="'+w+'" height="'+h+'">' +
-    '<foreignObject width="100%" height="100%">' +
-    '<div xmlns="http://www.w3.org/1999/xhtml" style="font:15px/1.45 Georgia,serif;color:#1e1c18;background:#f6f2ea;padding:20px;box-sizing:border-box;width:'+w+'px">' +
-    node.innerHTML.replace(/<details(?![^>]*\sopen\b)/g,'<details open') +   /* the saved receipt shows every line, folded or not */
-    '</div></foreignObject></svg>';
-  var url = URL.createObjectURL(new Blob([svg], {type: 'image/svg+xml;charset=utf-8'}));
-  var img = new Image();
-  img.onload = function(){
-    var c = document.createElement('canvas');
-    c.width = w * 2; c.height = h * 2;
-    var ctx = c.getContext('2d');
-    ctx.scale(2, 2);
-    ctx.fillStyle = '#f6f2ea';
-    ctx.fillRect(0, 0, w, h);
-    ctx.drawImage(img, 0, 0);
-    URL.revokeObjectURL(url);
-    c.toBlob(function(blob){
-      if (!blob){ toast('Could not render the image'); return; }
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filename || 'public-ledger-receipt.png';
-      document.body.appendChild(a); a.click(); a.remove();
-      toast('Saved');
-    }, 'image/png');
-  };
-  img.onerror = function(){ URL.revokeObjectURL(url); toast('Could not render the image'); };
-  img.src = url;
+/* ===== Save as a PNG =====
+   The card is DRAWN (canvas 2D) from the same data the page shows - never a snapshot of the DOM. The earlier build
+   wrapped the card's HTML in an SVG <foreignObject> and drew that onto a canvas; Chromium and WebKit both mark such a
+   canvas tainted, so toBlob threw and Save did nothing. Nothing here touches an image, a URL or a stylesheet, so the
+   canvas can never be tainted. The card is always the PAPER palette (a receipt is a sheet, in either theme), the way
+   print always prints light. */
+var PCARD={desk:'#e7dfca',card:'#fdfaf2',ink:'#16181d',muted:'#5b564c',faint:'#6a6459',rule:'#e2dbc9',ruleS:'#cbc2ad',
+  accent:'#7a5c2e',soft:'#f0e8d5',margin:'rgba(161,74,71,.5)',
+  serif:"Fraunces, Georgia, 'Times New Roman', serif",
+  sans:"system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  mono:"ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
+  gov:{m:'#c07a24',s:'#3d7ebf',c:'#9a5a86'}};
+/* model: {kicker,title,sub,stamp,note,totals:[{l,v,n}],sections:[{head,amount,meta,color,rows:[{l,p,a}]}],foot:[text],mark,url} */
+function plCardCanvas(m){
+  var W=640, DESK=18, PADX=30, CW=W-2*DESK, IW=CW-2*PADX, X0=DESK+PADX, XR=X0+IW, DPR=2, K=PCARD;
+  var c=document.createElement('canvas'), ctx=c.getContext('2d');
+  function paint(ctx, dry){
+    var y=DESK+26;
+    function ls(px){ if('letterSpacing' in ctx) ctx.letterSpacing=px+'px'; }
+    function wrap(str, maxW){
+      var words=String(str).split(/\s+/), lines=[], cur='';
+      words.forEach(function(w){
+        var t=cur?cur+' '+w:w;
+        if(cur && ctx.measureText(t).width>maxW){ lines.push(cur); cur=w; } else cur=t;
+      });
+      if(cur) lines.push(cur);
+      return lines;
+    }
+    function fit(str, maxW){
+      str=String(str); if(ctx.measureText(str).width<=maxW) return str;
+      while(str.length>1 && ctx.measureText(str+'\u2026').width>maxW) str=str.slice(0,-1);
+      return str.replace(/\s+$/,'')+'\u2026';
+    }
+    function txt(str, x, ty, font, color, align){
+      if(dry) return;
+      ctx.font=font; ctx.fillStyle=color; ctx.textAlign=align||'left'; ctx.textBaseline='middle'; ctx.fillText(str, x, ty);
+    }
+    function para(str, font, color, lh, maxW, x){
+      ctx.font=font; ls(0);
+      var lines=wrap(str, maxW);
+      lines.forEach(function(l,i){ txt(l, x, y+lh*i+lh/2, font, color); });
+      y+=lh*lines.length;
+      return lines.length;
+    }
+    function line(x1, x2, ly, color, w){ if(dry) return; ctx.strokeStyle=color; ctx.lineWidth=w||1; ctx.beginPath(); ctx.moveTo(x1, ly); ctx.lineTo(x2, ly); ctx.stroke(); }
+    function rrect(x, ry, w, h, r, fill){
+      if(dry) return;
+      ctx.fillStyle=fill; ctx.beginPath();
+      ctx.moveTo(x+r, ry); ctx.arcTo(x+w, ry, x+w, ry+h, r); ctx.arcTo(x+w, ry+h, x, ry+h, r);
+      ctx.arcTo(x, ry+h, x, ry, r); ctx.arcTo(x, ry, x+w, ry, r); ctx.closePath(); ctx.fill();
+    }
+    /* header: the kicker, the title, a sentence, the double rule that signs every Public Ledger page */
+    if(m.kicker){
+      var kf='600 11px '+K.sans; ctx.font=kf; ls(2);
+      txt(String(m.kicker).toUpperCase(), X0, y+7, kf, K.faint); ls(0); y+=22;
+    }
+    var tf='600 28px '+K.serif; ctx.font=tf; ls(0);
+    para(m.title, tf, K.ink, 33, IW, X0); y+=4;
+    if(m.sub){ para(m.sub, '400 14px '+K.sans, K.muted, 21, IW, X0); y+=4; }
+    y+=6; line(X0, XR, y, K.ruleS, 1); line(X0, XR, y+3.5, K.ruleS, 1); y+=18;
+    if(m.stamp){
+      var sf='700 12px '+K.sans; ctx.font=sf; ls(1);
+      var sw=ctx.measureText(String(m.stamp).toUpperCase()).width+28;
+      rrect(X0, y, sw, 28, 14, K.ink);
+      txt(String(m.stamp).toUpperCase(), X0+14, y+14.5, sf, K.card); ls(0); y+=28+16;
+    }
+    if(m.note){
+      var nf='400 13px '+K.sans; ctx.font=nf; ls(0);
+      var nl=wrap(m.note, IW-28), nh=nl.length*19+22;
+      rrect(X0, y, IW, nh, 8, K.soft);
+      nl.forEach(function(l,i){ txt(l, X0+14, y+11+i*19+9.5, nf, K.ink); });
+      y+=nh+16;
+    }
+    if(m.totals && m.totals.length){
+      m.totals.forEach(function(t, i){
+        var lf='600 11.5px '+K.sans; ctx.font=lf; ls(1);
+        txt(String(t.l).toUpperCase(), X0, y+14, lf, K.muted); ls(0);
+        txt(t.v, XR, y+14, '600 17px '+K.mono, K.ink, 'right');
+        var rh=30;
+        if(t.n){ txt(t.n, X0, y+34, '400 12.5px '+K.sans, K.muted); rh=46; }
+        y+=rh; line(X0, XR, y, K.rule, 1); y+=10;
+      });
+      y+=6;
+    }
+    (m.sections||[]).forEach(function(sec){
+      var hh=sec.meta?48:(sec.amount?34:26);
+      if(sec.color) rrect(X0, y+2, 4, hh-4, 2, sec.color);
+      var hx=X0+(sec.color?16:0);
+      var hf='600 12px '+K.sans; ctx.font=hf; ls(1);
+      txt(String(sec.head).toUpperCase(), hx, y+12, hf, K.muted); ls(0);
+      if(sec.amount) txt(sec.amount, XR, y+14, '600 22px '+K.serif, K.ink, 'right');
+      if(sec.meta) txt(sec.meta, hx, y+34, '400 12.5px '+K.sans, K.muted);
+      y+=hh+4;
+      (sec.rows||[]).forEach(function(r){
+        line(X0, XR, y, K.rule, 1);
+        var rf='400 14px '+K.sans; ctx.font=rf;
+        var right=r.p ? 150 : 120;
+        txt(fit(r.l, IW-right-8), X0+(sec.color?16:0), y+15, rf, K.ink);
+        if(r.p) txt(r.p, XR-86, y+15, '400 13px '+K.mono, K.muted, 'right');
+        txt(r.a, XR, y+15, '600 14px '+K.mono, K.ink, 'right');
+        y+=30;
+      });
+      y+=16;
+    });
+    (m.foot||[]).forEach(function(f){ para(f, '400 12.5px '+K.sans, K.muted, 18, IW, X0); y+=4; });
+    /* the watermark: the page's name in the house serif, its address in mono */
+    y+=10; line(X0, XR, y, K.rule, 1); y+=18;
+    var mf='600 14px '+K.serif; ctx.font=mf;
+    var markW=ctx.measureText(m.mark||'Public Ledger').width;
+    txt(m.mark||'Public Ledger', X0, y+8, mf, K.accent);
+    var urlLines=[];
+    if(m.url){
+      var uf='400 11.5px '+K.mono; ctx.font=uf;
+      if(ctx.measureText(m.url).width<=IW-markW-24) txt(m.url, XR, y+8, uf, K.faint, 'right');
+      else {   /* too long for the watermark row (a payee's address): its own lines under it, broken by width and never cut - the address is the point of the card */
+        var rest=String(m.url);
+        while(rest.length){
+          var k=rest.length; while(k>1 && ctx.measureText(rest.slice(0,k)).width>IW) k--;
+          if(k<rest.length){ var br=rest.lastIndexOf('&',k-1); if(br>20) k=br; }      /* break before a parameter, not inside a word */
+          urlLines.push(rest.slice(0,k)); rest=rest.slice(k);
+        }
+      }
+    }
+    y+=16;
+    urlLines.forEach(function(l){ txt(l, X0, y+8, '400 11.5px '+K.mono, K.faint); y+=16; });
+    y+=24;
+    return y;
+  }
+  var h=paint(ctx, true);
+  var H=h+DESK;
+  c.width=W*DPR; c.height=H*DPR;
+  ctx=c.getContext('2d'); ctx.scale(DPR, DPR);
+  ctx.fillStyle=PCARD.desk; ctx.fillRect(0, 0, W, H);
+  ctx.save(); ctx.shadowColor='rgba(30,28,24,.22)'; ctx.shadowBlur=22; ctx.shadowOffsetY=7;
+  ctx.fillStyle=PCARD.card; ctx.fillRect(DESK, DESK, CW, H-2*DESK); ctx.restore();
+  ctx.strokeStyle=PCARD.ruleS; ctx.lineWidth=1; ctx.strokeRect(DESK+.5, DESK+.5, CW-1, H-2*DESK-1);
+  ctx.strokeStyle=PCARD.margin; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(DESK+14, DESK+1); ctx.lineTo(DESK+14, H-DESK-1); ctx.stroke();   /* the clerk's margin rule */
+  paint(ctx, false);
+  return c;
 }
+/* Save: draw -> toBlob -> download. Anything that goes wrong (no canvas, an empty blob, a blocked download) ends in a
+   toast and the card's own words, offered to the share sheet or copied - never a silent nothing. */
+function rxSavePng(model, filename, plain){
+  var done=false;
+  function fallback(){
+    if(done) return; done=true;
+    var msg='Could not save the image';
+    try{
+      if(navigator.share){ navigator.share({title:model.title, text:plain||model.title}).catch(function(){}); toast(msg+' \u00b7 sharing the text instead', 3200); return; }
+    }catch(e){}
+    if(plain && PL.copyText) PL.copyText(plain, msg+' \u00b7 the text is copied');
+    else toast(msg, 3200);
+  }
+  function go(){
+    try{
+      var c=plCardCanvas(model);
+      c.toBlob(function(blob){
+        try{
+          if(!blob) throw new Error('empty image');
+          var u=URL.createObjectURL(blob), a=document.createElement('a');
+          a.href=u; a.download=filename||'public-ledger-card.png';
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(function(){ URL.revokeObjectURL(u); }, 5000);
+          done=true; toast('Saved \u00b7 '+(filename||'public-ledger-card.png'));
+        }catch(e){ fallback(); }
+      }, 'image/png');
+    }catch(e){ fallback(); }
+  }
+  try{
+    if(document.fonts && document.fonts.load && !(document.fonts.check && document.fonts.check('600 28px Fraunces'))) document.fonts.load('600 28px Fraunces').then(go, go);
+    else go();
+  }catch(e){ go(); }
+}
+function plPageURL(){ return /^https?:/.test(location.protocol) ? location.origin+location.pathname : ''; }
 
 function rxRenderReceipt(host, billParts, homeValue, cityName){
   if (!host) return;
@@ -3923,7 +4346,23 @@ function rxRenderReceipt(host, billParts, homeValue, cityName){
   host.innerHTML = html;
   var save = document.getElementById('rxSave');
   if (save) save.addEventListener('click', function(){
-    rxSavePng(document.getElementById('rxCard'), 'nt-tax-receipt.png');
+    var total = parts.reduce(function(s,p){ return s+(p.bill||0); }, 0);
+    var model = {
+      kicker:'Public Ledger \u00b7 North Tonawanda', title:'Your tax dollar, itemised',
+      sub:'What the '+rxMoney(total)+' bill on a '+rxMoney(homeValue)+' home buys \u2014 spread by each government\u2019s own spending mix.',
+      note:RX.honesty,
+      sections:blocks.map(function(b){
+        var share = byKey[b.key], dollars = share ? share.bill : 0, mix = b.mix || {rows:[]}, lines = (mix.rows || []).slice(0, 8);
+        return {head:b.title, amount:rxMoney(dollars), meta:'FY'+mix.year+' mix \u00b7 '+lines.length+' line'+(lines.length===1?'':'s'),
+          color:PCARD.gov[b.key],
+          rows:lines.map(function(row){ return {l:row.label, p:row.pct.toFixed(1)+'%', a:rxMoney(dollars*(row.pct/100))}; })};
+      }),
+      foot:['Proportional to spending \u2014 not an earmark.'],
+      mark:'Public Ledger \u00b7 North Tonawanda', url:plPageURL()};
+    var plain = [model.title, model.sub].concat(model.sections.map(function(sc){
+      return sc.head+' '+sc.amount+' ('+sc.meta+'): '+sc.rows.map(function(r){ return r.l+' '+r.p+' '+r.a; }).join('; ');
+    }), [model.foot[0]]).join('\n');
+    rxSavePng(model, 'nt-tax-receipt.png', plain);
   });
   host.onclick = function(e){
     var li = e.target.closest('[data-rx-cat]');
@@ -3970,32 +4409,53 @@ function rxRenderAdjustments(host, homeValue){
     '<details class="tailx"><summary>How the total still ties</summary><p class="note">'+esc(adj.tieNote || '')+'</p></details></details>';
 }
 
-/* Warrant evidence card — tie-out stamp, top lines, save as image */
-function evidenceCardHTML(doc, docIdx){
-  if (!doc) return '';
+/* Warrant evidence card - tie-out stamp, labelled totals, top lines, save as image. ONE model feeds the card on the
+   page and the PNG, so the two can never say different things. The totals are the document's own (see proofLines): the
+   list total equals the printed footer, the fund controls foot to the printed control, and the difference - the
+   trust/general lines that sit outside the funds - is named instead of left as a second unlabelled number. */
+function evidenceModel(doc, docIdx){
   var rows = R.filter(function(r){ return r[I_DOC] === docIdx; });
   var sum = rows.reduce(function(s,r){ return s + r[I_AMT]; }, 0);
   var top = rows.slice().sort(function(a,b){ return Math.abs(b[I_AMT]) - Math.abs(a[I_AMT]); }).slice(0, 3);
   var exact = doc.status === 'EXACT';
-  // site-data docs use various fields — prefer published list amount
-  var stamp = exact;
-  // meta from warrants often on D.docs
-  var label = (doc.f || '').replace(/\.pdf$/i, '');
-  var date = doc.d || '';
-  var html = '<div class="ev" id="evCard">' +
-    '<div class="ev-k">Warrant evidence</div>' +
-    '<div class="ev-title">'+esc(label)+'</div>' +
-    '<div class="ev-sub">'+esc(date)+' · <b class="num">'+rows.length.toLocaleString('en-US')+'</b> claims · <b class="num">'+money0(sum)+'</b></div>' +
-    (stamp ? '<div class="ev-stamp">Ties to the penny</div>' : '<div class="ev-stamp ev-soft">See the proof panel</div>') +
-    '<ol class="ev-top">'+top.map(function(r){
-      return '<li><span>'+esc(V[r[I_VEN]])+'</span><span class="num">'+money(r[I_AMT])+'</span></li>';
+  var totals = [];
+  if (!doc.isScan && doc.funds && doc.funds.length && doc.sumAll != null){
+    var oth = doc.otherG || 0;
+    totals.push({l:'List total', v:cents(doc.sumAll), n:(Math.abs(doc.sumAll-doc.pubAmt)<0.005 ? '= the printed footer' : 'printed footer '+cents(doc.pubAmt))});
+    totals.push({l:'Fund controls', v:cents(doc.sumE), n:doc.funds.length+' fund'+(doc.funds.length===1?'':'s')+' foot to '+(Math.abs(doc.sumE-doc.ctl)<0.005 ? 'the printed control' : 'against a printed control of '+cents(doc.ctl))+' \u00b7 variance '+cents(doc.var)});
+    if (Math.abs(oth) > 0.005)
+      totals.push({l:'Outside the funds', v:cents(oth), n:(doc.otherT||'').split('').map(function(t){ return OTHER_T[t]||'other'; }).join(' and ')+' lines the fund controls do not hold'});
+  }
+  return {
+    kicker:'Warrant evidence', title:(doc.f || '').replace(/\.pdf$/i, ''),
+    sub:(doc.d || '')+' \u00b7 '+rows.length.toLocaleString('en-US')+' claims'+(totals.length ? '' : ' \u00b7 '+money0(sum)),
+    stamp:exact ? 'Ties to the penny' : 'See the proof panel', exact:exact,
+    totals:totals,
+    sections:[{head:'Largest lines', rows:top.map(function(r){ return {l:V[r[I_VEN]], a:money(r[I_AMT])}; })}],
+    foot:['Source: the city\u2019s published warrant PDF.'],
+    mark:'Public Ledger \u00b7 North Tonawanda', url:plPageURL(), src:doc.u || ''};
+}
+function evidenceCardHTML(doc, docIdx){
+  if (!doc) return '';
+  var m = evidenceModel(doc, docIdx);
+  return '<div class="ev" id="evCard">' +
+    '<div class="ev-k">'+esc(m.kicker)+'</div>' +
+    '<div class="ev-title">'+esc(m.title)+'</div>' +
+    '<div class="ev-sub">'+esc(m.sub)+'</div>' +
+    '<div class="ev-stamp'+(m.exact?'':' ev-soft')+'">'+esc(m.stamp)+'</div>' +
+    (m.totals.length ? '<div class="ev-tot">'+m.totals.map(function(t){
+      return '<div class="ev-tr"><span class="ev-tl">'+esc(t.l)+'</span><b class="num">'+esc(t.v)+'</b><span class="ev-tn">'+esc(t.n)+'</span></div>';
+    }).join('')+'</div>' : '') +
+    '<div class="ev-kk">Largest lines</div>' +
+    '<ol class="ev-top">'+m.sections[0].rows.map(function(r){
+      return '<li><span>'+esc(r.l)+'</span><span class="num">'+esc(r.a)+'</span></li>';
     }).join('')+'</ol>' +
-    '<div class="ev-src">Source: the city&rsquo;s published warrant PDF'+(doc.u ? ' · <a href="'+esc(doc.u)+'" target="_blank" rel="noopener">Open &#8599;</a>' : '')+'</div>' +
-    '<div class="ev-wm">Public Ledger · North Tonawanda</div></div>';
-  return html;
+    '<div class="ev-src">Source: the city&rsquo;s published warrant PDF'+(m.src ? ' \u00b7 <a href="'+esc(m.src)+'" target="_blank" rel="noopener">Open &#8599;</a>' : '')+'</div>' +
+    '<div class="ev-wm">Public Ledger \u00b7 North Tonawanda</div></div>';
 }
 
 /* ---- your tax bill, decomposed ---- */
+await plYield();
 (function(){
   var T=JSON.parse(document.getElementById('tax-data').textContent);
   if(!T.cities || !T.cities.length) return;
@@ -4084,18 +4544,21 @@ function evidenceCardHTML(doc, docIdx){
   /* keep the longest chip label that fits its segment; none fits -> no chip (the hatch, the legend and the
      coloured-edge row below still name it) */
   function fitChips(root){
-    [].forEach.call(root.querySelectorAll('.tb-bar i[data-c]'),function(seg){
-      var cs=seg.getAttribute('data-c').split('|'), em=document.createElement('em');
-      seg.appendChild(em);
-      var avail=seg.clientWidth-10;
-      for(var k=0;k<cs.length;k++){
-        em.textContent=cs[k];
-        em.style.cssText='max-width:none;flex:none';
-        var need=em.getBoundingClientRect().width;
-        if(need<=avail){ em.style.cssText=''; return; }
-      }
-      seg.removeChild(em);
+    /* reads first, one measuring chip, writes last: the old loop appended a chip to every segment and forced a layout per
+       candidate label (120 ms at 4x CPU on boot); the width of a label does not depend on its segment */
+    var segs=[].slice.call(root.querySelectorAll('.tb-bar i[data-c]')); if(!segs.length) return;
+    var avail=segs.map(function(seg){ return seg.clientWidth-10; });
+    var probe=document.createElement('em'), cache={};
+    probe.style.cssText='position:absolute;visibility:hidden;max-width:none;white-space:nowrap';
+    segs[0].appendChild(probe);
+    function width(t){ if(cache[t]===undefined){ probe.textContent=t; cache[t]=probe.getBoundingClientRect().width; } return cache[t]; }
+    var pick=segs.map(function(seg,i){
+      var cs=seg.getAttribute('data-c').split('|');
+      for(var k=0;k<cs.length;k++) if(width(cs[k])<=avail[i]) return cs[k];
+      return null;
     });
+    segs[0].removeChild(probe);
+    segs.forEach(function(seg,i){ if(pick[i]!==null){ var em=document.createElement('em'); em.textContent=pick[i]; seg.appendChild(em); } });
   }
 
   /* The stacked area, rebuilt as a chart a resident can read without a legend: every band named at BOTH
@@ -4297,17 +4760,6 @@ function renderYear(yr){
       if(!btn.__wired){ btn.__wired=true; btn.addEventListener('click', toggle); }
     } else btn.hidden=true;
   });
-  var host=document.getElementById('yearPills'), onChip=null;
-  [].forEach.call(document.querySelectorAll('.yp'), function(b){
-    var on = +b.dataset.year === yr;
-    b.classList.toggle('on', on);
-    b.setAttribute('aria-selected', on ? 'true' : 'false');
-    if(on) onChip=b;
-  });
-  /* the strip follows the pick (a chart click can choose a chip that is scrolled out of view) -
-     horizontal scroll of the strip only, never the page */
-  if(onChip && host && host.scrollWidth>host.clientWidth+1)
-    host.scrollTo({left:Math.max(0,onChip.offsetLeft-(host.clientWidth-onChip.offsetWidth)/2), behavior:scrollMode()});
   var sel=document.getElementById('ySel'), ix=O.years.indexOf(yr);
   if(sel && String(sel.value)!==String(yr)) sel.value=String(yr);
   var pv=document.getElementById('yPrev'), nx=document.getElementById('yNext');
@@ -4355,25 +4807,10 @@ HL.off.sched=[function(g){
   [].forEach.call(g.querySelectorAll('.rk-pop'),function(e){e.remove();});
 }];
 
+/* the year control: the filing register's chart is the scrubber (hover reads, a click picks); the stepper and select
+   beside it are the keyboard and screen-reader path on every width (the thirty-chip strip is retired) */
+await plYield();
 (function(){
-  var host = document.getElementById('yearPills');
-  host.innerHTML = O.years.slice().reverse().map(function(y){
-    return '<button class="yp" type="button" role="tab" data-year="'+y+'">'+y+'</button>';
-  }).join('');
-  host.addEventListener('click', function(e){
-    var b = e.target.closest('.yp');
-    if (b) renderYear(+b.dataset.year);
-  });
-  /* edge fades follow the scroll: a fade only on an edge that chips continue past */
-  function fades(){
-    var more=host.scrollWidth-host.clientWidth-host.scrollLeft;
-    host.style.setProperty('--fl', host.scrollLeft>2 ? '36px' : '0px');
-    host.style.setProperty('--fr', more>2 ? '36px' : '0px');
-  }
-  host.addEventListener('scroll', fades, {passive:true});
-  window.addEventListener('resize', fades);
-  fades();
-  /* phones: a stepper and a select instead of a sideways strip of thirty chips */
   var sel=document.getElementById('ySel');
   if(sel){
     O.years.slice().reverse().forEach(function(y){ sel.appendChild(new Option(y, y)); });
@@ -4382,17 +4819,6 @@ HL.off.sched=[function(g){
     document.getElementById('yPrev').addEventListener('click', function(){ step(-1); });
     document.getElementById('yNext').addEventListener('click', function(){ step(1); });
   }
-  host.addEventListener('keydown', function(e){
-    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
-    var i = O.years.indexOf(selYear);
-    var next = O.years[e.key === 'ArrowRight' ? Math.min(i+1, O.years.length-1) : Math.max(i-1, 0)];
-    if (next !== selYear){
-      renderYear(next);
-      var el = host.querySelector('.yp.on');
-      if (el){ el.focus(); el.scrollIntoView({block:'nearest', inline:'center'}); }
-      e.preventDefault();
-    }
-  });
 })();
 
 /* every chart that marks the selected year registers here (the Schedule 1 panel and the hero's
@@ -4539,9 +4965,12 @@ function drawTrend(){
   /* the chart speaks: a method-neutral sentence that counts within one basis, and the key */
   var postN=0, postK=0;
   for(var k=(bi>0?bi:0);k<n;k++){ postN++; if(exp[k]>rev[k]) postK++; }
-  svg.setAttribute('aria-label','Revenue and expenditure, '+yrs[0]+' to '+yrs[li]+', in dollars. On the post-'+O.schemaBreak+
+  /* the NAME is short (the chart and its span); the sentence of findings is its DESCRIPTION, read after the name */
+  svg.setAttribute('aria-label','Revenue and expenditure, '+yrs[0]+' to '+yrs[li]+', in dollars');
+  var tdesc=document.getElementById('trendDesc');
+  if(tdesc){ tdesc.textContent='On the post-'+O.schemaBreak+
     ' reporting basis, expenditure exceeded revenue in '+postK+' of '+postN+' filings. Latest, '+yrs[li]+': revenue '+money0(rev[li])+
-    ', expenditure '+money0(exp[li])+'. The reporting basis changed in '+O.schemaBreak+'; the chart draws the break.');
+    ', expenditure '+money0(exp[li])+'. The reporting basis changed in '+O.schemaBreak+'; the chart draws the break.'; svg.setAttribute('aria-describedby','trendDesc'); }
   var key=document.getElementById('trendKey');
   /* phones: two rows, not three - the end labels already name the two lines, so the key says only what the
      patterns mean */
@@ -4794,7 +5223,8 @@ drawHeroTrend();
 /* the latest year first (the prerender contract checks this render against the painted HTML);
    a ?y= in the address is applied right after, by applyParams at the end of this script */
 renderYear(O.latest);   // after the charts, so the year markers can be placed
-PL.refit(fitChange);    // after the flows are indexed (changeParts reads debtOf) and the first render; again when fonts load and on resize
+await plYield();
+fitChange(6);          // after the flows are indexed (changeParts reads debtOf) and the first render: the six wordiest years now; every year once the boot is done
 
 /* ---------- aggregates ---------- */
 var byVendor = {};
@@ -4834,6 +5264,7 @@ var PROJECTS=(function(){
   return Object.keys(m).map(function(k){return m[k];}).sort(function(a,b){return b.amt-a.amt;});
 })();
 
+await plYield();
 (function(){
   if(!PROJECTS.length){ document.getElementById('capital').style.display='none';
     var l=document.querySelector('.rail a[href="#capital"]'); if(l) l.style.display='none'; return; }
@@ -4901,7 +5332,8 @@ var PROJECTS=(function(){
         var out=paceSVG(p,{W:W, H:H, compact:true, t0:t0, t1:t1, maxC:maxC, fs:11.5, ml:phone?6:38, yAxis:!phone});
         sumSix+=p.amt; nScan=Math.max(nScan,out.scans);
         var pd=out.data;
-        return '<button class="pace" type="button" data-hk="proj|'+escA(p.key)+'" data-proj="'+escA(p.key)+'" title="Open '+escA(p.name)+'">'+
+        return '<button class="pace" type="button" data-hk="proj|'+escA(p.key)+'" data-proj="'+escA(p.key)+'" title="Open '+escA(p.name)+'" aria-label="'+
+          escA(p.name+', fund '+p.fund+', '+fmtM1(p.amt)+' over '+pd.active.length+' warrant'+(pd.active.length===1?'':'s'))+'">'+
           '<span class="pn">'+esc(p.name)+'</span><span class="pf">fund '+esc(p.fund)+(D.fundNames[p.fund]?' · '+esc(D.fundNames[p.fund]):'')+'</span>'+
           out.svg+
           '<span class="pv"><span>'+pd.active.length+' warrant'+(pd.active.length===1?'':'s')+'<span class="ph-x"> · from '+esc(pd.first.d.d.replace(/\/20(\d\d)$/,'/$1'))+'</span></span><b>'+money0(p.amt)+'</b></span></button>';
@@ -5030,19 +5462,65 @@ var PROJ=D.acctProj||[];
 function projOf(r){ var acc=A[r[I_ACC]], f=fundOf(acc); return (CAPF[f] && PROJ[r[I_ACC]]) ? f+'|'+PROJ[r[I_ACC]] : null; }
 function hasFilter(){ return !!(state.q||state.fund||state.doc!==''||state.credit||state.payee||state.proj); }
 
+/* A name typed the way another government spells it ('National Fuel Gas Company', 'Galls LLC', 'M.H. Thilk Electric
+   LLC') is not a substring of the city's own spelling. filtered() tries the search AS TYPED first; only when that
+   finds nothing does it try, in order, (1) the payee names with punctuation and Inc/LLC/Company endings ignored on both
+   sides and (2) the same with the last word dropped (never below two words). A widened match is never silent: QM
+   records what was asked and what matched, the chips row names it ('Matched ...') and its x turns the widening off. */
+var QM=null, QM_OFF='';
+var VNORM=null;
+function vnorm(){ if(!VNORM) VNORM=V.map(function(n){ return vxNormQ(n); }); return VNORM; }
+function qCandidates(q){
+  var raw=(q||'').toLowerCase().replace(/\s+/g,' ').trim(), n=vxNormQ(q), c=[];
+  if(n) c.push({q:n,kind:'name'});
+  var t=(n||raw).split(' ');
+  while(t.length>2){ t.pop(); c.push({q:t.join(' '),kind:'short'}); }
+  return c;
+}
 function filtered(){
-  var out=[],q=state.q.toLowerCase();
-  for(var i=0;i<R.length;i++){
-    var r=R[i];
-    if(state.payee && state.payee.indexOf(V[r[I_VEN]])<0) continue;
-    if(state.proj && projOf(r)!==state.proj) continue;
-    if(state.fund && fundOf(A[r[I_ACC]])!==state.fund) continue;
-    if(state.doc!=='' && r[I_DOC]!==+state.doc) continue;
-    if(state.credit && !r[I_CR]) continue;
-    if(q && haystack[i].indexOf(q)<0) continue;
-    out.push(r);
+  var q=state.q.toLowerCase();
+  function pass(test){
+    var out=[];
+    for(var i=0;i<R.length;i++){
+      var r=R[i];
+      if(state.payee && state.payee.indexOf(V[r[I_VEN]])<0) continue;
+      if(state.proj && projOf(r)!==state.proj) continue;
+      if(state.fund && fundOf(A[r[I_ACC]])!==state.fund) continue;
+      if(state.doc!=='' && r[I_DOC]!==+state.doc) continue;
+      if(state.credit && !r[I_CR]) continue;
+      if(test && !test(i)) continue;
+      out.push(r);
+    }
+    return out;
   }
-  return out;
+  QM=null;
+  var out=pass(q ? function(i){ return haystack[i].indexOf(q)>=0; } : null);
+  if(out.length || !q || QM_OFF===state.q) return out;
+  var vn=vnorm(), cands=qCandidates(state.q);
+  for(var k=0;k<cands.length;k++){
+    var cq=cands[k].q;
+    out=pass(function(i){ return vn[R[i][I_VEN]].indexOf(cq)>=0; });
+    if(out.length){ QM={asked:state.q, used:cq, kind:cands[k].kind}; return out; }
+  }
+  return [];
+}
+/* the nearest payee names to something that matched nothing (character-bigram Dice on the normalised names, plus a
+   bonus for a whole shared word) - at most three, deduplicated by normalised spelling, best first */
+function nearPayees(q, max){
+  var qn=vxNormQ(q); if(!qn) return [];
+  function bg(x){ var m={}, n=0; x=' '+x+' '; for(var i=0;i<x.length-1;i++){ var g=x.substr(i,2); m[g]=(m[g]||0)+1; n++; } return {m:m,n:n}; }
+  var qb=bg(qn), qt=qn.split(' ').filter(function(w){ return w.length>=4; }), vn=vnorm(), seen={}, sc=[];
+  for(var v=0;v<V.length;v++){
+    var key=vn[v]; if(!key || seen[key]) continue;
+    var vb=bg(key), inter=0;
+    for(var g in qb.m) if(vb.m[g]) inter+=Math.min(qb.m[g],vb.m[g]);
+    var score=2*inter/(qb.n+vb.n);
+    var vt=key.split(' ');
+    for(var j=0;j<qt.length;j++) if(vt.indexOf(qt[j])>=0){ score+=0.25; break; }
+    if(score>=0.4){ seen[key]=1; sc.push([score,V[v]]); }
+  }
+  sc.sort(function(a,b){ return b[0]-a[0]; });
+  return sc.slice(0,max||3).map(function(x){ return x[1]; });
 }
 /* ---- summary facets: computed from the CURRENT filter, so the summary and the
    line detail can never disagree ---- */
@@ -5102,7 +5580,7 @@ function renderSummary(rows){
   if(few){
     html='<div class="ans-lines">'+rows.map(function(r){
       var doc=D.docs[r[I_DOC]];
-      return '<div class="ans-line"><span class="al-p">'+esc(V[r[I_VEN]])+'</span>'+
+      return '<div class="ans-line" data-hk="doc|'+r[I_DOC]+'" data-hk-tap><span class="al-p">'+esc(V[r[I_VEN]])+'</span>'+
         '<span class="al-a num'+(r[I_CR]?' credit':'')+'">'+money(r[I_AMT])+'</span>'+
         '<span class="al-s">'+esc(AD[r[I_ACC]])+' <span class="num">'+esc(A[r[I_ACC]])+'</span>'+
           (r[I_PO]?' · PO&nbsp;<span class="num">'+esc(r[I_PO])+'</span>':'')+' · <span class="num">'+esc(doc.d||doc.f)+'</span>'+
@@ -5129,14 +5607,36 @@ function renderSummary(rows){
   if (typeof vxHopHTML === 'function') {
     if (payees.size === 1) {
       html += vxHopHTML(vxEntryForPayees([V[rows[0][I_VEN]]]));
-    } else if (few) {
-      var _names = []; rows.forEach(function(r){ if (_names.indexOf(V[r[I_VEN]]) < 0) _names.push(V[r[I_VEN]]); });
+    } else if (hasFilter() && payees.size <= 12) {
+      /* a selection of several spellings (National Fuel: two names, 328 lines) still hops when every name maps to ONE
+         county key - vxEntryForPayees resolves the set or returns null; the row count is not the test */
+      var _names = []; payees.forEach(function(vi){ _names.push(V[vi]); });
       var _ve = vxEntryForPayees(_names); if (_ve) html += vxHopHTML(_ve);
     }
+  }
+  /* a lone image-scan document selected has no lines BY DESIGN (its evidence card says so): that is not a failed search */
+  var scanOnly=state.doc!=='' && D.docs[+state.doc] && D.docs[+state.doc].isScan && !state.q && !state.fund && !state.credit && !state.payee && !state.proj;
+  var zero=hasFilter() && !rows.length && !scanOnly;
+  if(zero){
+    var oth=!!(state.fund||state.doc!==''||state.credit||state.payee||state.proj);
+    if(!state.q || oth) html='<b>No approved line matches these filters together.</b> Remove one of the chips above to widen the selection.';
+    else {
+      var near=nearPayees(state.q,3);
+      html='<b>No line in the register contains &ldquo;'+esc(state.q)+'&rdquo;.</b>'+
+        (near.length ? ' The closest payee names:' : ' Try fewer words, or part of the name.')+
+        (near.length ? '<span class="vx-near">'+near.map(function(nm){
+          return '<button type="button" class="pill" data-near="'+escA(nm)+'">'+esc(nm)+'</button>'; }).join('')+'</span>' : '')+
+        (QM_OFF===state.q ? '<div class="qm-line" style="margin:8px 0 0">Matching by payee name is off for this search. <button type="button" class="vx-on" data-qm-on>Match by name</button></div>' : '');
+    }
+  } else if(QM){
+    html='<div class="qm-line"><span class="k">Matched</span>No line contains <b>&ldquo;'+esc(QM.asked)+'&rdquo;</b> as typed, so this is the payee name <b>&ldquo;'+
+      esc(QM.used)+'&rdquo;</b> &mdash; punctuation and Inc / LLC / Company endings ignored'+(QM.kind==='short'?', last word dropped':'')+
+      '. The &#10005; on the <i>Matched</i> chip above searches exactly what you typed.</div>'+html;
   }
   pl.innerHTML=html; pl.hidden=!html;
   var fold=document.getElementById('exploreFold');
   if(fold){
+    fold.hidden=zero;      /* nothing to break down: the four-zero tiles and empty charts give way to the one sentence above */
     fold.open=!few; fold.classList.toggle('few',few);
     if(!fold.__wired){ fold.__wired=true; fold.addEventListener('toggle',function(){ foldLabel(); }); }
     foldLabel();
@@ -5270,10 +5770,10 @@ function renderSummary(rows){
         p.push('<text class="ax halo" x="'+(onLeft?ml+4:W-mr-4)+'" y="'+(my-4).toFixed(1)+'" text-anchor="'+(onLeft?'start':'end')+'" fill="var(--muted)">median meeting '+fmtM(median)+'</text>');
       }
     }
-    p.push('</svg>');
     /* Move 10 leftover / GAP4-08: county-resolution diamonds on this clock when the
        selection is one same-name payee. Shape + luminance only; never hue. Older
-       resolutions left of the chart collapse to "N earlier · YYYY". */
+       resolutions left of the chart collapse to "N earlier · YYYY". The lane is drawn INSIDE the svg (it is closed
+       after this block): a polygon pushed after </svg> parses as an HTML element with no box and never paints. */
     var vxE = null;
     if (typeof vxEntryForPayees === 'function') {
       if (state.payee && state.payee.length) vxE = vxEntryForPayees(state.payee);
@@ -5286,8 +5786,8 @@ function renderSummary(rows){
     var diaCap = document.getElementById('vxDiaCap');
     host.__vxDiamonds = [];
     if (vxE && vxE.res && vxE.res.length && dated.length) {
-      var diaH = 14, diaR = 3.5;
-      /* rebuild SVG taller by one diamond lane under the axis labels */
+      /* the lane is a full 44px tall on a phone so every diamond sits in a 44px-high thumb target; 24px on a desk */
+      var diaH = narrow ? 44 : 32, diaR = narrow ? 5 : 4.2, HITW = 44, diaCY = narrow ? 17 : 11;
       var H2 = H + diaH, laneY = H;
       p[0] = '<svg class="trend" viewBox="0 0 '+W+' '+H2+'" style="font-size:'+fs+'px">';
       var inRange = [], earlier = [];
@@ -5301,27 +5801,40 @@ function renderSummary(rows){
       });
       inRange.sort(function(a,b){ return a.t - b.t; });
       earlier.sort(function(a,b){ return (a.d||'').localeCompare(b.d||''); });
-      inRange.forEach(function(it){
-        var cx = x(it.t), cy = laneY + diaH/2;
+      /* resolutions voted the same day (or a week apart) would sit on top of each other and only the last could be
+         touched: each is pushed right of its neighbour by a minimum gap, so every diamond is its own target */
+      var minGap = narrow ? 16 : 12, px = [];
+      inRange.forEach(function(it, k){ var ideal = x(it.t); px.push(k ? Math.max(ideal, px[k-1] + minGap) : ideal); });
+      var over = px.length ? px[px.length-1] - (W - mr) : 0;
+      if (over > 0) px = px.map(function(v){ return v - over; });
+      inRange.forEach(function(it, k){
+        var cx = px[k], cy = laneY + diaCY;
         var tip = (it.r.id||'') + ' · ' + (it.r.t||'') + (it.r.v ? (' · ' + it.r.v) : '');
         tip += ' — permission, not payment. Tap to open.';
-        p.push('<polygon class="vx-dia" data-vx="'+esc(it.r.id)+'" points="'+
+        /* the thumb target: a transparent rect up to 44px wide, never wider than the room to its neighbours, the
+           full lane tall, clamped to the plot so it is never clipped by the svg edge */
+        var gapL = k ? cx - px[k-1] : 1e9, gapR = k < inRange.length-1 ? px[k+1] - cx : 1e9;
+        var hw = Math.max(12, Math.min(HITW, Math.min(gapL, gapR))), hx = Math.max(0, Math.min(W-hw, cx - hw/2));
+        p.push('<g class="vx-g" data-vx="'+esc(it.r.id)+'">'+
+          '<rect class="vx-hit" x="'+hx.toFixed(1)+'" y="'+laneY+'" width="'+hw.toFixed(1)+'" height="'+diaH+'"/>'+
+          '<polygon class="vx-dia" data-vx="'+esc(it.r.id)+'" points="'+
           cx.toFixed(1)+','+(cy-diaR).toFixed(1)+' '+
           (cx+diaR).toFixed(1)+','+cy.toFixed(1)+' '+
           cx.toFixed(1)+','+(cy+diaR).toFixed(1)+' '+
           (cx-diaR).toFixed(1)+','+cy.toFixed(1)+
-          '"><title>'+esc(tip)+'</title></polygon>');
+          '"><title>'+esc(tip)+'</title></polygon></g>');
         host.__vxDiamonds.push({id: it.r.id, t: it.t, el: null});
       });
       if (earlier.length) {
         var ey = earlier[0].d ? earlier[0].d.slice(0,4) : '';
-        p.push('<text class="vx-dia-earlier" x="'+ml+'" y="'+(laneY+diaH-2)+'" text-anchor="start">'+
+        p.push('<text class="vx-dia-earlier" x="'+ml+'" y="'+(laneY+diaH-5)+'" text-anchor="start">'+
           earlier.length+' earlier'+(ey ? (' · '+ey) : '')+'</text>');
       }
       if (diaCap) diaCap.hidden = false;
     } else if (diaCap) {
       diaCap.hidden = true;
     }
+    p.push('</svg>');
     host.innerHTML=p.join('');
     host.__nScan=nScan; host.__vmax=vmax;
   })();
@@ -5354,16 +5867,20 @@ function renderSummary(rows){
   // row there applies the same filter its top-7 sibling would. keyFns are kept
   // so the full list is computed at click time against the live selection.
   // A facet click never teleports: it lands where the reader is and says what changed.
-  var pickPay=function(item){ closeModal(); setPayee([item[0]], {noScroll:true}); };
+  /* a pick in the complete list opens that payee's sheet IN PLACE of the list (the one history entry is now the sheet's,
+     so Back still closes one thing and lands where the reader was) */
+  var pickPay=function(item){ openPayeeSheet([item[0]], MODAL.opener); };
   var pickDeptList=function(item){ closeModal(); pickDept(item); };
   var pickFund=function(item){ closeModal(); state.fund=item[0].split('  ').pop(); fFund.value=state.fund; reset(); renderRows(); };
   var TIER=4;      /* phone: four facet rows first, then 'Show N more' */
   LISTS.payee=function(node){ openListModal('Every payee in this selection', topBy(rows,kPay), sum, pickPay, node, 'payee'); };
   LISTS.dept=function(node){ openListModal('Every department in this selection', topBy(rows,kDept), sum, pickDeptList, node, 'dept'); };
   LISTS.fund=function(node){ openListModal('Every fund in this selection', topBy(rows,kFund), sum, pickFund, node, 'fund'); };
+  /* a payee row opens the PAYEE SHEET in place (IDXB-03): the page under it does not move, Back closes it, and the sheet's
+     own button filters the register to that payee when the reader wants the lines */
   renderRank(document.getElementById('fPayee'),
     topBy(rows,kPay,7),'--exp',sum,
-    function(item){ if(item[2]!==null) setPayee([item[0]], {noScroll:true}); },null, LISTS.payee, {tier:TIER, hk:function(x){return 'payee|'+x[0];}});
+    function(item, node){ if(item[2]!==null) openPayeeSheet([item[0]], node||null); },null, LISTS.payee, {tier:TIER, hk:function(x){return 'payee|'+x[0];}});
   renderRank(document.getElementById('fDept'),
     topBy(rows,kDept,7),'--exp',sum,
     function(item){ if(item[2]!==null) pickDept(item); },null, LISTS.dept, {tier:TIER, label:deptLabel, hk:function(x){return 'dept|'+x[0];}});
@@ -5415,7 +5932,13 @@ function answerInView(){
   var pl=document.getElementById('payeeLine'), el=(pl&&!pl.hidden)?pl:document.getElementById('regTiles');
   if(!el) return true; var r=el.getBoundingClientRect(); return r.bottom>0 && r.top<window.innerHeight;
 }
-function said(what){ if(!answerInView()) toast(what+' · summary above ↑'); }
+/* a facet / Findings tap lands where the reader is and says what changed; when the answer card it just rewrote is
+   off-screen (a phone: the facets sit a screen and a half under it) the page brings the answer to the reader */
+function said(what){
+  if(answerInView()) return;
+  if(isPhone()){ landOnAnswer(); toast(what+' · showing the summary'); return; }
+  toast(what+' · summary above ↑');
+}
 function setSearch(v, opts){
   state.q=v; document.getElementById('q').value=v; renderRows();
   if(opts&&opts.noScroll) said(v); else landOnAnswer();
@@ -5440,13 +5963,14 @@ function renderChips(){
   if(state.payee) out.push(['Payee: '+state.payee.join(' | '),'payee']);
   if(state.proj) out.push(['Project: '+state.proj.split('|')[1]+' (fund '+state.proj.split('|')[0]+')','proj']);
   if(state.q) out.push(['Search: '+state.q,'q']);
+  if(QM) out.push(['Matched \u201c'+QM.used+'\u201d','qm','Search exactly what you typed instead','No line contains \u201c'+QM.asked+'\u201d as typed. This is the payee name \u201c'+QM.used+'\u201d (punctuation and Inc / LLC / Company endings ignored'+(QM.kind==='short'?', last word dropped':'')+').']);
   if(state.fund) out.push(['Fund '+state.fund+(D.fundNames[state.fund]?' — '+D.fundNames[state.fund]:''),'fund']);
   if(state.doc!=='') out.push([D.docs[+state.doc].f.replace(/\.pdf$/i,''),'doc']);
   if(state.credit) out.push(['Credits only','credit']);
   var host=document.getElementById('chips');
   host.innerHTML = out.length
-    ? out.map(function(c){return '<span class="chip-f">'+esc(c[0])+
-        '<button type="button" data-clear="'+c[1]+'" aria-label="Remove filter">&#10005;</button></span>';}).join('')
+    ? out.map(function(c){return '<span class="chip-f'+(c[1]==='qm'?' chip-qm':'')+'"'+(c[3]?' title="'+escA(c[3])+'"':'')+'>'+esc(c[0])+
+        '<button type="button" data-clear="'+c[1]+'" aria-label="'+escA(c[2]||'Remove filter')+'">&#10005;</button></span>';}).join('')
       + '<button class="chip-clear" type="button" data-clear="all">Clear all</button>'
       + '<button class="chip-link" type="button" data-copylink title="Copy a link to this selection">'+LINK_ICON+'Copy link</button>'
     : '';
@@ -5499,9 +6023,11 @@ function renderRows(){
       ' more · '+(rows.length-shownLimit).toLocaleString('en-US')+' still hidden';
   } else moreBtn.hidden=true;
   var shown=rows.slice(0,shownLimit);
+  /* every line row carries its warrant's hover-linking key (IDXB-13): hover (or tap, a 1.6s preview) a row and its bar lights
+     on the chart with the meeting named under it; hover a bar and every line of that meeting lights here */
   document.getElementById('rowBody').innerHTML = shown.map(function(r){
     var doc=D.docs[r[I_DOC]];
-    return '<tr><td class="c-payee">'+esc(V[r[I_VEN]])+'</td>'+
+    return '<tr data-hk="doc|'+r[I_DOC]+'" data-hk-tap><td class="c-payee">'+esc(V[r[I_VEN]])+'</td>'+
       '<td class="num c-acct">'+esc(A[r[I_ACC]])+(r[I_PO]?'<span class="po-in"> · PO '+esc(r[I_PO])+'</span>':'')+'</td>'+
       '<td class="c-desc">'+esc(AD[r[I_ACC]])+'</td>'+
       '<td class="num c-po">'+esc(r[I_PO])+'<span style="color:var(--faint)">·'+r[I_ITEM]+'</span></td>'+
@@ -5546,6 +6072,7 @@ document.getElementById('detailToggle').addEventListener('click',function(){
 });
 
 function clearFilter(k){
+  if(k==='qm'){ QM_OFF=state.q; reset(); renderRows(); return; }
   if(k==='q'||k==='all'){ state.q=''; document.getElementById('q').value=''; }
   if(k==='payee'||k==='all'){ state.payee=null; }
   if(k==='proj'||k==='all'){ state.proj=null; }
@@ -5564,6 +6091,11 @@ document.getElementById('wSel').addEventListener('click',function(e){
   var b=e.target.closest('[data-clear]'); if(b) clearFilter(b.getAttribute('data-clear'));
 });
 
+document.getElementById('payeeLine').addEventListener('click',function(e){
+  var n=e.target.closest('[data-near]');
+  if(n){ state.q=''; document.getElementById('q').value=''; reset(); setPayee([n.getAttribute('data-near')]); return; }
+  if(e.target.closest('[data-qm-on]')){ QM_OFF=''; reset(); renderRows(); }
+});
 document.getElementById('tryChips').addEventListener('click',function(e){
   var b=e.target.closest('[data-try]'); if(!b) return;
   state.fund=''; fFund.value=''; state.doc=''; fDoc.value=''; state.payee=null; state.proj=null;
@@ -5579,13 +6111,20 @@ document.getElementById('tryChips').addEventListener('click',function(e){
   var downX=null, moved=false, cur=null, hideT=null;
   function rects(){ return [].slice.call(host.querySelectorAll('rect[data-doc]')); }
   function clearScr(){ if(cur){cur.classList.remove('scr');} cur=null; }
-  function scrub(clientX, target){
+  /* a diamond, or its 44px thumb target (the transparent rect beside it), resolves to the diamond polygon */
+  function vxDiaAt(t){
+    var g=(t&&t.closest)?t.closest('.vx-g[data-vx]'):null;
+    return g?g.querySelector('.vx-dia'):null;
+  }
+  function scrub(clientX, target, clientY){
     /* diamonds first: scrub picks the nearest county resolution without lighting a warrant bar */
-    var overDia=(target&&target.closest)?target.closest('.vx-dia[data-vx]'):null;
+    var overDia=vxDiaAt(target);
     if(!overDia){
       var dias=[].slice.call(host.querySelectorAll('.vx-dia[data-vx]'));
       var bestD=null, bdD=1e9;
-      dias.forEach(function(d){
+      /* only from inside the diamond lane: above it the pointer is on the bars, whatever diamond lies near in x */
+      var lane=host.querySelector('.vx-hit'), inLane=lane && clientY!=null && clientY>=lane.getBoundingClientRect().top-2;
+      if(inLane) dias.forEach(function(d){
         var b=d.getBoundingClientRect(), c=b.left+b.width/2, dist=Math.abs(clientX-c);
         if(dist<bdD){bdD=dist;bestD=d;}
       });
@@ -5630,10 +6169,10 @@ document.getElementById('tryChips').addEventListener('click',function(e){
     tip.style.left=Math.max(half,Math.min(hb.width-half,xpos))+'px';
     clearTimeout(hideT); hideT=setTimeout(function(){tip.hidden=true;clearScr();},2600);
   }
-  host.addEventListener('pointerdown',function(e){downX=e.clientX;moved=false;scrub(e.clientX,e.target);});
+  host.addEventListener('pointerdown',function(e){downX=e.clientX;moved=false;scrub(e.clientX,e.target,e.clientY);});
   host.addEventListener('pointermove',function(e){
     if(downX!==null && Math.abs(e.clientX-downX)>8) moved=true;
-    scrub(e.clientX,e.target);
+    scrub(e.clientX,e.target,e.clientY);
   });
   host.addEventListener('pointerup',function(){downX=null;});
   host.addEventListener('pointerleave',function(){
@@ -5644,14 +6183,14 @@ document.getElementById('tryChips').addEventListener('click',function(e){
   host.addEventListener('click',function(e){
     if(moved){ moved=false; return; }        // a drag is a scrub, not a choice
     /* a county diamond: open that resolution (permission, not payment) — never filters the bars */
-    var dia=(e.target.closest)?e.target.closest('.vx-dia[data-vx]'):null;
+    var dia=vxDiaAt(e.target);
     if(dia){
       var vid=dia.getAttribute('data-vx');
       if(vid) location.href='decisions.html?q='+encodeURIComponent(vid)+'&from=city';
       return;
     }
     /* a fingertip covers three 6px bars: a tap that misses every bar takes the nearest one (the scrubbed bar) */
-    var c=e.target.closest('[data-doc]') || cur; if(!c) return;
+    var c=e.target.closest('[data-doc]') || (cur && cur.hasAttribute('data-doc') ? cur : null); if(!c) return;
     var i=c.getAttribute('data-doc');
     state.doc = (state.doc===i) ? '' : i;    // click again to clear
     fDoc.value=state.doc; reset(); renderRows();
@@ -5664,10 +6203,9 @@ document.getElementById('tryChips').addEventListener('click',function(e){
 })();
 
 document.addEventListener('click',function(e){
+  /* a Findings row's payee opens its sheet in place (the table stays where the reader is) */
   var t=e.target.closest('[data-vendor]');
-  if(t){ state.doc=''; state.fund=''; state.proj=null;
-    fDoc.value=''; fFund.value='';
-    reset(); setPayee([V[+t.getAttribute('data-vendor')]], {noScroll:true}); return; }
+  if(t){ openPayeeSheet([V[+t.getAttribute('data-vendor')]], t); return; }
   // 'show these N lines' inside an expanded tie-out row. Scoped to .detail so it
   // cannot also catch the warrant column chart, which uses the same attribute.
   var d=e.target.closest('.detail [data-doc]');
@@ -5706,6 +6244,7 @@ document.addEventListener('click',function(e){
   });
 })();
 
+await plYield();
 renderRows();
 /* phone: the findings tables show five rows, then 'See all N'; the lower-stakes limit cards fold */
 (function(){
@@ -5730,6 +6269,7 @@ renderRows();
 })();
 
 /* ---------- nav + theme ---------- */
+await plYield();
 var links=[].slice.call(document.querySelectorAll('.rail a'));
 var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));})
   .filter(function(s){return s;});
@@ -5910,6 +6450,81 @@ document.addEventListener('keydown',function(e){
   t.click();
 });
 
+/* ---------- ROVING TABINDEX ----------
+   A ranked list, the tie-out tape, the peer rows and the capital cards were 150 Tab stops: a keyboard reader walked every
+   row to get past them. Each is now ONE stop (the row last used, else the first visible one) and the arrow keys walk its
+   rows - Up/Down, Home/End; the capital cards (a grid) also take Left/Right. Enter and Space keep opening a row as they did.
+   The stop is kept true by one observer (rows re-rendered, a month opened, a fold toggled), so no render function has to know. */
+var ROVE=[
+  {host:'.rank',     item:'.rk[role="button"]',   grid:false},
+  {host:'#tieBody',  item:'tr[role="button"]',    grid:false},
+  {host:'#peerRank', item:'.dp-row[tabindex]',    grid:false},
+  {host:'#paces',    item:'.pace',                grid:true}
+];
+function roveSeen(n){ return n.getClientRects().length>0; }
+function roveItems(host, c){ return [].filter.call(host.querySelectorAll(c.item), roveSeen); }
+function roveSet(host, items, cur){
+  items.forEach(function(n){ var want=(n===cur)?'0':'-1'; if(n.getAttribute('tabindex')!==want) n.setAttribute('tabindex',want); });
+  host.__roveCur=cur;
+}
+function roveSync(){
+  ROVE.forEach(function(c){
+    [].forEach.call(document.querySelectorAll(c.host),function(host){
+      var items=roveItems(host,c); if(!items.length) return;
+      var act=document.activeElement, cur=(host.__roveCur && items.indexOf(host.__roveCur)>=0) ? host.__roveCur :
+                (act && items.indexOf(act)>=0) ? act : items[0];
+      roveSet(host, items, cur);
+    });
+  });
+}
+function roveFind(t){
+  if(!t || !t.closest) return null;
+  for(var i=0;i<ROVE.length;i++){
+    var c=ROVE[i]; if(!t.matches(c.item)) continue;
+    var host=t.closest(c.host); if(host) return {c:c, host:host};
+  }
+  return null;
+}
+document.addEventListener('keydown',function(e){
+  if(e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+  var k=e.key; if(k!=='ArrowDown' && k!=='ArrowUp' && k!=='ArrowLeft' && k!=='ArrowRight' && k!=='Home' && k!=='End') return;
+  var f=roveFind(e.target); if(!f) return;                 /* a link or field INSIDE a row keeps its own arrow keys */
+  var items=roveItems(f.host,f.c), i=items.indexOf(e.target); if(i<0) return;
+  var step=0, cols=1;
+  if(f.c.grid){ cols=(getComputedStyle(f.host).gridTemplateColumns||'').split(' ').filter(Boolean).length||1;
+    step=k==='ArrowRight'?1 : k==='ArrowLeft'?-1 : k==='ArrowDown'?cols : k==='ArrowUp'?-cols : 0; }
+  else step=k==='ArrowDown'?1 : k==='ArrowUp'?-1 : 0;
+  var n=k==='Home'?0 : k==='End'?items.length-1 : i+step;
+  if(!step && k!=='Home' && k!=='End') return;             /* Left/Right in a vertical list: not ours */
+  e.preventDefault();
+  n=Math.max(0,Math.min(items.length-1,n));
+  roveSet(f.host, items, items[n]);
+  items[n].focus();
+},true);
+document.addEventListener('focusin',function(e){          /* a click or a script that focuses a row makes it the stop */
+  var f=roveFind(e.target); if(!f) return;
+  roveSet(f.host, roveItems(f.host,f.c), e.target);
+});
+var roveT=0;
+function roveSoon(){ if(roveT) return; roveT=setTimeout(function(){ roveT=0; roveSync(); },60); }
+function roveWatch(){
+  var TOG=['tier-open','tiered','tr-hid','scan'];
+  var mo=new MutationObserver(function(recs){
+    for(var i=0;i<recs.length;i++){
+      var r=recs[i];
+      if(r.type==='attributes' && r.attributeName==='class'){          /* hover-linking toggles classes constantly: only the folds matter */
+        var a=(r.oldValue||'').split(/\s+/), b=String(r.target.getAttribute('class')||'').split(/\s+/);
+        if(!TOG.some(function(c){ return (a.indexOf(c)>=0)!==(b.indexOf(c)>=0); })) continue;
+      }
+      roveSoon(); return;
+    }
+  });
+  [document.querySelector('.folio'), document.getElementById('modal')].forEach(function(n){
+    if(n) mo.observe(n,{childList:true,subtree:true,attributes:true,attributeOldValue:true,attributeFilter:['class','style','hidden','open']});
+  });
+  roveSync();
+}
+
 /* ---- the school district: the biggest line on the bill ---- */
 (function(){
   var S=JSON.parse(document.getElementById('school-data').textContent);
@@ -6005,6 +6620,7 @@ document.addEventListener('keydown',function(e){
 })();
 
 /* ---------- URL state: write, read, Back ---------- */
+await plYield();
 /* ---------- THE FRONT PAGE: The Ledger, Issue No. N (Move 19) ----------
    The script twin of tools/build_site.py issue_lede() / issue_tape() / issue_key(): the same words and the same
    arithmetic, re-derived here so that (1) PL.hydrate reports any drift between the build and this page as a console
@@ -6096,27 +6712,30 @@ var ISSUE=(function(){
     }
     var cap=0; rows.forEach(function(r){ if(CAPF[fundOf(A[r[I_ACC]])]) cap+=r[I_AMT]; });
     if(total>0 && cap/total>=0.25) rest+=ev('cap',Math.round(cap/total*100)+'%',{docs:docsS})+' of the total is capital work &mdash; projects, not day-to-day operations. ';
-    var ties=m.docs.every(function(i){ return D.docs[i].status==='EXACT'; });
+    var ties=m.docs.every(function(i){ return D.docs[i].status==='EXACT'; }), how='';
     if(ties){
-      /* the proof row's two lines in a sentence: the fund controls foot to the printed control; the lines outside them
-         (otherG, by type) are the gap to the list total, which foots to the printed footer (sumAll = pubAmt, gated) */
+      /* the second paragraph says it plainly - the lines read from the PDF add up to the control the city printed on
+         it - and the arithmetic (the fund controls, the lines outside them, the list total against the printed footer)
+         is the 'how' fold under it, one tap away, never the front page's second sentence */
       var ctls=m.docs.map(function(i){ return ev('tie','&#10003; '+money(D.docs[i].ctl),{docs:String(i)}); });
       var foots=m.docs.map(function(i){ return ev('tie',money(D.docs[i].sumAll),{docs:String(i)}); });
       var oth=0, tset={}; m.docs.forEach(function(i){ oth+=D.docs[i].otherG||0; (D.docs[i].otherT||'').split('').forEach(function(t){ tset[t]=1; }); });
       var kinds=Object.keys(tset).sort().map(function(t){ return OTHER_T[t]||'other'; }).join(' and ')||'other';
       var join=function(a){ return nd===2 ? a.join(' and ') : a.join(', '); };
+      rest+= nd===1 ? 'Every line was read from the city&rsquo;s PDF and checked against the totals the city printed on it: '+ev('tie','it ties to the penny',{docs:docsS})+'.'
+           : 'Every line was read from the city&rsquo;s PDFs and checked against the totals the city printed on them: '+ev('tie','each ties to the penny',{docs:docsS})+'.';
       var lead= nd===1 ? 'Its fund controls foot to the printed control, '+ctls[0]+'; '
               : (nd===2 ? 'Both documents&rsquo;' : 'All '+numword(nd)+' documents&rsquo;')+' fund controls foot to their printed controls, '+join(ctls)+'; ';
       var foot= nd===1 ? 'the list foots to its printed footer, '+foots[0]+'.' : 'each list foots to its printed footer, '+join(foots)+'.';
       var gap= Math.abs(oth)>0.005 ? '<b class="num">'+money(oth)+'</b> of '+kinds+' lines sit outside them, and ' : 'no line sits outside them, and ';
-      rest+=lead+gap+foot;
+      how=lead+gap+foot;
     } else {
       var vr=0; m.docs.forEach(function(i){ vr+=Math.abs(D.docs[i].var||0); });
       rest+='This issue does not publish: a printed control total does not tie (variance '+ev('tie',money(vr),{docs:docsS})+'). The build halts on a failed tie-out; nothing here updates until it ties.';
     }
     if(m.scans.length) rest+= m.scans.length===1 ? ' One further document of this date is an image scan, not read.'
       : ' '+capword(numword(m.scans.length))+' further documents of this date are image scans, not read.';
-    return [first.trim(), rest.trim()];
+    return [first.trim(), rest.trim(), how];
   }
   var MINPCT=0.3, LABELPCT=5;
   function famClass(acct){ var f=fundOf(acct); return CAPF[f]?'f-cap':(f==='001'?'f-gen':'f-ent'); }
@@ -6158,8 +6777,10 @@ var ISSUE=(function(){
   }
   function head(m){ return '<span class="ph-xs">The Ledger &middot; </span>'+(m.docs.length ? '<b>Issue No. '+m.no+'</b> of '+ISSUES.length : '<b>No issue</b> &middot; image scan'); }
   var scansN=D.meta.scans||0;
-  var counts='<b>'+ISSUES.length+'</b> issue'+(ISSUES.length===1?'':'s')+' from <b>'+M.length+'</b> dates on record &middot; <b>'+PARSED_DOCS+
-    '</b> documents read, <b>'+D.meta.exact+'</b> tie to the penny &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read';
+  /* the second half is phone-hidden (.ph-x: textContent unchanged for the drift check) - on a phone the checkbook card's
+     badge, right under this line, already says the documents read and tie; tools/build_site.py paints the same markup */
+  var counts='<b>'+ISSUES.length+'</b> issue'+(ISSUES.length===1?'':'s')+' from <b>'+M.length+'</b> dates on record<span class="ph-x"> &middot; <b>'+PARSED_DOCS+
+    '</b> documents read, <b>'+D.meta.exact+'</b> tie to the penny &middot; <b>'+scansN+'</b> image scan'+(scansN===1?'':'s')+' declared, not read</span>';
   /* a label stays only where its stripe can hold it (measured after layout, again when the width changes) */
   function fitLabels(){
     [].forEach.call(sec.querySelectorAll('.is'),function(s){
@@ -6175,6 +6796,8 @@ var ISSUE=(function(){
     var put = first ? hydrate : function(id,html){ var e=document.getElementById(id); if(e) e.innerHTML=html; };
     var L=lede(m);
     put('issueK', head(m)); put('issueWhat', what(m)); put('issueDate', esc(m.d)); put('issueLede', L[0]); put('issueLede2', L[1]);
+    put('issueHowT', L[2]||'');
+    var hw=document.getElementById('issueHow'); if(hw){ hw.hidden=!L[2]; if(!L[2]) hw.open=false; }
     put('issueTape', tape(m)); put('issueKey', key(m)); put('issueCounts', counts);
     sec.setAttribute('data-issue', m.iso);
     var ix=M.indexOf(m), pv=document.getElementById('issuePrev'), nx=document.getElementById('issueNext'), lt=document.getElementById('issueLatest');
@@ -6230,6 +6853,18 @@ var ISSUE=(function(){
       var panel=document.querySelector('#trio .panel[data-facet="fund"]'); if(panel) panel.scrollIntoView({block:'start',behavior:scrollMode()});
       [].forEach.call(document.querySelectorAll('#fFundR .rk[data-hk]'),function(row){
         var code=row.getAttribute('data-hk').slice(5).split('  ').pop(); if(CAPF[code]) flash(row); });
+      return;
+    }
+    if(kind==='reg'){
+      /* the whole register: any filter cleared, the tiles (the same three figures, as tiles) lit */
+      if(hasFilter()){ state={q:'',fund:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      landOnAnswer(); flash(document.getElementById('regTiles'));
+      return;
+    }
+    if(kind==='payees'){
+      /* every payee, ranked: the complete list in a sheet (Back closes it; a pick filters the register to that payee) */
+      if(hasFilter()){ state={q:'',fund:'',doc:'',credit:false,payee:null,proj:null}; syncControls(); reset(); renderRows(); }
+      if(LISTS.payee) LISTS.payee(b);
     }
   });
   return API;
@@ -6238,7 +6873,9 @@ var ISSUE=(function(){
 function syncURL(push){
   if(!URLS.ready||URLS.applying) return false;
   var p=new URLSearchParams();
-  if(state.payee) p.set('payee',state.payee.join('|'));
+  /* an open payee sheet owns ?payee= (its address is ?payee=NAME&m=payee); otherwise the register's own payee filter */
+  var pz=(MODAL.kind==='payee' && MODAL.payees && !document.getElementById('modal').hidden) ? MODAL.payees : null;
+  if(pz) p.set('payee',pz.join('|')); else if(state.payee) p.set('payee',state.payee.join('|'));
   if(state.proj) p.set('proj',state.proj);
   if(state.q) p.set('q',state.q);
   if(state.fund) p.set('fund',state.fund);
@@ -6342,6 +6979,9 @@ function applyParams(p, fromPop){
     var di = s.doc ? docIndexOf(s.doc) : -1;
     /* garbage in, nothing out: an unknown project key or an empty payee list is dropped, not shown as a chip */
     var payees = s.payee ? s.payee.split('|').filter(Boolean) : [];
+    /* ?payee=NAME&m=payee: the names belong to the PAYEE SHEET (opened over the register as it is), not to the filter */
+    var sheetPayees = (s.m==='payee') ? payees.filter(function(n){ return V.indexOf(n)>=0; }) : [];
+    if(s.m==='payee') payees=[];
     var proj = (s.proj && PROJECTS.some(function(x){return x.key===s.proj;})) ? s.proj : null;
     var ns={q:s.q, fund:fundCodes[s.fund]?s.fund:'', doc:di>=0?String(di):'', credit:s.credit,
             payee:payees.length?payees:null, proj:proj};
@@ -6352,7 +6992,12 @@ function applyParams(p, fromPop){
     if(s.w) TIE.openDoc(s.w);
     if(ISSUE){ if(s.i && ISSUE.byIso(s.i)) ISSUE.show(ISSUE.byIso(s.i)); else if(fromPop || !s.i) ISSUE.show(ISSUE.latest); }
     var m=document.getElementById('modal');
-    if(s.m){ if(modalKey()!==s.m){ if(!m.hidden) closeModalNow(); openFromKey(s.m); } if(fromPop) LAYER.pushed=true; }
+    if(s.m==='payee'){
+      var same = modalKey()==='payee' && MODAL.payees && MODAL.payees.join('|')===sheetPayees.join('|');
+      if(!same){ if(!m.hidden) closeModalNow(); if(sheetPayees.length) openPayeeSheet(sheetPayees, null); }
+      if(fromPop) LAYER.pushed=!m.hidden;
+    }
+    else if(s.m){ if(modalKey()!==s.m){ if(!m.hidden) closeModalNow(); openFromKey(s.m); } if(fromPop) LAYER.pushed=true; }
     else if(!m.hidden){ closeModalNow(); LAYER.pushed=false; }
   } finally { URLS.applying=false; }
 }
@@ -6415,8 +7060,20 @@ window.addEventListener('hashchange',function(){
    (tools/test_pages.py) fails on it, so a drift between tools/build_site.py and this script
    cannot ship. */
 PL.hydrate.report('index.html with tools/build_site.py');
+roveWatch();
+await plYield();
+PL.refit(fitChange);       /* every year, now that layout is clean (30 measurements cost ~5 ms here, ~150 ms mid-boot); again when fonts load and on resize */
 
-})();
+})().then(function(){
+  /* the last chunk ran: release the load event, say so in the DOM, and tell anyone listening */
+  document.documentElement.setAttribute('data-pl-ready','1');
+  window.PLIndexReady=true;
+  try{ window.dispatchEvent(new Event('pl:ready')); }catch(e){}
+  if(window.__plHold){ try{ window.__plHold.contentDocument.close(); }catch(e){} window.__plHold.remove(); window.__plHold=null; }
+},function(e){
+  if(window.__plHold){ try{ window.__plHold.contentDocument.close(); }catch(x){} window.__plHold.remove(); window.__plHold=null; }
+  setTimeout(function(){ throw e; });      /* an ordinary uncaught error: the console and every gate's pageerror still see it */
+});
 </script>
 __CHROME_SCRIPT__
 </body>

@@ -1,0 +1,118 @@
+city,county,school_district,fiscal_year,school_rate_per_1000_full_value,city_rate_per_1000_full_value,county_rate_per_1000_full_value,combined_rate_per_1000_full_value
+North Tonawanda,Niagara,North Tonawanda,2013,21.34,12.77,8.88,42.99
+North Tonawanda,Niagara,North Tonawanda,2014,21.86,12.72,8.74,43.32
+North Tonawanda,Niagara,North Tonawanda,2015,21.01,12.05,8.8,41.86
+North Tonawanda,Niagara,North Tonawanda,2016,20.83,12.09,8.49,41.41
+North Tonawanda,Niagara,North Tonawanda,2017,20.32,11.61,8.34,40.27
+North Tonawanda,Niagara,North Tonawanda,2018,19.49,11.07,8.16,38.72
+North Tonawanda,Niagara,North Tonawanda,2019,18.15,10.98,8.02,37.15
+North Tonawanda,Niagara,North Tonawanda,2020,17.09,10.46,7.68,35.23
+North Tonawanda,Niagara,North Tonawanda,2021,15.62,9.88,7.41,32.91
+North Tonawanda,Niagara,North Tonawanda,2022,14.8,9.45,7.05,31.3
+North Tonawanda,Niagara,North Tonawanda,2023,12.66,8.35,6.36,27.37
+North Tonawanda,Niagara,North Tonawanda,2024,12.02,8.36,5.79,26.17
+North Tonawanda,Niagara,North Tonawanda,2025,11.00759702,7.76,5.54,24.31
+Tonawanda,Erie,Tonawanda,2013,17.29,16.61,6.18,40.08
+Tonawanda,Erie,Tonawanda,2014,17.92,16.68,6.2,40.8
+Tonawanda,Erie,Tonawanda,2015,17.35,16.73,6.07,40.15
+Tonawanda,Erie,Tonawanda,2016,17.63,17.23,5.89,40.75
+Tonawanda,Erie,Tonawanda,2017,17.18,17.39,5.69,40.26
+Tonawanda,Erie,Tonawanda,2018,16.28,16.76,5.55,38.59
+Tonawanda,Erie,Tonawanda,2019,16.14,18.27,5.39,39.8
+Tonawanda,Erie,Tonawanda,2020,14.98,17.62,5.24,37.84
+Tonawanda,Erie,Tonawanda,2021,15.0,18.09,4.91,38.0
+Tonawanda,Erie,Tonawanda,2022,14.37,16.19,4.81,35.37
+Tonawanda,Erie,Tonawanda,2023,13.1,15.22,4.38,32.7
+Tonawanda,Erie,Tonawanda,2024,10.68,12.54,3.83,27.05
+Tonawanda,Erie,Tonawanda,2025,10.37736233,12.03,3.72,26.13
+Lockport,Niagara,Lockport,2013,25.88,14.73,8.88,49.49
+Lockport,Niagara,Lockport,2014,26.31,5.97,8.74,41.02
+Lockport,Niagara,Lockport,2015,26.81,16.62,8.8,52.23
+Lockport,Niagara,Lockport,2016,25.76,16.82,8.49,51.07
+Lockport,Niagara,Lockport,2017,24.77,16.03,8.34,49.14
+Lockport,Niagara,Lockport,2018,24.62,5.56,8.16,38.34
+Lockport,Niagara,Lockport,2019,23.3,15.75,8.02,47.07
+Lockport,Niagara,Lockport,2020,22.52,5.56,7.68,35.76
+Lockport,Niagara,Lockport,2021,20.88,5.56,7.41,33.85
+Lockport,Niagara,Lockport,2022,19.1,4.99,7.05,31.14
+Lockport,Niagara,Lockport,2023,17.42,4.65,6.36,28.43
+Lockport,Niagara,Lockport,2024,16.54,4.36,5.79,26.69
+Lockport,Niagara,Lockport,2025,16.127781,4.24,5.54,25.91
+Lackawanna,Erie,Lackawanna,2013,17.81,19.34,6.18,43.33
+Lackawanna,Erie,Lackawanna,2014,16.75,18.78,6.2,41.73
+Lackawanna,Erie,Lackawanna,2015,18.12,20.08,6.07,44.27
+Lackawanna,Erie,Lackawanna,2016,16.38,17.91,5.89,40.18
+Lackawanna,Erie,Lackawanna,2017,14.85,17.27,5.69,37.81
+Lackawanna,Erie,Lackawanna,2018,15.32,17.59,5.55,38.46
+Lackawanna,Erie,Lackawanna,2019,15.16,19.68,5.39,40.23
+Lackawanna,Erie,Lackawanna,2020,14.57,18.75,5.24,38.56
+Lackawanna,Erie,Lackawanna,2021,12.83,17.23,4.91,34.97
+Lackawanna,Erie,Lackawanna,2022,12.63,16.64,4.81,34.08
+Lackawanna,Erie,Lackawanna,2023,11.29,15.25,4.38,30.92
+Lackawanna,Erie,Lackawanna,2024,9.87,13.3,3.83,27.0
+Lackawanna,Erie,Lackawanna,2025,9.620792023,13.12,3.72,26.46
+Niagara Falls,Niagara,Niagara Falls,2013,17.16,20.07,8.88,46.11
+Niagara Falls,Niagara,Niagara Falls,2014,17.7,19.97,8.74,46.41
+Niagara Falls,Niagara,Niagara Falls,2015,17.36,20.25,8.8,46.41
+Niagara Falls,Niagara,Niagara Falls,2016,16.41,18.93,8.49,43.83
+Niagara Falls,Niagara,Niagara Falls,2017,16.51,19.31,8.34,44.16
+Niagara Falls,Niagara,Niagara Falls,2018,15.71,19.22,8.16,43.09
+Niagara Falls,Niagara,Niagara Falls,2019,15.35,19.05,8.02,42.42
+Niagara Falls,Niagara,Niagara Falls,2020,14.27,17.83,7.68,39.78
+Niagara Falls,Niagara,Niagara Falls,2021,13.89,17.75,7.41,39.05
+Niagara Falls,Niagara,Niagara Falls,2022,13.12,17.08,7.05,37.25
+Niagara Falls,Niagara,Niagara Falls,2023,12.14,16.11,6.36,34.61
+Niagara Falls,Niagara,Niagara Falls,2024,10.54,13.93,5.79,30.26
+Niagara Falls,Niagara,Niagara Falls,2025,9.749389829,12.85,5.54,28.14
+Batavia,Genesee,Batavia,2013,24.56,2.73,9.68,36.97
+Batavia,Genesee,Batavia,2014,23.63,2.87,9.86,36.36
+Batavia,Genesee,Batavia,2015,24.33,2.91,9.85,37.09
+Batavia,Genesee,Batavia,2016,24.59,4.93,9.86,39.38
+Batavia,Genesee,Batavia,2017,23.79,9.26,10.07,43.12
+Batavia,Genesee,Batavia,2018,22.99,9.29,10.07,42.35
+Batavia,Genesee,Batavia,2019,21.47,5.93,10.04,37.44
+Batavia,Genesee,Batavia,2020,21.57,5.97,10.11,37.65
+Batavia,Genesee,Batavia,2021,20.91,6.18,9.8,36.89
+Batavia,Genesee,Batavia,2022,19.23,5.76,9.18,34.17
+Batavia,Genesee,Batavia,2023,17.53,5.33,8.45,31.31
+Batavia,Genesee,Batavia,2024,16.67,5.08,8.08,29.83
+Batavia,Genesee,Batavia,2025,15.6624616,5.82,7.57,29.05
+Jamestown,Chautauqua,Jamestown,2013,19.73,21.64,9.01,50.38
+Jamestown,Chautauqua,Jamestown,2014,19.66,22.03,9.03,50.72
+Jamestown,Chautauqua,Jamestown,2015,19.74,22.67,9.09,51.5
+Jamestown,Chautauqua,Jamestown,2016,20.03,23.59,8.47,52.09
+Jamestown,Chautauqua,Jamestown,2017,19.62,23.77,8.4,51.79
+Jamestown,Chautauqua,Jamestown,2018,19.56,23.97,8.36,51.89
+Jamestown,Chautauqua,Jamestown,2019,19.43,23.84,8.39,51.66
+Jamestown,Chautauqua,Jamestown,2020,19.03,23.36,8.42,50.81
+Jamestown,Chautauqua,Jamestown,2021,18.57,22.79,8.5,49.86
+Jamestown,Chautauqua,Jamestown,2022,17.89,22.03,8.11,48.03
+Jamestown,Chautauqua,Jamestown,2023,16.8,20.85,7.81,45.46
+Jamestown,Chautauqua,Jamestown,2024,13.78,17.04,6.91,37.73
+Jamestown,Chautauqua,Jamestown,2025,14.01109724,18.13,6.71,38.85
+Dunkirk,Chautauqua,Dunkirk,2013,18.89,2.19,9.01,30.09
+Dunkirk,Chautauqua,Dunkirk,2014,18.89,2.25,9.03,30.17
+Dunkirk,Chautauqua,Dunkirk,2015,18.31,14.19,9.09,41.59
+Dunkirk,Chautauqua,Dunkirk,2016,18.6,2.06,8.47,29.13
+Dunkirk,Chautauqua,Dunkirk,2017,18.51,13.97,8.4,40.88
+Dunkirk,Chautauqua,Dunkirk,2018,18.61,2.16,8.36,29.13
+Dunkirk,Chautauqua,Dunkirk,2019,17.81,2.18,8.39,28.38
+Dunkirk,Chautauqua,Dunkirk,2020,17.41,2.19,8.42,28.02
+Dunkirk,Chautauqua,Dunkirk,2021,16.86,2.1,8.5,27.46
+Dunkirk,Chautauqua,Dunkirk,2022,16.69,2.05,8.11,26.85
+Dunkirk,Chautauqua,Dunkirk,2023,17.19,2.03,7.81,27.03
+Dunkirk,Chautauqua,Dunkirk,2024,11.73,1.78,6.91,20.42
+Dunkirk,Chautauqua,Dunkirk,2025,12.88490953,2.07,6.71,21.66
+Olean,Cattaraugus,Olean,2013,24.02,4.36,12.53,40.91
+Olean,Cattaraugus,Olean,2014,24.67,14.19,12.86,51.72
+Olean,Cattaraugus,Olean,2015,25.23,14.41,12.82,52.46
+Olean,Cattaraugus,Olean,2016,24.34,4.24,12.62,41.2
+Olean,Cattaraugus,Olean,2017,24.03,13.7,12.54,50.27
+Olean,Cattaraugus,Olean,2018,23.42,4.23,12.46,40.11
+Olean,Cattaraugus,Olean,2019,23.3,3.79,12.64,39.73
+Olean,Cattaraugus,Olean,2020,22.97,3.57,12.12,38.66
+Olean,Cattaraugus,Olean,2021,21.62,3.31,11.3,36.23
+Olean,Cattaraugus,Olean,2022,21.45,3.37,10.86,35.68
+Olean,Cattaraugus,Olean,2023,20.84,3.21,9.84,33.89
+Olean,Cattaraugus,Olean,2024,18.95,2.91,8.76,30.62
+Olean,Cattaraugus,Olean,2025,18.01500404,2.6,8.12,28.74

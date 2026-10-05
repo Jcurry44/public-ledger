@@ -1,5 +1,5 @@
 {
-  "_doc": "Does Public Ledger hold an itemised claims register for this government? status = 'ingested' (the register is in Public Ledger; source = where it is posted) | 'absent-verified' (someone checked the government's own site on 'checked' and found no itemised claims register; source = the page checked) | 'unchecked' (nobody has looked - the default). Only 'absent-verified' lets a page say the government 'does not publish' one; 'unchecked' says what has not been checked. Keys are page slugs; tools/muni_routes.py validates this file at build time.",
+  "_doc": "What Public Ledger knows about each government's itemised claims register - the abstract / warrant / voucher list of the claims its board approved for payment, itemised by payee. status = 'ingested' (the register is in Public Ledger; source = where it is posted) | 'publishes' (the government posts one; source = where; Public Ledger has not read it - 'posts', 'link_label' and 'seen' say what and where) | 'absent-verified' (someone looked at the government's own agendas, minutes and finance pages on 'checked' and found none; source = the page checked; finding = what those pages show instead; pages = everything opened) | 'unclear' (looked, could not settle; finding says why) | 'unchecked' (nobody has looked - the default). Only 'absent-verified' lets a page say the government 'does not publish' one; a publisher is never described as absent. Keys are page slugs; tools/muni_routes.py validates this file at build time. First full pass: 2026-10-05, each government's own site (WebSearch + the posted minutes/agenda PDFs); re-check before the next edition.",
   "city-north-tonawanda": {
     "status": "ingested",
     "checked": "2026-10-01",
@@ -7,108 +7,416 @@
     "note": "Every warrant posted by the city is parsed and tied out on the flagship page (index.html)."
   },
   "city-lockport": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "publishes",
+    "checked": "2026-10-05",
+    "source": "https://lockportny.gov/lockports-open-financial-data-portal/",
+    "posts": "itemised accounts-payable data (payments to vendors, not the claims its council approved)",
+    "link_label": "its open financial data portal",
+    "seen": "Excel, FY2018 through April 2026",
+    "pages": [
+      "https://lockportny.gov/",
+      "https://lockportny.gov/lockports-open-financial-data-portal/",
+      "https://lockportny.gov/wp-content/uploads/2026/06/1-Accounts-Payable.xlsx",
+      "https://lockportny.gov/wp-content/uploads/2026/06/9-Payments-by-Vendor.xlsx",
+      "https://lockportny.gov/departments/finance-department/",
+      "https://lockportny.gov/departments/city-treasurer/",
+      "https://lockportny.gov/agendas-minutes/",
+      "https://lockportny.gov/wp-content/uploads/2026/09/9.23.2026-Agenda-1.pdf",
+      "https://lockportny.gov/wp-content/uploads/2023/08/8-23-2023-minutes-1.pdf"
+    ]
   },
   "city-niagara-falls": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.niagarafallsny.gov/government/city_council.php",
+    "finding": "council agendas and packets carry no claims item, and the Controller posts budget reports with no payees",
+    "pages": [
+      "https://www.niagarafallsny.gov/",
+      "https://www.niagarafallsny.gov/government/city_council.php",
+      "https://www.niagarafallsny.gov/government/departments/controller.php",
+      "https://www.niagarafallsny.gov/government/departments/controller/index.php",
+      "https://www.niagarafallsny.gov/government/departments/budget_performance_reports.php",
+      "https://www.niagarafallsny.gov/government/departments/purchasing/index.php",
+      "https://www.niagarafallsny.gov/Documents/Government/City%20Council/2026/0923/0%20-%20DRAFT%20Agenda%202.0%20for%2009.23.2026%20RCM%20PUBLISH.pdf",
+      "https://www.niagarafallsny.gov/Documents/Government/City%20Council/2026/0923/00%20-%20DRAFT%20Support%20Packet%202.0%20for%209.23.26%20RCM%20PUBLISH.pdf",
+      "https://www.niagarafallsny.gov/Documents/Government/City%20Council/2026/0909/0%20-%20DRAFT%20Agenda%202.0%20for%2009.09.2026%20RCM.pdf",
+      "https://www.niagarafallsny.gov/Documents/Government/City%20Council/2024/0605/MEETING%20MINUTES%20FOR%20%206-5-24.pdf",
+      "https://www.niagarafallsny.gov/Documents/Government/Department/Controller/August%202026%20%20General-A%20Fund.pdf"
+    ]
   },
   "town-cambria": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://townofcambria.gov/town-board-meetings",
+    "finding": "board minutes give fund totals for the vouchers approved, never payees",
+    "pages": [
+      "https://townofcambria.gov/",
+      "https://townofcambria.gov/town-board-meetings",
+      "https://townofcambria.gov/archived-minutes",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/september-10-2026-regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/august-13-20261-regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/January%208th%202026%20%20regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/December%2011%20%2C%202025%20%20regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/April%2010%2C%202025a%20regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/TB%20Sept%2012%202024%20regular.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/tb-sept-2026.pdf",
+      "https://media.cmsmax.cloud/lv20xzze8ydi4trylfuou/TB%20Jan%202026.pdf"
+    ]
   },
   "town-hartland": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://townofhartlandny.gov/Departments/meetings",
+    "finding": "minutes authorise the monthly bills in one line, and the meeting packets hold no bill list",
+    "pages": [
+      "https://townofhartlandny.gov/",
+      "https://townofhartlandny.gov/Departments/meetings",
+      "https://townofhartlandny.gov/Departments/clerk",
+      "https://townofhartlandny.gov/Departments/budgets",
+      "https://townofhartlandny.gov/Departments/townfiles",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/July26/7-8-26BoardMeetingMinutes.pdf",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/June/6-10-26BoardMeetingMinutes.pdf",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/May/5-13-26-TownMeetingMinutes.pdf",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/February/February11-26BoardMeetingMinutes.pdf",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/January/1-28-26-AuditMeetingMinutes.pdf",
+      "https://townofhartlandny.gov/Departments/meetings/2026-TownMeetings/Sep26/9-9-2026-MeetingAgenda.pdf"
+    ]
   },
   "town-lewiston": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.townoflewistonny.gov/2026-town-board-minutes",
+    "finding": "board minutes give a claim-number range and a total, never payees",
+    "pages": [
+      "https://www.townoflewistonny.gov/",
+      "https://www.townoflewistonny.gov/2026-town-board-minutes",
+      "https://www.townoflewistonny.gov/2025-town-board-minutes",
+      "https://www.townoflewistonny.gov/town-board-meeting-agenda",
+      "https://www.townoflewistonny.gov/finance-department",
+      "https://www.townoflewistonny.gov/town-budget",
+      "https://www.townoflewistonny.gov/payview-bills-online",
+      "https://www.townoflewistonny.gov/documents/2026%20Meeting%20Minutes/8.%20August%2024,%202026%20RTBM.pdf",
+      "https://www.townoflewistonny.gov/documents/2026%20Meeting%20Minutes/9.%20September%2014,%202026%20WS.pdf",
+      "https://www.townoflewistonny.gov/documents/2025%20Meeting%20Minutes/May%2029,%202025%20RTBM.pdf",
+      "https://www.townoflewistonny.gov/documents/2025%20Meeting%20Minutes/December%2022,%202025%20RTBM.pdf",
+      "https://www.townoflewistonny.gov/documents/2026%20Agendas/7.%20July%2013,%202026%20Special%20Mtg.pdf",
+      "https://www.townoflewistonny.gov/documents/2026%20Meeting%20Packets/Packet%2008242026%20RTBM.pdf",
+      "https://www.townoflewistonny.gov/documents/2026%20Meeting%20Packets/Packet09282026RTBM.pdf",
+      "https://www.townoflewistonny.gov/documents/2026%20Meeting%20Packets/Packet%201262026TRBM.pdf"
+    ]
   },
   "town-lockport": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://elockport.gov/leadership/town-board-minutes/",
+    "finding": "each agenda carries an abstract cover sheet with a voucher range and a total, never payees",
+    "pages": [
+      "https://elockport.gov/",
+      "https://elockport.gov/leadership/town-board/",
+      "https://elockport.gov/leadership/town-board-minutes/",
+      "https://elockport.gov/leadership/town-board-agendas/",
+      "https://elockport.gov/download/town-board-minutes-march-4-2026/",
+      "https://elockport.gov/download/town-board-minutes-february-2-2026/",
+      "https://elockport.gov/download/town-board-minutes-december-17-2025/",
+      "https://elockport.gov/download/town-board-agenda-september-2-2026/",
+      "https://elockport.gov/download/town-board-agenda-august-31-2026/",
+      "https://elockport.gov/download/town-board-agenda-october-5-2026/"
+    ]
   },
   "town-newfane": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://townofnewfaneny.gov/ToN/boarddocs/",
+    "finding": "minutes cite abstract sheets by date and fund totals, but the sheets themselves are not posted",
+    "pages": [
+      "https://townofnewfaneny.gov/ToN/boarddocs/",
+      "https://townofnewfaneny.gov/ToN/clerk/",
+      "https://townofnewfaneny.gov/ToN/supervisor/",
+      "https://townofnewfaneny.gov/ToN/boarddocs/2026/July26/July%2022%202026%20DRAFT%20Public%20Hearing%20Town%20Board%20Meeting%20Minutes.pdf",
+      "https://townofnewfaneny.gov/ToN/boarddocs/2026/July26/Town%20Clerk%20Portion%20for%20July%2022%202026%20Town%20Board%20Meeting.pdf",
+      "https://townofnewfaneny.gov/ToN/boarddocs/2026/June26/June%2024%202026%20DRAFT%20Town%20Board%20Meeting.pdf",
+      "https://townofnewfaneny.gov/ToN/boarddocs/2026/June26/Town%20Clerk%20backup%20June%2024%202026%20Town%20Board%20Meeting.pdf",
+      "https://townofnewfaneny.gov/ToN/boarddocs/2026/Sept26/9-23-2026%20amended%20AGENDA.pdf"
+    ]
   },
   "town-niagara": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://townofniagarany.gov/boards-and-commissions/boards-commissions-meeting-agenda/",
+    "finding": "board minutes give fund-level voucher totals, never payees",
+    "pages": [
+      "https://townofniagarany.gov/",
+      "https://townofniagarany.gov/town-board/",
+      "https://townofniagarany.gov/budget-department/",
+      "https://townofniagarany.gov/departments/clerk-tax-collector/",
+      "https://townofniagarany.gov/boards-and-commissions/boards-commissions-meeting-agenda/",
+      "https://townofniagarany.gov/wp-content/uploads/December-Meeting-Minutes-2025.pdf",
+      "https://townofniagarany.gov/wp-content/uploads/July-2026-TBM-Minutes-1.pdf",
+      "https://townofniagarany.gov/wp-content/uploads/August-2026-Minutes.pdf",
+      "https://townofniagarany.gov/wp-content/uploads/agenda-with-items-attached.pdf",
+      "https://townofniagarany.gov/wp-content/uploads/October-2026-Agenda.docx"
+    ]
   },
   "town-pendleton": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "publishes",
+    "checked": "2026-10-05",
+    "source": "https://pendletonny.gov/event/town-board-regular-meeting-13/2026-07-13/",
+    "posts": "a voucher abstract for each Town Board meeting",
+    "link_label": "the meeting pages",
+    "seen": "scanned PDFs, itemised by vendor and amount; latest dated 07/29/2026",
+    "pages": [
+      "https://pendletonny.gov/meeting-minutes/",
+      "https://pendletonny.gov/meeting-minutes/town-board-minutes/",
+      "https://pendletonny.gov/event/town-board-regular-meeting-13/2026-07-13/",
+      "https://pendletonny.gov/event/27110-2025-09-08-2025-10-13-2025-11-10-2025-12-08-2026-01-12/",
+      "https://pendletonny.gov/wp-content/uploads/2026/09/VOUCHER-ABSTRACT-7.15.26-13.pdf",
+      "https://pendletonny.gov/wp-content/uploads/2024/10/Voucher-Abstract-1.14.26-1.pdf",
+      "https://pendletonny.gov/wp-content/uploads/2026/09/MINUTES-TB-Regular-Meeting-FINAL-7.13.26.pdf",
+      "https://pendletonny.gov/wp-content/uploads/2026/09/AGENDA-TB-Regular-Meeting-9.14.26.pdf"
+    ]
   },
   "town-porter": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.townofporterny.gov/agendacenter",
+    "finding": "board minutes and agendas give warrant totals by fund and voucher range, never payees",
+    "pages": [
+      "https://www.townofporterny.gov/",
+      "https://www.townofporterny.gov/agendacenter",
+      "https://www.townofporterny.gov/AgendaCenter/ViewFile/Minutes/_09142026-74",
+      "https://www.townofporterny.gov/AgendaCenter/ViewFile/Agenda/_09142026-74",
+      "https://www.townofporterny.gov/AgendaCenter/ViewFile/Minutes/_08102026-70",
+      "https://www.townofporterny.gov/AgendaCenter/ViewFile/Agenda/_08102026-70",
+      "https://www.townofporterny.gov/AgendaCenter/ViewFile/Minutes/_07132026-67",
+      "https://www.townofporterny.gov/1194/Departments",
+      "https://www.townofporterny.gov/1200/Supervisor",
+      "https://www.townofporterny.gov/1336/Forms-Documents"
+    ]
   },
   "town-royalton": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.townofroyaltonny.gov/node/396/minutes/2026",
+    "finding": "minutes give fund totals for each abstract of claims, and agendas say only “permission to pay the bills”",
+    "pages": [
+      "https://www.townofroyaltonny.gov/",
+      "https://www.townofroyaltonny.gov/minutes-and-agendas",
+      "https://www.townofroyaltonny.gov/node/396/minutes/2026",
+      "https://www.townofroyaltonny.gov/node/396/agenda/2026",
+      "https://www.townofroyaltonny.gov/town-board",
+      "https://www.townofroyaltonny.gov/home/pages/budgets-financials",
+      "https://www.townofroyaltonny.gov/supervisors-office",
+      "https://www.townofroyaltonny.gov/town-clerk",
+      "https://www.townofroyaltonny.gov/sites/g/files/vyhlif5591/f/minutes/regular_board_meeting_041326.pdf",
+      "https://www.townofroyaltonny.gov/sites/g/files/vyhlif5591/f/minutes/regular_board_meeting_020926.pdf",
+      "https://www.townofroyaltonny.gov/town-board/agenda/regular-board-meeting-public-hearing",
+      "https://www.townofroyaltonny.gov/town-board/agenda/board-meeting-agenda-37"
+    ]
   },
   "town-somerset": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.somersetny.gov/node/2004/minutes/2026",
+    "finding": "each Audit of Claims resolution gives fund-level voucher ranges and totals, never payees",
+    "pages": [
+      "https://www.somersetny.gov/minutes-and-agendas",
+      "https://www.somersetny.gov/node/2004/minutes",
+      "https://www.somersetny.gov/node/2004/minutes/2026",
+      "https://www.somersetny.gov/town-board/minutes/town-board-meeting-minutes-44",
+      "https://www.somersetny.gov/town-board/minutes/town-board-meeting-minutes-38",
+      "https://www.somersetny.gov/node/2004/agenda/2026",
+      "https://www.somersetny.gov/town-board/agenda/town-board-agenda-28",
+      "https://www.somersetny.gov/sites/g/files/vyhlif3826/f/agendas/tb_agenda_9.9.26.pdf",
+      "https://www.somersetny.gov/sites/g/files/vyhlif3826/f/minutes/tb_min_3.12.25.pdf",
+      "https://www.somersetny.gov/sites/g/files/vyhlif3826/f/minutes/min_october_2023.pdf",
+      "https://www.somersetny.gov/town-board",
+      "https://www.somersetny.gov/supervisor",
+      "https://www.somersetny.gov/town-clerk",
+      "https://www.somersetny.gov/audit-committee"
+    ]
   },
   "town-wheatfield": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.wheatfield-ny.gov/AgendaCenter",
+    "finding": "each bill-payment item gives a voucher range, a grand total and fund subtotals, never payees",
+    "pages": [
+      "https://www.wheatfield-ny.gov/AgendaCenter",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Agenda/_10052026-1147",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Agenda/_09142026-1143",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Minutes/_08312026-1141",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Minutes/_08032026-1136",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Minutes/_07132026-1134",
+      "https://www.wheatfield-ny.gov/AgendaCenter/ViewFile/Minutes/_04172023-915",
+      "https://www.wheatfield-ny.gov/185/Town-Board",
+      "https://www.wheatfield-ny.gov/154/Budget-Department",
+      "https://www.wheatfield-ny.gov/169/Supervisors-Office",
+      "https://www.wheatfield-ny.gov/172/Town-Clerks-Office",
+      "https://www.wheatfield-ny.gov/149/Departments",
+      "https://www.wheatfield-ny.gov/DocumentCenter"
+    ]
   },
   "town-wilson": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.wilsonnewyork.com/DocumentCenter/Index/69",
+    "finding": "posted minutes (through 11/2025) give one monthly total for the bills audited, and the 09/2026 agenda lists the item with no attachment",
+    "pages": [
+      "https://www.wilsonnewyork.com/2148/Town-Board",
+      "https://www.wilsonnewyork.com/DocumentCenter",
+      "https://www.wilsonnewyork.com/DocumentCenter/Index/69",
+      "https://www.wilsonnewyork.com/DocumentCenter/Index/70",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1980/TBM-Agenda-09162026",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1836/11-05-2025-TBWM",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1820/09-17-2025--Town-Board-Minutes",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1793/250716-TB-Mtg1",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1785/250618-TB-Minutes",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1716/250219-TB-Minutes",
+      "https://www.wilsonnewyork.com/DocumentCenter/View/1710/250115-TB-Minutes",
+      "https://www.wilsonnewyork.com/SiteMap",
+      "https://www.wilsonnewyork.com/27/Government",
+      "https://www.wilsonnewyork.com/2156/Town-Clerk"
+    ]
   },
   "village-barker": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.villageofbarkerny.gov/meeting-minutes.html",
+    "finding": "minutes give an abstract number, a voucher range and fund totals, never payees",
+    "pages": [
+      "https://www.villageofbarkerny.gov/meeting-minutes.html",
+      "https://www.villageofbarkerny.gov/agendas.html",
+      "https://www.villageofbarkerny.gov/clerktreasurer-office.html",
+      "https://www.villageofbarkerny.gov/budget.html",
+      "https://www.villageofbarkerny.gov/government.html",
+      "https://www.villageofbarkerny.gov/archive-listing.html",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2026_september_8_minutes.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2026_august_10_minutes.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2026_july_13_mintues.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2026_april_6_minutes.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2026_march_9_minutes.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/2025_december_8_minutes.pdf",
+      "https://www.villageofbarkerny.gov/uploads/4/6/2/4/46247087/agenda_september_8_2026.pdf"
+    ]
   },
   "village-lewiston": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://villageoflewistonny.gov/trustee-board-meetings",
+    "finding": "minutes give fund totals for the bills presented, never payees",
+    "pages": [
+      "https://villageoflewistonny.gov/trustee-board-meetings",
+      "https://villageoflewistonny.gov/financial-reports",
+      "https://villageoflewistonny.gov/clerks-office",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/63f5c8f4-082c-4d66-9b25-abb654c58446/2026-8-17%20VB%20Minutes.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/88c5d766-613c-42da-8660-fd7654d5f4f3/Village%20Board%20Meeting%20Minutes%20-%20July%2020%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/ed93ffed-aaa6-472a-a385-c46fd8cb152a/2026-9-8%20VB%20WS%20Minutes.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/53ddc3bc-2b00-4c51-9d71-e2fdcb70b218/Village%20Board%20Meeting%20Agenda%20-%20September%2021%2C%202.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/880d9747-3844-422f-93ec-ec3928428e37/Village%20Board%20Meeting%20Agenda%20-%20August%2017%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/961fbcba-a2fa-4fa8-b305-0c9b9cffe96b/Village%20Board%20Meeting%20Minutes%20-%20June%2015%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/d68a3c6c-5138-40bd-94e4-ec92ee284af7/Village%20Board%20Minutes%20-%20May%2018%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/4b723a65-c0df-4d46-a981-3f6ca7849ae7/Village%20Board%20Meeting%20Minutes%20-%20April%2020%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/795cf122-80e7-46d9-9506-dd694e553bc4/Village%20Board%20Meeting%20Minutes%20-%20March%2016%2C%202026.pdf",
+      "https://img1.wsimg.com/blobby/go/cb1df7be-47fe-4834-b419-0f159a6c3608/downloads/9f2a7831-5f7c-4f49-8088-f6c3c1f1203b/Village%20Board%20Meeting%20Minutes%20-%20February%2017%2C%202.pdf"
+    ]
   },
   "village-middleport": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://middleportny.gov/meeting-minutes/",
+    "finding": "minutes cite an abstract number and fund totals, but the abstract itself is not posted",
+    "pages": [
+      "https://middleportny.gov/meeting-minutes/",
+      "https://middleportny.gov/meeting-agendas/",
+      "https://middleportny.gov/village-clerk/",
+      "https://middleportny.gov/document-library/",
+      "https://middleportny.gov/village-of-middleport/",
+      "https://middleportny.gov/wp-content/uploads/2026/09/August-19-2026-Meeting-Minutes.pdf",
+      "https://middleportny.gov/wp-content/uploads/2026/09/September-16-2026-Meeting-Minutes-UNAPPROVED-DRAFT.pdf",
+      "https://middleportny.gov/wp-content/uploads/2026/08/July-22-2026-Meeting-Minutes.pdf",
+      "https://middleportny.gov/wp-content/uploads/2025/06/May-21-2025-Meeting-Minutes.pdf",
+      "https://middleportny.gov/wp-content/uploads/2026/09/AGENDA-September-16-2026.pdf",
+      "https://middleportny.gov/wp-content/uploads/2026/08/AGENDA-August-19-2026.pdf"
+    ]
   },
   "village-wilson": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://villageofwilson.org/meetings/meetings/Village%20Board/2026",
+    "finding": "minutes say the vouchers are attached, but the posted PDFs carry none, and the abstracts are kept as paper at the meeting",
+    "pages": [
+      "https://villageofwilson.org/",
+      "https://villageofwilson.org/sitemap.xml",
+      "https://villageofwilson.org/categories",
+      "https://villageofwilson.org/meetings/meetings/Village%20Board/2026",
+      "https://villageofwilson.org/government",
+      "https://villageofwilson.org/meetings/detail/48",
+      "https://villageofwilson.org/meetings/detail/47",
+      "https://villageofwilson.org/meetings/detail/40",
+      "https://villageofwilson.org/application/files/3617/8975/6736/September_17_2026_Board_Meeting_Minutes.pdf",
+      "https://villageofwilson.org/application/files/5617/8964/7790/09172026_Board_Meeting_Agenda.pdf",
+      "https://villageofwilson.org/application/files/4317/8777/1181/08202026_Village_Board_Meeting.pdf",
+      "https://villageofwilson.org/application/files/2117/8518/1244/July_16_2026_Board_Meeting_Minutes.pdf",
+      "https://villageofwilson.org/application/files/3617/4967/1222/051525_Board_Meeting.pdf"
+    ]
   },
   "village-youngstown": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.youngstownny.gov/AgendaCenter/Village-Board-2",
+    "finding": "minutes carry an Abstract of Audited Vouchers heading with fund totals only",
+    "pages": [
+      "https://www.youngstownny.gov/AgendaCenter/Village-Board-2",
+      "https://www.youngstownny.gov/196/Village-Board",
+      "https://www.youngstownny.gov/31/Departments",
+      "https://www.youngstownny.gov/201/The-Clerks-Office",
+      "https://www.youngstownny.gov/207/Budget-and-Audit",
+      "https://www.youngstownny.gov/199/Resolutions",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Minutes/_09102026-89",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Agenda/_09102026-89",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Minutes/_08202026-87",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Minutes/_07162026-85",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Minutes/_02252026-77",
+      "https://www.youngstownny.gov/AgendaCenter/ViewFile/Minutes/_10012026-90",
+      "https://www.youngstownny.gov/DocumentCenter/View/3118/Treasurers-Report-December-2025",
+      "https://www.youngstownny.gov/DocumentCenter/View/3122/A-General-Fund-December-2025"
+    ]
   },
   "county": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://www.niagaracounty.gov/government/legislature/agendas_legislative_meetings/2026_agendas___minutes.php",
+    "finding": "Legislature agendas and minutes carry resolutions only; one county sewer district’s board does list vendor vouchers, in its own minutes",
+    "pages": [
+      "https://www.niagaracounty.gov/",
+      "https://www.niagaracounty.gov/government/legislature/agendas_legislative_meetings/2026_agendas___minutes.php",
+      "https://www.niagaracounty.gov/government/legislature/standing_committees/index.php",
+      "https://www.niagaracounty.gov/departments/s-z/treasurer/index.php",
+      "https://www.niagaracounty.gov/departments/a-f/audit/index.php",
+      "https://www.niagaracounty.gov/departments/a-f/budget_and_management/index.php",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/4-21-26%20AGENDAS%20AND%20RESOLUTIONS.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/8-4-26%20AGENDAS%20AND%20RESOLUTIONS.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/8-4-26%20Meeting%20Minutes.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2026/6-16-26%20MEETING%20MINUTES.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/1-7-25%20Meeting%20Minutes.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/G-L/9-22-26%20Meeting.pdf",
+      "https://downloads.niagaracounty.gov/Document_center/Department/S-Z/Sewer/2026/January%202026.pdf"
+    ]
   },
   "school-district": {
-    "status": "unchecked",
-    "checked": null,
-    "source": null
+    "status": "absent-verified",
+    "checked": "2026-10-05",
+    "source": "https://go.boarddocs.com/ny/ntcsd/Board.nsf/Public",
+    "finding": "Board of Education agendas carry a semi-monthly claims-auditor report, one total per fund and a short exceptions list, not a payee list",
+    "pages": [
+      "https://go.boarddocs.com/ny/ntcsd/Board.nsf/Public",
+      "https://www.ntschools.org/board-of-education-site/boarddocs",
+      "https://www.ntschools.org/board-of-education-site/audit-committee",
+      "https://www.ntschools.org/departments/business-office/business-office-home",
+      "https://www.ntschools.org/departments/business-office/financial-reporting-archive/transparency-report",
+      "https://go.boarddocs.com/ny/ntcsd/Board.nsf/files/DYDHBQ47BACE/$file/Internal%20Claims%20Audit%20Report%20-%20September%201-15%2C%202026.pdf",
+      "https://go.boarddocs.com/ny/ntcsd/Board.nsf/files/DX9L2B54673D/$file/Internal%20Audit%20Claims%20Report%20-%20August%201%20-%2015%2C%202026.pdf",
+      "https://go.boarddocs.com/ny/ntcsd/Board.nsf/files/DBZMEL5AE65C/$file/Internal%20Claims%20Audit%20Report%20-%20December%201-15%2C%202024.pdf"
+    ]
   }
 }

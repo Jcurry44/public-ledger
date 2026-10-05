@@ -1,0 +1,30 @@
+budget_year,table,code,name,adopted_appropriation_usd,filed_expenditure_usd,variance_usd_actual_minus_adopted,variance_pct_of_adopted,note
+2025,general_fund_line,A1000,Legislature,1178211,1142777,-35434,-3.01,
+2025,general_fund_line,A1100,Judicial,17378682,16002010,-1376672,-7.92,
+2025,general_fund_line,A1200,Executive,650788,572453,-78335,-12.04,
+2025,general_fund_line,A1300,Finance,4006676,3887120,-119556,-2.98,
+2025,general_fund_line,A1400,Staff,21987599,21322232,-665367,-3.03,
+2025,general_fund_line,A1600,Shared Services,16006412,14474542,-1531870,-9.57,
+2025,general_fund_line,A1900,Special Items,73265410,78429033,5163623,7.05,
+2025,general_fund_line,A2000,Education,31834408,30391382,-1443026,-4.53,
+2025,general_fund_line,A3000,Public Safety,72397386,71356052,-1041334,-1.44,
+2025,general_fund_line,A4000,Health,32695334,37775813,5080479,15.54,
+2025,general_fund_line,A5000,Transportation,442800,442800,0,0,
+2025,general_fund_line,A6000,Economic Assistance and Opportunity,150877243,146230205,-4647038,-3.08,
+2025,general_fund_line,A7000,Culture and Recreation,6132437,5711791,-420646,-6.86,
+2025,general_fund_line,A8000,Home and Community Services,2301543,2638055,336512,14.62,
+2025,general_fund_line,A9000,Employee Benefits,1264493,1089742,-174751,-13.82,
+2025,general_fund_line,A9700,Debt Service,6488350,6072691,-415659,-6.41,
+2025,general_fund_line,A9900,Interfund Transfers,377032,,,,"excluded: the budget carries transfers as an appropriation, the filing classes them as other uses"
+2025,general_fund_total,A,General Fund total (excl. transfers),438907772,437538698,-1369074,-0.31,excludes A9900 interfund transfers
+2025,fund,A,General (A),439284804,447166452,7881648,1.79,
+2025,fund,CM,CM Grant Fund (CM),10426800,9319203,-1107597,-10.62,
+2025,fund,CD,CD WIOA (Job Training) (CD),4857032,4769201,-87831,-1.81,
+2025,fund,D,D County Road (D),10402861,8896211,-1506650,-14.48,
+2025,fund,DM,DM Road Machinery (DM),2848722,2884475,35753,1.26,
+2025,fund,S,Refuse District (S),838754,3007855,2169101,258.61,
+2025,fund,FX,Water District (FX),13568395,9814140,-3754255,-27.67,
+2025,fund,G,Sewer District (G),7750314,6248012,-1502302,-19.38,
+2025,fund,CL,Fund CL,,1030090,,,"filed, but the adopted budget does not price this fund"
+2025,fund,H,Fund H,,26093735,,,"filed, but the adopted budget does not price this fund"
+2025,fund,MS,Fund MS,,38161964,,,"filed, but the adopted budget does not price this fund"

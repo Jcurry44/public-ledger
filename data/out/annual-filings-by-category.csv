@@ -1,0 +1,663 @@
+filing_year,section,category,amount_usd_as_filed_self_reported_by_the_city,reporting_basis
+1995,Revenue,Real Property Taxes and Assessments,10173335.0,pre-2013 schema
+1995,Revenue,Charges for Services,6841731.0,pre-2013 schema
+1995,Revenue,Sales and Use Tax,6699431.0,pre-2013 schema
+1995,Revenue,Federal Aid,2833594.0,pre-2013 schema
+1995,Revenue,State Aid,2748807.0,pre-2013 schema
+1995,Revenue,Other Local Revenues,771977.0,pre-2013 schema
+1995,Revenue,Use and Sale of Property,551741.0,pre-2013 schema
+1995,Revenue,Other Real Property Tax Items,259635.0,pre-2013 schema
+1995,Revenue,Other Non-Property Taxes,183916.0,pre-2013 schema
+1995,Revenue,Charges to Other Governments,66957.0,pre-2013 schema
+1995,Expenditure,Public Safety,6555611.0,pre-2013 schema
+1995,Expenditure,Sanitation,4711293.0,pre-2013 schema
+1995,Expenditure,Employee Benefits,4095408.0,pre-2013 schema
+1995,Expenditure,Transportation,3647259.0,pre-2013 schema
+1995,Expenditure,General Government,3547618.0,pre-2013 schema
+1995,Expenditure,Economic Development,2946028.0,pre-2013 schema
+1995,Expenditure,Debt Service,2588115.0,pre-2013 schema
+1995,Expenditure,Culture and Recreation,2297140.0,pre-2013 schema
+1995,Expenditure,Utilities,1768443.0,pre-2013 schema
+1995,Expenditure,Unclassified,1010355.0,pre-2013 schema
+1995,Expenditure,Community Services,351093.0,pre-2013 schema
+1995,Expenditure,Health,33828.0,pre-2013 schema
+1996,Revenue,Real Property Taxes and Assessments,10614375.0,pre-2013 schema
+1996,Revenue,Charges for Services,6875396.0,pre-2013 schema
+1996,Revenue,Sales and Use Tax,6506367.0,pre-2013 schema
+1996,Revenue,State Aid,4247904.0,pre-2013 schema
+1996,Revenue,Federal Aid,2901816.0,pre-2013 schema
+1996,Revenue,Other Local Revenues,889569.0,pre-2013 schema
+1996,Revenue,Use and Sale of Property,485978.0,pre-2013 schema
+1996,Revenue,Other Real Property Tax Items,330975.0,pre-2013 schema
+1996,Revenue,Other Non-Property Taxes,190021.0,pre-2013 schema
+1996,Revenue,Charges to Other Governments,114327.0,pre-2013 schema
+1996,Expenditure,Public Safety,6593645.0,pre-2013 schema
+1996,Expenditure,Sanitation,5544232.0,pre-2013 schema
+1996,Expenditure,Employee Benefits,4421621.0,pre-2013 schema
+1996,Expenditure,Debt Service,3715339.0,pre-2013 schema
+1996,Expenditure,General Government,3530567.0,pre-2013 schema
+1996,Expenditure,Transportation,3304736.0,pre-2013 schema
+1996,Expenditure,Economic Development,3138552.0,pre-2013 schema
+1996,Expenditure,Culture and Recreation,2409142.0,pre-2013 schema
+1996,Expenditure,Utilities,1614300.0,pre-2013 schema
+1996,Expenditure,Community Services,345397.0,pre-2013 schema
+1996,Expenditure,Health,25983.0,pre-2013 schema
+1997,Revenue,Real Property Taxes and Assessments,10800355.0,pre-2013 schema
+1997,Revenue,Charges for Services,6896962.0,pre-2013 schema
+1997,Revenue,Sales and Use Tax,6594297.0,pre-2013 schema
+1997,Revenue,State Aid,3626025.0,pre-2013 schema
+1997,Revenue,Federal Aid,3169958.0,pre-2013 schema
+1997,Revenue,Other Local Revenues,963219.0,pre-2013 schema
+1997,Revenue,Use and Sale of Property,469398.0,pre-2013 schema
+1997,Revenue,Other Real Property Tax Items,433707.0,pre-2013 schema
+1997,Revenue,Other Non-Property Taxes,191801.0,pre-2013 schema
+1997,Revenue,Charges to Other Governments,121457.0,pre-2013 schema
+1997,Expenditure,Public Safety,6804992.0,pre-2013 schema
+1997,Expenditure,Sanitation,4937172.0,pre-2013 schema
+1997,Expenditure,Employee Benefits,4182987.0,pre-2013 schema
+1997,Expenditure,Debt Service,3911285.0,pre-2013 schema
+1997,Expenditure,Transportation,3083300.0,pre-2013 schema
+1997,Expenditure,Economic Development,3055892.0,pre-2013 schema
+1997,Expenditure,Culture and Recreation,3018919.0,pre-2013 schema
+1997,Expenditure,General Government,2811045.0,pre-2013 schema
+1997,Expenditure,Utilities,1586734.0,pre-2013 schema
+1997,Expenditure,Community Services,363419.0,pre-2013 schema
+1997,Expenditure,Health,31860.0,pre-2013 schema
+1998,Revenue,Real Property Taxes and Assessments,11395929.0,pre-2013 schema
+1998,Revenue,Charges for Services,7013082.0,pre-2013 schema
+1998,Revenue,Sales and Use Tax,6391717.0,pre-2013 schema
+1998,Revenue,State Aid,3259652.0,pre-2013 schema
+1998,Revenue,Federal Aid,2613991.0,pre-2013 schema
+1998,Revenue,Other Local Revenues,1243720.0,pre-2013 schema
+1998,Revenue,Use and Sale of Property,632890.0,pre-2013 schema
+1998,Revenue,Other Real Property Tax Items,456421.0,pre-2013 schema
+1998,Revenue,Other Non-Property Taxes,225246.0,pre-2013 schema
+1998,Revenue,Charges to Other Governments,92520.0,pre-2013 schema
+1998,Expenditure,Public Safety,6875370.0,pre-2013 schema
+1998,Expenditure,Sanitation,4774686.0,pre-2013 schema
+1998,Expenditure,Debt Service,3832750.0,pre-2013 schema
+1998,Expenditure,Employee Benefits,3811642.0,pre-2013 schema
+1998,Expenditure,General Government,3184403.0,pre-2013 schema
+1998,Expenditure,Economic Development,3100616.0,pre-2013 schema
+1998,Expenditure,Transportation,3065415.0,pre-2013 schema
+1998,Expenditure,Culture and Recreation,3016039.0,pre-2013 schema
+1998,Expenditure,Utilities,1617916.0,pre-2013 schema
+1998,Expenditure,Community Services,371894.0,pre-2013 schema
+1998,Expenditure,Health,34251.0,pre-2013 schema
+1999,Revenue,Real Property Taxes and Assessments,9443723.0,pre-2013 schema
+1999,Revenue,Sales and Use Tax,6985503.0,pre-2013 schema
+1999,Revenue,Charges for Services,6750985.0,pre-2013 schema
+1999,Revenue,State Aid,5024540.0,pre-2013 schema
+1999,Revenue,Other Local Revenues,2249365.0,pre-2013 schema
+1999,Revenue,Federal Aid,1176716.0,pre-2013 schema
+1999,Revenue,Use and Sale of Property,1077294.0,pre-2013 schema
+1999,Revenue,Other Real Property Tax Items,1001640.0,pre-2013 schema
+1999,Revenue,Other Non-Property Taxes,119254.0,pre-2013 schema
+1999,Revenue,Charges to Other Governments,89730.0,pre-2013 schema
+1999,Expenditure,Public Safety,7189070.0,pre-2013 schema
+1999,Expenditure,Debt Service,4817335.0,pre-2013 schema
+1999,Expenditure,Sanitation,4547724.0,pre-2013 schema
+1999,Expenditure,Culture and Recreation,4353684.0,pre-2013 schema
+1999,Expenditure,General Government,3508227.0,pre-2013 schema
+1999,Expenditure,Employee Benefits,3353325.0,pre-2013 schema
+1999,Expenditure,Transportation,3338667.0,pre-2013 schema
+1999,Expenditure,Utilities,1578520.0,pre-2013 schema
+1999,Expenditure,Economic Development,1096781.0,pre-2013 schema
+1999,Expenditure,Community Services,375190.0,pre-2013 schema
+1999,Expenditure,Health,35361.0,pre-2013 schema
+2000,Revenue,Real Property Taxes and Assessments,9407770.0,pre-2013 schema
+2000,Revenue,Sales and Use Tax,7160272.0,pre-2013 schema
+2000,Revenue,Charges for Services,6514450.0,pre-2013 schema
+2000,Revenue,State Aid,5398607.0,pre-2013 schema
+2000,Revenue,Other Local Revenues,4987276.0,pre-2013 schema
+2000,Revenue,Federal Aid,1185860.0,pre-2013 schema
+2000,Revenue,Other Real Property Tax Items,873442.0,pre-2013 schema
+2000,Revenue,Use and Sale of Property,872724.0,pre-2013 schema
+2000,Revenue,Other Non-Property Taxes,379290.0,pre-2013 schema
+2000,Revenue,Charges to Other Governments,113810.0,pre-2013 schema
+2000,Expenditure,Public Safety,15003476.0,pre-2013 schema
+2000,Expenditure,General Government,4749607.0,pre-2013 schema
+2000,Expenditure,Sanitation,4247095.0,pre-2013 schema
+2000,Expenditure,Debt Service,3801733.0,pre-2013 schema
+2000,Expenditure,Employee Benefits,3636373.0,pre-2013 schema
+2000,Expenditure,Transportation,3486048.0,pre-2013 schema
+2000,Expenditure,Culture and Recreation,2227902.0,pre-2013 schema
+2000,Expenditure,Utilities,1577424.0,pre-2013 schema
+2000,Expenditure,Economic Development,1132834.0,pre-2013 schema
+2000,Expenditure,Community Services,407581.0,pre-2013 schema
+2000,Expenditure,Health,36241.0,pre-2013 schema
+2001,Revenue,Real Property Taxes and Assessments,9622861.0,pre-2013 schema
+2001,Revenue,Sales and Use Tax,6814922.0,pre-2013 schema
+2001,Revenue,Charges for Services,6716825.0,pre-2013 schema
+2001,Revenue,State Aid,4119993.0,pre-2013 schema
+2001,Revenue,Federal Aid,1363352.0,pre-2013 schema
+2001,Revenue,Other Real Property Tax Items,796105.0,pre-2013 schema
+2001,Revenue,Use and Sale of Property,562089.0,pre-2013 schema
+2001,Revenue,Other Local Revenues,442280.0,pre-2013 schema
+2001,Revenue,Other Non-Property Taxes,278241.0,pre-2013 schema
+2001,Revenue,Charges to Other Governments,83860.0,pre-2013 schema
+2001,Expenditure,Public Safety,8378536.0,pre-2013 schema
+2001,Expenditure,Sanitation,4937843.0,pre-2013 schema
+2001,Expenditure,Debt Service,4128496.0,pre-2013 schema
+2001,Expenditure,Transportation,4049513.0,pre-2013 schema
+2001,Expenditure,Employee Benefits,3955579.0,pre-2013 schema
+2001,Expenditure,General Government,3573179.0,pre-2013 schema
+2001,Expenditure,Culture and Recreation,2121737.0,pre-2013 schema
+2001,Expenditure,Utilities,1691141.0,pre-2013 schema
+2001,Expenditure,Economic Development,1273892.0,pre-2013 schema
+2001,Expenditure,Community Services,395900.0,pre-2013 schema
+2001,Expenditure,Health,37291.0,pre-2013 schema
+2002,Revenue,Real Property Taxes and Assessments,9935340.0,pre-2013 schema
+2002,Revenue,Charges for Services,6722435.0,pre-2013 schema
+2002,Revenue,Sales and Use Tax,6639813.0,pre-2013 schema
+2002,Revenue,State Aid,3788291.0,pre-2013 schema
+2002,Revenue,Federal Aid,2688113.0,pre-2013 schema
+2002,Revenue,Other Real Property Tax Items,1240034.0,pre-2013 schema
+2002,Revenue,Other Local Revenues,762018.0,pre-2013 schema
+2002,Revenue,Use and Sale of Property,467264.0,pre-2013 schema
+2002,Revenue,Other Non-Property Taxes,285832.0,pre-2013 schema
+2002,Revenue,Charges to Other Governments,87805.0,pre-2013 schema
+2002,Expenditure,Public Safety,8163299.0,pre-2013 schema
+2002,Expenditure,Employee Benefits,4753585.0,pre-2013 schema
+2002,Expenditure,Sanitation,4172823.0,pre-2013 schema
+2002,Expenditure,General Government,4125111.0,pre-2013 schema
+2002,Expenditure,Debt Service,3745522.0,pre-2013 schema
+2002,Expenditure,Transportation,3537537.0,pre-2013 schema
+2002,Expenditure,Culture and Recreation,2396513.0,pre-2013 schema
+2002,Expenditure,Economic Development,2123095.0,pre-2013 schema
+2002,Expenditure,Unclassified,1780000.0,pre-2013 schema
+2002,Expenditure,Utilities,1778144.0,pre-2013 schema
+2002,Expenditure,Community Services,526359.0,pre-2013 schema
+2002,Expenditure,Health,38123.0,pre-2013 schema
+2002,Expenditure,Social Services,8050.0,pre-2013 schema
+2003,Revenue,Real Property Taxes and Assessments,10921398.0,pre-2013 schema
+2003,Revenue,Sales and Use Tax,6774343.0,pre-2013 schema
+2003,Revenue,Charges for Services,6666875.0,pre-2013 schema
+2003,Revenue,State Aid,4724965.0,pre-2013 schema
+2003,Revenue,Federal Aid,1961449.0,pre-2013 schema
+2003,Revenue,Other Real Property Tax Items,992463.0,pre-2013 schema
+2003,Revenue,Other Local Revenues,650159.0,pre-2013 schema
+2003,Revenue,Use and Sale of Property,406756.0,pre-2013 schema
+2003,Revenue,Other Non-Property Taxes,279296.0,pre-2013 schema
+2003,Revenue,Charges to Other Governments,68035.0,pre-2013 schema
+2003,Expenditure,Public Safety,9854904.0,pre-2013 schema
+2003,Expenditure,Employee Benefits,5630659.0,pre-2013 schema
+2003,Expenditure,General Government,5140511.0,pre-2013 schema
+2003,Expenditure,Sanitation,4139166.0,pre-2013 schema
+2003,Expenditure,Debt Service,3935484.0,pre-2013 schema
+2003,Expenditure,Transportation,3268727.0,pre-2013 schema
+2003,Expenditure,Culture and Recreation,2275734.0,pre-2013 schema
+2003,Expenditure,Utilities,2156423.0,pre-2013 schema
+2003,Expenditure,Economic Development,1721418.0,pre-2013 schema
+2003,Expenditure,Community Services,328182.0,pre-2013 schema
+2003,Expenditure,Health,29937.0,pre-2013 schema
+2003,Expenditure,Social Services,0.0,pre-2013 schema
+2003,Expenditure,Unclassified,0.0,pre-2013 schema
+2004,Revenue,Real Property Taxes and Assessments,10891644.0,pre-2013 schema
+2004,Revenue,Charges for Services,8165059.0,pre-2013 schema
+2004,Revenue,Sales and Use Tax,7261517.0,pre-2013 schema
+2004,Revenue,State Aid,5391438.0,pre-2013 schema
+2004,Revenue,Federal Aid,3964183.0,pre-2013 schema
+2004,Revenue,Other Real Property Tax Items,923625.0,pre-2013 schema
+2004,Revenue,Other Local Revenues,774380.0,pre-2013 schema
+2004,Revenue,Use and Sale of Property,709153.0,pre-2013 schema
+2004,Revenue,Other Non-Property Taxes,296564.0,pre-2013 schema
+2004,Revenue,Charges to Other Governments,62783.0,pre-2013 schema
+2004,Expenditure,Public Safety,7873534.0,pre-2013 schema
+2004,Expenditure,Employee Benefits,6156342.0,pre-2013 schema
+2004,Expenditure,General Government,5069748.0,pre-2013 schema
+2004,Expenditure,Sanitation,4482407.0,pre-2013 schema
+2004,Expenditure,Economic Development,4212361.0,pre-2013 schema
+2004,Expenditure,Debt Service,3977272.0,pre-2013 schema
+2004,Expenditure,Transportation,3433940.0,pre-2013 schema
+2004,Expenditure,Utilities,2920178.0,pre-2013 schema
+2004,Expenditure,Culture and Recreation,2157299.0,pre-2013 schema
+2004,Expenditure,Community Services,336125.0,pre-2013 schema
+2004,Expenditure,Health,0.0,pre-2013 schema
+2004,Expenditure,Social Services,0.0,pre-2013 schema
+2004,Expenditure,Unclassified,0.0,pre-2013 schema
+2005,Revenue,Real Property Taxes and Assessments,12201695.0,pre-2013 schema
+2005,Revenue,Charges for Services,8198373.0,pre-2013 schema
+2005,Revenue,Sales and Use Tax,7245522.0,pre-2013 schema
+2005,Revenue,State Aid,4679049.0,pre-2013 schema
+2005,Revenue,Federal Aid,3813321.0,pre-2013 schema
+2005,Revenue,Other Real Property Tax Items,1154668.0,pre-2013 schema
+2005,Revenue,Other Local Revenues,981140.0,pre-2013 schema
+2005,Revenue,Use and Sale of Property,922633.0,pre-2013 schema
+2005,Revenue,Other Non-Property Taxes,318629.0,pre-2013 schema
+2005,Revenue,Charges to Other Governments,79927.0,pre-2013 schema
+2005,Expenditure,Public Safety,8303861.0,pre-2013 schema
+2005,Expenditure,Employee Benefits,7503368.0,pre-2013 schema
+2005,Expenditure,General Government,4907177.0,pre-2013 schema
+2005,Expenditure,Economic Development,4480894.0,pre-2013 schema
+2005,Expenditure,Sanitation,4403060.0,pre-2013 schema
+2005,Expenditure,Transportation,4251131.0,pre-2013 schema
+2005,Expenditure,Debt Service,3964207.0,pre-2013 schema
+2005,Expenditure,Utilities,2348086.0,pre-2013 schema
+2005,Expenditure,Culture and Recreation,2056588.0,pre-2013 schema
+2005,Expenditure,Community Services,180370.0,pre-2013 schema
+2005,Expenditure,Health,0.0,pre-2013 schema
+2005,Expenditure,Social Services,0.0,pre-2013 schema
+2005,Expenditure,Unclassified,0.0,pre-2013 schema
+2006,Revenue,Real Property Taxes and Assessments,12677708.0,pre-2013 schema
+2006,Revenue,Charges for Services,8302211.0,pre-2013 schema
+2006,Revenue,Sales and Use Tax,7657007.0,pre-2013 schema
+2006,Revenue,State Aid,6520553.0,pre-2013 schema
+2006,Revenue,Federal Aid,5744829.0,pre-2013 schema
+2006,Revenue,Other Real Property Tax Items,1220720.0,pre-2013 schema
+2006,Revenue,Other Local Revenues,559378.0,pre-2013 schema
+2006,Revenue,Use and Sale of Property,491506.0,pre-2013 schema
+2006,Revenue,Other Non-Property Taxes,317495.0,pre-2013 schema
+2006,Revenue,Charges to Other Governments,119806.0,pre-2013 schema
+2006,Expenditure,Public Safety,10980597.0,pre-2013 schema
+2006,Expenditure,Employee Benefits,8574722.0,pre-2013 schema
+2006,Expenditure,General Government,4525422.0,pre-2013 schema
+2006,Expenditure,Sanitation,4494869.0,pre-2013 schema
+2006,Expenditure,Transportation,4228218.0,pre-2013 schema
+2006,Expenditure,Economic Development,4047893.0,pre-2013 schema
+2006,Expenditure,Utilities,3781969.0,pre-2013 schema
+2006,Expenditure,Debt Service,3623167.0,pre-2013 schema
+2006,Expenditure,Culture and Recreation,1862236.0,pre-2013 schema
+2006,Expenditure,Community Services,187784.0,pre-2013 schema
+2007,Revenue,Real Property Taxes and Assessments,12895803.0,pre-2013 schema
+2007,Revenue,Charges for Services,8344224.0,pre-2013 schema
+2007,Revenue,Sales and Use Tax,7661583.0,pre-2013 schema
+2007,Revenue,State Aid,5742569.0,pre-2013 schema
+2007,Revenue,Federal Aid,4523533.0,pre-2013 schema
+2007,Revenue,Other Real Property Tax Items,1216948.0,pre-2013 schema
+2007,Revenue,Use and Sale of Property,742047.0,pre-2013 schema
+2007,Revenue,Other Local Revenues,584705.0,pre-2013 schema
+2007,Revenue,Other Non-Property Taxes,318305.0,pre-2013 schema
+2007,Revenue,Charges to Other Governments,91193.0,pre-2013 schema
+2007,Expenditure,Public Safety,10246425.0,pre-2013 schema
+2007,Expenditure,Employee Benefits,8999912.0,pre-2013 schema
+2007,Expenditure,General Government,6161720.0,pre-2013 schema
+2007,Expenditure,Transportation,4614977.0,pre-2013 schema
+2007,Expenditure,Sanitation,4362971.0,pre-2013 schema
+2007,Expenditure,Economic Development,3504211.0,pre-2013 schema
+2007,Expenditure,Debt Service,2994289.0,pre-2013 schema
+2007,Expenditure,Utilities,2294810.0,pre-2013 schema
+2007,Expenditure,Culture and Recreation,1764942.0,pre-2013 schema
+2007,Expenditure,Community Services,151590.0,pre-2013 schema
+2008,Revenue,Real Property Taxes and Assessments,13393699.0,pre-2013 schema
+2008,Revenue,Charges for Services,8641885.0,pre-2013 schema
+2008,Revenue,State Aid,8207672.0,pre-2013 schema
+2008,Revenue,Sales and Use Tax,7967662.0,pre-2013 schema
+2008,Revenue,Federal Aid,4199766.0,pre-2013 schema
+2008,Revenue,Other Real Property Tax Items,851684.0,pre-2013 schema
+2008,Revenue,Other Local Revenues,712438.0,pre-2013 schema
+2008,Revenue,Use and Sale of Property,326823.0,pre-2013 schema
+2008,Revenue,Other Non-Property Taxes,166531.0,pre-2013 schema
+2008,Revenue,Charges to Other Governments,123819.0,pre-2013 schema
+2008,Expenditure,Public Safety,8952147.0,pre-2013 schema
+2008,Expenditure,Employee Benefits,8893396.0,pre-2013 schema
+2008,Expenditure,General Government,7314018.0,pre-2013 schema
+2008,Expenditure,Transportation,4858774.0,pre-2013 schema
+2008,Expenditure,Sanitation,4776847.0,pre-2013 schema
+2008,Expenditure,Economic Development,3623788.0,pre-2013 schema
+2008,Expenditure,Debt Service,3199731.0,pre-2013 schema
+2008,Expenditure,Utilities,2693316.0,pre-2013 schema
+2008,Expenditure,Culture and Recreation,1903077.0,pre-2013 schema
+2008,Expenditure,Community Services,156909.0,pre-2013 schema
+2008,Expenditure,Social Services,0.0,pre-2013 schema
+2009,Revenue,Real Property Taxes and Assessments,13342858.75,pre-2013 schema
+2009,Revenue,Charges for Services,8931205.1,pre-2013 schema
+2009,Revenue,Sales and Use Tax,7997203.75,pre-2013 schema
+2009,Revenue,State Aid,6144444.79,pre-2013 schema
+2009,Revenue,Federal Aid,3368055.03,pre-2013 schema
+2009,Revenue,Other Real Property Tax Items,913614.91,pre-2013 schema
+2009,Revenue,Use and Sale of Property,673949.77,pre-2013 schema
+2009,Revenue,Other Non-Property Taxes,519835.99,pre-2013 schema
+2009,Revenue,Other Local Revenues,509172.28,pre-2013 schema
+2009,Revenue,Charges to Other Governments,78762.37,pre-2013 schema
+2009,Expenditure,Employee Benefits,9540359.61,pre-2013 schema
+2009,Expenditure,Public Safety,8909789.18,pre-2013 schema
+2009,Expenditure,General Government,6246877.42,pre-2013 schema
+2009,Expenditure,Sanitation,4725660.0,pre-2013 schema
+2009,Expenditure,Transportation,4203043.38,pre-2013 schema
+2009,Expenditure,Economic Development,3499479.14,pre-2013 schema
+2009,Expenditure,Debt Service,3054365.75,pre-2013 schema
+2009,Expenditure,Utilities,2432436.25,pre-2013 schema
+2009,Expenditure,Culture and Recreation,1854653.89,pre-2013 schema
+2009,Expenditure,Unclassified,1615000.0,pre-2013 schema
+2009,Expenditure,Community Services,103449.62,pre-2013 schema
+2010,Revenue,Real Property Taxes and Assessments,14951049.0,pre-2013 schema
+2010,Revenue,Charges for Services,9181254.0,pre-2013 schema
+2010,Revenue,Sales and Use Tax,8222048.0,pre-2013 schema
+2010,Revenue,State Aid,6331502.0,pre-2013 schema
+2010,Revenue,Federal Aid,3124660.0,pre-2013 schema
+2010,Revenue,Other Real Property Tax Items,1318216.0,pre-2013 schema
+2010,Revenue,Other Local Revenues,966928.0,pre-2013 schema
+2010,Revenue,Use and Sale of Property,611497.0,pre-2013 schema
+2010,Revenue,Other Non-Property Taxes,389111.0,pre-2013 schema
+2010,Revenue,Charges to Other Governments,78995.0,pre-2013 schema
+2010,Expenditure,Employee Benefits,10260941.0,pre-2013 schema
+2010,Expenditure,Public Safety,9155805.0,pre-2013 schema
+2010,Expenditure,General Government,7091006.0,pre-2013 schema
+2010,Expenditure,Transportation,5399931.0,pre-2013 schema
+2010,Expenditure,Sanitation,4371735.0,pre-2013 schema
+2010,Expenditure,Economic Development,3332343.0,pre-2013 schema
+2010,Expenditure,Debt Service,3119804.0,pre-2013 schema
+2010,Expenditure,Utilities,2107352.0,pre-2013 schema
+2010,Expenditure,Culture and Recreation,1798325.0,pre-2013 schema
+2010,Expenditure,Community Services,87896.0,pre-2013 schema
+2011,Revenue,Real Property Taxes and Assessments,15668878.0,pre-2013 schema
+2011,Revenue,Charges for Services,9356224.0,pre-2013 schema
+2011,Revenue,Sales and Use Tax,8305829.0,pre-2013 schema
+2011,Revenue,State Aid,6600186.0,pre-2013 schema
+2011,Revenue,Federal Aid,3008580.0,pre-2013 schema
+2011,Revenue,Other Local Revenues,1634554.0,pre-2013 schema
+2011,Revenue,Other Real Property Tax Items,1157203.0,pre-2013 schema
+2011,Revenue,Use and Sale of Property,467178.0,pre-2013 schema
+2011,Revenue,Other Non-Property Taxes,401935.0,pre-2013 schema
+2011,Revenue,Charges to Other Governments,322720.0,pre-2013 schema
+2011,Expenditure,Employee Benefits,10807916.0,pre-2013 schema
+2011,Expenditure,Public Safety,9551744.0,pre-2013 schema
+2011,Expenditure,Sanitation,5434738.0,pre-2013 schema
+2011,Expenditure,Transportation,5346130.0,pre-2013 schema
+2011,Expenditure,General Government,4357816.0,pre-2013 schema
+2011,Expenditure,Economic Development,3362318.0,pre-2013 schema
+2011,Expenditure,Debt Service,2879328.0,pre-2013 schema
+2011,Expenditure,Culture and Recreation,1843677.0,pre-2013 schema
+2011,Expenditure,Utilities,1706041.0,pre-2013 schema
+2011,Expenditure,Social Services,897145.0,pre-2013 schema
+2011,Expenditure,Community Services,160880.0,pre-2013 schema
+2012,Revenue,Real Property Taxes and Assessments,15684079.0,pre-2013 schema
+2012,Revenue,Charges for Services,10880218.0,pre-2013 schema
+2012,Revenue,Sales and Use Tax,8205591.0,pre-2013 schema
+2012,Revenue,State Aid,6496185.0,pre-2013 schema
+2012,Revenue,Federal Aid,3573944.0,pre-2013 schema
+2012,Revenue,Other Real Property Tax Items,1253742.0,pre-2013 schema
+2012,Revenue,Use and Sale of Property,734766.0,pre-2013 schema
+2012,Revenue,Other Local Revenues,642620.0,pre-2013 schema
+2012,Revenue,Charges to Other Governments,601244.0,pre-2013 schema
+2012,Revenue,Other Non-Property Taxes,414316.0,pre-2013 schema
+2012,Expenditure,Employee Benefits,11232307.0,pre-2013 schema
+2012,Expenditure,Public Safety,9520485.0,pre-2013 schema
+2012,Expenditure,Sanitation,4626416.0,pre-2013 schema
+2012,Expenditure,General Government,3989280.0,pre-2013 schema
+2012,Expenditure,Transportation,3670837.0,pre-2013 schema
+2012,Expenditure,Economic Development,3072664.0,pre-2013 schema
+2012,Expenditure,Debt Service,2656774.0,pre-2013 schema
+2012,Expenditure,Culture and Recreation,2298974.0,pre-2013 schema
+2012,Expenditure,Utilities,1618037.0,pre-2013 schema
+2012,Expenditure,Social Services,747898.0,pre-2013 schema
+2012,Expenditure,Community Services,141207.0,pre-2013 schema
+2013,Revenue,Real Property Taxes and Assessments,15735652.0,post-2013 schema
+2013,Revenue,Sales and Use Tax,9141590.0,post-2013 schema
+2013,Revenue,Charges for Services,9117711.0,post-2013 schema
+2013,Revenue,State Aid,8165810.0,post-2013 schema
+2013,Revenue,Federal Aid,3311756.0,post-2013 schema
+2013,Revenue,Other Real Property Tax Items,1107564.0,post-2013 schema
+2013,Revenue,Use and Sale of Property,794166.0,post-2013 schema
+2013,Revenue,Other Local Revenues,524187.0,post-2013 schema
+2013,Revenue,Other Non-Property Taxes,411558.0,post-2013 schema
+2013,Revenue,Other Sources,80508.0,post-2013 schema
+2013,Revenue,Charges to Other Governments,58590.0,post-2013 schema
+2013,Revenue,Proceeds of Debt,0.0,post-2013 schema
+2013,Expenditure,Employee Benefits,11877692.0,post-2013 schema
+2013,Expenditure,Public Safety,9514464.0,post-2013 schema
+2013,Expenditure,Transportation,5858863.0,post-2013 schema
+2013,Expenditure,Sanitation,5318239.0,post-2013 schema
+2013,Expenditure,Economic Development,4813588.0,post-2013 schema
+2013,Expenditure,General Government,4071294.0,post-2013 schema
+2013,Expenditure,Culture and Recreation,3094945.0,post-2013 schema
+2013,Expenditure,Debt Service,2641338.0,post-2013 schema
+2013,Expenditure,Utilities,1469465.0,post-2013 schema
+2013,Expenditure,Community Services,140480.0,post-2013 schema
+2013,Expenditure,Other Uses,80510.0,post-2013 schema
+2013,Expenditure,Social Services,0.0,post-2013 schema
+2014,Revenue,Real Property Taxes and Assessments,15679247.0,post-2013 schema
+2014,Revenue,State Aid,8832735.0,post-2013 schema
+2014,Revenue,Charges for Services,8737014.0,post-2013 schema
+2014,Revenue,Sales and Use Tax,8377823.0,post-2013 schema
+2014,Revenue,Federal Aid,2769853.0,post-2013 schema
+2014,Revenue,Proceeds of Debt,2432600.0,post-2013 schema
+2014,Revenue,Other Real Property Tax Items,1287277.0,post-2013 schema
+2014,Revenue,Other Local Revenues,638099.0,post-2013 schema
+2014,Revenue,Use and Sale of Property,415808.0,post-2013 schema
+2014,Revenue,Other Non-Property Taxes,398436.0,post-2013 schema
+2014,Revenue,Charges to Other Governments,207697.0,post-2013 schema
+2014,Revenue,Other Sources,82744.0,post-2013 schema
+2014,Expenditure,Employee Benefits,12433975.0,post-2013 schema
+2014,Expenditure,Public Safety,10209782.0,post-2013 schema
+2014,Expenditure,Transportation,7733365.0,post-2013 schema
+2014,Expenditure,Sanitation,5471009.0,post-2013 schema
+2014,Expenditure,General Government,3955661.0,post-2013 schema
+2014,Expenditure,Economic Development,3243067.0,post-2013 schema
+2014,Expenditure,Debt Service,2722027.0,post-2013 schema
+2014,Expenditure,Culture and Recreation,2383295.0,post-2013 schema
+2014,Expenditure,Utilities,1714648.0,post-2013 schema
+2014,Expenditure,Other Uses,82744.0,post-2013 schema
+2014,Expenditure,Community Services,73947.0,post-2013 schema
+2015,Revenue,Real Property Taxes and Assessments,15760892.0,post-2013 schema
+2015,Revenue,Charges for Services,8876419.0,post-2013 schema
+2015,Revenue,Sales and Use Tax,8733969.0,post-2013 schema
+2015,Revenue,State Aid,6729745.0,post-2013 schema
+2015,Revenue,Federal Aid,2893425.0,post-2013 schema
+2015,Revenue,Proceeds of Debt,2538102.0,post-2013 schema
+2015,Revenue,Other Real Property Tax Items,1250757.0,post-2013 schema
+2015,Revenue,Other Local Revenues,779352.0,post-2013 schema
+2015,Revenue,Use and Sale of Property,761967.0,post-2013 schema
+2015,Revenue,Other Non-Property Taxes,415766.0,post-2013 schema
+2015,Revenue,Other Sources,272998.0,post-2013 schema
+2015,Revenue,Charges to Other Governments,267582.0,post-2013 schema
+2015,Expenditure,Employee Benefits,12550761.0,post-2013 schema
+2015,Expenditure,Public Safety,10208755.0,post-2013 schema
+2015,Expenditure,Transportation,5822491.0,post-2013 schema
+2015,Expenditure,Sanitation,4948965.0,post-2013 schema
+2015,Expenditure,General Government,4474238.0,post-2013 schema
+2015,Expenditure,Economic Development,3522606.0,post-2013 schema
+2015,Expenditure,Culture and Recreation,2973231.0,post-2013 schema
+2015,Expenditure,Debt Service,2557312.0,post-2013 schema
+2015,Expenditure,Utilities,1629306.0,post-2013 schema
+2015,Expenditure,Other Uses,272998.0,post-2013 schema
+2015,Expenditure,Community Services,54751.0,post-2013 schema
+2016,Revenue,Real Property Taxes and Assessments,15998775.0,post-2013 schema
+2016,Revenue,Charges for Services,8822270.0,post-2013 schema
+2016,Revenue,Sales and Use Tax,8490248.0,post-2013 schema
+2016,Revenue,State Aid,6059035.0,post-2013 schema
+2016,Revenue,Proceeds of Debt,4297000.0,post-2013 schema
+2016,Revenue,Federal Aid,3364992.0,post-2013 schema
+2016,Revenue,Other Real Property Tax Items,1176188.0,post-2013 schema
+2016,Revenue,Use and Sale of Property,1042500.8,post-2013 schema
+2016,Revenue,Other Local Revenues,751964.0,post-2013 schema
+2016,Revenue,Other Sources,565801.0,post-2013 schema
+2016,Revenue,Other Non-Property Taxes,411431.0,post-2013 schema
+2016,Revenue,Charges to Other Governments,70296.0,post-2013 schema
+2016,Expenditure,Employee Benefits,12440608.0,post-2013 schema
+2016,Expenditure,Public Safety,10953812.0,post-2013 schema
+2016,Expenditure,Transportation,5496721.0,post-2013 schema
+2016,Expenditure,Sanitation,4718046.0,post-2013 schema
+2016,Expenditure,General Government,4480921.52,post-2013 schema
+2016,Expenditure,Economic Development,3986361.0,post-2013 schema
+2016,Expenditure,Debt Service,2613307.0,post-2013 schema
+2016,Expenditure,Culture and Recreation,2133405.0,post-2013 schema
+2016,Expenditure,Unclassified,1710228.28,post-2013 schema
+2016,Expenditure,Utilities,1697009.0,post-2013 schema
+2016,Expenditure,Other Uses,565801.0,post-2013 schema
+2016,Expenditure,Community Services,71262.0,post-2013 schema
+2017,Revenue,Real Property Taxes and Assessments,16161948.0,post-2013 schema
+2017,Revenue,Charges for Services,8613644.0,post-2013 schema
+2017,Revenue,Sales and Use Tax,8327912.0,post-2013 schema
+2017,Revenue,State Aid,6115201.0,post-2013 schema
+2017,Revenue,Federal Aid,3054251.0,post-2013 schema
+2017,Revenue,Proceeds of Debt,1736984.0,post-2013 schema
+2017,Revenue,Other Real Property Tax Items,1030704.0,post-2013 schema
+2017,Revenue,Other Local Revenues,927314.0,post-2013 schema
+2017,Revenue,Other Sources,659534.0,post-2013 schema
+2017,Revenue,Use and Sale of Property,422664.0,post-2013 schema
+2017,Revenue,Other Non-Property Taxes,407509.0,post-2013 schema
+2017,Revenue,Charges to Other Governments,139014.0,post-2013 schema
+2017,Expenditure,Employee Benefits,12411346.0,post-2013 schema
+2017,Expenditure,Public Safety,10837972.0,post-2013 schema
+2017,Expenditure,Transportation,5623843.0,post-2013 schema
+2017,Expenditure,Sanitation,5322119.0,post-2013 schema
+2017,Expenditure,General Government,4699669.0,post-2013 schema
+2017,Expenditure,Economic Development,3087105.0,post-2013 schema
+2017,Expenditure,Debt Service,2827395.0,post-2013 schema
+2017,Expenditure,Culture and Recreation,2369728.0,post-2013 schema
+2017,Expenditure,Utilities,1857744.0,post-2013 schema
+2017,Expenditure,Other Uses,659534.0,post-2013 schema
+2017,Expenditure,Community Services,75755.0,post-2013 schema
+2018,Revenue,Real Property Taxes and Assessments,16297884.0,post-2013 schema
+2018,Revenue,Sales and Use Tax,9007832.0,post-2013 schema
+2018,Revenue,Charges for Services,8393591.0,post-2013 schema
+2018,Revenue,State Aid,7954876.0,post-2013 schema
+2018,Revenue,Proceeds of Debt,3483000.0,post-2013 schema
+2018,Revenue,Federal Aid,2937832.0,post-2013 schema
+2018,Revenue,Other Sources,1787588.0,post-2013 schema
+2018,Revenue,Other Real Property Tax Items,1344681.0,post-2013 schema
+2018,Revenue,Use and Sale of Property,971700.0,post-2013 schema
+2018,Revenue,Other Local Revenues,753077.0,post-2013 schema
+2018,Revenue,Other Non-Property Taxes,432349.0,post-2013 schema
+2018,Revenue,Charges to Other Governments,49031.0,post-2013 schema
+2018,Expenditure,Employee Benefits,12687262.0,post-2013 schema
+2018,Expenditure,Public Safety,11030780.0,post-2013 schema
+2018,Expenditure,Transportation,6592749.0,post-2013 schema
+2018,Expenditure,Sanitation,4873380.0,post-2013 schema
+2018,Expenditure,General Government,4369151.0,post-2013 schema
+2018,Expenditure,Economic Development,3418548.0,post-2013 schema
+2018,Expenditure,Debt Service,2680125.0,post-2013 schema
+2018,Expenditure,Culture and Recreation,2450425.0,post-2013 schema
+2018,Expenditure,Utilities,1863039.0,post-2013 schema
+2018,Expenditure,Other Uses,1787589.0,post-2013 schema
+2018,Expenditure,Community Services,80166.0,post-2013 schema
+2019,Revenue,Real Property Taxes and Assessments,16868639.0,post-2013 schema
+2019,Revenue,Sales and Use Tax,9184649.0,post-2013 schema
+2019,Revenue,Charges for Services,8201459.0,post-2013 schema
+2019,Revenue,State Aid,5452956.0,post-2013 schema
+2019,Revenue,Federal Aid,3648238.0,post-2013 schema
+2019,Revenue,Other Sources,2944484.0,post-2013 schema
+2019,Revenue,Other Real Property Tax Items,1998294.0,post-2013 schema
+2019,Revenue,Use and Sale of Property,913064.0,post-2013 schema
+2019,Revenue,Proceeds of Debt,805000.0,post-2013 schema
+2019,Revenue,Other Local Revenues,749254.0,post-2013 schema
+2019,Revenue,Other Non-Property Taxes,443513.0,post-2013 schema
+2019,Revenue,Charges to Other Governments,53891.0,post-2013 schema
+2019,Expenditure,Employee Benefits,13007799.0,post-2013 schema
+2019,Expenditure,Public Safety,11349035.0,post-2013 schema
+2019,Expenditure,Sanitation,6198587.0,post-2013 schema
+2019,Expenditure,Transportation,5617358.0,post-2013 schema
+2019,Expenditure,Economic Development,5379332.0,post-2013 schema
+2019,Expenditure,General Government,3327674.0,post-2013 schema
+2019,Expenditure,Other Uses,2944483.0,post-2013 schema
+2019,Expenditure,Debt Service,2854121.0,post-2013 schema
+2019,Expenditure,Utilities,2023433.0,post-2013 schema
+2019,Expenditure,Culture and Recreation,1975848.0,post-2013 schema
+2019,Expenditure,Community Services,71748.0,post-2013 schema
+2020,Revenue,Real Property Taxes and Assessments,17194888.0,post-2013 schema
+2020,Revenue,Sales and Use Tax,8989555.0,post-2013 schema
+2020,Revenue,Charges for Services,8009487.0,post-2013 schema
+2020,Revenue,State Aid,7674749.0,post-2013 schema
+2020,Revenue,Federal Aid,2990882.0,post-2013 schema
+2020,Revenue,Other Real Property Tax Items,1623926.0,post-2013 schema
+2020,Revenue,Proceeds of Debt,1352700.0,post-2013 schema
+2020,Revenue,Use and Sale of Property,1291464.0,post-2013 schema
+2020,Revenue,Other Sources,727047.0,post-2013 schema
+2020,Revenue,Other Local Revenues,535700.0,post-2013 schema
+2020,Revenue,Other Non-Property Taxes,449360.0,post-2013 schema
+2020,Revenue,Charges to Other Governments,114908.0,post-2013 schema
+2020,Expenditure,Employee Benefits,13510605.0,post-2013 schema
+2020,Expenditure,Public Safety,11651876.0,post-2013 schema
+2020,Expenditure,Sanitation,5956961.0,post-2013 schema
+2020,Expenditure,Transportation,5312120.0,post-2013 schema
+2020,Expenditure,Economic Development,4948089.0,post-2013 schema
+2020,Expenditure,General Government,3713707.0,post-2013 schema
+2020,Expenditure,Utilities,2464625.0,post-2013 schema
+2020,Expenditure,Debt Service,2376101.0,post-2013 schema
+2020,Expenditure,Culture and Recreation,1894407.0,post-2013 schema
+2020,Expenditure,Other Uses,727047.0,post-2013 schema
+2020,Expenditure,Community Services,54963.0,post-2013 schema
+2021,Revenue,Real Property Taxes and Assessments,17439118.0,post-2013 schema
+2021,Revenue,Sales and Use Tax,10185475.0,post-2013 schema
+2021,Revenue,Charges for Services,8815161.0,post-2013 schema
+2021,Revenue,State Aid,7585045.0,post-2013 schema
+2021,Revenue,Federal Aid,2758911.0,post-2013 schema
+2021,Revenue,Other Real Property Tax Items,1722302.0,post-2013 schema
+2021,Revenue,Other Local Revenues,943209.0,post-2013 schema
+2021,Revenue,Other Sources,928601.0,post-2013 schema
+2021,Revenue,Use and Sale of Property,872051.0,post-2013 schema
+2021,Revenue,Other Non-Property Taxes,446303.0,post-2013 schema
+2021,Revenue,Charges to Other Governments,75643.0,post-2013 schema
+2021,Revenue,Proceeds of Debt,0.0,post-2013 schema
+2021,Expenditure,Employee Benefits,13400119.0,post-2013 schema
+2021,Expenditure,Public Safety,12035756.0,post-2013 schema
+2021,Expenditure,Sanitation,9381376.0,post-2013 schema
+2021,Expenditure,Transportation,6763680.0,post-2013 schema
+2021,Expenditure,General Government,4172718.0,post-2013 schema
+2021,Expenditure,Economic Development,3227545.0,post-2013 schema
+2021,Expenditure,Debt Service,2446434.0,post-2013 schema
+2021,Expenditure,Culture and Recreation,2349949.0,post-2013 schema
+2021,Expenditure,Utilities,2003071.0,post-2013 schema
+2021,Expenditure,Other Uses,928602.0,post-2013 schema
+2021,Expenditure,Community Services,68794.0,post-2013 schema
+2022,Revenue,Real Property Taxes and Assessments,17867284.0,post-2013 schema
+2022,Revenue,Sales and Use Tax,10965930.0,post-2013 schema
+2022,Revenue,State Aid,10201505.0,post-2013 schema
+2022,Revenue,Charges for Services,8805156.0,post-2013 schema
+2022,Revenue,Federal Aid,4588200.0,post-2013 schema
+2022,Revenue,Other Real Property Tax Items,1712972.0,post-2013 schema
+2022,Revenue,Other Local Revenues,1192610.0,post-2013 schema
+2022,Revenue,Other Sources,874325.0,post-2013 schema
+2022,Revenue,Use and Sale of Property,528336.0,post-2013 schema
+2022,Revenue,Other Non-Property Taxes,452339.0,post-2013 schema
+2022,Revenue,Proceeds of Debt,87500.0,post-2013 schema
+2022,Revenue,Charges to Other Governments,47142.0,post-2013 schema
+2022,Expenditure,Employee Benefits,13175374.0,post-2013 schema
+2022,Expenditure,Public Safety,11873834.0,post-2013 schema
+2022,Expenditure,Transportation,10595227.0,post-2013 schema
+2022,Expenditure,Sanitation,5052786.0,post-2013 schema
+2022,Expenditure,General Government,4146156.0,post-2013 schema
+2022,Expenditure,Economic Development,3908532.0,post-2013 schema
+2022,Expenditure,Culture and Recreation,2896467.0,post-2013 schema
+2022,Expenditure,Utilities,2499247.0,post-2013 schema
+2022,Expenditure,Debt Service,2116007.0,post-2013 schema
+2022,Expenditure,Other Uses,874325.0,post-2013 schema
+2022,Expenditure,Community Services,95440.0,post-2013 schema
+2023,Revenue,Real Property Taxes and Assessments,19392558.0,post-2013 schema
+2023,Revenue,Sales and Use Tax,11629568.0,post-2013 schema
+2023,Revenue,State Aid,9671225.0,post-2013 schema
+2023,Revenue,Charges for Services,8872437.0,post-2013 schema
+2023,Revenue,Proceeds of Debt,6908375.0,post-2013 schema
+2023,Revenue,Federal Aid,4399967.0,post-2013 schema
+2023,Revenue,Other Sources,2125344.0,post-2013 schema
+2023,Revenue,Other Real Property Tax Items,1519464.0,post-2013 schema
+2023,Revenue,Other Local Revenues,1152861.0,post-2013 schema
+2023,Revenue,Use and Sale of Property,1058653.0,post-2013 schema
+2023,Revenue,Other Non-Property Taxes,429766.0,post-2013 schema
+2023,Revenue,Charges to Other Governments,30516.0,post-2013 schema
+2023,Expenditure,Employee Benefits,14879794.0,post-2013 schema
+2023,Expenditure,Public Safety,12822288.0,post-2013 schema
+2023,Expenditure,Transportation,10196102.0,post-2013 schema
+2023,Expenditure,Sanitation,5404966.0,post-2013 schema
+2023,Expenditure,General Government,4114670.0,post-2013 schema
+2023,Expenditure,Economic Development,3907065.0,post-2013 schema
+2023,Expenditure,Utilities,3199899.0,post-2013 schema
+2023,Expenditure,Culture and Recreation,2909546.0,post-2013 schema
+2023,Expenditure,Other Uses,2125344.0,post-2013 schema
+2023,Expenditure,Debt Service,1740019.0,post-2013 schema
+2023,Expenditure,Community Services,190004.0,post-2013 schema
+2024,Revenue,Real Property Taxes and Assessments,20880092.0,post-2013 schema
+2024,Revenue,Sales and Use Tax,11532570.0,post-2013 schema
+2024,Revenue,State Aid,10034726.0,post-2013 schema
+2024,Revenue,Charges for Services,9618477.0,post-2013 schema
+2024,Revenue,Federal Aid,4393422.0,post-2013 schema
+2024,Revenue,Other Local Revenues,2307778.0,post-2013 schema
+2024,Revenue,Other Real Property Tax Items,1853163.0,post-2013 schema
+2024,Revenue,Use and Sale of Property,1331754.0,post-2013 schema
+2024,Revenue,Other Sources,1057498.0,post-2013 schema
+2024,Revenue,Other Non-Property Taxes,384830.0,post-2013 schema
+2024,Revenue,Proceeds of Debt,87000.0,post-2013 schema
+2024,Revenue,Charges to Other Governments,37897.0,post-2013 schema
+2024,Expenditure,Public Safety,13849904.0,post-2013 schema
+2024,Expenditure,Employee Benefits,13173371.0,post-2013 schema
+2024,Expenditure,Transportation,10283135.0,post-2013 schema
+2024,Expenditure,Utilities,7295030.0,post-2013 schema
+2024,Expenditure,Sanitation,5712302.0,post-2013 schema
+2024,Expenditure,General Government,4798941.0,post-2013 schema
+2024,Expenditure,Economic Development,3913067.0,post-2013 schema
+2024,Expenditure,Culture and Recreation,3421707.0,post-2013 schema
+2024,Expenditure,Debt Service,2344594.0,post-2013 schema
+2024,Expenditure,Other Uses,1057498.0,post-2013 schema
+2024,Expenditure,Community Services,173925.0,post-2013 schema
