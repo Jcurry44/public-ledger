@@ -19,3 +19,6 @@ data/resolutions/
 
 # post kit output (tools/gen_social.py): local only, never published
 social/
+
+# assessment roll PDFs (tools/build_roll.py re-fetches them; 16 MB each)
+data/roll/

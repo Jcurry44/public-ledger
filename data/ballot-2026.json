@@ -34,7 +34,10 @@
       },
       "levy": {"amount": 21169100, "fullValueRate": 7.76, "fy": 2025,
                "source": "NYS overlapping-rates data (data.ny.gov iq85-sdzs), city line, fiscal year ending 2025"},
-      "lookup": "https://cityofntonawanda.prosgar.com/PROSSearch/SearchFilters",
+      "lookup": "https://www.northtonawanda.gov/assessor",
+      "roll": {"year": 2026, "uniformPct": 40.0, "cityTaxable": 1314598121, "parcels": 12788,
+               "url": "https://www.northtonawanda.gov/documents/Website/2026/North%20Tonawanda%202026%20Final%20Roll.pdf",
+               "note": "2026 final assessment roll, grand totals: city taxable value; uniform percent of value 40.00"},
       "source": {"name": "the City's project page", "url": "https://www.playntrec.com/community",
                  "stance": "The City's page asks voters for a yes vote. This page uses its figures and none of its arguments."},
       "buys": [
@@ -42,7 +45,30 @@
         "Adds a 7,700 sq ft gym with an upper-level walking track, a 3,000 sq ft multipurpose room and a 1,000 sq ft fitness room.",
         "Moves the senior center (leased, 110 Goundry St.) and the youth center (leased, 383 Vandervoort) into that one building, with Recreation, LCDC and CHANT offices."
       ],
-      "projection": {"savings": 124000, "revenue": 80000, "net": 204000},
+      "tenants": {
+              "title": "Who stays, who goes.",
+              "text": "Two county offices rent space in the building today. The DMV stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease. Probation has no space in it; the City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; this page found no announcement. For the space, the County paid the City a $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) and pays its share of utilities; in 2024 it added $1,000 a month for a Public Defender's office.",
+              "sources": [
+                      {
+                              "name": "City RFP, 2024",
+                              "url": "https://www.northtonawanda.gov/documents/Website/2024/Community%20Center%20RFP%20Final%202024.pdf"
+                      },
+                      {
+                              "name": "Probation 2025 annual report",
+                              "url": "https://downloads.niagaracounty.gov/Document_center/Department/M%20-%20R/Probation/2025%20Annual%20Report.pdf"
+                      },
+                      {
+                              "name": "County resolution CS-042-23",
+                              "url": "decisions.html?q=CS-042-23"
+                      },
+                      {
+                              "name": "CSS-030-24",
+                              "url": "decisions.html?q=CSS-030-24"
+                      }
+              ]
+      },
+      "projection": {"savings": 124000, "revenue": 80000, "net": 204000,
+                     "gap": "It does not say whether it counts the rent the County now pays for its offices in the building."},
       "grants": [
         {"name": "NY BRICKS", "amount": "up to $10 million", "status": "not awarded in the first round; the City expects another round in 2026-27"},
         {"name": "Downtown Revitalization Initiative", "amount": "$1-2 million", "status": "the City plans to apply"}

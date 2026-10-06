@@ -373,6 +373,23 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .pill{all:unset;cursor:pointer;font:600 12.5px/1 system-ui;padding:10px 12px;min-height:20px;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);background:var(--paper)}
 .pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 @media (hover:hover){.pill:hover,.seg button:hover{border-color:var(--ink);color:var(--ink)}}
+.find{margin:0 0 14px}
+.find label{display:block;font:600 11.5px/1.3 system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
+.combo{position:relative}
+.combo input{box-sizing:border-box;width:100%;font:15px/1.3 system-ui;color:var(--ink);background:var(--paper);border:1px solid var(--rule-strong);
+  border-radius:10px;padding:11px 12px;min-height:44px}
+.combo input:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--ink)}
+.opts{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:20;list-style:none;margin:0;padding:4px;background:var(--card);
+  border:1px solid var(--rule-strong);border-radius:10px;box-shadow:var(--shadow);max-height:300px;overflow:auto}
+.opts li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 10px;border-radius:7px;cursor:pointer;font-size:14px;min-height:24px}
+.opts li b{font-weight:600}
+.opts li span{color:var(--muted);font-size:13px;white-space:nowrap}
+.opts li[aria-selected="true"]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--ink)}
+.opts li.none{cursor:default;color:var(--muted)}
+@media (hover:hover){.opts li:hover{background:var(--accent-soft)}}
+.found{font-size:13px;color:var(--muted);margin:6px 0 0}
+.found:empty{display:none}
+.found b{color:var(--ink)}
 .vh{font-size:13px;color:var(--muted);margin:4px 0 0;max-width:42ch}
 .vh a{color:var(--accent)}
 .big{display:flex;align-items:baseline;gap:10px}
@@ -413,6 +430,9 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .sched{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:12px 0 0;padding:0;border-top:2px solid var(--ink)}
 .sched li{padding:7px 8px 0 0;font-size:13px;line-height:1.3}
 .sched .sk{display:block;font:600 11.5px/1.3 system-ui;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+.ten{font-size:13.5px;margin:12px 0 0;color:var(--muted)}
+.ten b{color:var(--ink)}
+.ten .src{display:block;margin-top:4px}
 .proj{font-size:13.5px;margin:12px 0 0;padding:10px 12px;border:1px dashed var(--rule-strong);border-radius:8px;color:var(--muted)}
 .proj b{color:var(--ink)}
 .how{margin:14px 0 0}
@@ -453,6 +473,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 }
 @media (max-width:760px){                         /* a thumb's 44px on every control that changes the answer */
   .seg button{display:inline-flex;align-items:center;min-height:44px;padding:0 15px}
+  .opts li{min-height:44px;box-sizing:border-box}
   .pill{display:inline-flex;align-items:center;min-height:44px;padding:0 15px;box-sizing:border-box}
 }
 @media (max-width:420px){
@@ -493,6 +514,13 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 
   <div class="calc" id="calc-nt">
     <div class="cin">
+      <div class="find" id="find-nt" data-roll="data/roll-nt-2026.json">
+        <label for="addr-nt">Find your address</label>
+        <div class="combo"><input type="text" id="addr-nt" role="combobox" aria-autocomplete="list" aria-expanded="false"
+          aria-controls="addrL-nt" autocomplete="off" spellcheck="false" placeholder="e.g. 636 East Goundry">
+          <ul class="opts" id="addrL-nt" role="listbox" aria-label="Addresses on the 2026 roll" hidden></ul></div>
+        <p class="found" id="addrF-nt" aria-live="polite"></p>
+      </div>
       <div class="seg" role="group" aria-label="The value I know">
         <button type="button" data-basis="av" aria-pressed="true">Assessed value</button>
         <button type="button" data-basis="mv" aria-pressed="false">Market value</button></div>
@@ -500,8 +528,8 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
         aria-label="Your home's assessed value in dollars"></label>
       <div class="presets"><button class="pill" type="button" data-v="75000">$75K</button><button class="pill" type="button"
         data-v="100000">$100K</button><button class="pill" type="button" data-v="150000">$150K</button></div>
-      <p class="vh" id="vh-nt">Your assessed value is on your tax bill, and it is not what you paid.
-        <a href="https://cityofntonawanda.prosgar.com/PROSSearch/SearchFilters" rel="noopener">Look yours up</a></p>
+      <p class="vh" id="vh-nt">Or type the assessed value from your tax bill; it is not what you paid. The search reads the
+        City&rsquo;s <a href="https://www.northtonawanda.gov/documents/Website/2026/North%20Tonawanda%202026%20Final%20Roll.pdf" rel="noopener">2026 final roll</a>: all 12,788 parcels, with no owners&rsquo; names.</p>
     </div>
     <div class="cout" aria-live="polite">
       <div class="big"><b class="num" id="o-nt">$84</b><span>a year</span></div>
@@ -530,9 +558,11 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       <ul class="buys"><li>Renovates the city-owned Norman Keller Building, 500 Wheatfield St.: new roof and HVAC, ADA access, safety and security.</li><li>Adds a 7,700 sq ft gym with an upper-level walking track, a 3,000 sq ft multipurpose room and a 1,000 sq ft fitness room.</li><li>Moves the senior center (leased, 110 Goundry St.) and the youth center (leased, 383 Vandervoort) into that one building, with Recreation, LCDC and CHANT offices.</li></ul>
       <ol class="sched" aria-label="The City's schedule"><li><span class="sk">Design resumes</span><b>Nov 2026</b></li><li><span class="sk">Bids</span><b>May 2027</b></li><li><span class="sk">Construction</span><b>Sept 2027</b></li><li><span class="sk">Opens</span><b>Fall 2028</b></li></ol>
       <p class="src">The City&rsquo;s schedule says it could slip with grant awards.</p>
+      <p class="ten"><b>Who stays, who goes.</b> Two county offices rent space in the building today. The DMV stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease. Probation has no space in it; the City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; this page found no announcement. For the space, the County paid the City a $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) and pays its share of utilities; in 2024 it added $1,000 a month for a Public Defender's office.
+        <span class="src"><a href="https://www.northtonawanda.gov/documents/Website/2024/Community%20Center%20RFP%20Final%202024.pdf" rel="noopener">City RFP, 2024</a> &middot; <a href="https://downloads.niagaracounty.gov/Document_center/Department/M%20-%20R/Probation/2025%20Annual%20Report.pdf" rel="noopener">Probation 2025 annual report</a> &middot; <a href="decisions.html?q=CS-042-23" rel="noopener">County resolution CS-042-23</a> &middot; <a href="decisions.html?q=CSS-030-24" rel="noopener">CSS-030-24</a></span></p>
       <p class="proj"><b>The City projects $204,000 a year</b> from moving three buildings into one:
         $124,000 in facility and staff savings and $80,000 in new revenue. That is the City&rsquo;s
-        estimate; this page cannot check it.</p>
+        estimate; this page cannot check it. It does not say whether it counts the rent the County now pays for its offices in the building.</p>
     </div>
   </div>
 
@@ -542,11 +572,12 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       <li><b>The payment.</b> $18,000,000 over 30 years at 4.5% is
         <span class="num">$1,105,048</span> a year in equal payments. The City rounds it to $1.10 million.
         <span class="tie">ties</span></li>
-      <li><b>Per home.</b> The City spreads it over the city&rsquo;s taxable assessed value: $0.84 per $1,000, so a home assessed at
-        $100,000 pays $84 a year, the City&rsquo;s own example. <span class="tie">ties</span></li>
-      <li><b>Assessed versus market.</b> That rate implies about $1.32 billion of taxable assessed value; the state&rsquo;s
-        full-value data puts the city at about $2.73 billion, so homes are assessed at about 48% of market value.
-        The market-value button uses that ratio; your bill prints your exact &ldquo;uniform percentage.&rdquo;</li>
+      <li><b>Per home.</b> The City spreads it over the $1,314,598,121 of taxable assessed value on its 2026 final
+        roll: $0.84 per $1,000, so a home assessed at $100,000 pays $84 a year, the City&rsquo;s own example.
+        <span class="tie">ties</span></li>
+      <li><b>Assessed versus market.</b> The roll assesses homes at 40% of full market value (its &ldquo;uniform
+        percentage,&rdquo; printed on every bill), so the city&rsquo;s taxable property is worth about $3.29 billion at market.
+        The market-value button uses that 40%.</li>
       <li><b>Against the city&rsquo;s budget.</b> The City&rsquo;s 2025 property-tax levy was $21.2 million;
         the payment at the maximum is about 5% of it.</li>
       <li><b>Over 30 years.</b> $33.2 million repaid on $18 million borrowed, on the City&rsquo;s terms.</li>
@@ -621,7 +652,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 <script>
 (function(){
   "use strict";
-  var D={"eday":"2026-11-03","edayShort":"Tue Nov 3","polls":"6 a.m. to 9 p.m.","ratio":0.4822,"presets":{"av":[75000,100000,150000],"mv":[150000,200000,300000]},"q":{"nt":{"rate":0.84,"years":30,"ratio":true,"lead":"if the City borrows the full $18 million"},"somerset":{"rate":0.54,"years":0,"ratio":false,"lead":"at the ballot\u2019s estimate of $0.54 per $1,000"}}};
+  var D={"eday":"2026-11-03","edayShort":"Tue Nov 3","polls":"6 a.m. to 9 p.m.","ratio":0.4,"presets":{"av":[75000,100000,150000],"mv":[150000,200000,300000]},"q":{"nt":{"rate":0.84,"years":30,"ratio":true,"lead":"if the City borrows the full $18 million"},"somerset":{"rate":0.54,"years":0,"ratio":false,"lead":"at the ballot\u2019s estimate of $0.54 per $1,000"}}};
   var $=function(id){return document.getElementById(id)};
   var fmt=function(x,c){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:c?2:0,maximumFractionDigits:c?2:0})};
   var num=function(s){var v=parseFloat(String(s).replace(/[^0-9.]/g,''));return isFinite(v)?v:0};
@@ -653,6 +684,69 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   });
   var h0=(location.hash||'').slice(1);
   show(D.q[h0]?h0:tabs[0].id.slice(4),false);
+
+  /* the address search: the City's final roll (address + city taxable value only), fetched on first use */
+  /* matching: every typed word must start a word of the address, as typed or in its long form ('e' or 'eas' finds East,
+     'st' finds St, '16th' finds Sixteenth) - so a half-typed word never loses the match */
+  var LONG={e:'east',w:'west',n:'north',s:'south',st:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',pl:'place',ct:'court',
+    ln:'lane',blvd:'boulevard',pkwy:'parkway',terr:'terrace',ter:'terrace',cir:'circle',hwy:'highway',sq:'square',
+    '1st':'first','2nd':'second','3rd':'third','4th':'fourth','5th':'fifth','6th':'sixth','7th':'seventh','8th':'eighth','9th':'ninth',
+    '10th':'tenth','11th':'eleventh','12th':'twelfth','13th':'thirteenth','14th':'fourteenth','15th':'fifteenth','16th':'sixteenth',
+    '17th':'seventeenth','18th':'eighteenth','19th':'nineteenth','20th':'twentieth'};
+  function words(s){return String(s).toLowerCase().replace(/[,#]|\.(?=\s|$)/g,' ').split(/\s+/).filter(Boolean)}
+  function addrToks(s){var w=words(s);return w.concat(w.map(function(x){return LONG[x]}).filter(Boolean))}
+  function starts(t,w){var l=LONG[w];return t.some(function(x){return x.indexOf(w)===0||(l&&x.indexOf(l)===0)})}
+  function hx(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  [].forEach.call(document.querySelectorAll('.find[data-roll]'),function(box){
+    var id=box.id.slice(5),inp=$('addr-'+id),list=$('addrL-'+id),found=$('addrF-'+id),R=null,T=null,hits=[],act=-1,loading=false;
+    function load(){
+      if(R||loading)return;loading=true;
+      fetch(box.getAttribute('data-roll')).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+        R=d;T=d.a.map(function(a){return addrToks(a)});loading=false;if(inp.value)search();
+      }).catch(function(){box.hidden=true});
+    }
+    function close(){list.hidden=true;inp.setAttribute('aria-expanded','false');inp.removeAttribute('aria-activedescendant');act=-1}
+    function mark(i){act=i;[].forEach.call(list.children,function(li,j){li.setAttribute('aria-selected',j===i?'true':'false')});
+      if(i>=0){inp.setAttribute('aria-activedescendant','addrO-'+id+'-'+i);list.children[i].scrollIntoView({block:'nearest'})}}
+    function search(){
+      if(!R){load();return}
+      var q=words(inp.value);hits=[];
+      if(!q.length||(q.length===1&&q[0].length<2)){close();return}
+      for(var i=0;i<T.length&&hits.length<60;i++){
+        var t=T[i];
+        if(q.every(function(w){return starts(t,w)}))hits.push(i);
+      }
+      if(/^\d/.test(q[0]))hits.sort(function(a,b){return (T[a][0]===q[0]?0:1)-(T[b][0]===q[0]?0:1)||a-b});
+      hits=hits.slice(0,8);
+      list.innerHTML=hits.length?hits.map(function(i,j){return '<li role="option" id="addrO-'+id+'-'+j+'" aria-selected="false"><b>'+
+        hx(R.a[i])+'</b><span>'+fmt(R.v[i])+'</span></li>'}).join('')
+        :'<li class="none" role="option" aria-disabled="true">No address on the '+R.year+' roll matches</li>';
+      list.hidden=false;inp.setAttribute('aria-expanded','true');mark(hits.length?0:-1);
+    }
+    function pick(j){
+      var i=hits[j];if(i==null)return;
+      inp.value=R.a[i];close();
+      var av=$('calc-'+id).querySelector('[data-basis=av]');if(av&&av.getAttribute('aria-pressed')!=='true')av.click();
+      var v=$('v-'+id);v.value=R.v[i].toLocaleString('en-US');v.dispatchEvent(new Event('input'));
+      found.innerHTML='<b>'+hx(R.a[i])+'</b>: city taxable value <b>'+fmt(R.v[i])+'</b> on the '+R.year+' final roll, after any exemptions';
+      /* on a phone the answer sits ABOVE the search: bring it into view once the address is picked */
+      if(window.matchMedia('(max-width:760px)').matches){var rm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        $('o-'+id).scrollIntoView({block:'center',behavior:rm?'auto':'smooth'})}
+    }
+    inp.addEventListener('focus',load);
+    inp.addEventListener('input',search);
+    inp.addEventListener('keydown',function(e){
+      if(list.hidden&&e.key==='ArrowDown'){search();e.preventDefault();return}
+      if(list.hidden)return;
+      if(e.key==='ArrowDown'){mark(Math.min(act+1,hits.length-1));e.preventDefault()}
+      else if(e.key==='ArrowUp'){mark(Math.max(act-1,0));e.preventDefault()}
+      else if(e.key==='Enter'){if(act>=0){pick(act);e.preventDefault()}}
+      else if(e.key==='Escape'){close();e.preventDefault()}
+    });
+    list.addEventListener('mousedown',function(e){e.preventDefault()});
+    list.addEventListener('click',function(e){var li=e.target.closest('li[id]');if(li)pick(+li.id.split('-').pop())});
+    inp.addEventListener('blur',function(){setTimeout(close,120)});
+  });
 
   /* the calculators */
   Object.keys(D.q).forEach(function(id){
