@@ -11,6 +11,7 @@
   "legislators": "decisions",
   "poster": "decisions",
   "contested": "decisions",
+  "ballot": "warrants",
   "county": "osc",
   "atlas": "osc",
   "school": "osc",

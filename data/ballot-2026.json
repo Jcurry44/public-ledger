@@ -1,0 +1,75 @@
+{
+  "_doc": "Every question on the Niagara County ballot, Nov 3 2026, with the figures its sponsor published. Hand-entered from the two sources named on each question; tools/build_ballot.py does the arithmetic and refuses to build if the sponsor's own rounded figure does not tie to it. The ballot text is copied word for word, typos included: this site never edits an official's words.",
+  "election": {
+    "date": "2026-11-03",
+    "label": "Tuesday, November 3, 2026",
+    "polls": "6 a.m. to 9 p.m.",
+    "early": ["2026-10-24", "2026-11-01"],
+    "boe": "https://elections.niagaracounty.gov/",
+    "sample": "https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf",
+    "sampleDated": "2026-09-21",
+    "samplePages": 41,
+    "scope": "Niagara County"
+  },
+  "questions": [
+    {
+      "id": "nt",
+      "place": "North Tonawanda",
+      "sponsor": "City of North Tonawanda",
+      "label": "City Proposition One",
+      "short": "A community center, financed with up to $18 million in bonds",
+      "tab": "Community center",
+      "pages": [2, 4, 6, 8, 10],
+      "text": "Shall the City of North Tonawanda be authorized to issue serial bonds in the amount not exceed Eighteen Million Dollars ($18,000,000) for the purpose of financing the acquisition, construction, reconstruction, and equipping of a community center, including site acquisition, site improvements, furnishing, machinery, apparatus, and other incidental improvements and expenses in connection therewith?",
+      "kind": "bond",
+      "bond": {
+        "max": 18000000,
+        "estimate": 15500000,
+        "years": 30,
+        "rate": 0.045,
+        "sponsorAnnual": 1100000,
+        "sponsorRatePerK": 0.84,
+        "sponsorExampleAV": 100000,
+        "sponsorExample": 84
+      },
+      "levy": {"amount": 21169100, "fullValueRate": 7.76, "fy": 2025,
+               "source": "NYS overlapping-rates data (data.ny.gov iq85-sdzs), city line, fiscal year ending 2025"},
+      "lookup": "https://cityofntonawanda.prosgar.com/PROSSearch/SearchFilters",
+      "source": {"name": "the City's project page", "url": "https://www.playntrec.com/community",
+                 "stance": "The City's page asks voters for a yes vote. This page uses its figures and none of its arguments."},
+      "buys": [
+        "Renovates the city-owned Norman Keller Building, 500 Wheatfield St.: new roof and HVAC, ADA access, safety and security.",
+        "Adds a 7,700 sq ft gym with an upper-level walking track, a 3,000 sq ft multipurpose room and a 1,000 sq ft fitness room.",
+        "Moves the senior center (leased, 110 Goundry St.) and the youth center (leased, 383 Vandervoort) into that one building, with Recreation, LCDC and CHANT offices."
+      ],
+      "projection": {"savings": 124000, "revenue": 80000, "net": 204000},
+      "grants": [
+        {"name": "NY BRICKS", "amount": "up to $10 million", "status": "not awarded in the first round; the City expects another round in 2026-27"},
+        {"name": "Downtown Revitalization Initiative", "amount": "$1-2 million", "status": "the City plans to apply"}
+      ],
+      "schedule": [["Design resumes", "Nov 2026"], ["Bids", "May 2027"], ["Construction", "Sept 2027"], ["Opens", "Fall 2028"]]
+    },
+    {
+      "id": "somerset",
+      "place": "Somerset",
+      "sponsor": "Town of Somerset",
+      "label": "Town Proposition One",
+      "short": "A service award program for Barker's volunteer firefighters",
+      "tab": "Firefighter awards",
+      "pages": [36],
+      "text": "Shall the Board Resolution of the Somerset Town Board, in the County of Niagara, New York, adopted July 8, 2026, entitled: \"Board Resolution of the Somerset Town Board, in the County of Niagara, New York adopted July 8, 2026,\" authorizing the establishment of a defined benefit service award program (LOSAP) under General Municipal Law section 219 in the Town of Somerset Fire Protection District for the volunteer firefighters of Barker Fire Department Inc. stating that the LOSAP shall be administered by the Town of Somerset on behalf of Town of Somerset Fire Protection District; stating the estimated annual cost will be $96,000.00 based on the existing number of firefighters; stating that the annual tax rate to raise said $96,000.00 is estimated to be $0.54 per thousand of assessed valuation; stating the estimated annual administrative fee will be $3,500.00; stating the estimated annual cost per covered firefighter will be $2,285.00; stating that each eligible participant shall receive credit for up to five (5) qualified years of active Firefighting Service prior to the establishment of the LOSAP; stating that payment of the benefit shall be in the form of a life annuity with 120 payments guaranteed; stating death and disability payments to be authorized to commence upon the date of establishment of the LOSAP, and regular defined award payments to be authorized to commence one year thereafter, stating that the projected monthly award to be paid to eligible volunteer firefighters shall be $20.00 per month for each qualified year of active Firefighting Service, not to exceed 20 years, with payment in any month not to exceed $400.00, payment to commence when (1) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and has five years of qualified active Firefighting Service or (2) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and thereafter completes one year of active Firefighting Service, after payments commence, the amount of payment will increase by $20.00 per month for each additional year of active Firefighting Service, subject to the $400.00 monthly \"cap\" be approved?",
+      "kind": "annual",
+      "annual": {"cost": 96000, "sponsorRatePerK": 0.54, "admin": 3500, "perFirefighter": 2285,
+                 "award": "$20 a month per qualified year of service, up to 20 years ($400 a month), from age 65"},
+      "district": "Town of Somerset Fire Protection District",
+      "source": {"name": "the ballot itself", "url": null,
+                 "stance": "Every figure here is printed in the question on the ballot."},
+      "ledger": "m/town-somerset.html"
+    }
+  ],
+  "notOnBallot": [
+    {"what": "North Tonawanda: making the city attorney an appointed post",
+     "why": "The Board of Elections did not accept the filing (Aug 6), so the question will not appear.",
+     "url": "https://www.wkbw.com/niagara-county/more-involved-than-they-should-filing-error-blocks-north-tonawanda-city-attorney-ballot-proposal"}
+  ]
+}
