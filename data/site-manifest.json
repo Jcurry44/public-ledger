@@ -1,6 +1,6 @@
 {
- "built": "2026-10-05",
- "builtLabel": "10/05/2026",
+ "built": "2026-10-06",
+ "builtLabel": "10/06/2026",
  "site": "https://jcurry44.github.io/public-ledger",
  "pageFeed": {
   "index": "warrants",
@@ -516,7 +516,7 @@
      "exact": true
     }
    ],
-   "grammar": "Through Sep 15, 2026 \u00b7 built Oct 5, 2026"
+   "grammar": "Through Sep 15, 2026 \u00b7 built Oct 6, 2026"
   },
   "decisions": {
    "id": "decisions",
@@ -850,7 +850,7 @@
      "n": 14
     }
    ],
-   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 5, 2026"
+   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 6, 2026"
   },
   "osc": {
    "id": "osc",
@@ -948,7 +948,7 @@
      "url": "county.html#y=2013"
     }
    ],
-   "grammar": "Through 2024 \u00b7 built Oct 5, 2026"
+   "grammar": "Through 2024 \u00b7 built Oct 6, 2026"
   }
  }
 }

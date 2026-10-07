@@ -45,6 +45,11 @@
         "Adds a 7,700 sq ft gym with an upper-level walking track, a 3,000 sq ft multipurpose room and a 1,000 sq ft fitness room.",
         "Moves the senior center (leased, 110 Goundry St.) and the youth center (leased, 383 Vandervoort) into that one building, with Recreation, LCDC and CHANT offices."
       ],
+      "reassessment": {
+        "voted": "Aug 4, 2026", "vote": "4-1", "vendor": "GAR Associates", "cost": 550000, "last": 2009,
+        "rollsDue": "July 1, 2028", "firstBills": "September 2028",
+        "source": {"name": "Niagara Gazette, Aug 8, 2026", "url": "https://www.yahoo.com/news/us/articles/north-tonawanda-planning-conduct-reassessment-035900171.html"}
+      },
       "tenants": {
               "title": "Who stays, who goes.",
               "text": "Two county offices rent space in the building today. The DMV stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease. Probation has no space in it; the City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; this page found no announcement. For the space, the County paid the City a $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) and pays its share of utilities; in 2024 it added $1,000 a month for a Public Defender's office.",
