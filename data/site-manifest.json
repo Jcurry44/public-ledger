@@ -1,6 +1,6 @@
 {
- "built": "2026-10-06",
- "builtLabel": "10/06/2026",
+ "built": "2026-10-07",
+ "builtLabel": "10/07/2026",
  "site": "https://jcurry44.github.io/public-ledger",
  "pageFeed": {
   "index": "warrants",
@@ -21,14 +21,34 @@
   "warrants": {
    "id": "warrants",
    "label": "City warrants",
-   "through": "2026-09-15",
-   "throughLabel": "09/15/2026",
-   "count": 48,
+   "through": "2026-10-06",
+   "throughLabel": "10/06/2026",
+   "count": 50,
    "cadence": "1st or 3rd Tuesday (measured)",
-   "next": "2026-10-06",
-   "nextLabel": "Tue 10/06",
+   "next": "2026-10-20",
+   "nextLabel": "Tue 10/20",
    "unread": [],
    "items": [
+    {
+     "id": "Warrant report 10.6.26.pdf",
+     "date": "2026-10-06",
+     "title": "Warrant report 10.6.26",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-10-6-26.html",
+     "lines": 398,
+     "sumE": 1278538.78,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 10.6.26 VISA.pdf",
+     "date": "2026-09-23",
+     "title": "Warrant Report 10.6.26 VISA",
+     "kind": "card",
+     "url": "briefs/warrant-report-10-6-26-visa.html",
+     "lines": 53,
+     "sumE": 19218.45,
+     "exact": true
+    },
     {
      "id": "Warrant report 9.15.26.pdf",
      "date": "2026-09-15",
@@ -516,7 +536,7 @@
      "exact": true
     }
    ],
-   "grammar": "Through Sep 15, 2026 \u00b7 built Oct 6, 2026"
+   "grammar": "Through Oct 6, 2026 \u00b7 built Oct 7, 2026"
   },
   "decisions": {
    "id": "decisions",
@@ -850,7 +870,7 @@
      "n": 14
     }
    ],
-   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 6, 2026"
+   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 7, 2026"
   },
   "osc": {
    "id": "osc",
@@ -948,7 +968,7 @@
      "url": "county.html#y=2013"
     }
    ],
-   "grammar": "Through 2024 \u00b7 built Oct 6, 2026"
+   "grammar": "Through 2024 \u00b7 built Oct 7, 2026"
   }
  }
 }

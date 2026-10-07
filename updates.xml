@@ -3,9 +3,23 @@
 <title>Public Ledger updates</title>
 <link href="https://jcurry44.github.io/public-ledger/updates.xml" rel="self"/>
 <link href="https://jcurry44.github.io/public-ledger/"/>
-<updated>2026-10-06T12:10:03Z</updated>
+<updated>2026-10-07T19:13:38Z</updated>
 <id>https://jcurry44.github.io/public-ledger/</id>
 <author><name>Public Ledger</name></author>
+<entry>
+<title>Warrant report 10.6.26</title>
+<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-6-26.html"/>
+<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-6-26.html</id>
+<updated>2026-10-06T12:00:00Z</updated>
+<summary>warrant</summary>
+</entry>
+<entry>
+<title>Warrant Report 10.6.26 VISA</title>
+<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-6-26-visa.html"/>
+<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-6-26-visa.html</id>
+<updated>2026-09-23T12:00:00Z</updated>
+<summary>card</summary>
+</entry>
 <entry>
 <title>Meeting 09/22/2026 · 98 resolutions</title>
 <link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2026-09-22"/>
@@ -231,13 +245,6 @@
 <summary>warrant</summary>
 </entry>
 <entry>
-<title>Warrant Report 1.20.26 - 2026</title>
-<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-1-20-26-2026.html"/>
-<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-1-20-26-2026.html</id>
-<updated>2026-01-20T12:00:00Z</updated>
-<summary>warrant</summary>
-</entry>
-<entry>
 <title>Meeting 01/20/2026 · 45 resolutions</title>
 <link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2026-01-20"/>
 <id>https://jcurry44.github.io/public-ledger/decisions.html#m-2026-01-20</id>
@@ -250,13 +257,6 @@
 <id>https://jcurry44.github.io/public-ledger/decisions.html#m-2025-12-09</id>
 <updated>2025-12-09T12:00:00Z</updated>
 <summary>meeting</summary>
-</entry>
-<entry>
-<title>Warrant Report 12.2.25</title>
-<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-12-2-25.html"/>
-<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-12-2-25.html</id>
-<updated>2025-12-02T12:00:00Z</updated>
-<summary>warrant</summary>
 </entry>
 <entry>
 <title>Meeting 12/02/2025 · 21 resolutions</title>

@@ -1,5 +1,5 @@
 {
- "checkedAt": "2026-10-06",
+ "checkedAt": "2026-10-07",
  "source": "https://www.northtonawanda.gov/accounting",
  "posted": [
   {
@@ -145,6 +145,18 @@
    "url": "https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20report%209.15.26.pdf",
    "date": "2026-09-15",
    "card": false
+  },
+  {
+   "name": "Warrant report 10.6.26.pdf",
+   "url": "https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20report%2010.6.26.pdf",
+   "date": "2026-10-06",
+   "card": false
+  },
+  {
+   "name": "Warrant Report 10.6.26 VISA.pdf",
+   "url": "https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.6.26%20VISA.pdf",
+   "date": "2026-10-06",
+   "card": true
   }
  ]
 }
