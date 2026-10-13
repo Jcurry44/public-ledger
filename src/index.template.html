@@ -2473,7 +2473,11 @@ function vxPaintArrive(){
 vxPaintDoor();
 vxPaintArrive();
 
-var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9,I_OCR=10;   /* I_OCR: only OCR-read lines carry it (1 read, 2 read and its payee/account unconfirmed) */
+var I_DOC=0,I_VEN=1,I_ACC=2,I_AMT=3,I_PAGE=4,I_PO=5,I_ITEM=6,I_INV=7,I_CR=8,I_TYPE=9,I_OCR=10;
+/* a claim line's source: the warrant opened on the cited page with the line itself boxed (receipt.html, tools/build_receipts.py),
+   an in-site hop - so the chrome's return chip brings the reader back to exactly here. Ends '#page=N' like the city's link did. */
+function srcHref(r){ var d=D.docs[r[I_DOC]];
+  return 'receipt.html?d='+encodeURIComponent(d.brief)+'&po='+encodeURIComponent(r[I_PO]||'')+'&i='+r[I_ITEM]+'#page='+r[I_PAGE]; }   /* I_OCR: only OCR-read lines carry it (1 read, 2 read and its payee/account unconfirmed) */
 
 var NF2 = new Intl.NumberFormat('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});   /* one formatter: toLocaleString(opts) built a new one per call (thousands per boot) */
 function money(n){
@@ -3418,7 +3422,7 @@ function openPayeeSheet(names, opener){
   if(f.big){
     var bd=D.docs[f.big[I_DOC]];
     h+='<p class="pz-line">Largest single line <b class="num">'+money(f.big[I_AMT])+'</b> · '+esc(AD[f.big[I_ACC]])+' <span class="num">'+esc(A[f.big[I_ACC]])+'</span>'+
-       ' · <span class="num">'+esc(bd.d||bd.f)+'</span> <a class="al-src" href="'+esc(bd.u)+'#page='+f.big[I_PAGE]+'" target="_blank" rel="noopener">Open source · p.'+f.big[I_PAGE]+(bd.pages?' of '+bd.pages:'')+' <span class="arrow">&#8599;</span></a></p>';
+       ' · <span class="num">'+esc(bd.d||bd.f)+'</span> <a class="al-src" href="'+esc(srcHref(f.big))+'">Open source · p.'+f.big[I_PAGE]+(bd.pages?' of '+bd.pages:'')+' <span class="arrow">&rarr;</span></a></p>';
   }
   var hg=[]; names.forEach(function(nm){ var vi=V.indexOf(nm); (D.hygiene||[]).forEach(function(x){ if(x.v===vi) hg.push(x); }); });
   if(hg.length){
@@ -3790,8 +3794,7 @@ function renderProjectTab(tab, body){
       var doc=D.docs[r[I_DOC]];
       return '<tr><td class="c num">'+esc(A[r[I_ACC]])+'</td>'+
         '<td>'+esc(V[r[I_VEN]])+'</td>'+
-        '<td class="c"><a class="src" href="'+esc(doc.u)+'#page='+r[I_PAGE]+'" target="_blank" '+
-          'rel="noopener">'+esc(doc.d)+' p.'+r[I_PAGE]+'</a></td>'+
+        '<td class="c"><a class="src" href="'+esc(srcHref(r))+'">'+esc(doc.d)+' p.'+r[I_PAGE]+'</a></td>'+
         '<td class="a num">'+money(r[I_AMT])+'</td></tr>';}).join('')+'</tbody></table>';
 }
 
@@ -5785,8 +5788,8 @@ function renderSummary(rows){
         '<span class="al-s">'+esc(AD[r[I_ACC]])+' <span class="num">'+esc(A[r[I_ACC]])+'</span>'+
           (r[I_PO]?' · PO&nbsp;<span class="num">'+esc(r[I_PO])+'</span>':'')+' · <span class="num">'+esc(doc.d||doc.f)+'</span>'+
           (doc.isCard?' · card statement':'')+(r[I_CR]?' · credit':'')+'</span>'+
-        '<a class="al-src" href="'+esc(doc.u)+'#page='+r[I_PAGE]+'" target="_blank" rel="noopener">Open source · p.'+r[I_PAGE]+
-          (doc.pages?' of '+doc.pages:'')+' <span class="arrow">&#8599;</span></a></div>';
+        '<a class="al-src" href="'+esc(srcHref(r))+'">Open source · p.'+r[I_PAGE]+
+          (doc.pages?' of '+doc.pages:'')+' <span class="arrow">&rarr;</span></a></div>';
     }).join('')+'</div>';
   } else if(payees.size===1 && rows.length>1){
     var depts=new Set(), docsIn=new Set();
@@ -6236,8 +6239,8 @@ function renderRows(){
       '<td class="c-desc">'+esc(AD[r[I_ACC]])+'</td>'+
       '<td class="num c-po">'+esc(r[I_PO])+'<span style="color:var(--faint)">·'+r[I_ITEM]+'</span></td>'+
       '<td class="r num c-amt'+(r[I_CR]?' credit':'')+'">'+money(r[I_AMT])+'</td>'+
-      '<td class="c-src"><a class="src" href="'+esc(doc.u)+'#page='+r[I_PAGE]+'" target="_blank" rel="noopener">'+
-        esc(doc.d)+' · p.'+r[I_PAGE]+(doc.pages?' of '+doc.pages:'')+' &#8599;</a></td></tr>';}).join('')
+      '<td class="c-src"><a class="src" href="'+esc(srcHref(r))+'">'+
+        esc(doc.d)+' · p.'+r[I_PAGE]+(doc.pages?' of '+doc.pages:'')+' &rarr;</a></td></tr>';}).join('')
     || '<tr><td colspan="6" style="color:var(--muted);padding:20px 12px">No lines match.</td></tr>';
 }
 /* Any filter change resets paging - otherwise a narrow filter inherits a large
