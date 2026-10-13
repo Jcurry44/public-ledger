@@ -359,10 +359,6 @@ h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spac
    lying on a desk, not a website that happens to be beige. */
 .folio{position:relative;max-width:calc(var(--pl-dash) + 200px);margin:0 auto;min-height:100vh;background:var(--paper);
   box-shadow:0 0 0 1px var(--rule-strong),0 30px 80px -34px rgba(28,24,14,.5)}
-/* the clerk's red margin rule, shown only when the desk is visible */
-.folio::before{content:'';position:absolute;top:0;bottom:0;left:34px;width:3px;pointer-events:none;
-  border-left:1px solid rgba(158,43,40,.16);border-right:1px solid rgba(158,43,40,.16);z-index:1}
-@media (max-width:1440px){.folio::before{display:none}}
 @media (max-width:700px){.folio{box-shadow:none}}
 /* laid-paper grain: kills the flat screen tone without fighting the ink */
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:80;opacity:.028;
