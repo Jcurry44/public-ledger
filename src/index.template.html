@@ -155,7 +155,10 @@ html.pl-delta .fresh-slot{min-height:45px}
    hover reads a year, click picks it (the Schedule below follows). Phone: a tap-only
    sparkline that never claims the page scroll. */
 .htrend{position:relative;margin:14px 0 0}
-.htrend svg.trend{overflow:visible;height:150px}   /* the height drawHeroTrend() sets: the box is reserved before the script paints it */
+.htrend svg.trend{overflow:visible;height:150px}
+/* touch-action is read from the BOXES under the finger (the svg and its wrapper), not from a shape inside the svg: without this
+   a sideways slide on the chart was handed to the browser (pointercancel) instead of the year scrub */
+#heroTrendWrap,#heroTrend{touch-action:pan-y}   /* the height drawHeroTrend() sets: the box is reserved before the script paints it */
 .htrend .htr-cap{font-size:11.5px;color:var(--faint);margin-top:4px;display:flex;justify-content:space-between;gap:10px}
 .htrend .htr-cap b{font-weight:600;color:var(--muted)}
 svg.trend .end{font:700 11.5px ui-monospace,Menlo,Consolas,monospace}
@@ -536,8 +539,9 @@ input[type=search]:focus,select:focus{outline:2px solid var(--accent);outline-of
   .modal{padding:0;align-items:flex-end}
   .backdrop{background:rgba(12,14,18,.45)}
   .sheet{max-height:min(92vh,92dvh);height:auto;border-radius:18px 18px 0 0;border:0;width:100%;
-    overscroll-behavior:contain;box-shadow:0 -24px 60px -20px rgba(10,12,15,.5);touch-action:pan-y}
+    overscroll-behavior:contain;box-shadow:0 -24px 60px -20px rgba(10,12,15,.5),0 140px 0 0 var(--paper);touch-action:pan-y}
   .sheet.dragging{transition:none}
+  .modal::after{background:var(--paper)}   /* under the toolbar the bottom sheet runs on, not the backdrop */
   .sheet::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--rule-strong);margin:8px auto 0;flex:0 0 auto}
   .sheet header{padding:8px 16px 10px;gap:10px;flex-wrap:nowrap}
   .sheet header>div:first-child{flex:1 1 160px}
@@ -1087,6 +1091,10 @@ svg.trend path.band.lit{opacity:1}
 
 /* ---------- capital projects as small multiples: six S-curves on shared axes ---------- */
 .paces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 16px}
+/* the project sheet's scrub readout: one reserved line (two on a phone) so the chart never moves under the finger */
+.pread{margin:2px 0 6px;font-size:13px;line-height:1.45;color:var(--muted);min-height:1.45em}
+.pread b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:640px){.pread{min-height:2.9em}}
 @media (max-width:760px){.paces{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px}}
 .pace{display:block;width:100%;text-align:left;border:1px solid var(--rule);border-radius:9px;background:var(--card);padding:9px 10px 6px;
   cursor:pointer;color:var(--ink);font:inherit;min-width:0}
@@ -1188,7 +1196,7 @@ body:has(#modal:not([hidden])) .pager{display:none}   /* never floats over an op
   body{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
   .pager{left:0;right:0;bottom:0;transform:none;border-radius:0;padding:3px 8px calc(3px + env(safe-area-inset-bottom));
     justify-content:space-between;border:0;border-top:1px solid var(--rule-strong);
-    background:color-mix(in srgb,var(--card) 94%,transparent);box-shadow:0 -8px 24px -14px rgba(0,0,0,.4)}
+    background:color-mix(in srgb,var(--card) 94%,transparent);box-shadow:0 -8px 24px -14px rgba(0,0,0,.4),0 140px 0 0 var(--card)}
   .pager .lbl{flex:1 1 auto;max-width:none;text-align:center;font-size:13px;min-height:44px}
   .pager.away,.pager.typing,.pager.filt{opacity:0;pointer-events:none;transform:translateY(110%)}
 }
@@ -3726,6 +3734,9 @@ function paceSVG(p, o){
       '" fill="var(--exp)"><title>'+esc(d.d.d)+' — drew '+money(d.draw)+' across '+d.n+' line'+(d.n===1?'':'s')+
       ' · '+money(d.cum)+' to date</title></circle>');
   });
+  /* the scrub cursor (wirePace): a hairline and a ring on the dot under the finger / pointer */
+  svg.push('<g class="pcur" style="opacity:0;pointer-events:none"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
+    '<circle r="'+(compact?4.5:7.5)+'" fill="none" stroke="var(--ink)" stroke-width="2"/></g>');
   // the total at the line's end
   if(compact)
     svg.push('<text class="dl halo" x="'+(W-mr)+'" y="'+(y(run)-6).toFixed(1)+'" text-anchor="end" style="font-size:'+fs+'px">'+fmtM1(total)+'</text>');
@@ -3746,7 +3757,38 @@ function paceSVG(p, o){
     svg.push('<text class="anno halo" x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" text-anchor="'+anc+'" style="font-size:'+fs+'px">largest draw +'+money0(big.draw)+' · '+esc(big.d.d.replace(/\/20(\d\d)$/,'/$1'))+'</text>');
   }
   svg.push('</svg>');
-  return {svg:svg.join(''), data:pd, scans:nScan};
+  return {svg:svg.join(''), data:pd, scans:nScan, W:W,
+          pts:dots.map(function(d){ return {x:+x(d.t).toFixed(1), y:+y(d.cum).toFixed(1), d:d}; })};
+}
+/* the pace curves READ under a finger or a pointer: the one chart gesture (PL.scrubber - a sideways slide scrubs, a vertical
+   swipe still scrolls), snapped to the nearest warrant that drew. read(dot) shows it; clear() puts the resting text back
+   (a mouse leaving; a finger lifting keeps the last reading where the caller asks it to). */
+function wirePace(svg, out, read, clear, keepOnLift){
+  if(!svg || !out.pts.length) return;
+  var g=svg.querySelector('.pcur'), ln=g.querySelector('line'), ring=g.querySelector('circle'), cur=-1, liftT=null;
+  function at(cx){
+    var r=svg.getBoundingClientRect(), vx=(cx-r.left)/r.width*out.W, best=0, bd=1e9;
+    out.pts.forEach(function(p,i){ var dd=Math.abs(p.x-vx); if(dd<bd){ bd=dd; best=i; } });
+    return best;
+  }
+  function off(){ cur=-1; g.style.opacity=0; clear(); }
+  PL.scrubber(svg,{
+    onMove:function(cx,touch){
+      clearTimeout(liftT); if(touch) svg.__scrubbed=Date.now();
+      var i=at(cx); if(i===cur) return; cur=i;
+      var p=out.pts[i];
+      ln.setAttribute('x1',p.x); ln.setAttribute('x2',p.x); ring.setAttribute('cx',p.x); ring.setAttribute('cy',p.y);
+      g.style.opacity=1; read(p.d);
+    },
+    onLeave:function(touch){
+      if(touch){ svg.__scrubbed=Date.now(); if(!keepOnLift) liftT=setTimeout(off,1600); return; }
+      off();
+    }
+  });
+}
+function paceReading(d){
+  return '<b>'+esc(d.d.d)+'</b> &middot; drew <b>+'+money0(d.draw)+'</b> across '+d.n+' line'+(d.n===1?'':'s')+
+    ' &middot; <b>'+money0(d.cum)+'</b> to date';
 }
 
 function renderProjectTab(tab, body){
@@ -3769,11 +3811,15 @@ function renderProjectTab(tab, body){
         '<div class="mstat"><div class="k">Largest single line</div><div class="v num">'+
           money0(Math.max.apply(null,p.rows.map(function(r){return r[I_AMT];})))+'</div></div>'+
       '</div>'+
-      '<h4>Committed to date — each dot is a warrant that drew</h4>'+out.svg+
+      '<h4>Committed to date — each dot is a warrant that drew</h4>'+
+      '<p class="pread" id="paceRead" aria-live="polite"></p>'+out.svg+
       '<p class="note">Spend only — the register carries no authorised budget or completion date, so this '+
       'is the pace of approvals, not progress against a plan.'+
       (out.scans ? ' '+out.scans+' meeting'+(out.scans===1?'':'s')+' in this span survive'+(out.scans===1?'s':'')+' only as image scans '+
         '(the hollow stubs on the baseline), so quiet stretches there may be artifacts of the record, not the project.' : '')+'</p>';
+    var rd=body.querySelector('#paceRead'), hint=(window.matchMedia('(hover:hover)').matches?'Point':'Slide a finger')+' along the line to read each warrant';
+    rd.textContent=hint;
+    wirePace(body.querySelector('svg.trend'), out, function(d){ rd.innerHTML=paceReading(d); }, function(){ rd.textContent=hint; }, true);
     return;
   }
 
@@ -5261,9 +5307,9 @@ drawTrend();
    Drawn at the real width of its cell (viewBox = clientWidth, so 11.5px type is 11.5px on
    screen), 150px tall beside the figures; 64px on a phone. End labels carry the latest
    values, the 2013 basis break is drawn, hover reads a year, click or tap picks it and the
-   whole Schedule follows (renderYear). Touch never scrubs here: touch-action stays pan-y, so
-   a thumb that lands on the chart scrolls the page as it expects - the big panel below
-   keeps the drag scrub. */
+   whole Schedule follows (renderYear). Touch uses the one chart gesture (PL.scrubber): a
+   sideways slide scrubs - the card's figures follow the finger live - and lifting the finger
+   picks that year for the whole Schedule; a vertical swipe still scrolls the page. */
 function drawHeroTrend(){
   var wrap=document.getElementById('heroTrendWrap'), svg=document.getElementById('heroTrend');
   if(!wrap||!svg) return;
@@ -5327,10 +5373,8 @@ function drawHeroTrend(){
     return Math.max(0,Math.min(n-1,i));
   }
   hit.style.cursor='pointer';
-  hit.style.touchAction='pan-y';
-  hit.addEventListener('mousemove',function(ev){
-    if(window.matchMedia('(hover:none)').matches) return;
-    var i=idxAt(ev.clientX), net=rev[i]-exp[i];
+  function showAt(clientX){
+    var i=idxAt(clientX), net=rev[i]-exp[i];
     cross.style.opacity=1;
     cl.setAttribute('x1',x(i)); cl.setAttribute('x2',x(i));
     cd[0].setAttribute('cx',x(i)); cd[0].setAttribute('cy',y(rev[i]));
@@ -5344,13 +5388,24 @@ function drawHeroTrend(){
       tip.style.opacity=1;
       var wx=x(i)/W*wrap.clientWidth, tw=tip.offsetWidth||150;
       tip.style.left=Math.min(Math.max(wx-tw/2,0),wrap.clientWidth-tw)+'px';
-      tip.style.top=(x(i) > W*0.6 ? 0 : 0)+'px';
+      tip.style.top='0px';
     }
-  });
-  hit.addEventListener('mouseleave',function(){ cross.style.opacity=0; if(tip){tip.style.opacity=0;tip.style.left='0px';} });
-  hit.addEventListener('click',function(ev){
-    var i=idxAt(ev.clientX);
-    if(typeof renderYear==='function') renderYear(yrs[i]);
+  }
+  function hideCross(){ cross.style.opacity=0; if(tip){tip.style.opacity=0;tip.style.left='0px';} }
+  var scrubI=null;
+  PL.scrubber(hit,{
+    onMove:function(cx,touch){
+      if(!touch){ showAt(cx); return; }
+      /* a finger: the card itself is the readout - its figures and the selection mark follow the slide (cheap, no Schedule redraw) */
+      var i=idxAt(cx); if(i===scrubI) return; scrubI=i;
+      if(typeof setHero==='function') setHero(i);
+      if(TREND_MARKERS.hero) TREND_MARKERS.hero(yrs[i]);
+    },
+    onLeave:function(touch){
+      hideCross();
+      if(touch && scrubI!=null){ var yr=yrs[scrubI]; scrubI=null; if(typeof renderYear==='function') renderYear(yr); }
+    },
+    onTap:function(cx){ if(typeof renderYear==='function') renderYear(yrs[idxAt(cx)]); }
   });
   var selG=svg.querySelector('.hsel'), sl=selG.querySelector('line'), sd=selG.querySelectorAll('circle');
   TREND_MARKERS.hero=function(yr){
@@ -5494,10 +5549,12 @@ await plYield();
     var phone=isPhone(), pw=paces.clientWidth||900;
     var W0=Math.max(60, Math.floor((pw-(cols-1)*gap)/cols)-(phone?18:22)), H=cols===3?104:(phone?66:92);
     var sumSix=0, nScan=0;
+    var outs=[];
     function draw(W){
-      sumSix=0; nScan=0;
+      sumSix=0; nScan=0; outs=[];
       paces.innerHTML=six.map(function(p){
         var out=paceSVG(p,{W:W, H:H, compact:true, t0:t0, t1:t1, maxC:maxC, fs:11.5, ml:phone?6:38, yAxis:!phone});
+        outs.push(out);
         sumSix+=p.amt; nScan=Math.max(nScan,out.scans);
         var pd=out.data;
         return '<button class="pace" type="button" data-hk="proj|'+escA(p.key)+'" data-proj="'+escA(p.key)+'" title="Open '+escA(p.name)+'" aria-label="'+
@@ -5506,6 +5563,12 @@ await plYield();
           out.svg+
           '<span class="pv"><span>'+pd.active.length+' warrant'+(pd.active.length===1?'':'s')+'<span class="ph-x"> · from '+esc(pd.first.d.d.replace(/\/20(\d\d)$/,'/$1'))+'</span></span><b>'+money0(p.amt)+'</b></span></button>';
       }).join('');
+      [].forEach.call(paces.querySelectorAll('.pace'), function(card,k){
+        var pv=card.querySelector('.pv'), rest=pv.innerHTML;
+        wirePace(card.querySelector('svg.trend'), outs[k], function(d){
+          pv.innerHTML='<span class="num">'+esc(d.d.d)+' &middot; +'+fmtM1(d.draw)+'</span><b>'+money0(d.cum)+'</b>';
+        }, function(){ pv.innerHTML=rest; });
+      });
     }
     draw(W0);
     /* then measure a real card: the SVG is width:100%, so a viewBox wider than its box scales the type under
@@ -5523,7 +5586,9 @@ await plYield();
   }
   if(paces && !paces.__wired){
     paces.__wired=true;
-    paces.addEventListener('click',function(e){ var b=e.target.closest('[data-proj]'); if(b) openProject(b.getAttribute('data-proj'), b); });
+    paces.addEventListener('click',function(e){
+      var s=e.target.closest('svg'); if(s && Date.now()-(s.__scrubbed||0)<600) return;      /* a scrub is not a choice */
+      var b=e.target.closest('[data-proj]'); if(b) openProject(b.getAttribute('data-proj'), b); });
     var pt; window.addEventListener('resize',function(){ clearTimeout(pt); pt=setTimeout(function(){ var w=paces.clientWidth; if(w && Math.abs(w-(paces.__w||0))>2) renderPaces(); },150); });
   }
   renderPaces(); if(paces) paces.__w=paces.clientWidth;
