@@ -269,6 +269,9 @@ button{cursor:pointer}
      while it is pinned (.pl-stuck, set by chrome_script) it paints a paper strip upward. Only while pinned: in the flow
      the strip would cover the content above the rail. */
   .pl-stuck::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:140px;background:var(--paper);pointer-events:none}
+  /* the pinned rail is OPAQUE on a phone (no see-through blur): Safari 26 tints the area behind the clock from an opaque bar
+     at the top edge, and a paint outside the viewport (the strip above) is clipped there (Joe's iPhone, 10-13) */
+  html .rail{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}
   .pl-switch.is-open{display:flex}
   .pl-switch::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--rule-strong);margin:6px auto 4px}
   .pl-group{display:block;border:0!important}
