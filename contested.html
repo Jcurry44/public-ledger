@@ -261,6 +261,10 @@ button{cursor:pointer}
     background:var(--card);box-shadow:0 -24px 60px -20px rgba(10,12,15,.5),0 140px 0 0 var(--card);padding:6px 10px calc(14px + env(safe-area-inset-bottom))}
   /* iPhone Safari's floating toolbar: content runs on under it while a bottom:0 surface stops above it, so the page showed through the strip below every bar and sheet - each phone bottom surface casts a solid 140px copy of its own background below itself (a box-shadow: never clipped by the surface's own scrolling) */
   .pl-scrim{box-shadow:0 140px 0 0 rgba(12,14,18,.5),0 -140px 0 0 rgba(12,14,18,.5)}
+  /* ...and the same at the TOP: a sticky .rail pinned at top:0 stops below the clock while the page runs on behind it, so
+     while it is pinned (.pl-stuck, set by chrome_script) it paints a paper strip upward. Only while pinned: in the flow
+     the strip would cover the content above the rail. */
+  .pl-stuck::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:140px;background:var(--paper);pointer-events:none}
   .pl-switch.is-open{display:flex}
   .pl-switch::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--rule-strong);margin:6px auto 4px}
   .pl-group{display:block;border:0!important}
@@ -466,6 +470,15 @@ paint();
 "use strict";
 var root=document.documentElement;
 var PL=window.PL=window.PL||{};
+(function(){
+var bars=[].slice.call(document.querySelectorAll('.rail')), q=false;
+if(!bars.length) return;
+function chk(){ q=false; var y=window.scrollY||0;
+bars.forEach(function(b){ var cs=getComputedStyle(b), t=parseFloat(cs.top);
+b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<1); }); }
+window.addEventListener('scroll',function(){ if(!q){ q=true; requestAnimationFrame(chk); } },{passive:true});
+window.addEventListener('resize',chk); chk();
+})();
 if(!PL.layer){(function(){
 (function(){
 var MODAL=null;
