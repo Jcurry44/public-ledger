@@ -7296,6 +7296,10 @@ var ISSUE=(function(){
   }
   sec.addEventListener('click',onPress);
   if(FRONT) FRONT.addEventListener('click',onPress);       /* the first screen's numbers, bars, trust row and buttons press the same way */
+  /* ...and the answer strip's checkbook figures (claims, $, payees): they sit in their own section under the first screen, so
+     without this a press fell through to the bare href="#explore" - a native jump the return model then fought (a jitter on an
+     iPhone) and 'payees' never opened its list */
+  var ANS=document.getElementById('answers'); if(ANS) ANS.addEventListener('click',onPress);
   return API;
 })();
 
