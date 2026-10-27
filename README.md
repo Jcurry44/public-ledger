@@ -6,7 +6,7 @@ Self-contained HTML pages built from public records. No backend, no
 dependencies, no tracking. Open `index.html` and it works — on a phone, offline,
 or from a USB stick.
 
-**Currently unlisted** (`noindex`) pending a courtesy review by the city.
+Live at **https://jcurry44.github.io/public-ledger/**. Independent: not produced or requested by the City.
 
 ## What it shows
 
@@ -16,10 +16,10 @@ or from a USB stick.
   audit these filings), by category, with drill-down
   to sub-category, object of expenditure, and individual account lines. Compare
   any two years and see which categories outgrew revenue.
-- **The register** — every claim the city approved across 2025 and 2026:
-  8,865 line items, 960 payees, summarised first and filterable, with each line
+- **The register** — every claim the city approved across 2025 and 2026,
+  summarised first and filterable, with each line
   linked to the page of the PDF it was read from.
-- **Capital projects** — 40 named projects, their pace, their contractors, and
+- **Capital projects** — every named project, its pace, its contractors, and
   every line behind them.
 - **Your tax bill, decomposed** — enter a home value, see the school/city/county
   split at current full-value rates for nine cities, with thirteen years of
@@ -30,15 +30,14 @@ or from a USB stick.
 
 ### The companion surfaces
 
-- **`audit.html` — the Exception Report.** 63 computed flags across six
+- **`audit.html` — the Exception Report.** Computed flags across six
   sections (record gaps, catch-all accounts, spikes vs an account's own 30-year
   median, vendor-master duplicates, account sprawl, first-time payees), every
   one framed as a question with its resolution path, and none of it truncated —
   an exception report about silent gaps keeps no silent caps of its own.
 - **`brief.html` + `briefs/` — a council brief for every warrant.** One
   printable page per meeting, auto-generated, using prior-only baselines (an
-  old brief shows only what council could have known that night). 38 and
-  counting.
+  old brief shows only what council could have known that night).
 - **`county.html` — the County Edition.** Niagara County's 31 consecutive
   filings (1995–2025) with the same drill-down machinery, budget-vs-actual
   against the county's own adopted budget book, and the shared sales tax
