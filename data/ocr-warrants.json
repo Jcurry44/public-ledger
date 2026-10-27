@@ -7,11 +7,11 @@
    "reason": "",
    "tally": {
     "date repaired": 5,
-    "account exact": 335,
+    "account exact": 336,
     "account snapped": 1,
     "invoice: leading $ read as S": 2,
     "item number snapped to the sequence": 17,
-    "account not-in-chart": 6,
+    "account not-in-chart": 5,
     "invoice unreadable (left blank)": 2,
     "vendor lines snapped": 242,
     "vendor lines exact": 74,
@@ -523,14 +523,6 @@
     },
     {
      "kind": "account not-in-chart",
-     "page": 12,
-     "po": "V4-04982",
-     "ocr": "001-3410-0215",
-     "published": "001-3410-0215",
-     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
-    },
-    {
-     "kind": "account not-in-chart",
      "page": 13,
      "po": "V4-04991",
      "ocr": "002-8340-0410",
@@ -770,8 +762,8 @@
    "reason": "",
    "tally": {
     "item number snapped to the sequence": 12,
-    "account exact": 302,
-    "account not-in-chart": 2,
+    "account exact": 303,
+    "account not-in-chart": 1,
     "invoice unreadable (left blank)": 1,
     "vendor lines exact": 97,
     "vendor lines snapped": 200,
@@ -1462,14 +1454,6 @@
      "ocr_description": "Acquisition of Machinery and Apparatu"
     },
     {
-     "kind": "account not-in-chart",
-     "page": 20,
-     "po": "V5-00674",
-     "ocr": "001-3410-0215",
-     "published": "001-3410-0215",
-     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
-    },
-    {
      "kind": "payee kept as the OCR read it (not in the vendor master)",
      "page": 2,
      "po": "V5-00510",
@@ -1568,11 +1552,11 @@
    "accepted": true,
    "reason": "",
    "tally": {
-    "account exact": 373,
+    "account exact": 374,
     "item number snapped to the sequence": 11,
     "invoice: leading $ read as S": 3,
     "invoice unreadable (left blank)": 5,
-    "account not-in-chart": 2,
+    "account not-in-chart": 1,
     "vendor lines exact": 120,
     "vendor lines snapped": 230,
     "vendor lines unsnapped": 25
@@ -2332,14 +2316,6 @@
      "ocr_description": "LIVE HOSE FLOOR IMPROVEMENT:"
     },
     {
-     "kind": "account not-in-chart",
-     "page": 21,
-     "po": "V5-00927",
-     "ocr": "001-3410-0215",
-     "published": "001-3410-0215",
-     "ocr_description": "FIRE PROTECTION - OFFICE FURNI"
-    },
-    {
      "kind": "payee kept as the OCR read it (not in the vendor master)",
      "page": 2,
      "po": "V5-00781",
@@ -2523,13 +2499,13 @@
    "reason": "",
    "tally": {
     "item number snapped to the sequence": 8,
-    "account exact": 259,
+    "account exact": 260,
     "account snapped": 1,
-    "account not-in-chart": 2,
     "invoice: leading $ read as S": 3,
-    "vendor lines snapped": 174,
+    "account not-in-chart": 1,
+    "vendor lines snapped": 175,
     "vendor lines exact": 78,
-    "vendor lines unsnapped": 10
+    "vendor lines unsnapped": 9
    },
    "ocr": "cached",
    "reports": [
@@ -2965,14 +2941,6 @@
     },
     {
      "kind": "account not-in-chart",
-     "page": 10,
-     "po": "V5-01044",
-     "ocr": "001-1210-0481",
-     "published": "001-1210-0481",
-     "ocr_description": "MAYOR - OPERATIONS - NIMAC"
-    },
-    {
-     "kind": "account not-in-chart",
      "page": 16,
      "po": "V5-01096",
      "ocr": "601-1440-0201",
@@ -3026,14 +2994,6 @@
      "name": "NEWMAN, ESTHER",
      "ocr_code": "NEWMA005",
      "published_code": "NEWMA005"
-    },
-    {
-     "kind": "payee kept as the OCR read it (not in the vendor master)",
-     "page": 10,
-     "po": "V5-01044",
-     "name": "NIMAC",
-     "ocr_code": "NIMACO05",
-     "published_code": "NIMAC005"
     },
     {
      "kind": "payee kept as the OCR read it (not in the vendor master)",

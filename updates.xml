@@ -3,9 +3,30 @@
 <title>Public Ledger updates</title>
 <link href="https://jcurry44.github.io/public-ledger/updates.xml" rel="self"/>
 <link href="https://jcurry44.github.io/public-ledger/"/>
-<updated>2026-10-14T11:43:07Z</updated>
+<updated>2026-10-27T20:46:07Z</updated>
 <id>https://jcurry44.github.io/public-ledger/</id>
 <author><name>Public Ledger</name></author>
+<entry>
+<title>Warrant Report 10.20.26a</title>
+<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-20-26a.html"/>
+<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-20-26a.html</id>
+<updated>2026-10-20T12:00:00Z</updated>
+<summary>warrant</summary>
+</entry>
+<entry>
+<title>Warrant Report 10.20.26b</title>
+<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-20-26b.html"/>
+<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-20-26b.html</id>
+<updated>2026-10-20T12:00:00Z</updated>
+<summary>warrant</summary>
+</entry>
+<entry>
+<title>Meeting 10/20/2026 · 54 resolutions</title>
+<link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2026-10-20"/>
+<id>https://jcurry44.github.io/public-ledger/decisions.html#m-2026-10-20</id>
+<updated>2026-10-20T12:00:00Z</updated>
+<summary>meeting</summary>
+</entry>
 <entry>
 <title>Warrant report 10.6.26</title>
 <link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-10-6-26.html"/>
@@ -231,20 +252,6 @@
 <summary>meeting</summary>
 </entry>
 <entry>
-<title>Warrant Report 2.3.26-2025 Charges</title>
-<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-2-3-26-2025-charges.html"/>
-<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-2-3-26-2025-charges.html</id>
-<updated>2026-02-03T12:00:00Z</updated>
-<summary>warrant</summary>
-</entry>
-<entry>
-<title>Warrant Report 2.3.26-2026 Charges</title>
-<link href="https://jcurry44.github.io/public-ledger/briefs/warrant-report-2-3-26-2026-charges.html"/>
-<id>https://jcurry44.github.io/public-ledger/briefs/warrant-report-2-3-26-2026-charges.html</id>
-<updated>2026-02-03T12:00:00Z</updated>
-<summary>warrant</summary>
-</entry>
-<entry>
 <title>Meeting 01/20/2026 · 45 resolutions</title>
 <link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2026-01-20"/>
 <id>https://jcurry44.github.io/public-ledger/decisions.html#m-2026-01-20</id>
@@ -277,13 +284,6 @@
 <link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2025-10-21"/>
 <id>https://jcurry44.github.io/public-ledger/decisions.html#m-2025-10-21</id>
 <updated>2025-10-21T12:00:00Z</updated>
-<summary>meeting</summary>
-</entry>
-<entry>
-<title>Meeting 09/16/2025 · 60 resolutions</title>
-<link href="https://jcurry44.github.io/public-ledger/decisions.html#m-2025-09-16"/>
-<id>https://jcurry44.github.io/public-ledger/decisions.html#m-2025-09-16</id>
-<updated>2025-09-16T12:00:00Z</updated>
 <summary>meeting</summary>
 </entry>
 </feed>

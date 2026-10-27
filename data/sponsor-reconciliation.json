@@ -5622,6 +5622,142 @@
    "fuzzy_names": [
     "McKinmiie->McKimmie"
    ]
+  },
+  {
+   "id": "IL-151-26",
+   "date": "2026-09-22",
+   "kind": "removed",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Elder",
+     "Foti"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Foti"
+    ],
+    "cms": "Legislators Richard L Andres, Anthony J. Nemi, Randy R. Bradt, Shawn A. Foti, Parks"
+   },
+   "header_line": "IL-151-26 From: Legislators Richard L Andres, Anthony J. Nemi, Randy R. Bradt, Shawn A. Foti and Parks, Recreation, Tourism Ad Hoc Committee",
+   "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-152-26",
+   "date": "2026-09-22",
+   "kind": "removed",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Elder",
+     "Foti"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Foti"
+    ],
+    "cms": "Legislators Richard L Andres, Anthony J. Nemi, Randy R. Bradt, Shawn A. Foti, Parks"
+   },
+   "header_line": "IL-152-26 From: Legislators Richard L Andres, Anthony J. Nemi, Randy R. Bradt, Shawn A. Foti and Parks, Recreation, Tourism Ad Hoc Committee",
+   "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-153-26",
+   "date": "2026-09-22",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Myers",
+     "Casale",
+     "Godfrey",
+     "Foti"
+    ],
+    "cms": "Legislators Irene M. Myers, Michael A. Casale, David E. Godfrey and Shawn A. Foti"
+   },
+   "after": {
+    "sp": [
+     "Myers",
+     "Casale",
+     "Godfrey",
+     "Foti",
+     "Hill",
+     "Bradt",
+     "Andres",
+     "Gooch",
+     "Nemi",
+     "Abbott",
+     "McKimmie",
+     "Elder",
+     "Robins",
+     "Speranza",
+     "Farruggia"
+    ],
+    "cms": "Legislators Irene M. Myers, Michael A. Casale, David E. Godfrey, Shawn A. Foti"
+   },
+   "header_line": "IL-153-26 From: Legislators Irene M. Myers, Michael A. Casale, David E. Godfrey, Shawn A. Foti, Michael A. Hill, Randy R. Bradt, Richard L. Andres, Jesse. P. Gooch, Anthony J. Nemi, Richard E. Abbott, Christopher J. McKimmie, Jeffrey Elder, Christopher A. Robins, Carla L. Speranza and Sam R. Farruggia",
+   "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-154-26",
+   "date": "2026-09-22",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Elder",
+     "Robins"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Elder",
+     "Robins",
+     "Speranza",
+     "Farruggia"
+    ],
+    "cms": "Legislators Jeffrey Elder, Christopher A. Robins, Carla L. Speranza and Sam R. Farruggia"
+   },
+   "header_line": "IL-154-26 From: Legislators Jeffrey Elder, Christopher A. Robins, Carla L. Speranza and Sam R. Farruggia",
+   "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-155-26",
+   "date": "2026-09-22",
+   "kind": "added",
+   "before": {
+    "sp": []
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Hill",
+     "Bradt",
+     "Nemi",
+     "Godfrey",
+     "McKimmie",
+     "Myers",
+     "Gooch",
+     "Abbott",
+     "Foti",
+     "Elder",
+     "Robins",
+     "Speranza"
+    ],
+    "cms": "Legislators Richard L Andres, Michael A. Hill, Randy R. Bradt, Anthony J, Nemi"
+   },
+   "header_line": "IL-155-26 From: Legislators Richard L Andres, Michael A. Hill, Randy R. Bradt, Anthony J, Nemi, David E. Godfrey, Christopher J. McKimmie, Irene M. Myers, Jesse P. Gooch, Richard E. Abbott, Shawn A. Foti, Jeffrey Elder, Christopher A. Robins, Cara! L. Speranza and",
+   "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
   }
  ],
  "conflicts": [
@@ -6043,6 +6179,6 @@
   "Wydysh",
   "Zona"
  ],
- "rows_with_header": 1247,
+ "rows_with_header": 1272,
  "skipped_title_mismatch": 28
 }

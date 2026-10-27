@@ -1,6 +1,6 @@
 {
- "built": "2026-10-14",
- "builtLabel": "10/14/2026",
+ "built": "2026-10-27",
+ "builtLabel": "10/27/2026",
  "site": "https://jcurry44.github.io/public-ledger",
  "pageFeed": {
   "index": "warrants",
@@ -21,14 +21,34 @@
   "warrants": {
    "id": "warrants",
    "label": "City warrants",
-   "through": "2026-10-06",
-   "throughLabel": "10/06/2026",
-   "count": 50,
+   "through": "2026-10-20",
+   "throughLabel": "10/20/2026",
+   "count": 52,
    "cadence": "1st or 3rd Tuesday (measured)",
-   "next": "2026-10-20",
-   "nextLabel": "Tue 10/20",
+   "next": "2026-11-03",
+   "nextLabel": "Tue 11/03",
    "unread": [],
    "items": [
+    {
+     "id": "Warrant Report 10.20.26a.pdf",
+     "date": "2026-10-20",
+     "title": "Warrant Report 10.20.26a",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-10-20-26a.html",
+     "lines": 1,
+     "sumE": 49770.97,
+     "exact": true
+    },
+    {
+     "id": "Warrant Report 10.20.26b.pdf",
+     "date": "2026-10-20",
+     "title": "Warrant Report 10.20.26b",
+     "kind": "warrant",
+     "url": "briefs/warrant-report-10-20-26b.html",
+     "lines": 284,
+     "sumE": 1585843.51,
+     "exact": true
+    },
     {
      "id": "Warrant report 10.6.26.pdf",
      "date": "2026-10-06",
@@ -536,19 +556,27 @@
      "exact": true
     }
    ],
-   "grammar": "Through Oct 6, 2026 \u00b7 built Oct 14, 2026"
+   "grammar": "Through Oct 20, 2026 \u00b7 built Oct 27, 2026"
   },
   "decisions": {
    "id": "decisions",
    "label": "County resolutions",
-   "through": "2026-09-22",
-   "throughLabel": "09/22/2026",
-   "count": 6051,
+   "through": "2026-10-20",
+   "throughLabel": "10/20/2026",
+   "count": 6105,
    "cadence": "Legislature meetings",
    "next": null,
    "nextLabel": null,
    "unread": [],
    "items": [
+    {
+     "id": "2026-10-20",
+     "date": "2026-10-20",
+     "title": "Meeting 10/20/2026 \u00b7 54 resolutions",
+     "kind": "meeting",
+     "url": "decisions.html#m-2026-10-20",
+     "n": 54
+    },
     {
      "id": "2026-09-22",
      "date": "2026-09-22",
@@ -860,17 +888,9 @@
      "kind": "meeting",
      "url": "decisions.html#m-2024-01-02",
      "n": 1
-    },
-    {
-     "id": "2023-12-12",
-     "date": "2023-12-12",
-     "title": "Meeting 12/12/2023 \u00b7 14 resolutions",
-     "kind": "meeting",
-     "url": "decisions.html#m-2023-12-12",
-     "n": 14
     }
    ],
-   "grammar": "Through Sep 22, 2026 \u00b7 built Oct 14, 2026"
+   "grammar": "Through Oct 20, 2026 \u00b7 built Oct 27, 2026"
   },
   "osc": {
    "id": "osc",
@@ -968,7 +988,7 @@
      "url": "county.html#y=2013"
     }
    ],
-   "grammar": "Through 2024 \u00b7 built Oct 14, 2026"
+   "grammar": "Through 2024 \u00b7 built Oct 27, 2026"
   }
  }
 }

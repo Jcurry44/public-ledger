@@ -7159,7 +7159,8 @@ var ISSUE=(function(){
   }
   var CORP_WORD={INC:'Inc.',CORP:'Corp.',CO:'Co.',LTD:'Ltd.'};
   function proseName(v){ return titleLabel(v).replace(/\b(INC|CORP|CO|LTD)\b\.?/g,function(m,w){ return CORP_WORD[w]; }).replace(/'S\b/g,"'s"); }
-  function heroDoc(m){ var nc=m.docs.filter(function(i){ return !D.docs[i].isCard; }); return (nc.length?nc:m.docs)[0]; }
+  function heroDoc(m){ var nc=m.docs.filter(function(i){ return !D.docs[i].isCard; });
+    return nc.length ? nc.reduce(function(a,b){ return D.docs[b].pubAmt>D.docs[a].pubAmt?b:a; }) : m.docs[0]; }
   function frontHero(m){
     var di=heroDoc(m), d=D.docs[di], rows=rowsBy[di]||[], total=d.pubAmt, by=FRONT.getAttribute('data-by');
     var sums={cap:0,gen:0,ent:0,oth:0};

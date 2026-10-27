@@ -1,6 +1,37 @@
 {
- "built": "2026-10-14",
+ "built": "2026-10-27",
  "items": [
+  {
+   "id": "Warrant Report 10.20.26a.pdf",
+   "date": "2026-10-20",
+   "title": "Warrant Report 10.20.26a",
+   "kind": "warrant",
+   "url": "briefs/warrant-report-10-20-26a.html",
+   "lines": 1,
+   "sumE": 49770.97,
+   "exact": true,
+   "feed": "warrants"
+  },
+  {
+   "id": "Warrant Report 10.20.26b.pdf",
+   "date": "2026-10-20",
+   "title": "Warrant Report 10.20.26b",
+   "kind": "warrant",
+   "url": "briefs/warrant-report-10-20-26b.html",
+   "lines": 284,
+   "sumE": 1585843.51,
+   "exact": true,
+   "feed": "warrants"
+  },
+  {
+   "id": "2026-10-20",
+   "date": "2026-10-20",
+   "title": "Meeting 10/20/2026 \u00b7 54 resolutions",
+   "kind": "meeting",
+   "url": "decisions.html#m-2026-10-20",
+   "n": 54,
+   "feed": "decisions"
+  },
   {
    "id": "Warrant report 10.6.26.pdf",
    "date": "2026-10-06",
@@ -336,28 +367,6 @@
    "feed": "decisions"
   },
   {
-   "id": "Warrant Report 2.3.26-2025 Charges.pdf",
-   "date": "2026-02-03",
-   "title": "Warrant Report 2.3.26-2025 Charges",
-   "kind": "warrant",
-   "url": "briefs/warrant-report-2-3-26-2025-charges.html",
-   "lines": 60,
-   "sumE": 400334.48,
-   "exact": true,
-   "feed": "warrants"
-  },
-  {
-   "id": "Warrant Report 2.3.26-2026 Charges.pdf",
-   "date": "2026-02-03",
-   "title": "Warrant Report 2.3.26-2026 Charges",
-   "kind": "warrant",
-   "url": "briefs/warrant-report-2-3-26-2026-charges.html",
-   "lines": 181,
-   "sumE": 335635.12,
-   "exact": true,
-   "feed": "warrants"
-  },
-  {
    "id": "2026-01-20",
    "date": "2026-01-20",
    "title": "Meeting 01/20/2026 \u00b7 45 resolutions",
@@ -400,15 +409,6 @@
    "kind": "meeting",
    "url": "decisions.html#m-2025-10-21",
    "n": 50,
-   "feed": "decisions"
-  },
-  {
-   "id": "2025-09-16",
-   "date": "2025-09-16",
-   "title": "Meeting 09/16/2025 \u00b7 60 resolutions",
-   "kind": "meeting",
-   "url": "decisions.html#m-2025-09-16",
-   "n": 60,
    "feed": "decisions"
   }
  ]
