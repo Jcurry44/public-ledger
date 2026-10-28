@@ -676,6 +676,7 @@ a.rk{text-decoration:none;color:inherit}
 .mstat .v{font-size:18px;font-weight:600;margin-top:3px}
 .tsent{margin:2px 0 16px;font-size:14px;line-height:1.5;color:var(--muted)}
 .tsent b{display:block;margin-bottom:4px;font:600 19px/1.3 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);letter-spacing:-.005em}
+#modal .sheet:focus{outline:none}
 .small{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:11px}
 .sm{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 11px}
 .sm .n{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1364,8 +1365,10 @@ PL.niceStep=function(maxV,target){
 PL.axisFmt=function(step,top){
   top=top||step*4;
   if(top>=1e6){var d=((step/1e6)%1)?1:0;return function(v){return v===0?'$0':'$'+(v/1e6).toFixed(d)+'M';};}
-  if(top>=1e3){return function(v){return v===0?'$0':'$'+Math.round(v/1e3)+'K';};}
-  return function(v){return '$'+Math.round(v);};
+  /* under a $10K top, whole dollars ('$250 ... $1,250': per-resident axes); above, the step picks the decimals, as in M */
+  if(top>=1e3){ if(top<1e4) return function(v){return v===0?'$0':'$'+Math.round(v).toLocaleString('en-US');};
+    var dk=((step/1e3)%1)?1:0; return function(v){return v===0?'$0':'$'+(v/1e3).toFixed(dk)+'K';}; }
+  var dc=step<1?2:0; return function(v){return v===0?'$0':'$'+v.toFixed(dc);};   /* a cents-scale axis ($0.50 ... $2.00) never repeats a label */
 };
 PL.axisTicks=function(maxV,target){
   var s=PL.niceStep(maxV,target),out=[];
@@ -1393,7 +1396,7 @@ PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
    amounts (p0, pN; absent = no clause), and drill (figures as buttons). */
 PL.trendSentence=function(t){
   if(!(t.v0>0)) return '';
-  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yC||t.yN];   /* yC: the newest year with prices */
   function fp(s){ return s<0.05?'under 0.1%':s.toFixed(1)+'%'; }
   /* drill: each figure is a button - the change and the prices open their workings, the share and the per-resident
      figures switch the chart to that lens (PL.trendTab) */
@@ -1403,7 +1406,7 @@ PL.trendSentence=function(t){
   /* past four times the first year, a multiple reads better than a percent ('Up 13x', not 'Up 1213%') */
   var chg=Math.round(pc)===0?'About level':r>4?'Up '+(r>=10?Math.round(r):r.toFixed(1))+'&times;':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%';
   var h='<b>'+btn('data-tw','chg',chg)+' since '+t.y0;
-  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'); }
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'+(t.yC&&t.yC!==t.yN?' to '+t.yC:'')); }
   h+='.</b> ';
   function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=10&&Math.abs(100/n-s)<=1.5)?n:0; }   /* 'one in nineteen' is not how anyone talks */
   var n0=frac(t.s0), nN=frac(t.sN);
@@ -1681,7 +1684,7 @@ PL.sparks.brk=function(years,brk){
 PL.chartSpot=function(o){
   var fs=o.fs;                                   /* the caller's label size (already at or over the SVG text floor) */
   var w=o.text.length*fs*0.62, pad=3;
-  function box(c){ var x0=c.a==='end'?c.x-w:c.x; return [x0-pad, c.y-fs*0.85-pad, x0+w+pad, c.y+fs*0.3+pad]; }
+  function box(c){ var x0=c.a==='end'?c.x-w:c.a==='middle'?c.x-w/2:c.x; return [x0-pad, c.y-fs*0.85-pad, x0+w+pad, c.y+fs*0.3+pad]; }
   function hitBox(b,r){ return b[0]<r[2]&&r[0]<b[2]&&b[1]<r[3]&&r[1]<b[3]; }
   function hitLine(b,pts){
     for(var i=1;i<pts.length;i++){ var p=pts[i-1], q=pts[i]; if(!p||!q) continue;
@@ -1708,10 +1711,12 @@ PL.refLabel=function(o){
   for(var j=0;j<=o.rl;j++) if(o.ref[j]!=null&&o.x(j)>=rx-w-12) ys.push(o.y(o.ref[j]));
   var lo=Math.min.apply(null,ys), hi=Math.max.apply(null,ys), hw=2*fs*0.62+2;
   o.marks.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]);
-    boxes.push([cx-7,cy-7,cx+7,cy+7]); boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
+    boxes.push([cx-7,cy-7,cx+7,cy+7]); if(!o.markBoxes) boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
+  (o.markBoxes||[]).forEach(function(b){ boxes.push(b); });                 /* where the marks' years actually sit */
   o.rings.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]); boxes.push([cx-9,cy-9,cx+9,cy+9]); });
   if(o.brk){ var bw=o.brk[2].length*fs*0.62/2+2; boxes.push([o.brk[0]-bw,o.brk[1]-fs,o.brk[0]+bw,o.brk[1]+3]); }
-  var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)], boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
+  var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)].concat(o.rule!=null?[[[o.rule,o.mt],[o.rule,o.H-o.mb]]]:[]),
+    boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
     cands:[{x:rx,y:lo-7,a:'end'},{x:rx,y:hi+fs+4,a:'end'},{x:rx,y:o.mt+fs+2,a:'end'},{x:o.ml+6,y:o.mt+fs+2,a:'start'}]});
   if(!c) return {svg:'', key:o.text};
   return {svg:'<text class="'+o.cls+'" x="'+c.x.toFixed(1)+'" y="'+c.y.toFixed(1)+'" text-anchor="'+c.a+'" font-size="'+fs+'">'+o.text+'</text>', key:''};
@@ -1757,11 +1762,15 @@ PL.trendTab=function(E){
     (document.head||document.documentElement).appendChild(c);
   }
   var share=V.map(function(v,i){ return v==null?null:(E.tot[i]?v/E.tot[i]*100:0); });
-  var per=E.pop?V.map(function(v,i){ var p=E.pop[Y[i]]; return v==null||!p?null:v/p; }):null;
+  /* a filing one year past the newest population estimate uses that estimate (the note says so) */
+  var pLast=E.pop?Math.max.apply(null,Object.keys(E.pop).map(Number)):0;
+  function popAt(yr){ return E.pop?(E.pop[yr]||(yr===pLast+1?E.pop[pLast]:0)):0; }
+  var per=E.pop?V.map(function(v,i){ var p=popAt(Y[i]); return v==null||!p?null:v/p; }):null;
   var i0=V.findIndex(function(v){ return v>0; }); if(i0<0) i0=0;
   var iN=n-1; while(iN>0&&V[iN]==null) iN--;
   var iL=iN; while(iL>i0&&!V[iL]) iL--;
-  var t0=Y[i0], tN=Y[iN], c0=E.cpi&&E.cpi[t0], cN=E.cpi&&E.cpi[tN];
+  var t0=Y[i0], tN=Y[iN], tC=tN; while(E.cpi&&tC>t0&&!E.cpi[tC]) tC--;   /* the newest year with prices (a 2026 filing: 2025) */
+  var c0=E.cpi&&E.cpi[t0], cN=E.cpi&&E.cpi[tC];
   var key=E.sec+'|'+E.label; if(S.tKey!==key){ S.tKey=key; S.tSel=null; S.tWork=null; }
   if(!S.tLens||(S.tLens==='pc'&&!per)) S.tLens='usd';
   function grow(a){ return (c0&&cN&&a&&a[i0]!=null)?Y.map(function(yr,i){ return i<i0||!E.cpi[yr]?null:a[i0]*E.cpi[yr]/c0; }):null; }
@@ -1781,7 +1790,7 @@ PL.trendTab=function(E){
     if(nm.length>22) nm=nm.slice(0,22).replace(/\s+\S*$/,'').replace(/\s+(and|of|to|for|the|&)$/i,'')+'\u2026';   /* cut at a word, never mid-word */
     return nm+' '+(r.d<0?PL.MINUS:'+')+sh(r.d); }
   var lensB=[['usd','Dollars'],['share','Share of '+(E.sec?'spending':'revenue')]].concat(per?[['pc','Per resident']]:[]);
-  E.body.innerHTML='<p class="tsent">'+PL.trendSentence({v0:V[i0], vN:V[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:E.cpi, of:E.of,
+  E.body.innerHTML='<p class="tsent">'+PL.trendSentence({v0:V[i0], vN:V[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:E.cpi, yC:tC, of:E.of,
       yL:Y[iL], vL:V[iL], sL:share[iL], p0:per&&per[i0], pN:per&&per[iN], drill:true})+'</p><div class="twork" id="tWork" hidden></div>'+
     '<h4>'+esc(E.label)+', '+t0+'–'+tN+' <span style="text-transform:none;letter-spacing:0;font-weight:500">&middot; '+
       (HOV?'hover to read a year, click one for what moved':'slide to read a year, tap one for what moved')+'</span></h4>'+
@@ -1802,7 +1811,8 @@ PL.trendTab=function(E){
     if(S.tLens==='usd'&&l.ref) t='The dashed line is '+t0+'&rsquo;s '+M0(V[i0])+' grown only by consumer prices (CPI-U, '+
       '<a href="https://data.bls.gov/timeseries/CUUR0000SA0" rel="noopener">Bureau of Labor Statistics</a>). ';
     else if(S.tLens==='pc') t='Per resident: each year&rsquo;s amount divided by the <a href="https://www.census.gov/programs-surveys/popest.html" rel="noopener">Census Bureau&rsquo;s</a> '+
-      'July 1 population estimate for that year (its 1990s estimates were never revised to the 2000 census)'+(l.ref?'; the dashed line is '+t0+'&rsquo;s '+
+      'July 1 population estimate for that year (its 1990s estimates were never revised to the 2000 census'+
+      (tN>pLast?'; '+tN+' uses the '+pLast+' estimate, the newest published':'')+')'+(l.ref?'; the dashed line is '+t0+'&rsquo;s '+
       M0(per[i0])+' a resident grown only by consumer prices':'')+'. ';
     else if(S.tLens==='share') t='Share: this category divided by total '+(E.sec?'spending':'revenue')+' each year. ';
     document.getElementById('tNote').innerHTML=t+'Figures either side of '+E.brk+' sit on different reporting bases and are not strictly comparable.';
@@ -1819,7 +1829,7 @@ PL.trendTab=function(E){
   function move(i){
     var el=document.getElementById('mMove'); if(i==null){ el.innerHTML=''; return; }
     var rows=E.rowsAt(i), top=rows.slice(0,7), prev=Y[i-1], yr=Y[i];
-    var net=(V[i]||0)-(V[i-1]||0), covered=top.reduce(function(s,r){ return s+r.d; },0);
+    var net=(V[i]||0)-(V[i-1]||0), covered=top.reduce(function(s,r){ return s+r.d; },0), cx=net!==0?Math.abs(covered/net)*100:100;
     var mx=top.reduce(function(m,r){ return Math.max(m,Math.abs(r.d)); },0);
     var h='<h4>What moved in '+yr+' <span style="text-transform:none;letter-spacing:0">— vs '+prev+', net '+(net<0?PL.MINUS:'+')+M0(Math.abs(net))+'</span></h4>';
     if(yr===E.brk||prev===E.brk) h+='<div class="tbrk">This pair straddles the '+E.brk+' reporting-basis change — part of any move here is definitional.</div>';
@@ -1835,7 +1845,8 @@ PL.trendTab=function(E){
       }).join('')+'</tbody></table>';
     h+='<p class="tfoot">'+(!top.length?'Nothing was filed under '+esc(E.label)+' in '+prev+' or '+yr+'.':
         (top.length===1?'This one account line explains ':'These '+PL.numword(top.length)+' account lines explain ')+
-        (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+' of the net move. '+(HOV?'Select':'Tap')+' a line for its history.')+
+        (cx>=99.5?'all':Math.min(cx,999).toFixed(0)+'%')+' of the net move'+(cx>=105?' (smaller lines moved the other way)':'')+'. '+
+        (HOV?'Select':'Tap')+' a line for its history.')+
       (top.some(function(r){ return /^H/.test(r.acct); })?' Accounts beginning H are capital-project funds — one-time outlays, not operating growth.':'')+'</p>';
     el.innerHTML=h;
   }
@@ -1850,8 +1861,9 @@ PL.trendTab=function(E){
       pins=[i0,iN]; S.tLens='usd';
     } else {
       var g=cN/c0;
-      h='Consumer prices (CPI-U, U.S. city average, annual average): <b class="num">'+c0+'</b> in '+t0+' &rarr; <b class="num">'+cN+'</b> in '+tN+
-        ', &times;'+g.toFixed(3)+'. At that pace alone, '+t0+'&rsquo;s '+M0(V[i0])+' would be <b class="num">'+M0(V[i0]*g)+'</b> in '+tN+': the dashed line.';
+      h='Consumer prices (CPI-U, U.S. city average, annual average): <b class="num">'+c0+'</b> in '+t0+' &rarr; <b class="num">'+cN+'</b> in '+tC+
+        ', &times;'+g.toFixed(3)+'. At that pace alone, '+t0+'&rsquo;s '+M0(V[i0])+' would be <b class="num">'+M0(V[i0]*g)+'</b> in '+tC+': the dashed line.'+
+        (tC!==tN?' Prices for '+tN+' are not published yet.':'');
       pins=null; S.tLens='usd';
     }
     el.innerHTML='<p>'+h+'</p>'; el.hidden=false; draw();
@@ -2237,7 +2249,12 @@ PL.trendTab=function(E){
   (document.head||document.documentElement).appendChild(css);
   window.addEventListener('resize',function(){ paint(); queueUnder(); });
   window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-  function boot(){ settle(); paint(); }
+  function boot(){ settle(); paint();
+    /* a sheet opened by an address (a shared link) pushes no history entry, so nothing repainted: watch the page's sheet
+       open and close instead, so Done and the toolbar cover come with it (Fable r7) */
+    var mo=document.getElementById('modal');
+    if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 
   PL.ret={
@@ -2425,17 +2442,25 @@ function renderLine(host, values, opts){
   var x=function(i){return ml+(W-ml-mr)*(i/(yrs.length-1));};
   var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
   var fmt=opts.pct?function(v){return v.toFixed(1)+'%';}:money0;
-  var p=[],stp=niceStep(max,4);
-  for(var gv=0;gv<=max*1.0001;gv+=stp){
+  /* the house ladder (PL.axisTicks), as on the front page: '$0K' per resident and '$13M' for $12.5M were this axis (Fable r7) */
+  var p=[], AT=PL.axisTicks(max,4), tf=opts.pct?function(v){return Math.round(v)+'%';}:AT.fmt;
+  ml=Math.max(ml, Math.max.apply(null,AT.ticks.map(function(g){ return String(tf(g)).length; }))*fs*0.62+9);   /* room for the longest tick */
+  AT.ticks.forEach(function(gv){
     p.push('<line class="gl" x1="'+ml+'" y1="'+y(gv).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(gv).toFixed(1)+'"/>');
-    p.push('<text class="ax" x="'+(ml-7)+'" y="'+(y(gv)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+
-      (opts.pct?gv.toFixed(0)+'%':axMoney(gv))+'</text>');
-  }
+    p.push('<text class="ax" x="'+(ml-7)+'" y="'+(y(gv)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+tf(gv)+'</text>');
+  });
   var bi=yrs.indexOf(O.schemaBreak);
   if(bi>0){
     var bx=((x(bi)+x(bi-1))/2).toFixed(1);
     p.push('<line class="brk" x1="'+bx+'" y1="'+mt+'" x2="'+bx+'" y2="'+(H-mb)+'"/>');
-    if(opts.brkLabel) p.push('<text class="ax axh" x="'+bx+'" y="'+(H-mb-6)+'" text-anchor="middle" font-size="'+fs+'">basis changed '+O.schemaBreak+'</text>');
+    /* the 2013 name sits at the foot of its rule unless a line runs through it there, then at the head (Fable r7) */
+    if(opts.brkLabel){
+      var bT='basis changed '+O.schemaBreak, bP=function(a){ return (a||[]).map(function(v,i){ return v==null?null:[x(i),y(v)]; }); };
+      var bS=PL.chartSpot({text:bT, fs:fs, lines:[bP(values),bP(opts.ref)], boxes:[], top:0, bottom:H-mb+1, left:ml, right:W,
+        cands:[{x:+bx,y:H-mb-6,a:'middle'},{x:+bx,y:mt+fs+2,a:'middle'}]})||{x:+bx,y:H-mb-6};
+      var bLab=[bS.x,bS.y,bT];
+      p.push('<text class="ax axh" x="'+bS.x+'" y="'+bS.y+'" text-anchor="middle" font-size="'+fs+'">'+bT+'</text>');
+    }
   }
   var every=narrow?10:5, lastI=yrs.length-1, gapU=narrow?42:46;
   yrs.forEach(function(yr,i){
@@ -2454,24 +2479,22 @@ function renderLine(host, values, opts){
     opts.ref.forEach(function(v,i){ if(v==null) return; rd+=(rd?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1); rl=i; });
     if(rl>0){
       p.push('<path class="ghost" d="'+rd+'"/>');
-      /* named on the plot where nothing else is drawn (PL.refLabel tries four places against the lines, the marks, the
-         rings and the 2013 name), else in a key under it (Fable r6) */
-      var RL=PL.refLabel({x:x, y:y, values:values, ref:opts.ref, rl:rl, fs:fs, W:W, H:H, mt:mt, mb:mb, ml:ml, mr:mr,
-        text:yrs[opts.refFrom]+' at '+yrs[rl]+' prices '+(opts.short||PL.fmtM1)(opts.ref[rl]), marks:opts.marks||[],
-        rings:(opts.pins||[]).concat(opts.sel!=null?[opts.sel]:[]),
-        brk:(opts.brkLabel&&bi>0)?[+bx, H-mb-6, 'basis changed '+O.schemaBreak]:null, cls:'ghostl'});
-      if(RL.svg) p.push(RL.svg);
-      var rkey=RL.key;
+      var refEnd=rl;                                   /* named once the marks are placed (below) */
     }
   }
   loneRuns(values).forEach(function(i){
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="2.5" fill="var('+opts.color+')"/>');});
+  var mBoxes=[];
   (opts.marks||[]).forEach(function(i){
     if(values[i]==null) return;
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="4" fill="var(--paper)" '+
       'stroke="var('+opts.color+')" stroke-width="2"><title>'+yrs[i]+' — tap to see what moved</title></circle>');
-    p.push('<text class="ax axh" x="'+x(i).toFixed(1)+'" y="'+(y(values[i])-9).toFixed(1)+'" text-anchor="'+(x(i)>W-mr-24?'end':'middle')+
-      '" font-size="'+fs+'">'+yrs[i]+'</text>');
+    /* the mark's year above its ring, or below it when a line runs through that spot (Fable r7) */
+    var mx=x(i), my=y(values[i]), mA=mx>W-mr-24?'end':'middle', mP=function(a){ return (a||[]).map(function(v,k){ return v==null?null:[x(k),y(v)]; }); };
+    var mS=PL.chartSpot({text:String(yrs[i]), fs:fs, lines:[mP(values),mP(opts.ref)], boxes:mBoxes, top:0, bottom:H-mb, left:ml-4, right:W,
+      cands:[{x:mx,y:my-9,a:mA},{x:mx,y:my+fs+8,a:mA}]})||{x:mx,y:my-9,a:mA};
+    var mw=4*fs*0.62; mBoxes.push([mS.a==='end'?mS.x-mw:mS.x-mw/2, mS.y-fs, mS.a==='end'?mS.x:mS.x+mw/2, mS.y+3]);
+    p.push('<text class="ax axh" x="'+mS.x.toFixed(1)+'" y="'+mS.y.toFixed(1)+'" text-anchor="'+mS.a+'" font-size="'+fs+'">'+yrs[i]+'</text>');
   });
   if(opts.sel!=null&&values[opts.sel]!=null)
     p.push('<circle cx="'+x(opts.sel).toFixed(1)+'" cy="'+y(values[opts.sel]).toFixed(1)+'" r="5" '+
@@ -2479,6 +2502,15 @@ function renderLine(host, values, opts){
   /* rings (opts.pins): the years a sentence figure points at */
   (opts.pins||[]).forEach(function(i){ if(values[i]==null) return;
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="8" fill="none" stroke="var(--ink)" stroke-width="1.6"/>'); });
+  /* the yardstick's name, placed last: on the plot where PL.refLabel finds room against the lines, the 2013 rule and name,
+     the marks, their years and the rings; else in a key under it (Fable r6/r7) */
+  if(refEnd>0){
+    var RL=PL.refLabel({x:x, y:y, values:values, ref:opts.ref, rl:refEnd, fs:fs, W:W, H:H, mt:mt, mb:mb, ml:ml, mr:mr,
+      text:yrs[opts.refFrom]+' at '+yrs[refEnd]+' prices '+(opts.short||PL.fmtM1)(opts.ref[refEnd]), marks:opts.marks||[], markBoxes:mBoxes,
+      rings:(opts.pins||[]).concat(opts.sel!=null?[opts.sel]:[]), rule:bi>0?+bx:null, brk:bLab||null, cls:'ghostl'});
+    if(RL.svg) p.push(RL.svg);
+    var rkey=RL.key;
+  }
   p.push('<g class="xh" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
     '<circle class="dot" r="4.5" fill="var('+opts.color+')"/></g>');
   p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"'+
@@ -2787,10 +2819,15 @@ function openModal(year,sec,label,cssVar,opener){
   document.getElementById('mTitle').textContent=label;
   document.getElementById('mBig').innerHTML='<span class="num">'+money0(total)+'</span> '+
     '<span>'+(secTot?(total/secTot*100).toFixed(1):'0')+'% of '+(sec?'expenditure':'revenue')+'</span>';
+  if(!total){                                         /* never '$0 · 0.0%' over a category no longer filed (Fable r7) */
+    var sv=seriesFor(sec,label), lf=-1; for(var q=O.years.indexOf(year);q>=0;q--) if(sv[q]>0){ lf=q; break; }
+    if(lf>=0) document.getElementById('mBig').innerHTML='<span>Nothing filed in '+year+'; last filed '+O.years[lf]+':</span> <span class="num">'+money0(sv[lf])+'</span>';
+  }
   showModal('#cat='+sec+'|'+encodeURIComponent(label));      /* the open drill-down has its own address */
   /* a category filed as one line has nothing to break down: open on its history instead */
   var first=(rows.length<=1&&sumBy(rows,'l2',FI_L2).length<=1)?'trend':'breakdown';
-  selectTab(first,true);
+  selectTab(first,!!opener);
+  if(!opener){ var shf=document.querySelector('#modal .sheet'); if(shf){ shf.setAttribute('tabindex','-1'); shf.focus({preventScroll:true}); } }   /* an arrival: no focus ring (Fable r7) */
 }
 function renderTab(tab){
   MODAL.tab=tab;
@@ -2962,6 +2999,9 @@ function acctHistory(tr){
     if(ratio>=3&&latest>=50000) read+=' <b>Worth a question.</b>';
   } else if(latest>0){
     read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — no meaningful prior history.';
+  } else {
+    var lk=-1; for(var q=iN;q>=0;q--) if(vals[q]>0){ lk=q; break; }   /* a line no longer filed: when it was, and that nothing came after */
+    if(lk>=0) read='Last filed FY'+O.years[lk]+': <b class="num">'+money0(vals[lk])+'</b>. Nothing since.';
   }
   if(firstIdx>0) read+=' First appears FY'+O.years[firstIdx]+'.';
   var g=glossFor(code, MODAL.sec);
@@ -4218,7 +4258,10 @@ css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display
 (document.head||document.documentElement).appendChild(css);
 window.addEventListener('resize',function(){ paint(); queueUnder(); });
 window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-function boot(){ settle(); paint(); }
+function boot(){ settle(); paint();
+var mo=document.getElementById('modal');
+if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 PL.ret={
 saved:saved, restoring:!!saved, back:back, paint:paint,

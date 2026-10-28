@@ -1333,8 +1333,10 @@ PL.niceStep=function(maxV,target){
 PL.axisFmt=function(step,top){
   top=top||step*4;
   if(top>=1e6){var d=((step/1e6)%1)?1:0;return function(v){return v===0?'$0':'$'+(v/1e6).toFixed(d)+'M';};}
-  if(top>=1e3){return function(v){return v===0?'$0':'$'+Math.round(v/1e3)+'K';};}
-  return function(v){return '$'+Math.round(v);};
+  /* under a $10K top, whole dollars ('$250 ... $1,250': per-resident axes); above, the step picks the decimals, as in M */
+  if(top>=1e3){ if(top<1e4) return function(v){return v===0?'$0':'$'+Math.round(v).toLocaleString('en-US');};
+    var dk=((step/1e3)%1)?1:0; return function(v){return v===0?'$0':'$'+(v/1e3).toFixed(dk)+'K';}; }
+  var dc=step<1?2:0; return function(v){return v===0?'$0':'$'+v.toFixed(dc);};   /* a cents-scale axis ($0.50 ... $2.00) never repeats a label */
 };
 PL.axisTicks=function(maxV,target){
   var s=PL.niceStep(maxV,target),out=[];
@@ -1362,7 +1364,7 @@ PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
    amounts (p0, pN; absent = no clause), and drill (figures as buttons). */
 PL.trendSentence=function(t){
   if(!(t.v0>0)) return '';
-  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yC||t.yN];   /* yC: the newest year with prices */
   function fp(s){ return s<0.05?'under 0.1%':s.toFixed(1)+'%'; }
   /* drill: each figure is a button - the change and the prices open their workings, the share and the per-resident
      figures switch the chart to that lens (PL.trendTab) */
@@ -1372,7 +1374,7 @@ PL.trendSentence=function(t){
   /* past four times the first year, a multiple reads better than a percent ('Up 13x', not 'Up 1213%') */
   var chg=Math.round(pc)===0?'About level':r>4?'Up '+(r>=10?Math.round(r):r.toFixed(1))+'&times;':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%';
   var h='<b>'+btn('data-tw','chg',chg)+' since '+t.y0;
-  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'); }
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'+(t.yC&&t.yC!==t.yN?' to '+t.yC:'')); }
   h+='.</b> ';
   function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=10&&Math.abs(100/n-s)<=1.5)?n:0; }   /* 'one in nineteen' is not how anyone talks */
   var n0=frac(t.s0), nN=frac(t.sN);
@@ -1948,7 +1950,12 @@ PL.tip=function(){
   (document.head||document.documentElement).appendChild(css);
   window.addEventListener('resize',function(){ paint(); queueUnder(); });
   window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-  function boot(){ settle(); paint(); }
+  function boot(){ settle(); paint();
+    /* a sheet opened by an address (a shared link) pushes no history entry, so nothing repainted: watch the page's sheet
+       open and close instead, so Done and the toolbar cover come with it (Fable r7) */
+    var mo=document.getElementById('modal');
+    if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 
   PL.ret={
@@ -4140,7 +4147,10 @@ css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display
 (document.head||document.documentElement).appendChild(css);
 window.addEventListener('resize',function(){ paint(); queueUnder(); });
 window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-function boot(){ settle(); paint(); }
+function boot(){ settle(); paint();
+var mo=document.getElementById('modal');
+if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 PL.ret={
 saved:saved, restoring:!!saved, back:back, paint:paint,

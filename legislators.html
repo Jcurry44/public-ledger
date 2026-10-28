@@ -1843,7 +1843,12 @@ PL.tip=function(){
   (document.head||document.documentElement).appendChild(css);
   window.addEventListener('resize',function(){ paint(); queueUnder(); });
   window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-  function boot(){ settle(); paint(); }
+  function boot(){ settle(); paint();
+    /* a sheet opened by an address (a shared link) pushes no history entry, so nothing repainted: watch the page's sheet
+       open and close instead, so Done and the toolbar cover come with it (Fable r7) */
+    var mo=document.getElementById('modal');
+    if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 
   PL.ret={
@@ -2428,7 +2433,10 @@ css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display
 (document.head||document.documentElement).appendChild(css);
 window.addEventListener('resize',function(){ paint(); queueUnder(); });
 window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-function boot(){ settle(); paint(); }
+function boot(){ settle(); paint();
+var mo=document.getElementById('modal');
+if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 PL.ret={
 saved:saved, restoring:!!saved, back:back, paint:paint,

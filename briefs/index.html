@@ -1077,7 +1077,10 @@ css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display
 (document.head||document.documentElement).appendChild(css);
 window.addEventListener('resize',function(){ paint(); queueUnder(); });
 window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
-function boot(){ settle(); paint(); }
+function boot(){ settle(); paint();
+var mo=document.getElementById('modal');
+if(mo&&window.MutationObserver) new MutationObserver(function(){ paint(); }).observe(mo,{attributes:true,attributeFilter:['hidden']});
+}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else setTimeout(boot,0);
 PL.ret={
 saved:saved, restoring:!!saved, back:back, paint:paint,
@@ -1506,7 +1509,7 @@ PL.sparks.brk=function(years,brk){
 PL.chartSpot=function(o){
   var fs=o.fs;                                   /* the caller's label size (already at or over the SVG text floor) */
   var w=o.text.length*fs*0.62, pad=3;
-  function box(c){ var x0=c.a==='end'?c.x-w:c.x; return [x0-pad, c.y-fs*0.85-pad, x0+w+pad, c.y+fs*0.3+pad]; }
+  function box(c){ var x0=c.a==='end'?c.x-w:c.a==='middle'?c.x-w/2:c.x; return [x0-pad, c.y-fs*0.85-pad, x0+w+pad, c.y+fs*0.3+pad]; }
   function hitBox(b,r){ return b[0]<r[2]&&r[0]<b[2]&&b[1]<r[3]&&r[1]<b[3]; }
   function hitLine(b,pts){
     for(var i=1;i<pts.length;i++){ var p=pts[i-1], q=pts[i]; if(!p||!q) continue;
@@ -1533,10 +1536,12 @@ PL.refLabel=function(o){
   for(var j=0;j<=o.rl;j++) if(o.ref[j]!=null&&o.x(j)>=rx-w-12) ys.push(o.y(o.ref[j]));
   var lo=Math.min.apply(null,ys), hi=Math.max.apply(null,ys), hw=2*fs*0.62+2;
   o.marks.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]);
-    boxes.push([cx-7,cy-7,cx+7,cy+7]); boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
+    boxes.push([cx-7,cy-7,cx+7,cy+7]); if(!o.markBoxes) boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
+  (o.markBoxes||[]).forEach(function(b){ boxes.push(b); });                 /* where the marks' years actually sit */
   o.rings.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]); boxes.push([cx-9,cy-9,cx+9,cy+9]); });
   if(o.brk){ var bw=o.brk[2].length*fs*0.62/2+2; boxes.push([o.brk[0]-bw,o.brk[1]-fs,o.brk[0]+bw,o.brk[1]+3]); }
-  var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)], boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
+  var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)].concat(o.rule!=null?[[[o.rule,o.mt],[o.rule,o.H-o.mb]]]:[]),
+    boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
     cands:[{x:rx,y:lo-7,a:'end'},{x:rx,y:hi+fs+4,a:'end'},{x:rx,y:o.mt+fs+2,a:'end'},{x:o.ml+6,y:o.mt+fs+2,a:'start'}]});
   if(!c) return {svg:'', key:o.text};
   return {svg:'<text class="'+o.cls+'" x="'+c.x.toFixed(1)+'" y="'+c.y.toFixed(1)+'" text-anchor="'+c.a+'" font-size="'+fs+'">'+o.text+'</text>', key:''};
@@ -1582,11 +1587,15 @@ PL.trendTab=function(E){
     (document.head||document.documentElement).appendChild(c);
   }
   var share=V.map(function(v,i){ return v==null?null:(E.tot[i]?v/E.tot[i]*100:0); });
-  var per=E.pop?V.map(function(v,i){ var p=E.pop[Y[i]]; return v==null||!p?null:v/p; }):null;
+  /* a filing one year past the newest population estimate uses that estimate (the note says so) */
+  var pLast=E.pop?Math.max.apply(null,Object.keys(E.pop).map(Number)):0;
+  function popAt(yr){ return E.pop?(E.pop[yr]||(yr===pLast+1?E.pop[pLast]:0)):0; }
+  var per=E.pop?V.map(function(v,i){ var p=popAt(Y[i]); return v==null||!p?null:v/p; }):null;
   var i0=V.findIndex(function(v){ return v>0; }); if(i0<0) i0=0;
   var iN=n-1; while(iN>0&&V[iN]==null) iN--;
   var iL=iN; while(iL>i0&&!V[iL]) iL--;
-  var t0=Y[i0], tN=Y[iN], c0=E.cpi&&E.cpi[t0], cN=E.cpi&&E.cpi[tN];
+  var t0=Y[i0], tN=Y[iN], tC=tN; while(E.cpi&&tC>t0&&!E.cpi[tC]) tC--;   /* the newest year with prices (a 2026 filing: 2025) */
+  var c0=E.cpi&&E.cpi[t0], cN=E.cpi&&E.cpi[tC];
   var key=E.sec+'|'+E.label; if(S.tKey!==key){ S.tKey=key; S.tSel=null; S.tWork=null; }
   if(!S.tLens||(S.tLens==='pc'&&!per)) S.tLens='usd';
   function grow(a){ return (c0&&cN&&a&&a[i0]!=null)?Y.map(function(yr,i){ return i<i0||!E.cpi[yr]?null:a[i0]*E.cpi[yr]/c0; }):null; }
@@ -1606,7 +1615,7 @@ PL.trendTab=function(E){
     if(nm.length>22) nm=nm.slice(0,22).replace(/\s+\S*$/,'').replace(/\s+(and|of|to|for|the|&)$/i,'')+'\u2026';   /* cut at a word, never mid-word */
     return nm+' '+(r.d<0?PL.MINUS:'+')+sh(r.d); }
   var lensB=[['usd','Dollars'],['share','Share of '+(E.sec?'spending':'revenue')]].concat(per?[['pc','Per resident']]:[]);
-  E.body.innerHTML='<p class="tsent">'+PL.trendSentence({v0:V[i0], vN:V[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:E.cpi, of:E.of,
+  E.body.innerHTML='<p class="tsent">'+PL.trendSentence({v0:V[i0], vN:V[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:E.cpi, yC:tC, of:E.of,
       yL:Y[iL], vL:V[iL], sL:share[iL], p0:per&&per[i0], pN:per&&per[iN], drill:true})+'</p><div class="twork" id="tWork" hidden></div>'+
     '<h4>'+esc(E.label)+', '+t0+'–'+tN+' <span style="text-transform:none;letter-spacing:0;font-weight:500">&middot; '+
       (HOV?'hover to read a year, click one for what moved':'slide to read a year, tap one for what moved')+'</span></h4>'+
@@ -1627,7 +1636,8 @@ PL.trendTab=function(E){
     if(S.tLens==='usd'&&l.ref) t='The dashed line is '+t0+'&rsquo;s '+M0(V[i0])+' grown only by consumer prices (CPI-U, '+
       '<a href="https://data.bls.gov/timeseries/CUUR0000SA0" rel="noopener">Bureau of Labor Statistics</a>). ';
     else if(S.tLens==='pc') t='Per resident: each year&rsquo;s amount divided by the <a href="https://www.census.gov/programs-surveys/popest.html" rel="noopener">Census Bureau&rsquo;s</a> '+
-      'July 1 population estimate for that year (its 1990s estimates were never revised to the 2000 census)'+(l.ref?'; the dashed line is '+t0+'&rsquo;s '+
+      'July 1 population estimate for that year (its 1990s estimates were never revised to the 2000 census'+
+      (tN>pLast?'; '+tN+' uses the '+pLast+' estimate, the newest published':'')+')'+(l.ref?'; the dashed line is '+t0+'&rsquo;s '+
       M0(per[i0])+' a resident grown only by consumer prices':'')+'. ';
     else if(S.tLens==='share') t='Share: this category divided by total '+(E.sec?'spending':'revenue')+' each year. ';
     document.getElementById('tNote').innerHTML=t+'Figures either side of '+E.brk+' sit on different reporting bases and are not strictly comparable.';
@@ -1644,7 +1654,7 @@ PL.trendTab=function(E){
   function move(i){
     var el=document.getElementById('mMove'); if(i==null){ el.innerHTML=''; return; }
     var rows=E.rowsAt(i), top=rows.slice(0,7), prev=Y[i-1], yr=Y[i];
-    var net=(V[i]||0)-(V[i-1]||0), covered=top.reduce(function(s,r){ return s+r.d; },0);
+    var net=(V[i]||0)-(V[i-1]||0), covered=top.reduce(function(s,r){ return s+r.d; },0), cx=net!==0?Math.abs(covered/net)*100:100;
     var mx=top.reduce(function(m,r){ return Math.max(m,Math.abs(r.d)); },0);
     var h='<h4>What moved in '+yr+' <span style="text-transform:none;letter-spacing:0">— vs '+prev+', net '+(net<0?PL.MINUS:'+')+M0(Math.abs(net))+'</span></h4>';
     if(yr===E.brk||prev===E.brk) h+='<div class="tbrk">This pair straddles the '+E.brk+' reporting-basis change — part of any move here is definitional.</div>';
@@ -1660,7 +1670,8 @@ PL.trendTab=function(E){
       }).join('')+'</tbody></table>';
     h+='<p class="tfoot">'+(!top.length?'Nothing was filed under '+esc(E.label)+' in '+prev+' or '+yr+'.':
         (top.length===1?'This one account line explains ':'These '+PL.numword(top.length)+' account lines explain ')+
-        (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+' of the net move. '+(HOV?'Select':'Tap')+' a line for its history.')+
+        (cx>=99.5?'all':Math.min(cx,999).toFixed(0)+'%')+' of the net move'+(cx>=105?' (smaller lines moved the other way)':'')+'. '+
+        (HOV?'Select':'Tap')+' a line for its history.')+
       (top.some(function(r){ return /^H/.test(r.acct); })?' Accounts beginning H are capital-project funds — one-time outlays, not operating growth.':'')+'</p>';
     el.innerHTML=h;
   }
@@ -1675,8 +1686,9 @@ PL.trendTab=function(E){
       pins=[i0,iN]; S.tLens='usd';
     } else {
       var g=cN/c0;
-      h='Consumer prices (CPI-U, U.S. city average, annual average): <b class="num">'+c0+'</b> in '+t0+' &rarr; <b class="num">'+cN+'</b> in '+tN+
-        ', &times;'+g.toFixed(3)+'. At that pace alone, '+t0+'&rsquo;s '+M0(V[i0])+' would be <b class="num">'+M0(V[i0]*g)+'</b> in '+tN+': the dashed line.';
+      h='Consumer prices (CPI-U, U.S. city average, annual average): <b class="num">'+c0+'</b> in '+t0+' &rarr; <b class="num">'+cN+'</b> in '+tC+
+        ', &times;'+g.toFixed(3)+'. At that pace alone, '+t0+'&rsquo;s '+M0(V[i0])+' would be <b class="num">'+M0(V[i0]*g)+'</b> in '+tC+': the dashed line.'+
+        (tC!==tN?' Prices for '+tN+' are not published yet.':'');
       pins=null; S.tLens='usd';
     }
     el.innerHTML='<p>'+h+'</p>'; el.hidden=false; draw();
