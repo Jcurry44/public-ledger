@@ -1597,8 +1597,14 @@ PL.tip=function(){
      L.pop()       a reader closed it (button, Esc, backdrop, swipe): pop the entry it pushed, once; false if there was none
                    (a sheet opened straight from a link has no entry and only hides)
      L.swallow()   true once, right after a pop: the popstate the pop caused is the page's to ignore
+     L.sub(el, close)  an inner disclosure opened inside the layer (a line's history under its row): ONE more entry on top of
+                   the layer's own, so Back runs close() and the layer stays (Fable r8); a disclosure that replaces it re-uses
+                   the entry. When el leaves the page another way (tapped shut, its table redrawn) that entry is popped, and
+                   L.pop() takes it along with the layer's own.
+     L.subBack()   true once, on the popstate that was that Back, after close() ran (an auto layer asks it itself; a page
+                   with its own popstate asks it right after L.swallow())
    With auto (the default) the module also listens for popstate: Back while the layer is open calls hide(true) and never leaves
-   the page; the popstate a pop() caused is swallowed. A page that applies state on popstate itself passes auto:false and
+   the page; the popstate a pop() caused is swallowed (then o.landed(), if given). A page that applies state on popstate itself passes auto:false and
    asks L.swallow() first.
    The MODAL half (a sheet is a dialog, not a panel that happens to sit on top):
      L.modal(el, {phoneOnly, label, role, focus, opener})   engage: every sibling of el's ancestor chain gets the inert attribute
@@ -1641,12 +1647,31 @@ PL.tip=function(){
       if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
       try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
     };
+    var sub=null, subObs=null;
+    function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
     L.pop=function(){
-      if(!L.pushed) return false;
+      var n=(L.pushed?1:0)+(sub?1:0); subOff();
+      if(!n) return false;
       L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-      try{ history.back(); return true; }catch(e){ skip=false; return false; }
+      try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
     };
     L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+    L.sub=function(el,close){
+      if(sub){ sub.el=el; sub.close=close; return; }
+      try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+      sub={el:el, close:close, k:(history.state||{}).plk};
+      if(!window.MutationObserver) return;
+      subObs=new MutationObserver(function(){
+        if(!sub||sub.el.isConnected) return;
+        /* gone another way: pop its entry - only while the reader is still on it, in an open layer */
+        var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+        if(!mine||!open) return;
+        skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+        try{ history.back(); }catch(e){ skip=false; }
+      });
+      subObs.observe(document.body,{childList:true,subtree:true});
+    };
+    L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
     L.modal=function(el,m){
       m=m||{}; release({focus:false});
       if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -1679,7 +1704,8 @@ PL.tip=function(){
     L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
     L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
     if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-      if(L.swallow()) return;
+      if(L.swallow()){ if(o.landed) o.landed(); return; }
+      if(L.subBack()) return;
       L.pushed=false;
       if(!o.isOpen || o.isOpen()) o.hide(true);
     });
@@ -3876,12 +3902,30 @@ if(L.pushed) return false;
 if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
 try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
 };
+var sub=null, subObs=null;
+function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
 L.pop=function(){
-if(!L.pushed) return false;
+var n=(L.pushed?1:0)+(sub?1:0); subOff();
+if(!n) return false;
 L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-try{ history.back(); return true; }catch(e){ skip=false; return false; }
+try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
 };
 L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+L.sub=function(el,close){
+if(sub){ sub.el=el; sub.close=close; return; }
+try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+sub={el:el, close:close, k:(history.state||{}).plk};
+if(!window.MutationObserver) return;
+subObs=new MutationObserver(function(){
+if(!sub||sub.el.isConnected) return;
+var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+if(!mine||!open) return;
+skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+try{ history.back(); }catch(e){ skip=false; }
+});
+subObs.observe(document.body,{childList:true,subtree:true});
+};
+L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
 L.modal=function(el,m){
 m=m||{}; release({focus:false});
 if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -3914,7 +3958,8 @@ L.unmodal=release;
 L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
 L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
 if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-if(L.swallow()) return;
+if(L.swallow()){ if(o.landed) o.landed(); return; }
+if(L.subBack()) return;
 L.pushed=false;
 if(!o.isOpen || o.isOpen()) o.hide(true);
 });

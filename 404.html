@@ -415,12 +415,30 @@ if(L.pushed) return false;
 if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
 try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
 };
+var sub=null, subObs=null;
+function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
 L.pop=function(){
-if(!L.pushed) return false;
+var n=(L.pushed?1:0)+(sub?1:0); subOff();
+if(!n) return false;
 L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-try{ history.back(); return true; }catch(e){ skip=false; return false; }
+try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
 };
 L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+L.sub=function(el,close){
+if(sub){ sub.el=el; sub.close=close; return; }
+try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+sub={el:el, close:close, k:(history.state||{}).plk};
+if(!window.MutationObserver) return;
+subObs=new MutationObserver(function(){
+if(!sub||sub.el.isConnected) return;
+var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+if(!mine||!open) return;
+skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+try{ history.back(); }catch(e){ skip=false; }
+});
+subObs.observe(document.body,{childList:true,subtree:true});
+};
+L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
 L.modal=function(el,m){
 m=m||{}; release({focus:false});
 if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -453,7 +471,8 @@ L.unmodal=release;
 L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
 L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
 if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-if(L.swallow()) return;
+if(L.swallow()){ if(o.landed) o.landed(); return; }
+if(L.subBack()) return;
 L.pushed=false;
 if(!o.isOpen || o.isOpen()) o.hide(true);
 });

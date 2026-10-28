@@ -833,12 +833,30 @@ if(L.pushed) return false;
 if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
 try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
 };
+var sub=null, subObs=null;
+function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
 L.pop=function(){
-if(!L.pushed) return false;
+var n=(L.pushed?1:0)+(sub?1:0); subOff();
+if(!n) return false;
 L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-try{ history.back(); return true; }catch(e){ skip=false; return false; }
+try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
 };
 L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+L.sub=function(el,close){
+if(sub){ sub.el=el; sub.close=close; return; }
+try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+sub={el:el, close:close, k:(history.state||{}).plk};
+if(!window.MutationObserver) return;
+subObs=new MutationObserver(function(){
+if(!sub||sub.el.isConnected) return;
+var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+if(!mine||!open) return;
+skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+try{ history.back(); }catch(e){ skip=false; }
+});
+subObs.observe(document.body,{childList:true,subtree:true});
+};
+L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
 L.modal=function(el,m){
 m=m||{}; release({focus:false});
 if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -871,7 +889,8 @@ L.unmodal=release;
 L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
 L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
 if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-if(L.swallow()) return;
+if(L.swallow()){ if(o.landed) o.landed(); return; }
+if(L.subBack()) return;
 L.pushed=false;
 if(!o.isOpen || o.isOpen()) o.hide(true);
 });
@@ -1566,7 +1585,7 @@ PL.refLabel=function(o){
     boxes.push([cx-7,cy-7,cx+7,cy+7]); if(!o.markBoxes) boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
   (o.markBoxes||[]).forEach(function(b){ boxes.push(b); });                 /* where the marks' years actually sit */
   o.rings.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]); boxes.push([cx-9,cy-9,cx+9,cy+9]); });
-  if(o.brk){ var bw=o.brk[2].length*fs*0.62/2+2; boxes.push([o.brk[0]-bw,o.brk[1]-fs,o.brk[0]+bw,o.brk[1]+3]); }
+  if(o.brk){ var bw=o.brk[2].length*fs*0.62, b0=o.brk[3]==='start'?o.brk[0]:o.brk[3]==='end'?o.brk[0]-bw:o.brk[0]-bw/2; boxes.push([b0-2,o.brk[1]-fs,b0+bw+2,o.brk[1]+3]); }
   var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)].concat(o.rule!=null?[[[o.rule,o.mt],[o.rule,o.H-o.mb]]]:[]),
     boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
     cands:[{x:rx,y:lo-7,a:'end'},{x:rx,y:hi+fs+4,a:'end'},{x:rx,y:o.mt+fs+2,a:'end'},{x:o.ml+6,y:o.mt+fs+2,a:'start'}]});

@@ -565,6 +565,8 @@ svg.trend .ghostl{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:
 svg.trend .axh{paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
 .ckey{margin:4px 0 10px;text-align:right;font-size:12px;color:var(--muted)}
 .ckey i{display:inline-block;width:18px;height:0;border-top:2px dashed var(--ink);opacity:.85;vertical-align:middle;margin-right:7px}
+.ckey span{white-space:nowrap}.ckey span+span{margin-left:14px}
+.ckey i.kv{width:0;height:12px;border-top:0;border-left:1.5px dashed var(--rule-strong);opacity:1;margin-right:6px}
 .panel{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 16px;box-shadow:var(--shadow)}
 .panel h3{margin:0 0 2px;font-size:14.5px}
 .panel h3 .tot{float:right;font-weight:600}
@@ -1751,7 +1753,7 @@ PL.refLabel=function(o){
     boxes.push([cx-7,cy-7,cx+7,cy+7]); if(!o.markBoxes) boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
   (o.markBoxes||[]).forEach(function(b){ boxes.push(b); });                 /* where the marks' years actually sit */
   o.rings.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]); boxes.push([cx-9,cy-9,cx+9,cy+9]); });
-  if(o.brk){ var bw=o.brk[2].length*fs*0.62/2+2; boxes.push([o.brk[0]-bw,o.brk[1]-fs,o.brk[0]+bw,o.brk[1]+3]); }
+  if(o.brk){ var bw=o.brk[2].length*fs*0.62, b0=o.brk[3]==='start'?o.brk[0]:o.brk[3]==='end'?o.brk[0]-bw:o.brk[0]-bw/2; boxes.push([b0-2,o.brk[1]-fs,b0+bw+2,o.brk[1]+3]); }
   var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)].concat(o.rule!=null?[[[o.rule,o.mt],[o.rule,o.H-o.mb]]]:[]),
     boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
     cands:[{x:rx,y:lo-7,a:'end'},{x:rx,y:hi+fs+4,a:'end'},{x:rx,y:o.mt+fs+2,a:'end'},{x:o.ml+6,y:o.mt+fs+2,a:'start'}]});
@@ -1933,8 +1935,14 @@ PL.trendTab=function(E){
      L.pop()       a reader closed it (button, Esc, backdrop, swipe): pop the entry it pushed, once; false if there was none
                    (a sheet opened straight from a link has no entry and only hides)
      L.swallow()   true once, right after a pop: the popstate the pop caused is the page's to ignore
+     L.sub(el, close)  an inner disclosure opened inside the layer (a line's history under its row): ONE more entry on top of
+                   the layer's own, so Back runs close() and the layer stays (Fable r8); a disclosure that replaces it re-uses
+                   the entry. When el leaves the page another way (tapped shut, its table redrawn) that entry is popped, and
+                   L.pop() takes it along with the layer's own.
+     L.subBack()   true once, on the popstate that was that Back, after close() ran (an auto layer asks it itself; a page
+                   with its own popstate asks it right after L.swallow())
    With auto (the default) the module also listens for popstate: Back while the layer is open calls hide(true) and never leaves
-   the page; the popstate a pop() caused is swallowed. A page that applies state on popstate itself passes auto:false and
+   the page; the popstate a pop() caused is swallowed (then o.landed(), if given). A page that applies state on popstate itself passes auto:false and
    asks L.swallow() first.
    The MODAL half (a sheet is a dialog, not a panel that happens to sit on top):
      L.modal(el, {phoneOnly, label, role, focus, opener})   engage: every sibling of el's ancestor chain gets the inert attribute
@@ -1977,12 +1985,31 @@ PL.trendTab=function(E){
       if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
       try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
     };
+    var sub=null, subObs=null;
+    function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
     L.pop=function(){
-      if(!L.pushed) return false;
+      var n=(L.pushed?1:0)+(sub?1:0); subOff();
+      if(!n) return false;
       L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-      try{ history.back(); return true; }catch(e){ skip=false; return false; }
+      try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
     };
     L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+    L.sub=function(el,close){
+      if(sub){ sub.el=el; sub.close=close; return; }
+      try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+      sub={el:el, close:close, k:(history.state||{}).plk};
+      if(!window.MutationObserver) return;
+      subObs=new MutationObserver(function(){
+        if(!sub||sub.el.isConnected) return;
+        /* gone another way: pop its entry - only while the reader is still on it, in an open layer */
+        var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+        if(!mine||!open) return;
+        skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+        try{ history.back(); }catch(e){ skip=false; }
+      });
+      subObs.observe(document.body,{childList:true,subtree:true});
+    };
+    L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
     L.modal=function(el,m){
       m=m||{}; release({focus:false});
       if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -2015,7 +2042,8 @@ PL.trendTab=function(E){
     L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
     L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
     if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-      if(L.swallow()) return;
+      if(L.swallow()){ if(o.landed) o.landed(); return; }
+      if(L.subBack()) return;
       L.pushed=false;
       if(!o.isOpen || o.isOpen()) o.hide(true);
     });
@@ -2480,7 +2508,8 @@ function renderLine(host, values, opts){
   var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
   var fmt=opts.pct?function(v){return v.toFixed(1)+'%';}:money0;
   /* the house ladder (PL.axisTicks), as on the front page: '$0K' per resident and '$13M' for $12.5M were this axis (Fable r7) */
-  var p=[], AT=PL.axisTicks(max,4), tf=opts.pct?function(v){return Math.round(v)+'%';}:AT.fmt;
+  var p=[], AT=PL.axisTicks(max,4), pS=AT.ticks.length>1?AT.ticks[1]-AT.ticks[0]:1, pD=pS>=1?0:pS>=0.1?1:2;   /* a half-point step reads 0.5%, never '1% 1%' */
+  var tf=opts.pct?function(v){return v===0?'0%':v.toFixed(pD)+'%';}:AT.fmt;
   ml=Math.max(ml, Math.max.apply(null,AT.ticks.map(function(g){ return String(tf(g)).length; }))*fs*0.62+9);   /* room for the longest tick */
   AT.ticks.forEach(function(gv){
     p.push('<line class="gl" x1="'+ml+'" y1="'+y(gv).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(gv).toFixed(1)+'"/>');
@@ -2490,13 +2519,15 @@ function renderLine(host, values, opts){
   if(bi>0){
     var bx=((x(bi)+x(bi-1))/2).toFixed(1);
     p.push('<line class="brk" x1="'+bx+'" y1="'+mt+'" x2="'+bx+'" y2="'+(H-mb)+'"/>');
-    /* the 2013 name sits at the foot of its rule unless a line runs through it there, then at the head (Fable r7) */
+    /* the 2013 name: at the foot of its rule, beside it, or higher up it - the first place no line runs through (Fable r7/r8) */
     if(opts.brkLabel){
       var bT='basis changed '+O.schemaBreak, bP=function(a){ return (a||[]).map(function(v,i){ return v==null?null:[x(i),y(v)]; }); };
-      var bS=PL.chartSpot({text:bT, fs:fs, lines:[bP(values),bP(opts.ref)], boxes:[], top:0, bottom:H-mb+1, left:ml, right:W,
-        cands:[{x:+bx,y:H-mb-6,a:'middle'},{x:+bx,y:mt+fs+2,a:'middle'}]})||{x:+bx,y:H-mb-6};
-      var bLab=[bS.x,bS.y,bT];
-      p.push('<text class="ax axh" x="'+bS.x+'" y="'+bS.y+'" text-anchor="middle" font-size="'+fs+'">'+bT+'</text>');
+      var bF=H-mb-6, bH=mt+fs+2, bC=[];
+      [bF,bH,bF-(bF-bH)/4,(bF+bH)/2,bH+(bF-bH)/4].forEach(function(yy){ bC.push({x:+bx,y:yy,a:'middle'},{x:+bx+5,y:yy,a:'start'},{x:+bx-5,y:yy,a:'end'}); });
+      var bS=PL.chartSpot({text:bT, fs:fs, lines:[bP(values),bP(opts.ref)], boxes:[], top:0, bottom:H-mb+1, left:ml, right:W, cands:bC});
+      if(bS){ var bLab=[bS.x,bS.y,bT,bS.a];
+        p.push('<text class="ax axh" x="'+bS.x+'" y="'+bS.y+'" text-anchor="'+bS.a+'" font-size="'+fs+'">'+bT+'</text>'); }
+      else var bKey=bT;                                  /* no clear place on the plot: the key under it names the rule */
     }
   }
   var every=narrow?10:5, lastI=yrs.length-1, gapU=narrow?42:46;
@@ -2521,16 +2552,21 @@ function renderLine(host, values, opts){
   }
   loneRuns(values).forEach(function(i){
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="2.5" fill="var('+opts.color+')"/>');});
-  var mBoxes=[];
+  var mBoxes=[], mRings=(opts.marks||[]).filter(function(k){ return values[k]!=null; }).map(function(k){ return [k,[x(k)-5,y(values[k])-5,x(k)+5,y(values[k])+5]]; });   /* the other marks' rings */
+  if(bLab){ var bw0=bLab[2].length*fs*0.62, bx0=bLab[3]==='start'?bLab[0]:bLab[3]==='end'?bLab[0]-bw0:bLab[0]-bw0/2; mBoxes.push([bx0-2,bLab[1]-fs,bx0+bw0+2,bLab[1]+3]); }
   (opts.marks||[]).forEach(function(i){
     if(values[i]==null) return;
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="4" fill="var(--paper)" '+
       'stroke="var('+opts.color+')" stroke-width="2"><title>'+yrs[i]+' — tap to see what moved</title></circle>');
-    /* the mark's year above its ring, or below it when a line runs through that spot (Fable r7) */
+    /* the mark's year above its ring, below it, at a corner beside it, or a line further out - the first spot no line or
+       other label runs through; with none, the ring goes unlabelled (its chip under the chart names the year) (Fable r7/r8) */
     var mx=x(i), my=y(values[i]), mA=mx>W-mr-24?'end':'middle', mP=function(a){ return (a||[]).map(function(v,k){ return v==null?null:[x(k),y(v)]; }); };
-    var mS=PL.chartSpot({text:String(yrs[i]), fs:fs, lines:[mP(values),mP(opts.ref)], boxes:mBoxes, top:0, bottom:H-mb, left:ml-4, right:W,
-      cands:[{x:mx,y:my-9,a:mA},{x:mx,y:my+fs+8,a:mA}]})||{x:mx,y:my-9,a:mA};
-    var mw=4*fs*0.62; mBoxes.push([mS.a==='end'?mS.x-mw:mS.x-mw/2, mS.y-fs, mS.a==='end'?mS.x:mS.x+mw/2, mS.y+3]);
+    var mC=[];
+    [0,fs+2].forEach(function(o2){ mC.push({x:mx,y:my-9-o2,a:mA},{x:mx,y:my+fs+8+o2,a:mA},{x:mx+5,y:my-7-o2,a:'start'},{x:mx-5,y:my-7-o2,a:'end'},
+      {x:mx+5,y:my+fs+5+o2,a:'start'},{x:mx-5,y:my+fs+5+o2,a:'end'}); if(!o2) mC.push({x:mx+9,y:my+fs/3,a:'start'},{x:mx-9,y:my+fs/3,a:'end'}); });
+    var mS=PL.chartSpot({text:String(yrs[i]), fs:fs, lines:[mP(values),mP(opts.ref)].concat(bi>0?[[[+bx,mt],[+bx,H-mb]]]:[]), boxes:mBoxes.concat(mRings.filter(function(r){ return r[0]!==i; }).map(function(r){ return r[1]; })), top:0, bottom:H-mb, left:ml-4, right:W, cands:mC});
+    if(!mS) return;
+    var mw=4*fs*0.62, m0=mS.a==='end'?mS.x-mw:mS.a==='start'?mS.x:mS.x-mw/2; mBoxes.push([m0, mS.y-fs, m0+mw, mS.y+3]);
     p.push('<text class="ax axh" x="'+mS.x.toFixed(1)+'" y="'+mS.y.toFixed(1)+'" text-anchor="'+mS.a+'" font-size="'+fs+'">'+yrs[i]+'</text>');
   });
   if(opts.sel!=null&&values[opts.sel]!=null)
@@ -2553,7 +2589,8 @@ function renderLine(host, values, opts){
   p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"'+
     (opts.onPick?' style="cursor:pointer"':'')+'/>');
   host.innerHTML='<div class="chartwrap"><svg class="trend" viewBox="0 0 '+W+' '+H+'">'+p.join('')+
-    '</svg><div class="tip"></div></div>'+(rkey?'<p class="ckey"><i aria-hidden="true"></i>'+rkey+'</p>':'');
+    '</svg><div class="tip"></div></div>'+(rkey||bKey?'<p class="ckey">'+(rkey?'<span><i aria-hidden="true"></i>'+rkey+'</span>':'')+
+      (bKey?'<span><i class="kv" aria-hidden="true"></i>'+bKey+'</span>':'')+'</p>':'');
   var svg=host.querySelector('svg'), tip=host.querySelector('.tip'),
       wrap=host.querySelector('.chartwrap'), xh=host.querySelector('.xh'),
       xl=xh.querySelector('line'), xc=xh.querySelector('circle');
@@ -2814,7 +2851,11 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
 var BEHIND='.page,#pager';
 /* Back closes the sheet (the chrome's 'layer' contract): opening pushes ONE entry, a reader's close pops it, and Back while it is
    open closes it without leaving the page */
-var LAYER=PL.layer({isOpen:function(){var m=document.getElementById('modal');return !!m&&!m.hidden;},hide:function(){closeModal(true);}});
+var LAYER=PL.layer({isOpen:function(){var m=document.getElementById('modal');return !!m&&!m.hidden;},hide:function(){closeModal(true);},
+  /* a pop landed: the entry under it takes the page's address now - a closed sheet's (arrival) address goes; an open sheet's
+     is its category and tab as they are, so the hashchange the landing fires finds the sheet already open */
+  landed:function(){if(document.getElementById('modal').hidden){if(/^#(cat=|cmp=|acct-)/.test(location.hash))hashReplace('');}
+    else if(MODAL.kind==='cat')hashReplace(catHash());}});
 /* exit and return (10-07): window.__plArriving is set while a sheet opens from the address the page arrived with */
 function showModal(hash){
   var m=document.getElementById('modal'), was=m.hidden;
@@ -3053,6 +3094,7 @@ function acctHistory(tr){
     '<div class="ah-chart"></div><p class="fnt" style="margin:8px 0 0;max-width:76ch">'+read+'</p></td>';
   tr.after(row);
   renderLine(row.querySelector('.ah-chart'),vals,{color:MODAL.color,name:code,h:170});
+  LAYER.sub(row,function(){ row.remove(); hashReplace(catHash()); });   /* Back closes this history first; the sheet stays (Fable r8) */
   /* the open account has the address the decisions register already uses (#acct-<fund><function>) */
   var am=/^([A-Z]{1,3})(\d{4})/.exec(code||''); if(am) hashReplace('#acct-'+am[1]+am[2]);
 }
@@ -3866,7 +3908,10 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
   });
   window.addEventListener('hashchange',function(){
     var h=location.hash; if(!/^#(cat|cmp)=/.test(h)) return;
-    if(!document.getElementById('modal').hidden) closeModal(true);
+    if(!document.getElementById('modal').hidden){
+      if(MODAL.kind==='cat'&&h===catHash()) return;   /* Back out of a line's history lands on the sheet's own address: already open */
+      closeModal(true);
+    }
     openFromHash(h,true);
   });
 })();
@@ -3992,12 +4037,30 @@ if(L.pushed) return false;
 if(PL.ret&&PL.ret.adopt&&history.state&&history.state.plLayer){ PL.ret.adopt=false; L.pushed=true; return false; }
 try{ history.pushState({plLayer:1},'',url||location.href); L.pushed=true; return true; }catch(e){ return false; }
 };
+var sub=null, subObs=null;
+function subOff(){ sub=null; if(subObs){ subObs.disconnect(); subObs=null; } }
 L.pop=function(){
-if(!L.pushed) return false;
+var n=(L.pushed?1:0)+(sub?1:0); subOff();
+if(!n) return false;
 L.pushed=false; skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
-try{ history.back(); return true; }catch(e){ skip=false; return false; }
+try{ history.go(-n); return true; }catch(e){ skip=false; return false; }
 };
 L.swallow=function(){ if(!skip) return false; skip=false; clearTimeout(skipT); return true; };
+L.sub=function(el,close){
+if(sub){ sub.el=el; sub.close=close; return; }
+try{ history.pushState({plLayer:1},'',location.href); }catch(e){ return; }
+sub={el:el, close:close, k:(history.state||{}).plk};
+if(!window.MutationObserver) return;
+subObs=new MutationObserver(function(){
+if(!sub||sub.el.isConnected) return;
+var mine=(history.state||{}).plk===sub.k, open=!o.isOpen||o.isOpen(); subOff();
+if(!mine||!open) return;
+skip=true; clearTimeout(skipT); skipT=setTimeout(function(){ skip=false; },600);
+try{ history.back(); }catch(e){ skip=false; }
+});
+subObs.observe(document.body,{childList:true,subtree:true});
+};
+L.subBack=function(){ if(!sub) return false; var c=sub.close; subOff(); if(c) c(); return true; };
 L.modal=function(el,m){
 m=m||{}; release({focus:false});
 if(!el || (m.phoneOnly && !window.matchMedia('(max-width:640px)').matches)) return false;
@@ -4030,7 +4093,8 @@ L.unmodal=release;
 L.open=function(el,m){ m=m||{}; L.push(m.url); return L.modal(el,m); };
 L.close=function(fromPop){ release(); if(!fromPop) L.pop(); };
 if(o.auto!==false && o.hide) window.addEventListener('popstate',function(){
-if(L.swallow()) return;
+if(L.swallow()){ if(o.landed) o.landed(); return; }
+if(L.subBack()) return;
 L.pushed=false;
 if(!o.isOpen || o.isOpen()) o.hide(true);
 });
