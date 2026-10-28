@@ -2979,7 +2979,7 @@ PL.jump=function(el,block){
 </details>
 <!-- the two bookkeeping notes of the checkbook (image scans declared, payees under several vendor codes): a quiet line under the
      fold, not first-screen material; the tie-out (#recon) and the findings carry them in full -->
-<div class="reg-below-wrap"><div class="wrap"><p class="regnote reg-below" id="regNote"><a class="reg-more" href="#explore" data-find="hygiene">Pattern: 10 payees under more than one vendor code &rarr;</a></p></div></div>
+<div class="reg-below-wrap"><div class="wrap"><p class="regnote reg-below" id="regNote"><a class="reg-more" href="#explore" data-find="hygiene">Pattern: 10 payees filed under more than one vendor code &rarr;</a></p></div></div>
 
 <!-- the rail's three destination tabs and the H2s they land on carry the one name the chrome's glossary gives that
      destination (tools/_chrome.py DESTINATIONS: build_site.py fills Every claim / Your tax bill / How it was verified), so the
@@ -3268,7 +3268,7 @@ PL.jump=function(el,block){
       of it.<span class="ph-x"> The school district and the county levy the rest, on their own budgets.</span></p>
 
     <div class="panel" data-hgroup="tax" data-hdim>
-      <h3>The split at current rates <span class="tot num" id="tbYear"></span></h3>
+      <h3>The split at the latest published rates <span class="tot num" id="tbYear"></span></h3>
       <div class="sub">Enter a home's market value to see it at the published full-value rates.<span class="ph-x"> Hover or select a government to follow it through the chart.</span></div>
       <div class="tb-controls">
         <label class="tb-val">$ <input type="text" id="tbValue" inputmode="numeric" value="250,000"
@@ -3323,7 +3323,7 @@ PL.jump=function(el,block){
     <p class="note" id="reconNote"></p>
     <div class="gatebox">
       <div class="gateline num">&#10003; Four checks pass on every warrant: payee names, expenditure total, line count and list total</div>
-      <div class="recline" aria-label="How current this ledger is"><span>Through the <b id="through">10/20/2026</b> warrant</span><span><b id="ndocs">52</b> documents</span><span data-pl-built="2026-10-27">built <b>10/27/2026</b></span><span data-pl-next="2026-11-03" data-pl-check="2026-10-27">next expected <b>Tue 11/03</b></span><span>source <a href="https://www.northtonawanda.gov/accounting">northtonawanda.gov/accounting</a><span class="pl-sep" aria-hidden="true">&middot;</span>checked <b>10/27/2026</b><span class="pl-sep" aria-hidden="true">&middot;</span>all <b>28</b> warrants on the City&rsquo;s page read</span></div>
+      <div class="recline" aria-label="How current this ledger is"><span>Through the <b id="through">10/20/2026</b> warrant</span><span><b id="ndocs">52</b> documents</span><span data-pl-built="2026-10-27">built <b>10/27/2026</b></span><span data-pl-next="2026-11-03" data-pl-check="2026-10-27">next expected <b>Tue 11/03</b></span><span>source <a href="https://www.northtonawanda.gov/accounting">northtonawanda.gov/accounting</a><span class="pl-sep" aria-hidden="true">&middot;</span>checked <b>10/27/2026</b><span class="pl-sep" aria-hidden="true">&middot;</span>all <b>28</b> warrants on the City&rsquo;s page read; the other <b>24</b> are older warrants it no longer lists</span></div>
       <details class="ph-fold keep" id="lastRunFold" data-open-wide style="margin:8px 0 0"><summary>Last checked <b>10/27/2026</b> &middot; every check passed.</summary>
         <div class="sub" id="lastRun" style="margin:0">Checked the city&rsquo;s accounting page on <b>10/27/2026</b>: <b>28</b> postings dated <b>01/20/2026</b> to <b>10/20/2026</b>, all read. The ledger&rsquo;s <b>52</b> documents also include <b>24</b> the page does not list.<details class="tailx" style="margin-top:6px"><summary>How &lsquo;next expected&rsquo; is worked out</summary>Warrants have been dated the 1st or 3rd Tuesday in <b>42</b> of <b>44</b> cases, so at this build (10/27/2026) the warrant after the 10/20/2026 one was <b>expected</b> Tue 11/03 &mdash; an expectation, not a due date: <b>6</b> of the <b>44</b> first and third Tuesdays since 01/07/2025 have no warrant dated that day.</details></div></details>
     </div>
@@ -4017,7 +4017,7 @@ function setHero(i){
      their words beside them - the same markup tools/build_site.py paints (textContent is what the drift check reads) */
   hydrate('regHead', regHeadHTML(D.meta.rows, D.meta.totalAll, D.meta.vendors));
   hydrate('regNote',(scans ? scans+' image scan'+(scans===1?'':'s')+' declared, not parsed' : '')+(scans&&hyg ? '<span class="ph-x"> &middot; </span>' : '')+
-    (hyg ? '<a class="reg-more" href="#explore" data-find="hygiene">Pattern: '+hyg+' payee'+(hyg===1?'':'s')+' under more than one vendor code &rarr;</a>' : ''));
+    (hyg ? '<a class="reg-more" href="#explore" data-find="hygiene">Pattern: '+hyg+' payee'+(hyg===1?'':'s')+' filed under more than one vendor code &rarr;</a>' : ''));
   var rs=document.getElementById('heroReset');
   if(rs) rs.addEventListener('click',function(){ if(typeof renderYear==='function') renderYear(O.latest); });
   var ch=document.getElementById('ansChange');
@@ -6596,7 +6596,7 @@ await plYield();
   var total=PROJECTS.reduce(function(s,p){return s+p.amt;},0);
   /* a project name as the City printed it, in its own capitals: a label its system cut short gets the cut mark (never a
      completion), a plain misspelling the corrected word (data/cut-labels.json; the hero's pjLabel does the same, title-cased) */
-  var CAP_CUT={"ACQ., CONS., & RECONS., OF WATER IM": 1, "CENTRAL COMMUNICATION SYSTE": 1, "CITY-WIDE WATER METER UPGRAD": 1, "CITYWIDE PROPERTY V&V PROJEC": 1, "CLEARANCE, DEMOLITION, AND RE": 1, "IMPROV TO DEERWOOD GOLFCOU": 1, "IMPROVEMENTS TO PARKS AND RE": 1, "IMPROVEMENTS TO THE DEERWOOR": 1, "RECONSTRUCTION OF DOCKS AT GRATWICK PA": 1, "WATER TREATMENT PLANT CRITICAR": 1}, CAP_SIC={"500 WHEATFIELD EXPANISON": {"EXPANISON": "EXPANSION"}, "BOTANICAL GIP IMPROVMENTS": {"IMPROVMENTS": "IMPROVEMENTS"}, "GENERATOR REPACEMENT_WTP": {"REPACEMENT": "REPLACEMENT"}, "GOLD COURSE EQUIPMENT 2026": {"GOLD": "GOLF"}, "IMPROVEMENTS TO THE DEERWOOR": {"DEERWOOR": "DEERWOOD"}, "PUBLIC WOKRS": {"WOKRS": "WORKS"}, "TRAFFIC SINGAL UPGRADES": {"SINGAL": "SIGNAL"}, "WASTERWATER TREATMENT": {"WASTERWATER": "WASTEWATER"}, "WATER PLANT IMPROVEMERN": {"IMPROVEMERN": "IMPROVEMENT"}, "WATER TREATMENT PLANT CRITICAR": {"CRITICAR": "CRITICAL"}, "WURLITZER PICKELBALL COURT": {"PICKELBALL": "PICKLEBALL"}};
+  var CAP_CUT={"ACQ., CONS., & RECONS., OF WATER IM": 1, "ACQUISITION OF MACHINERY AND APPARATU": 1, "CENTRAL COMMUNICATION SYSTE": 1, "CITY-WIDE WATER METER UPGRAD": 1, "CITYWIDE PROPERTY V&V PROJEC": 1, "CLEARANCE, DEMOLITION, AND RE": 1, "ERIE CANAL BIKE PATH EXTE": 1, "IMPROV TO DEERWOOD GOLFCOU": 1, "IMPROVEMENTS TO PARKS AND RE": 1, "IMPROVEMENTS TO THE DEERWOOR": 1, "RECONSTRUCTION OF DOCKS AT GRATWICK PA": 1, "WATER TREATMENT PLANT CRITICAR": 1}, CAP_SIC={"500 WHEATFIELD EXPANISON": {"EXPANISON": "EXPANSION"}, "BOTANICAL GIP IMPROVMENTS": {"IMPROVMENTS": "IMPROVEMENTS"}, "GENERATOR REPACEMENT_WTP": {"REPACEMENT": "REPLACEMENT"}, "GOLD COURSE EQUIPMENT 2026": {"GOLD": "GOLF"}, "PUBLIC WOKRS": {"WOKRS": "WORKS"}, "TRAFFIC SINGAL UPGRADES": {"SINGAL": "SIGNAL"}, "WASTERWATER TREATMENT": {"WASTERWATER": "WASTEWATER"}, "WATER PLANT IMPROVEMERN": {"IMPROVEMERN": "IMPROVEMENT"}, "WURLITZER PICKELBALL COURT": {"PICKELBALL": "PICKLEBALL"}};
   function capName(raw){ var u=raw.trim().toUpperCase(); if(CAP_CUT[u]) return raw.trim()+'…';
     var fx=CAP_SIC[u]||{}, out=raw;
     Object.keys(fx).forEach(function(w){ out=out.replace(new RegExp('(^|[^A-Za-z])('+w+')(?![A-Za-z])','i'),function(m,a,o){ var f=fx[w];
@@ -8226,7 +8226,7 @@ var ISSUE=(function(){
   var FG_ORDER=['cap','gen','ent','oth'], FG_NOUN={cap:'capital work',gen:'day-to-day operations',ent:'water, sewer and golf',oth:'other funds'};
   /* the By-project label: a project or department name the way the first screen says one (title case, '(& N others)' dropped); build_site.py pj_label() is the twin */
   var DEPT_SUFFIX=/\s*\(& \d+ others?\)\s*$/;
-  var PJ_CUT={"ACQ., CONS., & RECONS., OF WATER IM": 1, "CENTRAL COMMUNICATION SYSTE": 1, "CITY-WIDE WATER METER UPGRAD": 1, "CITYWIDE PROPERTY V&V PROJEC": 1, "CLEARANCE, DEMOLITION, AND RE": 1, "IMPROV TO DEERWOOD GOLFCOU": 1, "IMPROVEMENTS TO PARKS AND RE": 1, "IMPROVEMENTS TO THE DEERWOOR": 1, "RECONSTRUCTION OF DOCKS AT GRATWICK PA": 1, "WATER TREATMENT PLANT CRITICAR": 1}, PJ_SIC={"500 WHEATFIELD EXPANISON": {"EXPANISON": "EXPANSION"}, "BOTANICAL GIP IMPROVMENTS": {"IMPROVMENTS": "IMPROVEMENTS"}, "GENERATOR REPACEMENT_WTP": {"REPACEMENT": "REPLACEMENT"}, "GOLD COURSE EQUIPMENT 2026": {"GOLD": "GOLF"}, "IMPROVEMENTS TO THE DEERWOOR": {"DEERWOOR": "DEERWOOD"}, "PUBLIC WOKRS": {"WOKRS": "WORKS"}, "TRAFFIC SINGAL UPGRADES": {"SINGAL": "SIGNAL"}, "WASTERWATER TREATMENT": {"WASTERWATER": "WASTEWATER"}, "WATER PLANT IMPROVEMERN": {"IMPROVEMERN": "IMPROVEMENT"}, "WATER TREATMENT PLANT CRITICAR": {"CRITICAR": "CRITICAL"}, "WURLITZER PICKELBALL COURT": {"PICKELBALL": "PICKLEBALL"}};   /* + the labels it plainly misspelled: the first screen shows the corrected word */   /* labels the city's system cut short: a cut mark, never a completion (data/cut-labels.json) */
+  var PJ_CUT={"ACQ., CONS., & RECONS., OF WATER IM": 1, "ACQUISITION OF MACHINERY AND APPARATU": 1, "CENTRAL COMMUNICATION SYSTE": 1, "CITY-WIDE WATER METER UPGRAD": 1, "CITYWIDE PROPERTY V&V PROJEC": 1, "CLEARANCE, DEMOLITION, AND RE": 1, "ERIE CANAL BIKE PATH EXTE": 1, "IMPROV TO DEERWOOD GOLFCOU": 1, "IMPROVEMENTS TO PARKS AND RE": 1, "IMPROVEMENTS TO THE DEERWOOR": 1, "RECONSTRUCTION OF DOCKS AT GRATWICK PA": 1, "WATER TREATMENT PLANT CRITICAR": 1}, PJ_SIC={"500 WHEATFIELD EXPANISON": {"EXPANISON": "EXPANSION"}, "BOTANICAL GIP IMPROVMENTS": {"IMPROVMENTS": "IMPROVEMENTS"}, "GENERATOR REPACEMENT_WTP": {"REPACEMENT": "REPLACEMENT"}, "GOLD COURSE EQUIPMENT 2026": {"GOLD": "GOLF"}, "PUBLIC WOKRS": {"WOKRS": "WORKS"}, "TRAFFIC SINGAL UPGRADES": {"SINGAL": "SIGNAL"}, "WASTERWATER TREATMENT": {"WASTERWATER": "WASTEWATER"}, "WATER PLANT IMPROVEMERN": {"IMPROVEMERN": "IMPROVEMENT"}, "WURLITZER PICKELBALL COURT": {"PICKELBALL": "PICKLEBALL"}};   /* + the labels it plainly misspelled: the first screen shows the corrected word */   /* labels the city's system cut short: a cut mark, never a completion (data/cut-labels.json) */
   function pjLabel(k){ var name=(k.charAt(0)==='p') ? k.split('|').slice(2).join('|') : (D.depts[k.slice(2)]||('Dept '+k.slice(2)));
     var raw=name.replace(DEPT_SUFFIX,''), lab=titleLabel(raw); if(PJ_CUT[raw.trim().toUpperCase()]) return lab+'…';
     var fx=PJ_SIC[raw.trim().toUpperCase()]||{}, fixed=raw;

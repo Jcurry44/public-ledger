@@ -346,6 +346,8 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .hero{padding:30px 0 6px}
 .hero h1{font-size:clamp(32px,6vw,52px);line-height:1.04;margin:8px 0 6px}
 .hero .lede{max-width:64ch;color:var(--muted);font-size:15.5px;margin:0 0 16px}
+.maker{margin:-8px 0 16px;font-size:13px;color:var(--muted)}
+.maker a{color:var(--accent);font-weight:600;padding:6px 0}
 .neutral{display:inline-block;font:600 12px/1.3 system-ui;color:var(--ink);border:1px solid var(--rule-strong);border-radius:999px;padding:5px 11px;margin:0 0 16px;background:var(--card)}
 
 /* the two questions: one tab each, the price on the tab so the choice is already an answer */
@@ -523,6 +525,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   <p class="lede">Every question on the Niagara County ballot, word for word, and what each would cost a home: the
     sponsor&rsquo;s own figures, with the arithmetic shown.</p>
   <div class="neutral">This page takes no side.</div>
+  <p class="maker">Independent: built by a North Tonawanda resident. Not the City, not a campaign. <a href="#about">Who made this</a></p>
   <div class="tabs" role="tablist" aria-label="Questions on the ballot"><button type="button" role="tab" id="tab-nt" aria-controls="q-nt" aria-selected="true"><span class="tp">North Tonawanda</span><span class="tq">Community center</span><span class="tc num">$84 a year per $100K assessed</span></button><button type="button" role="tab" id="tab-somerset" aria-controls="q-somerset" aria-selected="false"><span class="tp">Somerset</span><span class="tq">Firefighter awards</span><span class="tc num">$54 a year per $100K assessed</span></button></div>
 </div></section>
 
@@ -583,7 +586,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       <ol class="sched" aria-label="The City's schedule"><li><span class="sk">Design resumes</span><b>Nov 2026</b></li><li><span class="sk">Bids</span><b>May 2027</b></li><li><span class="sk">Construction</span><b>Sept 2027</b></li><li><span class="sk">Opens</span><b>Fall 2028</b></li></ol>
       <p class="src">The City&rsquo;s schedule says it could slip with grant awards.</p>
       <div class="ten"><p><b>The County's offices in the building.</b> The County rents space there for the DMV and Probation, and since 2024 for a Public Defender's office.</p>
-        <dl class="tenl"><div><dt>DMV</dt><dd>Rents space today and stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease.</dd></div><div><dt>Probation</dt><dd>Rents space today; no space in the design. The City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; no public announcement was found (checked Oct 27, 2026).</dd></div><div><dt>Public Defender</dt><dd>In March 2024 the County amended its lease at 611 Shad St (the building's other address) to add a Public Defender's office at $1,000 a month. The City's design lists space only for the DMV.</dd></div><div><dt>What the County pays</dt><dd>A $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) plus its share of utilities, and the Public Defender rent since 2024.</dd></div></dl>
+        <dl class="tenl"><div><dt>DMV</dt><dd>Rents space today and stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease.</dd></div><div><dt>Probation</dt><dd>Rents space today; no space in the design the City published at playntrec.com/community (read Oct 27, 2026). The City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; no public announcement was found (checked Oct 27, 2026).</dd></div><div><dt>Public Defender</dt><dd>In March 2024 the County amended its lease at 611 Shad St (the building's other address) to add a Public Defender's office at $1,000 a month. The City's design lists space only for the DMV.</dd></div><div><dt>What the County pays</dt><dd>A $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) plus its share of utilities, and the Public Defender rent since 2024.</dd></div></dl>
         <span class="src"><a href="https://www.northtonawanda.gov/documents/Website/2024/Community%20Center%20RFP%20Final%202024.pdf" rel="noopener">City RFP, 2024</a> &middot; <a href="https://downloads.niagaracounty.gov/Document_center/Department/M%20-%20R/Probation/2025%20Annual%20Report.pdf" rel="noopener">Probation 2025 annual report</a> &middot; <a href="decisions.html?q=CS-042-23" rel="noopener">County resolution CS-042-23</a> &middot; <a href="decisions.html?q=CSS-030-24" rel="noopener">CSS-030-24</a></span></div>
       <p class="proj"><b>The City projects $204,000 a year</b> from moving three buildings into one:
         $124,000 in facility and staff savings and $80,000 in new revenue. That is the City&rsquo;s
@@ -678,7 +681,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
     <a href="https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf" rel="noopener">official sample ballots</a> (41 pages, dated Sep 21, 2026), which carry these
     two propositions and no others. A scenario is arithmetic on the sponsor&rsquo;s terms, not a forecast, and nothing here
     says how to vote.</p>
-  <p>Built by <a href="https://jcurry44.github.io" rel="noopener">Joe Curry</a>, a North Tonawanda resident, from public records. Not
+  <p id="about">Built by <a href="https://jcurry44.github.io" rel="noopener">Joe Curry</a>, a North Tonawanda resident, from public records. Not
     affiliated with the City, the County or any campaign. Corrections welcome: every figure links to its source.</p>
   <p><a href="index.html">City money</a> &middot; <a href="index.html#taxes">Your tax bill</a> &middot; <a href="atlas.html">Every government</a></p>
   <div class="foot-fol"><a class="pl-fol pl-fol-foot" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div>
@@ -735,7 +738,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   function starts(t,w){var l=LONG[w];return t.some(function(x){return x.indexOf(w)===0||(l&&x.indexOf(l)===0)})}
   function hx(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
   [].forEach.call(document.querySelectorAll('.find[data-roll]'),function(box){
-    var id=box.id.slice(5),inp=$('addr-'+id),list=$('addrL-'+id),found=$('addrF-'+id),R=null,T=null,hits=[],act=-1,loading=false;
+    var id=box.id.slice(5),inp=$('addr-'+id),list=$('addrL-'+id),found=$('addrF-'+id),R=null,T=null,hits=[],act=-1,loading=false,moved=false;
     function load(){
       if(R||loading)return;loading=true;
       fetch(box.getAttribute('data-roll')).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
@@ -758,7 +761,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       list.innerHTML=hits.length?hits.map(function(i,j){return '<li role="option" id="addrO-'+id+'-'+j+'" aria-selected="false"><b>'+
         hx(R.a[i])+'</b><span>'+fmt(R.v[i])+'</span></li>'}).join('')
         :'<li class="none" role="option" aria-disabled="true">No address on the '+R.year+' roll matches. Try the house number and street name only; an apartment may be listed under its building&rsquo;s number.</li>';
-      list.hidden=false;inp.setAttribute('aria-expanded','true');mark(hits.length?0:-1);
+      list.hidden=false;inp.setAttribute('aria-expanded','true');mark(hits.length?0:-1);moved=false;
     }
     function pick(j){
       var i=hits[j];if(i==null)return;
@@ -766,6 +769,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       var av=$('calc-'+id).querySelector('[data-basis=av]');if(av&&av.getAttribute('aria-pressed')!=='true')av.click();
       var v=$('v-'+id);v.value=R.v[i].toLocaleString('en-US');v.dispatchEvent(new Event('input'));
       found.innerHTML='<b>'+hx(R.a[i])+'</b>: city taxable value <b>'+fmt(R.v[i])+'</b> on the '+R.year+' final roll, after any exemptions';
+      var ca=$('calc-'+id);ca.setAttribute('data-addr',R.a[i]);ca.setAttribute('data-av',R.v[i]);ca.setAttribute('data-year',R.year);v.dispatchEvent(new Event('input'));
       /* on a phone the answer sits ABOVE the search: bring it into view once the address is picked */
       if(window.matchMedia('(max-width:760px)').matches){var rm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
         $('o-'+id).scrollIntoView({block:'center',behavior:rm?'auto':'smooth'})}
@@ -775,7 +779,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
     inp.addEventListener('keydown',function(e){
       if(list.hidden&&e.key==='ArrowDown'){search();e.preventDefault();return}
       if(list.hidden)return;
-      if(e.key==='ArrowDown'){mark(Math.min(act+1,hits.length-1));e.preventDefault()}
+      if(e.key==='ArrowDown'){if(moved||act!==0)mark(Math.min(act+1,hits.length-1));moved=true;e.preventDefault()}
       else if(e.key==='ArrowUp'){mark(Math.max(act-1,0));e.preventDefault()}
       else if(e.key==='Enter'){if(act>=0){pick(act);e.preventDefault()}}
       else if(e.key==='Escape'){close();e.preventDefault()}
@@ -788,10 +792,15 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   /* the calculators */
   Object.keys(D.q).forEach(function(id){
     var q=D.q[id],inp=$('v-'+id),out=$('o-'+id),sub=$('os-'+id),basis='av',calc=$('calc-'+id);
+    function parcel(){var a=calc.getAttribute('data-addr'),pv=+calc.getAttribute('data-av')||0,v=num(inp.value);
+      if(!a||!pv)return null;return (basis==='av'?v===pv:v===Math.round(pv/D.ratio/1000)*1000)?{a:a,v:pv,y:calc.getAttribute('data-year')}:null}
     function run(){
-      var v=num(inp.value),av=basis==='mv'?v*D.ratio:v,tag=basis==='mv'?'worth '+fmt(v)+' (assessed about '+fmt(Math.round(av/100)*100)+')':'assessed at '+fmt(v)+(q.ratio&&v?' (about '+fmt(Math.round(v/D.ratio/1000)*1000)+' at market)':'');
+      var P=parcel(),jl=calc.querySelector('.jump');if(jl)jl.textContent=P?'Change address \u2193':'Your home: find your address \u2193';
+      if(!P&&num(inp.value)<1000){out.textContent='\u2014';sub.textContent='Enter '+(basis==='mv'?'what the home would sell for':'an assessed value')+' of $1,000 or more';
+        [].forEach.call(calc.querySelectorAll('[data-r]'),function(b){b.textContent='\u2014'});var t0=$('t-'+id);if(t0)t0.textContent='\u2014';return}
+      var v=num(inp.value),av=P?P.v:(basis==='mv'?v*D.ratio:v),tag=basis==='mv'?'worth '+fmt(v)+' (assessed about '+fmt(Math.round(av/100)*100)+')':'assessed at '+fmt(v)+(q.ratio&&v?' (about '+fmt(Math.round(v/D.ratio/1000)*1000)+' at market)':'');
       out.textContent=fmt(av*q.rate/1000);
-      sub.textContent=q.lead+', for a home '+tag;
+      sub.textContent=q.lead+(P?', for '+P.a+': taxable value '+fmt(P.v)+' on the '+P.y+' roll (about '+fmt(Math.round(P.v/D.ratio/1000)*1000)+' at market)':', for a home '+tag);
       [].forEach.call(calc.querySelectorAll('[data-r]'),function(b){
         var x=av*parseFloat(b.getAttribute('data-r'))/1000;b.textContent=(b.getAttribute('data-sign')?'−':'')+fmt(x,!!b.getAttribute('data-sign'));});
       var th=$('t-'+id);if(th)th.textContent=fmt(Math.round(av*q.rate/1000)*q.years);
@@ -802,10 +811,11 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       inp.value=num(p.getAttribute('data-v')).toLocaleString('en-US');run();});});
     [].forEach.call(calc.querySelectorAll('[data-basis]'),function(s){s.addEventListener('click',function(){
       var nb=s.getAttribute('data-basis');if(nb===basis||(nb==='mv'&&!q.ratio))return;
-      var v=num(inp.value);basis=nb;
+      var P0=parcel(),v=num(inp.value);basis=nb;
       [].forEach.call(calc.querySelectorAll('[data-basis]'),function(o){o.setAttribute('aria-pressed',o===s?'true':'false')});
       inp.setAttribute('aria-label',basis==='mv'?'Your home’s market value in dollars':'Your home’s assessed value in dollars');
-      if(v)inp.value=(Math.round((basis==='mv'?v/D.ratio:v*D.ratio)/1000)*1000).toLocaleString('en-US');
+      if(P0)inp.value=(basis==='mv'?Math.round(P0.v/D.ratio/1000)*1000:P0.v).toLocaleString('en-US');
+      else if(v)inp.value=(Math.round((basis==='mv'?v/D.ratio:v*D.ratio)/1000)*1000).toLocaleString('en-US');
       var pre=D.presets[basis];
       [].forEach.call(calc.querySelectorAll('[data-v]'),function(p,i){p.setAttribute('data-v',pre[i]);p.textContent='$'+pre[i]/1000+'K';});
       var hA=$('vhA-'+id);if(hA)hA.textContent=basis==='mv'?'Or type what your home would sell for today; the City assesses at '+
