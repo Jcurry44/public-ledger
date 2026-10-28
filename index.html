@@ -2478,6 +2478,54 @@ PL.scrubber=function(hit,h){
     if(moved){ moved=false; return; }          /* a scrub is not a choice */
     h.onTap(e.clientX);
   });
+};
+/* sparks - small multiples read together (Joe, 10-28): a sideways slide, a hover or a tap on any panel puts one year's hairline
+   and dot on EVERY panel and that year's figure in each panel's value line; lifting the finger or leaving with the mouse puts
+   the latest back (or the year a tap pinned - tap that year again to let go). panels: [{el, values, max}]: el holds a .spw (the
+   spark's box; its 200x38 viewBox is stretched across the box, so a value's height is the same 38px in CSS) and a .v line;
+   years: the x axis; fmt(value, year) -> the value line for that year (value null = nothing filed). */
+PL.sparks=function(panels,years,fmt){
+  var n=years.length, H=38, pin=null;
+  if(!document.getElementById('pl-sparks-css')){
+    var c=document.createElement('style'); c.id='pl-sparks-css';
+    c.textContent='.spw{position:relative;margin-top:6px}.spw svg{margin-top:0!important}'
+      +'.spw .sl{position:absolute;top:-3px;bottom:-3px;width:0;border-left:1px solid var(--muted);opacity:0;pointer-events:none}'
+      +'.spw .sd{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:currentColor;box-shadow:0 0 0 2px var(--card);opacity:0;pointer-events:none}'
+      +'.sm .sy{position:relative;height:15px;margin-top:5px;font-size:11.5px;line-height:15px;color:var(--faint)}'
+      +'.sm .sy span{position:absolute;top:0}.sm .sy .y0{left:0}.sm .sy .y1{right:0}.sm .sy .yb{transform:translateX(-50%)}'
+      +'.sm .v b{color:var(--ink);font-weight:600;margin-right:6px}';
+    (document.head||document.documentElement).appendChild(c);
+  }
+  function at(p,cx){ var r=p.w.getBoundingClientRect(); return Math.max(0,Math.min(n-1,Math.round((cx-r.left)/(r.width||1)*(n-1)))); }
+  function paint(i){
+    panels.forEach(function(p){
+      if(i==null){ p.sl.style.opacity=p.sd.style.opacity=0; p.v.innerHTML=p.v0; return; }
+      var v=p.values[i];
+      p.sl.style.left=p.sd.style.left=(i/(n-1)*100)+'%'; p.sl.style.opacity=1;
+      if(v==null) p.sd.style.opacity=0; else { p.sd.style.top=(H-(H-3)*(v/p.max)-1.5)+'px'; p.sd.style.opacity=1; }
+      p.v.innerHTML=fmt(v,years[i]);
+    });
+  }
+  panels.forEach(function(p){
+    p.w=p.el.querySelector('.spw'); p.v=p.el.querySelector('.v'); p.v0=p.v.innerHTML;
+    p.sl=document.createElement('i'); p.sl.className='sl'; p.sd=document.createElement('i'); p.sd.className='sd';
+    p.w.appendChild(p.sl); p.w.appendChild(p.sd);
+    PL.scrubber(p.el,{onMove:function(cx){ paint(at(p,cx)); }, onLeave:function(){ paint(pin); },
+                      onTap:function(cx){ var i=at(p,cx); pin=(pin===i?null:i); paint(pin); }});
+  });
+};
+/* the panels' shared year axis: first and last year, and the reporting-basis break where the spark draws it */
+PL.sparks.axis=function(years,brk){
+  var n=years.length, bi=years.indexOf(brk), at=(bi-.5)/(n-1)*100;
+  return '<div class="sy num" aria-hidden="true"><span class="y0">'+years[0]+'</span>'+
+    (bi>0&&at>18&&at<82 ? '<span class="yb" style="left:'+at.toFixed(2)+'%">'+brk+'</span>' : '')+
+    '<span class="y1">'+years[n-1]+'</span></div>';
+};
+/* the break itself, drawn into a 200x38 spark: a dashed rule between the last year of the old basis and the first of the new */
+PL.sparks.brk=function(years,brk){
+  var bi=years.indexOf(brk); if(bi<1) return '';
+  var x=(200*(bi-.5)/(years.length-1)).toFixed(1);
+  return '<line x1="'+x+'" x2="'+x+'" y1="0" y2="38" stroke="var(--rule-strong)" stroke-dasharray="2 3" vector-effect="non-scaling-stroke"/>';
 };})();
 
 (function(){
@@ -4192,6 +4240,7 @@ function drillHTML(year, sec, label, cssVar){
     }).join('')+'</tbody></table>';
   if(!rows.length)
     h+='<p class="lede">Nothing matches both selections — clear one above.</p>';
+  h+='<p class="note">Group and line names are the State Comptroller&rsquo;s, for the account codes the City files.</p>';
   return h;
 }
 
@@ -4323,7 +4372,7 @@ function sparkSVG(values, color, max){
     '<path d="'+d+' L'+W+' '+H+' L0 '+H+' Z" fill="var('+color+')" opacity=".12"/>'+
     '<path d="'+d+'" fill="none" stroke="var('+color+')" stroke-width="2" vector-effect="non-scaling-stroke"/>'+
     '<line x1="'+x(li).toFixed(1)+'" x2="'+x(li).toFixed(1)+'" y1="'+(y(values[li])-4).toFixed(1)+'" y2="'+(y(values[li])+4).toFixed(1)+
-      '" stroke="var('+color+')" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg>';
+      '" stroke="var('+color+')" stroke-width="2.5" vector-effect="non-scaling-stroke"/>'+PL.sparks.brk(O.years,O.schemaBreak)+'</svg>';
 }
 function pctChange(a,b){
   if(!a) return b?'new':'—';
@@ -4778,11 +4827,18 @@ function renderTab(tab){
       return '<div class="sm"><div class="n">'+esc(s.label)+'</div>'+
         '<div class="v num">'+money0(s.last)+' <span style="color:var(--faint)">'+
           pctChange(f>=0?s.values[f]:0, s.last)+' since '+(f>=0?O.years[f]:O.years[0])+'</span></div>'+
-        sparkSVG(s.values,col, own?null:gmax)+'</div>';
+        '<div class="spw" style="color:var('+col+')">'+sparkSVG(s.values,col, own?null:gmax)+'</div>'+
+        PL.sparks.axis(O.years,O.schemaBreak)+'</div>';
     }).join('');
   }
+  /* read together: one year across every panel (the chrome's PL.sparks) */
+  function bind(){
+    var els=document.querySelectorAll('#cmpPanels .sm');
+    PL.sparks(live.map(function(s,k){ return {el:els[k], values:s.values, max:MODAL.cmpOwn?(Math.max.apply(null,s.values)||1):gmax}; }),
+      O.years, function(v,yr){ return '<b>'+yr+'</b>'+(v==null?'not filed':money0(v)); });
+  }
   body.innerHTML='<h4>Each part of '+esc(label)+', '+O.years[0]+'–'+O.years[iLast]+
-      ' <span style="text-transform:none;letter-spacing:0;font-weight:500">&middot; end tick = the latest filing</span></h4>'+
+      ' <span style="text-transform:none;letter-spacing:0;font-weight:500">&middot; slide or hover across a panel to read any year</span></h4>'+
     '<div class="seg" id="cmpScale" role="group" aria-label="Scale"><button type="button" data-own="0" aria-pressed="'+(!MODAL.cmpOwn)+'">One shared scale</button>'+
       '<button type="button" data-own="1" aria-pressed="'+(!!MODAL.cmpOwn)+'">Each to its own maximum</button></div>'+
     '<div class="small" id="cmpPanels">'+panels()+'</div>'+
@@ -4795,13 +4851,15 @@ function renderTab(tab){
     document.getElementById('cmpScaleNote').textContent = MODAL.cmpOwn
       ? 'Each panel is scaled to its own maximum: read the shape and the figures, not the relative heights between panels.'
       : 'Every panel shares one scale (the largest part sets it, '+money0(gmax)+'), so heights compare across panels as well as shapes.';
+    if(O.years.indexOf(O.schemaBreak)>0)
+      document.getElementById('cmpScaleNote').textContent+=' The dashed line is the '+O.schemaBreak+' reporting-basis change.';
   }
-  note();
+  note(); bind();
   document.getElementById('cmpScale').addEventListener('click',function(e){
     var b=e.target.closest('button[data-own]'); if(!b) return;
     MODAL.cmpOwn = b.getAttribute('data-own')==='1';
     [].forEach.call(this.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
-    document.getElementById('cmpPanels').innerHTML=panels(); note();
+    document.getElementById('cmpPanels').innerHTML=panels(); note(); bind();
   });
 }
 /* ---- the Pace S-curve: one function for the sheet and the small multiples ----
