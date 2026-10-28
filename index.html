@@ -2247,21 +2247,29 @@ PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
 /* the Trend sentence (Joe + Fable, 10-28): the filed change first, the change in prices beside it - stated, never netted,
    since the two ends can sit on different reporting bases - then the share as a plain fraction ('one dollar in five').
    t = {v0, vN, y0, yN, s0, sN, cpi, of, yL, vL, sL}: the first and latest filed amounts and years, their shares of the total
-   (%), the CPI-U annual averages by year (absent = no price clause), what the share is of ('city spending'), and the last
-   year anything was filed with its amount and share (when the latest is zero). */
+   (%), the CPI-U annual averages by year (absent = no price clause), what the share is of ('city spending'), the last
+   year anything was filed with its amount and share (when the latest is zero), the first and latest per-resident
+   amounts (p0, pN; absent = no clause), and drill (figures as buttons). */
 PL.trendSentence=function(t){
-  var pc=(t.vN-t.v0)/t.v0*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  if(!(t.v0>0)) return '';
+  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
   function fp(s){ return s<0.05?'under 0.1%':s.toFixed(1)+'%'; }
+  /* drill: each figure is a button - the change and the prices open their workings, the share and the per-resident
+     figures switch the chart to that lens (PL.trendTab) */
+  function btn(k,v,txt){ return t.drill?'<button type="button" class="tnum" '+k+'="'+v+'">'+txt+'</button>':txt; }
   /* a category no longer filed says so, never 'Down 100%' */
   if(!t.vN&&t.vL) return '<b>Nothing filed after '+t.yL+'.</b> Its last filing, '+PL.money0(t.vL)+', was '+fp(t.sL)+' of '+t.of+'.';
-  var h='<b>'+(Math.round(pc)===0?'About level':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%')+' since '+t.y0;
-  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'; }
+  /* past four times the first year, a multiple reads better than a percent ('Up 13x', not 'Up 1213%') */
+  var chg=Math.round(pc)===0?'About level':r>4?'Up '+(r>=10?Math.round(r):r.toFixed(1))+'&times;':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%';
+  var h='<b>'+btn('data-tw','chg',chg)+' since '+t.y0;
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'); }
   h+='.</b> ';
   function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=10&&Math.abs(100/n-s)<=1.5)?n:0; }   /* 'one in nineteen' is not how anyone talks */
   var n0=frac(t.s0), nN=frac(t.sN);
-  if(n0&&n0===nN) h+='About one dollar in '+PL.numword(n0)+' of '+t.of+', then and now.';
-  else if(n0&&nN) h+='From one dollar in '+PL.numword(n0)+' of '+t.of+' to one in '+PL.numword(nN)+'.';
-  else h+='From '+fp(t.s0)+' of '+t.of+' to '+fp(t.sN)+'.';
+  if(n0&&n0===nN) h+='About '+btn('data-lens','share','one dollar in '+PL.numword(n0))+' of '+t.of+', then and now.';
+  else if(n0&&nN) h+='From '+btn('data-lens','share','one dollar in '+PL.numword(n0))+' of '+t.of+' to one in '+PL.numword(nN)+'.';
+  else h+='From '+btn('data-lens','share',fp(t.s0))+' of '+t.of+' to '+fp(t.sN)+'.';
+  if(t.p0&&t.pN) h+=' '+btn('data-lens','pc','Per resident, '+PL.money0(t.p0)+' in '+t.y0+' and '+PL.money0(t.pN)+' in '+t.yN)+'.';
   return h;
 };})();
 
@@ -2550,6 +2558,205 @@ PL.sparks.brk=function(years,brk){
   var bi=years.indexOf(brk); if(bi<1) return '';
   var x=(200*(bi-.5)/(years.length-1)).toFixed(1);
   return '<line x1="'+x+'" x2="'+x+'" y1="0" y2="38" stroke="var(--rule-strong)" stroke-dasharray="2 3" vector-effect="non-scaling-stroke"/>';
+};
+/* spot - where a label can sit on a plot: candidates in order, each boxed (text width ~0.62em a character) against the
+   plotted lines (sampled between their points) and the given boxes; the first clear one wins, null = no room */
+PL.chartSpot=function(o){
+  var fs=o.fs;                                   /* the caller's label size (already at or over the SVG text floor) */
+  var w=o.text.length*fs*0.62, pad=3;
+  function box(c){ var x0=c.a==='end'?c.x-w:c.x; return [x0-pad, c.y-fs*0.85-pad, x0+w+pad, c.y+fs*0.3+pad]; }
+  function hitBox(b,r){ return b[0]<r[2]&&r[0]<b[2]&&b[1]<r[3]&&r[1]<b[3]; }
+  function hitLine(b,pts){
+    for(var i=1;i<pts.length;i++){ var p=pts[i-1], q=pts[i]; if(!p||!q) continue;
+      if(Math.max(p[0],q[0])<b[0]||Math.min(p[0],q[0])>b[2]) continue;
+      for(var t=0;t<=1.0001;t+=0.05){ var X=p[0]+(q[0]-p[0])*t, Y=p[1]+(q[1]-p[1])*t; if(X>=b[0]&&X<=b[2]&&Y>=b[1]&&Y<=b[3]) return true; }
+    }
+    return false;
+  }
+  for(var k=0;k<o.cands.length;k++){
+    var c=o.cands[k], b=box(c);
+    if(b[1]<o.top||b[3]>o.bottom||b[0]<o.left||b[2]>o.right) continue;
+    if(o.lines.some(function(L){ return hitLine(b,L); })||o.boxes.some(function(r){ return hitBox(b,r); })) continue;
+    return c;
+  }
+  return null;
+};
+/* the price yardstick's name: on the plot at the first clear place (its line's end, above or below; the plot's top right,
+   top left), clear of the filed line, the yardstick, the marks and their years, the rings and the 2013 name; else a key
+   under the plot. {svg, key}: exactly one is non-empty */
+PL.refLabel=function(o){
+  var fs=o.fs;
+  var w=o.text.length*fs*0.62, rx=o.W-o.mr, ys=[], boxes=[];
+  function pts(a){ return a.map(function(v,i){ return v==null?null:[o.x(i),o.y(v)]; }); }
+  for(var j=0;j<=o.rl;j++) if(o.ref[j]!=null&&o.x(j)>=rx-w-12) ys.push(o.y(o.ref[j]));
+  var lo=Math.min.apply(null,ys), hi=Math.max.apply(null,ys), hw=2*fs*0.62+2;
+  o.marks.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]);
+    boxes.push([cx-7,cy-7,cx+7,cy+7]); boxes.push([cx-2*hw,cy-9-fs,cx+hw,cy-5]); });
+  o.rings.forEach(function(i){ if(o.values[i]==null) return; var cx=o.x(i), cy=o.y(o.values[i]); boxes.push([cx-9,cy-9,cx+9,cy+9]); });
+  if(o.brk){ var bw=o.brk[2].length*fs*0.62/2+2; boxes.push([o.brk[0]-bw,o.brk[1]-fs,o.brk[0]+bw,o.brk[1]+3]); }
+  var c=PL.chartSpot({text:o.text, fs:fs, lines:[pts(o.values),pts(o.ref)], boxes:boxes, top:0, bottom:o.H-o.mb, left:o.ml, right:o.W,
+    cands:[{x:rx,y:lo-7,a:'end'},{x:rx,y:hi+fs+4,a:'end'},{x:rx,y:o.mt+fs+2,a:'end'},{x:o.ml+6,y:o.mt+fs+2,a:'start'}]});
+  if(!c) return {svg:'', key:o.text};
+  return {svg:'<text class="'+o.cls+'" x="'+c.x.toFixed(1)+'" y="'+c.y.toFixed(1)+'" text-anchor="'+c.a+'" font-size="'+fs+'">'+o.text+'</text>', key:''};
+};
+/* trend - the category sheet's Trend tab, ONE implementation for the front page and the county family (Joe + Fable r5/r6,
+   10-28). A sentence (the filed change, prices beside it, the share as a plain fraction, per resident) whose figures open
+   their workings or switch the lens; a Dollars / Share / Per resident lens on one chart with a price yardstick; year chips
+   (the latest, then the marked events with the line that moved most); and what moved in the chosen year, each line opening
+   its own history (the page's tr[data-acct] handler). E = {body, label, sec, years, brk, cpi, pop, vals, tot, col, of, esc,
+   renderLine, rowsAt(i) -> [{narr, acct, was, cur, d}] by |d|, state}. The lens is kept per sheet; year and workings per
+   category. */
+PL.trendTab=function(E){
+  var Y=E.years, V=E.vals, n=Y.length, S=E.state, esc=E.esc, M0=PL.money0, HOV=window.matchMedia('(hover:hover)').matches;
+  if(!document.getElementById('pl-trend-css')){
+    var c=document.createElement('style'); c.id='pl-trend-css';
+    c.textContent='.tnum{font:inherit;color:inherit;background:none;border:0;margin:0;padding:1px 0;cursor:pointer;text-align:inherit;'
+      +'text-decoration:underline;text-decoration-style:dotted;text-decoration-thickness:1.5px;text-underline-offset:4px}'
+      +'.tnum[aria-expanded=true],.tnum[aria-pressed=true]{text-decoration-style:solid}'
+      +'.twork{margin:-6px 0 14px;padding:10px 12px;border-radius:9px;background:var(--card);border:1px solid var(--rule-strong);font-size:13.5px;line-height:1.55;color:var(--ink)}'
+      +'.twork p{margin:0}.tlens{margin:0 0 8px}'
+      +'.tchips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 16px}'
+      +'.tchip{min-height:36px;padding:6px 12px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer;font-variant-numeric:tabular-nums}'
+      +'.tchip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}'
+      +'.tbrk{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 12px}'
+      +'.mvt{width:100%;border-collapse:collapse;font-size:13px}'
+      +'.mvt th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:left;font-weight:600;padding:7px 8px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}'
+      +'.mvt td{padding:8px;border-bottom:1px solid var(--rule);vertical-align:middle}.mvt .r{text-align:right;white-space:nowrap}'
+      +'.mvt .mc{color:var(--faint);font-size:12px}.mvt .mr{display:none}.mvt .md{font-weight:600}.mvt .mb,.mvt .mbh{width:120px;padding-left:14px}'
+      +'.mvt tr[data-acct]{cursor:pointer}.mvt tr[data-acct]:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}'
+      +'@media (hover:hover){.mvt tr[data-acct]:hover td{background:var(--accent-soft)}}'
+      +'.tdv{position:relative;display:block;width:100%;height:8px;border-radius:3px;background:var(--gridline)}'
+      +'.tdv::before{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--ink);opacity:.55}'
+      +'.tdv i{position:absolute;top:0;bottom:0;display:block;background:var(--ink)}.tdv i.o{left:50%;border-radius:0 3px 3px 0}'
+      +'.tdv i.u{right:50%;border-radius:3px 0 0 3px;background:repeating-linear-gradient(135deg,var(--ink) 0 2px,transparent 2px 4px);box-shadow:inset 0 0 0 1px var(--ink)}'
+      +'.tfoot{font-size:12.5px;line-height:1.5;color:var(--muted);margin:8px 0 0}'
+      +'@media (max-width:640px){.mvt,.mvt tbody{display:block;width:100%}.mvt thead{display:none}'
+      +'.mvt tr{display:grid;grid-template-columns:1fr auto;gap:3px 12px;padding:10px 2px;border-bottom:1px solid var(--rule)}'
+      +'.mvt td{display:block;padding:0;border:0}.mvt td.mn{grid-row:1;grid-column:1;font-weight:600}'
+      +'.mvt .mr{display:block;font-weight:400;font-size:12.5px;color:var(--muted);margin-top:2px}'
+      +'.mvt td.m1,.mvt td.m2{display:none}.mvt td.md{grid-row:1;grid-column:2;text-align:right}'
+      +'.mvt td.mb{grid-row:2;grid-column:1/-1;width:auto;padding:5px 0 0}'
+      +'.mvt tr.acct-hist{display:block;padding:0}.mvt tr.acct-hist td{display:block;width:100%}}';
+    (document.head||document.documentElement).appendChild(c);
+  }
+  var share=V.map(function(v,i){ return v==null?null:(E.tot[i]?v/E.tot[i]*100:0); });
+  var per=E.pop?V.map(function(v,i){ var p=E.pop[Y[i]]; return v==null||!p?null:v/p; }):null;
+  var i0=V.findIndex(function(v){ return v>0; }); if(i0<0) i0=0;
+  var iN=n-1; while(iN>0&&V[iN]==null) iN--;
+  var iL=iN; while(iL>i0&&!V[iL]) iL--;
+  var t0=Y[i0], tN=Y[iN], c0=E.cpi&&E.cpi[t0], cN=E.cpi&&E.cpi[tN];
+  var key=E.sec+'|'+E.label; if(S.tKey!==key){ S.tKey=key; S.tSel=null; S.tWork=null; }
+  if(!S.tLens||(S.tLens==='pc'&&!per)) S.tLens='usd';
+  function grow(a){ return (c0&&cN&&a&&a[i0]!=null)?Y.map(function(yr,i){ return i<i0||!E.cpi[yr]?null:a[i0]*E.cpi[yr]/c0; }):null; }
+  function sh(v){ v=Math.abs(v); return v<1000?M0(v):PL.fmtM1(v); }
+  var dAt=function(k){ return (V[k]||0)-(V[k-1]||0); };
+  /* the events worth a mark, at most two; a move that reverses the one before it (opposite sign, at least 0.6 of its size)
+     belongs to that earlier year's event */
+  var moves=[], marks=[];
+  for(var mi=1;mi<n;mi++) if(Y[mi]!==E.brk&&V[mi]!=null&&V[mi-1]!=null) moves.push([Math.abs(dAt(mi)),mi]);
+  moves.sort(function(a,b){ return b[0]-a[0]; });
+  var ev=function(i){ var a=dAt(i-1), b=dAt(i);
+    return (i>1&&V[i-2]!=null&&Y[i-1]!==E.brk&&a*b<0&&Math.min(Math.abs(a),Math.abs(b))>=0.6*Math.max(Math.abs(a),Math.abs(b)))?i-1:i; };
+  moves.forEach(function(m){ var e=ev(m[1]); if(marks.length<2&&marks.indexOf(e)<0) marks.push(e); });
+  /* why: the account line that moved most that year (an H account is a capital-project fund) */
+  function why(i){ var r=E.rowsAt(i)[0]; if(!r) return '';
+    var nm=/^H/.test(r.acct)?'capital':String(r.narr).split(',')[0];
+    if(nm.length>22) nm=nm.slice(0,22).replace(/\s+\S*$/,'').replace(/\s+(and|of|to|for|the|&)$/i,'')+'\u2026';   /* cut at a word, never mid-word */
+    return nm+' '+(r.d<0?PL.MINUS:'+')+sh(r.d); }
+  var lensB=[['usd','Dollars'],['share','Share of '+(E.sec?'spending':'revenue')]].concat(per?[['pc','Per resident']]:[]);
+  E.body.innerHTML='<p class="tsent">'+PL.trendSentence({v0:V[i0], vN:V[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:E.cpi, of:E.of,
+      yL:Y[iL], vL:V[iL], sL:share[iL], p0:per&&per[i0], pN:per&&per[iN], drill:true})+'</p><div class="twork" id="tWork" hidden></div>'+
+    '<h4>'+esc(E.label)+', '+t0+'–'+tN+' <span style="text-transform:none;letter-spacing:0;font-weight:500">&middot; '+
+      (HOV?'hover to read a year, click one for what moved':'slide to read a year, tap one for what moved')+'</span></h4>'+
+    '<div class="seg tlens" role="group" aria-label="Measure">'+lensB.map(function(b){
+      return '<button type="button" data-lens="'+b[0]+'" aria-pressed="false">'+b[1]+'</button>'; }).join('')+'</div>'+
+    '<div id="mLine"></div><div class="tchips" id="tChips" role="group" aria-label="Open a year"></div><div id="mMove"></div><p class="note" id="tNote"></p>';
+  var pins=null;
+  function lens(){ var L=S.tLens;
+    if(L==='share') return {v:share, pct:true, ref:null, name:'Share of '+E.of, short:function(v){ return v.toFixed(1)+'%'; }};
+    if(L==='pc') return {v:per, ref:grow(per), name:E.label+' per resident', short:function(v){ return '$'+Math.round(v); }};
+    return {v:V, ref:grow(V), name:E.label, short:sh};
+  }
+  function draw(){
+    var l=lens();
+    E.renderLine(document.getElementById('mLine'), l.v, {color:E.col, name:l.name, pct:!!l.pct, marks:marks, sel:S.tSel, ref:l.ref,
+      refFrom:i0, short:l.short, brkLabel:true, pins:pins, onPick:function(i){ if(i>0) pick(i); }});
+    var t='';
+    if(S.tLens==='usd'&&l.ref) t='The dashed line is '+t0+'&rsquo;s '+M0(V[i0])+' grown only by consumer prices (CPI-U, '+
+      '<a href="https://data.bls.gov/timeseries/CUUR0000SA0" rel="noopener">Bureau of Labor Statistics</a>). ';
+    else if(S.tLens==='pc') t='Per resident: each year&rsquo;s amount divided by the <a href="https://www.census.gov/programs-surveys/popest.html" rel="noopener">Census Bureau&rsquo;s</a> '+
+      'July 1 population estimate for that year (its 1990s estimates were never revised to the 2000 census)'+(l.ref?'; the dashed line is '+t0+'&rsquo;s '+
+      M0(per[i0])+' a resident grown only by consumer prices':'')+'. ';
+    else if(S.tLens==='share') t='Share: this category divided by total '+(E.sec?'spending':'revenue')+' each year. ';
+    document.getElementById('tNote').innerHTML=t+'Figures either side of '+E.brk+' sit on different reporting bases and are not strictly comparable.';
+    mark();
+  }
+  function chips(){
+    var ys=(V[iN]||V[iN-1]?[iN]:[]).concat(marks.filter(function(i){ return i!==iN; }).sort(function(a,b){ return a-b; }));   /* no 'latest' chip for a year of nothing */
+    if(S.tSel!=null&&ys.indexOf(S.tSel)<0) ys.push(S.tSel);
+    document.getElementById('tChips').innerHTML=ys.filter(function(i){ return i>0&&V[i-1]!=null; }).map(function(i){
+      var w=i===iN?'latest':(marks.indexOf(i)>=0?why(i):'');
+      return '<button type="button" class="tchip" data-ty="'+i+'" aria-pressed="'+(S.tSel===i)+'">'+Y[i]+(w?' &middot; '+esc(w):'')+'</button>';
+    }).join('');
+  }
+  function move(i){
+    var el=document.getElementById('mMove'); if(i==null){ el.innerHTML=''; return; }
+    var rows=E.rowsAt(i), top=rows.slice(0,7), prev=Y[i-1], yr=Y[i];
+    var net=(V[i]||0)-(V[i-1]||0), covered=top.reduce(function(s,r){ return s+r.d; },0);
+    var mx=top.reduce(function(m,r){ return Math.max(m,Math.abs(r.d)); },0);
+    var h='<h4>What moved in '+yr+' <span style="text-transform:none;letter-spacing:0">— vs '+prev+', net '+(net<0?PL.MINUS:'+')+M0(Math.abs(net))+'</span></h4>';
+    if(yr===E.brk||prev===E.brk) h+='<div class="tbrk">This pair straddles the '+E.brk+' reporting-basis change — part of any move here is definitional.</div>';
+    if(top.length) h+='<table class="mvt"><thead><tr><th>Account line</th><th class="r">'+prev+'</th><th class="r">'+yr+'</th><th class="r">Change</th>'+
+        '<th class="mbh" aria-hidden="true">down &#9666; &#9656; up</th></tr></thead><tbody>'+
+      top.map(function(r){
+        var flag=r.was===0?'<span class="flag">NEW</span>':(r.cur===0?'<span class="flag">ENDED</span>':''), w=mx?Math.min(100,Math.abs(r.d)/mx*100):0;
+        return '<tr data-acct="'+esc(r.acct)+'" role="button" tabindex="0"><td class="mn">'+esc(r.narr)+flag+' <span class="mc num">'+esc(r.acct)+'</span>'+
+            '<span class="mr num">'+M0(r.was)+' &rarr; '+M0(r.cur)+'</span></td>'+
+          '<td class="r num m1">'+M0(r.was)+'</td><td class="r num m2">'+M0(r.cur)+'</td>'+
+          '<td class="r num md"><span aria-hidden="true">'+(r.d>=0?'&#9650;':'&#9660;')+' </span>'+(r.d<0?PL.MINUS:'+')+M0(Math.abs(r.d))+'</td>'+
+          '<td class="mb"><span class="tdv" aria-hidden="true"><i class="'+(r.d>=0?'o':'u')+'" style="width:'+(w/2).toFixed(1)+'%"></i></span></td></tr>';
+      }).join('')+'</tbody></table>';
+    h+='<p class="tfoot">'+(!top.length?'Nothing was filed under '+esc(E.label)+' in '+prev+' or '+yr+'.':
+        (top.length===1?'This one account line explains ':'These '+PL.numword(top.length)+' account lines explain ')+
+        (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+' of the net move. '+(HOV?'Select':'Tap')+' a line for its history.')+
+      (top.some(function(r){ return /^H/.test(r.acct); })?' Accounts beginning H are capital-project funds — one-time outlays, not operating growth.':'')+'</p>';
+    el.innerHTML=h;
+  }
+  function pick(i){ S.tSel=i; draw(); chips(); move(i); }
+  function work(k){
+    var el=document.getElementById('tWork');
+    if(!k||S.tWork===k){ S.tWork=null; el.hidden=true; pins=null; draw(); return; }
+    S.tWork=k; var h='';
+    if(k==='chg'){ var r=V[iN]/V[i0];
+      h=t0+' <b class="num">'+M0(V[i0])+'</b> &rarr; '+tN+' <b class="num">'+M0(V[iN])+'</b>: '+(V[iN]>=V[i0]?'+':PL.MINUS)+M0(Math.abs(V[iN]-V[i0]))+
+        ', '+r.toFixed(2)+' times the '+t0+' amount. Both years are ringed on the chart.';
+      pins=[i0,iN]; S.tLens='usd';
+    } else {
+      var g=cN/c0;
+      h='Consumer prices (CPI-U, U.S. city average, annual average): <b class="num">'+c0+'</b> in '+t0+' &rarr; <b class="num">'+cN+'</b> in '+tN+
+        ', &times;'+g.toFixed(3)+'. At that pace alone, '+t0+'&rsquo;s '+M0(V[i0])+' would be <b class="num">'+M0(V[i0]*g)+'</b> in '+tN+': the dashed line.';
+      pins=null; S.tLens='usd';
+    }
+    el.innerHTML='<p>'+h+'</p>'; el.hidden=false; draw();
+  }
+  function mark(){
+    [].forEach.call(E.body.querySelectorAll('[data-lens]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-lens')===S.tLens)); });
+    [].forEach.call(E.body.querySelectorAll('.tnum[data-tw]'),function(b){ b.setAttribute('aria-expanded',String(b.getAttribute('data-tw')===S.tWork)); });
+  }
+  PL._trendClick=function(e){
+    if(!document.getElementById('tChips')) return;
+    var b=e.target.closest('[data-lens],[data-tw],[data-ty]'); if(!b||!E.body.contains(b)) return;
+    if(b.hasAttribute('data-lens')){ S.tLens=b.getAttribute('data-lens');
+      if(S.tWork){ S.tWork=null; pins=null; document.getElementById('tWork').hidden=true; } draw(); return; }
+    if(b.hasAttribute('data-tw')){ work(b.getAttribute('data-tw')); return; }
+    pick(+b.getAttribute('data-ty'));
+  };
+  if(!E.body._plTrend){ E.body._plTrend=1; E.body.addEventListener('click',function(e){ if(PL._trendClick) PL._trendClick(e); }); }
+  /* open on the latest filing - what moved this year is a resident's question; a category no longer filed opens on its last move */
+  if(S.tSel==null){ var kN=iN; while(kN>1&&!V[kN]&&!V[kN-1]) kN--; S.tSel=(kN>0&&V[kN-1]!=null)?kN:null; }
+  var w0=S.tWork; S.tWork=null;
+  draw(); chips(); move(S.tSel);
+  if(w0) work(w0);
 };})();
 
 (function(){
@@ -3602,6 +3809,713 @@ PL.jump=function(el,block){
  }
 }
 </script>
+<script id="pop-data" type="application/json">{
+ "what": "July 1 resident population estimates, U.S. Census Bureau Population Estimates Program",
+ "read": "2026-10-28",
+ "series_used": {
+  "1995-1999": "https://www2.census.gov/programs-surveys/popest/tables/1990-2000/cities/totals/su-99-10_ny.txt",
+  "2000-2009": "https://www2.census.gov/programs-surveys/popest/datasets/2000-2010/intercensal/cities/sub-est00int.csv",
+  "2010-2019": "https://www2.census.gov/programs-surveys/popest/datasets/2010-2020/intercensal/cities/sub-est2020int.csv",
+  "2020-2025": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_36.csv"
+ },
+ "note": "Cities and towns: county subdivisions (a town includes its villages). Villages: places. Built by tools/build_population.py.",
+ "series": {
+  "city-lockport": {
+   "1995": 23414,
+   "1996": 23189,
+   "1997": 22910,
+   "1998": 22567,
+   "1999": 22277,
+   "2000": 22367,
+   "2001": 22168,
+   "2002": 22032,
+   "2003": 21937,
+   "2004": 21813,
+   "2005": 21632,
+   "2006": 21475,
+   "2007": 21350,
+   "2008": 21259,
+   "2009": 21192,
+   "2010": 21179,
+   "2011": 21131,
+   "2012": 21113,
+   "2013": 21109,
+   "2014": 21044,
+   "2015": 20969,
+   "2016": 20932,
+   "2017": 21003,
+   "2018": 20959,
+   "2019": 20924,
+   "2020": 20827,
+   "2021": 20734,
+   "2022": 20544,
+   "2023": 20420,
+   "2024": 20343,
+   "2025": 20248
+  },
+  "city-niagara-falls": {
+   "1995": 58659,
+   "1996": 58192,
+   "1997": 57505,
+   "1998": 56668,
+   "1999": 55928,
+   "2000": 55377,
+   "2001": 54661,
+   "2002": 54083,
+   "2003": 53618,
+   "2004": 53079,
+   "2005": 52399,
+   "2006": 51777,
+   "2007": 51262,
+   "2008": 50815,
+   "2009": 50430,
+   "2010": 50025,
+   "2011": 49907,
+   "2012": 49791,
+   "2013": 49710,
+   "2014": 49584,
+   "2015": 49388,
+   "2016": 49254,
+   "2017": 49108,
+   "2018": 48993,
+   "2019": 48831,
+   "2020": 48560,
+   "2021": 48352,
+   "2022": 47919,
+   "2023": 47621,
+   "2024": 47464,
+   "2025": 47255
+  },
+  "city-north-tonawanda": {
+   "1995": 33904,
+   "1996": 33629,
+   "1997": 33291,
+   "1998": 32853,
+   "1999": 32443,
+   "2000": 33213,
+   "2001": 32935,
+   "2002": 32722,
+   "2003": 32596,
+   "2004": 32421,
+   "2005": 32160,
+   "2006": 31934,
+   "2007": 31783,
+   "2008": 31668,
+   "2009": 31592,
+   "2010": 31557,
+   "2011": 31470,
+   "2012": 31320,
+   "2013": 31204,
+   "2014": 31083,
+   "2015": 30946,
+   "2016": 30833,
+   "2017": 30714,
+   "2018": 30716,
+   "2019": 30605,
+   "2020": 30435,
+   "2021": 30400,
+   "2022": 30158,
+   "2023": 30003,
+   "2024": 29915,
+   "2025": 29806
+  },
+  "county": {
+   "1995": 221266,
+   "1996": 220623,
+   "1997": 219500,
+   "1998": 217788,
+   "1999": 216164,
+   "2000": 219620,
+   "2001": 218552,
+   "2002": 218127,
+   "2003": 218072,
+   "2004": 217737,
+   "2005": 216818,
+   "2006": 216148,
+   "2007": 215791,
+   "2008": 215793,
+   "2009": 216043,
+   "2010": 216570,
+   "2011": 216209,
+   "2012": 215596,
+   "2013": 215384,
+   "2014": 214977,
+   "2015": 214424,
+   "2016": 213976,
+   "2017": 213719,
+   "2018": 213495,
+   "2019": 213145,
+   "2020": 212118,
+   "2021": 211778,
+   "2022": 210403,
+   "2023": 209451,
+   "2024": 209380,
+   "2025": 208912
+  },
+  "town-cambria": {
+   "1995": 5313,
+   "1996": 5356,
+   "1997": 5379,
+   "1998": 5390,
+   "1999": 5402,
+   "2000": 5397,
+   "2001": 5425,
+   "2002": 5465,
+   "2003": 5519,
+   "2004": 5565,
+   "2005": 5598,
+   "2006": 5637,
+   "2007": 5677,
+   "2008": 5731,
+   "2009": 5789,
+   "2010": 5857,
+   "2011": 5857,
+   "2012": 5831,
+   "2013": 5833,
+   "2014": 5810,
+   "2015": 5780,
+   "2016": 5784,
+   "2017": 5774,
+   "2018": 5769,
+   "2019": 5752,
+   "2020": 5748,
+   "2021": 5743,
+   "2022": 5732,
+   "2023": 5723,
+   "2024": 5725,
+   "2025": 5727
+  },
+  "town-hartland": {
+   "1995": 4049,
+   "1996": 4055,
+   "1997": 4063,
+   "1998": 4069,
+   "1999": 4049,
+   "2000": 4170,
+   "2001": 4152,
+   "2002": 4139,
+   "2003": 4139,
+   "2004": 4133,
+   "2005": 4115,
+   "2006": 4102,
+   "2007": 4099,
+   "2008": 4101,
+   "2009": 4107,
+   "2010": 4102,
+   "2011": 4077,
+   "2012": 4053,
+   "2013": 4029,
+   "2014": 4013,
+   "2015": 3985,
+   "2016": 3959,
+   "2017": 3944,
+   "2018": 3923,
+   "2019": 3897,
+   "2020": 3873,
+   "2021": 3867,
+   "2022": 3834,
+   "2023": 3808,
+   "2024": 3809,
+   "2025": 3803
+  },
+  "town-lewiston": {
+   "1995": 15771,
+   "1996": 15763,
+   "1997": 15762,
+   "1998": 15744,
+   "1999": 15655,
+   "2000": 16264,
+   "2001": 16200,
+   "2002": 16265,
+   "2003": 16282,
+   "2004": 16292,
+   "2005": 16259,
+   "2006": 16255,
+   "2007": 16196,
+   "2008": 16205,
+   "2009": 16224,
+   "2010": 16265,
+   "2011": 16168,
+   "2012": 16127,
+   "2013": 16114,
+   "2014": 16089,
+   "2015": 16135,
+   "2016": 16029,
+   "2017": 16003,
+   "2018": 15892,
+   "2019": 15955,
+   "2020": 15912,
+   "2021": 15831,
+   "2022": 15739,
+   "2023": 15683,
+   "2024": 15700,
+   "2025": 15676
+  },
+  "town-lockport": {
+   "1995": 18691,
+   "1996": 18693,
+   "1997": 18659,
+   "1998": 18601,
+   "1999": 18590,
+   "2000": 19527,
+   "2001": 19561,
+   "2002": 19667,
+   "2003": 19793,
+   "2004": 19897,
+   "2005": 19946,
+   "2006": 20019,
+   "2007": 20108,
+   "2008": 20239,
+   "2009": 20391,
+   "2010": 20516,
+   "2011": 20523,
+   "2012": 20510,
+   "2013": 20525,
+   "2014": 20538,
+   "2015": 20517,
+   "2016": 20535,
+   "2017": 20578,
+   "2018": 20554,
+   "2019": 20547,
+   "2020": 20501,
+   "2021": 20607,
+   "2022": 20586,
+   "2023": 20510,
+   "2024": 20592,
+   "2025": 20641
+  },
+  "town-newfane": {
+   "1995": 9085,
+   "1996": 9061,
+   "1997": 9025,
+   "1998": 8984,
+   "1999": 8946,
+   "2000": 9633,
+   "2001": 9605,
+   "2002": 9603,
+   "2003": 9618,
+   "2004": 9621,
+   "2005": 9597,
+   "2006": 9584,
+   "2007": 9587,
+   "2008": 9605,
+   "2009": 9634,
+   "2010": 9673,
+   "2011": 9637,
+   "2012": 9571,
+   "2013": 9533,
+   "2014": 9486,
+   "2015": 9443,
+   "2016": 9399,
+   "2017": 9371,
+   "2018": 9370,
+   "2019": 9340,
+   "2020": 9254,
+   "2021": 9281,
+   "2022": 9226,
+   "2023": 9182,
+   "2024": 9167,
+   "2025": 9139
+  },
+  "town-niagara": {
+   "1995": 9616,
+   "1996": 9601,
+   "1997": 9558,
+   "1998": 9480,
+   "1999": 9391,
+   "2000": 8948,
+   "2001": 8860,
+   "2002": 8788,
+   "2003": 8741,
+   "2004": 8681,
+   "2005": 8598,
+   "2006": 8523,
+   "2007": 8471,
+   "2008": 8428,
+   "2009": 8395,
+   "2010": 8530,
+   "2011": 8463,
+   "2012": 8388,
+   "2013": 8325,
+   "2014": 8259,
+   "2015": 8187,
+   "2016": 8128,
+   "2017": 8068,
+   "2018": 8015,
+   "2019": 7953,
+   "2020": 7839,
+   "2021": 7816,
+   "2022": 7759,
+   "2023": 7714,
+   "2024": 7693,
+   "2025": 7668
+  },
+  "town-pendleton": {
+   "1995": 5516,
+   "1996": 5590,
+   "1997": 5653,
+   "1998": 5710,
+   "1999": 5735,
+   "2000": 6056,
+   "2001": 6071,
+   "2002": 6097,
+   "2003": 6139,
+   "2004": 6173,
+   "2005": 6191,
+   "2006": 6213,
+   "2007": 6251,
+   "2008": 6296,
+   "2009": 6350,
+   "2010": 6411,
+   "2011": 6476,
+   "2012": 6496,
+   "2013": 6550,
+   "2014": 6620,
+   "2015": 6677,
+   "2016": 6768,
+   "2017": 6824,
+   "2018": 6965,
+   "2019": 7024,
+   "2020": 7027,
+   "2021": 7011,
+   "2022": 6985,
+   "2023": 7010,
+   "2024": 7122,
+   "2025": 7120
+  },
+  "town-porter": {
+   "1995": 7287,
+   "1996": 7279,
+   "1997": 7281,
+   "1998": 7274,
+   "1999": 7227,
+   "2000": 6898,
+   "2001": 6861,
+   "2002": 6843,
+   "2003": 6838,
+   "2004": 6824,
+   "2005": 6791,
+   "2006": 6764,
+   "2007": 6753,
+   "2008": 6751,
+   "2009": 6759,
+   "2010": 6777,
+   "2011": 6743,
+   "2012": 6698,
+   "2013": 6673,
+   "2014": 6650,
+   "2015": 6624,
+   "2016": 6592,
+   "2017": 6559,
+   "2018": 6559,
+   "2019": 6530,
+   "2020": 6502,
+   "2021": 6506,
+   "2022": 6465,
+   "2023": 6429,
+   "2024": 6434,
+   "2025": 6448
+  },
+  "town-royalton": {
+   "1995": 7764,
+   "1996": 7764,
+   "1997": 7761,
+   "1998": 7750,
+   "1999": 7700,
+   "2000": 7749,
+   "2001": 7714,
+   "2002": 7698,
+   "2003": 7698,
+   "2004": 7688,
+   "2005": 7657,
+   "2006": 7635,
+   "2007": 7627,
+   "2008": 7630,
+   "2009": 7642,
+   "2010": 7683,
+   "2011": 7660,
+   "2012": 7626,
+   "2013": 7610,
+   "2014": 7604,
+   "2015": 7576,
+   "2016": 7558,
+   "2017": 7568,
+   "2018": 7548,
+   "2019": 7543,
+   "2020": 7504,
+   "2021": 7491,
+   "2022": 7461,
+   "2023": 7436,
+   "2024": 7432,
+   "2025": 7425
+  },
+  "town-somerset": {
+   "1995": 2728,
+   "1996": 2727,
+   "1997": 2727,
+   "1998": 2723,
+   "1999": 2705,
+   "2000": 2853,
+   "2001": 2824,
+   "2002": 2802,
+   "2003": 2786,
+   "2004": 2766,
+   "2005": 2738,
+   "2006": 2713,
+   "2007": 2696,
+   "2008": 2681,
+   "2009": 2668,
+   "2010": 2656,
+   "2011": 2649,
+   "2012": 2635,
+   "2013": 2626,
+   "2014": 2614,
+   "2015": 2613,
+   "2016": 2606,
+   "2017": 2605,
+   "2018": 2607,
+   "2019": 2601,
+   "2020": 2596,
+   "2021": 2589,
+   "2022": 2571,
+   "2023": 2558,
+   "2024": 2554,
+   "2025": 2549
+  },
+  "town-wheatfield": {
+   "1995": 12672,
+   "1996": 12929,
+   "1997": 13131,
+   "1998": 13188,
+   "1999": 13371,
+   "2000": 14174,
+   "2001": 14528,
+   "2002": 14931,
+   "2003": 15351,
+   "2004": 15755,
+   "2005": 16113,
+   "2006": 16490,
+   "2007": 16884,
+   "2008": 17311,
+   "2009": 17759,
+   "2010": 18204,
+   "2011": 18325,
+   "2012": 18324,
+   "2013": 18443,
+   "2014": 18507,
+   "2015": 18535,
+   "2016": 18572,
+   "2017": 18583,
+   "2018": 18614,
+   "2019": 18634,
+   "2020": 18564,
+   "2021": 18589,
+   "2022": 18498,
+   "2023": 18465,
+   "2024": 18552,
+   "2025": 18555
+  },
+  "town-wilson": {
+   "1995": 5985,
+   "1996": 5981,
+   "1997": 5979,
+   "1998": 5970,
+   "1999": 5931,
+   "2000": 5845,
+   "2001": 5841,
+   "2002": 5848,
+   "2003": 5871,
+   "2004": 5883,
+   "2005": 5881,
+   "2006": 5886,
+   "2007": 5905,
+   "2008": 5929,
+   "2009": 5963,
+   "2010": 5980,
+   "2011": 5972,
+   "2012": 5970,
+   "2013": 5961,
+   "2014": 5939,
+   "2015": 5907,
+   "2016": 5891,
+   "2017": 5872,
+   "2018": 5866,
+   "2019": 5861,
+   "2020": 5834,
+   "2021": 5821,
+   "2022": 5793,
+   "2023": 5757,
+   "2024": 5749,
+   "2025": 5727
+  },
+  "village-barker": {
+   "1995": 535,
+   "1996": 531,
+   "1997": 525,
+   "1998": 516,
+   "1999": 508,
+   "2000": 572,
+   "2001": 566,
+   "2002": 561,
+   "2003": 558,
+   "2004": 554,
+   "2005": 548,
+   "2006": 543,
+   "2007": 540,
+   "2008": 537,
+   "2009": 534,
+   "2010": 536,
+   "2011": 541,
+   "2012": 546,
+   "2013": 549,
+   "2014": 554,
+   "2015": 559,
+   "2016": 566,
+   "2017": 572,
+   "2018": 578,
+   "2019": 581,
+   "2020": 583,
+   "2021": 581,
+   "2022": 573,
+   "2023": 570,
+   "2024": 568,
+   "2025": 566
+  },
+  "village-lewiston": {
+   "1995": 2922,
+   "1996": 2895,
+   "1997": 2862,
+   "1998": 2821,
+   "1999": 2786,
+   "2000": 2770,
+   "2001": 2753,
+   "2002": 2748,
+   "2003": 2744,
+   "2004": 2737,
+   "2005": 2723,
+   "2006": 2713,
+   "2007": 2703,
+   "2008": 2699,
+   "2009": 2698,
+   "2010": 2705,
+   "2011": 2610,
+   "2012": 2598,
+   "2013": 2594,
+   "2014": 2587,
+   "2015": 2571,
+   "2016": 2563,
+   "2017": 2550,
+   "2018": 2542,
+   "2019": 2532,
+   "2020": 2538,
+   "2021": 2536,
+   "2022": 2526,
+   "2023": 2508,
+   "2024": 2499,
+   "2025": 2492
+  },
+  "village-middleport": {
+   "1995": 1890,
+   "1996": 1880,
+   "1997": 1858,
+   "1998": 1833,
+   "1999": 1809,
+   "2000": 1905,
+   "2001": 1893,
+   "2002": 1883,
+   "2003": 1879,
+   "2004": 1872,
+   "2005": 1859,
+   "2006": 1850,
+   "2007": 1844,
+   "2008": 1840,
+   "2009": 1839,
+   "2010": 1839,
+   "2011": 1827,
+   "2012": 1814,
+   "2013": 1804,
+   "2014": 1794,
+   "2015": 1782,
+   "2016": 1772,
+   "2017": 1761,
+   "2018": 1754,
+   "2019": 1742,
+   "2020": 1742,
+   "2021": 1733,
+   "2022": 1718,
+   "2023": 1705,
+   "2024": 1699,
+   "2025": 1692
+  },
+  "village-wilson": {
+   "1995": 1311,
+   "1996": 1299,
+   "1997": 1285,
+   "1998": 1266,
+   "1999": 1249,
+   "2000": 1213,
+   "2001": 1215,
+   "2002": 1218,
+   "2003": 1225,
+   "2004": 1229,
+   "2005": 1231,
+   "2006": 1234,
+   "2007": 1240,
+   "2008": 1247,
+   "2009": 1256,
+   "2010": 1264,
+   "2011": 1263,
+   "2012": 1266,
+   "2013": 1261,
+   "2014": 1257,
+   "2015": 1250,
+   "2016": 1248,
+   "2017": 1245,
+   "2018": 1244,
+   "2019": 1249,
+   "2020": 1241,
+   "2021": 1234,
+   "2022": 1226,
+   "2023": 1218,
+   "2024": 1217,
+   "2025": 1210
+  },
+  "village-youngstown": {
+   "1995": 2040,
+   "1996": 2024,
+   "1997": 2012,
+   "1998": 1995,
+   "1999": 1971,
+   "2000": 1919,
+   "2001": 1914,
+   "2002": 1913,
+   "2003": 1917,
+   "2004": 1919,
+   "2005": 1915,
+   "2006": 1912,
+   "2007": 1915,
+   "2008": 1920,
+   "2009": 1927,
+   "2010": 1931,
+   "2011": 1924,
+   "2012": 1913,
+   "2013": 1906,
+   "2014": 1903,
+   "2015": 1896,
+   "2016": 1889,
+   "2017": 1883,
+   "2018": 1880,
+   "2019": 1871,
+   "2020": 1859,
+   "2021": 1853,
+   "2022": 1846,
+   "2023": 1832,
+   "2024": 1827,
+   "2025": 1822
+  }
+ }
+}
+</script>
 <script id="tax-data" type="application/json">{"years":[2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],"cities":[{"name":"North Tonawanda","county":"Niagara","school":"North Tonawanda","self":true,"c":[8.88,8.74,8.8,8.49,8.34,8.16,8.02,7.68,7.41,7.05,6.36,5.79,5.54],"m":[12.77,12.72,12.05,12.09,11.61,11.07,10.98,10.46,9.88,9.45,8.35,8.36,7.76],"s":[21.34,21.86,21.01,20.83,20.32,19.49,18.15,17.09,15.62,14.8,12.66,12.02,11.00759702]},{"name":"Tonawanda","county":"Erie","school":"Tonawanda","self":false,"c":[6.18,6.2,6.07,5.89,5.69,5.55,5.39,5.24,4.91,4.81,4.38,3.83,3.72],"m":[16.61,16.68,16.73,17.23,17.39,16.76,18.27,17.62,18.09,16.19,15.22,12.54,12.03],"s":[17.29,17.92,17.35,17.63,17.18,16.28,16.14,14.98,15.0,14.37,13.1,10.68,10.37736233]},{"name":"Lockport","county":"Niagara","school":"Lockport","self":false,"c":[8.88,8.74,8.8,8.49,8.34,8.16,8.02,7.68,7.41,7.05,6.36,5.79,5.54],"m":[14.73,5.97,16.62,16.82,16.03,5.56,15.75,5.56,5.56,4.99,4.65,4.36,4.24],"s":[25.88,26.31,26.81,25.76,24.77,24.62,23.3,22.52,20.88,19.1,17.42,16.54,16.127781]},{"name":"Lackawanna","county":"Erie","school":"Lackawanna","self":false,"c":[6.18,6.2,6.07,5.89,5.69,5.55,5.39,5.24,4.91,4.81,4.38,3.83,3.72],"m":[19.34,18.78,20.08,17.91,17.27,17.59,19.68,18.75,17.23,16.64,15.25,13.3,13.12],"s":[17.81,16.75,18.12,16.38,14.85,15.32,15.16,14.57,12.83,12.63,11.29,9.87,9.620792023]},{"name":"Niagara Falls","county":"Niagara","school":"Niagara Falls","self":false,"c":[8.88,8.74,8.8,8.49,8.34,8.16,8.02,7.68,7.41,7.05,6.36,5.79,5.54],"m":[20.07,19.97,20.25,18.93,19.31,19.22,19.05,17.83,17.75,17.08,16.11,13.93,12.85],"s":[17.16,17.7,17.36,16.41,16.51,15.71,15.35,14.27,13.89,13.12,12.14,10.54,9.749389829]},{"name":"Batavia","county":"Genesee","school":"Batavia","self":false,"c":[9.68,9.86,9.85,9.86,10.07,10.07,10.04,10.11,9.8,9.18,8.45,8.08,7.57],"m":[2.73,2.87,2.91,4.93,9.26,9.29,5.93,5.97,6.18,5.76,5.33,5.08,5.82],"s":[24.56,23.63,24.33,24.59,23.79,22.99,21.47,21.57,20.91,19.23,17.53,16.67,15.6624616]},{"name":"Jamestown","county":"Chautauqua","school":"Jamestown","self":false,"c":[9.01,9.03,9.09,8.47,8.4,8.36,8.39,8.42,8.5,8.11,7.81,6.91,6.71],"m":[21.64,22.03,22.67,23.59,23.77,23.97,23.84,23.36,22.79,22.03,20.85,17.04,18.13],"s":[19.73,19.66,19.74,20.03,19.62,19.56,19.43,19.03,18.57,17.89,16.8,13.78,14.01109724]},{"name":"Dunkirk","county":"Chautauqua","school":"Dunkirk","self":false,"c":[9.01,9.03,9.09,8.47,8.4,8.36,8.39,8.42,8.5,8.11,7.81,6.91,6.71],"m":[2.19,2.25,14.19,2.06,13.97,2.16,2.18,2.19,2.1,2.05,2.03,1.78,2.07],"s":[18.89,18.89,18.31,18.6,18.51,18.61,17.81,17.41,16.86,16.69,17.19,11.73,12.88490953]},{"name":"Olean","county":"Cattaraugus","school":"Olean","self":false,"c":[12.53,12.86,12.82,12.62,12.54,12.46,12.64,12.12,11.3,10.86,9.84,8.76,8.12],"m":[4.36,14.19,14.41,4.24,13.7,4.23,3.79,3.57,3.31,3.37,3.21,2.91,2.6],"s":[24.02,24.67,25.23,24.34,24.03,23.42,23.3,22.97,21.62,21.45,20.84,18.95,18.01500404]}],"adjustments":{"scope":"North Tonawanda","rows":[{"id":"star","label":"STAR credit (school line)","kind":"credit","basic":338,"enhanced":969,"unit":"dollars off the school line","vintage":"2025","source":"NYS STAR estimated savings for North Tonawanda CSD homeowners (Basic / Enhanced)","note":"Takes about $338 (Basic) or $969 (Enhanced) off the school line for NT homeowners."},{"id":"library","label":"Library levy","kind":"add","rate":0.52,"unit":"per $1,000 of full value","vintage":"2025","source":"NT school tax bill / library levy (excluded from the state school rate above)","note":"NT school bills also carry a library levy the state school figure excludes."},{"id":"county_lag","label":"County equalization lag","kind":"lag","published":5.54,"apportioned":5.05,"unit":"per $1,000 of full value","vintage":"2025","source":"NYS overlapping-rates county line vs Niagara County 2025 apportionment","note":"Where assessment ratios are falling fast, the state full-value conversion can lag one equalization cycle."}],"tieNote":"NT total lands within 0.1% of a real bill full-value equivalent, with the credit and the debit disclosed rather than netted silently. Earlier years were published on assessed value and are omitted rather than mixed in."},"source":"https://data.ny.gov/resource/iq85-sdzs (NYS Real Property Tax Rates by Municipality)"}</script>
 <script id="school-data" type="application/json">{"entity":"North Tonawanda City School District","municode":"290536000000","years":[1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],"rev":[44531658.0,47184835.0,47737453.0,50436003.0,51364421.0,53083498.0,54710530.0,56070766.0,55244545.0,54531969.0,55261305.0,58145930.0,62489119.0,64857186.0,65439662.0,66744672.0,64310260.0,66352649.0,67009283.0,68960178.0,82510578.0,104128234.0,90678851.0,74822458.0,80299448.0,80744627.0,85106906.0,99964459.0,86447666.0,89711276.0,93726478.0,87118198.0],"exp":[55715687.0,52002644.0,55917466.0,49322407.0,49920814.0,53412434.0,60444524.0,55625131.0,71834206.0,55310683.0,58909400.0,58299059.0,58670632.0,61575656.0,66003445.0,81182217.0,85458073.0,70893296.0,65015708.0,68133884.7,70643427.0,82018565.0,74390732.0,96015550.0,89623293.0,78894576.0,83305343.0,80540495.0,79885506.0,85136398.0,92322483.0,86365101.4],"latest":2026,"topCats":[["Education",50495205.0],["Employee Benefits",15970247.0],["General Government",14334069.4],["Debt Service",4484719.0]]}</script>
 <script id="xc-data" type="application/json">{"xc":{"0":{"Real Property Taxes and Assessments":[["North Tonawanda","city",20880092.0,30496,2024,"city-north-tonawanda"],["Lockport","city",13916861.0,20876,2025,"city-lockport"],["Niagara Falls","city",31104560.0,48671,2025,"city-niagara-falls"],["Lewiston","village",1353938.0,2531,2026,"village-lewiston"],["Cambria","town",3059445.0,5743,2025,"town-cambria"],["Royalton","town",3678753.0,7517,2024,"town-royalton"],["Middleport","village",761549.77,1729,2026,"village-middleport"],["Hartland","town",1698878.0,3874,2025,"town-hartland"],["Youngstown","village",799789.0,1859,2026,"village-youngstown"],["Lockport","town",8641132.0,20563,2025,"town-lockport"],["Somerset","town",1071957.0,2597,2025,"town-somerset"],["Wilson","village",508874.04,1247,2026,"village-wilson"],["Niagara","town",2969136.0,7903,2025,"town-niagara"],["Newfane","town",3083727.0,9304,2025,"town-newfane"],["Barker","village",160225.0,575,2026,"village-barker"],["Porter","town",1562248.0,6513,2025,"town-porter"],["Wilson","town",1384247.0,5847,2025,"town-wilson"],["Pendleton","town",1656185.0,7035,2025,"town-pendleton"],["Wheatfield","town",4303618.21,18638,2025,"town-wheatfield"],["Lewiston","town",3628754.0,15944,2025,"town-lewiston"]],"Other Real Property Tax Items":[["Niagara Falls","city",4581389.0,48671,2025,"city-niagara-falls"],["North Tonawanda","city",1853163.0,30496,2024,"city-north-tonawanda"],["Lockport","city",886355.0,20876,2025,"city-lockport"],["Niagara","town",190506.0,7903,2025,"town-niagara"],["Somerset","town",52974.0,2597,2025,"town-somerset"],["Lewiston","town",136513.0,15944,2025,"town-lewiston"],["Middleport","village",10928.24,1729,2026,"village-middleport"],["Pendleton","town",28693.0,7035,2025,"town-pendleton"],["Wheatfield","town",64887.3,18638,2025,"town-wheatfield"],["Wilson","town",16143.0,5847,2025,"town-wilson"],["Cambria","town",15378.0,5743,2025,"town-cambria"],["Barker","village",1257.89,575,2026,"village-barker"],["Youngstown","village",3701.69,1859,2026,"village-youngstown"],["Wilson","village",1826.17,1247,2026,"village-wilson"],["Lewiston","village",3526.0,2531,2026,"village-lewiston"],["Royalton","town",10297.0,7517,2024,"town-royalton"],["Newfane","town",12720.0,9304,2025,"town-newfane"],["Porter","town",7935.0,6513,2025,"town-porter"],["Hartland","town",4710.34,3874,2025,"town-hartland"],["Lockport","town",18428.0,20563,2025,"town-lockport"]],"Sales and Use Tax":[["Niagara Falls","city",29606821.0,48671,2025,"city-niagara-falls"],["Lewiston","village",1223589.0,2531,2026,"village-lewiston"],["Lockport","city",9238625.0,20876,2025,"city-lockport"],["Barker","village",227942.6,575,2026,"village-barker"],["North Tonawanda","city",11532570.0,30496,2024,"city-north-tonawanda"],["Niagara","town",2968657.0,7903,2025,"town-niagara"],["Pendleton","town",2642246.0,7035,2025,"town-pendleton"],["Newfane","town",3494450.0,9304,2025,"town-newfane"],["Lockport","town",7723170.0,20563,2025,"town-lockport"],["Cambria","town",2156989.0,5743,2025,"town-cambria"],["Wheatfield","town",7000167.14,18638,2025,"town-wheatfield"],["Hartland","town",1414769.46,3874,2025,"town-hartland"],["Lewiston","town",5271633.0,15944,2025,"town-lewiston"],["Youngstown","village",594260.65,1859,2026,"village-youngstown"],["Wilson","town",1839501.0,5847,2025,"town-wilson"],["Royalton","town",2359963.0,7517,2024,"town-royalton"],["Wilson","village",362840.59,1247,2026,"village-wilson"],["Somerset","town",748415.0,2597,2025,"town-somerset"],["Porter","town",1864874.0,6513,2025,"town-porter"],["Middleport","village",378211.33,1729,2026,"village-middleport"]],"Charges for Services":[["Lockport","city",11263616.0,20876,2025,"city-lockport"],["Wilson","village",475981.1,1247,2026,"village-wilson"],["Lewiston","town",5925752.0,15944,2025,"town-lewiston"],["Lewiston","village",890346.0,2531,2026,"village-lewiston"],["Youngstown","village",624384.54,1859,2026,"village-youngstown"],["Niagara","town",2630845.0,7903,2025,"town-niagara"],["Middleport","village",572000.91,1729,2026,"village-middleport"],["North Tonawanda","city",9618477.0,30496,2024,"city-north-tonawanda"],["Somerset","town",618739.0,2597,2025,"town-somerset"],["Newfane","town",2030114.0,9304,2025,"town-newfane"],["Lockport","town",4181115.0,20563,2025,"town-lockport"],["Niagara Falls","city",9465532.0,48671,2025,"city-niagara-falls"],["Barker","village",103995.95,575,2026,"village-barker"],["Pendleton","town",1235306.0,7035,2025,"town-pendleton"],["Wheatfield","town",3221006.37,18638,2025,"town-wheatfield"],["Hartland","town",542404.85,3874,2025,"town-hartland"],["Porter","town",880884.0,6513,2025,"town-porter"],["Royalton","town",917729.0,7517,2024,"town-royalton"],["Cambria","town",617430.0,5743,2025,"town-cambria"],["Wilson","town",557411.0,5847,2025,"town-wilson"]],"Charges to Other Governments":[["Somerset","town",641719.0,2597,2025,"town-somerset"],["Lewiston","village",387004.0,2531,2026,"village-lewiston"],["Hartland","town",586515.67,3874,2025,"town-hartland"],["Niagara Falls","city",4342189.0,48671,2025,"city-niagara-falls"],["Middleport","village",109263.83,1729,2026,"village-middleport"],["Newfane","town",407080.0,9304,2025,"town-newfane"],["Lockport","city",842964.0,20876,2025,"city-lockport"],["Royalton","town",295499.0,7517,2024,"town-royalton"],["Cambria","town",122666.0,5743,2025,"town-cambria"],["Lewiston","town",321484.0,15944,2025,"town-lewiston"],["Wilson","town",99226.0,5847,2025,"town-wilson"],["Pendleton","town",111424.0,7035,2025,"town-pendleton"],["Wheatfield","town",271528.85,18638,2025,"town-wheatfield"],["Porter","town",76551.0,6513,2025,"town-porter"],["Niagara","town",62016.0,7903,2025,"town-niagara"],["Wilson","village",7145.75,1247,2026,"village-wilson"],["Lockport","town",76283.0,20563,2025,"town-lockport"],["Barker","village",1085.0,575,2026,"village-barker"],["North Tonawanda","city",37897.0,30496,2024,"city-north-tonawanda"]],"Use and Sale of Property":[["Lewiston","village",621933.0,2531,2026,"village-lewiston"],["Middleport","village",195684.47,1729,2026,"village-middleport"],["Youngstown","village",171433.17,1859,2026,"village-youngstown"],["Niagara Falls","city",3997568.0,48671,2025,"city-niagara-falls"],["Lewiston","town",859780.0,15944,2025,"town-lewiston"],["Lockport","city",1039958.0,20876,2025,"city-lockport"],["Wilson","town",280628.0,5847,2025,"town-wilson"],["Cambria","town",257747.0,5743,2025,"town-cambria"],["North Tonawanda","city",1331754.0,30496,2024,"city-north-tonawanda"],["Hartland","town",168642.35,3874,2025,"town-hartland"],["Niagara","town",325169.0,7903,2025,"town-niagara"],["Pendleton","town",283790.0,7035,2025,"town-pendleton"],["Lockport","town",713646.0,20563,2025,"town-lockport"],["Royalton","town",244692.0,7517,2024,"town-royalton"],["Barker","village",16735.67,575,2026,"village-barker"],["Porter","town",155446.0,6513,2025,"town-porter"],["Wheatfield","town",319502.24,18638,2025,"town-wheatfield"],["Newfane","town",144718.0,9304,2025,"town-newfane"],["Wilson","village",8768.22,1247,2026,"village-wilson"],["Somerset","town",12372.0,2597,2025,"town-somerset"]],"Other Local Revenues":[["Niagara Falls","city",60715829.0,48671,2025,"city-niagara-falls"],["Lockport","city",11349853.0,20876,2025,"city-lockport"],["Niagara","town",1944348.0,7903,2025,"town-niagara"],["Barker","village",91769.75,575,2026,"village-barker"],["Lewiston","town",2057786.0,15944,2025,"town-lewiston"],["North Tonawanda","city",2307778.0,30496,2024,"city-north-tonawanda"],["Lewiston","village",134659.0,2531,2026,"village-lewiston"],["Wheatfield","town",531709.54,18638,2025,"town-wheatfield"],["Wilson","town",162151.0,5847,2025,"town-wilson"],["Middleport","village",47798.16,1729,2026,"village-middleport"],["Royalton","town",193446.0,7517,2024,"town-royalton"],["Lockport","town",466786.0,20563,2025,"town-lockport"],["Somerset","town",58725.0,2597,2025,"town-somerset"],["Youngstown","village",38465.95,1859,2026,"village-youngstown"],["Porter","town",95303.0,6513,2025,"town-porter"],["Pendleton","town",94474.0,7035,2025,"town-pendleton"],["Hartland","town",48341.9,3874,2025,"town-hartland"],["Cambria","town",63546.0,5743,2025,"town-cambria"],["Newfane","town",98411.0,9304,2025,"town-newfane"],["Wilson","village",8087.5,1247,2026,"village-wilson"]],"State Aid":[["Niagara Falls","city",35631032.0,48671,2025,"city-niagara-falls"],["North Tonawanda","city",10034726.0,30496,2024,"city-north-tonawanda"],["Lewiston","town",4355721.0,15944,2025,"town-lewiston"],["Lockport","city",5407314.0,20876,2025,"city-lockport"],["Somerset","town",637974.0,2597,2025,"town-somerset"],["Youngstown","village",382060.42,1859,2026,"village-youngstown"],["Newfane","town",1839879.0,9304,2025,"town-newfane"],["Lewiston","village",332786.0,2531,2026,"village-lewiston"],["Hartland","town",472844.53,3874,2025,"town-hartland"],["Royalton","town",626372.0,7517,2024,"town-royalton"],["Cambria","town",422030.0,5743,2025,"town-cambria"],["Pendleton","town",509416.0,7035,2025,"town-pendleton"],["Wilson","town",403611.0,5847,2025,"town-wilson"],["Niagara","town",544165.0,7903,2025,"town-niagara"],["Wilson","village",80847.65,1247,2026,"village-wilson"],["Lockport","town",1222578.0,20563,2025,"town-lockport"],["Porter","town",299026.0,6513,2025,"town-porter"],["Wheatfield","town",846110.82,18638,2025,"town-wheatfield"],["Middleport","village",27263.36,1729,2026,"village-middleport"],["Barker","village",7605.63,575,2026,"village-barker"]],"Federal Aid":[["Niagara Falls","city",21347454.0,48671,2025,"city-niagara-falls"],["North Tonawanda","city",4393422.0,30496,2024,"city-north-tonawanda"],["Lockport","city",1343351.0,20876,2025,"city-lockport"],["Youngstown","village",13472.0,1859,2026,"village-youngstown"],["Lockport","town",61009.0,20563,2025,"town-lockport"],["Lewiston","town",18081.0,15944,2025,"town-lewiston"],["Wheatfield","town",8690.0,18638,2025,"town-wheatfield"]],"Other Sources":[["Niagara Falls","city",36116957.0,48671,2025,"city-niagara-falls"],["Lewiston","town",3137668.0,15944,2025,"town-lewiston"],["Youngstown","village",355331.18,1859,2026,"village-youngstown"],["Porter","town",1125104.0,6513,2025,"town-porter"],["Lockport","town",3396640.0,20563,2025,"town-lockport"],["Niagara","town",723268.0,7903,2025,"town-niagara"],["Lockport","city",1058308.0,20876,2025,"city-lockport"],["North Tonawanda","city",1057498.0,30496,2024,"city-north-tonawanda"],["Barker","village",9822.79,575,2026,"village-barker"],["Wilson","village",8868.34,1247,2026,"village-wilson"],["Newfane","town",17324.0,9304,2025,"town-newfane"]],"Proceeds of Debt":[["Lockport","city",2073577.0,20876,2025,"city-lockport"],["Niagara","town",700000.0,7903,2025,"town-niagara"],["Pendleton","town",340000.0,7035,2025,"town-pendleton"],["Cambria","town",198000.0,5743,2025,"town-cambria"],["Newfane","town",69000.0,9304,2025,"town-newfane"],["North Tonawanda","city",87000.0,30496,2024,"city-north-tonawanda"]],"Other Non-Property Taxes":[["Lewiston","village",75207.0,2531,2026,"village-lewiston"],["Youngstown","village",29620.18,1859,2026,"village-youngstown"],["Wheatfield","town",261897.31,18638,2025,"town-wheatfield"],["Lewiston","town",214065.0,15944,2025,"town-lewiston"],["Niagara","town",102968.0,7903,2025,"town-niagara"],["North Tonawanda","city",384830.0,30496,2024,"city-north-tonawanda"],["Newfane","town",115453.0,9304,2025,"town-newfane"],["Pendleton","town",83995.0,7035,2025,"town-pendleton"],["Wilson","village",14554.69,1247,2026,"village-wilson"],["Middleport","village",19277.54,1729,2026,"village-middleport"],["Niagara Falls","city",517135.0,48671,2025,"city-niagara-falls"],["Hartland","town",37318.68,3874,2025,"town-hartland"],["Porter","town",59439.0,6513,2025,"town-porter"],["Wilson","town",48773.0,5847,2025,"town-wilson"],["Royalton","town",60303.0,7517,2024,"town-royalton"],["Barker","village",3995.91,575,2026,"village-barker"],["Somerset","town",15751.0,2597,2025,"town-somerset"],["Cambria","town",30055.0,5743,2025,"town-cambria"]]},"1":{"General Government":[["Niagara Falls","city",71148393.0,48671,2025,"city-niagara-falls"],["Lockport","city",15576818.0,20876,2025,"city-lockport"],["Youngstown","village",824812.32,1859,2026,"village-youngstown"],["Lewiston","village",793514.0,2531,2026,"village-lewiston"],["Barker","village",171826.42,575,2026,"village-barker"],["Somerset","town",715837.0,2597,2025,"town-somerset"],["Niagara","town",1976731.0,7903,2025,"town-niagara"],["Middleport","village",409198.61,1729,2026,"village-middleport"],["Hartland","town",790148.21,3874,2025,"town-hartland"],["Lockport","town",4136586.0,20563,2025,"town-lockport"],["Cambria","town",1082055.0,5743,2025,"town-cambria"],["Porter","town",1164358.0,6513,2025,"town-porter"],["Wilson","town",1044638.0,5847,2025,"town-wilson"],["Wilson","village",214217.61,1247,2026,"village-wilson"],["Pendleton","town",1191936.0,7035,2025,"town-pendleton"],["North Tonawanda","city",4798941.0,30496,2024,"city-north-tonawanda"],["Newfane","town",1270966.0,9304,2025,"town-newfane"],["Lewiston","town",2072673.0,15944,2025,"town-lewiston"],["Royalton","town",921417.0,7517,2024,"town-royalton"],["Wheatfield","town",2102063.11,18638,2025,"town-wheatfield"]],"Public Safety":[["Niagara Falls","city",43952348.0,48671,2025,"city-niagara-falls"],["Lockport","city",11529405.0,20876,2025,"city-lockport"],["North Tonawanda","city",13849904.0,30496,2024,"city-north-tonawanda"],["Lewiston","village",829657.0,2531,2026,"village-lewiston"],["Middleport","village",555513.9,1729,2026,"village-middleport"],["Lewiston","town",4181332.0,15944,2025,"town-lewiston"],["Niagara","town",1912238.0,7903,2025,"town-niagara"],["Somerset","town",394241.0,2597,2025,"town-somerset"],["Cambria","town",835245.0,5743,2025,"town-cambria"],["Wheatfield","town",2414167.4,18638,2025,"town-wheatfield"],["Youngstown","village",217682.89,1859,2026,"village-youngstown"],["Wilson","village",132154.94,1247,2026,"village-wilson"],["Pendleton","town",737287.0,7035,2025,"town-pendleton"],["Royalton","town",759916.0,7517,2024,"town-royalton"],["Newfane","town",935336.0,9304,2025,"town-newfane"],["Lockport","town",1940566.0,20563,2025,"town-lockport"],["Wilson","town",481399.0,5847,2025,"town-wilson"],["Hartland","town",286517.31,3874,2025,"town-hartland"],["Porter","town",301174.0,6513,2025,"town-porter"],["Barker","village",8517.6,575,2026,"village-barker"]],"Transportation":[["Somerset","town",1722467.0,2597,2025,"town-somerset"],["Hartland","town",1798615.78,3874,2025,"town-hartland"],["North Tonawanda","city",10283135.0,30496,2024,"city-north-tonawanda"],["Royalton","town",2317492.0,7517,2024,"town-royalton"],["Cambria","town",1638782.0,5743,2025,"town-cambria"],["Lewiston","village",682743.0,2531,2026,"village-lewiston"],["Youngstown","village",479897.11,1859,2026,"village-youngstown"],["Lewiston","town",3894718.0,15944,2025,"town-lewiston"],["Porter","town",1527675.0,6513,2025,"town-porter"],["Niagara","town",1783680.0,7903,2025,"town-niagara"],["Newfane","town",1928177.0,9304,2025,"town-newfane"],["Barker","village",109777.73,575,2026,"village-barker"],["Wilson","town",1091811.0,5847,2025,"town-wilson"],["Niagara Falls","city",8896061.0,48671,2025,"city-niagara-falls"],["Wilson","village",203981.58,1247,2026,"village-wilson"],["Lockport","city",3256077.0,20876,2025,"city-lockport"],["Wheatfield","town",2846617.07,18638,2025,"town-wheatfield"],["Lockport","town",2762488.0,20563,2025,"town-lockport"],["Pendleton","town",868402.0,7035,2025,"town-pendleton"],["Middleport","village",77761.28,1729,2026,"village-middleport"]],"Economic Development":[["Niagara Falls","city",8299759.0,48671,2025,"city-niagara-falls"],["North Tonawanda","city",3913067.0,30496,2024,"city-north-tonawanda"],["Lockport","city",709620.0,20876,2025,"city-lockport"],["Lockport","town",136981.0,20563,2025,"town-lockport"],["Newfane","town",45362.0,9304,2025,"town-newfane"],["Wilson","town",23953.0,5847,2025,"town-wilson"],["Somerset","town",6460.0,2597,2025,"town-somerset"],["Wheatfield","town",41865.0,18638,2025,"town-wheatfield"],["Porter","town",11500.0,6513,2025,"town-porter"],["Lewiston","village",4000.0,2531,2026,"village-lewiston"],["Niagara","town",6881.0,7903,2025,"town-niagara"],["Hartland","town",2500.0,3874,2025,"town-hartland"],["Barker","village",120.0,575,2026,"village-barker"]],"Culture and Recreation":[["Niagara Falls","city",8346179.0,48671,2025,"city-niagara-falls"],["Lewiston","village",431065.0,2531,2026,"village-lewiston"],["Niagara","town",1006208.0,7903,2025,"town-niagara"],["Pendleton","town",818081.0,7035,2025,"town-pendleton"],["Lockport","city",2348703.0,20876,2025,"city-lockport"],["North Tonawanda","city",3421707.0,30496,2024,"city-north-tonawanda"],["Lewiston","town",1711951.0,15944,2025,"town-lewiston"],["Youngstown","village",166449.35,1859,2026,"village-youngstown"],["Newfane","town",672258.0,9304,2025,"town-newfane"],["Cambria","town",367711.0,5743,2025,"town-cambria"],["Porter","town",413311.0,6513,2025,"town-porter"],["Wheatfield","town",1108231.11,18638,2025,"town-wheatfield"],["Somerset","town",104942.0,2597,2025,"town-somerset"],["Wilson","village",39363.81,1247,2026,"village-wilson"],["Wilson","town",164716.0,5847,2025,"town-wilson"],["Hartland","town",92417.08,3874,2025,"town-hartland"],["Middleport","village",30920.04,1729,2026,"village-middleport"],["Lockport","town",365746.0,20563,2025,"town-lockport"],["Barker","village",9265.6,575,2026,"village-barker"],["Royalton","town",47084.0,7517,2024,"town-royalton"]],"Community Services":[["Lewiston","village",93601.0,2531,2026,"village-lewiston"],["Newfane","town",279355.0,9304,2025,"town-newfane"],["Youngstown","village",48542.58,1859,2026,"village-youngstown"],["Somerset","town",58469.0,2597,2025,"town-somerset"],["Lockport","city",419923.0,20876,2025,"city-lockport"],["Niagara Falls","city",786825.0,48671,2025,"city-niagara-falls"],["Royalton","town",75201.0,7517,2024,"town-royalton"],["Lewiston","town",143660.0,15944,2025,"town-lewiston"],["Hartland","town",34820.04,3874,2025,"town-hartland"],["Wilson","town",44477.0,5847,2025,"town-wilson"],["North Tonawanda","city",173925.0,30496,2024,"city-north-tonawanda"],["Porter","town",24584.0,6513,2025,"town-porter"],["Cambria","town",21574.0,5743,2025,"town-cambria"],["Lockport","town",51800.0,20563,2025,"town-lockport"],["Niagara","town",15824.0,7903,2025,"town-niagara"],["Wilson","village",966.0,1247,2026,"village-wilson"],["Wheatfield","town",13142.76,18638,2025,"town-wheatfield"],["Middleport","village",591.56,1729,2026,"village-middleport"]],"Employee Benefits":[["Niagara Falls","city",37799998.0,48671,2025,"city-niagara-falls"],["Lockport","city",13410869.0,20876,2025,"city-lockport"],["North Tonawanda","city",13173371.0,30496,2024,"city-north-tonawanda"],["Niagara","town",2523439.0,7903,2025,"town-niagara"],["Lewiston","village",790256.0,2531,2026,"village-lewiston"],["Lewiston","town",3648684.0,15944,2025,"town-lewiston"],["Middleport","village",358481.96,1729,2026,"village-middleport"],["Somerset","town",523955.0,2597,2025,"town-somerset"],["Cambria","town",1008436.0,5743,2025,"town-cambria"],["Hartland","town",620337.87,3874,2025,"town-hartland"],["Wilson","village",189998.66,1247,2026,"village-wilson"],["Barker","village",86484.16,575,2026,"village-barker"],["Newfane","town",1265069.0,9304,2025,"town-newfane"],["Youngstown","village",213045.79,1859,2026,"village-youngstown"],["Pendleton","town",800984.0,7035,2025,"town-pendleton"],["Wheatfield","town",2108874.86,18638,2025,"town-wheatfield"],["Lockport","town",2314766.0,20563,2025,"town-lockport"],["Royalton","town",798674.0,7517,2024,"town-royalton"],["Porter","town",600127.0,6513,2025,"town-porter"],["Wilson","town",527249.0,5847,2025,"town-wilson"]],"Debt Service":[["Lewiston","village",281413.0,2531,2026,"village-lewiston"],["Pendleton","town",600638.0,7035,2025,"town-pendleton"],["Niagara Falls","city",3950853.0,48671,2025,"city-niagara-falls"],["North Tonawanda","city",2344594.0,30496,2024,"city-north-tonawanda"],["Lewiston","town",1223095.0,15944,2025,"town-lewiston"],["Niagara","town",525923.0,7903,2025,"town-niagara"],["Barker","village",35300.0,575,2026,"village-barker"],["Lockport","city",1272107.0,20876,2025,"city-lockport"],["Wilson","village",71583.45,1247,2026,"village-wilson"],["Newfane","town",519614.0,9304,2025,"town-newfane"],["Lockport","town",1108632.0,20563,2025,"town-lockport"],["Middleport","village",69060.0,1729,2026,"village-middleport"],["Cambria","town",212353.0,5743,2025,"town-cambria"],["Royalton","town",255219.0,7517,2024,"town-royalton"],["Wheatfield","town",629341.0,18638,2025,"town-wheatfield"],["Porter","town",79628.0,6513,2025,"town-porter"]],"Other Uses":[["Niagara Falls","city",36116958.0,48671,2025,"city-niagara-falls"],["Lewiston","town",3137667.0,15944,2025,"town-lewiston"],["Youngstown","village",355331.18,1859,2026,"village-youngstown"],["Porter","town",1125104.0,6513,2025,"town-porter"],["Lockport","town",3396640.0,20563,2025,"town-lockport"],["Niagara","town",723268.0,7903,2025,"town-niagara"],["Lockport","city",1058308.0,20876,2025,"city-lockport"],["North Tonawanda","city",1057498.0,30496,2024,"city-north-tonawanda"],["Barker","village",9822.79,575,2026,"village-barker"],["Wilson","village",8868.34,1247,2026,"village-wilson"],["Newfane","town",17324.0,9304,2025,"town-newfane"],["Somerset","town",10.0,2597,2025,"town-somerset"]],"Sanitation":[["Newfane","town",3717682.0,9304,2025,"town-newfane"],["Youngstown","village",723013.19,1859,2026,"village-youngstown"],["Niagara","town",2329420.0,7903,2025,"town-niagara"],["Wilson","village",356825.65,1247,2026,"village-wilson"],["Lockport","town",5589799.0,20563,2025,"town-lockport"],["Lewiston","town",4046693.0,15944,2025,"town-lewiston"],["Lewiston","village",592529.0,2531,2026,"village-lewiston"],["Lockport","city",4322906.0,20876,2025,"city-lockport"],["North Tonawanda","city",5712302.0,30496,2024,"city-north-tonawanda"],["Somerset","town",474304.0,2597,2025,"town-somerset"],["Middleport","village",299499.57,1729,2026,"village-middleport"],["Royalton","town",1107799.0,7517,2024,"town-royalton"],["Cambria","town",835017.0,5743,2025,"town-cambria"],["Pendleton","town",999345.0,7035,2025,"town-pendleton"],["Wheatfield","town",2435771.82,18638,2025,"town-wheatfield"],["Porter","town",842128.0,6513,2025,"town-porter"],["Wilson","town",674070.0,5847,2025,"town-wilson"],["Hartland","town",419001.83,3874,2025,"town-hartland"],["Niagara Falls","city",5104720.0,48671,2025,"city-niagara-falls"],["Barker","village",51946.96,575,2026,"village-barker"]],"Utilities":[["Youngstown","village",641616.55,1859,2026,"village-youngstown"],["Lockport","town",5361295.0,20563,2025,"town-lockport"],["North Tonawanda","city",7295030.0,30496,2024,"city-north-tonawanda"],["Somerset","town",585248.0,2597,2025,"town-somerset"],["Hartland","town",770147.41,3874,2025,"town-hartland"],["Lockport","city",3269260.0,20876,2025,"city-lockport"],["Lewiston","village",376444.0,2531,2026,"village-lewiston"],["Royalton","town",1073907.0,7517,2024,"town-royalton"],["Niagara","town",971119.0,7903,2025,"town-niagara"],["Cambria","town",696748.0,5743,2025,"town-cambria"],["Middleport","village",184684.0,1729,2026,"village-middleport"],["Newfane","town",942190.0,9304,2025,"town-newfane"],["Lewiston","town",1553726.0,15944,2025,"town-lewiston"],["Barker","village",55363.88,575,2026,"village-barker"],["Wheatfield","town",1624032.22,18638,2025,"town-wheatfield"],["Wilson","village",106914.11,1247,2026,"village-wilson"],["Wilson","town",435884.0,5847,2025,"town-wilson"],["Pendleton","town",458339.0,7035,2025,"town-pendleton"],["Porter","town",377862.0,6513,2025,"town-porter"],["Niagara Falls","city",518607.0,48671,2025,"city-niagara-falls"]],"Social Services":[["Niagara Falls","city",5385850.0,48671,2025,"city-niagara-falls"],["Royalton","town",6000.0,7517,2024,"town-royalton"],["Cambria","town",2500.0,5743,2025,"town-cambria"],["Pendleton","town",1500.0,7035,2025,"town-pendleton"]],"Health":[["Lewiston","town",50211.0,15944,2025,"town-lewiston"],["Somerset","town",6142.0,2597,2025,"town-somerset"],["Porter","town",11301.0,6513,2025,"town-porter"],["Youngstown","village",1971.96,1859,2026,"village-youngstown"],["Newfane","town",9138.0,9304,2025,"town-newfane"],["Cambria","town",4590.0,5743,2025,"town-cambria"],["Lewiston","village",2000.0,2531,2026,"village-lewiston"],["Hartland","town",2893.05,3874,2025,"town-hartland"],["Wilson","town",2808.0,5847,2025,"town-wilson"],["Pendleton","town",2898.0,7035,2025,"town-pendleton"],["Niagara","town",3180.0,7903,2025,"town-niagara"],["Royalton","town",2519.0,7517,2024,"town-royalton"],["Lockport","town",6049.0,20563,2025,"town-lockport"],["Barker","village",110.0,575,2026,"village-barker"],["Wheatfield","town",2754.27,18638,2025,"town-wheatfield"]]}},"all":[["Lockport","city",20876,2025,"city-lockport"],["Niagara Falls","city",48671,2025,"city-niagara-falls"],["North Tonawanda","city",30496,2024,"city-north-tonawanda"],["Cambria","town",5743,2025,"town-cambria"],["Hartland","town",3874,2025,"town-hartland"],["Lewiston","town",15944,2025,"town-lewiston"],["Lockport","town",20563,2025,"town-lockport"],["Newfane","town",9304,2025,"town-newfane"],["Niagara","town",7903,2025,"town-niagara"],["Pendleton","town",7035,2025,"town-pendleton"],["Porter","town",6513,2025,"town-porter"],["Royalton","town",7517,2024,"town-royalton"],["Somerset","town",2597,2025,"town-somerset"],["Wheatfield","town",18638,2025,"town-wheatfield"],["Wilson","town",5847,2025,"town-wilson"],["Barker","village",575,2026,"village-barker"],["Lewiston","village",2531,2026,"village-lewiston"],["Middleport","village",1729,2026,"village-middleport"],["Wilson","village",1247,2026,"village-wilson"],["Youngstown","village",1859,2026,"village-youngstown"]],"popcite":"Populations are the 2020 Census, via New York State's official mirror (data.ny.gov sxhg-qquj, retrieved 2026-07-31).","slugs":{"city|Lockport":"city-lockport","city|Niagara Falls":"city-niagara-falls","city|North Tonawanda":"city-north-tonawanda","town|Cambria":"town-cambria","town|Hartland":"town-hartland","town|Lewiston":"town-lewiston","town|Lockport":"town-lockport","town|Newfane":"town-newfane","town|Niagara":"town-niagara","town|Pendleton":"town-pendleton","town|Porter":"town-porter","town|Royalton":"town-royalton","town|Somerset":"town-somerset","town|Wheatfield":"town-wheatfield","town|Wilson":"town-wilson","village|Barker":"village-barker","village|Lewiston":"village-lewiston","village|Middleport":"village-middleport","village|Wilson":"village-wilson","village|Youngstown":"village-youngstown"}}</script>
@@ -4067,7 +4981,8 @@ if(window.PLFresh) PLFresh.mark();            /* rows newer than the reader's la
 
 /* ---------- revenue & spending (OSC filings) ---------- */
 var O = JSON.parse(document.getElementById('osc-data').textContent);
-O.cpi = JSON.parse(document.getElementById('cpi-data').textContent).annual;   /* BLS CPI-U annual averages (data/cpi-u.json): the Trend tab's price yardstick */
+O.cpi = JSON.parse(document.getElementById('cpi-data').textContent).annual;
+O.pop = (JSON.parse(document.getElementById('pop-data').textContent).series||{})['city-north-tonawanda']||null;   /* Census July 1 estimates (data/population-series.json): per resident */   /* BLS CPI-U annual averages (data/cpi-u.json): the Trend tab's price yardstick */
 
 /* ---------- hero: two registers and the answer strip ----------
    Every figure here is PRERENDERED into the HTML by tools/build_site.py from the same
@@ -4394,8 +5309,14 @@ function renderLine(host, values, opts){
     opts.ref.forEach(function(v,i){ if(v==null) return; rd+=(rd?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1); rl=i; });
     if(rl>0){
       p.push('<path class="ghost" d="'+rd+'"/>');
-      /* named in a key under the plot, not on it: on the plot it met the filed line, the marks or the 2013 name (Fable r6) */
-      var rkey=yrs[opts.refFrom]+' at '+yrs[rl]+' prices '+PL.fmtM1(opts.ref[rl]);
+      /* named on the plot where nothing else is drawn (PL.refLabel tries four places against the lines, the marks, the
+         rings and the 2013 name), else in a key under it (Fable r6) */
+      var RL=PL.refLabel({x:x, y:y, values:values, ref:opts.ref, rl:rl, fs:fs, W:W, H:H, mt:mt, mb:mb, ml:ml, mr:mr,
+        text:yrs[opts.refFrom]+' at '+yrs[rl]+' prices '+(opts.short||PL.fmtM1)(opts.ref[rl]), marks:opts.marks||[],
+        rings:(opts.pins||[]).concat(opts.sel!=null?[opts.sel]:[]),
+        brk:(opts.brkLabel&&bi>0)?[+bx, H-mb-6, 'basis changed '+O.schemaBreak]:null, cls:'ghost-l halo'});
+      if(RL.svg) p.push(RL.svg);
+      var rkey=RL.key;
     }
   }
   (opts.marks||[]).forEach(function(i){
@@ -4404,9 +5325,12 @@ function renderLine(host, values, opts){
     p.push('<text class="ax halo" x="'+x(i).toFixed(1)+'" y="'+(y(values[i])-9).toFixed(1)+'" text-anchor="'+(x(i)>W-mr-24?'end':'middle')+
       '" font-size="'+fs+'">'+yrs[i]+'</text>');
   });
-  if(opts.sel!=null)
+  if(opts.sel!=null&&values[opts.sel]!=null)
     p.push('<circle cx="'+x(opts.sel).toFixed(1)+'" cy="'+y(values[opts.sel]).toFixed(1)+'" r="5" '+
       'fill="var('+opts.color+')" stroke="var(--paper)" stroke-width="2"/>');
+  /* rings (opts.pins): the years a sentence figure points at */
+  (opts.pins||[]).forEach(function(i){ if(values[i]==null) return;
+    p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="8" fill="none" stroke="var(--ink)" stroke-width="1.6"/>'); });
   p.push('<g class="xh" style="opacity:0"><line class="brk" y1="'+mt+'" y2="'+(H-mb)+'"/>'+
          '<circle class="dot" r="4.5" fill="var('+opts.color+')"/></g>');
   p.push('<rect class="hit" x="'+ml+'" y="'+mt+'" width="'+(W-ml-mr)+'" height="'+(H-mt-mb)+'" fill="transparent"'+
@@ -4430,7 +5354,7 @@ function renderLine(host, values, opts){
     xc.setAttribute('cx',x(i)); xc.setAttribute('cy',y(values[i]));
     tip.innerHTML='<div class="ty num">'+yrs[i]+'</div><div class="tl"><span>'+
       esc(opts.name||'Value')+'</span><span class="num">'+fmt(values[i])+'</span></div>'+
-      (opts.ref&&opts.ref[i]!=null?'<div class="tl"><span>'+yrs[opts.refFrom]+' at '+yrs[i]+' prices</span><span class="num">about '+PL.fmtM1(opts.ref[i])+'</span></div>':'');
+      (opts.ref&&opts.ref[i]!=null?'<div class="tl"><span>'+yrs[opts.refFrom]+' at '+yrs[i]+' prices</span><span class="num">about '+(opts.short||PL.fmtM1)(opts.ref[i])+'</span></div>':'');
     tip.style.opacity=1;
     var wx=x(i)/W*wrap.clientWidth;
     tip.style.left=Math.min(Math.max(wx-tip.offsetWidth/2,0),wrap.clientWidth-tip.offsetWidth)+'px';
@@ -4805,86 +5729,20 @@ function renderTab(tab){
   }
 
   if(tab==='trend'){
-    var vals=seriesFor(sec,label), tot=sectionSeries(sec);
-    var share=vals.map(function(v,i){return tot[i]?v/tot[i]*100:0;});
-    var i0=0, iN=vals.length-1;
-    var firstNonZero=vals.findIndex(function(v){return v>0;});
-    if(firstNonZero>0) i0=firstNonZero;
-
-    var t0=O.years[i0], tN=O.years[iN], iL=iN;
-    while(iL>i0&&!vals[iL]) iL--;                      /* the last year anything was filed (a category no longer filed) */
-    /* the price yardstick: the first year's amount carried forward by consumer prices (BLS CPI-U, data/cpi-u.json) */
-    var ref=(O.cpi&&O.cpi[t0]&&O.cpi[tN]) ? O.years.map(function(yr,i){ return i<i0||!O.cpi[yr] ? null : vals[i0]*O.cpi[yr]/O.cpi[t0]; }) : null;
-    // the anomalies worth a click, at most two: the largest one-year moves, a spike and its reversal counted once (the earlier year)
-    var moves=[], marks=[], dAt=function(k){ return (vals[k]||0)-(vals[k-1]||0); };
-    for(var mi=1; mi<vals.length; mi++)
-      if(O.years[mi]!==O.schemaBreak && vals[mi]!=null && vals[mi-1]!=null) moves.push([Math.abs(dAt(mi)), mi]);
-    moves.sort(function(a,b){return b[0]-a[0];});
-    /* a move that reverses the one before it (opposite sign, at least 0.6 of its size) belongs to that earlier year's event */
-    var ev=function(i){ var a=dAt(i-1), b=dAt(i);
-      return (i>1 && vals[i-2]!=null && O.years[i-1]!==O.schemaBreak && a*b<0 &&
-              Math.min(Math.abs(a),Math.abs(b))>=0.6*Math.max(Math.abs(a),Math.abs(b))) ? i-1 : i; };
-    moves.forEach(function(m){ var e=ev(m[1]); if(marks.length<2 && marks.indexOf(e)<0) marks.push(e); });
-
-    body.innerHTML=
-      '<p class="tsent">'+PL.trendSentence({v0:vals[i0], vN:vals[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:O.cpi, yL:O.years[iL], vL:vals[iL], sL:share[iL],
-        of:sec?'city spending':'city revenue'})+'</p>'+
-      '<h4>'+esc(label)+', '+t0+'–'+tN+' <span style="text-transform:none;letter-spacing:0;font-weight:500">'+
-        '&middot; '+(window.matchMedia('(hover:hover)').matches?'hover to read a year, click one for what moved':'slide to read a year, tap one for what moved')+'</span></h4><div id="mLine"></div>'+
-      '<div id="mMove"></div>'+
-      '<p class="note">'+(ref ? 'The dashed line is '+t0+'&rsquo;s '+money0(vals[i0])+' grown only by consumer prices '+
-        '(CPI-U, <a href="https://data.bls.gov/timeseries/CUUR0000SA0" rel="noopener">Bureau of Labor Statistics</a>). ' : '')+
-      'Figures either side of '+O.schemaBreak+' sit on different reporting bases and are not strictly comparable.</p>';
-
-    function drawMain(sel){
-      renderLine(document.getElementById('mLine'), vals,
-        {color:col, name:label, marks:marks, sel:sel, ref:ref, refFrom:i0, brkLabel:true, onPick:function(i){ if(i>0) renderMove(i); }});
-    }
-    function renderMove(i){
-      drawMain(i);
-      var yr=O.years[i], prev=O.years[i-1];
-      var cur={}, was={};
-      flowsFor(yr,sec,label).forEach(function(f){
-        var k=f[FI_NARR]+'|'+f[FI_ACCT];
-        cur[k]=(cur[k]||0)+f[FI_AMT];
-      });
-      flowsFor(prev,sec,label).forEach(function(f){
-        var k=f[FI_NARR]+'|'+f[FI_ACCT];
-        was[k]=(was[k]||0)+f[FI_AMT];
-      });
-      var keys={}; Object.keys(cur).forEach(function(k){keys[k]=1;}); Object.keys(was).forEach(function(k){keys[k]=1;});
-      var rows=Object.keys(keys).map(function(k){
-        var c=cur[k]||0, w=was[k]||0;
-        return {narr:FD.narr[+k.split('|')[0]], acct:k.split('|')[1], cur:c, was:w, d:c-w};
-      }).sort(function(a,b){return Math.abs(b.d)-Math.abs(a.d);});
-      var net=vals[i]-vals[i-1];
-      var top=rows.slice(0,7);
-      var covered=top.reduce(function(s,r){return s+r.d;},0);
-      var h='<h4>What moved in '+yr+' <span style="text-transform:none;letter-spacing:0">— vs '+prev+
-        ', net '+(net>=0?'+':'−')+money0(Math.abs(net))+'</span></h4>';
-      if(yr===O.schemaBreak||prev===O.schemaBreak)
-        h+='<div class="thin" style="background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);'+
-           'border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 12px">This pair straddles the '+
-           O.schemaBreak+' reporting-basis change — part of any move here is definitional.</div>';
-      h+='<table class="mv"><thead><tr><th>Account line</th><th class="r">'+prev+'</th><th class="r">'+yr+
-         '</th><th class="r">Change</th></tr></thead><tbody>'+
-        top.map(function(r){
-          var flag = r.was===0 ? '<span class="flag">NEW</span>' : (r.cur===0 ? '<span class="flag">ENDED</span>' : '');
-          return '<tr><td class="m-name">'+esc(r.narr)+flag+
-            ' <span class="fnt num">'+esc(r.acct)+'</span><span class="m-range num">'+money0(r.was)+' &rarr; '+money0(r.cur)+'</span></td>'+
-            '<td class="r num m-vals">'+money0(r.was)+'</td>'+
-            '<td class="r num m-vals">'+money0(r.cur)+'</td>'+
-            '<td class="r num m-delta '+(r.d>=0?'up':'dn')+'">'+(r.d>=0?'+':'−')+money0(Math.abs(r.d))+'</td></tr>';
-        }).join('')+'</tbody></table>'+
-        '<p class="fnt" style="margin-top:8px">'+(!top.length ? 'Nothing was filed under '+esc(label)+' in '+prev+' or '+yr+'.' :
-          (top.length===1?'This one account line explains ':'These '+PL.numword(top.length)+' account lines explain ')+
-          (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+' of the net move.')+(top.some(function(r){return /^H/.test(r.acct);})?' Accounts beginning H are capital-project funds — one-time outlays, not operating growth.':'')+'</p>';
-      document.getElementById('mMove').innerHTML=h;
-    }
-    // open on the latest filing - what moved this year is a resident's question; the spikes stay marked on the chart
-    // (a category no longer filed opens on its last move, not on a year of nothing)
-    var kN=iN; while(kN>1&&!vals[kN]&&!vals[kN-1]) kN--;
-    if(kN>0) renderMove(kN); else drawMain(null);
+    /* the Trend tab is the chrome's (PL.trendTab, one implementation with the county family); the page lends its series,
+       its chart and its account lines */
+    var rowsAt=function(i){
+      if(i<1) return [];
+      var cur={}, was={}, keys={};
+      flowsFor(O.years[i],sec,label).forEach(function(f){ var k=f[FI_NARR]+'|'+f[FI_ACCT]; cur[k]=(cur[k]||0)+f[FI_AMT]; });
+      flowsFor(O.years[i-1],sec,label).forEach(function(f){ var k=f[FI_NARR]+'|'+f[FI_ACCT]; was[k]=(was[k]||0)+f[FI_AMT]; });
+      Object.keys(cur).forEach(function(k){ keys[k]=1; }); Object.keys(was).forEach(function(k){ keys[k]=1; });
+      return Object.keys(keys).map(function(k){ var c=cur[k]||0, w=was[k]||0;
+        return {narr:FD.narr[+k.split('|')[0]], acct:k.split('|')[1], cur:c, was:w, d:c-w}; })
+        .sort(function(a,b){ return Math.abs(b.d)-Math.abs(a.d); });
+    };
+    PL.trendTab({body:body, label:label, sec:sec, years:O.years, brk:O.schemaBreak, cpi:O.cpi, pop:O.pop||null,
+      vals:seriesFor(sec,label), tot:sectionSeries(sec), col:col, of:sec?'city spending':'city revenue', esc:esc, renderLine:renderLine, rowsAt:rowsAt, state:MODAL});
     return;
   }
 

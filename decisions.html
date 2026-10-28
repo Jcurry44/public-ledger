@@ -1357,21 +1357,29 @@ PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
 /* the Trend sentence (Joe + Fable, 10-28): the filed change first, the change in prices beside it - stated, never netted,
    since the two ends can sit on different reporting bases - then the share as a plain fraction ('one dollar in five').
    t = {v0, vN, y0, yN, s0, sN, cpi, of, yL, vL, sL}: the first and latest filed amounts and years, their shares of the total
-   (%), the CPI-U annual averages by year (absent = no price clause), what the share is of ('city spending'), and the last
-   year anything was filed with its amount and share (when the latest is zero). */
+   (%), the CPI-U annual averages by year (absent = no price clause), what the share is of ('city spending'), the last
+   year anything was filed with its amount and share (when the latest is zero), the first and latest per-resident
+   amounts (p0, pN; absent = no clause), and drill (figures as buttons). */
 PL.trendSentence=function(t){
-  var pc=(t.vN-t.v0)/t.v0*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  if(!(t.v0>0)) return '';
+  var r=t.vN/t.v0, pc=(r-1)*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
   function fp(s){ return s<0.05?'under 0.1%':s.toFixed(1)+'%'; }
+  /* drill: each figure is a button - the change and the prices open their workings, the share and the per-resident
+     figures switch the chart to that lens (PL.trendTab) */
+  function btn(k,v,txt){ return t.drill?'<button type="button" class="tnum" '+k+'="'+v+'">'+txt+'</button>':txt; }
   /* a category no longer filed says so, never 'Down 100%' */
   if(!t.vN&&t.vL) return '<b>Nothing filed after '+t.yL+'.</b> Its last filing, '+PL.money0(t.vL)+', was '+fp(t.sL)+' of '+t.of+'.';
-  var h='<b>'+(Math.round(pc)===0?'About level':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%')+' since '+t.y0;
-  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'; }
+  /* past four times the first year, a multiple reads better than a percent ('Up 13x', not 'Up 1213%') */
+  var chg=Math.round(pc)===0?'About level':r>4?'Up '+(r>=10?Math.round(r):r.toFixed(1))+'&times;':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%';
+  var h='<b>'+btn('data-tw','chg',chg)+' since '+t.y0;
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; '+btn('data-tw','cpi','prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'); }
   h+='.</b> ';
   function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=10&&Math.abs(100/n-s)<=1.5)?n:0; }   /* 'one in nineteen' is not how anyone talks */
   var n0=frac(t.s0), nN=frac(t.sN);
-  if(n0&&n0===nN) h+='About one dollar in '+PL.numword(n0)+' of '+t.of+', then and now.';
-  else if(n0&&nN) h+='From one dollar in '+PL.numword(n0)+' of '+t.of+' to one in '+PL.numword(nN)+'.';
-  else h+='From '+fp(t.s0)+' of '+t.of+' to '+fp(t.sN)+'.';
+  if(n0&&n0===nN) h+='About '+btn('data-lens','share','one dollar in '+PL.numword(n0))+' of '+t.of+', then and now.';
+  else if(n0&&nN) h+='From '+btn('data-lens','share','one dollar in '+PL.numword(n0))+' of '+t.of+' to one in '+PL.numword(nN)+'.';
+  else h+='From '+btn('data-lens','share',fp(t.s0))+' of '+t.of+' to '+fp(t.sN)+'.';
+  if(t.p0&&t.pN) h+=' '+btn('data-lens','pc','Per resident, '+PL.money0(t.p0)+' in '+t.y0+' and '+PL.money0(t.pN)+' in '+t.yN)+'.';
   return h;
 };})();
 
