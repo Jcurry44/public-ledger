@@ -11,5 +11,41 @@
     "RECONSTRUCTION OF DOCKS AT GRATWICK PA",
     "ACQ., CONS., & RECONS., OF WATER IM",
     "IMPROV TO DEERWOOD GOLFCOU"
-  ]
+  ],
+  "misspelledNote": "Labels the city printed with a misspelling. Public Ledger never corrects the city's words; it marks the misspelled word [sic], so a reader never takes it for this site's typo. Keyed by the label as printed (upper case); the value names the misspelled word(s). Checked 2026-10-27.",
+  "misspelled": {
+      "GOLD COURSE EQUIPMENT 2026": [
+          "GOLD"
+      ],
+      "WASTERWATER TREATMENT": [
+          "WASTERWATER"
+      ],
+      "TRAFFIC SINGAL UPGRADES": [
+          "SINGAL"
+      ],
+      "PUBLIC WOKRS": [
+          "WOKRS"
+      ],
+      "WURLITZER PICKELBALL COURT": [
+          "PICKELBALL"
+      ],
+      "500 WHEATFIELD EXPANISON": [
+          "EXPANISON"
+      ],
+      "BOTANICAL GIP IMPROVMENTS": [
+          "IMPROVMENTS"
+      ],
+      "GENERATOR REPACEMENT_WTP": [
+          "REPACEMENT"
+      ],
+      "WATER PLANT IMPROVEMERN": [
+          "IMPROVEMERN"
+      ],
+      "WATER TREATMENT PLANT CRITICAR": [
+          "CRITICAR"
+      ],
+      "IMPROVEMENTS TO THE DEERWOOR": [
+          "DEERWOOR"
+      ]
+  }
 }

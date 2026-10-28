@@ -53,6 +53,12 @@
       "tenants": {
               "title": "Who stays, who goes.",
               "text": "Two county offices rent space in the building today. The DMV stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease. Probation has no space in it; the City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; this page found no announcement. For the space, the County paid the City a $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) and pays its share of utilities; in 2024 it added $1,000 a month for a Public Defender's office.",
+              "lede": "Two county offices rent space in the building today.",
+              "rows": [
+                {"k": "DMV", "v": "Stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease."},
+                {"k": "Probation", "v": "No space in the design; the City's 2024 plan called for moving its county tenants out. Its other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; no public announcement was found (checked Oct 27, 2026)."},
+                {"k": "What the County pays", "v": "A $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) plus its share of utilities; in 2024 it added $1,000 a month for a Public Defender's office."}
+              ],
               "sources": [
                       {
                               "name": "City RFP, 2024",
