@@ -1,7 +1,7 @@
 department,fund_dept,lines,amount_usd_approved_claim_not_necessarily_paid,share_of_warrant_pct,median_prior_draw_usd,prior_warrants_with_a_draw,multiple_of_median,far_off_run_rate,largest_line_payee,largest_line_usd,largest_line_source_page
 Memorial Pool Redesign (& 1 other project),618-7180,7,1004167.69,63.08,7700.0,19,130.4,yes,"LAKESIDE CONTRACTORS, INC.",909202.91,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=9
-Gold [sic] Course Equipment 2026 (& 1 other project),607-7997,3,128727.77,8.09,3787.11,13,34.0,yes,"FINCH TURF, LLC",93028.77,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=5
-Wasterwater [sic] Treatment,613-8130,1,100098.75,6.29,,2,,no,ACI CONTROLS INC.,100098.75,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=1
+Golf Course Equipment 2026 (& 1 other project),607-7997,3,128727.77,8.09,3787.11,13,34.0,yes,"FINCH TURF, LLC",93028.77,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=5
+Wastewater Treatment,613-8130,1,100098.75,6.29,,2,,no,ACI CONTROLS INC.,100098.75,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=1
 Maintenance of Streets,001-5110,27,55294.03,3.47,75443.12,40,0.7,no,"VSI RENTALS, LLC",39000.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=16
 Sidewalks,001-5410,1,54318.0,3.41,8194.99,8,6.6,yes,AJ BRODIE ENTERPRISES INC,54318.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=1
 Sewage Treatment,004-8130,35,51996.89,3.27,68962.51,40,0.8,no,MODERN DISPOSAL SERVICES,17655.06,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=10
@@ -30,7 +30,7 @@ Programs for Aging,001-6772,5,1219.09,0.08,1504.76,38,0.8,no,NATIONAL GRID,780.8
 Gateway Harbor,001-7989,3,495.74,0.03,365.53,33,1.4,no,CHARTER COMMUNICATIONS,320.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=3
 Treasurer,001-1325,1,493.89,0.03,493.89,21,1.0,no,"QUADIENT LEASING USA, INC.",493.89,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=13
 Swimming Pools,001-7180,1,443.95,0.03,227.44,23,2.0,no,NATIONAL GRID,443.95,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=18
-Water Treatment Plant Criticar [sic],609-8397,1,402.2,0.03,46571.74,33,0.0,no,GRAINGER,402.2,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=6
+Water Treatment Plant Critical,609-8397,1,402.2,0.03,46571.74,33,0.0,no,GRAINGER,402.2,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=6
 City Clerk,001-1410,5,391.63,0.02,904.1,39,0.4,no,LINEAGE,159.86,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=9
 Parks and Rec Administration,001-7020,2,384.3,0.02,199.83,37,1.9,no,TOWN & COUNTRY OFFICE MACHINES,244.88,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=14
 Council on the Arts,001-7010,2,293.05,0.02,361.38,26,0.8,no,NATIONAL GRID,269.35,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%2010.20.26b.pdf#page=18

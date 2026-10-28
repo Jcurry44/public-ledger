@@ -484,7 +484,7 @@ section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " 
 .hmove[aria-disabled=true]{cursor:default}
 @media (hover:hover){.hmove[href]:hover{background:var(--accent-soft)}.hmove[href]:hover .go{text-decoration:underline}}
 /* THE ANSWER STRIP (move 6): the first screen's four answers in the class's terms - rank, per resident against the
-   class median, the biggest category, what changed - each cell a door (the neighbours, the category sheet, the pair's
+   class median, the biggest category, what changed - each cell a door (the neighbors, the category sheet, the pair's
    decomposition), the divisor and any filing-year mismatch printed on the strip. Context, not a scorecard. */
 .hans{margin:0 0 14px;max-width:560px}
 .hans-k{font:600 11.5px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 7px;
@@ -1149,7 +1149,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
   <nav class="rail" aria-label="Sections"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
     <a href="#aid">County aid</a>
-    <a href="#neighbors">Neighbours</a>
+    <a href="#neighbors">Neighbors</a>
     <a href="#method">Method</a>
     <span class="rail-mb" id="railMb" aria-hidden="true"><span class="mb-t">Town of Pendleton</span><span class="mb-s num"></span></span>
   </div></nav>
@@ -3489,7 +3489,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
   });
 })();
 
-/* ---- neighbours toggle: totals vs per resident ---- */
+/* ---- neighbors toggle: totals vs per resident ---- */
 (function(){
   var seg=document.getElementById('sibSeg'), host=document.getElementById('sibRank');
   if(!seg||!host) return;

@@ -1,11 +1,11 @@
 department,fund_dept,lines,amount_usd_approved_claim_not_necessarily_paid,share_of_warrant_pct,median_prior_draw_usd,prior_warrants_with_a_draw,multiple_of_median,far_off_run_rate,largest_line_payee,largest_line_usd,largest_line_source_page
 Workers Compensation,001-9040,3,433645.67,43.74,40516.26,18,10.7,yes,PERMA,385803.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=8
 Police,001-3120,24,154465.27,15.58,12771.2,21,12.1,yes,LAUREL FORD INC.,125698.7,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=1
-Water Treatment Plant Criticar [sic],609-8397,5,128720.25,12.98,33950.4,17,3.8,yes,CPE,61320.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=4
+Water Treatment Plant Critical,609-8397,5,128720.25,12.98,33950.4,17,3.8,yes,CPE,61320.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=4
 Retiree Medical Insurance,001-9060,6,88998.81,8.98,20000.0,21,4.4,yes,HIGHMARK BCBS OF WNY,70734.46,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=6
 Sewage Treatment,004-8130,20,34047.87,3.43,65890.44,22,0.5,no,MODERN DISPOSAL SERVICES,14075.71,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=7
 Maintenance of Streets,001-5110,11,33181.92,3.35,82584.5,21,0.4,no,"VSI RENTALS, LLC",13000.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=9
-Generator Repacement [sic]_WTP,619-8397,2,32387.5,3.27,4760.28,8,6.8,yes,STC CONSTRUCTION INC,31682.5,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=9
+Generator Replacement_WTP,619-8397,2,32387.5,3.27,4760.28,8,6.8,yes,STC CONSTRUCTION INC,31682.5,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=9
 Golf Course,001-7250,9,32045.19,3.23,13771.29,21,2.3,no,"HELENA AGRI-ENTERPRISES, LLC",10497.99,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=5
 Fire Protection,001-3410,17,11120.38,1.12,17136.03,22,0.6,no,VECTOR SOLUTIONS,6622.4,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=9
 Water Purification,002-8330,5,10315.67,1.04,5591.51,21,1.8,no,CHEMTRADE CHEMICALS US LLC,6205.14,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%201.20.26%20-%202026.pdf#page=3

@@ -484,7 +484,7 @@ section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " 
 .hmove[aria-disabled=true]{cursor:default}
 @media (hover:hover){.hmove[href]:hover{background:var(--accent-soft)}.hmove[href]:hover .go{text-decoration:underline}}
 /* THE ANSWER STRIP (move 6): the first screen's four answers in the class's terms - rank, per resident against the
-   class median, the biggest category, what changed - each cell a door (the neighbours, the category sheet, the pair's
+   class median, the biggest category, what changed - each cell a door (the neighbors, the category sheet, the pair's
    decomposition), the divisor and any filing-year mismatch printed on the strip. Context, not a scorecard. */
 .hans{margin:0 0 14px;max-width:560px}
 .hans-k{font:600 11.5px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 7px;
@@ -1149,14 +1149,14 @@ body:has(#modal:not([hidden])) .pager{display:none}
   <nav class="rail" aria-label="Sections"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
     <a href="#aid">County aid</a>
-    <a href="#neighbors">Neighbours</a>
+    <a href="#neighbors">Neighbors</a>
     <a href="#method">Method</a>
     <span class="rail-mb" id="railMb" aria-hidden="true"><span class="mb-t">Village of Youngstown</span><span class="mb-s num"></span></span>
   </div></nav>
 
   <main class="wrap" id="main">
   <h1>Where the Village of Youngstown&rsquo;s money comes from, and where it goes</h1>
-  <div class="intro"><p class="lede">32 years of the village&rsquo;s own annual filings to the state — self-reported, desk-reviewed but not audited by OSC. The village does not publish an itemised claims register on its own site — minutes carry an Abstract of Audited Vouchers heading with fund totals only (checked 10/05/2026, <a href="https://www.youngstownny.gov/AgendaCenter/Village-Board-2">source</a>). This edition is the filings story: complete, and drillable to the account line.</p></div>
+  <div class="intro"><p class="lede">32 years of the village&rsquo;s own annual filings to the state — self-reported, desk-reviewed but not audited by OSC. The village does not publish an itemized claims register on its own site — minutes carry an Abstract of Audited Vouchers heading with fund totals only (checked 10/05/2026, <a href="https://www.youngstownny.gov/AgendaCenter/Village-Board-2">source</a>). This edition is the filings story: complete, and drillable to the account line.</p></div>
   <div class="hans" aria-label="In context"><div class="hans-k">In context &middot; among the 5 villages</div><div class="hans-g"><a class="hc" href="#neighbors"><span class="k">Rank</span><span class="v num">1st of 5</span><span class="s">on spending per resident, among the 5 villages</span></a><a class="hc" href="#neighbors"><span class="k">Per resident</span><span class="v num">$1,975</span><span class="s">villages&rsquo; median <b class="num">$1,148</b></span></a><a class="hc" href="#cat=1|General%20Government"><span class="k">Biggest category</span><span class="v">General Government</span><span class="s"><b class="num">22%</b> of 2026 spending</span></a><a class="hc" href="#cmp=2025|2026"><span class="k">2025 &rarr; 2026</span><span class="v num">spending +55.7%</span><span class="s">revenue <b class="num">−13.2%</b> &middot; no debt proceeds filed</span></a></div><p class="hans-n">Context, not a scorecard: ranks are within the 5 villages only; per resident divides the 2026 filing by the 2020 Census (<b class="num">1,859</b>).</p></div>
 
   <div class="hcard" tabindex="-1">
@@ -3489,7 +3489,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
   });
 })();
 
-/* ---- neighbours toggle: totals vs per resident ---- */
+/* ---- neighbors toggle: totals vs per resident ---- */
 (function(){
   var seg=document.getElementById('sibSeg'), host=document.getElementById('sibRank');
   if(!seg||!host) return;
