@@ -1,7 +1,7 @@
 department,fund_dept,lines,amount_usd_approved_claim_not_necessarily_paid,share_of_warrant_pct,median_prior_draw_usd,prior_warrants_with_a_draw,multiple_of_median,far_off_run_rate,largest_line_payee,largest_line_usd,largest_line_source_page
 Sewage Treatment,004-8130,41,255564.55,23.27,64723.07,27,3.9,yes,E.H. WACHS,143197.4,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=5
 Maintenance of Streets,001-5110,90,231239.33,21.05,71546.57,27,3.2,yes,"VSI RENTALS, LLC",32281.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=21
-Water Treatment Plant Criticar… (& 1 other project),609-8397,6,225205.69,20.51,33950.4,21,6.6,yes,PARADYME AUTOMATION LLC,156528.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=14
+"Water Treatment Plant Criticar… (& 1 other project, $65,820)",609-8397,6,225205.69,20.51,33950.4,21,6.6,yes,PARADYME AUTOMATION LLC,156528.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=14
 Traffic Control,001-3310,28,44061.53,4.01,6001.98,23,7.3,yes,NORTHEAST SIGNAL INC,26688.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=13
 Workers Compensation,001-9040,2,38061.17,3.47,40430.61,23,0.9,no,NCA COMP INC.,21444.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=12
 Buildings,001-1620,26,28689.31,2.61,6161.69,27,4.7,yes,T-MARK PLUMBING,8541.23,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=17
@@ -17,7 +17,7 @@ Judgements and Claims,001-1930,2,12281.43,1.12,5856.42,26,2.1,no,TRAVELERS PERSO
 TCMH Feasibility Study,603-5110,1,12000.0,1.09,,3,,no,"C & S ENGINEERS, INC.",12000.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=4
 Generator Replacement_WTP,619-8397,1,11727.03,1.07,6778.28,10,1.7,no,NUSSBAUMER & CLARKE INC,11727.03,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=13
 Golf Course,001-7250,26,11203.71,1.02,13341.28,26,0.8,no,GRASSLAND EQUIPMENT,2027.3,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=24
-Zoning Code Upgrade (& 1 other project),605-1997,2,10875.0,0.99,7500.0,17,1.4,no,"C & S ENGINEERS, INC.",7500.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=4
+"Zoning Code Upgrade (& 1 other project, $3,375)",605-1997,2,10875.0,0.99,7500.0,17,1.4,no,"C & S ENGINEERS, INC.",7500.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=4
 Water Purification,002-8330,19,10020.07,0.91,6627.78,26,1.5,no,"JCI JONES CHEMICALS, INC.",3448.0,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=9
 Programs for Aging,001-6772,8,8134.88,0.74,1476.52,25,5.5,no,NATIONAL GRID,5381.16,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=29
 Treasurer,001-1325,3,6090.2,0.55,598.47,14,10.2,no,SPRINGBROOK HOLDING CO LLC,5309.45,https://www.northtonawanda.gov/documents/Warrant%20of%20Claims/2026/Warrant%20Report%204.7.26.pdf#page=16
