@@ -1353,7 +1353,23 @@ PL.fmtM1=function(v){return v>=9.9995e8?'$'+(v/1e9).toFixed(2)+'B':v>=995000?'$'
     return TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');
   };
 })();
-PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};})();
+PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
+/* the Trend sentence (Joe + Fable, 10-28): the filed change first, the change in prices beside it - stated, never netted,
+   since the two ends can sit on different reporting bases - then the share as a plain fraction ('one dollar in five').
+   t = {v0, vN, y0, yN, s0, sN, cpi, of}: the first and latest filed amounts and years, their shares of the total (%), the
+   CPI-U annual averages by year (absent = no price clause), and what the share is of ('city spending'). */
+PL.trendSentence=function(t){
+  var pc=(t.vN-t.v0)/t.v0*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  var h='<b>'+(Math.round(pc)===0?'About level':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%')+' since '+t.y0;
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'; }
+  h+='.</b> ';
+  function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=20&&Math.abs(100/n-s)<=1.5)?n:0; }
+  var n0=frac(t.s0), nN=frac(t.sN);
+  if(n0&&n0===nN) h+='About one dollar in '+PL.numword(n0)+' of '+t.of+', then and now.';
+  else if(n0&&nN) h+='From one dollar in '+PL.numword(n0)+' of '+t.of+' to one in '+PL.numword(nN)+'.';
+  else h+='From '+t.s0.toFixed(1)+'% of '+t.of+' to '+t.sN.toFixed(1)+'%.';
+  return h;
+};})();
 
 (function(){
 /* hl - hover-linking: hover one mark, its kin light up.

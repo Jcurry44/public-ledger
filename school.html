@@ -562,6 +562,7 @@ svg.trend .ann{font-family:system-ui,sans-serif;font-weight:600;fill:var(--ink);
 svg.trend .annl{stroke:var(--ink);stroke-width:1;fill:none;opacity:.6}
 svg.trend .ghost{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:4 3;opacity:.8}
 svg.trend .ghostl{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--card);stroke-width:3px}
+svg.trend .axh{paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
 .panel{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:15px 16px;box-shadow:var(--shadow)}
 .panel h3{margin:0 0 2px;font-size:14.5px}
 .panel h3 .tot{float:right;font-weight:600}
@@ -671,6 +672,8 @@ a.rk{text-decoration:none;color:inherit}
 .mstat{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 12px}
 .mstat .k{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .mstat .v{font-size:18px;font-weight:600;margin-top:3px}
+.tsent{margin:2px 0 16px;font-size:14px;line-height:1.5;color:var(--muted)}
+.tsent b{display:block;margin-bottom:4px;font:600 19px/1.3 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);letter-spacing:-.005em}
 .small{display:grid;grid-template-columns:repeat(auto-fit,minmax(198px,1fr));gap:11px}
 .sm{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 11px}
 .sm .n{font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1379,7 +1382,23 @@ PL.fmtM1=function(v){return v>=9.9995e8?'$'+(v/1e9).toFixed(2)+'B':v>=995000?'$'
     return TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');
   };
 })();
-PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};})();
+PL.capword=function(s){return s.charAt(0).toUpperCase()+s.slice(1);};
+/* the Trend sentence (Joe + Fable, 10-28): the filed change first, the change in prices beside it - stated, never netted,
+   since the two ends can sit on different reporting bases - then the share as a plain fraction ('one dollar in five').
+   t = {v0, vN, y0, yN, s0, sN, cpi, of}: the first and latest filed amounts and years, their shares of the total (%), the
+   CPI-U annual averages by year (absent = no price clause), and what the share is of ('city spending'). */
+PL.trendSentence=function(t){
+  var pc=(t.vN-t.v0)/t.v0*100, c0=t.cpi&&t.cpi[t.y0], cN=t.cpi&&t.cpi[t.yN];
+  var h='<b>'+(Math.round(pc)===0?'About level':(pc>0?'Up ':'Down ')+Math.abs(pc).toFixed(0)+'%')+' since '+t.y0;
+  if(c0&&cN){ var pp=(cN/c0-1)*100; h+='; prices '+(pp>=0?'rose ':'fell ')+Math.abs(pp).toFixed(0)+'%'; }
+  h+='.</b> ';
+  function frac(s){ if(!(s>0)) return 0; var n=Math.round(100/s); return (n>=2&&n<=20&&Math.abs(100/n-s)<=1.5)?n:0; }
+  var n0=frac(t.s0), nN=frac(t.sN);
+  if(n0&&n0===nN) h+='About one dollar in '+PL.numword(n0)+' of '+t.of+', then and now.';
+  else if(n0&&nN) h+='From one dollar in '+PL.numword(n0)+' of '+t.of+' to one in '+PL.numword(nN)+'.';
+  else h+='From '+t.s0.toFixed(1)+'% of '+t.of+' to '+t.sN.toFixed(1)+'%.';
+  return h;
+};})();
 
 (function(){
 /* hl - hover-linking: hover one mark, its kin light up.
@@ -2189,7 +2208,7 @@ function renderLine(host, values, opts){
   var yrs=O.years, W=Math.round(host.clientWidth||0)||760, narrow=W<520;
   var H=opts.h||210, ml=narrow?46:58, mr=narrow?12:16, mt=12, mb=narrow?22:24;
   var fs=narrow?12:11.5;
-  var max=Math.max.apply(null,values)*1.08||1;
+  var max=Math.max.apply(null,values.concat((opts.ref||[]).filter(function(v){return v!=null;})))*1.08||1;
   var x=function(i){return ml+(W-ml-mr)*(i/(yrs.length-1));};
   var y=function(v){return mt+(H-mt-mb)*(1-v/max);};
   var fmt=opts.pct?function(v){return v.toFixed(1)+'%';}:money0;
@@ -2203,6 +2222,7 @@ function renderLine(host, values, opts){
   if(bi>0){
     var bx=((x(bi)+x(bi-1))/2).toFixed(1);
     p.push('<line class="brk" x1="'+bx+'" y1="'+mt+'" x2="'+bx+'" y2="'+(H-mb)+'"/>');
+    if(opts.brkLabel) p.push('<text class="ax axh" x="'+bx+'" y="'+(H-mb-6)+'" text-anchor="middle" font-size="'+fs+'">basis changed '+O.schemaBreak+'</text>');
   }
   var every=narrow?10:5, lastI=yrs.length-1, gapU=narrow?42:46;
   yrs.forEach(function(yr,i){
@@ -2214,12 +2234,30 @@ function renderLine(host, values, opts){
   /* a year with no filing under this line is a break in the line, never a point at $0 */
   p.push('<path d="'+areaRuns(values,x,y,H-mb)+'" fill="var('+opts.color+')" opacity=".10"/>');
   p.push('<path class="ln" d="'+pathRuns(values,x,y)+'" stroke="var('+opts.color+')"/>');
+  /* the price yardstick (opts.ref, the Trend tab): the first year's amount carried forward by consumer prices, dashed in
+     ink - a pattern, never a hue - and named at its right end, on the side away from the filed line */
+  if(opts.ref){
+    var rd='', rl=-1;
+    opts.ref.forEach(function(v,i){ if(v==null) return; rd+=(rd?'L':'M')+x(i).toFixed(1)+' '+y(v).toFixed(1); rl=i; });
+    if(rl>0){
+      var up=values[rl]==null||opts.ref[rl]>=values[rl];
+      p.push('<path class="ghost" d="'+rd+'"/>');
+      /* clear of its own (sloped) line along the label's whole width: above the highest point under it, or below the lowest */
+      var rt=yrs[opts.refFrom]+' at '+yrs[rl]+' prices '+PL.fmtM1(opts.ref[rl]), lx=W-mr-rt.length*fs*0.62, ys=[];
+      for(var j=0;j<=rl;j++) if(opts.ref[j]!=null&&x(j)>=lx-(x(1)-x(0))) ys.push(y(opts.ref[j]));
+      var ly=up?Math.min.apply(null,ys)-7:Math.max.apply(null,ys)+fs+4;
+      if(ly>H-mb-4) ly=Math.min.apply(null,ys)-7;
+      p.push('<text class="ghostl" x="'+(W-mr)+'" y="'+ly.toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+rt+'</text>');
+    }
+  }
   loneRuns(values).forEach(function(i){
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="2.5" fill="var('+opts.color+')"/>');});
   (opts.marks||[]).forEach(function(i){
     if(values[i]==null) return;
     p.push('<circle cx="'+x(i).toFixed(1)+'" cy="'+y(values[i]).toFixed(1)+'" r="4" fill="var(--paper)" '+
-      'stroke="var('+opts.color+')" stroke-width="2"><title>'+yrs[i]+' — select to decompose</title></circle>');
+      'stroke="var('+opts.color+')" stroke-width="2"><title>'+yrs[i]+' — tap to see what moved</title></circle>');
+    p.push('<text class="ax axh" x="'+x(i).toFixed(1)+'" y="'+(y(values[i])-9).toFixed(1)+'" text-anchor="'+(x(i)>W-mr-24?'end':'middle')+
+      '" font-size="'+fs+'">'+yrs[i]+'</text>');
   });
   if(opts.sel!=null&&values[opts.sel]!=null)
     p.push('<circle cx="'+x(opts.sel).toFixed(1)+'" cy="'+y(values[opts.sel]).toFixed(1)+'" r="5" '+
@@ -2245,7 +2283,8 @@ function renderLine(host, values, opts){
     xl.setAttribute('x1',x(i)); xl.setAttribute('x2',x(i));
     xc.setAttribute('cx',x(i)); xc.setAttribute('cy',y(none?0:values[i])); xc.style.opacity=none?0:1;
     tip.innerHTML='<div class="ty num">'+yrs[i]+'</div><div class="tl"><span>'+
-      esc(opts.name||'Value')+'</span><span class="num">'+(none?'no filing':fmt(values[i]))+'</span></div>';
+      esc(opts.name||'Value')+'</span><span class="num">'+(none?'no filing':fmt(values[i]))+'</span></div>'+
+      (opts.ref&&opts.ref[i]!=null?'<div class="tl"><span>'+yrs[opts.refFrom]+' at '+yrs[i]+' prices</span><span class="num">'+fmt(opts.ref[i])+'</span></div>':'');
     tip.style.opacity=1;
     var wx=x(i)/W*wrap.clientWidth;
     tip.style.left=Math.min(Math.max(wx-tip.offsetWidth/2,0),wrap.clientWidth-tip.offsetWidth)+'px';
@@ -2550,29 +2589,34 @@ function renderTab(tab){
     var vals=seriesFor(sec,label), tot=sectionSeries(sec);
     var share=vals.map(function(v,i){return v==null?null:(tot[i]?v/tot[i]*100:0);});
     var i0=0, iN=vals.length-1;
+    while(iN>0&&vals[iN]==null) iN--;                     /* the latest year with a filing */
     var firstNonZero=vals.findIndex(function(v){return v>0;});
     if(firstNonZero>0) i0=firstNonZero;
-    var moves=[];
-    for(var mi=1;mi<vals.length;mi++)
-      if(O.years[mi]!==O.schemaBreak) moves.push([Math.abs(vals[mi]-vals[mi-1]),mi]);
+    var t0=O.years[i0], tN=O.years[iN];
+    /* the price yardstick: the first year's amount carried forward by consumer prices (BLS CPI-U, data/cpi-u.json) */
+    var ref=(O.cpi&&O.cpi[t0]&&O.cpi[tN]) ? O.years.map(function(yr,i){ return i<i0||!O.cpi[yr] ? null : vals[i0]*O.cpi[yr]/O.cpi[t0]; }) : null;
+    // the anomalies worth a click, at most two: the largest one-year moves, a spike and its reversal counted once (the earlier year)
+    var moves=[], marks=[], dAt=function(k){ return (vals[k]||0)-(vals[k-1]||0); };
+    for(var mi=1; mi<vals.length; mi++)
+      if(O.years[mi]!==O.schemaBreak && vals[mi]!=null && vals[mi-1]!=null) moves.push([Math.abs(dAt(mi)), mi]);
     moves.sort(function(a,b){return b[0]-a[0];});
-    var marks=moves.slice(0,3).map(function(m){return m[1];});
+    /* a move that reverses the one before it (opposite sign, at least 0.6 of its size) belongs to that earlier year's event */
+    var ev=function(i){ var a=dAt(i-1), b=dAt(i);
+      return (i>1 && vals[i-2]!=null && O.years[i-1]!==O.schemaBreak && a*b<0 &&
+              Math.min(Math.abs(a),Math.abs(b))>=0.6*Math.max(Math.abs(a),Math.abs(b))) ? i-1 : i; };
+    moves.forEach(function(m){ var e=ev(m[1]); if(marks.length<2 && marks.indexOf(e)<0) marks.push(e); });
     body.innerHTML=
-      '<div class="mstats">'+
-        '<div class="mstat"><div class="k">'+O.years[i0]+'</div><div class="v num">'+money0(vals[i0])+'</div></div>'+
-        '<div class="mstat"><div class="k">'+O.years[iN]+'</div><div class="v num">'+money0(vals[iN])+'</div></div>'+
-        '<div class="mstat"><div class="k">Change</div><div class="v num">'+pctChange(vals[i0],vals[iN])+'</div></div>'+
-        '<div class="mstat"><div class="k">Share of '+(sec?'spend':'revenue')+'</div><div class="v num">'+
-          share[iN].toFixed(1)+'%</div></div>'+
-      '</div>'+
-      '<h4>'+esc(label)+' by year — select any year to decompose it</h4><div id="mLine"></div>'+
+      '<p class="tsent">'+PL.trendSentence({v0:vals[i0], vN:vals[iN], y0:t0, yN:tN, s0:share[i0], sN:share[iN], cpi:O.cpi,
+        of:sec?'total spending':'total revenue'})+'</p>'+
+      '<h4>'+esc(label)+', '+t0+'–'+tN+' <span style="text-transform:none;letter-spacing:0;font-weight:500">'+
+        '&middot; slide or hover to read a year, tap one to see what moved</span></h4><div id="mLine"></div>'+
       '<div id="mMove"></div>'+
-      '<h4>Share of total '+(sec?'expenditure':'revenue')+'</h4><div id="mShareChart"></div>'+
-      '<p class="note">Figures either side of '+O.schemaBreak+' sit on different reporting bases '+
-      '(marked by the dashed line) and are not strictly comparable.</p>';
+      '<p class="note">'+(ref ? 'The dashed line is '+t0+'&rsquo;s '+money0(vals[i0])+' grown only by consumer prices '+
+        '(CPI-U, <a href="https://data.bls.gov/timeseries/CUUR0000SA0" rel="noopener">Bureau of Labor Statistics</a>). ' : '')+
+      'Figures either side of '+O.schemaBreak+' sit on different reporting bases and are not strictly comparable.</p>';
     function drawMain(sel){
       renderLine(document.getElementById('mLine'),vals,
-        {color:col,name:label,marks:marks,sel:sel,onPick:function(i){if(i>0)renderMove(i);}});
+        {color:col,name:label,marks:marks,sel:sel,ref:ref,refFrom:i0,brkLabel:true,onPick:function(i){if(i>0)renderMove(i);}});
     }
     function renderMove(i){
       drawMain(i);
@@ -2609,11 +2653,11 @@ function renderTab(tab){
         }).join('')+'</tbody></table>'+
         '<p class="fnt" style="margin-top:8px">'+(top.length===1?'This account line explains ':'These '+top.length+' account lines explain ')+
         (net!==0?Math.min(Math.abs(covered/net)*100,999).toFixed(0)+'%':'all')+
-        ' of the net move. Accounts beginning H are capital-project funds — one-time outlays, not operating growth.</p>';
+        ' of the net move.'+(top.some(function(r){return /^H/.test(r.acct);})?' Accounts beginning H are capital-project funds — one-time outlays, not operating growth.':'')+'</p>';
       document.getElementById('mMove').innerHTML=h;
     }
-    if(marks.length) renderMove(marks[0]); else drawMain(null);
-    renderLine(document.getElementById('mShareChart'),share,{color:col,name:'Share',pct:true,h:170});
+    /* open on the latest filing - what moved this year is a resident's question; the spikes stay marked on the chart */
+    if(iN>0&&vals[iN-1]!=null) renderMove(iN); else drawMain(null);
     return;
   }
   var subs=subSeriesFor(sec,label);
