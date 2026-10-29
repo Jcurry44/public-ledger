@@ -526,7 +526,7 @@ a.mcard.lit .mopen{text-decoration:underline}
 .mk::before{content:'';position:absolute;inset:-9px;border-radius:50%}           /* a 44px thumb zone around the 26px badge */
 @media (pointer:fine){.mk::before{inset:-4px}}
 .mk.lit{background:var(--ink);color:var(--card);box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
-.mk.dim{opacity:.5}
+.mk.dim{opacity:1;color:var(--faint);border-color:var(--rule-strong)}      /* opaque: a dimmed badge fades its letter, never its disc */
 .mk:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media (min-width:361px) and (max-width:560px){.ml,.mk,.mwater{left:var(--px,var(--x));top:var(--py,var(--y))}}
 @media (max-width:360px){.ml,.mk,.mwater{left:var(--nx,var(--x));top:var(--ny,var(--y))}}
