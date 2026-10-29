@@ -9,13 +9,13 @@
 <meta property="og:title" content="Towns &amp; cities — Village of Middleport | Public Ledger">
 <meta property="og:description" content="Village of Middleport's own annual filings, 1995–2026: $2,121,978 of revenue and $1,985,711 of expenditure in 2026, drillable to the account line, with its share of the county sales tax and how it compares across the county.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/m/village-middleport.html">
-<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/m-village-middleport.png?v=02ccc44f">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/m-village-middleport.png?v=c3d4995d">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Towns &amp; cities — Village of Middleport | Public Ledger">
 <meta name="twitter:description" content="Village of Middleport's own annual filings, 1995–2026: $2,121,978 of revenue and $1,985,711 of expenditure in 2026, drillable to the account line, with its share of the county sales tax and how it compares across the county.">
-<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/m-village-middleport.png?v=02ccc44f">
+<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/m-village-middleport.png?v=c3d4995d">
 <meta property="og:image:alt" content="Share card: Village of Middleport, annual filings 1995 to 2026. Revenue $2,121,978 and expenditure $1,985,711 in 2026, net +$136,267. 32 consecutive annual filings, 1995–2026 — none missing.">
 <meta name="twitter:image:alt" content="Share card: Village of Middleport, annual filings 1995 to 2026. Revenue $2,121,978 and expenditure $1,985,711 in 2026, net +$136,267. 32 consecutive annual filings, 1995–2026 — none missing.">
 <meta name="color-scheme" content="light dark">
@@ -40,6 +40,7 @@
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);
   background:var(--paper);font-feature-settings:"kern"}
+html{border-top:5px solid var(--accent)}      /* the one navy stripe, on every page (SPEC F2; print zeroes it) */
 [hidden]{display:none!important}
 .num{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 a{color:var(--accent);text-underline-offset:2.5px;text-decoration-thickness:1px}
@@ -159,9 +160,9 @@ button{cursor:pointer}
   background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;padding:8px;box-shadow:var(--shadow),0 24px 60px -24px rgba(10,12,15,.45)}
 .pl-group[data-open] .pl-menu{display:block}
 .pl-group:first-child .pl-menu{right:auto;left:0}
-.pl-kick{display:flex;align-items:center;gap:10px;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}   /* the menu's group heads; a page's .pl-kick is the HOUSE kicker */
 .pl-dest{display:grid;grid-template-columns:1fr auto;gap:1px 12px;align-items:center;padding:8px 10px;border-radius:8px;
   text-decoration:none;color:var(--ink);min-height:44px}
 .pl-dest .pl-dl{grid-column:1;grid-row:1;font-size:14px;font-weight:600;line-height:1.3}
@@ -221,13 +222,12 @@ button{cursor:pointer}
   /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
      (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
      a page's own '.tailx summary' rules; .keep folds (a label that is not a control) are left alone */
-  .ph-fold:not(.keep)>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
+  .ph-fold:not(.keep)>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
     border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
-  .ph-fold:not(.keep)>summary::before,details.tailx>summary::before{content:none}
-  .ph-fold:not(.keep)>summary::after,details.tailx>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
-  .ph-fold:not(.keep)[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+  .ph-fold:not(.keep)>summary::before{content:none}
+  .ph-fold:not(.keep)>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+  .ph-fold:not(.keep)[open]>summary::after{transform:rotate(90deg)}
   .ph-fold:not(.keep)>summary+*{margin-top:6px}
-  details.tailx{margin:0}
   /* the forehead: Safari 26 paints the band behind the clock from the page, and fills it solid only from a position:fixed
      element touching the top edge (WebKit 300965). A 2px strip of page colour, always there; on a phone test, not Chromium */
   .pl-fore{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--paper);z-index:2147483000;pointer-events:none}
@@ -318,8 +318,8 @@ button{cursor:pointer}
 .pl-dout-sub{display:block;margin-top:2px;font-size:12px;line-height:1.4;color:var(--muted)}
 .pl-dout-fs{display:flex;gap:8px;flex:0 0 auto}
 .pl-dout-a,.pl-dout .pl-fol{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:64px;padding:0 12px;
-  border:1px solid var(--rule-strong);border-radius:9px;background:var(--card);color:var(--ink);text-decoration:none;
-  font:600 12.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}
+  border:1px solid var(--rule-strong);border-radius:99px;background:transparent;color:var(--ink);text-decoration:none;
+  font:600 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0}
 .pl-dout-a svg{width:13px;height:13px;flex:0 0 auto;color:var(--accent)}
 .pl-dout .pl-fol::after{content:none}
 @media (hover:hover){.pl-dout-a:hover,.pl-dout .pl-fol:hover{background:var(--accent-soft);border-color:var(--accent)}}
@@ -352,9 +352,74 @@ html.pl-embed .pl-emb-bar{display:none}
 .pl-emb-link{margin-left:auto;font-weight:600;white-space:nowrap}
 .pl-emb-miss{padding:6px 0;font-size:14px;line-height:1.5;color:var(--ink)}
 
+/* ---------- house type + components - generated by tools/_chrome.py (HOUSE_CSS, 10-29) ---------- */
+.pl-kick{margin:0 0 6px;font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pl-h1{margin:0;font:600 33px/1.12 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.015em;color:var(--ink)}
+.pl-h2{margin:0 0 4px;font:600 21px/1.3 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink)}
+.pl-lede{margin:8px 0 0;font-size:16px;line-height:1.5;color:color-mix(in srgb,var(--ink) 88%,var(--card));max-width:66ch}
+.pl-lede b{color:var(--ink);font-weight:600}
+.pl-sub{margin:0 0 14px;font-size:14px;line-height:1.45;color:var(--muted);max-width:78ch}
+@media (min-width:900px){.pl-h1{font-size:clamp(38px,3.3vw,48px)}.pl-lede{font-size:18px;max-width:30em}}
+@media (max-width:359px){.pl-h1{font-size:29px}}
+/* two button shapes: .pl-btn for a page's one or two main actions (one .pri per screen), .pl-pill for every secondary action */
+.pl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--rule-strong);
+  background:transparent;color:var(--ink);font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.pl-btn.pri{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.pl-btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:430px}
+.pl-pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;
+  color:var(--ink);font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap}
+.pl-pill.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+@media (pointer:coarse){.pl-pill{min-height:44px}}
+@media (hover:hover){.pl-btn:hover,.pl-pill:hover{border-color:var(--accent)}.pl-btn.pri:hover,.pl-pill.on:hover{filter:brightness(1.12)}}
+.pl-btn:focus-visible,.pl-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* ink list rows: label, optional sub-line, value, a right chevron; the whole row is the target */
+.pl-rows{margin:0;padding:0;list-style:none;display:block}
+.pl-row{display:grid;grid-template-columns:minmax(0,1fr) auto 14px;gap:2px 10px;align-items:center;width:100%;min-height:52px;padding:11px 0;border:0;
+  border-top:1px solid var(--rule);background:transparent;color:var(--ink);text-align:left;text-decoration:none;font:inherit;cursor:pointer}
+.pl-rows>.pl-row:first-child,.pl-rows>li:first-child>.pl-row{border-top:0}
+.pl-row-l{grid-column:1;grid-row:1;font-size:15px;line-height:1.3;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pl-row-s{grid-column:1;grid-row:2;font-size:13px;line-height:1.4;color:var(--muted)}
+.pl-row-v{grid-column:2;grid-row:1/span 2;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.pl-row-v small{font-weight:400;color:var(--muted);margin-left:6px}
+.pl-row::after{content:'\203A';grid-column:3;grid-row:1/span 2;justify-self:end;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-row.on,.pl-row[aria-current],.pl-row[aria-expanded=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);padding-left:10px;border-radius:0 8px 8px 0}
+.pl-row[aria-expanded=true]::after{transform:rotate(90deg)}
+@media (hover:hover){.pl-row:hover{background:var(--accent-soft)}.pl-row:hover::after{color:var(--accent)}}
+.pl-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* folds: one look at every width (a <details> whose label is an ink row; .pl-fold is the class builders use) */
+.pl-fold{margin:0}
+.pl-fold>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;border-top:1px solid var(--rule);
+  color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;list-style:none;cursor:pointer;text-decoration:none}
+.pl-fold>summary::-webkit-details-marker,details.tailx>summary::-webkit-details-marker{display:none}
+.pl-fold>summary::before,details.tailx>summary::before{content:none}
+.pl-fold>summary::after,details.tailx>summary::after{content:'\203A';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-fold[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+.pl-fold>summary+*{margin-top:6px}
+details.tailx{margin:0}
+.pl-fold>summary .pl-tick{color:var(--ok);font-weight:700;margin-left:8px}
+@media (hover:hover){.pl-fold>summary:hover,details.tailx>summary:hover{color:var(--accent)}}
+/* the check line: how a page says 'this was checked' (replaces every mono 'GATES PASS' box) */
+.pl-check{display:flex;align-items:flex-start;gap:10px;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:var(--ok);
+  border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
+.pl-check i{font-style:normal;flex:0 0 auto;font-weight:700}
+.pl-check b{font-weight:600}
+.pl-check span{display:block;font-size:13px}
+/* the independence line, said once and quietly */
+.pl-indep{margin:10px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.pl-indep a{color:var(--accent);font-weight:600}
+/* the site footer */
+.pl-foot{border-top:1px solid var(--rule);margin-top:42px;padding:22px 0 40px;color:var(--faint);font-size:12.5px;line-height:1.5}
+footer.pl-foot{margin-top:42px;padding-top:22px;padding-bottom:40px}      /* outranks a page's own .wrap{margin:0 auto;padding:0 20px} */
+.pl-foot p{margin:0 0 7px;max-width:80ch}
+.pl-foot a{color:var(--muted);display:inline-block;padding:13px 0;margin:-13px 0;position:relative;z-index:1}
+.pl-foot-c{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;margin-bottom:16px!important}
+.pl-foot-c a{min-height:44px;display:inline-flex;align-items:center;padding:0;margin:0}      /* a row of 44px presses, never overlapping */
+.pl-foot b{color:var(--ink);font-weight:600}
+.pl-foot .pl-fold{margin:6px 0 16px;color:var(--muted)}      /* clear of the credit link's 44px press below */
+
 /* ---------- the paper page's masthead + the view switch - generated by tools/_chrome.py ---------- */
-.page .pl-mast{border-radius:3px 3px 0 0;border-bottom:3px double var(--rule-strong)}
-.page .pl-mast-in{max-width:none;margin:0}
 .pl-view{display:inline-flex;flex:0 0 auto;border:1px solid var(--rule-strong);border-radius:8px;overflow:hidden;background:var(--paper)}
 .pl-view .vs{display:none}
 .pl-view>a,.pl-view>span{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
@@ -404,21 +469,18 @@ html.pl-embed .pl-emb-bar{display:none}
    Tokens, base floors and the masthead + action switcher come from tools/_chrome.py;
    everything below is this page family's own layout. Hover styling lives only inside
    the hover-capable media query (iOS sticks hover after a tap) and no label is under 11px:
-   both are enforced at build time by _chrome.lint_css(). */
-html{border-top:5px solid var(--accent);background:var(--desk)}
-body{background:var(--desk);font-size:14px}
-.page{max-width:980px;margin:26px auto 60px;padding:0 0 44px;background:var(--paper);
-  border-radius:3px;box-shadow:0 0 0 1px var(--rule-strong),0 26px 70px -32px rgba(20,18,10,.45)}
-@media (max-width:700px){.page{margin:0;border-radius:0;box-shadow:none}}
-.wrap{padding:0 34px}
-@media (max-width:700px){.wrap{padding:0 16px}}
-/* the shared masthead sits on the sheet; the double rule under it is the county family's signature */
+   both are enforced at build time by _chrome.lint_css().
+   10-29 launch polish: unframed like the front (the stripe, the paper and the 15px body are the chrome's), house type and
+   components (.pl-kick .pl-h1 .pl-h2 .pl-lede .pl-sub .pl-pill .pl-rows .pl-fold .pl-check .pl-indep .pl-foot from HOUSE_CSS). */
+.page{margin:0}
+.wrap{max-width:var(--pl-dash);margin:0 auto;padding:0 20px}
+footer.pl-foot.wrap{padding:22px 20px calc(40px + env(safe-area-inset-bottom))}   /* .wrap would otherwise zero the footer's own vertical padding */
 
 /* ONE sticky row: the section rail, the section stepper (>=900) and, where the
    sheet is wide enough, the totals - there is no second bar hiding the tabs */
 .rail{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 90%,transparent);
   -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
-.rail-in{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 26px;scroll-behavior:smooth}
+.rail-in{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 14px;scroll-behavior:smooth;max-width:var(--pl-dash);margin:0 auto}
 @media (max-width:760px){.rail-in{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 36px),transparent);
   mask-image:linear-gradient(to right,#000 calc(100% - 36px),transparent)}}
 .rail-in::-webkit-scrollbar{display:none}
@@ -436,19 +498,28 @@ body{background:var(--desk);font-size:14px}
 .rail-mb .mb-t{font-weight:700;color:var(--ink);margin-right:8px}
 .rail.scrolled .rail-mb{opacity:1}
 section{padding:30px 0 8px;scroll-margin-top:58px}
-h1{font:600 29px/1.15 'Fraunces',ui-serif,Georgia,serif;margin:24px 0 6px}
-@media (max-width:700px){h1{font-size:24px}}
-.lede{color:var(--muted);font-size:14px;max-width:76ch;margin:0 0 16px}
+/* the page's own opening: a mono kicker, the Fraunces H1, one number-led sentence, the caveat in a fold (the .pl-* classes are the chrome's) */
+/* the masthead's own menu kicker (.pl-kick, flex + a rule) outranks the house one: say block here, on every kicker in the page */
+main .pl-kick{display:block;padding:0}
+main .pl-kick::after{content:none}
+main.wrap>.pl-kick{margin:24px 0 8px}
+main.wrap>.pl-h1{margin:0 0 2px}
+@media (max-width:640px){main.wrap>.pl-h1{font-size:30px}}   /* a generated title is long: three lines on a phone, not four */
+@media (max-width:420px){main.wrap>.pl-h1{font-size:28px}}
+@media (min-width:900px){main.wrap>.pl-h1{font-size:clamp(34px,2.7vw,40px)}}   /* the title sits in a 440px column beside the chart: three lines, not four */
+.intro .pl-lede{margin-top:10px}
+.intro .pl-fold{margin:12px 0 0;max-width:66ch}
+.intro .pl-fold>.pl-sub{margin:4px 0 12px;font-size:13.5px}
+.intro .pl-indep{margin:2px 0 16px}
+@media (max-width:640px){main.wrap>.pl-kick{margin:20px 0 6px}.intro .pl-lede{margin-top:8px}.intro .pl-fold{margin-top:10px}}
+/* the paper page's quiet muted line (modal asides, an empty state) */
+.lede{color:var(--muted);font-size:14px;line-height:1.5;max-width:76ch;margin:0 0 16px}
 .lede b{color:var(--ink)}
-@media (max-width:640px){.lede{font-size:13.5px}}
-/* schedules, numbered like a filing: the counter runs per page, so a municipal
-   ledger numbers 1..n, not the county's 1..7 */
-main.wrap{counter-reset:sched}
-h2{font:600 11.5px/1.25 system-ui;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
-  margin:26px 0 10px;display:flex;gap:10px;align-items:center}
-h2::after{content:'';flex:1;height:1px;background:var(--rule);min-width:26px}
-section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " \00B7";color:var(--accent);
-  font-weight:700;white-space:nowrap}
+/* a section's heading is the house H2 (the "Schedule n" counter is retired); an optional .pl-kick above it names the source */
+section>.pl-kick{margin:6px 0 4px}
+h2{font:600 21px/1.3 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink);margin:0 0 4px}
+section>h2{margin-top:2px}
+section>.pl-sub{margin:2px 0 14px}
 .hcard{background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;
   padding:12px 18px 4px;max-width:560px;box-shadow:var(--shadow)}
 /* the card takes focus (tabindex -1) when the 'Latest' chip hides itself under a keyboard press, so the reader never lands on <body> */
@@ -504,7 +575,7 @@ section h2::before{counter-increment:sched;content:"Schedule " counter(sched) " 
    class median, the biggest category, what changed - each cell a door (the neighbors, the category sheet, the pair's
    decomposition), the divisor and any filing-year mismatch printed on the strip. Context, not a scorecard. */
 .hans{margin:0 0 14px;max-width:560px}
-.hans-k{font:600 11.5px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 7px;
+.hans-k{font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 7px;
   display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}
 .hans-mm{color:var(--warn);text-transform:none;letter-spacing:0;font:600 12px/1.3 system-ui}
 .hans-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -521,18 +592,15 @@ a.hc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .hans-n{font-size:12px;color:var(--muted);margin:7px 0 0;line-height:1.45}
 .hans-n b{color:var(--ink);font-weight:600}
 /* share: every sheet and the selected year have an address; this hands it over */
-.shr{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:0 11px;border:1px solid var(--rule-strong);
-  border-radius:9px;background:var(--card);color:var(--muted);font:600 12px/1 system-ui;cursor:pointer;white-space:nowrap}
-.shr svg{width:14px;height:14px;flex:0 0 auto}
-@media (hover:hover){.shr:hover{color:var(--ink);border-color:var(--accent)}}
+.shr svg{width:14px;height:14px;flex:0 0 auto}                       /* the share button IS a .pl-pill; this is only its glyph */
 .sheet header .shr{margin-left:auto;flex:0 0 auto;align-self:flex-start}
 .sheet header .xbtn{margin-left:8px}
-@media (max-width:640px){.shr{min-height:44px}.sheet header .shr .sl{display:none}.sheet header .shr{padding:0 12px}}
+@media (max-width:640px){.sheet header .shr .sl{display:none}.sheet header .shr{padding:0 12px}}
 /* hover-linking: a mark or row carries data-key; the chrome's 'hl' module (PL.hl.bind) lights every element that shares the
    key and dims the rest of its group - the motion and the dim fade are its CSS; what a lit mark looks like is here. A tap selects. */
 .rk.pl-hl.lit{background:var(--accent-soft)}
 .rk.pl-hl.lit .lb{color:var(--accent)}
-.yp.pl-hl.lit{border-color:var(--accent);color:var(--ink)}
+.yp.pl-hl.lit{border-color:var(--accent)}
 /* the pot: one 100% bar of the recipients, grouped by class, shaded by rank within class */
 .potbar{display:flex;height:40px;border-radius:7px;overflow:hidden;margin:6px 0 6px;border:1px solid var(--rule-strong);background:var(--gridline)}
 .potbar i{display:block;height:100%;position:relative;min-width:2px;cursor:pointer;transition:opacity .12s;
@@ -543,7 +611,7 @@ a.hc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .potbar i span{position:absolute;left:5px;top:50%;transform:translateY(-50%);font:600 11.5px/1 system-ui;color:var(--ink);
   background:var(--card);padding:3px 5px;border-radius:3px;white-space:nowrap;overflow:hidden;max-width:calc(100% - 8px);text-overflow:ellipsis;pointer-events:none}
 .potkey{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin:0 0 8px}
-.potkey b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px;background:color-mix(in srgb,var(--pb) 70%,var(--card))}
+.potkey b{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px;border:1px solid var(--rule-strong);background:color-mix(in srgb,var(--pb) 70%,var(--card))}
 .potread{min-height:44px;display:flex;align-items:center;flex-wrap:wrap;gap:4px 12px;font-size:13px;padding:8px 12px;margin:0 0 12px;
   border:1px solid var(--rule);border-radius:8px;background:var(--card);color:var(--muted)}
 .potread b{color:var(--ink)}
@@ -558,11 +626,11 @@ a.hc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tread{display:flex;flex-wrap:wrap;gap:2px 14px;align-items:baseline;min-height:24px;font-size:12.5px;color:var(--muted);margin:0 0 8px}
 .tread .ty{font:600 15px/1.2 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);margin-right:2px}
 .tread .num{color:var(--ink);font-weight:600}
-.tread .tn{color:var(--faint)}
-/* the gap: wash .16 / hatch .9; HALF strength before the basis change (.08 / .45), never more */
-svg.trend .gapw{fill:var(--rev);opacity:.16}
+.tread .tn{color:var(--faint);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}   /* the label is words (sans); only its figure is mono */
+/* the gap (F15): revenue above = a 36% mix of the revenue hue, spending above = the house hatch (shape, never hue alone); HALF strength before the basis change, never more */
+svg.trend .gapw{fill:color-mix(in srgb,var(--rev) 36%,var(--card))}
 svg.trend .gaph{fill:url(#hatchExp);opacity:.9}
-svg.trend .gapw.pre{opacity:.08}
+svg.trend .gapw.pre{opacity:.5}
 svg.trend .gaph.pre{opacity:.45}
 /* the hovered category row's own series, echoed beside the row (the chart above may be off screen) */
 .gcard{position:fixed;z-index:40;pointer-events:none;display:none;width:224px;background:var(--card);border:1px solid var(--rule-strong);
@@ -608,7 +676,11 @@ svg.trend .dot{stroke:var(--card);stroke-width:2}
 svg.trend .end{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
 svg.trend .lead{fill:none;stroke-width:1;opacity:.7}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:2px 0 10px}
-.legend b{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.legend b{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid var(--rule-strong)}   /* drawn at the size the key shows, with the chart's own fills */
+.legend b.sw-w{background:color-mix(in srgb,var(--rev) 36%,var(--card))}
+.legend b.sw-h{background:repeating-linear-gradient(135deg,var(--exp) 0 1.5px,transparent 1.5px 4px)}
+.chartcap{margin:8px 0 0;font-size:13px;line-height:1.45;color:var(--muted)}   /* a phone's annotation: a caption under the plot, never a label on the lines */
+.chartcap b{color:var(--ink);font-weight:600}
 .tip{position:absolute;pointer-events:none;background:var(--card);border:1px solid var(--rule-strong);
   border-radius:7px;padding:7px 10px;font-size:12.5px;box-shadow:var(--shadow);opacity:0;transition:opacity .1s;z-index:5;white-space:nowrap}
 .tip .ty{font-weight:600;margin-bottom:3px}
@@ -623,11 +695,11 @@ svg.trend .lead{fill:none;stroke-width:1;opacity:.7}
 .years.ovl{-webkit-mask-image:linear-gradient(270deg,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(270deg,#000 calc(100% - 30px),transparent)}
 .years.ovl.ovr{-webkit-mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(90deg,transparent,#000 30px,#000 calc(100% - 30px),transparent)}
 @media (prefers-reduced-motion:reduce){.years{scroll-behavior:auto}}
-.yp{flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
-  border-radius:99px;padding:5px 11px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;cursor:pointer;
+.yp{flex:0 0 auto;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);
+  border-radius:99px;padding:0 14px;min-height:40px;font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer;
   transition:background .12s,color .12s,border-color .12s}
-@media (hover:hover){.yp:hover{color:var(--ink);border-color:var(--accent)}}
-.yp.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+@media (hover:hover){.yp:hover{border-color:var(--accent)}}
+.yp.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:760px){.pair{grid-template-columns:1fr}}
 .rank{display:flex;flex-direction:column;gap:9px}
@@ -644,17 +716,23 @@ svg.trend .lead{fill:none;stroke-width:1;opacity:.7}
 /* the share rides inline before the amount (two lines per row: label + figure, then the
    bar); 'of total' stays in the accessible name via .pl-vh */
 .rk .sh{font-size:12px;font-weight:500;color:var(--muted);margin-right:8px}
-.rk.can{cursor:pointer;border-radius:6px;margin:0 -7px;padding:3px 7px}
+.rk.can{cursor:pointer;border-radius:6px;margin:0 -7px;padding:3px 7px;grid-template-columns:minmax(0,1fr) auto 14px}
 @media (hover:hover){.rk.can:hover{background:var(--accent-soft)}.rk.can:hover .lb{color:var(--accent)}}
-.rk.can .lb::after{content:'\2197';color:var(--faint);font-size:11.5px;margin-left:6px;opacity:0;transition:opacity .12s}
-@media (hover:hover){.rk.can:hover .lb::after{opacity:1}}
+/* the house chevron ends every row that opens something - always drawn (never a hover-only arrow); an opened row takes the F7 selected state */
+.rk.can::after{content:'\203A';grid-column:3;grid-row:1;align-self:center;justify-self:end;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+@media (hover:hover){.rk.can:hover::after{color:var(--accent)}}
+.rk.can[aria-expanded=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);border-radius:0 8px 8px 0}
+.rk.can[aria-expanded=true]::after{transform:rotate(90deg);color:var(--accent)}
 @media (hover:hover){.rk[data-other]:hover{background:var(--accent-soft);border-radius:6px}}
 .rk .see{color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap}
 .rk:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 a.rk{text-decoration:none;color:inherit}
-.pill{border:1px solid var(--rule-strong);background:transparent;color:var(--muted);border-radius:99px;
-  padding:5px 11px;font-size:12px;cursor:pointer}
-@media (hover:hover){.pill:hover{color:var(--ink);border-color:var(--accent)}}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;
+  color:var(--ink);font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap}   /* = .pl-pill (HOUSE_CSS) */
+@media (pointer:coarse){.pill{min-height:44px}}
+@media (hover:hover){.pill:hover{border-color:var(--accent)}}
+.pill{max-width:100%}
+#acOpen{white-space:normal;text-align:left;line-height:1.25;padding-top:8px;padding-bottom:8px}   /* a long label wraps inside the pill, never past the screen */
 .seg{display:inline-flex;gap:2px;padding:3px;border-radius:99px;background:color-mix(in srgb,var(--rule) 55%,transparent);margin:0 0 12px}
 .seg button{border:0;background:transparent;color:var(--muted);font:600 12px/1 system-ui;
   padding:7px 13px;border-radius:99px;cursor:pointer}
@@ -674,9 +752,9 @@ a.rk{text-decoration:none;color:inherit}
 .sheet h3{margin:4px 0 0;font:600 21px/1.2 'Fraunces',ui-serif,Georgia,serif}
 .mbig{margin-top:7px;font-size:15px;font-weight:600}
 .mbig span{color:var(--muted);font-weight:400;font-size:13px;margin-left:7px}
-.xbtn{margin-left:auto;flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--muted);
-  width:36px;height:36px;border-radius:9px;cursor:pointer;font-size:15px;line-height:1}
-@media (hover:hover){.xbtn:hover{color:var(--ink);border-color:var(--accent)}}
+.xbtn{margin-left:auto;flex:0 0 auto;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);
+  width:40px;height:40px;border-radius:99px;cursor:pointer;font-size:15px;line-height:1}
+@media (hover:hover){.xbtn:hover{border-color:var(--accent)}}
 .tabs{display:flex;flex:0 0 auto;gap:2px;padding:0 14px;border-bottom:1px solid var(--rule);background:var(--card)}
 .tabs button{border:0;background:transparent;color:var(--muted);font:600 13px/1 system-ui;padding:11px 13px;
   cursor:pointer;border-bottom:2px solid transparent;min-height:44px}
@@ -717,18 +795,10 @@ a.rk{text-decoration:none;color:inherit}
 .sharelegend .can{cursor:pointer}
 @media (hover:hover){.sharelegend .can:hover{text-decoration:underline}}
 .sharelegend .on{font-weight:700;color:var(--ink)}
-.tailx{margin:2px 0 10px}
-.tailx summary{cursor:pointer;font-size:12.5px;color:var(--accent);font-weight:600;
-  list-style:none;display:inline-block;padding:2px 0}
-.tailx summary::-webkit-details-marker{display:none}
-.tailx summary::before{content:'\25B8';margin-right:6px;display:inline-block;transition:transform .12s}
-.tailx[open] summary::before{transform:rotate(90deg)}
-@media (hover:hover){.tailx summary:hover{text-decoration:underline}}
-.acct{width:100%;font-size:12px;border-collapse:collapse}
-.acct td{padding:4px 6px;border-bottom:1px dotted var(--rule-strong);vertical-align:top}
-.acct tr:last-child td{border-bottom:0}
-.acct .c{color:var(--faint);white-space:nowrap;width:1%}
-.acct .a{text-align:right;white-space:nowrap;font-weight:600}
+/* the sheet's account list is the house's ink rows (.pl-rows); an opened line's history sits under its row */
+.acct-list{margin:0 0 6px}
+.acct-list .pl-row-s .num{color:var(--faint)}
+.acct-hist{padding:4px 0 16px 2px}
 .cmpbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .cmpbar label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
 .cmpbar select{font:inherit;font-size:13px;padding:6px 9px;border:1px solid var(--rule-strong);
@@ -748,6 +818,7 @@ a.rk{text-decoration:none;color:inherit}
 .mv th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:left;
   padding:7px 8px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
 .mv td{padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
+.mv .fnt.swing{display:block;white-space:normal;margin-top:3px;font-weight:400}
 .mv tr:last-child td{border-bottom:0}
 .mv .r{text-align:right;white-space:nowrap}
 /* direction is carried by shape, side and words - never by hue: a triangle glyph, the
@@ -827,38 +898,21 @@ a.rk{text-decoration:none;color:inherit}
 .stk-l b,.stk-r b{color:var(--ink);font-weight:600}
 .stk-l .num,.stk-r .num{font-weight:600;color:var(--ink)}
 @media (max-width:640px){.stk{grid-template-columns:minmax(0,1fr) auto}.stk-l{display:none}.stk-r{width:118px;font-size:11.5px}.stk .stk-ax{grid-column:1}}
-/* ---------- the method, set in ink ---------- */
-#method{background:#10151b;border-radius:14px;margin:34px -14px 12px;padding:26px 26px 20px;
-  --paper:#10151b;--card:#171d24;--ink:#eceae3;--muted:#a9aeb6;--faint:#8b919c;
-  --rule:#272e37;--rule-strong:#39424d;--gridline:#232a33;
-  --accent:#a9c3e2;--accent-soft:rgba(169,195,226,.12);
-  --ok:#4cc38a;--ok-soft:rgba(76,195,138,.13);
-  color:var(--ink);scroll-margin-top:64px;
-  box-shadow:0 18px 50px -22px rgba(10,12,15,.55)}
-.gateline{font-size:12.5px;background:var(--ok-soft);color:var(--ok);border:1px solid
-  color-mix(in srgb,var(--ok) 35%,transparent);border-radius:8px;padding:9px 13px;margin-top:12px}
-#method .gateline{box-shadow:0 0 26px rgba(76,195,138,.18)}
+/* ---------- the method section (a plain section now; its fold and check line are the chrome's) ---------- */
+#method{scroll-margin-top:64px}
+#method .pl-check{margin:10px 0 0}
+section>.pl-check,.panel>.pl-check{max-width:760px}
 /* classification tags: 11px with a dotted border (doctrine call), never hue-only */
 .clsch{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;border-radius:4px;
   padding:1px 5px;margin-left:6px;vertical-align:1px;background:var(--accent-soft);color:var(--accent);
   border:1px dotted color-mix(in srgb,var(--accent) 55%,transparent)}
-:root[data-theme="dark"] #method{background:#070a0d;--paper:#070a0d;--card:#10151b;
-  box-shadow:0 0 0 1px #1b222b}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #method{background:#070a0d;--paper:#070a0d;--card:#10151b;
-  box-shadow:0 0 0 1px #1b222b}}
-@media (max-width:640px){#method{margin:26px -10px 10px;padding:20px 16px 14px;border-radius:12px}}
-.foot{border-top:1px solid var(--rule);margin-top:30px;padding-top:14px;font-size:12px;color:var(--faint)}
-.foot p{margin:0 0 7px;max-width:88ch}
-.backrow a{display:inline-flex;align-items:center;min-height:44px;font-size:12.5px;text-decoration:none;border:1px solid var(--rule-strong);
-  border-radius:99px;padding:0 15px;background:var(--card)}
-.backrow a+a{margin-left:8px}
 /* the full-ledger door: the register this edition does not carry, one click away */
-.regdoor{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;margin:0 0 16px;padding:10px 14px;
-  min-height:44px;background:var(--ok-soft);border:1px solid color-mix(in srgb,var(--ok) 38%,transparent);border-radius:10px;
-  text-decoration:none;max-width:76ch;color:var(--ink)}
+.regdoor{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;margin:12px 0 0;padding:12px 14px;
+  min-height:44px;background:var(--ok-soft);border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);border-radius:12px;
+  text-decoration:none;max-width:66ch;color:var(--ink)}
 .regdoor .rd-ck{grid-row:1/3;color:var(--ok);font-weight:700;font-size:17px}
-.regdoor .rd-t{font-size:13.5px;font-weight:600;color:var(--ok)}
-.regdoor .rd-s{grid-column:2;font-size:12.5px;color:var(--muted)}
+.regdoor .rd-t{font-size:14px;line-height:1.4;font-weight:600;color:var(--ok)}
+.regdoor .rd-s{grid-column:2;font-size:13px;line-height:1.4;color:var(--muted)}
 .regdoor .rd-go{grid-row:1/3;grid-column:3;font-weight:700;color:var(--ok);transition:transform .12s}
 @media (hover:hover){.regdoor:hover{border-color:var(--ok)}.regdoor:hover .rd-go{transform:translateX(3px)}}
 /* ---------- pager ---------- */
@@ -893,17 +947,11 @@ body:has(#modal:not([hidden])) .pager{display:none}
 
 /* ---------- premium mobile pass (ported from the 2026-08-21 hand edit, then tightened) ---------- */
 @media (max-width:640px){
-  html{border-top-width:4px}
-  body{font-size:14.5px;line-height:1.58}
-  .page{padding-bottom:calc(44px + env(safe-area-inset-bottom))}
-  .wrap{padding:0 15px}
   .rail{box-shadow:0 7px 22px -20px rgba(20,22,26,.45)}
   .rail-in{gap:0;padding:0 7px;scroll-snap-type:x proximity}
   .rail a{padding:0 12px;min-height:44px;font-size:12.5px;scroll-snap-align:start}   /* thumb-sized: school.html derives from this */
   section{padding:38px 0 4px;scroll-margin-top:54px}
-  h1{font-size:26px;line-height:1.08;margin:25px 0 10px}
   .lede{font-size:14px;line-height:1.58;margin-bottom:18px}
-  h2{margin:18px 0 12px;font-size:11.5px;line-height:1.25;letter-spacing:.12em}
   .panel,.hcard{border-radius:14px;box-shadow:0 1px 1px rgba(20,22,26,.04),
     0 14px 34px -24px rgba(20,22,26,.38)}
   .panel{padding:16px 15px}
@@ -930,7 +978,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .pill{min-height:44px;padding:0 15px;display:inline-flex;align-items:center}
   .seg{display:flex;width:100%;margin:2px 0 15px;padding:2px}
   .seg button{flex:1;padding:0 7px;font-size:12px;min-height:44px}
-  .gateline{font-size:12px;line-height:1.55;padding:10px 12px;border-radius:10px}
   .xbtn{width:44px;height:44px}
   .chip-f{min-height:44px;padding-top:0;padding-bottom:0}
   .chip-f button{min-width:44px;min-height:44px;margin-right:-8px}
@@ -952,17 +999,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .tabs .tl-l{display:none}
   .tabs .tl-s{display:inline}
   .mbody{padding:15px 15px calc(76px + env(safe-area-inset-bottom))}   /* clears the floating Done */
-  .acct,.acct tbody{display:block;width:100%}
-  .acct tr:not(.acct-hist){display:grid;grid-template-columns:1fr auto;gap:0 12px;
-    padding:8px 0;border-bottom:1px dotted var(--rule-strong)}
-  .acct tr:not(.acct-hist) td{display:block;padding:0;border:0;width:auto}
-  .acct tr:not(.acct-hist) td:not(.c):not(.a){grid-row:1;grid-column:1;font-size:13px}
-  .acct tr:not(.acct-hist) td.a{grid-row:1;grid-column:2;align-self:start}
-  .acct tr:not(.acct-hist) td.c:first-child{grid-row:2;grid-column:1;font-size:11.5px}
-  .acct tr:not(.acct-hist) td.c:not(:first-child){grid-row:2;grid-column:2;text-align:right;
-    font-size:11.5px;white-space:normal}
-  .acct tr.acct-hist{display:block}
-  .acct tr.acct-hist td{display:block;width:100%}
   .cmpbar{flex-wrap:nowrap;gap:6px}
   .cmpbar label{flex:1 1 0;min-width:0;font-size:12px;gap:4px;flex-direction:column;align-items:flex-start}
   .cmpbar select{width:100%;font-size:16px;min-height:44px}
@@ -1003,6 +1039,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
     margin:0;padding:0 112px 0 0;border:0;font-size:14.5px;line-height:1.2;font-weight:650}
   #budget .mv tr[data-wp] td.m-name{padding-right:122px}
   #budget .mv td.m-name .fnt{margin-left:5px;font-size:11.5px;font-weight:500}
+  #budget .mv td.m-name{flex-wrap:wrap}
+  #budget .mv td.m-name .fnt.swing{flex:0 0 100%;margin:3px 0 0;white-space:normal;font-size:12px;line-height:1.35;color:var(--muted)}
   #budget .mv tr.bv td.m-name::after{content:'\203A';margin-left:7px;color:var(--faint);
     font:400 22px/.7 system-ui;transition:transform .15s,color .15s}
   #budget .mv tr.bv[aria-expanded="true"] td.m-name::after{transform:rotate(90deg);color:var(--accent)}
@@ -1056,10 +1094,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
 .pillrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px}
 .morewrap{margin-top:12px}
 .morewrap:has(>[hidden]){display:none}
-@media (min-width:641px){.fold[data-wide-open]>summary{display:none}}
 @media (max-width:640px){
   section{padding:26px 0 2px}
-  h2{margin:12px 0 10px}
   .lede{margin-bottom:14px}
   .panel{padding:13px 14px}
   .panel .sub{margin:3px 0 8px}
@@ -1076,8 +1112,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .rk:has(.pc.num) .pc{grid-column:2;grid-row:2;align-self:center;margin:0;white-space:nowrap}
   /* the hero card: tighter rows, the same words; the strip and the intro sit closer so the strip ends on the first
      screen even on the twin (whose masthead carries the two-state switch and whose intro carries the door) */
-  .intro .lede{margin-bottom:10px}
-  .regdoor{margin-bottom:10px}
   .hans{margin-bottom:12px}
   .hans-k{margin-bottom:5px}
   .hans-g{gap:5px}
@@ -1094,8 +1128,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .hfoot{margin-top:4px;padding:9px 16px;font-size:12px;line-height:1.5}
   /* the filing year: a 44px stepper; the 31 pills are the grid behind its middle button (a pill never scrolls out of view) */
   .ystep{display:flex;gap:6px;margin:0 0 8px}
-  .ystep button{min-height:44px;border:1px solid var(--rule-strong);background:var(--card);color:var(--ink);border-radius:12px;
-    font:600 15px/1 ui-monospace,Menlo,Consolas,monospace;cursor:pointer}
+  .ystep button{min-height:44px;border:1px solid var(--rule-strong);background:transparent;color:var(--ink);border-radius:99px;
+    font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-variant-numeric:tabular-nums;cursor:pointer}
   .ystep .ys-s{flex:0 0 52px;font-size:22px;padding:0 0 3px}
   .ystep .ys-y{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 10px}
   .ystep .ys-h{font:500 12px/1 system-ui;color:var(--muted)}
@@ -1108,7 +1142,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
     -webkit-mask-image:none;mask-image:none}
   .years.open .yp{padding:0;min-height:44px}
   /* the budget key: what the two figures on each line are */
-  .mvkey{display:block;margin:0 0 6px;font:600 11px/1.4 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .mvkey{display:block;margin:0 0 6px;font:500 12.5px/1.4 system-ui;color:var(--muted)}
   /* the decisions rows: titles keep to three lines (the register has the whole title) */
   .drow{padding:10px 8px}
   .drow .dt{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;min-height:44px}  /* a two-line title is 36px: the tap floor (10-27, IF-146-26) */
@@ -1116,8 +1150,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
   #acBody .mstats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   #acBody .mstat{padding:7px 10px}
   #acBody .mstat .v{font-size:16px;margin-top:1px}
-  /* the dark method card: the gate line and the self-reported-data note stay open; the how-it-was-built prose folds */
-  #method .tailx summary{color:var(--accent)}
 }
 @media (max-width:370px){
   .hrow .v{font-size:20px}
@@ -1129,7 +1161,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
 }
 @media (hover:none){
   .rk.can:active,.sb.can:active,.mv tr[data-mvlabel]:active td{background:var(--accent-soft)}
-  .rk.can .lb::after{opacity:.6}
 }
 
 /* number discipline: expansion detail amounts step back from the leaders */
@@ -1139,11 +1170,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
   @page{margin:.5in}
   html,body{background:#fff}
   .rail,.rail-mb,#modal,.morex,.bxmore,button{display:none !important}
-  .gateline{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  #method{background:#fff !important;color:#1e1c18 !important;box-shadow:none;
-    border-top:2px solid #1e1c18;border-radius:0;margin:24px 0 0;padding:14px 0 0;
-    --paper:#fff;--ink:#1e1c18;--muted:#5b564c;--faint:#6a6459;--card:#fff;
-    --rule:#dcd5c6;--rule-strong:#c8c0ae;--gridline:#e7e1d3;--accent:#7a5c2e}
+  .pl-check,.regdoor{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #method{border-top:2px solid #1e1c18;margin:24px 0 0;padding:14px 0 0}
   section{page-break-inside:avoid}
   .hcard,.panel{page-break-inside:avoid}
   .bar i,.minis i,.dbar i,.dv i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -1151,25 +1179,31 @@ body:has(#modal:not([hidden])) .pager{display:none}
 
 /* the hero pairs with the 31-year chart instead of stacking above it, from 1180px (the
    laptop width Joe demos at); the sheet widens with it. 1520px+ keeps its larger measure. */
-@media (min-width:1180px){
-  .page{max-width:min(var(--pl-wide),calc(100vw - 64px))}   /* the page model's wide measure: the hero beside the 31-year chart */
-  main.wrap{display:grid;grid-template-columns:minmax(380px,440px) minmax(0,1fr);column-gap:48px;
-    grid-template-rows:auto auto auto 1fr;align-items:start}
-  main.wrap>*{min-width:0}
-  main.wrap>h1{grid-column:1;grid-row:1}
-  main.wrap>.intro{grid-column:1;grid-row:2}
-  main.wrap>.hans{grid-column:1;grid-row:3}
-  main.wrap>.hcard{grid-column:1;grid-row:4;align-self:start}
-  main.wrap>#money{grid-column:2;grid-row:1 / span 4;margin-top:0}
-  main.wrap>section:not(#money),main.wrap>.foot{grid-column:1 / -1}
+/* desk (1.10): a ranked list never runs wider than 640px, a panel reads as a column (the budget's tables may take a little more),
+   and a row's label and figure are 13.5px */
+@media (min-width:900px){
+  .rank{max-width:640px}
+  #peers>.panel,#shared>.panel,#decisions>.panel{max-width:760px}
+  #budget>.panel{max-width:880px}
+  .pair .rank{max-width:none}
+  .rk .lb,.rk .vl{font-size:13.5px}
 }
-@media (min-width:1520px){
-  main.wrap{grid-template-columns:440px minmax(0,1fr);column-gap:56px}
+@media (min-width:1180px){
+  main.wrap{display:grid;grid-template-columns:minmax(380px,440px) minmax(0,1fr);column-gap:48px;
+    grid-template-rows:auto auto auto auto auto 1fr;align-items:start}
+  main.wrap>*{min-width:0}
+  main.wrap>.pl-kick{grid-column:1;grid-row:1}
+  main.wrap>.pl-h1{grid-column:1;grid-row:2}
+  main.wrap>.intro{grid-column:1;grid-row:3}
+  main.wrap>.hcard{grid-column:1;grid-row:4;align-self:start}
+  main.wrap>.hans{grid-column:1;grid-row:5;margin-top:14px}
+  main.wrap>#money{grid-column:2;grid-row:1 / span 5;margin-top:0}
+  main.wrap>section:not(#money){grid-column:1 / -1}
 }
 </style><link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="../updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="../updates.json">
 </head><body>
 <div class="page">
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Village filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Middleport</b></span><span>filings 1995–2026</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2026</b></span></span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>Middleport</b></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>Every government</a><a class="pl-searchbtn" href="../atlas.html" data-focus="" aria-label="Every government"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Village filings</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>Every government</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through 10/20/2026</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest 10/20/2026</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>Middleport</b></span><span>filings 1995–2026</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2026</b></span></span><span>source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span>built <b>10/29/2026</b></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="../updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="../index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Village filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Middleport</b></span><span>filings 1995–2026</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2026</b></span></span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>Middleport</b></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>Every government</a><a class="pl-searchbtn" href="../atlas.html" data-focus="" aria-label="Every government"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Village filings</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>Every government</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>Middleport</b></span><span>filings 1995–2026</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2026</b></span></span><span>source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="../updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="../index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
   <nav class="rail" aria-label="Sections"><div class="rail-in">
     <a href="#money" class="on">Revenue &amp; spending</a>
@@ -1180,9 +1214,9 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </div></nav>
 
   <main class="wrap" id="main">
-  <h1>Where the Village of Middleport&rsquo;s money comes from, and where it goes</h1>
-  <div class="intro"><p class="lede">32 years of the village&rsquo;s own annual filings to the state — self-reported, desk-reviewed but not audited by OSC. The village does not publish an itemized claims register on its own site — minutes cite an abstract number and fund totals, but the abstract itself is not posted (checked 10/05/2026, <a href="https://middleportny.gov/meeting-minutes/">source</a>). This edition is the filings story: complete, and drillable to the account line.</p></div>
-  <div class="hans" aria-label="In context"><div class="hans-k">In context &middot; among the county&rsquo;s 5 villages</div><div class="hans-g"><a class="hc" href="#neighbors"><span class="k">Rank</span><span class="v num">3rd of 5</span><span class="s">on spending per resident, among the county&rsquo;s 5 villages</span></a><a class="hc" href="#neighbors"><span class="k">Per resident</span><span class="v num">$1,148</span><span class="s">villages&rsquo; median <b class="num">$1,148</b></span></a><a class="hc" href="#cat=1|Public%20Safety"><span class="k">Biggest category</span><span class="v">Public Safety</span><span class="s"><b class="num">28%</b> of 2026 spending</span></a><a class="hc" href="#cmp=2025|2026"><span class="k">2025 &rarr; 2026</span><span class="v num">spending −3.8%</span><span class="s">revenue <b class="num">−7.1%</b> &middot; no debt proceeds filed</span></a></div><p class="hans-n">Context, not a scorecard: ranks are within the county&rsquo;s 5 villages only; per resident divides the 2026 filing by the 2020 Census (<b class="num">1,729</b>).</p></div>
+  <p class="pl-kick">Annual reports to the state</p>
+  <h1 class="pl-h1">Where the Village of Middleport&rsquo;s money comes from, and where it goes</h1>
+  <div class="intro"><p class="pl-lede">The Village of Middleport took in $2.1 million and spent $2.0 million in 2026, 3.8% less spending than 2025. 32 years of the village&rsquo;s own annual reports to the state, 1995–2026.</p><details class="pl-fold" id="whatThese"><summary>What these numbers are</summary><p class="pl-sub">Self-reported by the village to the NYS Comptroller, which reviews the filings at a desk but does not audit them. Figures are as filed, not adjusted for inflation. The village does not publish an itemized claims register on its own site: minutes cite an abstract number and fund totals, but the abstract itself is not posted (checked Oct 5, 2026, <a href="https://middleportny.gov/meeting-minutes/">source</a>).</p></details><p class="pl-indep">Independent: built by a North Tonawanda resident from public records. Not affiliated with the City or the County. <a href="#about">About</a></p></div>
 
   <div class="hcard" tabindex="-1">
     <div class="hreg"><span class="hreg-t" id="hRegT">Annual filing<span class="ph-x"> · NYS Comptroller</span></span>
@@ -1192,36 +1226,40 @@ body:has(#modal:not([hidden])) .pager{display:none}
     <div class="hrow" id="hNet"><span class="k">Net · 2026 filing</span><span class="v num closed" id="hNetV">+$136,267</span></div>
     <a class="hmove" href="#cmp=2025|2026"><span class="k">What changed · 2025 &rarr; 2026</span><span class="mv1">Revenue <b class="num">−7.1%</b></span><span class="mv1">Expenditure <b class="num">−3.8%</b></span><span class="go">What moved &rarr;</span></a>
     <ul class="hproof"><li><span class="ck" aria-hidden="true">&#10003;</span><span><b>32 consecutive</b> annual filings, 1995&ndash;2026 &mdash; none missing</span></li><li><span class="ck" aria-hidden="true">&#10003;</span><span><b>4,208</b> account-level rows read &mdash; every figure as filed, never interpolated</span></li></ul>
-    <div class="hfoot">On the current reporting basis (2013–2026), revenue exceeded expenditure in 10 of 14 filings. A single-year filing gap is not a deficit claim — fund balance, transfers
-      and capital timing all argue. </div>
+    <div class="hfoot">On the current reporting basis (2013–2026), revenue exceeded expenditure in 10 of 14 filings. A single-year gap between filed revenue and filed spending is not a deficit claim: fund balances,
+      transfers and the timing of capital projects all move it. </div>
   </div>
+  <div class="hans" aria-label="In context"><div class="hans-k">Among the county&rsquo;s 5 villages</div><div class="hans-g"><a class="hc" href="#neighbors"><span class="k">Rank</span><span class="v num">3rd of 5</span><span class="s">on spending per resident, among the county&rsquo;s 5 villages</span></a><a class="hc" href="#neighbors"><span class="k">Per resident</span><span class="v num">$1,148</span><span class="s">villages&rsquo; median <b class="num">$1,148</b></span></a><a class="hc" href="#cat=1|Public%20Safety"><span class="k">Biggest category</span><span class="v">Public Safety</span><span class="s"><b class="num">28%</b> of 2026 spending</span></a><a class="hc" href="#cmp=2025|2026"><span class="k">2025 &rarr; 2026</span><span class="v num">spending −3.8%</span><span class="s">revenue <b class="num">−7.1%</b> &middot; no debt proceeds filed</span></a></div><p class="hans-n">Context, not a scorecard: ranks are within the county&rsquo;s 5 villages only; per resident divides the 2026 filing by the 2020 Census (<b class="num">1,729</b>).</p></div>
 
   <section id="money">
-    <h2>32 years of revenue against spending</h2>
+    <p class="pl-kick">Annual reports to the state</p>
+    <h2 class="pl-h2">32 years of revenue against spending</h2>
     <div class="panel">
-      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Village of Middleport: revenue against spending, 1995–2026" data-pl-source="NYS Comptroller annual filings (AFR), Village of Middleport, 1995–2026" data-pl-tie="32 consecutive annual filings, 1995–2026, none missing">
+      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Village of Middleport: revenue against spending, 1995–2026" data-pl-source="NYS Comptroller annual filings, Village of Middleport, 1995–2026" data-pl-tie="32 consecutive annual filings, 1995–2026, none missing">
       <div class="tread num" id="trendSub" aria-live="off"></div>
       <div class="legend"><span><b style="background:var(--rev)"></b>Revenue</span>
         <span><b style="background:var(--exp)"></b>Expenditure</span>
-        <span><b style="background:color-mix(in srgb,var(--rev) 22%,var(--card))"></b>revenue above</span>
-        <span><b style="background:repeating-linear-gradient(135deg,var(--exp) 0 1.5px,transparent 1.5px 4px)"></b>expenditure above</span></div>
+        <span><b class="sw-w"></b>revenue above spending</span>
+        <span><b class="sw-h"></b>spending above revenue</span></div>
       <div class="chartwrap" id="trendWrap">
         <svg class="trend" id="trend" viewBox="0 0 900 300" role="img"
              aria-label="Village of Middleport revenue and expenditure, 1995 to 2026" aria-describedby="trendDesc"></svg>
       </div>
+      <p class="chartcap" id="trendCap" hidden></p>
       <p class="pl-vh" id="trendDesc"></p>
       <div class="pillrow"><button class="pill" id="cmpOpen" type="button">Compare two years<span class="ph-x"> — what moved</span></button>
-        <button class="shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link<span class="ph-x"> to this year</span></span></button>
+        <button class="pill shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link<span class="ph-x"> to this year</span></span></button>
         <span data-pl-embed-slot></span></div>
       </figure>
-      <details class="tailx" id="trendData"><summary>The same figures as a table</summary><div id="trendTable"></div></details>
+      <details class="pl-fold" id="trendData"><summary>The same figures as a table</summary><div id="trendTable"></div></details>
       <p class="note" id="trendNote"></p>
     </div>
 
   </section>
 
   <section id="filing">
-    <h2><span>The filing, year by year<span class="ph-x"> — slide the chart or pick a pill</span></span></h2>
+    <h2 class="pl-h2">The filing, year by year</h2>
+    <p class="pl-sub">Pick a year to see its revenue and spending by category.<span class="ph-x"> You can also slide across the chart above.</span></p>
     <div class="ystep" id="yearStep">
       <button class="ys-s" id="ysPrev" type="button" aria-label="Earlier filing year">&lsaquo;</button>
       <button class="ys-y" id="ysMid" type="button" aria-expanded="false" aria-controls="yearPills" aria-label="Pick a filing year">
@@ -1249,7 +1287,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </section>
 
   <section id="aid">
-    <h2>What the county sends</h2>
+    <p class="pl-kick">County sales tax</p>
+    <h2 class="pl-h2">What the county sends</h2>
     <div class="panel">
       <h3>County sales tax, shared to Middleport <span class="tot num">$351,870</span></h3>
       <div class="sub">Account A1120, &ldquo;Non-Property Tax Distribution by County&rdquo;, as this
@@ -1260,7 +1299,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </section>
 
   <section id="neighbors">
-    <h2>Same class, same county</h2>
+    <p class="pl-kick">Neighbors</p>
+    <h2 class="pl-h2">Same class, same county</h2>
     <div class="panel">
       <div class="sub">Every village in Niagara County by latest-filed expenditure.
         Select one to open its ledger.</div>
@@ -1268,7 +1308,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
         <button type="button" data-mode="abs" aria-pressed="true">Totals</button>
         <button type="button" data-mode="per" aria-pressed="false">Per resident</button>
       </div>
-      <div class="rank" id="sibRank"><a class="rk can" href="village-lewiston.html" data-abs="4877222" data-per="1927" data-wabs="100.0" data-wper="97.5" data-pop="2531"><span class="lb" style="color:var(--muted)">Lewiston <span class="fnt num">pop 2,531</span></span><span class="vl num">$4,877,222</span><span class="tr"><i style="width:100.0%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-youngstown.html" data-abs="3672363" data-per="1975" data-wabs="75.3" data-wper="100.0" data-pop="1859"><span class="lb" style="color:var(--muted)">Youngstown <span class="fnt num">pop 1,859</span></span><span class="vl num">$3,672,363</span><span class="tr"><i style="width:75.3%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-middleport.html" data-abs="1985711" data-per="1148" data-wabs="40.7" data-wper="58.1" data-pop="1729"><span class="lb" style="font-weight:700">Middleport <span class="fnt num">pop 1,729</span></span><span class="vl num">$1,985,711</span><span class="tr"><i style="width:40.7%;background:var(--exp)"></i></span></a><a class="rk can" href="village-wilson.html" data-abs="1324874" data-per="1062" data-wabs="27.2" data-wper="53.8" data-pop="1247"><span class="lb" style="color:var(--muted)">Wilson <span class="fnt num">pop 1,247</span></span><span class="vl num">$1,324,874</span><span class="tr"><i style="width:27.2%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-barker.html" data-abs="538535" data-per="937" data-wabs="11.0" data-wper="47.4" data-pop="575"><span class="lb" style="color:var(--muted)">Barker <span class="fnt num">pop 575</span></span><span class="vl num">$538,535</span><span class="tr"><i style="width:11.0%;background:var(--rule-strong)"></i></span></a></div>
+      <div class="rank" id="sibRank"><a class="rk can" href="village-lewiston.html" data-abs="4877222" data-per="1927" data-wabs="100.0" data-wper="97.5" data-pop="2531"><span class="lb" style="color:var(--muted)">Lewiston <span class="fnt num">2,531 residents</span></span><span class="vl num">$4,877,222</span><span class="tr"><i style="width:100.0%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-youngstown.html" data-abs="3672363" data-per="1975" data-wabs="75.3" data-wper="100.0" data-pop="1859"><span class="lb" style="color:var(--muted)">Youngstown <span class="fnt num">1,859 residents</span></span><span class="vl num">$3,672,363</span><span class="tr"><i style="width:75.3%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-middleport.html" data-abs="1985711" data-per="1148" data-wabs="40.7" data-wper="58.1" data-pop="1729"><span class="lb" style="font-weight:700">Middleport <span class="fnt num">1,729 residents</span></span><span class="vl num">$1,985,711</span><span class="tr"><i style="width:40.7%;background:var(--exp)"></i></span></a><a class="rk can" href="village-wilson.html" data-abs="1324874" data-per="1062" data-wabs="27.2" data-wper="53.8" data-pop="1247"><span class="lb" style="color:var(--muted)">Wilson <span class="fnt num">1,247 residents</span></span><span class="vl num">$1,324,874</span><span class="tr"><i style="width:27.2%;background:var(--rule-strong)"></i></span></a><a class="rk can" href="village-barker.html" data-abs="538535" data-per="937" data-wabs="11.0" data-wper="47.4" data-pop="575"><span class="lb" style="color:var(--muted)">Barker <span class="fnt num">575 residents</span></span><span class="vl num">$538,535</span><span class="tr"><i style="width:11.0%;background:var(--rule-strong)"></i></span></a></div>
     </div>
     <div class="panel" id="acrossPanel" style="margin-top:14px" hidden>
       <h3 id="acTitle">Across the county</h3>
@@ -1279,29 +1319,23 @@ body:has(#modal:not([hidden])) .pager{display:none}
   </section>
 
   <section id="method">
-    <h2 style="color:var(--faint)">The method</h2>
-    <details class="tailx fold" data-wide-open><summary>How it was built</summary>
-    <p class="lede" style="color:var(--muted)">Built exactly like every Public Ledger edition. Parsed
-      from the Comptroller&rsquo;s statewide village files — <span class="num">4,208</span>
-      account-level rows for Middleport, 1995–2026 — joined on municipal code (never entity
-      name), flows only, balance-sheet rows excluded. The 2013 schema change is resolved by column name
-      per era and marked on every chart. <b style="color:var(--ink)">The build is a gate, not a
-      report:</b> if any year goes missing or a total turns implausible, the generator halts and
-      this page does not update.</p></details>
-    <div class="gateline num">&#10003; BUILD GATES PASS: 32 consecutive years · totals in
-      bounds · schema mapping continuous</div>
-    <p class="lede" style="color:var(--muted);margin-top:12px;margin-bottom:4px">Self-reported AFR
-      data: OSC desk-reviews these filings but does not audit them. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved 2026-07-31). Figures as filed; no inflation adjustment.</p>
+    <p class="pl-kick">Method</p>
+    <h2 class="pl-h2">Where these numbers come from</h2>
+    <p class="pl-sub">The Comptroller reviews these filings at a desk but does not audit them. Figures as filed; no inflation adjustment. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved July 31, 2026).</p>
+    <details class="pl-fold" id="howbuilt" data-wide-open><summary>How it was built</summary>
+      <p class="pl-sub">Built the same way as the city ledger. The Comptroller publishes every village&rsquo;s accounts as one statewide file; this page takes Middleport&rsquo;s 32 years of account-level rows (<span class="num">4,208</span> of them), matched by the state&rsquo;s own code for the village, money in and money out only (balance-sheet rows are left out). The state changed its reporting format in 2013; every chart marks the change. If a year goes missing or a total looks wrong, the page does not update.</p>
+      <div class="pl-check"><i>&#10003;</i><div><b>Checked: 32 straight years, no year missing</b></div></div>
+    </details>
   </section>
 
-  <section class="pl-dout" aria-labelledby="plDo-416906fc"><div class="pl-dout-h" id="plDo-416906fc" role="heading" aria-level="2">Get the data</div><ul class="pl-dout-l"><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Revenue and spending by year</span><span class="pl-dout-sub">32 filings, 1995–2026, with debt proceeds and the county's sales tax (A1120) · 32 rows · up to 8 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-year.csv" download data-fmt="csv" data-rows="32" aria-label="Download Revenue and spending by year as CSV, 32 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-year.json" download data-fmt="json" data-rows="32" aria-label="Download Revenue and spending by year as JSON, 32 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div><p class="pl-dout-n"><b>Read first.</b>Self-reported filings, desk-reviewed by the NYS Comptroller, not audited. As filed, no inflation adjustment; the reporting basis changed in 2013.</p></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">By year and category</span><span class="pl-dout-sub">every Comptroller level-1 category, revenue and expenditure · 646 rows · up to 83 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-category.csv" download data-fmt="csv" data-rows="646" aria-label="Download By year and category as CSV, 646 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-category.json" download data-fmt="json" data-rows="646" aria-label="Download By year and category as JSON, 646 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Every government in the county</span><span class="pl-dout-sub">all twenty ledgers, revenue and expenditure by year, one file · 623 rows · up to 141 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/munis-by-year.csv" download data-fmt="csv" data-rows="623" aria-label="Download Every government in the county as CSV, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/munis-by-year.json" download data-fmt="json" data-rows="623" aria-label="Download Every government in the county as JSON, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i pl-dout-follow"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Atom feed</span><span class="pl-dout-sub">Each new warrant and county meeting, newest first</span></div><div class="pl-dout-fs"><a class="pl-fol pl-dout-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div></div></li></ul></section>
+  <section class="pl-dout" aria-labelledby="plDo-416906fc"><div class="pl-dout-h" id="plDo-416906fc" role="heading" aria-level="2">Get the data</div><ul class="pl-dout-l"><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Revenue and spending by year</span><span class="pl-dout-sub">32 filings, 1995–2026, with debt proceeds and the county's sales tax (A1120) · 32 rows · up to 8 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-year.csv" download data-fmt="csv" data-rows="32" aria-label="Download Revenue and spending by year as CSV, 32 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-year.json" download data-fmt="json" data-rows="32" aria-label="Download Revenue and spending by year as JSON, 32 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div><p class="pl-dout-n"><b>Read first.</b>Self-reported filings, checked for completeness by the NYS Comptroller, not audited. As filed, no inflation adjustment; the reporting basis changed in 2013.</p></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">By year and category</span><span class="pl-dout-sub">every Comptroller level-1 category, revenue and expenditure · 646 rows · up to 83 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-category.csv" download data-fmt="csv" data-rows="646" aria-label="Download By year and category as CSV, 646 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-village-middleport-by-category.json" download data-fmt="json" data-rows="646" aria-label="Download By year and category as JSON, 646 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Every government in the county</span><span class="pl-dout-sub">all twenty ledgers, revenue and expenditure by year, one file · 623 rows · up to 141 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/munis-by-year.csv" download data-fmt="csv" data-rows="623" aria-label="Download Every government in the county as CSV, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/munis-by-year.json" download data-fmt="json" data-rows="623" aria-label="Download Every government in the county as JSON, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i pl-dout-follow"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Atom feed</span><span class="pl-dout-sub">Each new warrant and county meeting, newest first</span></div><div class="pl-dout-fs"><a class="pl-fol pl-dout-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div></div></li></ul></section>
 
-
-  <div class="foot">
-    <p>Part of <a href="../index.html">Public Ledger</a>. Companions: <a href="../atlas.html">the County Atlas</a> — all twenty municipalities — and <a href="../county.html">the County Edition</a>, where this government&rsquo;s share of the county sales tax is reconciled against the county&rsquo;s own line.</p>
-    <div class="backrow"><a href="../atlas.html">&larr; Every government</a><a href="index.html">Towns & cities &middot; all twenty ledgers</a></div>
-  </div>
   </main>
+  <footer class="pl-foot wrap" id="about">
+<p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="../index.html">City money</a><a href="../county.html">County money</a><a href="../atlas.html">Every government</a><a href="../m/index.html">Towns &amp; cities</a></p>
+<p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Corrections welcome &mdash; every figure links to its source. <a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
+<p class="pl-foot-u">Updated <b>Oct 29</b></p>
+</footer>
 </div>
 
 <div class="pager away" id="pager">
@@ -1319,7 +1353,7 @@ body:has(#modal:not([hidden])) .pager{display:none}
         <h3 id="mTitle"></h3>
         <div class="mbig" id="mBig"></div>
       </div>
-      <button class="shr" id="mLink" type="button" title="Copy a link to this view" aria-label="Copy a link to this view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link</span></button>
+      <button class="pill shr" id="mLink" type="button" title="Copy a link to this view" aria-label="Copy a link to this view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link</span></button>
       <button class="xbtn" type="button" data-close aria-label="Close">&#10005;</button>
     </header>
     <nav class="tabs" role="tablist" id="mTabs"></nav>
@@ -2287,6 +2321,8 @@ PL.trendTab=function(E){
 "use strict";
 var O=JSON.parse(document.getElementById('cdata').textContent);
 var F=O.flows, FD=O.dict;
+/* one spelling on every public page (SPEC 1.4): the Comptroller's 'Judgements' reads 'Judgments' - display only; the payload keeps the filing's own labels, so every page's data still equals its source */
+['l2','narr'].forEach(function(k){FD[k]=FD[k].map(function(v){return v.replace(/Judgements/g,'Judgments');});});
 var FI_YR=0,FI_SEC=1,FI_L1=2,FI_L2=3,FI_OBJ=4,FI_NARR=5,FI_ACCT=6,FI_AMT=7;
 var REDUCED=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 var money0=PL.money0;                              /* the chrome's runtime module 'fmt' */
@@ -2641,13 +2677,20 @@ function drillHTML(year,sec,label,cssVar){
   var countTxt=(fL2||fObj)?rows.length+' of '+all.length:String(all.length);
   h+='<h4>'+countTxt+' account line'+(rows.length===1?'':'s')+chips+
     ' <span style="text-transform:none;letter-spacing:0">— select one for its '+O.years.length+'-year history</span></h4>'+
-    '<table class="acct"><tbody>'+
-    rows.slice().sort(function(a,b){return b[FI_AMT]-a[FI_AMT];}).map(function(f){
-      return '<tr data-acct="'+esc(f[FI_ACCT])+'" style="cursor:pointer" role="button" tabindex="0">'+
-        '<td class="c num">'+esc(f[FI_ACCT])+'</td><td>'+esc(FD.narr[f[FI_NARR]])+'</td>'+
-        (showObj?'<td class="c">'+esc(FD.obj[f[FI_OBJ]])+'</td>':'')+
-        '<td class="a num">'+money0(f[FI_AMT])+'</td></tr>';
-    }).join('')+'</tbody></table>';
+    '<ul class="pl-rows acct-list">'+
+    (function(){
+      var sorted=rows.slice().sort(function(a,b){return b[FI_AMT]-a[FI_AMT];}), seen={};
+      sorted.forEach(function(f){var k=FD.narr[f[FI_NARR]], fl=(/^[A-Z]+/.exec(f[FI_ACCT]||'')||[''])[0]; (seen[k]||(seen[k]={}))[fl]=1;});
+      return sorted.map(function(f){
+        var nm=FD.narr[f[FI_NARR]], code=f[FI_ACCT]||'', fl=(/^[A-Z]+/.exec(code)||[''])[0];
+        /* one name under two funds (the school's Operation of Plant: general, school lunch, capital) differs only by the fund the code starts with: say which fund, in words */
+        var lab=esc(nm)+(Object.keys(seen[nm]).length>1&&fl?' ('+esc((O.fundNames&&O.fundNames[fl])||('fund '+fl))+')':'');
+        return '<li><button type="button" class="pl-row" data-acct="'+escA(code)+'" aria-expanded="false">'+
+          '<span class="pl-row-l">'+lab+'</span>'+
+          '<span class="pl-row-s"><span class="num">'+esc(code)+'</span>'+(showObj?' · '+esc(FD.obj[f[FI_OBJ]]):'')+'</span>'+
+          '<span class="pl-row-v num">'+money0(f[FI_AMT])+'</span></button></li>';
+      }).join('');
+    })()+'</ul>';
   if(!rows.length)
     h+='<p class="lede">Nothing matches both selections — clear one above.</p>';
   h+='<p class="note">Group and line names are the State Comptroller&rsquo;s, for the account codes this government files.</p>';
@@ -2671,7 +2714,7 @@ function renderRank(el,items,cssVar,total,onClick,expand,onOther,opts){
     return '<div class="rk'+(drillable?' can':'')+(hk?' pl-hl':'')+'"'+
         (hk?' data-key="'+escA(hk)+'"':'')+
         (clickable?' data-rank="'+i+'" style="cursor:pointer"':'')+
-        (drillable?' data-exp="'+i+'"':'')+
+        (drillable?' data-exp="'+i+'" aria-expanded="false"':'')+
         (otherable?' data-other="1" style="cursor:pointer"':'')+
         (interactive?' role="button" tabindex="0"':'')+'>'+
       '<span class="lb"'+(isOther?' style="color:var(--muted)"':'')+'>'+esc(x[0])+
@@ -2739,7 +2782,7 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
     var top=all?det:det.slice(0,6);
     var rest=det.length-top.length;
     var h='<div class="bxbars">'+
-      '<div class="bxb"><span class="l">Adopted</span><span class="bar">'+
+      '<div class="bxb"><span class="l">Budgeted</span><span class="bar">'+
         '<i style="width:'+(100*b/mx).toFixed(1)+'%;background:var(--faint)"></i></span>'+
         '<span class="v num">'+money(b)+'</span></div>'+
       '<div class="bxb"><span class="l">Actual</span><span class="bar">'+
@@ -2820,6 +2863,7 @@ function closeModal(fromPop){
   document.body.style.overflow='';
   [].forEach.call(document.querySelectorAll(BEHIND),function(n){n.removeAttribute('inert');});
   if(fromPop!==true&&!LAYER.pop()) hashReplace('');   /* an arrival sheet held no entry: its address goes with it */
+  if(MODAL.opener&&MODAL.opener.hasAttribute&&MODAL.opener.hasAttribute('aria-expanded')) MODAL.opener.setAttribute('aria-expanded','false');
   if(MODAL.opener&&MODAL.opener.focus) MODAL.opener.focus();
 }
 function tabButtons(){
@@ -2838,6 +2882,7 @@ function openModal(year,sec,label,cssVar,opener){
   MODAL.year=year;MODAL.sec=sec;MODAL.label=label;MODAL.color=cssVar;
   MODAL.tab='breakdown';MODAL.opener=opener||null;
   MODAL.fL2=null;MODAL.fObj=null;
+  if(opener&&opener.hasAttribute&&opener.hasAttribute('aria-expanded')) opener.setAttribute('aria-expanded','true');   /* the row that opened the sheet shows it: the selected state, the chevron turned */
   document.getElementById('mTabs').innerHTML=tabButtons();
   var rows=flowsFor(year,sec,label);
   var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
@@ -2945,12 +2990,13 @@ function renderAcross(body,sec,label,mini){
   var max=rows.length?per(rows[0]):1;
   var h='<div class="mstats">'+
     '<div class="mstat"><div class="k">'+esc(O.selfShort)+'</div><div class="v num">'+
-      (self?'$'+Math.round(per(self)).toLocaleString('en-US')+'<span style="font-size:12px;color:var(--muted)">/res</span>':'no filing')+'</div></div>'+
+      (self?'$'+Math.round(per(self)).toLocaleString('en-US')+'<span style="font-size:12px;color:var(--muted)"> per resident</span>':'no filing')+'</div></div>'+
     '<div class="mstat"><div class="k">Rank</div><div class="v num">'+
       (self?rank+' of '+rows.length:'—')+'</div></div>'+
-    '<div class="mstat"><div class="k">Median of filers</div><div class="v num">$'+
+    '<div class="mstat"><div class="k">Median</div><div class="v num">$'+
       Math.round(med).toLocaleString('en-US')+'</div></div>'+
-    '<div class="mstat"><div class="k">Not filing this</div><div class="v num">'+zeros.length+' of '+(O.xcAll||[]).length+'<span style="font-size:12px;color:var(--muted)"> govts</span></div></div>'+
+    '<div class="mstat"><div class="k">Who filed it</div><div class="v" style="font-size:14px;line-height:1.3">'+
+      (zeros.length?zeros.length+' of the '+(O.xcAll||[]).length+' governments did not':'Every one of the '+(O.xcAll||[]).length+' governments filed')+'</div></div>'+
   '</div>';
   var shown=mini?rows.filter(function(r,i){return i<4||r[5]===O.selfSlug;}):rows;
   h+=(mini?'<div style="height:10px"></div>':'<h4>'+esc(label)+' per resident — every government that files it</h4>')+'<div class="rank">'+
@@ -2961,7 +3007,7 @@ function renderAcross(body,sec,label,mini){
         '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+Math.round(pv).toLocaleString('en-US')+'</span>'+
         '<span class="tr"><i style="width:'+(pv/max*100).toFixed(1)+'%;background:'+
           (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
-        (mini?'':'<span class="pc num">$'+Math.round(r[2]).toLocaleString('en-US')+' total · '+r[4]+' · pop '+r[3].toLocaleString('en-US')+'</span>');
+        (mini?'':'<span class="pc num">$'+Math.round(r[2]).toLocaleString('en-US')+' total · '+r[4]+' · '+r[3].toLocaleString('en-US')+' residents (2020 Census)</span>');
       return me?'<div class="rk">'+inner+'</div>'
         :'<a class="rk can" href="'+escA(acrossHref(r[5],sec,label))+'">'+inner+'</a>';
     }).join('')+'</div>';
@@ -2973,7 +3019,7 @@ function renderAcross(body,sec,label,mini){
   h+=mini?'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently. Each figure is that '+
      'government&rsquo;s own latest filing; populations are the 2020 Census.</p>'
     :'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — '+
-     'service levels and structures differ. Each figure is that government&rsquo;s own latest filing. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved 2026-07-31).</p>';
+     'service levels and structures differ. Each figure is that government&rsquo;s own latest filing. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved July 31, 2026).</p>';
   body.innerHTML=h;
 }
 
@@ -3065,10 +3111,11 @@ function glossFor(code,sec){
 }
 
 function acctHistory(tr){
-  var next=tr.nextElementSibling;
-  if(next&&next.className==='acct-hist'){next.remove();hashReplace(catHash());return;}
-  var already=tr.parentElement.querySelector('.acct-hist');
-  if(already) already.remove();
+  /* the row is a .pl-row button; its history opens under it (aria-expanded + the turned chevron are the open state) */
+  var li=tr.parentNode, open=li.querySelector('.acct-hist');
+  if(open){open.remove();tr.setAttribute('aria-expanded','false');hashReplace(catHash());return;}
+  var already=document.querySelector('#mBody .acct-hist');
+  if(already){var ab=already.parentNode.querySelector('[data-acct]');if(ab) ab.setAttribute('aria-expanded','false');already.remove();}
   var code=tr.getAttribute('data-acct');
   var vals=O.years.map(function(){return null;});          /* null = no row that year: a gap, not $0 */
   var narr='';
@@ -3090,7 +3137,7 @@ function acctHistory(tr){
     read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — '+
       (ratio>=1?ratio.toFixed(1)+'&times;':(1/ratio).toFixed(1)+'&times; below')+
       ' the prior-year median ('+money0(med)+').';
-    if(ratio>=3&&latest>=50000) read+=' <b>Worth a question.</b>';
+    if(ratio>=3&&latest>=50000) read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — <b>'+ratio.toFixed(1)+'&times; its usual level</b> (the prior-year median is '+money0(med)+').';
   } else if(latest>0){
     read='FY'+O.years[iN]+': <b class="num">'+money0(latest)+'</b> — no meaningful prior history.';
   } else {
@@ -3102,15 +3149,15 @@ function acctHistory(tr){
   if(g) read+='<span class="gloss">What this is: '+g+'</span>';
   if(/Unclassified/i.test(narr))
     read+=' The 2770-series is the state&rsquo;s catch-all — its own name says <i>&ldquo;(specify)&rdquo;</i>, '+
-      'so a large or growing balance is a standard audit question. The itemisation lives in the '+
+      'so a large or growing balance is a standard audit question. The itemization lives in the '+
       'county&rsquo;s general ledger, one request away.';
-  var row=document.createElement('tr');
+  var row=document.createElement('div');
   row.className='acct-hist';
-  row.innerHTML='<td colspan="'+tr.children.length+'" style="padding:12px 0 16px">'+
-    '<div class="ah-chart"></div><p class="fnt" style="margin:8px 0 0;max-width:76ch">'+read+'</p></td>';
-  tr.after(row);
+  row.innerHTML='<div class="ah-chart"></div><p class="fnt" style="margin:8px 0 0;max-width:76ch">'+read+'</p>';
+  li.appendChild(row);
+  tr.setAttribute('aria-expanded','true');
   renderLine(row.querySelector('.ah-chart'),vals,{color:MODAL.color,name:code,h:170});
-  LAYER.sub(row,function(){ row.remove(); hashReplace(catHash()); });   /* Back closes this history first; the sheet stays (Fable r8) */
+  LAYER.sub(row,function(){ row.remove(); tr.setAttribute('aria-expanded','false'); hashReplace(catHash()); });   /* Back closes this history first; the sheet stays (Fable r8) */
   /* the open account has the address the decisions register already uses (#acct-<fund><function>) */
   var am=/^([A-Z]{1,3})(\d{4})/.exec(code||''); if(am) hashReplace('#acct-'+am[1]+am[2]);
 }
@@ -3139,7 +3186,7 @@ function acctHistory(tr){
         return;
       }
     }
-    var tr=e.target.closest('tr[data-acct]');
+    var tr=e.target.closest('[data-acct]');
     if(tr) acctHistory(tr);
   });
   document.getElementById('mTabs').addEventListener('click',function(e){
@@ -3251,7 +3298,7 @@ function renderCompare(){
     ?'<b>Spending grew faster than revenue</b> — the categories marked below are the ones that outpaced it.'
     :'Revenue grew at least as fast as spending over this pair.';
   if((a<O.schemaBreak)!==(b<O.schemaBreak))
-    line+=' <b>These two years sit on different reporting bases</b> (OSC changed its schema in '+
+    line+=' <b>These two years sit on different reporting bases</b> (the Comptroller changed its reporting schema in '+
           O.schemaBreak+'), so part of any change here is definitional rather than real.';
   function table(sec,label,wrapId){
     var rows=movers(sec,a,b).filter(function(m){return Math.abs(m.d)>=5000&&!(off&&sec===0&&m.k===DL);}).slice(0,8);
@@ -3333,6 +3380,15 @@ document.getElementById('shareYear').addEventListener('click',function(){
 var HERO_LI=O.years.length-1;
 var HERO_FY=/\bFY\d{4}/.test((document.querySelector('#hRev .k')||{textContent:''}).textContent)?'FY':'';
 function pct1(a,b){if(!a) return b?'new':'—';var p=(b-a)/Math.abs(a)*100;return (p>=0?'+':'−')+Math.abs(p).toFixed(1)+'%';}
+/* 1.8: a one-year change of 25% or more gets its context - the three changes before it averaged - and never a cause (the series the page already has) */
+function yoy(arr,i){var a=arr[i-1],b=arr[i];return a?(b-a)/Math.abs(a)*100:null;}
+function swingTxt(label,arr,i){
+  var p=yoy(arr,i); if(p==null||Math.abs(p)<25) return '';
+  var h='<span class="dbtn">'+label+' '+(p<0?'−':'+')+Math.abs(p).toFixed(1)+'%: a one-year swing';
+  if(i>=4){var q=[yoy(arr,i-1),yoy(arr,i-2),yoy(arr,i-3)];
+    if(q.indexOf(null)<0){var m=(q[0]+q[1]+q[2])/3; h+='; the three-year average is '+(m<0?'−':'+')+Math.abs(m).toFixed(1)+'%';}}
+  return h+'.</span>';
+}
 function heroMove(i){
   var yrs=O.years;
   if(i<1) return {html:'<span class="k">What changed</span><span class="mv1">No earlier filing on record to compare with.</span>',href:null};
@@ -3347,6 +3403,7 @@ function heroMove(i){
     '<span class="go">What moved &rarr;</span>';
   if(asked) h+='<span class="dbtn">As filed, with debt proceeds (<span class="num">'+money0(da)+'</span> in '+a+', <span class="num">'+money0(db)+
     '</span> in '+b+'), revenue <b class="num">'+pct1(ra,rb)+'</b>.</span>';
+  h+=swingTxt('Spending',O.exp,i)+swingTxt('Revenue',O.rev,i);
   if(a<O.schemaBreak&&b>=O.schemaBreak) h+='<span class="dbtn">These two filings sit on different reporting bases.</span>';
   return {html:h,href:'#cmp='+a+'|'+b};
 }
@@ -3525,11 +3582,11 @@ function drawTrend(){
   var svg=document.getElementById('trend'),p=[];
   svg.setAttribute('viewBox','0 0 '+W+' '+H);
   svg.style.fontSize=fs+'px';
-  var step=niceStep(max,narrow?3:5);
-  for(var g=0;g<=max;g+=step){
+  var AT=PL.axisTicks(max,narrow?3:5);                 /* the chrome's one ladder: the format follows the step ($1.25M is never '$1.3M', '$5.0M' never sits beside '$10M') */
+  AT.ticks.forEach(function(g){
     p.push('<line class="gl" x1="'+ml+'" y1="'+y(g).toFixed(1)+'" x2="'+(W-mr)+'" y2="'+y(g).toFixed(1)+'"/>');
-    p.push('<text class="ax" x="'+(ml-8)+'" y="'+(y(g)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+axMoney(g)+'</text>');
-  }
+    p.push('<text class="ax" x="'+(ml-8)+'" y="'+(y(g)+fs/3).toFixed(1)+'" text-anchor="end" font-size="'+fs+'">'+AT.fmt(g)+'</text>');
+  });
   var bi=yrs.indexOf(O.schemaBreak);
   if(bi>0){
     var bx=((x(bi)+x(bi-1))/2).toFixed(1);
@@ -3552,8 +3609,8 @@ function drawTrend(){
   /* the gap IS the chart: a wash where revenue runs above expenditure, a hatch where expenditure
      runs above revenue, each segment split exactly where the two lines cross; half strength
      before the reporting-basis change, which is drawn, never smoothed (doctrine call) */
-  p.push('<defs><pattern id="hatchExp" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">'+
-    '<rect width="6" height="6" fill="var(--card)" opacity="0"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--exp)" stroke-width="2.2"/></pattern></defs>');
+  p.push('<defs><pattern id="hatchExp" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)">'+
+    '<line x1="0.75" y1="0" x2="0.75" y2="4" stroke="var(--exp)" stroke-width="1.5"/></pattern></defs>');
   var polys={w:[],h:[],wp:[],hp:[]};
   function quad(key,xa,ra,ea,xb,rb,eb){polys[key].push('M'+xa.toFixed(1)+' '+y(ra).toFixed(1)+' L'+xb.toFixed(1)+' '+y(rb).toFixed(1)+
     ' L'+xb.toFixed(1)+' '+y(eb).toFixed(1)+' L'+xa.toFixed(1)+' '+y(ea).toFixed(1)+' Z');}
@@ -3577,10 +3634,13 @@ function drawTrend(){
      takes the band that is clear of the series, the end labels, the basis note, the
      selected-year rule and the other label - and never leaves the chart box. Two lines on a phone. */
   var b0=Math.max(0,bi), ann=[], annNote='';
-  var gapI=-1,gapV=0;
+  var gapI=-1,gapV=0,capTxt='';
   for(var ai=b0;ai<=li;ai++){var gv=Math.abs(rev[ai]-exp[ai]);if(gv>gapV){gapV=gv;gapI=ai;}}
-  if(gapI>=0&&gapV>0){var above=exp[gapI]>rev[gapI], gl1='Widest gap · '+yrs[gapI], gl2=(above?'expenditure':'revenue')+' above by '+mCompact(gapV);
-    ann.push({i:gapI,yTop:Math.min(y(rev[gapI]),y(exp[gapI])),yBot:Math.max(y(rev[gapI]),y(exp[gapI])),lines:narrow?[gl1,gl2]:[gl1+' · '+gl2]});}
+  if(gapI>=0&&gapV>0){var above=exp[gapI]>rev[gapI], gl1='Widest gap · '+yrs[gapI], gl2=(above?'spending':'revenue')+' above by '+mCompact(gapV);
+    capTxt='<b>Widest gap:</b> '+yrs[gapI]+', '+(above?'spending':'revenue')+' above by '+mCompact(gapV);
+    if(!narrow) ann.push({i:gapI,yTop:Math.min(y(rev[gapI]),y(exp[gapI])),yBot:Math.max(y(rev[gapI]),y(exp[gapI])),lines:[gl1+' · '+gl2]});}
+  var capEl=document.getElementById('trendCap');
+  if(capEl){capEl.hidden=!(narrow&&capTxt);capEl.innerHTML=narrow?capTxt:'';}   /* ≤700px: a caption line under the plot, so nothing sits on the lines */
   if(!narrow){var mvI=-1,mvV=0;
     for(var mi=b0+1;mi<=li;mi++){var mv=Math.abs(exp[mi]-exp[mi-1]);if(mv>mvV){mvV=mv;mvI=mi;}}
     if(mvI>0&&mvI!==gapI){ann.push({i:mvI,pt:y(exp[mvI]),lines:['Biggest move · '+yrs[mvI]+' · expenditure '+sgn(exp[mvI]-exp[mvI-1])+mCompact(mvV)]});}}
@@ -3725,7 +3785,7 @@ function drawTrend(){
   /* the mapping detail is desk-only (.ph-x; the Method says it too); what a phone keeps is the part that guards the reading:
      the basis changed, and figures either side of the dashed line are not strictly comparable */
   document.getElementById('trendNote').innerHTML=esc(annNote)+'Series covers '+yrs[0]+'–'+yrs[li]+'. '+
-    'OSC changed its reporting schema in '+O.schemaBreak+'.<span class="ph-x"> Both eras publish 15 columns under '+
+    'The Comptroller changed its reporting schema in '+O.schemaBreak+'.<span class="ph-x"> Both eras publish 15 columns under '+
     'different names, so the mapping is resolved by column name per era (the choice was validated '+
     'for continuity on the city series).</span> Figures either side of the dashed line are not strictly comparable.';
   /* the chart speaks: a computed, method-neutral description that counts within ONE basis (never across
@@ -3913,7 +3973,7 @@ hideT=setTimeout(function(){pager.classList.add('away');},2400);
     var mode=b.getAttribute('data-mode');
     [].forEach.call(host.querySelectorAll('a.rk'),function(a){
       var v=+a.getAttribute('data-'+mode), w=a.getAttribute('data-w'+mode);
-      a.querySelector('.vl').textContent='$'+v.toLocaleString('en-US')+(mode==='per'?' /res':'');
+      a.querySelector('.vl').textContent='$'+v.toLocaleString('en-US')+(mode==='per'?' per resident':'');
       a.querySelector('.tr i').style.width=w+'%';
     });
   });
@@ -3980,10 +4040,10 @@ function traceAcct(hash){
   if(!best) return;
   openModal(best[0], best[1], O.dict.l1[best[2]], best[1]?'--exp':'--rev', null);
   setTimeout(function(){
-    var rows=Array.prototype.slice.call(document.querySelectorAll('#modal tr[data-acct]'));
+    var rows=Array.prototype.slice.call(document.querySelectorAll('#modal [data-acct]'));
     var hit=null;
     rows.forEach(function(r2){
-      var d2=(r2.textContent.match(/[A-Z]{0,3}\d{3,6}/)||[''])[0].replace(/[^0-9]/g,'');
+      var d2=String(r2.getAttribute('data-acct')||'').replace(/[^0-9]/g,'');
       if(!hit && d2.slice(0,4)===fn) hit=r2;
     });
     if(hit){ hit.click(); hit.scrollIntoView({block:'center'}); }

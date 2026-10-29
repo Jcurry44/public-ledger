@@ -38,6 +38,7 @@
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);
   background:var(--paper);font-feature-settings:"kern"}
+html{border-top:5px solid var(--accent)}      /* the one navy stripe, on every page (SPEC F2; print zeroes it) */
 [hidden]{display:none!important}
 .num{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 a{color:var(--accent);text-underline-offset:2.5px;text-decoration-thickness:1px}
@@ -157,9 +158,9 @@ button{cursor:pointer}
   background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;padding:8px;box-shadow:var(--shadow),0 24px 60px -24px rgba(10,12,15,.45)}
 .pl-group[data-open] .pl-menu{display:block}
 .pl-group:first-child .pl-menu{right:auto;left:0}
-.pl-kick{display:flex;align-items:center;gap:10px;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}   /* the menu's group heads; a page's .pl-kick is the HOUSE kicker */
 .pl-dest{display:grid;grid-template-columns:1fr auto;gap:1px 12px;align-items:center;padding:8px 10px;border-radius:8px;
   text-decoration:none;color:var(--ink);min-height:44px}
 .pl-dest .pl-dl{grid-column:1;grid-row:1;font-size:14px;font-weight:600;line-height:1.3}
@@ -219,13 +220,12 @@ button{cursor:pointer}
   /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
      (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
      a page's own '.tailx summary' rules; .keep folds (a label that is not a control) are left alone */
-  .ph-fold:not(.keep)>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
+  .ph-fold:not(.keep)>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
     border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
-  .ph-fold:not(.keep)>summary::before,details.tailx>summary::before{content:none}
-  .ph-fold:not(.keep)>summary::after,details.tailx>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
-  .ph-fold:not(.keep)[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+  .ph-fold:not(.keep)>summary::before{content:none}
+  .ph-fold:not(.keep)>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+  .ph-fold:not(.keep)[open]>summary::after{transform:rotate(90deg)}
   .ph-fold:not(.keep)>summary+*{margin-top:6px}
-  details.tailx{margin:0}
   /* the forehead: Safari 26 paints the band behind the clock from the page, and fills it solid only from a position:fixed
      element touching the top edge (WebKit 300965). A 2px strip of page colour, always there; on a phone test, not Chromium */
   .pl-fore{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--paper);z-index:2147483000;pointer-events:none}
@@ -316,8 +316,8 @@ button{cursor:pointer}
 .pl-dout-sub{display:block;margin-top:2px;font-size:12px;line-height:1.4;color:var(--muted)}
 .pl-dout-fs{display:flex;gap:8px;flex:0 0 auto}
 .pl-dout-a,.pl-dout .pl-fol{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:64px;padding:0 12px;
-  border:1px solid var(--rule-strong);border-radius:9px;background:var(--card);color:var(--ink);text-decoration:none;
-  font:600 12.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}
+  border:1px solid var(--rule-strong);border-radius:99px;background:transparent;color:var(--ink);text-decoration:none;
+  font:600 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0}
 .pl-dout-a svg{width:13px;height:13px;flex:0 0 auto;color:var(--accent)}
 .pl-dout .pl-fol::after{content:none}
 @media (hover:hover){.pl-dout-a:hover,.pl-dout .pl-fol:hover{background:var(--accent-soft);border-color:var(--accent)}}
@@ -349,6 +349,73 @@ html.pl-embed .pl-emb-bar{display:none}
 .pl-emb-tie i{font-style:normal;color:var(--ok)}
 .pl-emb-link{margin-left:auto;font-weight:600;white-space:nowrap}
 .pl-emb-miss{padding:6px 0;font-size:14px;line-height:1.5;color:var(--ink)}
+
+/* ---------- house type + components - generated by tools/_chrome.py (HOUSE_CSS, 10-29) ---------- */
+.pl-kick{margin:0 0 6px;font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pl-h1{margin:0;font:600 33px/1.12 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.015em;color:var(--ink)}
+.pl-h2{margin:0 0 4px;font:600 21px/1.3 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink)}
+.pl-lede{margin:8px 0 0;font-size:16px;line-height:1.5;color:color-mix(in srgb,var(--ink) 88%,var(--card));max-width:66ch}
+.pl-lede b{color:var(--ink);font-weight:600}
+.pl-sub{margin:0 0 14px;font-size:14px;line-height:1.45;color:var(--muted);max-width:78ch}
+@media (min-width:900px){.pl-h1{font-size:clamp(38px,3.3vw,48px)}.pl-lede{font-size:18px;max-width:30em}}
+@media (max-width:359px){.pl-h1{font-size:29px}}
+/* two button shapes: .pl-btn for a page's one or two main actions (one .pri per screen), .pl-pill for every secondary action */
+.pl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--rule-strong);
+  background:transparent;color:var(--ink);font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.pl-btn.pri{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.pl-btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:430px}
+.pl-pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;
+  color:var(--ink);font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap}
+.pl-pill.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+@media (pointer:coarse){.pl-pill{min-height:44px}}
+@media (hover:hover){.pl-btn:hover,.pl-pill:hover{border-color:var(--accent)}.pl-btn.pri:hover,.pl-pill.on:hover{filter:brightness(1.12)}}
+.pl-btn:focus-visible,.pl-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* ink list rows: label, optional sub-line, value, a right chevron; the whole row is the target */
+.pl-rows{margin:0;padding:0;list-style:none;display:block}
+.pl-row{display:grid;grid-template-columns:minmax(0,1fr) auto 14px;gap:2px 10px;align-items:center;width:100%;min-height:52px;padding:11px 0;border:0;
+  border-top:1px solid var(--rule);background:transparent;color:var(--ink);text-align:left;text-decoration:none;font:inherit;cursor:pointer}
+.pl-rows>.pl-row:first-child,.pl-rows>li:first-child>.pl-row{border-top:0}
+.pl-row-l{grid-column:1;grid-row:1;font-size:15px;line-height:1.3;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pl-row-s{grid-column:1;grid-row:2;font-size:13px;line-height:1.4;color:var(--muted)}
+.pl-row-v{grid-column:2;grid-row:1/span 2;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.pl-row-v small{font-weight:400;color:var(--muted);margin-left:6px}
+.pl-row::after{content:'\203A';grid-column:3;grid-row:1/span 2;justify-self:end;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-row.on,.pl-row[aria-current],.pl-row[aria-expanded=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);padding-left:10px;border-radius:0 8px 8px 0}
+.pl-row[aria-expanded=true]::after{transform:rotate(90deg)}
+@media (hover:hover){.pl-row:hover{background:var(--accent-soft)}.pl-row:hover::after{color:var(--accent)}}
+.pl-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* folds: one look at every width (a <details> whose label is an ink row; .pl-fold is the class builders use) */
+.pl-fold{margin:0}
+.pl-fold>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;border-top:1px solid var(--rule);
+  color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;list-style:none;cursor:pointer;text-decoration:none}
+.pl-fold>summary::-webkit-details-marker,details.tailx>summary::-webkit-details-marker{display:none}
+.pl-fold>summary::before,details.tailx>summary::before{content:none}
+.pl-fold>summary::after,details.tailx>summary::after{content:'\203A';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-fold[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+.pl-fold>summary+*{margin-top:6px}
+details.tailx{margin:0}
+.pl-fold>summary .pl-tick{color:var(--ok);font-weight:700;margin-left:8px}
+@media (hover:hover){.pl-fold>summary:hover,details.tailx>summary:hover{color:var(--accent)}}
+/* the check line: how a page says 'this was checked' (replaces every mono 'GATES PASS' box) */
+.pl-check{display:flex;align-items:flex-start;gap:10px;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:var(--ok);
+  border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
+.pl-check i{font-style:normal;flex:0 0 auto;font-weight:700}
+.pl-check b{font-weight:600}
+.pl-check span{display:block;font-size:13px}
+/* the independence line, said once and quietly */
+.pl-indep{margin:10px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.pl-indep a{color:var(--accent);font-weight:600}
+/* the site footer */
+.pl-foot{border-top:1px solid var(--rule);margin-top:42px;padding:22px 0 40px;color:var(--faint);font-size:12.5px;line-height:1.5}
+footer.pl-foot{margin-top:42px;padding-top:22px;padding-bottom:40px}      /* outranks a page's own .wrap{margin:0 auto;padding:0 20px} */
+.pl-foot p{margin:0 0 7px;max-width:80ch}
+.pl-foot a{color:var(--muted);display:inline-block;padding:13px 0;margin:-13px 0;position:relative;z-index:1}
+.pl-foot-c{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;margin-bottom:16px!important}
+.pl-foot-c a{min-height:44px;display:inline-flex;align-items:center;padding:0;margin:0}      /* a row of 44px presses, never overlapping */
+.pl-foot b{color:var(--ink);font-weight:600}
+.pl-foot .pl-fold{margin:6px 0 16px;color:var(--muted)}      /* clear of the credit link's 44px press below */
 
 @font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/Fraunces-600-latin.woff2) format('woff2')}
 
@@ -389,16 +456,14 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .seg button{all:unset;cursor:pointer;font:600 12.5px/1 system-ui;padding:9px 12px;border-radius:999px;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.seg.one button{cursor:default}
+.basis{font-size:13.5px;line-height:1.45;color:var(--muted);margin:0 0 12px;max-width:34ch}
 .val{display:flex;align-items:center;gap:6px;font:600 26px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--faint);
   border-bottom:2px solid var(--ink);padding:4px 0 6px;max-width:260px}
 .val input:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:4px}
 .val input{all:unset;width:100%;min-width:0;font:600 26px/1.1 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);font-variant-numeric:tabular-nums}
 .val:focus-within{border-bottom-color:var(--accent)}
 .presets{display:flex;gap:8px;margin:12px 0 10px;flex-wrap:wrap}
-.pill{all:unset;cursor:pointer;font:600 12.5px/1 system-ui;padding:10px 12px;min-height:20px;border:1px solid var(--rule-strong);border-radius:999px;color:var(--ink);background:var(--paper)}
-.pill:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-@media (hover:hover){.pill:hover,.seg button:hover{border-color:var(--ink);color:var(--ink)}}
+@media (hover:hover){.seg button:hover{border-color:var(--ink);color:var(--ink)}}
 .find{margin:0 0 14px}
 .find label{display:block;font:600 11.5px/1.3 system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 6px}
 .combo{position:relative}
@@ -442,19 +507,20 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .kv li.kv-p b{display:block;text-align:left;font-weight:500;color:var(--ink)}
 
 /* the facts under the calculator: the question, and what it would buy */
-.facts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin:14px 0 0}
+.facts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin:14px 0 0;align-items:start}
 .facts.one{grid-template-columns:minmax(0,1fr)}
 .card{border:1px solid var(--rule);border-radius:12px;background:var(--card);padding:16px 18px}
 .card h3{font-size:17px;margin:0 0 10px}
 .attr{font:500 12px/1 system-ui;color:var(--faint);margin-left:6px;letter-spacing:0}
 .qtext{margin:0;padding:2px 0 2px 14px;border-left:3px solid var(--rule-strong);font:15px/1.55 Georgia,'Times New Roman',serif;color:var(--ink)}
 .qmore{margin-top:8px}
-.qmore summary{cursor:pointer;font:600 13px/1.4 system-ui;color:var(--accent);min-height:24px}
 .qmore[open] + .src{margin-top:10px}
-.qmore[open] summary ~ .qtext{margin-top:8px}
 .src{font-size:12.5px;color:var(--faint);margin:10px 0 0}
-.src a,.sponsor a{color:var(--accent);padding:6px 0}      /* a taller hit area on a citation; the line box does not grow */
-.jump{display:none}
+/* a citation is a 44px thumb target that moves no line (the footer's trick: padding out, margin back) */
+.src a,.sponsor a,.noton a,.vote a{color:var(--accent);display:inline-block;padding:12px 6px;margin:-12px -6px;position:relative;z-index:1}
+.jumps{display:flex;flex-direction:column;align-items:flex-start}
+.jump{display:none;align-items:center;min-height:44px;font:600 14.5px/1.3 system-ui;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.jump.jb{display:inline-flex}          /* the benefit line shows at every width, beside the cost it answers */
 .buys{margin:0;padding:0 0 0 18px;font-size:14px}
 .buys li{margin:0 0 6px}
 .sched{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:12px 0 0;padding:0;border-top:2px solid var(--ink)}
@@ -469,20 +535,21 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .tenl dt{font-weight:600;color:var(--ink)}
 .tenl dd{margin:0}
 @media (max-width:640px){.tenl div{grid-template-columns:minmax(0,1fr)}}   /* a phone stacks the label over its line */
-.proj{font-size:13.5px;margin:12px 0 0;padding:10px 12px;border:1px dashed var(--rule-strong);border-radius:8px;color:var(--muted)}
-.proj b{color:var(--ink)}
+/* the City's projection: the same row, type and attribution as the cost ladder beside it (neutral: benefit and cost weigh the same) */
+.ladder.save{margin-top:12px}
+.ladder.save li{grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:start}
+.ladder.save .ll{grid-column:1}.ladder.save b{grid-column:2;grid-row:1}
+.ladder.save .ls{grid-column:1;grid-row:2;font-size:13px;line-height:1.4;color:var(--muted)}
+.ladder.save .tie{grid-column:2;grid-row:2;justify-self:end;margin:0;white-space:nowrap}
+.ladder .per{font:400 13px/1 system-ui;color:var(--muted)}
 .how{margin:14px 0 0}
-.how summary{cursor:pointer;list-style:none;min-height:24px}
-.how summary::-webkit-details-marker{display:none}
-.how summary h3{display:inline;margin:0}
-.how summary::after{content:' +';font:600 17px/1 system-ui;color:var(--faint);margin-left:6px}
-.how summary .tie{vertical-align:2px}
-.how[open] summary::after{content:' \2212'}
-.work{margin:12px 0 0;padding:0 0 0 18px;font-size:14px}
+.work{margin:8px 0 0;padding:0 0 0 18px;font-size:14px}
 .work li{margin:0 0 8px}
 .work ul{margin:6px 0;padding-left:18px}
 .tie{display:inline-block;font:600 11.5px/1 system-ui;letter-spacing:.06em;text-transform:uppercase;color:var(--ok);border:1px solid var(--ok);border-radius:4px;padding:3px 5px;margin-left:4px}
 .tie::before{content:'\2713  '}
+.tie.cf{color:var(--muted);border-color:var(--rule-strong)}     /* outlined like a check, and says whose figure it is */
+.tie.cf::before{content:none}
 .sponsor{font-size:12.5px;color:var(--faint);margin:12px 0 0;max-width:80ch}
 
 /* voting + not on the ballot */
@@ -492,19 +559,20 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .vote b{font:600 16px/1.3 'Fraunces',Georgia,serif}
 .vote a{color:var(--accent)}
 .noton{margin:16px 0 0;font-size:13.5px;color:var(--muted)}
-.noton a,.foot p a{padding:6px 0}
 .noton h3{font:600 12px/1.3 system-ui;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 4px}
 .noton ul{margin:0;padding-left:18px}
 .noton a{color:var(--accent)}
-.foot{border-top:1px solid var(--rule);margin-top:34px;padding:20px 0 40px;color:var(--muted);font-size:12.5px}
-.foot p{margin:0 0 8px;max-width:84ch}
+
+/* the footer is the chrome's (.pl-foot); the page's own .wrap must not zero its spacing, and its rule lines up with the text */
+.pl-foot.wrap{border-top:0;margin-top:42px;padding-top:0;padding-bottom:40px}
+.pl-foot.wrap::before{content:'';display:block;border-top:1px solid var(--rule);margin-bottom:22px}
+.pl-foot .pl-fold{margin-bottom:16px}      /* the credit link's 13px touch padding must not overlap the fold's 44px row above it */
 
 @media (max-width:760px){
   .calc{grid-template-columns:minmax(0,1fr)}
   .cin{border-right:0;border-top:1px solid var(--rule)}
   .cout{order:-1}                                   /* on a phone the answer comes first; the input that changes it sits right under it */
-  .jump{display:inline-flex;align-items:center;min-height:44px;margin-top:2px;font:600 14.5px/1.3 system-ui;color:var(--accent);
-    text-decoration:underline;text-underline-offset:3px}   /* ...and one tap takes you to it, keyboard up (10-27) */
+  .jump{display:inline-flex}   /* ...and one tap takes you to it, keyboard up (10-27) */
   .facts{grid-template-columns:minmax(0,1fr)}
   .vote{grid-template-columns:minmax(0,1fr)}
   .vote div{padding:9px 0;border-bottom:1px solid var(--rule)}
@@ -513,7 +581,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 @media (max-width:760px){                         /* a thumb's 44px on every control that changes the answer */
   .seg button{display:inline-flex;align-items:center;min-height:44px;padding:0 15px}
   .opts li{min-height:44px;box-sizing:border-box}
-  .pill{display:inline-flex;align-items:center;min-height:44px;padding:0 15px;box-sizing:border-box}
+  .pl-pill{padding:0 15px}
 }
 @media (max-width:420px){
   .tabs{gap:8px}
@@ -524,13 +592,13 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   .ladder .lb{display:none}
   .sched{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media print{.tabs,.presets,.seg,.vh a{display:none}.q[hidden]{display:block}}
+@media print{.tabs,.presets,.seg,.vh a,.jumps{display:none}.q[hidden]{display:block}}
 
 </style>
 <link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="updates.json">
 </head><body>
 
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">On the ballot</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>11/03/2026</b></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>2</b> questions on the Niagara County ballot</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">On the ballot</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through 10/20/2026</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html" aria-current="page"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest 10/20/2026</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>11/03/2026</b></span><span>built <b>10/29/2026</b></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">On the ballot</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>2</b> questions on the Niagara County ballot</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">On the ballot</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html" aria-current="page"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 
 <main id="main">
@@ -567,15 +635,16 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
         <button type="button" data-basis="mv" aria-pressed="false">Market value</button></div>
       <label class="val">$ <input type="text" inputmode="numeric" value="100,000" id="v-nt" aria-describedby="vh-nt"
         aria-label="Your home's assessed value in dollars"></label>
-      <div class="presets"><button class="pill" type="button" data-v="75000">$75K</button><button class="pill" type="button"
-        data-v="100000">$100K</button><button class="pill" type="button" data-v="150000">$150K</button></div>
+      <div class="presets"><button class="pl-pill" type="button" data-v="75000">$75K</button><button class="pl-pill" type="button"
+        data-v="100000">$100K</button><button class="pl-pill" type="button" data-v="150000">$150K</button></div>
       <p class="vh" id="vh-nt"><span id="vhA-nt">Or type the assessed value from your tax bill; it is not what you paid.</span> The search reads the
         City&rsquo;s <a href="https://www.northtonawanda.gov/documents/Website/2026/North%20Tonawanda%202026%20Final%20Roll.pdf" rel="noopener">2026 final roll</a>: all 12,788 parcels, with no owners&rsquo; names.</p>
     </div>
     <div class="cout" aria-live="polite">
       <div class="big"><b class="num" id="o-nt">$84</b><span>a year</span></div>
       <div class="bsub" id="os-nt">if the City borrows the full $18 million, for a home assessed at $100,000 (about $250,000 at market)</div>
-      <a class="jump" href="#addr-nt" data-jump="addr-nt">Your home: find your address &darr;</a>
+      <div class="jumps"><a class="jump" href="#addr-nt" data-jump="addr-nt">Your home: find your address &darr;</a>
+        <a class="jump jb" href="#buys-nt">What it would buy, in the City&rsquo;s words &darr;</a></div>
       <ol class="ladder" id="l-nt">
         <li><span class="ll">Ballot maximum <i class="num">$18.0 million</i></span><span class="lb"><i style="width:100%"></i></span>
           <b class="num" data-r="0.840000">$84</b></li>
@@ -595,7 +664,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       <blockquote class="qtext">Shall the City of North Tonawanda be authorized to issue serial bonds in the amount not exceed Eighteen Million Dollars ($18,000,000) for the purpose of financing the acquisition, construction, reconstruction, and equipping of a community center, including site acquisition, site improvements, furnishing, machinery, apparatus, and other incidental improvements and expenses in connection therewith?</blockquote>
       <p class="src"><a href="https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf#page=2" rel="noopener">Sample ballot, pp. 2, 4, 6, 8, 10</a> &middot; printed on all five North Tonawanda ballot styles &middot; quoted exactly as printed, &ldquo;not exceed&rdquo; included</p>
     </div>
-    <div class="card">
+    <div class="card" id="buys-nt">
       <h3>What it would buy <span class="attr">the City&rsquo;s description</span></h3>
       <ul class="buys"><li>Renovates the city-owned Norman Keller Building, 500 Wheatfield St.: new roof and HVAC, ADA access, safety and security.</li><li>Adds a 7,700 sq ft gym with an upper-level walking track, a 3,000 sq ft multipurpose room and a 1,000 sq ft fitness room.</li><li>Moves the senior center (leased, 110 Goundry St.) and the youth center (leased, 383 Vandervoort) into that one building, with offices for Recreation, the Lumber City Development Corporation (LCDC) and the Community Health Alliance of North Tonawanda (CHANT).</li></ul>
       <ol class="sched" aria-label="The City's schedule"><li><span class="sk">Design resumes</span><b>Nov 2026</b></li><li><span class="sk">Bids</span><b>May 2027</b></li><li><span class="sk">Construction</span><b>Sept 2027</b></li><li><span class="sk">Opens</span><b>Fall 2028</b></li></ol>
@@ -603,14 +672,17 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       <div class="ten"><p><b>The County's offices in the building.</b> The County rents space there for the DMV and Probation, and since 2024 for a Public Defender's office.</p>
         <dl class="tenl"><div><dt>DMV</dt><dd>Rents space today and stays in the design: 1,500 sq ft, the County's own minimum request, if the County renews its lease.</dd></div><div><dt>Probation</dt><dd>Rents space today; no space in the design the City published at playntrec.com/community (read Oct 27, 2026). The City's 2024 plan called for moving its county tenants out. Probation's other offices are in Lockport and Niagara Falls. Where the North Tonawanda office would go is the County's decision; no public announcement was found (checked Oct 27, 2026).</dd></div><div><dt>Public Defender</dt><dd>In March 2024 the County amended its lease at 611 Shad St (the building's other address) to add a Public Defender's office at $1,000 a month. The City's design lists space only for the DMV.</dd></div><div><dt>What the County pays</dt><dd>A $175,000 lump sum under a 2023 agreement ($150,000 of it for building improvements) plus its share of utilities, and the Public Defender rent since 2024.</dd></div></dl>
         <span class="src"><a href="https://www.northtonawanda.gov/documents/Website/2024/Community%20Center%20RFP%20Final%202024.pdf" rel="noopener">City RFP, 2024</a> &middot; <a href="https://downloads.niagaracounty.gov/Document_center/Department/M%20-%20R/Probation/2025%20Annual%20Report.pdf" rel="noopener">Probation 2025 annual report</a> &middot; <a href="decisions.html?q=CS-042-23" rel="noopener">County resolution CS-042-23</a> &middot; <a href="decisions.html?q=CSS-030-24" rel="noopener">CSS-030-24</a></span></div>
-      <p class="proj"><b>The City projects $204,000 a year</b> from moving three buildings into one:
-        $124,000 in facility and staff savings and $80,000 in new revenue. That is the City&rsquo;s
-        estimate; this page cannot check it. Whether that figure nets out the rent the County pays for its offices in the building today is not stated.</p>
+      <ol class="ladder save" aria-label="What the City says it saves">
+        <li><span class="ll">What the City says it saves</span><b class="num">$204,000<span class="per"> a year</span></b>
+          <span class="ls">the City&rsquo;s figure, not checked here</span><span class="tie cf">City&rsquo;s figure</span></li>
+      </ol>
+      <p class="src">From moving three buildings into one: $124,000 in facility and staff savings and $80,000 in new
+        revenue. The City&rsquo;s figure; this page can check the payment arithmetic but not a projection. Whether that figure nets out the rent the County pays for its offices in the building today is not stated.</p>
     </div>
   </div>
 
-  <details class="card how" data-open-wide>
-    <summary><h3>How the numbers work</h3> <span class="tie">the City&rsquo;s figures tie</span></summary>
+  <details class="pl-fold how" data-open-wide>
+    <summary>How the numbers work <span class="pl-tick">&#10003; the City&rsquo;s figures tie</span></summary>
     <ul class="work">
       <li><b>The payment.</b> $18,000,000 over 30 years at 4.5% is
         <span class="num">$1,105,048</span> a year in equal payments. The City rounds it to $1.10 million.
@@ -628,9 +700,11 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
         home&rsquo;s share rises or falls with how its value moved against the rest of the city. The figures above use the
         2026 roll, so for some homes they will shift once the new roll is in use.
         <a href="https://www.niagara-gazette.com/news/local_news/north-tonawanda-planning-to-conduct-reassessment/article_11b7b7e4-2df9-4c38-8e6b-bc9fa570e327.html" rel="noopener">Niagara Gazette, Aug 8, 2026</a></li>
-      <li><b>Against the city&rsquo;s budget.</b> The City&rsquo;s 2025 property-tax levy was $21.2 million;
+      <li><b>Next to the City&rsquo;s budget.</b> The City&rsquo;s 2025 property-tax levy was $21.2 million;
         the payment at the maximum is about 5% of it.</li>
-      <li><b>Over 30 years.</b> $33.2 million repaid on $18 million borrowed, on the City&rsquo;s terms.</li>
+      <li><b>Over 30 years.</b> $33.2 million repaid on $18 million borrowed &mdash; the City&rsquo;s own payment
+        terms; the City&rsquo;s projected savings over the same 30 years would be $6.1 million if its
+        $204,000 figure held.</li>
       <li><b>The shape of the payments.</b> The City&rsquo;s figure assumes equal yearly payments. New York also lets a city repay in
         declining amounts; then the first year costs more (about $1.41 million) and later years less.</li>
       <li><b>Grants.</b> The City names two it is pursuing, and says none is guaranteed:<ul><li><b>NY BRICKS</b>, up to $10 million: not awarded in the first round; the City expects another round in 2026-27</li><li><b>Downtown Revitalization Initiative</b>, $1-2 million: the City plans to apply</li></ul>
@@ -652,12 +726,11 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 
   <div class="calc" id="calc-somerset">
     <div class="cin">
-      <div class="seg one" role="group" aria-label="The value I know">
-        <button type="button" data-basis="av" aria-pressed="true">Assessed value</button></div>
+      <p class="basis" id="vb-somerset">Per $100,000 assessed. Type your property&rsquo;s assessed value to see its cost.</p>
       <label class="val">$ <input type="text" inputmode="numeric" value="100,000" id="v-somerset" aria-describedby="vh-somerset"
         aria-label="Your property's assessed value in dollars"></label>
-      <div class="presets"><button class="pill" type="button" data-v="75000">$75K</button><button class="pill" type="button"
-        data-v="100000">$100K</button><button class="pill" type="button" data-v="150000">$150K</button></div>
+      <div class="presets"><button class="pl-pill" type="button" data-v="75000">$75K</button><button class="pl-pill" type="button"
+        data-v="100000">$100K</button><button class="pl-pill" type="button" data-v="150000">$150K</button></div>
       <p class="vh" id="vh-somerset">For property in the Town of Somerset Fire Protection District. Your assessed value is on your town tax bill.</p>
     </div>
     <div class="cout" aria-live="polite">
@@ -675,7 +748,7 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   <div class="facts one">
     <div class="card">
       <h3>The question, word for word</h3>
-      <blockquote class="qtext">Shall the Board Resolution of the Somerset Town Board, in the County of Niagara, New York, adopted July 8, 2026, entitled: &quot;Board Resolution of the Somerset Town Board, in the County of Niagara, New York adopted July 8, 2026,&quot; authorizing the establishment of a defined benefit service award program (LOSAP) under General Municipal Law section 219 in the Town of Somerset Fire Pro&hellip;</blockquote><details class="qmore"><summary>Read the whole question (341 words)</summary><blockquote class="qtext">Shall the Board Resolution of the Somerset Town Board, in the County of Niagara, New York, adopted July 8, 2026, entitled: &quot;Board Resolution of the Somerset Town Board, in the County of Niagara, New York adopted July 8, 2026,&quot; authorizing the establishment of a defined benefit service award program (LOSAP) under General Municipal Law section 219 in the Town of Somerset Fire Protection District for the volunteer firefighters of Barker Fire Department Inc. stating that the LOSAP shall be administered by the Town of Somerset on behalf of Town of Somerset Fire Protection District; stating the estimated annual cost will be $96,000.00 based on the existing number of firefighters; stating that the annual tax rate to raise said $96,000.00 is estimated to be $0.54 per thousand of assessed valuation; stating the estimated annual administrative fee will be $3,500.00; stating the estimated annual cost per covered firefighter will be $2,285.00; stating that each eligible participant shall receive credit for up to five (5) qualified years of active Firefighting Service prior to the establishment of the LOSAP; stating that payment of the benefit shall be in the form of a life annuity with 120 payments guaranteed; stating death and disability payments to be authorized to commence upon the date of establishment of the LOSAP, and regular defined award payments to be authorized to commence one year thereafter, stating that the projected monthly award to be paid to eligible volunteer firefighters shall be $20.00 per month for each qualified year of active Firefighting Service, not to exceed 20 years, with payment in any month not to exceed $400.00, payment to commence when (1) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and has five years of qualified active Firefighting Service or (2) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and thereafter completes one year of active Firefighting Service, after payments commence, the amount of payment will increase by $20.00 per month for each additional year of active Firefighting Service, subject to the $400.00 monthly &quot;cap&quot; be approved?</blockquote></details>
+      <blockquote class="qtext">Shall the Board Resolution of the Somerset Town Board, in the County of Niagara, New York, adopted July 8, 2026, entitled: &quot;Board Resolution of the Somerset Town Board, in the County of Niagara, New York adopted July 8, 2026,&quot; authorizing the establishment of a defined benefit service award program (LOSAP) under General Municipal Law section 219 in the Town of Somerset Fire&hellip;</blockquote><details class="pl-fold qmore"><summary>Read the whole question (341 words)</summary><blockquote class="qtext">Shall the Board Resolution of the Somerset Town Board, in the County of Niagara, New York, adopted July 8, 2026, entitled: &quot;Board Resolution of the Somerset Town Board, in the County of Niagara, New York adopted July 8, 2026,&quot; authorizing the establishment of a defined benefit service award program (LOSAP) under General Municipal Law section 219 in the Town of Somerset Fire Protection District for the volunteer firefighters of Barker Fire Department Inc. stating that the LOSAP shall be administered by the Town of Somerset on behalf of Town of Somerset Fire Protection District; stating the estimated annual cost will be $96,000.00 based on the existing number of firefighters; stating that the annual tax rate to raise said $96,000.00 is estimated to be $0.54 per thousand of assessed valuation; stating the estimated annual administrative fee will be $3,500.00; stating the estimated annual cost per covered firefighter will be $2,285.00; stating that each eligible participant shall receive credit for up to five (5) qualified years of active Firefighting Service prior to the establishment of the LOSAP; stating that payment of the benefit shall be in the form of a life annuity with 120 payments guaranteed; stating death and disability payments to be authorized to commence upon the date of establishment of the LOSAP, and regular defined award payments to be authorized to commence one year thereafter, stating that the projected monthly award to be paid to eligible volunteer firefighters shall be $20.00 per month for each qualified year of active Firefighting Service, not to exceed 20 years, with payment in any month not to exceed $400.00, payment to commence when (1) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and has five years of qualified active Firefighting Service or (2) the eligible volunteer firefighter reaches the stipulated entitlement age of 65 and thereafter completes one year of active Firefighting Service, after payments commence, the amount of payment will increase by $20.00 per month for each additional year of active Firefighting Service, subject to the $400.00 monthly &quot;cap&quot; be approved?</blockquote></details>
       <p class="src"><a href="https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf#page=36" rel="noopener">Sample ballot, p. 36</a> &middot; every figure on this card is printed in the question</p>
     </div>
   </div>
@@ -691,20 +764,16 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 </div>
 </main>
 
-<footer class="foot"><div class="wrap">
-  <p>Public Ledger &middot; On the ballot &middot; <span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span>. The questions are copied from the county&rsquo;s
-    <a href="https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf" rel="noopener">official sample ballots</a> (41 pages, dated Sep 21, 2026), which carry these
-    two propositions and no others. A scenario is arithmetic on the sponsor&rsquo;s terms, not a forecast, and nothing here
-    says how to vote.</p>
-  <p id="about">Built by <a href="https://jcurry44.github.io" rel="noopener">Joe Curry</a>, a North Tonawanda resident, from public records. Not
-    affiliated with the City, the County or any campaign. Corrections welcome: every figure links to its source.</p>
-  <p><a href="index.html">City money</a> &middot; <a href="index.html#taxes">Your tax bill</a> &middot; <a href="atlas.html">Every government</a></p>
-  <div class="foot-fol"><a class="pl-fol pl-fol-foot" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div>
-</div></footer>
+<footer class="pl-foot wrap" id="about">
+<p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="index.html">City money</a><a href="index.html#taxes">Your tax bill</a><a href="county.html">County money</a><a href="atlas.html">Every government</a></p>
+<details class="pl-fold"><summary>How this page was built</summary><p>The questions are copied from the county&rsquo;s <a href="https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260921121850-ge26-sample-ballots.pdf" rel="noopener">official sample ballots</a> (41 pages, dated Sept 21, 2026), which carry these two propositions and no others. A scenario is arithmetic on the sponsor&rsquo;s terms, not a forecast, and nothing here says how to vote. Not affiliated with any campaign.</p></details>
+<p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Corrections welcome &mdash; every figure links to its source. <a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
+<p class="pl-foot-u">Updated <b>Oct 29</b></p>
+</footer>
 <script>
 (function(){
   "use strict";
-  var D={"eday":"2026-11-03","edayShort":"Tue Nov 3","polls":"6 a.m. to 9 p.m.","ratio":0.4,"presets":{"av":[75000,100000,150000],"mv":[150000,200000,300000]},"q":{"nt":{"rate":0.84,"years":30,"ratio":true,"lead":"if the City borrows the full $18 million"},"somerset":{"rate":0.54,"years":0,"ratio":false,"lead":"at the ballot\u2019s estimate of $0.54 per $1,000"}}};
+  var D={"eday":"2026-11-03","edayShort":"Tue Nov 3","polls":"6 a.m. to 9 p.m.","ratio":0.4,"presets":{"av":[75000,100000,150000],"mv":[150000,200000,300000]},"q":{"nt":{"rate":0.84,"years":30,"ratio":true,"of":"a home","lead":"if the City borrows the full $18 million"},"somerset":{"rate":0.54,"years":0,"ratio":false,"of":"property","lead":"at the ballot\u2019s estimate of $0.54 per $1,000"}}};
   var $=function(id){return document.getElementById(id)};
   var fmt=function(x,c){return '$'+x.toLocaleString('en-US',{minimumFractionDigits:c?2:0,maximumFractionDigits:c?2:0})};
   var num=function(s){var v=parseFloat(String(s).replace(/[^0-9.]/g,''));return isFinite(v)?v:0};
@@ -810,12 +879,12 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
     function parcel(){var a=calc.getAttribute('data-addr'),pv=+calc.getAttribute('data-av')||0,v=num(inp.value);
       if(!a||!pv)return null;return (basis==='av'?v===pv:v===Math.round(pv/D.ratio/1000)*1000)?{a:a,v:pv,y:calc.getAttribute('data-year')}:null}
     function run(){
-      var P=parcel(),jl=calc.querySelector('.jump');if(jl)jl.textContent=P?'Change address \u2193':'Your home: find your address \u2193';
+      var P=parcel(),jl=calc.querySelector('[data-jump]');if(jl)jl.textContent=P?'Change address \u2193':'Your home: find your address \u2193';
       if(!P&&num(inp.value)<1000){out.textContent='\u2014';sub.textContent='Enter '+(basis==='mv'?'what the home would sell for':'an assessed value')+' of $1,000 or more';
         [].forEach.call(calc.querySelectorAll('[data-r]'),function(b){b.textContent='\u2014'});var t0=$('t-'+id);if(t0)t0.textContent='\u2014';return}
       var v=num(inp.value),av=P?P.v:(basis==='mv'?v*D.ratio:v),tag=basis==='mv'?'worth '+fmt(v)+' (assessed about '+fmt(Math.round(av/100)*100)+')':'assessed at '+fmt(v)+(q.ratio&&v?' (about '+fmt(Math.round(v/D.ratio/1000)*1000)+' at market)':'');
       out.textContent=fmt(av*q.rate/1000);
-      sub.textContent=q.lead+(P?', for '+P.a+': taxable value '+fmt(P.v)+' on the '+P.y+' roll (about '+fmt(Math.round(P.v/D.ratio/1000)*1000)+' at market)':', for a home '+tag);
+      sub.textContent=q.lead+(P?', for '+P.a+': taxable value '+fmt(P.v)+' on the '+P.y+' roll (about '+fmt(Math.round(P.v/D.ratio/1000)*1000)+' at market)':', for '+q.of+' '+tag);
       [].forEach.call(calc.querySelectorAll('[data-r]'),function(b){
         var x=av*parseFloat(b.getAttribute('data-r'))/1000;b.textContent=(b.getAttribute('data-sign')?'−':'')+fmt(x,!!b.getAttribute('data-sign'));});
       var th=$('t-'+id);if(th)th.textContent=fmt(Math.round(av*q.rate/1000)*q.years);
@@ -837,6 +906,14 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
         Math.round(D.ratio*100)+'% of that. The buttons are market values.':'Or type the assessed value from your tax bill; it is not what you paid.';
       run();});});
   });
+  /* the numbers fold is open on a desk and an ink row on a phone (until the reader touches it) */
+  (function(){
+    var mq=window.matchMedia('(max-width:640px)'),ds=[].slice.call(document.querySelectorAll('details[data-open-wide]'));
+    function apply(){ds.forEach(function(d){if(!mq.matches)d.open=true;else if(!d.touched_)d.open=false;});}
+    ds.forEach(function(d){d.addEventListener('toggle',function(){if(mq.matches)d.touched_=true;});});
+    if(mq.addEventListener)mq.addEventListener('change',apply);else mq.addListener(apply);
+    apply();
+  })();
   /* the phone's 'find your address' link: land on the search, keyboard up */
   [].forEach.call(document.querySelectorAll('[data-jump]'),function(a){a.addEventListener('click',function(e){
     var i=$(a.getAttribute('data-jump'));if(!i)return;e.preventDefault();

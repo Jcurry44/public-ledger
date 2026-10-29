@@ -2,22 +2,22 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>The source, boxed | Public Ledger</title>
+<title>The source page — every claim on its page of the warrant | Public Ledger</title>
 <meta name="description" content="Every claim in the North Tonawanda ledger, opened on its page of the city's warrant with the line itself outlined.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Public Ledger">
-<meta property="og:title" content="The source, boxed | Public Ledger">
+<meta property="og:title" content="The source page — every claim on its page of the warrant | Public Ledger">
 <meta property="og:description" content="Every claim in the North Tonawanda ledger, opened on its page of the city's warrant with the line itself outlined.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/receipt.html">
-<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/receipt.png?v=ea13c872">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/receipt.png?v=78ad03d7">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The source, boxed | Public Ledger">
+<meta name="twitter:title" content="The source page — every claim on its page of the warrant | Public Ledger">
 <meta name="twitter:description" content="Every claim in the North Tonawanda ledger, opened on its page of the city's warrant with the line itself outlined.">
-<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/receipt.png?v=ea13c872">
-<meta property="og:image:alt" content="Share card: The source, boxed - every North Tonawanda claim opens on its page of the city's warrant with the line outlined: 52 warrants filed, 10,577 lines boxed, 6 scans shown page only.">
-<meta name="twitter:image:alt" content="Share card: The source, boxed - every North Tonawanda claim opens on its page of the city's warrant with the line outlined: 52 warrants filed, 10,577 lines boxed, 6 scans shown page only.">
+<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/receipt.png?v=78ad03d7">
+<meta property="og:image:alt" content="Share card: The source page - every North Tonawanda claim opens on its page of the city's warrant with the line outlined: 52 warrants filed, 10,577 lines outlined, 6 scans shown page only.">
+<meta name="twitter:image:alt" content="Share card: The source page - every North Tonawanda claim opens on its page of the city's warrant with the line outlined: 52 warrants filed, 10,577 lines outlined, 6 scans shown page only.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1b3a5c">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c0f">
@@ -38,6 +38,7 @@
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
 body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);
   background:var(--paper);font-feature-settings:"kern"}
+html{border-top:5px solid var(--accent)}      /* the one navy stripe, on every page (SPEC F2; print zeroes it) */
 [hidden]{display:none!important}
 .num{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 a{color:var(--accent);text-underline-offset:2.5px;text-decoration-thickness:1px}
@@ -156,9 +157,9 @@ button{cursor:pointer}
   background:var(--card);border:1px solid var(--rule-strong);border-radius:12px;padding:8px;box-shadow:var(--shadow),0 24px 60px -24px rgba(10,12,15,.45)}
 .pl-group[data-open] .pl-menu{display:block}
 .pl-group:first-child .pl-menu{right:auto;left:0}
-.pl-kick{display:flex;align-items:center;gap:10px;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 8px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}   /* the menu's group heads; a page's .pl-kick is the HOUSE kicker */
 .pl-dest{display:grid;grid-template-columns:1fr auto;gap:1px 12px;align-items:center;padding:8px 10px;border-radius:8px;
   text-decoration:none;color:var(--ink);min-height:44px}
 .pl-dest .pl-dl{grid-column:1;grid-row:1;font-size:14px;font-weight:600;line-height:1.3}
@@ -218,13 +219,12 @@ button{cursor:pointer}
   /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
      (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
      a page's own '.tailx summary' rules; .keep folds (a label that is not a control) are left alone */
-  .ph-fold:not(.keep)>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
+  .ph-fold:not(.keep)>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
     border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
-  .ph-fold:not(.keep)>summary::before,details.tailx>summary::before{content:none}
-  .ph-fold:not(.keep)>summary::after,details.tailx>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
-  .ph-fold:not(.keep)[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+  .ph-fold:not(.keep)>summary::before{content:none}
+  .ph-fold:not(.keep)>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+  .ph-fold:not(.keep)[open]>summary::after{transform:rotate(90deg)}
   .ph-fold:not(.keep)>summary+*{margin-top:6px}
-  details.tailx{margin:0}
   /* the forehead: Safari 26 paints the band behind the clock from the page, and fills it solid only from a position:fixed
      element touching the top edge (WebKit 300965). A 2px strip of page colour, always there; on a phone test, not Chromium */
   .pl-fore{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--paper);z-index:2147483000;pointer-events:none}
@@ -315,8 +315,8 @@ button{cursor:pointer}
 .pl-dout-sub{display:block;margin-top:2px;font-size:12px;line-height:1.4;color:var(--muted)}
 .pl-dout-fs{display:flex;gap:8px;flex:0 0 auto}
 .pl-dout-a,.pl-dout .pl-fol{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:64px;padding:0 12px;
-  border:1px solid var(--rule-strong);border-radius:9px;background:var(--card);color:var(--ink);text-decoration:none;
-  font:600 12.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}
+  border:1px solid var(--rule-strong);border-radius:99px;background:transparent;color:var(--ink);text-decoration:none;
+  font:600 13px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0}
 .pl-dout-a svg{width:13px;height:13px;flex:0 0 auto;color:var(--accent)}
 .pl-dout .pl-fol::after{content:none}
 @media (hover:hover){.pl-dout-a:hover,.pl-dout .pl-fol:hover{background:var(--accent-soft);border-color:var(--accent)}}
@@ -349,43 +349,91 @@ html.pl-embed .pl-emb-bar{display:none}
 .pl-emb-link{margin-left:auto;font-weight:600;white-space:nowrap}
 .pl-emb-miss{padding:6px 0;font-size:14px;line-height:1.5;color:var(--ink)}
 
+/* ---------- house type + components - generated by tools/_chrome.py (HOUSE_CSS, 10-29) ---------- */
+.pl-kick{margin:0 0 6px;font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pl-h1{margin:0;font:600 33px/1.12 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.015em;color:var(--ink)}
+.pl-h2{margin:0 0 4px;font:600 21px/1.3 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink)}
+.pl-lede{margin:8px 0 0;font-size:16px;line-height:1.5;color:color-mix(in srgb,var(--ink) 88%,var(--card));max-width:66ch}
+.pl-lede b{color:var(--ink);font-weight:600}
+.pl-sub{margin:0 0 14px;font-size:14px;line-height:1.45;color:var(--muted);max-width:78ch}
+@media (min-width:900px){.pl-h1{font-size:clamp(38px,3.3vw,48px)}.pl-lede{font-size:18px;max-width:30em}}
+@media (max-width:359px){.pl-h1{font-size:29px}}
+/* two button shapes: .pl-btn for a page's one or two main actions (one .pri per screen), .pl-pill for every secondary action */
+.pl-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:12px;border:1px solid var(--rule-strong);
+  background:transparent;color:var(--ink);font:600 15px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.pl-btn.pri{background:var(--accent);border-color:var(--accent);color:var(--card)}
+.pl-btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:430px}
+.pl-pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;
+  color:var(--ink);font:600 13.5px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap}
+.pl-pill.on{background:var(--accent);border-color:var(--accent);color:var(--card)}
+@media (pointer:coarse){.pl-pill{min-height:44px}}
+@media (hover:hover){.pl-btn:hover,.pl-pill:hover{border-color:var(--accent)}.pl-btn.pri:hover,.pl-pill.on:hover{filter:brightness(1.12)}}
+.pl-btn:focus-visible,.pl-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* ink list rows: label, optional sub-line, value, a right chevron; the whole row is the target */
+.pl-rows{margin:0;padding:0;list-style:none;display:block}
+.pl-row{display:grid;grid-template-columns:minmax(0,1fr) auto 14px;gap:2px 10px;align-items:center;width:100%;min-height:52px;padding:11px 0;border:0;
+  border-top:1px solid var(--rule);background:transparent;color:var(--ink);text-align:left;text-decoration:none;font:inherit;cursor:pointer}
+.pl-rows>.pl-row:first-child,.pl-rows>li:first-child>.pl-row{border-top:0}
+.pl-row-l{grid-column:1;grid-row:1;font-size:15px;line-height:1.3;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pl-row-s{grid-column:1;grid-row:2;font-size:13px;line-height:1.4;color:var(--muted)}
+.pl-row-v{grid-column:2;grid-row:1/span 2;font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+.pl-row-v small{font-weight:400;color:var(--muted);margin-left:6px}
+.pl-row::after{content:'\203A';grid-column:3;grid-row:1/span 2;justify-self:end;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-row.on,.pl-row[aria-current],.pl-row[aria-expanded=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);padding-left:10px;border-radius:0 8px 8px 0}
+.pl-row[aria-expanded=true]::after{transform:rotate(90deg)}
+@media (hover:hover){.pl-row:hover{background:var(--accent-soft)}.pl-row:hover::after{color:var(--accent)}}
+.pl-row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+/* folds: one look at every width (a <details> whose label is an ink row; .pl-fold is the class builders use) */
+.pl-fold{margin:0}
+.pl-fold>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;border-top:1px solid var(--rule);
+  color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;list-style:none;cursor:pointer;text-decoration:none}
+.pl-fold>summary::-webkit-details-marker,details.tailx>summary::-webkit-details-marker{display:none}
+.pl-fold>summary::before,details.tailx>summary::before{content:none}
+.pl-fold>summary::after,details.tailx>summary::after{content:'\203A';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+.pl-fold[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+.pl-fold>summary+*{margin-top:6px}
+details.tailx{margin:0}
+.pl-fold>summary .pl-tick{color:var(--ok);font-weight:700;margin-left:8px}
+@media (hover:hover){.pl-fold>summary:hover,details.tailx>summary:hover{color:var(--accent)}}
+/* the check line: how a page says 'this was checked' (replaces every mono 'GATES PASS' box) */
+.pl-check{display:flex;align-items:flex-start;gap:10px;margin:12px 0 0;padding:12px 14px;border-radius:12px;background:var(--ok-soft);color:var(--ok);
+  border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);font:14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
+.pl-check i{font-style:normal;flex:0 0 auto;font-weight:700}
+.pl-check b{font-weight:600}
+.pl-check span{display:block;font-size:13px}
+/* the independence line, said once and quietly */
+.pl-indep{margin:10px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.pl-indep a{color:var(--accent);font-weight:600}
+/* the site footer */
+.pl-foot{border-top:1px solid var(--rule);margin-top:42px;padding:22px 0 40px;color:var(--faint);font-size:12.5px;line-height:1.5}
+footer.pl-foot{margin-top:42px;padding-top:22px;padding-bottom:40px}      /* outranks a page's own .wrap{margin:0 auto;padding:0 20px} */
+.pl-foot p{margin:0 0 7px;max-width:80ch}
+.pl-foot a{color:var(--muted);display:inline-block;padding:13px 0;margin:-13px 0;position:relative;z-index:1}
+.pl-foot-c{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;margin-bottom:16px!important}
+.pl-foot-c a{min-height:44px;display:inline-flex;align-items:center;padding:0;margin:0}      /* a row of 44px presses, never overlapping */
+.pl-foot b{color:var(--ink);font-weight:600}
+.pl-foot .pl-fold{margin:6px 0 16px;color:var(--muted)}      /* clear of the credit link's 44px press below */
+
 .wrap{max-width:var(--pl-dash);margin:0 auto;padding:0 20px}
-html{border-top:5px solid var(--accent);background:var(--desk)}
-body{background:var(--desk)}
-.sheetR{max-width:var(--pl-dash);margin:0 auto;min-height:100vh;background:var(--paper);box-shadow:0 0 0 1px var(--rule-strong),0 30px 80px -34px rgba(20,18,10,.5)}
-@media (max-width:700px){.sheetR{box-shadow:none}}
-main.wrap{padding:22px 20px 40px}
-.rk{font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 8px}
-h1{font:600 clamp(24px,3.4vw,32px)/1.15 'Fraunces',ui-serif,Georgia,serif;margin:0 0 6px;letter-spacing:-.01em}
+@media (max-width:700px){.wrap{padding:0 16px}}
+main.wrap{padding-top:22px;padding-bottom:6px}
+.rtitle{margin:0 0 6px;font:600 clamp(24px,3.4vw,32px)/1.15 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.01em;color:var(--ink)}
 .rline{font-size:15px;line-height:1.5;color:var(--ink);margin:0}
 .rline b{font-weight:600}
 .rline .num{font-variant-numeric:tabular-nums}
 .rnote{font-size:13px;line-height:1.5;color:var(--muted);margin:6px 0 0;max-width:70ch}
 .rnote:empty{display:none}
-.racts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0}
-.rbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;min-width:44px;padding:0 14px;border-radius:10px;
-  border:1px solid var(--rule-strong);background:var(--card);color:var(--ink);font:600 14px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  text-decoration:none;cursor:pointer;white-space:nowrap;box-sizing:border-box}
-.rbtn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (hover:hover){.rbtn:hover{border-color:var(--accent)}}
-.rbtn[disabled]{opacity:.45;cursor:default}
-.rbtn[hidden]{display:none}
+.racts{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 0}
+.racts .pl-pill{text-decoration:none}
+.pl-pill[disabled]{opacity:.45;cursor:default}
+.rhint{display:none;font-size:13px;line-height:1.4;color:var(--muted);margin:8px 0 10px}
 .rpager{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:10px 0 0}
+.rpager .pl-pill{min-width:44px;justify-content:center}
 .rpager .rpn{font:600 13px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--muted);min-width:78px;text-align:center}
 .rshort{display:none}
-/* a phone: the boxed line is on the first screen - a one-line title, one toolbar row, the explanation left to the tag */
-@media (max-width:640px){
-  main.wrap{padding-top:14px}
-  .rk{display:none}
-  h1{font-size:21px;margin-bottom:4px}
-  .rline{font-size:14px}
-  .rnote{display:none}
-  .racts{flex-wrap:nowrap;gap:6px;margin:10px 0}
-  .racts .rbtn{flex:1 1 auto;padding:0 10px;font-size:13.5px}
-  .rlong{display:none}.rshort{display:inline}
-  .rstage{height:calc(100svh - 230px);min-height:340px}
-  .rpager .rpn{flex:1}
-}
+.rstage{margin-top:14px}
 /* the stage: the page as the city printed it; the cited line outlined in ink and everything else dimmed - luminance and
    an outline, never hue (the owner is colour blind) */
 .rstage{position:relative;overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule-strong);border-radius:10px;
@@ -395,73 +443,98 @@ h1{font:600 clamp(24px,3.4vw,32px)/1.15 'Fraunces',ui-serif,Georgia,serif;margin
 .rbox{position:absolute;outline:3px solid #111;border-radius:2px;box-shadow:0 0 0 2px #fff,0 0 0 4000px rgba(15,15,15,.32);pointer-events:none}
 .rhead{position:absolute;outline:2px dashed #111;border-radius:2px;pointer-events:none}
 .rmsg{padding:40px 18px;font-size:14px;color:var(--muted);text-align:center}
-.rprov{font-size:12.5px;line-height:1.5;color:var(--muted);margin:12px 0 0;overflow-wrap:anywhere}
-.rprov code{font:12px ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
-.rempty{max-width:62ch}
-.rempty p{font-size:15px;line-height:1.55;color:var(--muted)}
-footer{border-top:1px solid var(--rule);margin-top:26px;padding:18px 0 0;color:var(--muted);font-size:12.5px}
+.rprov{font-size:13px;line-height:1.5;color:var(--muted);margin:12px 0 0;overflow-wrap:anywhere}
+.rprov code{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
+/* a phone: the outlined line is on the first screen - a one-line title, one toolbar row, one hint line; the page fits the width and is
+   scrolled to the line, and a pinch (or 'Zoom in') reads it close up */
+@media (max-width:640px){
+  main.wrap{padding-top:14px}
+  .rtitle{font-size:22px;margin-bottom:4px}
+  .rline{font-size:14px}
+  .rnote{display:none}
+  .rnote.scan{display:block}
+  .racts{flex-wrap:nowrap;gap:6px;margin:10px 0 0}
+  .racts .pl-pill{flex:1 1 auto;justify-content:center;padding:0 10px;font-size:13.5px}
+  .rlong{display:none}.rshort{display:inline}
+  .rhint{display:block}
+  .rstage{margin-top:0;height:auto;max-height:calc(100svh - 300px);min-height:120px}
+  .rpager .rpn{flex:1}
+}
+/* the bare page: three live examples, then the one primary action */
+.rempty{max-width:720px}
+.rempty .pl-rows{margin:22px 0 18px}
+.rempty .pl-btns{grid-template-columns:minmax(0,1fr)}
 
 /* ---------- LARGE SCREENS: generated by tools/_chrome.py large_screen_css() - type grows with the measure ---------- */
-@media (min-width:1601px){:root{--pl-read:clamp(880px,calc(880px + (100vw - 1600px) * 0.4125),1012px);--pl-dash:clamp(1180px,calc(1180px + (100vw - 1600px) * 0.553125),1357px);--pl-wide:clamp(1320px,calc(1320px + (100vw - 1600px) * 0.61875),1518px)}.sheetR{max-width:clamp(1180px,calc(1180px + (100vw - 1600px) * 0.553125),1357px)}body{font:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-mark{font:600 clamp(30px,calc(30px + (100vw - 1600px) * 0.0140625),34.5px)/1 'Fraunces',ui-serif,Georgia,serif}.pl-edition{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-tag{font:400 clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-dateline{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-primary{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-verb{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-kick{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-dest .pl-dl{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dest .pl-ds{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dest .pl-dg{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dest[aria-current] .pl-dl::after{font:600 clamp(11px,calc(11px + (100vw - 1600px) * 0.00515625),12.65px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-mast[data-variant="sheet"] .pl-mark{font-size:clamp(24px,calc(24px + (100vw - 1600px) * 0.01125),27.6px)}.pl-mast[data-variant="sheet"] .pl-dateline{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dout-h{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-dout-l1{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dout-sub{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dout-a,.pl-dout .pl-fol{font:600 clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-dout-n{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-emb-btn{font:500 clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-emb-st{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-emb-code{font:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)/1.4 ui-monospace,Menlo,Consolas,monospace}.pl-emb-h{font:600 clamp(19px,calc(19px + (100vw - 1600px) * 0.00890625),21.85px)/1.25 'Fraunces',ui-serif,Georgia,serif}.pl-emb-f{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-emb-miss{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.rk{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}h1{font:600 clamp(clamp(24px,calc(24px + (100vw - 1600px) * 0.01125),27.6px),3.4vw,clamp(32px,calc(32px + (100vw - 1600px) * 0.015),36.8px))/1.15 'Fraunces',ui-serif,Georgia,serif}.rline{font-size:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)}.rnote{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.rbtn{font:600 clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.rpager .rpn{font:600 clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)/1 ui-monospace,Menlo,Consolas,monospace}.rmsg{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.rprov{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.rprov code{font:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px) ui-monospace,Menlo,Consolas,monospace}.rempty p{font-size:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)}footer{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}}
+@media (min-width:1601px){:root{--pl-read:clamp(880px,calc(880px + (100vw - 1600px) * 0.4125),1012px);--pl-dash:clamp(1180px,calc(1180px + (100vw - 1600px) * 0.553125),1357px);--pl-wide:clamp(1320px,calc(1320px + (100vw - 1600px) * 0.61875),1518px)}body{font:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-mark{font:600 clamp(30px,calc(30px + (100vw - 1600px) * 0.0140625),34.5px)/1 'Fraunces',ui-serif,Georgia,serif}.pl-edition{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-tag{font:400 clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-dateline{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-primary{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-verb{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-dest .pl-dl{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dest .pl-ds{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dest .pl-dg{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dest[aria-current] .pl-dl::after{font:600 clamp(11px,calc(11px + (100vw - 1600px) * 0.00515625),12.65px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-mast[data-variant="sheet"] .pl-mark{font-size:clamp(24px,calc(24px + (100vw - 1600px) * 0.01125),27.6px)}.pl-mast[data-variant="sheet"] .pl-dateline{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dout-h{font:600 clamp(11.5px,calc(11.5px + (100vw - 1600px) * 0.00539062),13.22px)/1 ui-monospace,Menlo,Consolas,monospace}.pl-dout-l1{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-dout-sub{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-dout-a,.pl-dout .pl-fol{font:600 clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-dout-n{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-emb-btn{font:500 clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-emb-st{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-emb-code{font:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)/1.4 ui-monospace,Menlo,Consolas,monospace}.pl-emb-h{font:600 clamp(19px,calc(19px + (100vw - 1600px) * 0.00890625),21.85px)/1.25 'Fraunces',ui-serif,Georgia,serif}.pl-emb-f{font-size:clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)}.pl-emb-miss{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.pl-kick{font:600 clamp(12px,calc(12px + (100vw - 1600px) * 0.005625),13.8px)/1.3 ui-monospace,Menlo,Consolas,monospace}.pl-h1{font:600 clamp(33px,calc(33px + (100vw - 1600px) * 0.0154687),37.95px)/1.12 'Fraunces',ui-serif,Georgia,serif}.pl-h2{font:600 clamp(21px,calc(21px + (100vw - 1600px) * 0.00984375),24.15px)/1.3 'Fraunces',ui-serif,Georgia,serif}.pl-lede{font-size:clamp(16px,calc(16px + (100vw - 1600px) * 0.0075),18.4px)}.pl-sub{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}@media (min-width:900px){.pl-h1{font-size:clamp(clamp(38px,calc(38px + (100vw - 1600px) * 0.0178125),43.7px),3.3vw,clamp(48px,calc(48px + (100vw - 1600px) * 0.0225),55.2px))}.pl-lede{font-size:clamp(18px,calc(18px + (100vw - 1600px) * 0.0084375),20.7px)}}.pl-btn{font:600 clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-pill{font:600 clamp(13.5px,calc(13.5px + (100vw - 1600px) * 0.00632812),15.52px)/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-row-l{font-size:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)}.pl-row-s{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.pl-row::after{font-size:clamp(22px,calc(22px + (100vw - 1600px) * 0.0103125),25.3px)}.pl-fold>summary,details.tailx>summary{font:600 clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-fold>summary::after,details.tailx>summary::after{font-size:clamp(22px,calc(22px + (100vw - 1600px) * 0.0103125),25.3px)}.pl-check{font:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}.pl-check span{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.pl-indep{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.pl-foot{font-size:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px)}.rtitle{font:600 clamp(clamp(24px,calc(24px + (100vw - 1600px) * 0.01125),27.6px),3.4vw,clamp(32px,calc(32px + (100vw - 1600px) * 0.015),36.8px))/1.15 'Fraunces',ui-serif,Georgia,serif}.rline{font-size:clamp(15px,calc(15px + (100vw - 1600px) * 0.00703125),17.25px)}.rnote{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.rhint{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.rpager .rpn{font:600 clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)/1 ui-monospace,Menlo,Consolas,monospace}.rmsg{font-size:clamp(14px,calc(14px + (100vw - 1600px) * 0.0065625),16.1px)}.rprov{font-size:clamp(13px,calc(13px + (100vw - 1600px) * 0.00609375),14.95px)}.rprov code{font:clamp(12.5px,calc(12.5px + (100vw - 1600px) * 0.00585937),14.37px) ui-monospace,Menlo,Consolas,monospace}}
 
 </style></head>
-<body><div class="sheetR">
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The source, boxed</span></div></div><div class="pl-side"><div class="pl-dateline"><span>Public Ledger</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>Public Ledger</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">The source, boxed</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through 10/20/2026</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest 10/20/2026</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span>Public Ledger</span><span>built <b>10/29/2026</b></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<body>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The source page</span></div></div><div class="pl-side"><div class="pl-dateline"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>North Tonawanda</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">The source page</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Every government</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">21 governments · every one from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 <main id="main" class="wrap">
+  <section id="rEmpty" class="rempty" aria-labelledby="rEmptyT">
+    <p class="pl-kick">The source page</p>
+    <h1 class="pl-h1" id="rEmptyT">Every claim opens on its page of the warrant, the line outlined.</h1>
+    <p class="pl-lede">52 warrants are filed here; 10,577 lines open with their line outlined, and 6 scanned warrants open on the cited page.</p>
+    <div class="pl-rows"><a class="pl-row" href="receipt.html?d=warrant-report-10-20-26b&amp;po=V6-03531&amp;i=1#page=9"><span class="pl-row-l">The largest claim this year</span><span class="pl-row-s">LAKESIDE CONTRACTORS, INC. &middot; warrant of Oct 20, 2026 &middot; page 9</span><span class="pl-row-v">$909,202.91</span></a><a class="pl-row" href="receipt.html?d=warrant-report-10-6-26-visa&amp;po=26-00539&amp;i=1#page=4"><span class="pl-row-l">A purchasing-card line</span><span class="pl-row-s">RINGCENTRAL INC. &middot; warrant of Sept 23, 2026 &middot; page 4</span><span class="pl-row-v">$6,013.42</span></a><a class="pl-row" href="receipt.html?d=warrant-report-5-6-25-b&amp;po=V5-01457&amp;i=1#page=11"><span class="pl-row-l">A scanned warrant (no outline)</span><span class="pl-row-s">TOKIO MARINE HCC - PRG &middot; warrant of May 6, 2025 &middot; page 11</span><span class="pl-row-v">$75,000.00</span></a></div>
+    <div class="pl-btns"><a class="pl-btn pri" href="index.html#explore">Search every claim</a></div>
+  </section>
   <section id="rView" hidden aria-labelledby="rT">
-    <p class="rk">The source, boxed</p>
-    <h1 id="rT">Warrant report</h1>
+    <p class="pl-kick">The source page</p>
+    <h1 class="rtitle" id="rT">Warrant report</h1>
     <p class="rline" id="rL"></p>
     <p class="rnote" id="rN"></p>
     <div class="racts">
-      <a class="rbtn" id="rOrig" href="index.html" rel="noopener"><span class="rlong">Open the city&rsquo;s original</span><span class="rshort">City&rsquo;s original</span> <span aria-hidden="true">&#8599;</span></a>
-      <a class="rbtn" id="rDl" href="index.html" download><span class="rlong">Download this PDF</span><span class="rshort">PDF</span></a>
-      <button class="rbtn" id="rZoom" type="button">Zoom in</button>
+      <a class="pl-pill" id="rOrig" href="index.html" rel="noopener"><span class="rlong">Open the city&rsquo;s original</span><span class="rshort">City&rsquo;s original</span></a>
+      <a class="pl-pill" id="rDl" href="index.html" download><span class="rlong">Download this PDF</span><span class="rshort">PDF</span></a>
+      <button class="pl-pill" id="rZoom" type="button">Zoom in</button>
     </div>
+    <p class="rhint" id="rHint"></p>
     <div class="rstage" id="rStage"></div>
     <div class="rpager">
-      <button class="rbtn" id="rPrev" type="button" aria-label="Previous page" disabled>&lsaquo;</button>
+      <button class="pl-pill" id="rPrev" type="button" aria-label="Previous page" disabled>&lsaquo;</button>
       <span class="rpn" id="rPn" aria-live="polite"></span>
-      <button class="rbtn" id="rNext" type="button" aria-label="Next page" disabled>&rsaquo;</button>
-      <button class="rbtn" id="rCited" type="button" hidden>Back to the line</button>
+      <button class="pl-pill" id="rNext" type="button" aria-label="Next page" disabled>&rsaquo;</button>
+      <button class="pl-pill" id="rCited" type="button" hidden>Back to the line</button>
     </div>
     <p class="rprov" id="rProv"></p>
   </section>
-  <section id="rEmpty" class="rempty" hidden>
-    <p class="rk">The source, boxed</p>
-    <h1>Every claim opens on its page, the line outlined.</h1>
-    <p>Press any claim&rsquo;s source link in the ledger: the city&rsquo;s warrant opens here on the page the ledger read it
-      from, with that line boxed. 52 warrants are filed here: 10,577 lines boxed on their page, and 6 scanned warrants that open on the page without a box (OCR leaves no word positions).</p>
-    <p><a class="rbtn" href="index.html#explore">Search every claim</a></p>
-  </section>
 </main>
-<footer class="wrap">Public Ledger &middot; <span data-pl-built="2026-10-29" data-pl-short="updated">updated <b>Oct 29</b></span> &middot; <a href="index.html">the city ledger</a> &middot; <a class="pl-fol pl-fol-foot" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a>
-  &middot; pages drawn by <a href="receipts/pdfjs/LICENSE">PDF.js</a> (Apache-2.0)</footer>
-</div>
+<footer class="pl-foot wrap" id="about">
+<p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="index.html">City money</a><a href="briefs/index.html">Council briefs</a><a href="audit.html">Exception report</a><a href="county.html">County money</a></p>
+<details class="pl-fold"><summary>How this page was built</summary><p>Pages are drawn here by <a href="receipts/pdfjs/LICENSE">PDF.js</a> (Apache-2.0) from our copy of each warrant, byte for byte the file the city posted. Each outline sits on the printed line that carries the claim&rsquo;s charge account and amount, found from the word positions in the file; the dashed outline is the purchase order&rsquo;s own header line. Scanned warrants have no word positions, so scanned pages cannot be outlined: they open on the cited page and say so.</p></details>
+<p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Corrections welcome &mdash; every figure links to its source. <a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
+<p class="pl-foot-u">Updated <b>Oct 29</b></p>
+</footer>
 <script>
 (function(){
   var $=function(id){ return document.getElementById(id); };
   var q=new URLSearchParams(location.search), slug=q.get('d')||'', po=q.get('po')||'', item=parseInt(q.get('i')||'0',10);
   var hp=(location.hash.match(/page=(\d+)/)||[])[1], cited=parseInt(hp||q.get('p')||'0',10)||1;
-  if(!/^[a-z0-9-]+$/.test(slug)){ $('rEmpty').hidden=false; return; }
-  $('rView').hidden=false;
+  /* a bare visit (or an address that is not a warrant) stays on the examples; a warrant address swaps them for the viewer */
+  if(!/^[a-z0-9-]+$/.test(slug)) return;
+  $('rEmpty').hidden=true; $('rView').hidden=false;
   var money=function(v){ return (v<0?'−':'')+'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); };
   var esc=function(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); };
-  var stage=$('rStage'), meta=null, pdf=null, page=cited, zoomLine=window.matchMedia('(max-width:760px)').matches, tok=0;
+  var MON=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+  /* the warrant's own date (mm/dd/yyyy) as running text: 'Oct 20, 2026' */
+  var longDate=function(d){ var m=/^(\d\d)\/(\d\d)\/(\d{4})$/.exec(d||''); return m ? MON[+m[1]-1]+' '+(+m[2])+', '+m[3] : (d||''); };
+  var stage=$('rStage'), meta=null, pdf=null, page=cited, zoomLine=false, tok=0;
   function msg(t){ stage.innerHTML='<div class="rmsg">'+t+'</div>'; }
   function row(){ return meta&&meta.rows[po+'.'+item+'.'+cited]; }
   function head(){
-    var r=row(), n=meta.pages||'?';
-    $('rT').textContent='Warrant report '+(meta.d||meta.f)+' · page '+cited+' of '+n;
+    var r=row(), n=meta.pages||'?', when=longDate(meta.d);
+    $('rT').textContent=(when?'Warrant of '+when:'Warrant report')+' · page '+cited+' of '+n;
     $('rL').innerHTML=r ? 'PO <b class="num">'+esc(po)+'</b> · line '+item+' · '+esc(meta.vend[r[1]])+' · <b class="num">'+money(r[0])+'</b>'
                         : 'Page '+cited+' of the warrant';
-    $('rN').textContent = meta.scan ? 'This warrant was posted as a scanned image: the ledger read it by OCR, which leaves no word positions to box. The line is on this page.'
-                        : (r&&r.length>6 ? 'The solid box is the line the ledger read; the dashed box is its purchase order.' : '');
+    $('rN').textContent = meta.scan ? 'This warrant was posted as a scanned image: scanned pages cannot be outlined; the line is on this page.'
+                        : (r&&r.length>6 ? 'The solid outline is the line the ledger read; the dashed outline is its purchase order.' : '');
+    $('rN').classList.toggle('scan',!!meta.scan);
     $('rDl').href='receipts/'+slug+'.pdf';
     $('rProv').innerHTML='Our copy of the file the city posted, the one this ledger was read from: <code>'+esc(meta.f)+'</code> · '+
       (meta.bytes/1048576).toFixed(1)+' MB · SHA-256 <code>'+meta.sha.slice(0,16)+'…</code>';
-    document.title='Warrant '+(meta.d||'')+', p.'+cited+(r?' — PO '+po+' line '+item:'')+' | Public Ledger';
+    document.title='Warrant of '+when+', p.'+cited+(r?' — PO '+po+' line '+item:'')+' | Public Ledger';
   }
   function pager(){
     $('rPn').textContent='p.'+page+' of '+(pdf?pdf.numPages:(meta&&meta.pages)||'?');
@@ -469,6 +542,7 @@ footer{border-top:1px solid var(--rule);margin-top:26px;padding:18px 0 0;color:v
     $('rCited').hidden=(page===cited);
     $('rOrig').href=meta.u+'#page='+page;
     $('rZoom').textContent=zoomLine?'Whole page':'Zoom in';
+    $('rHint').textContent=zoomLine?'Swipe sideways, or tap Whole page':'Pinch to zoom, or tap Zoom in';
   }
   function render(){
     var my=++tok;
@@ -476,10 +550,11 @@ footer{border-top:1px solid var(--rule);margin-top:26px;padding:18px 0 0;color:v
       if(my!==tok) return;
       var rot=((pg.rotate||0)+((meta.rot&&meta.rot[page-1])||0))%360;    /* a scan set upright by the OCR lane's detected turn */
       var vp1=pg.getViewport({scale:1,rotation:rot}), cw=stage.clientWidth;
-      /* zoomed: the first 345pt of the page fill the width - item, description, amount and charge account, the columns that
-         identify a claim (about 1.07x on a phone; the rest is a sideways pan or "Whole page") */
+      /* fit-width by default: the whole printed width fills the stage, nothing is cut at the right edge. 'Zoom in' puts the first 345pt of
+         the page across the width - item, description, amount and charge account, the columns that identify a claim (the rest is a sideways
+         pan or 'Whole page') */
       var scale=zoomLine ? Math.max(cw/vp1.width,cw/345) : cw/vp1.width;
-      var vp=pg.getViewport({scale:scale,rotation:rot}), dpr=Math.min(window.devicePixelRatio||1,3);
+      var vp=pg.getViewport({scale:scale,rotation:rot}), dpr=Math.min((window.devicePixelRatio||1)*(zoomLine?1:1.75),4);   /* fit-width is drawn finer: a pinch reads it close up */
       while(vp.width*vp.height*dpr*dpr>16e6 && dpr>1) dpr-=.5;          /* iOS caps a canvas near 16.7M pixels */
       var wrap=document.createElement('div'); wrap.className='rpage'; wrap.style.width=vp.width+'px'; wrap.style.height=vp.height+'px';
       var cv=document.createElement('canvas'); cv.width=Math.floor(vp.width*dpr); cv.height=Math.floor(vp.height*dpr);
@@ -491,7 +566,7 @@ footer{border-top:1px solid var(--rule);margin-top:26px;padding:18px 0 0;color:v
           h.style.cssText='left:'+r[6]*s+'px;top:'+r[7]*s+'px;width:'+(r[8]-r[6])*s+'px;height:'+(r[9]-r[7])*s+'px'; wrap.appendChild(h); }
         box=document.createElement('div'); box.className='rbox';
         box.style.cssText='left:'+r[2]*s+'px;top:'+r[3]*s+'px;width:'+(r[4]-r[2])*s+'px;height:'+(r[5]-r[3])*s+'px';
-        box.setAttribute('role','img'); box.setAttribute('aria-label','The boxed line: PO '+po+', line '+item+', '+money(r[0]));
+        box.setAttribute('role','img'); box.setAttribute('aria-label','The outlined line: PO '+po+', line '+item+', '+money(r[0]));
         wrap.appendChild(box);
       }
       return pg.render({canvasContext:cv.getContext('2d'),viewport:vp,transform:dpr!==1?[dpr,0,0,dpr,0,0]:null}).promise.then(function(){
@@ -499,7 +574,7 @@ footer{border-top:1px solid var(--rule);margin-top:26px;padding:18px 0 0;color:v
         stage.innerHTML=''; stage.appendChild(wrap);
         if(box){
           stage.scrollLeft=zoomLine ? Math.max(0,r[2]*s-12) : 0;
-          stage.scrollTop=Math.max(0,r[3]*s-stage.clientHeight*0.4);
+          stage.scrollTop=Math.max(0,r[3]*s-stage.clientHeight*0.4);      /* the outlined line, scrolled into view */
         } else { stage.scrollTop=0; stage.scrollLeft=0; }
         pager();
       });
