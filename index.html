@@ -222,6 +222,19 @@ button{cursor:pointer}
    The switcher becomes a bottom sheet. */
 .pl-searchbtn,.pl-dl-ph,.pl-sheet-view,.pl-sheet-fresh,.pl-theme-row{display:none}
 @media (max-width:640px){
+  /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
+     (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
+     a page's own '.tailx summary' rules; .keep folds (a label that is not a control) are left alone */
+  .ph-fold:not(.keep)>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
+    border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
+  .ph-fold:not(.keep)>summary::before,details.tailx>summary::before{content:none}
+  .ph-fold:not(.keep)>summary::after,details.tailx>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+  .ph-fold:not(.keep)[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+  .ph-fold:not(.keep)>summary+*{margin-top:6px}
+  details.tailx{margin:0}
+  /* the forehead: Safari 26 paints the band behind the clock from the page, and fills it solid only from a position:fixed
+     element touching the top edge (WebKit 300965). A 2px strip of page colour, always there; on a phone test, not Chromium */
+  .pl-fore{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--paper);z-index:2147483000;pointer-events:none}
   .pl-mast[data-variant] .pl-mast-in{padding-block:0;gap:0 4px;align-items:center}
   .pl-brand{order:1;flex:1 1 0;min-width:0;min-height:56px;display:flex;align-items:center}
   .pl-brandrow{gap:6px 10px;flex-wrap:nowrap}
@@ -1409,14 +1422,13 @@ svg.trend .ghost-l{fill:var(--ink);font:700 11.5px ui-monospace,Menlo,Consolas,m
 .card-acts{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;margin-top:12px}
 .pill.act{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;font-size:13.5px;font-weight:600;color:var(--ink)}
 .card-acts .pl-emb-bar{margin:0;justify-content:flex-end}
-.card-acts .pl-emb-st:empty{display:none}
-.card-acts .pl-emb-st{flex-basis:100%;text-align:right}
+.card-acts .pl-emb-st{display:none}
 html.pl-embed .card-acts .pill.act{display:none}
 @media (max-width:640px){.pill.act,.card-acts .pl-emb-btn{min-height:44px}}
 /* a card's title with its years as a quiet tag: inline after the title on a phone, right-aligned on a desk */
 .panel h3 .yr{font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.02em;color:var(--muted);padding:3px 7px;
   border:1px solid var(--rule-strong);border-radius:6px;white-space:nowrap}
-@media (max-width:640px){.panel h3.hy{align-items:center;gap:6px 8px}.panel h3.hy .yr{margin-left:0}
+@media (max-width:640px){.panel:has(>h3.hy){position:relative}.panel h3.hy{padding-right:78px}.panel h3.hy .yr{position:absolute;top:14px;right:14px;margin:0}
   .panel .sub+details.ph-fold{margin-top:-8px}}
 .dtab{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
 .dtab th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:5px 8px;border-bottom:1px solid var(--rule-strong)}
@@ -1424,6 +1436,7 @@ html.pl-embed .card-acts .pill.act{display:none}
 .dtab .r{text-align:right}
 /* a 5-column year table is ~374px; a phone's panel is 320 (10-27: opening 'Every filing as a table' slid the whole page 19px) */
 #trendTable,#tbTable{overflow-x:auto}
+@media (max-width:640px){#trendTable .era{display:none}}   /* four whole columns; the era is the chart's dashed line */
 @media (max-width:480px){.dtab th,.dtab td{padding-left:5px;padding-right:5px}.dtab th{letter-spacing:.03em}}
 
 /* ---------- hover-linking: what a lit / dimmed mark LOOKS like on this page ----------
@@ -2072,14 +2085,6 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,su
 @media (max-width:640px){
   .ph-fold>summary{min-height:44px;display:block;box-sizing:border-box;padding:11px 0;line-height:1.4}   /* block, not flex: flex would strip the spaces between its words */
   .ph-fold>summary+*{margin-top:4px}
-  /* a disclosure is a list row: the label in ink, a hairline over it, the chevron on the right (it turns when open) */
-  .ph-fold:not(.keep)>summary,.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
-    border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
-  .ph-fold:not(.keep)>summary::before,.tailx>summary::before{content:none}
-  .ph-fold:not(.keep)>summary::after,.tailx>summary::after{content:'\203A';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
-  .ph-fold:not(.keep)[open]>summary::after,.tailx[open]>summary::after{transform:rotate(90deg)}
-  .ph-fold:not(.keep)>summary+*{margin-top:6px}
-  .tailx{margin:0}
   .panel{padding:14px 14px 12px}
   section{padding:18px 0 8px}
   .rk.can{padding:0 7px}
@@ -3392,7 +3397,7 @@ PL.jump=function(el,block){
       <div class="fh-wh">Where it went</div>
       <div class="itape" id="issueTape"><div class="itape-bar" role="img" aria-label="282 of 285 claims of 10/20/2026 drawn to scale (3 credits (−$5,066.20) not drawn): General fund 13%, Water, sewer &amp; golf 7%, Capital projects 80%, Other funds under 1%"><span class="irun f-gen" data-hk="gen" style="flex:209089.41 1 0"><span class="is f-gen" style="flex:54318.00 1 0" data-ev="line" data-doc="51" data-payee="AJ BRODIE ENTERPRISES INC" data-tip="AJ BRODIE ENTERPRISES INC &middot; $54,318.00 &middot; 001-5410-0420"></span><span class="is f-gen" style="flex:39000.00 1 0" data-ev="line" data-doc="51" data-payee="VSI RENTALS, LLC" data-tip="VSI RENTALS, LLC &middot; $39,000.00 &middot; 001-5110-0481"></span><span class="is f-gen" style="flex:14039.00 1 0" data-ev="line" data-doc="51" data-payee="NIAGARA FRONTIER" data-tip="NIAGARA FRONTIER &middot; $14,039.00 &middot; 001-7110-0480"></span><span class="is f-gen" style="flex:10848.30 1 0" data-ev="line" data-doc="51" data-payee="D &amp; W DIESEL, INC." data-tip="D &amp; W DIESEL, INC. &middot; $10,848.30 &middot; 001-5110-0420"></span><span class="is f-gen" style="flex:7519.53 1 0" data-ev="line" data-doc="51" data-payee="STO-COTE PRODUCTS, INC" data-tip="STO-COTE PRODUCTS, INC &middot; $7,519.53 &middot; 001-7110-0254"></span><span class="is f-gen" style="flex:5114.94 1 0" data-ev="line" data-doc="51" data-payee="FIREMATIC SUPPLY COMPANY, INC." data-tip="FIREMATIC SUPPLY COMPANY, INC. &middot; $5,114.94 &middot; 001-3410-0420"></span><span class="is f-gen" style="flex:5000.00 1 0" data-ev="line" data-doc="51" data-payee="NIMAC" data-tip="NIMAC &middot; $5,000.00 &middot; 001-1210-0481"></span><span class="is fuzz f-gen" style="flex:73249.64 1 0" data-ev="fg" data-fg="gen" data-docs="50,51" data-tip="186 smaller claims in General fund, each under $4,940 &middot; $73,250 together &middot; every one is in the register"><span class="pl-vh">186 smaller claims</span></span></span><span class="irun f-ent" data-hk="ent" style="flex:117377.40 1 0"><span class="is f-ent" style="flex:21587.18 1 0" data-ev="line" data-doc="51" data-payee="CORE &amp; MAIN" data-tip="CORE &amp; MAIN &middot; $21,587.18 &middot; 002-8340-0229"></span><span class="is f-ent" style="flex:17655.06 1 0" data-ev="line" data-doc="51" data-payee="MODERN DISPOSAL SERVICES" data-tip="MODERN DISPOSAL SERVICES &middot; $17,655.06 &middot; 004-8130-0480"></span><span class="is f-ent" style="flex:12600.00 1 0" data-ev="line" data-doc="51" data-payee="IDG MARKETING &amp; GRAPHICS" data-tip="IDG MARKETING &amp; GRAPHICS &middot; $12,600.00 &middot; 002-8310-0410"></span><span class="is f-ent" style="flex:7962.00 1 0" data-ev="line" data-doc="51" data-payee="JCI JONES CHEMICALS, INC." data-tip="JCI JONES CHEMICALS, INC. &middot; $7,962.00 &middot; 004-8130-0480"></span><span class="is f-ent" style="flex:7829.05 1 0" data-ev="line" data-doc="51" data-payee="IDG MARKETING &amp; GRAPHICS" data-tip="IDG MARKETING &amp; GRAPHICS &middot; $7,829.05 &middot; 002-8310-0410"></span><span class="is f-ent" style="flex:7495.95 1 0" data-ev="line" data-doc="51" data-payee="PVS NOLWOOD CHEMICALS INC" data-tip="PVS NOLWOOD CHEMICALS INC &middot; $7,495.95 &middot; 004-8130-0480"></span><span class="is f-ent" style="flex:6725.42 1 0" data-ev="line" data-doc="51" data-payee="BANCORP BANK, THE" data-tip="BANCORP BANK, THE &middot; $6,725.42 &middot; 002-8340-0480"></span><span class="is f-ent" style="flex:6205.14 1 0" data-ev="line" data-doc="51" data-payee="CHEMTRADE CHEMICALS US LLC" data-tip="CHEMTRADE CHEMICALS US LLC &middot; $6,205.14 &middot; 002-8330-0480"></span><span class="is f-ent" style="flex:5308.00 1 0" data-ev="line" data-doc="51" data-payee="JCI JONES CHEMICALS, INC." data-tip="JCI JONES CHEMICALS, INC. &middot; $5,308.00 &middot; 004-8130-0480"></span><span class="is fuzz f-ent" style="flex:24009.60 1 0" data-ev="fg" data-fg="ent" data-docs="50,51" data-tip="51 smaller claims in Water, sewer &amp; golf, each under $4,940 &middot; $24,010 together &middot; every one is in the register"><span class="pl-vh">51 smaller claims</span></span></span><span class="irun f-cap" data-hk="cap" style="flex:1314213.87 1 0"><span class="is f-cap" style="flex:909202.91 1 0" data-ev="line" data-doc="51" data-payee="LAKESIDE CONTRACTORS, INC." data-tip="LAKESIDE CONTRACTORS, INC. &middot; $909,202.91 &middot; 618-7180-2440 &middot; Memorial Pool Redesign"><span class="il">LAKESIDE CONTRACTORS, INC. $909K</span><span class="il il-s">LAKESIDE $909K</span></span><span class="is f-cap" style="flex:100098.75 1 0" data-ev="line" data-doc="51" data-payee="ACI CONTROLS INC." data-tip="ACI CONTROLS INC. &middot; $100,098.75 &middot; 613-8130-0201 &middot; Wasterwater Treatment"><span class="il">ACI CONTROLS INC. $100K</span><span class="il il-s">ACI $100K</span></span><span class="is f-cap" style="flex:93028.77 1 0" data-ev="line" data-doc="51" data-payee="FINCH TURF, LLC" data-tip="FINCH TURF, LLC &middot; $93,028.77 &middot; 607-7997-0209 &middot; Gold Course Equipment 2026"><span class="il">FINCH TURF, LLC $93K</span><span class="il il-s">FINCH $93K</span></span><span class="is f-cap" style="flex:49770.97 1 0" data-ev="line" data-doc="50" data-payee="COLUCCI &amp; GALLAHER, PC" data-tip="COLUCCI &amp; GALLAHER, PC &middot; $49,770.97 &middot; 605-7140-0201 &middot; Deerwood Parking Lot Expans P 14104"></span><span class="is f-cap" style="flex:38475.00 1 0" data-ev="line" data-doc="51" data-payee="DV BROWN &amp; ASSOCIATES, INC." data-tip="DV BROWN &amp; ASSOCIATES, INC. &middot; $38,475.00 &middot; 618-7180-2440 &middot; Memorial Pool Redesign"></span><span class="is f-cap" style="flex:35350.00 1 0" data-ev="line" data-doc="51" data-payee="FINCH TURF, LLC" data-tip="FINCH TURF, LLC &middot; $35,350.00 &middot; 607-7997-0209 &middot; Gold Course Equipment 2026"></span><span class="is f-cap" style="flex:30144.78 1 0" data-ev="line" data-doc="51" data-payee="NUSSBAUMER &amp; CLARKE INC" data-tip="NUSSBAUMER &amp; CLARKE INC &middot; $30,144.78 &middot; 618-7180-2440 &middot; Memorial Pool Redesign"></span><span class="is f-cap" style="flex:13775.00 1 0" data-ev="line" data-doc="51" data-payee="CIR ELECTRIC" data-tip="CIR ELECTRIC &middot; $13,775.00 &middot; 618-7180-2440 &middot; Memorial Pool Redesign"></span><span class="is f-cap" style="flex:12925.00 1 0" data-ev="line" data-doc="51" data-payee="HAZEN AND SAWYER" data-tip="HAZEN AND SAWYER &middot; $12,925.00 &middot; 613-8197-0245 &middot; 2022 Sewer Improvements"></span><span class="is f-cap" style="flex:7334.00 1 0" data-ev="line" data-doc="51" data-payee="DV BROWN &amp; ASSOCIATES, INC." data-tip="DV BROWN &amp; ASSOCIATES, INC. &middot; $7,334.00 &middot; 618-7180-2440 &middot; Memorial Pool Redesign"></span><span class="is f-cap" style="flex:6090.00 1 0" data-ev="line" data-doc="51" data-payee="BRITE" data-tip="BRITE &middot; $6,090.00 &middot; 620-3120-0236 &middot; 25-26 Police Discovery Grant"></span><span class="is f-cap" style="flex:6000.00 1 0" data-ev="line" data-doc="51" data-payee="C &amp; S ENGINEERS, INC." data-tip="C &amp; S ENGINEERS, INC. &middot; $6,000.00 &middot; 605-1997-2026 &middot; Zoning Code Upgrade"></span><span class="is fuzz f-cap" style="flex:12018.69 1 0" data-ev="fg" data-fg="cap" data-docs="50,51" data-tip="12 smaller claims in Capital projects, each under $4,940 &middot; $12,019 together &middot; every one is in the register"><span class="pl-vh">12 smaller claims</span></span></span><span class="irun f-oth" data-hk="oth" style="flex:6003.82 1 0"><span class="is fuzz f-oth" style="flex:6003.82 1 0" data-ev="fg" data-fg="oth" data-docs="50,51" data-tip="5 smaller claims in Other funds, each under $4,940 &middot; $6,004 together &middot; every one is in the register"><span class="pl-vh">5 smaller claims</span></span></span></div></div>
       <div class="fh-bars" id="issueKey" role="group" aria-label="Where it went, by fund"><button type="button" class="fh-row f-gen" data-ev="fg" data-fg="gen" data-docs="50,51" data-hk="gen" style="--w:12.4%"><span class="fh-r1"><span class="fh-l">General fund</span> <span class="fh-v">$204,089 <span class="fh-pc">12%</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button><button type="button" class="fh-row f-ent" data-ev="fg" data-fg="ent" data-docs="50,51" data-hk="ent" style="--w:7.1%"><span class="fh-r1"><span class="fh-l">Water, sewer &amp; golf</span> <span class="fh-v">$117,334 <span class="fh-pc">7%</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button><button type="button" class="fh-row f-cap" data-ev="fg" data-fg="cap" data-docs="50,51" data-hk="cap" style="--w:80.1%"><span class="fh-r1"><span class="fh-l">Capital projects</span> <span class="fh-v">$1,314,191 <span class="fh-pc">80%</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button><button type="button" class="fh-row f-oth" data-ev="fg" data-fg="oth" data-docs="50,51" data-hk="oth" style="--w:1.5%"><span class="fh-r1"><span class="fh-l">Other funds</span> <span class="fh-v">$6,004 <span class="fh-pc">&lt;1%</span></span></span><span class="fh-track"><span class="fh-bar"></span></span></button></div>
-      <p class="itape-note" id="issueNote">Each stripe is one claim, to scale &middot; tap it for its record &middot; <span>3 credits (−$5,066.20) not drawn</span></p>
+      <p class="itape-note" id="issueNote">Each stripe is one claim, to scale &middot; tap it for its record<span class="ph-x"> &middot; 3 credits (−$5,066.20) not drawn</span></p>
     </div>
   </div>
 </section>
@@ -7565,9 +7570,9 @@ function drawTrend(){
   /* every filing as a table - built once */
   var tt=document.getElementById('trendTable');
   if(tt && !tt.innerHTML){
-    tt.innerHTML='<table class="dtab"><thead><tr><th>Year</th><th class="r">Revenue</th><th class="r">Expenditure</th><th class="r">Net</th><th>Basis</th></tr></thead><tbody>'+
+    tt.innerHTML='<table class="dtab"><thead><tr><th>Year</th><th class="r">Revenue</th><th class="r">Spending</th><th class="r">Net</th><th class="era">Basis</th></tr></thead><tbody>'+
       yrs.map(function(yr,i){ return '<tr><td class="num">'+yr+'</td><td class="r num">'+money0(rev[i])+'</td><td class="r num">'+money0(exp[i])+
-        '</td><td class="r num">'+fmtSigned(net[i])+'</td><td>'+(yr<O.schemaBreak?'pre-'+O.schemaBreak:'post-'+O.schemaBreak)+'</td></tr>'; }).join('')+'</tbody></table>';
+        '</td><td class="r num">'+fmtSigned(net[i])+'</td><td class="era">'+(yr<O.schemaBreak?'pre-'+O.schemaBreak:'post-'+O.schemaBreak)+'</td></tr>'; }).join('')+'</tbody></table>';
   }
 }
 drawTrend();
@@ -9387,7 +9392,7 @@ var ISSUE=(function(){
   function note(m){
     if(!m.docs.length) return '';
     var dp=drawnParts(rowsOf(m));
-    return 'Each stripe is one claim, to scale &middot; tap it for its record'+dp.parts.map(function(t){ return ' &middot; <span>'+t+'</span>'; }).join('');
+    return 'Each stripe is one claim, to scale &middot; tap it for its record'+dp.parts.map(function(t){ return '<span class="ph-x"> &middot; '+t+'</span>'; }).join('');
   }
   function head(m){ return m.docs.length ? '<b>Meeting '+m.no+'</b> of '+ISSUES.length : '<b>No meeting read</b> &middot; image scan'; }
   var scansN=D.meta.scans||0;
@@ -9545,6 +9550,7 @@ var ISSUE=(function(){
     e.preventDefault();
     if(TIP) TIP.hide();
     var kind=b.getAttribute('data-ev'), docs=docsOf(b);
+    var hg=b.closest('[data-hgroup]'); if(hg && PL.hl && PL.hl.clear) PL.hl.clear(hg); if(b.blur) b.blur();
     if(kind==='bills'||kind==='fg'){
       /* the first screen's two doors into the register: the warrant's every claim, or its claims in one fund group (a chip says which) */
       /* a date with two or more warrants (the Past meetings card's rows): every warrant of it, as one meeting filter */
@@ -9836,10 +9842,11 @@ var bars=[].slice.call(document.querySelectorAll('.rail')), q=false;
 if(!bars.length) return;
 function chk(){ q=false; var y=window.scrollY||0;
 bars.forEach(function(b){ var cs=getComputedStyle(b), t=parseFloat(cs.top);
-b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<1); }); }
+b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<3);    }); }
 window.addEventListener('scroll',function(){ if(!q){ q=true; requestAnimationFrame(chk); } },{passive:true});
 window.addEventListener('resize',chk); chk();
 })();
+(function(){ if(document.querySelector('.pl-fore')) return; var f=document.createElement('div'); f.className='pl-fore'; f.setAttribute('aria-hidden','true'); document.body.appendChild(f); })();
 if(!PL.layer){(function(){
 (function(){
 var MODAL=null;

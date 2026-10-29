@@ -218,6 +218,19 @@ button{cursor:pointer}
    The switcher becomes a bottom sheet. */
 .pl-searchbtn,.pl-dl-ph,.pl-sheet-view,.pl-sheet-fresh,.pl-theme-row{display:none}
 @media (max-width:640px){
+  /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
+     (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
+     a page's own '.tailx summary' rules; .keep folds (a label that is not a control) are left alone */
+  .ph-fold:not(.keep)>summary,details.tailx>summary{display:block;position:relative;box-sizing:border-box;min-height:44px;padding:12px 30px 12px 0;
+    border-top:1px solid var(--rule);color:var(--ink);font:600 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none}
+  .ph-fold:not(.keep)>summary::before,details.tailx>summary::before{content:none}
+  .ph-fold:not(.keep)>summary::after,details.tailx>summary::after{content:'›';position:absolute;right:4px;top:10px;color:var(--faint);font-size:22px;line-height:1;transition:transform .12s}
+  .ph-fold:not(.keep)[open]>summary::after,details.tailx[open]>summary::after{transform:rotate(90deg)}
+  .ph-fold:not(.keep)>summary+*{margin-top:6px}
+  details.tailx{margin:0}
+  /* the forehead: Safari 26 paints the band behind the clock from the page, and fills it solid only from a position:fixed
+     element touching the top edge (WebKit 300965). A 2px strip of page colour, always there; on a phone test, not Chromium */
+  .pl-fore{display:block;position:fixed;top:0;left:0;right:0;height:2px;background:var(--paper);z-index:2147483000;pointer-events:none}
   .pl-mast[data-variant] .pl-mast-in{padding-block:0;gap:0 4px;align-items:center}
   .pl-brand{order:1;flex:1 1 0;min-width:0;min-height:56px;display:flex;align-items:center}
   .pl-brandrow{gap:6px 10px;flex-wrap:nowrap}
@@ -510,10 +523,11 @@ var bars=[].slice.call(document.querySelectorAll('.rail')), q=false;
 if(!bars.length) return;
 function chk(){ q=false; var y=window.scrollY||0;
 bars.forEach(function(b){ var cs=getComputedStyle(b), t=parseFloat(cs.top);
-b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<1); }); }
+b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<3);    }); }
 window.addEventListener('scroll',function(){ if(!q){ q=true; requestAnimationFrame(chk); } },{passive:true});
 window.addEventListener('resize',chk); chk();
 })();
+(function(){ if(document.querySelector('.pl-fore')) return; var f=document.createElement('div'); f.className='pl-fore'; f.setAttribute('aria-hidden','true'); document.body.appendChild(f); })();
 if(!PL.layer){(function(){
 (function(){
 var MODAL=null;
