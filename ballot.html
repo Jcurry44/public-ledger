@@ -1478,6 +1478,13 @@ return 'mailto:'+TO+'?subject='+encodeURIComponent('Public Ledger correction: '+
 function arm(e){var a=e.target&&e.target.closest&&e.target.closest('a[data-pl-correct]');if(a)a.href=mail();}
 ['pointerdown','focusin','click'].forEach(function(ev){document.addEventListener(ev,arm,true);});
 })();
+(function(){
+var code='';
+if(!code||location.hostname!=='jcurry44.github.io'||navigator.webdriver) return;
+var s=document.createElement('script'); s.async=true; s.src='https://gc.zgo.at/count.js';
+s.setAttribute('data-goatcounter','https://'+code+'.goatcounter.com/count');
+document.head.appendChild(s);
+})();
 </script>
 
 </body></html>
