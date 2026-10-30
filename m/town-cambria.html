@@ -924,34 +924,9 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
 .regdoor .rd-s{grid-column:2;font-size:13px;line-height:1.4;color:var(--muted)}
 .regdoor .rd-go{grid-row:1/3;grid-column:3;font-weight:700;color:var(--ok);transition:transform .12s}
 @media (hover:hover){.regdoor:hover{border-color:var(--ok)}.regdoor:hover .rd-go{transform:translateX(3px)}}
-/* ---------- pager ---------- */
-.pager{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
-  z-index:30;display:flex;align-items:center;gap:2px;background:var(--card);
-  border:1px solid var(--rule-strong);border-radius:99px;padding:3px 6px;box-shadow:var(--shadow);
-  transition:opacity .25s,transform .25s}
-body:has(#modal:not([hidden])) .pager{display:none}
-.pager.away{opacity:0;pointer-events:none;transform:translateX(-50%) translateY(14px)}
-.pager button{border:0;background:transparent;color:var(--muted);cursor:pointer;width:32px;height:30px;
-  border-radius:99px;font-size:12px}
-@media (hover:hover){.pager button:hover:not(:disabled){background:var(--accent-soft);color:var(--accent)}}
-.pager button:disabled{opacity:.3;cursor:default}
-.pager .lbl{font-size:12px;font-weight:600;padding:0 6px;white-space:nowrap;max-width:44vw;
-  overflow:hidden;text-overflow:ellipsis}
-.pager .idx{color:var(--faint);font-weight:400;font-family:ui-monospace,Menlo,Consolas,monospace}
-.pager.typing{opacity:0;pointer-events:none}
 .biglink{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:17px;color:var(--accent)}
-/* >=900px the rail already says where you are, so the pager is a stepper at its right end */
-@media (min-width:900px){
-  .rail .pager{position:static;transform:none;margin-left:auto;padding:0 0 0 12px;gap:0;border:0;border-radius:0;
-    background:transparent;box-shadow:none;flex:0 0 auto}
-  .rail .pager.away,.rail .pager.typing{opacity:1;pointer-events:auto;transform:none}
-  .rail .pager button{width:34px;height:34px}
-  .rail .pager #pgName{display:none}
-  .rail .pager .lbl{padding:0 2px}
-}
 @media (min-width:1280px){
   .rail-mb{display:inline-flex;align-items:center}
-  .rail-mb~.pager{margin-left:0}
 }
 
 /* ---------- premium mobile pass (ported from the 2026-08-21 hand edit, then tightened) ---------- */
@@ -1093,8 +1068,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
   .biglink{display:block;font-size:17px;line-height:1.35}
   .regdoor{grid-template-columns:auto 1fr}
   .regdoor .rd-go{display:none}
-  /* the phone has no floating pager: the rail is the section nav and it never hides */
-  .pager{display:none}
 }
 /* ---------- phone density (C-C2): the secondary tables fold, rows keep two lines, every honesty note stays in view ---------- */
 .morebtn,.ystep,.mvkey{display:none}
@@ -1215,8 +1188,8 @@ body:has(#modal:not([hidden])) .pager{display:none}
 <div class="page">
 <a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Town filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Cambria</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span><span class="pl-dk"><a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>Cambria</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><a class="pl-searchbtn" href="../atlas.html" data-focus="" aria-label="The county map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Town filings</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Your tax bill</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual profile</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="../index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>Cambria</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span>source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="../updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="../index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
-  <nav class="rail" aria-label="Sections"><div class="rail-in">
-    <a href="#money" class="on">Revenue &amp; spending</a>
+  <nav class="rail" aria-label="Sections of this page"><div class="rail-in">
+    <a href="#money">Revenue &amp; spending</a>
     <a href="#aid">County aid</a>
     <a href="#neighbors">Neighbors</a>
     <a href="#method">Method</a>
@@ -1346,12 +1319,6 @@ body:has(#modal:not([hidden])) .pager{display:none}
 <p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Corrections welcome &mdash; every figure links to its source. <a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
 <p class="pl-foot-u">Updated <b>Oct 30</b></p>
 </footer>
-</div>
-
-<div class="pager away" id="pager">
-  <button type="button" id="pgUp" aria-label="Previous section">&#9650;</button>
-  <span class="lbl"><span class="idx" id="pgIdx"></span> <span id="pgName"></span></span>
-  <button type="button" id="pgDn" aria-label="Next section">&#9660;</button>
 </div>
 
 <div class="modal" id="modal" hidden>
@@ -2850,7 +2817,7 @@ window.__traceEnv=function(){return {openModal:openModal, O:O};};
 
 /* the drill-down is a real layer: opening it pushes a history entry (so Back closes the
    sheet instead of leaving the site), and everything behind it is inert while it is open */
-var BEHIND='.page,#pager';
+var BEHIND='.page';
 /* Back closes the sheet (the chrome's 'layer' contract): opening pushes ONE entry, a reader's close pops it, and Back while it is
    open closes it without leaving the page */
 var LAYER=PL.layer({isOpen:function(){var m=document.getElementById('modal');return !!m&&!m.hidden;},hide:function(){closeModal(true);},
@@ -3850,79 +3817,49 @@ var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeou
 
 
 
-/* ---- rail + pager ---- */
-/* tabs and their sections are paired once, so the highlighted tab can never drift off the
-   section it names (an in-page tab with no section is a build error, see muni_routes.check_rail);
-   a tab that leaves the page (href not '#...') is not part of the scroll-spy */
+/* ---- the section rail: the page's one section outline (2026-10-30: the floating 1/6 pager is gone) ---- */
+/* tabs and their sections are paired once, so the marked tab can never drift off the section it names (an in-page tab with no
+   section is a build error, see muni_routes.check_rail); a tab that leaves the page (href not '#...') is not part of the spy.
+   The section in view is marked (.on + aria-current="location"); nothing is marked on the first screen above the first section. */
 var railPairs=[].slice.call(document.querySelectorAll('.rail a[href^="#"]')).map(function(a){
   return [a,document.querySelector(a.getAttribute('href'))];}).filter(function(p){return p[1];});
 var links=railPairs.map(function(p){return p[0];});
 var secs=railPairs.map(function(p){return p[1];});
-var names=links.map(function(a){return a.textContent.trim();});
-var current=0;
-var pager=document.getElementById('pager');
-var pgUp=document.getElementById('pgUp'),pgDn=document.getElementById('pgDn');
-var navUntil=0, painted=-1;
+var current=-1, painted=null;
 var railIn=document.querySelector('.rail .rail-in');
 edgeFade(railIn);
 function paint(){
-  links.forEach(function(a,i){a.classList.toggle('on',i===current);});
-  if(painted!==current){painted=current;           /* the rail scrolls to the active tab, never the page */
-    var a=links[current], r=a&&a.parentNode;
-    if(r&&r.scrollWidth>r.clientWidth+4) r.scrollTo({left:Math.max(0,a.offsetLeft-(r.clientWidth-a.offsetWidth)/2)});
+  var on=current>=0?links[current]:null;
+  links.forEach(function(a){var is=a===on;a.classList.toggle('on',is);
+    if(is)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});
+  if(painted!==on){painted=on;                     /* the rail scrolls to the marked tab, never the page */
+    var r=on&&on.parentNode;
+    if(r&&r.scrollWidth>r.clientWidth+4) r.scrollTo({left:Math.max(0,on.offsetLeft-(r.clientWidth-on.offsetWidth)/2)});
   }
-  document.getElementById('pgIdx').textContent=(current+1)+'/'+secs.length;
-  document.getElementById('pgName').textContent=names[current];
-  pgUp.disabled=current===0;
-  pgDn.disabled=current===secs.length-1;
 }
 function syncNav(){
-  if(performance.now()<navUntil){paint();return;}
-  var yv=window.scrollY+92,best=0;
+  var yv=window.scrollY+92,best=-1;
   secs.forEach(function(s,i){if(s.offsetTop<=yv)best=i;});
-  if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2) best=secs.length-1;
+  if(best>=0&&window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2) best=secs.length-1;
   current=best;
   paint();
 }
-function goSection(delta){
-  var i=Math.max(0,Math.min(secs.length-1,current+delta));
-  if(i===current)return;
-  current=i;
-  navUntil=performance.now()+900;
-  window.scrollTo({top:Math.max(0,secs[i].offsetTop-54),behavior:'smooth'});
-  paint();
-}
-pgUp.addEventListener('click',function(){goSection(-1);});
-pgDn.addEventListener('click',function(){goSection(1);});
-/* >=900px the pager is a stepper at the right end of the rail; below, it floats (and is
-   hidden on phones, where the rail is the navigation and never covers anything) */
+/* keyboard focus never lands under the pinned rail: a control reached by Tab / Shift+Tab that sits behind it is scrolled clear
+   (anchor jumps already land below it: the sections' scroll-margin). The drill-down sheet and the masthead are left alone. */
 (function(){
-  var home=pager.parentNode, after=pager.nextSibling;
-  var mq=window.matchMedia('(min-width:900px)');
-  function place(){
-    if(mq.matches){if(pager.parentNode!==railIn) railIn.appendChild(pager);}
-    else if(pager.parentNode===railIn){home.insertBefore(pager,after);}
-  }
-  place();
-  if(mq.addEventListener) mq.addEventListener('change',place); else mq.addListener(place);
-  function typing(){var el=document.activeElement;
-    pager.classList.toggle('typing',!!(el&&el.matches&&el.matches('input,select,textarea')));}
-  document.addEventListener('focusin',typing);
-  document.addEventListener('focusout',function(){setTimeout(typing,0);});
+  var rail=document.querySelector('.rail'); if(!rail) return;
+  document.addEventListener('focusin',function(e){
+    var t=e.target; if(!t||!t.getBoundingClientRect||rail.contains(t)) return;
+    if(t.closest&&t.closest('#modal,.pl-mast,.pl-switch,[role="dialog"]')) return;
+    if(t.matches&&!t.matches(':focus-visible')) return;
+    var rb=rail.getBoundingClientRect(); if(rb.top>1||!rb.height) return;
+    var r=t.getBoundingClientRect();
+    if(r.top<rb.bottom&&r.bottom>0) window.scrollBy(0,r.top-rb.bottom-12);
+  });
 })();
-var hideT;
-window.addEventListener('scroll',function(){
-  syncNav();
-  pager.classList.remove('away');
-  clearTimeout(hideT);
-  hideT=setTimeout(function(){pager.classList.add('away');},2400);
-},{passive:true});
+window.addEventListener('scroll',syncNav,{passive:true});
+window.addEventListener('resize',syncNav);
 syncNav();
-hideT=setTimeout(function(){pager.classList.add('away');},2400);
-['pointerdown','keydown'].forEach(function(ev){
-  document.addEventListener(ev,function(){if(pager.classList.contains('typing'))return;
-    pager.classList.remove('away');clearTimeout(hideT);hideT=setTimeout(function(){pager.classList.add('away');},2400);},{passive:true});
-});
 
 /* an address opens its sheet: '#cat=<0|1>|<label>[|<tab>]' (a shared link, a reload, another
    government's 'Across the county' row) opens that category's drill-down for the SELECTED filing
