@@ -456,7 +456,7 @@ main.wrap{padding-top:22px;padding-bottom:6px}
 .rprov code{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--ink)}
 /* a page the warrant does not have (shown on every width, unlike .rnote) and the two ways back into context */
 .rwarn{font-size:13.5px;line-height:1.5;margin:8px 0 0;max-width:70ch;color:var(--ink);font-weight:600}
-.rctx{display:flex;flex-wrap:wrap;gap:0 18px;margin:12px 0 0;font-size:14px}
+.rctx{display:flex;flex-wrap:wrap;gap:0 18px;margin:6px 0 4px;font-size:14px}
 .rctx a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent);font-weight:600;text-decoration:none}
 @media (hover:hover){.rctx a:hover{text-decoration:underline;text-underline-offset:3px}}
 /* a phone: the outlined line is on the first screen - a one-line title, one toolbar row, one hint line; the page fits the width and is
@@ -500,6 +500,8 @@ main.wrap{padding-top:22px;padding-bottom:6px}
     <p class="rline" id="rL" data-pl-record></p>
     <p class="rnote" id="rN"></p>
     <p class="rwarn" id="rW" role="status" hidden></p>
+    <!-- the way back into the ledger: right after the line, before the PDF controls (audit PL-04: the keyboard reaches it first) -->
+    <p class="rctx" id="rCtx" hidden></p>
     <div class="racts">
       <a class="pl-pill" id="rOrig" href="index.html" rel="noopener"><span class="rlong">Open the city&rsquo;s original</span><span class="rshort">City&rsquo;s original</span></a>
       <a class="pl-pill" id="rDl" href="index.html" download><span class="rlong">Download this PDF</span><span class="rshort">PDF</span></a>
@@ -514,7 +516,6 @@ main.wrap{padding-top:22px;padding-bottom:6px}
       <button class="pl-pill" id="rCited" type="button" hidden>Back to the line</button>
     </div>
     <p class="rprov" id="rProv"></p>
-    <p class="rctx" id="rCtx" hidden></p>
     <p class="rprov rfix">Something wrong on this line? <a class="pl-correct" href="https://jcurry44.github.io/#contact" data-pl-correct>Report a correction</a> &mdash; the warrant, PO, line and page go with it.</p>
   </section>
 </main>
