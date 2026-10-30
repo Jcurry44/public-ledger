@@ -56,7 +56,7 @@ Live at **https://jcurry44.github.io/public-ledger/**. Independent: not produced
 |---|---|
 | [northtonawanda.gov/accounting](https://www.northtonawanda.gov/accounting) | Warrant of Claims PDFs (2026, linked) |
 | `/documents/Warrant of Claims/2025/` | 2025 warrants (unlinked; filenames recovered from the Wayback CDX index) |
-| [OSC Local Government Financial Data](https://www.osc.ny.gov/local-government/data) | `{city,county,town,village,schooldistrict}_all_years.zip` — annual filings, 1995–2025 |
+| [OSC Local Government Financial Data](https://www.osc.ny.gov/local-government/data) | *Financial Data for Local Governments*, Detailed Account-Level Data: `{city,county,town,village,schooldistrict}_all_years.zip`, annual filings 1995–2025. Each file's address, SHA-256, SNAPSHOT_DATE runs and every government's entity code are in `data/osc-sources.json`; the rows each page sums are in `data/out/osc-extract-*.csv` (unofficial extracts) |
 | [Real Property Tax Rates by Municipality](https://data.ny.gov/resource/iq85-sdzs) | overlapping county/city/school full-value rates, FY2013–2025 |
 | [Census 2010/2020 Population (NYS mirror)](https://data.ny.gov/resource/sxhg-qquj) | per-resident figures, all 20 governments |
 | Niagara County 2025 Adopted Budget Book | county budget-vs-actual (parsed, hard-gated to its printed totals) |

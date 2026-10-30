@@ -448,7 +448,7 @@ main.wrap{padding-top:22px;padding-bottom:6px}
 .rstage{position:relative;overflow:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--rule-strong);border-radius:10px;
   background:#d9d6cf;height:min(78vh,900px);overscroll-behavior:contain}
 .rpage{position:relative;margin:0 auto;background:#fff;overflow:hidden}
-.rpage canvas{display:block;width:100%;height:100%}
+.rpage canvas,.rpage img{display:block;width:100%;height:100%}
 .rbox{position:absolute;outline:3px solid #111;border-radius:2px;box-shadow:0 0 0 2px #fff,0 0 0 4000px rgba(15,15,15,.32);pointer-events:none}
 .rhead{position:absolute;outline:2px dashed #111;border-radius:2px;pointer-events:none}
 .rmsg{padding:40px 18px;font-size:14px;color:var(--muted);text-align:center}
@@ -520,7 +520,7 @@ main.wrap{padding-top:22px;padding-bottom:6px}
 </main>
 <footer class="pl-foot wrap" id="about">
 <p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="index.html">City money</a><a href="briefs/index.html">Council briefs</a><a href="audit.html">Exception report</a><a href="county.html">County money</a></p>
-<details class="pl-fold"><summary>How this page was built</summary><p>Pages are drawn here by <a href="receipts/pdfjs/LICENSE">PDF.js</a> (Apache-2.0) from our copy of each warrant, byte for byte the file the city posted. Each outline sits on the printed line that carries the claim&rsquo;s charge account and amount, found from the word positions in the file; the dashed outline is the purchase order&rsquo;s own header line. Scanned warrants have no word positions, so scanned pages cannot be outlined: they open on the cited page and say so.</p></details>
+<details class="pl-fold"><summary>How this page was built</summary><p>Pages are drawn here by <a href="receipts/pdfjs/LICENSE">PDF.js</a> (Apache-2.0) from our copy of each warrant, byte for byte the file the city posted. Each outline sits on the printed line that carries the claim&rsquo;s charge account and amount, found from the word positions in the file; the dashed outline is the purchase order&rsquo;s own header line. Scanned warrants have no word positions, so scanned pages cannot be outlined: they open on the cited page and say so. Those pages are shown as images drawn from our copy of the scan, so a phone fetches one page, not the whole file; the city&rsquo;s full PDF is one tap away.</p></details>
 <p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Every figure links to its source &mdash; <a class="pl-correct" href="https://jcurry44.github.io/#contact" data-pl-correct>Report a correction</a>. <a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
 <p class="pl-foot-u">Updated <b>Oct 30</b></p>
 </footer>
@@ -550,10 +550,48 @@ main.wrap{padding-top:22px;padding-bottom:6px}
   /* the warrant's own date (mm/dd/yyyy) as running text: 'Oct 20, 2026' */
   var longDate=function(d){ var m=/^(\d\d)\/(\d\d)\/(\d{4})$/.exec(d||''); return m ? MON[+m[1]-1]+' '+(+m[2])+', '+m[3] : (d||''); };
   var stage=$('rStage'), meta=null, pdf=null, page=parseInt(hp||'0',10)||cited, zoomLine=false, tok=0;
+  /* a scan is shown from page images drawn at build time (receipts/<slug>/p<N>.webp, PL-21): one page downloads, not the scan and PDF.js.
+     Every other warrant is drawn by PDF.js from our copy of the PDF */
+  var asImage=function(){ return !!(meta&&meta.img&&meta.sz); };
+  var pages=function(){ return pdf ? pdf.numPages : (asImage() ? meta.pages : 0); };
   function msg(t){ stage.innerHTML='<div class="rmsg">'+t+'</div>'; }
-  function row(){ return meta&&meta.rows[po+'.'+item+'.'+cited]; }
+  function key(){ return po+'.'+item+'.'+cited; }
+  function row(){ return meta&&meta.rows[key()]; }
+  function cantDraw(){ msg('This page could not be drawn here. <a href="'+esc(meta.u)+'#page='+page+'">Open the city’s original</a>.'); }
+  /* the drawn page's accessible name: its page and warrant and, on the claim's page, the line - payee as the register shows it (private
+     individuals withheld), charge account, amount */
+  function pageName(r,outlined){
+    var when=longDate(meta.d), s='Page '+page+' of the warrant'+(when?' of '+when:'');
+    if(page!==cited) return s+(r?'; the selected line is on page '+cited:'');
+    if(!r) return s;
+    var a=meta.ac&&meta.acc&&meta.acc[meta.ac[key()]];
+    return s+(outlined?', with the line outlined: ':', a scanned image, with the line not outlined: ')+meta.vend[r[1]]+(a?', account '+a:'')+', '+money(r[0]);
+  }
+  /* the outline over the claim's line (and its PO's header, dashed) on a drawn page; s = CSS px per point. Marks for the eye - the page's name
+     carries the line - so hidden from assistive tech. Returns the line's box, or null: not the claim's page, or a scan (no word positions; a row
+     that carries coordinates is outlined on an image as on a canvas) */
+  function outline(wrap,s){
+    var r=row(), box=null;
+    if(page===cited && r && r.length>2){
+      if(r.length>6){ var h=document.createElement('div'); h.className='rhead'; h.setAttribute('aria-hidden','true');
+        h.style.cssText='left:'+r[6]*s+'px;top:'+r[7]*s+'px;width:'+(r[8]-r[6])*s+'px;height:'+(r[9]-r[7])*s+'px'; wrap.appendChild(h); }
+      box=document.createElement('div'); box.className='rbox'; box.setAttribute('aria-hidden','true');
+      box.style.cssText='left:'+r[2]*s+'px;top:'+r[3]*s+'px;width:'+(r[4]-r[2])*s+'px;height:'+(r[5]-r[3])*s+'px';
+      wrap.appendChild(box);
+    }
+    return box;
+  }
+  /* the page goes onto the stage once it is drawn: the outlined line scrolled into view, or the top of the page */
+  function show(wrap,box,r,s){
+    stage.innerHTML=''; stage.appendChild(wrap);
+    if(box){
+      stage.scrollLeft=zoomLine ? Math.max(0,r[2]*s-12) : 0;
+      stage.scrollTop=Math.max(0,r[3]*s-stage.clientHeight*0.4);      /* the outlined line, scrolled into view */
+    } else { stage.scrollTop=0; stage.scrollLeft=0; }
+    pager();
+  }
   function head(){
-    var r=row(), n=(pdf&&pdf.numPages)||meta.pages||'?', when=longDate(meta.d), on=(page===cited);
+    var r=row(), n=pages()||meta.pages||'?', when=longDate(meta.d), on=(page===cited);
     $('rT').textContent=(when?'Warrant of '+when:'Warrant report')+' · page '+page+' of '+n;
     var claim=r ? 'PO <b class="num">'+esc(po)+'</b> · line '+item+' · '+esc(meta.vend[r[1]])+' · <b class="num">'+money(r[0])+'</b>' : '';
     $('rL').innerHTML=on ? (claim||'Page '+cited+' of the warrant')
@@ -562,7 +600,8 @@ main.wrap{padding-top:22px;padding-bottom:6px}
                         : (r&&r.length>6 ? 'The solid outline is the line the ledger read; the dashed outline is its purchase order.' : '');
     $('rN').classList.toggle('scan',!!meta.scan);
     $('rDl').href='receipts/'+slug+'.pdf';
-    $('rProv').innerHTML='Our copy of the file the city posted, the one this ledger was read from: <code>'+esc(meta.f)+'</code> · '+
+    $('rProv').innerHTML=(asImage() ? 'The page above is a picture of the city’s scan; <a href="'+esc(meta.u)+'" rel="noopener">open the city’s full PDF</a>. ' : '')+
+      'Our copy of the file the city posted, the one this ledger was read from: <code>'+esc(meta.f)+'</code> · '+
       (meta.bytes/1048576).toFixed(1)+' MB · SHA-256 <code>'+meta.sha.slice(0,16)+'…</code>';
     document.title='Warrant of '+when+', p.'+page+(r?' — PO '+po+' line '+item+(on?'':' (p.'+cited+')'):'')+' | Public Ledger';
     if(page!==cited||q.get('p')){
@@ -570,71 +609,82 @@ main.wrap{padding-top:22px;padding-bottom:6px}
     }
   }
   function pager(){
-    $('rPn').textContent='p.'+page+' of '+(pdf?pdf.numPages:(meta&&meta.pages)||'?');
-    $('rPrev').disabled=!pdf||page<=1; $('rNext').disabled=!pdf||page>=pdf.numPages;
+    var n=pages();
+    $('rPn').textContent='p.'+page+' of '+(n||(meta&&meta.pages)||'?');
+    $('rPrev').disabled=!n||page<=1; $('rNext').disabled=!n||page>=n;
     $('rCited').hidden=(page===cited);
     $('rOrig').href=meta.u+'#page='+page;
     head();
     $('rZoom').textContent=zoomLine?'Whole page':'Zoom in';
     $('rHint').textContent=zoomLine?'Swipe sideways, or tap Whole page':'Pinch to zoom, or tap Zoom in';
   }
-  function render(){
+  /* fit-width by default: the whole printed width fills the stage, nothing is cut at the right edge. 'Zoom in' puts the first 345pt of
+     the page across the width - item, description, amount and charge account, the columns that identify a claim (the rest is a sideways
+     pan or 'Whole page'). w = the page's width in points */
+  function fit(w){ var cw=stage.clientWidth; return zoomLine ? Math.max(cw/w,cw/345) : cw/w; }
+  function renderPdf(){
     var my=++tok;
     pdf.getPage(page).then(function(pg){
       if(my!==tok) return;
       var rot=((pg.rotate||0)+((meta.rot&&meta.rot[page-1])||0))%360;    /* a scan set upright by the OCR lane's detected turn */
-      var vp1=pg.getViewport({scale:1,rotation:rot}), cw=stage.clientWidth;
-      /* fit-width by default: the whole printed width fills the stage, nothing is cut at the right edge. 'Zoom in' puts the first 345pt of
-         the page across the width - item, description, amount and charge account, the columns that identify a claim (the rest is a sideways
-         pan or 'Whole page') */
-      var scale=zoomLine ? Math.max(cw/vp1.width,cw/345) : cw/vp1.width;
+      var vp1=pg.getViewport({scale:1,rotation:rot});
+      var scale=fit(vp1.width);
       var vp=pg.getViewport({scale:scale,rotation:rot}), dpr=Math.min((window.devicePixelRatio||1)*(zoomLine?1:1.75),4);   /* fit-width is drawn finer: a pinch reads it close up */
       while(vp.width*vp.height*dpr*dpr>16e6 && dpr>1) dpr-=.5;          /* iOS caps a canvas near 16.7M pixels */
       var wrap=document.createElement('div'); wrap.className='rpage'; wrap.style.width=vp.width+'px'; wrap.style.height=vp.height+'px';
       var cv=document.createElement('canvas'); cv.width=Math.floor(vp.width*dpr); cv.height=Math.floor(vp.height*dpr);
-      cv.setAttribute('role','img'); cv.setAttribute('aria-label','Page '+page+' of the warrant');
       wrap.appendChild(cv);
-      var r=row(), box=null, s=scale;
-      if(page===cited && r && r.length>2){
-        if(r.length>6){ var h=document.createElement('div'); h.className='rhead';
-          h.style.cssText='left:'+r[6]*s+'px;top:'+r[7]*s+'px;width:'+(r[8]-r[6])*s+'px;height:'+(r[9]-r[7])*s+'px'; wrap.appendChild(h); }
-        box=document.createElement('div'); box.className='rbox';
-        box.style.cssText='left:'+r[2]*s+'px;top:'+r[3]*s+'px;width:'+(r[4]-r[2])*s+'px;height:'+(r[5]-r[3])*s+'px';
-        box.setAttribute('role','img'); box.setAttribute('aria-label','The outlined line: PO '+po+', line '+item+', '+money(r[0]));
-        wrap.appendChild(box);
-      }
+      var r=row(), box=outline(wrap,scale);
+      cv.setAttribute('role','img'); cv.setAttribute('aria-label',pageName(r,!!box));
       return pg.render({canvasContext:cv.getContext('2d'),viewport:vp,transform:dpr!==1?[dpr,0,0,dpr,0,0]:null}).promise.then(function(){
         if(my!==tok) return;
-        stage.innerHTML=''; stage.appendChild(wrap);
-        if(box){
-          stage.scrollLeft=zoomLine ? Math.max(0,r[2]*s-12) : 0;
-          stage.scrollTop=Math.max(0,r[3]*s-stage.clientHeight*0.4);      /* the outlined line, scrolled into view */
-        } else { stage.scrollTop=0; stage.scrollLeft=0; }
-        pager();
+        show(wrap,box,r,scale);
       });
-    }).catch(function(){ if(my===tok) msg('This page could not be drawn here. <a href="'+esc(meta.u)+'#page='+page+'">Open the city’s original</a>.'); });
+    }).catch(function(){ if(my===tok) cantDraw(); });
   }
+  /* a scan's page: a picture drawn at build time, upright, sized from its width in points so outline, zoom and scroll match a PDF.js page; the
+     previous page stays up until this one has loaded */
+  function renderImg(){
+    var my=++tok, sz=meta.sz[page-1];
+    if(!sz){ cantDraw(); return; }
+    var scale=fit(sz[0]);
+    var wrap=document.createElement('div'); wrap.className='rpage'; wrap.style.width=sz[0]*scale+'px'; wrap.style.height=sz[1]*scale+'px';
+    var im=new Image(); im.decoding='async'; im.draggable=false;
+    wrap.appendChild(im);
+    var r=row(), box=outline(wrap,scale), name=pageName(r,!!box);
+    im.setAttribute('role','img'); im.setAttribute('aria-label',name); im.alt=name;
+    im.onload=function(){ if(my===tok) show(wrap,box,r,scale); };
+    im.onerror=function(){ if(my===tok) cantDraw(); };
+    im.src='receipts/'+slug+'/p'+page+'.'+meta.img.ext;
+  }
+  function render(){ if(asImage()) renderImg(); else if(pdf) renderPdf(); }
   function go(p){ page=p; render(); }
   $('rPrev').onclick=function(){ if(page>1) go(page-1); };
-  $('rNext').onclick=function(){ if(pdf&&page<pdf.numPages) go(page+1); };
+  $('rNext').onclick=function(){ if(page<pages()) go(page+1); };
   $('rCited').onclick=function(){ go(cited); };
   $('rZoom').onclick=function(){ zoomLine=!zoomLine; render(); };
-  var lastW=0; window.addEventListener('resize',function(){ var w=stage.clientWidth; if(pdf&&Math.abs(w-lastW)>40){ lastW=w; render(); } });
+  /* an address that asks for a page the warrant does not have says so (PL-13), instead of quietly opening another one */
+  function settle(n){
+    var asked=Math.max(page,cited);
+    if(cited>n) cited=page=1;
+    if(page<1||page>n) page=cited;
+    if(asked>n){ $('rW').textContent='This warrant has '+n+' page'+(n===1?'':'s')+'; page '+asked+
+      ' is not one of them, so it opens on page '+page+'.'; $('rW').hidden=false; }
+  }
+  var lastW=0; window.addEventListener('resize',function(){ var w=stage.clientWidth; if(pages()&&Math.abs(w-lastW)>40){ lastW=w; render(); } });
   msg('Opening the warrant…');
   fetch('receipts/'+slug+'.json').then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(m){
-    meta=m; head(); pager();
+    meta=m;
+    if(asImage()){                       /* a scan drawn at build time: its page count is known, so no PDF.js and no PDF are fetched */
+      settle(meta.pages); head(); pager(); lastW=stage.clientWidth; render();
+      return;
+    }
+    head(); pager();
     return import('./receipts/pdfjs/pdf.min.mjs').then(function(lib){
       lib.GlobalWorkerOptions.workerSrc=new URL('receipts/pdfjs/pdf.worker.min.mjs',location.href).href;
       return lib.getDocument({url:'receipts/'+slug+'.pdf',isEvalSupported:false}).promise;
     }).then(function(d){
-      pdf=d;
-      var asked=Math.max(page,cited);
-      if(cited>pdf.numPages) cited=page=1;
-      if(page<1||page>pdf.numPages) page=cited;
-      /* an address that asks for a page the warrant does not have says so (PL-13), instead of quietly opening another one */
-      if(asked>pdf.numPages){ $('rW').textContent='This warrant has '+pdf.numPages+' page'+(pdf.numPages===1?'':'s')+'; page '+asked+
-        ' is not one of them, so it opens on page '+page+'.'; $('rW').hidden=false; }
-      lastW=stage.clientWidth; render();
+      pdf=d; settle(pdf.numPages); lastW=stage.clientWidth; render();
     });
   }).catch(function(){
     msg(meta ? 'The warrant could not be opened here. <a href="'+esc(meta.u)+'#page='+cited+'">Open the city’s original</a>.'

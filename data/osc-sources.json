@@ -1,0 +1,750 @@
+{
+ "about": "The exact OSC source of every annual figure on the county family (county.html, m/, school.html, atlas.html) and of the city's own series (data/osc-data.json 'cite'): the OSC page, the file, its SHA-256, the SNAPSHOT_DATE values read from the CSVs, and each government's entity code (MUNICIPAL_CODE). Written by the builders from the files themselves; never typed.",
+ "entities": {
+  "city-lockport": {
+   "class": "city",
+   "code": "290227000000",
+   "extract": {
+    "bytes": 838013,
+    "path": "data/out/osc-extract-city-lockport.csv",
+    "rows": 6653
+   },
+   "file": "city_all_years.zip",
+   "name": "City of Lockport",
+   "rows": 6653,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "city-niagara-falls": {
+   "class": "city",
+   "code": "290235000000",
+   "extract": {
+    "bytes": 1176943,
+    "path": "data/out/osc-extract-city-niagara-falls.csv",
+    "rows": 8920
+   },
+   "file": "city_all_years.zip",
+   "name": "City of Niagara Falls",
+   "rows": 8920,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "city-north-tonawanda": {
+   "class": "city",
+   "code": "290236000000",
+   "extract": {
+    "bytes": 871646,
+    "path": "data/out/osc-extract-city-north-tonawanda.csv",
+    "rows": 6872
+   },
+   "file": "city_all_years.zip",
+   "name": "City of North Tonawanda",
+   "rows": 6872,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2024
+    }
+   ],
+   "years": [
+    1995,
+    2024
+   ]
+  },
+  "county": {
+   "class": "county",
+   "code": "290100000000",
+   "extract": {
+    "bytes": 2179536,
+    "path": "data/out/osc-extract-county-niagara.csv",
+    "rows": 16772
+   },
+   "file": "county_all_years.zip",
+   "name": "County of Niagara",
+   "rows": 16772,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "school-district": {
+   "class": "schooldistrict",
+   "code": "290536000000",
+   "extract": {
+    "bytes": 908414,
+    "path": "data/out/osc-extract-school-district-north-tonawanda.csv",
+    "rows": 7231
+   },
+   "file": "schooldistrict_all_years.zip",
+   "name": "North Tonawanda City School District",
+   "rows": 7231,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  },
+  "town-cambria": {
+   "class": "town",
+   "code": "290311200000",
+   "extract": {
+    "bytes": 719465,
+    "path": "data/out/osc-extract-town-cambria.csv",
+    "rows": 5701
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Cambria",
+   "rows": 5701,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-hartland": {
+   "class": "town",
+   "code": "290337900000",
+   "extract": {
+    "bytes": 553072,
+    "path": "data/out/osc-extract-town-hartland.csv",
+    "rows": 4380
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Hartland",
+   "rows": 4380,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-lewiston": {
+   "class": "town",
+   "code": "290346400000",
+   "extract": {
+    "bytes": 915196,
+    "path": "data/out/osc-extract-town-lewiston.csv",
+    "rows": 7159
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Lewiston",
+   "rows": 7159,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-lockport": {
+   "class": "town",
+   "code": "290348100000",
+   "extract": {
+    "bytes": 755100,
+    "path": "data/out/osc-extract-town-lockport.csv",
+    "rows": 5968
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Lockport",
+   "rows": 5968,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-newfane": {
+   "class": "town",
+   "code": "290357200000",
+   "extract": {
+    "bytes": 731520,
+    "path": "data/out/osc-extract-town-newfane.csv",
+    "rows": 5786
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Newfane",
+   "rows": 5786,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-niagara": {
+   "class": "town",
+   "code": "290358400000",
+   "extract": {
+    "bytes": 862418,
+    "path": "data/out/osc-extract-town-niagara.csv",
+    "rows": 6815
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Niagara",
+   "rows": 6815,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-pendleton": {
+   "class": "town",
+   "code": "290364800000",
+   "extract": {
+    "bytes": 657109,
+    "path": "data/out/osc-extract-town-pendleton.csv",
+    "rows": 5180
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Pendleton",
+   "rows": 5180,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-porter": {
+   "class": "town",
+   "code": "290368100000",
+   "extract": {
+    "bytes": 710603,
+    "path": "data/out/osc-extract-town-porter.csv",
+    "rows": 5630
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Porter",
+   "rows": 5630,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-royalton": {
+   "class": "town",
+   "code": "290372800000",
+   "extract": {
+    "bytes": 797726,
+    "path": "data/out/osc-extract-town-royalton.csv",
+    "rows": 6305
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Royalton",
+   "rows": 6305,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2024
+    }
+   ],
+   "years": [
+    1995,
+    2024
+   ]
+  },
+  "town-somerset": {
+   "class": "town",
+   "code": "290378600000",
+   "extract": {
+    "bytes": 701193,
+    "path": "data/out/osc-extract-town-somerset.csv",
+    "rows": 5641
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Somerset",
+   "rows": 5641,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-wheatfield": {
+   "class": "town",
+   "code": "290390300000",
+   "extract": {
+    "bytes": 874076,
+    "path": "data/out/osc-extract-town-wheatfield.csv",
+    "rows": 6803
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Wheatfield",
+   "rows": 6803,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "town-wilson": {
+   "class": "town",
+   "code": "290391600000",
+   "extract": {
+    "bytes": 727596,
+    "path": "data/out/osc-extract-town-wilson.csv",
+    "rows": 5719
+   },
+   "file": "town_all_years.zip",
+   "name": "Town of Wilson",
+   "rows": 5719,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "years": [
+    1995,
+    2025
+   ]
+  },
+  "village-barker": {
+   "class": "village",
+   "code": "290478600350",
+   "extract": {
+    "bytes": 347200,
+    "path": "data/out/osc-extract-village-barker.csv",
+    "rows": 2822
+   },
+   "file": "village_all_years.zip",
+   "name": "Village of Barker",
+   "rows": 2822,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  },
+  "village-lewiston": {
+   "class": "village",
+   "code": "290446402680",
+   "extract": {
+    "bytes": 638188,
+    "path": "data/out/osc-extract-village-lewiston.csv",
+    "rows": 5054
+   },
+   "file": "village_all_years.zip",
+   "name": "Village of Lewiston",
+   "rows": 5054,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  },
+  "village-middleport": {
+   "class": "village",
+   "code": "290472803080",
+   "extract": {
+    "bytes": 526846,
+    "path": "data/out/osc-extract-village-middleport.csv",
+    "rows": 4208
+   },
+   "file": "village_all_years.zip",
+   "name": "Village of Middleport",
+   "rows": 4208,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  },
+  "village-wilson": {
+   "class": "village",
+   "code": "290491605400",
+   "extract": {
+    "bytes": 339990,
+    "path": "data/out/osc-extract-village-wilson.csv",
+    "rows": 2724
+   },
+   "file": "village_all_years.zip",
+   "name": "Village of Wilson",
+   "rows": 2724,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  },
+  "village-youngstown": {
+   "class": "village",
+   "code": "290468105490",
+   "extract": {
+    "bytes": 525245,
+    "path": "data/out/osc-extract-village-youngstown.csv",
+    "rows": 4197
+   },
+   "file": "village_all_years.zip",
+   "name": "Village of Youngstown",
+   "rows": 4197,
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "years": [
+    1995,
+    2026
+   ]
+  }
+ },
+ "files": {
+  "city": {
+   "bytes": 12497143,
+   "downloaded": "2026-10-05",
+   "emptyYears": [],
+   "file": "city_all_years.zip",
+   "firstMember": "1995_City.csv",
+   "lastMember": "2026_City.csv",
+   "members": 32,
+   "sha256": "b210d3eaa1cce6f4d06920f28a54a8279b559e91f1b8887d15d88bb139c0c84e",
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/city_all_years.zip"
+  },
+  "county": {
+   "bytes": 18877770,
+   "downloaded": "2026-10-05",
+   "emptyYears": [
+    2026
+   ],
+   "file": "county_all_years.zip",
+   "firstMember": "1995_County.csv",
+   "lastMember": "2026_County.csv",
+   "members": 32,
+   "sha256": "a723f9bc534f92de17c35a22332d13420f20d8b41ebe15f065fff8423d42abed",
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/county_all_years.zip"
+  },
+  "schooldistrict": {
+   "bytes": 111027648,
+   "downloaded": "2026-10-05",
+   "emptyYears": [],
+   "file": "schooldistrict_all_years.zip",
+   "firstMember": "1995_SchoolDistrict.csv",
+   "lastMember": "2026_SchoolDistrict.csv",
+   "members": 32,
+   "sha256": "8dcf85329ee016e752baf7db6efeea74aba15d19525405808f8081a79b403eac",
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/schooldistrict_all_years.zip"
+  },
+  "town": {
+   "bytes": 86265241,
+   "downloaded": "2026-10-05",
+   "emptyYears": [
+    2026
+   ],
+   "file": "town_all_years.zip",
+   "firstMember": "1995_Town.csv",
+   "lastMember": "2026_Town.csv",
+   "members": 32,
+   "sha256": "c7508d83175c3218ceb6872b8717ea1a6efd9af9db6ee5eb53c4b2a47f1614fe",
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2025
+    }
+   ],
+   "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/town_all_years.zip"
+  },
+  "village": {
+   "bytes": 46475210,
+   "downloaded": "2026-10-05",
+   "emptyYears": [],
+   "file": "village_all_years.zip",
+   "firstMember": "1995_Village.csv",
+   "lastMember": "2026_Village.csv",
+   "members": 32,
+   "sha256": "1817b9eba48ecea42028aa11b450a096734c7496551da5b188c528214378531b",
+   "snapshot": [
+    {
+     "date": "2023-12-29",
+     "from": 1995,
+     "to": 2012
+    },
+    {
+     "date": "2026-09-30",
+     "from": 2013,
+     "to": 2026
+    }
+   ],
+   "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/village_all_years.zip"
+  }
+ },
+ "page": {
+  "fileUrl": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/{}_all_years.zip",
+  "landing": "https://www.osc.ny.gov/local-government/data",
+  "name": "Financial Data for Local Governments",
+  "section": "Detailed Account-Level Data",
+  "selection": "Revenue, Expenditure and Balance Sheet Data › Single Class of Government for All Years",
+  "url": "https://wwe1.osc.state.ny.us/localgov/findata/financial-data-for-local-governments.cfm"
+ }
+}

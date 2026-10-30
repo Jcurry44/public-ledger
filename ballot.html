@@ -606,6 +606,10 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
   .ladder .lb{display:none}
   .sched{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* the type floor (audit PL-14): a screen never shows type under 12px. The 11.5px labels above are what paper prints, so the raise is
+   screen-only and sits after them: the eyebrow, the tab kicker, the field label, the schedule and vote kickers, and the tie badge
+   (its check mark is a ::before and inherits) */
+@media screen{.eyebrow,.tabs .tp,.find label,.sched .sk,.vote .sk,.tie{font-size:12px}}
 @media print{.tabs,.presets,.seg,.vh a,.jumps{display:none}.q[hidden]{display:block}}
 
 </style>

@@ -474,6 +474,26 @@ footer.pl-foot{margin-top:42px;padding-top:22px;padding-bottom:40px}      /* out
    chrome_script adds html.pl-live one frame after load: a link opened with a #hash lands at once, in-page anchors animate after. */
 @media (prefers-reduced-motion:no-preference){html.pl-live{scroll-behavior:smooth}}
 
+/* ---------- the exact source (audit PL-11): one visible citation line, the rows it sums, the details in a fold ---------- */
+.pl-src{margin:16px 0 4px;max-width:78ch}
+.pl-src-l{margin:0 0 10px;font-size:14px;line-height:1.55;color:var(--muted)}
+.pl-src-l b{color:var(--ink);font-weight:600}
+.pl-src-l a,.pl-src-d a{color:var(--accent);font-weight:600}
+.pl-src code{font:600 12.5px/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);white-space:nowrap}
+.pl-src time,.pl-src .nw{white-space:nowrap}
+.pl-src .pl-pill{white-space:normal;text-align:left;line-height:1.3;padding-top:9px;padding-bottom:9px;max-width:100%}
+.pl-src .pl-pill svg{width:14px;height:14px;flex:0 0 auto}
+.pl-src-u{display:block;margin:6px 0 4px;font-size:12px;line-height:1.45;color:var(--muted)}
+.pl-src .pl-fold{margin-top:6px}
+.pl-src-d{margin:0 0 6px;padding:0}
+.pl-src-d>div{display:grid;grid-template-columns:minmax(0,1fr);gap:3px;padding:10px 0;border-top:1px solid var(--rule)}
+.pl-src-d dt{font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.pl-src-d dd{margin:0;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.pl-src-d dt code{text-transform:none;letter-spacing:0;font-size:12.5px;color:var(--ink)}      /* a file name is case-sensitive: never shown in capitals */
+.pl-src-d dd code.u{display:block;margin-top:3px;font-weight:500;white-space:normal;overflow-wrap:anywhere;word-break:break-all}
+@media (min-width:700px){.pl-src-d>div{grid-template-columns:150px minmax(0,1fr);gap:0 18px}}
+@media print{.pl-src .pl-pill,.pl-src-u,.pl-src .pl-fold{display:none}.pl-src{margin:6px 0 0}.pl-src-l{margin:0;font-size:11px;line-height:1.4}.pl-src code{font-size:11px}}   /* on paper: the citation line, small and tight (the download and the fold are screen-only), so the school ledger keeps its four sheets */
+
 /* ---------- the county family's sheet (county, 20 municipal ledgers, school) ----------
    Tokens, base floors and the masthead + action switcher come from tools/_chrome.py;
    everything below is this page family's own layout. Hover styling lives only inside
@@ -539,17 +559,17 @@ section>.pl-sub{margin:2px 0 14px}
    year - and keeps one height while it does: a 24px chip on a 24px line, labels that never wrap (label over
    figure below 360px, one shape for every year), and the 'what changed' row at its own height (setHero keeps a grown height, never a blank band) */
 .hreg{position:relative;display:flex;align-items:center;gap:10px;min-height:24px;margin:0 0 4px;
-  font:600 11.5px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .hreg .hreg-t{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .hreg .hreg-t b{color:var(--ink);font-weight:700}
 .hreset{margin-left:auto;flex:0 0 auto;border:1px solid var(--rule-strong);background:var(--card);color:var(--accent);border-radius:99px;
-  padding:0 10px;min-height:24px;font:600 11.5px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;
+  padding:0 10px;min-height:24px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;
   cursor:pointer;white-space:nowrap;position:relative}
 .hreset::before{content:'\21BA';margin-right:5px;font-size:13px;line-height:1}
 .hreset::after{content:'';position:absolute;inset:-10px 0}
 @media (hover:hover){.hreset:hover{border-color:var(--accent)}}
 .hrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0}
-.hrow .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap}
+.hrow .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap}
 .hrow .v{font:600 24px/1 'Fraunces',ui-serif,Georgia,serif;white-space:nowrap}
 @media (max-width:420px){.hrow .v{font-size:21px}}
 @media (max-width:359px){
@@ -572,7 +592,7 @@ section>.pl-sub{margin:2px 0 14px}
    to the pair's full decomposition (the compare sheet has its own address) */
 .hmove{display:flex;flex-wrap:wrap;gap:3px 10px;align-items:baseline;align-content:flex-start;margin:8px -18px 0;padding:10px 18px;min-height:44px;
   border-top:1px solid var(--rule);text-decoration:none;color:var(--ink);font-size:12.5px;line-height:1.4}
-.hmove .k{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;flex:0 0 100%}
+.hmove .k{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:600;flex:0 0 100%}
 .hmove .mv1{white-space:nowrap}
 .hmove .mvq{display:block;white-space:normal;font-size:12px;font-weight:400;color:var(--muted)}   /* the basis under the figure (10-27) */
 .hmove .mv1 b{font-weight:600}
@@ -594,7 +614,8 @@ section>.pl-sub{margin:2px 0 14px}
 a.hc{transition:border-color .12s}
 @media (hover:hover){a.hc:hover{border-color:var(--accent)}a.hc:hover .v{color:var(--accent)}}
 a.hc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.hc .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hc .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:359px){.hc .k{white-space:normal;line-height:1.25}}   /* 12px caps in a 117px cell: 'BIGGEST CATEGORY' wraps rather than clip at 320 */
 .hc .v{font:600 17px/1.15 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);overflow-wrap:anywhere}
 .hc .s{font-size:12px;color:var(--muted);line-height:1.35}
 .hc .s b{color:var(--ink);font-weight:600}
@@ -627,7 +648,7 @@ a.hc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .potread .num{color:var(--ink)}
 .potread a{font-weight:600;margin-left:auto;white-space:nowrap}
 @media (max-width:640px){.potbar{height:44px}.potread a{margin-left:0}}
-/* below 560px a segment is too short to carry a name: the readout and the rows name it */
+/* below 560px a segment is too short to carry a name: the readout and the rows name it (so these labels are desk-only and keep 11.5px: at 12px 'North Tonawanda' clips in its segment) */
 @media (max-width:560px){.potbar i span{display:none}}
 @media (forced-colors:active){.potbar i{forced-color-adjust:none;border:1px solid CanvasText}.potbar i.lit{outline:3px solid Highlight}}
 /* the docked readout above the trend: the figures under the finger, never under it (it is the
@@ -645,10 +666,10 @@ svg.trend .gaph.pre{opacity:.45}
 .gcard{position:fixed;z-index:40;pointer-events:none;display:none;width:224px;background:var(--card);border:1px solid var(--rule-strong);
   border-radius:8px;padding:7px 10px 6px;box-shadow:var(--shadow);font-size:12px;color:var(--muted)}
 .gcard b{display:block;color:var(--ink);font:600 12.5px/1.2 system-ui;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gcard .gy{font-size:11.5px;color:var(--faint)}
+.gcard .gy{font-size:12px;color:var(--faint)}
 .gcard svg{display:block;width:100%;height:34px;margin:4px 0 3px}
 .gcard .gv{color:var(--ink);font-weight:600}
-.gcard .gh{display:block;font-size:11px;color:var(--faint);margin-top:2px}
+.gcard .gh{display:block;font-size:12px;color:var(--faint);margin-top:2px}
 svg.trend .ann{font-family:system-ui,sans-serif;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--card);stroke-width:3px;stroke-linejoin:round}
 svg.trend .annl{stroke:var(--ink);stroke-width:1;fill:none;opacity:.6}
 svg.trend .ghost{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:4 3;opacity:.8}
@@ -733,7 +754,7 @@ svg.trend .lead{fill:none;stroke-width:1;opacity:.7}
 .rk.can[aria-expanded=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);border-radius:0 8px 8px 0}
 .rk.can[aria-expanded=true]::after{transform:rotate(90deg);color:var(--accent)}
 @media (hover:hover){.rk[data-other]:hover{background:var(--accent-soft);border-radius:6px}}
-.rk .see{color:var(--accent);font-weight:600;font-size:11.5px;white-space:nowrap}
+.rk .see{color:var(--accent);font-weight:600;font-size:12px;white-space:nowrap}
 .rk:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 a.rk{text-decoration:none;color:inherit}
 .pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--rule-strong);background:transparent;
@@ -751,13 +772,14 @@ a.rk{text-decoration:none;color:inherit}
 .chip-f button{border:0;background:transparent;color:inherit;cursor:pointer;font-size:13px;line-height:1;padding:0 2px;opacity:.7}
 @media (hover:hover){.chip-f button:hover{opacity:1}}
 .fnt{color:var(--faint);font-size:12px}
+#acBody .rk .lb .fnt,#mBody .rk .lb .fnt{white-space:nowrap}      /* the 'this government' tag wraps as a unit, never 'this / government' (other notes in a row keep wrapping) */
 .gloss{display:block;margin-top:6px;color:var(--muted);font-size:12px;font-style:italic;border-left:2px solid var(--rule-strong);padding-left:9px}
 .thin{background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);
   border-radius:8px;padding:9px 12px;font-size:12.5px;margin:0 0 12px}
 /* ---------- modal (the base, the entry motion and sheetUp are the chrome's 'sheet' module) ---------- */
 /* header and tab strip never shrink: the sheet is a flex column and only the body scrolls */
 .sheet header{display:flex;flex:0 0 auto;align-items:flex-start;gap:14px;padding:18px 20px 12px;border-bottom:1px solid var(--rule)}
-.eyebrow{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);font-weight:600}
 .sheet h3{margin:4px 0 0;font:600 21px/1.2 'Fraunces',ui-serif,Georgia,serif}
 .mbig{margin-top:7px;font-size:15px;font-weight:600}
 .mbig span{color:var(--muted);font-weight:400;font-size:13px;margin-left:7px}
@@ -771,11 +793,11 @@ a.rk{text-decoration:none;color:inherit}
 @media (hover:hover){.tabs button:hover{color:var(--ink)}}
 .tabs button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent)}
 .mbody{overflow-y:auto;overscroll-behavior:contain;padding:16px 20px 22px}
-.mbody h4{margin:0 0 9px;font:600 11.5px/1.2 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.mbody h4{margin:0 0 9px;font:600 12px/1.2 system-ui;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
 .mbody h4:not(:first-child){margin-top:20px}
 .mstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:6px}
 .mstat{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:10px 12px}
-.mstat .k{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.mstat .k{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .mstat .v{font-size:18px;font-weight:600;margin-top:3px}
 .tsent{margin:2px 0 16px;font-size:14px;line-height:1.5;color:var(--muted)}
 .tsent b{display:block;margin-bottom:4px;font:600 19px/1.3 'Fraunces',ui-serif,Georgia,serif;color:var(--ink);letter-spacing:-.005em}
@@ -815,7 +837,7 @@ a.rk{text-decoration:none;color:inherit}
 .cmpbar .step{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:0 0 3px;font-size:26px;font-weight:600;line-height:1}
 .swing{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
 .sw{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:11px 13px}
-.sw .k{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
+.sw .k{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint)}
 .sw .v{font-size:19px;font-weight:600;margin-top:3px}
 .sw .n{font-size:12px;color:var(--muted);margin-top:2px}
 .verdictline{font-size:14.5px;line-height:1.55;margin:0 0 16px;padding:12px 14px;border-radius:9px;
@@ -824,7 +846,7 @@ a.rk{text-decoration:none;color:inherit}
   background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);color:var(--ink)}
 .dbt button{margin-left:8px;vertical-align:1px}
 .mv{width:100%;border-collapse:collapse;font-size:13px}
-.mv th{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:left;
+.mv th{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);text-align:left;
   padding:7px 8px;border-bottom:1px solid var(--rule-strong);white-space:nowrap}
 .mv td{padding:7px 8px;border-bottom:1px solid var(--rule);vertical-align:middle}
 .mv .fnt.swing{display:block;white-space:normal;margin-top:3px;font-weight:400}
@@ -841,24 +863,24 @@ a.rk{text-decoration:none;color:inherit}
 .dv i.u{right:50%;border-radius:3px 0 0 3px;
   background:repeating-linear-gradient(135deg,var(--ink) 0 2px,transparent 2px 4px);
   box-shadow:inset 0 0 0 1px var(--ink)}
-.flag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;padding:2px 6px;border-radius:4px;
+.flag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.05em;padding:2px 6px;border-radius:4px;
   background:var(--warn-soft);color:var(--warn);margin-left:7px;white-space:nowrap}
 .mv tr.bv{cursor:pointer;-webkit-tap-highlight-color:transparent}
 @media (hover:hover){.mv tr.bv:hover td{background:var(--accent-soft)}}
 .bvx{padding:12px 8px 14px;background:var(--card)}
 .bvx .bxbars{margin:8px 0 12px;max-width:520px}
 .bvx .bxb{display:flex;align-items:center;gap:10px;margin:3px 0}
-.bvx .bxb .l{width:64px;font:600 11px/1 system-ui;letter-spacing:.08em;color:var(--faint);
+.bvx .bxb .l{width:70px;font:600 12px/1 system-ui;letter-spacing:.08em;color:var(--faint);
   text-transform:uppercase;flex:none}
 .bvx .bxb .bar{flex:1;height:12px;background:var(--gridline);border-radius:3px;overflow:hidden}
 .bvx .bxb .bar i{display:block;height:100%;border-radius:0 3px 3px 0}
 .bvx .bxb .v{width:110px;text-align:right;font-size:12.5px;font-weight:600;flex:none}
-.bvx .bxh{font:600 11px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;
+.bvx .bxh{font:600 12px/1.6 system-ui;letter-spacing:.1em;text-transform:uppercase;
   color:var(--faint);margin:10px 0 3px}
 .bvx .bxr{display:flex;gap:8px;align-items:baseline;padding:2.5px 0;font-size:12.5px;
   border-bottom:1px dotted var(--rule)}
 .bvx .bxr:last-of-type{border-bottom:0}
-.bvx .bxr .c{flex:none;color:var(--accent);font-size:11.5px}
+.bvx .bxr .c{flex:none;color:var(--accent);font-size:12px}
 .bvx .bxr .n{flex:1;min-width:0;color:var(--muted);overflow:hidden;text-overflow:ellipsis;
   white-space:nowrap}
 .bvx .bxr .a{flex:none;font-weight:600}
@@ -866,7 +888,7 @@ a.rk{text-decoration:none;color:inherit}
 @media (hover:hover){.bvx .bxr[data-code]:hover{background:var(--accent-soft)}
   .bvx .bxr[data-code]:hover .c{text-decoration:underline}}
 .bvx .bxr .go{flex:none;color:var(--faint);font-size:15px;line-height:1;padding-left:2px}
-.bvx .bxnote{font:11.5px system-ui;color:var(--faint);margin-top:8px}
+.bvx .bxnote{font:12px system-ui;color:var(--faint);margin-top:8px}
 .bxmore{display:inline-block;margin-top:9px;font:600 12px/1 system-ui;letter-spacing:.04em;
   padding:7px 12px;border:1px solid var(--rule-strong);border-radius:14px;background:none;
   color:var(--muted);cursor:pointer}
@@ -884,7 +906,7 @@ a.rk{text-decoration:none;color:inherit}
 .drow .dv2{font-size:14px;font-weight:600;text-align:right;white-space:nowrap}
 .drow .dm{grid-column:1/-1;font-size:12px;color:var(--muted)}
 .drow .dm a{font-weight:600}
-.drow .kd{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;padding:1px 6px;border-radius:4px;
+.drow .kd{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;padding:1px 6px;border-radius:4px;
   border:1px dotted var(--rule-strong);color:var(--muted);margin-right:6px;vertical-align:1px}
 @media (hover:hover){.drow:hover{background:var(--accent-soft)}.drow .dt:hover{color:var(--accent);text-decoration:underline}}
 /* a one-account series: labelled ends, decade ticks, gaps left blank */
@@ -893,7 +915,7 @@ a.rk{text-decoration:none;color:inherit}
 .spk-v{position:absolute;top:0;font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap}
 .spk-r{right:0}
 .spk-ax{position:relative;height:20px;margin-top:3px}
-.spk-ax span{position:absolute;top:0;font-size:11.5px;color:var(--faint)}
+.spk-ax span{position:absolute;top:0;font-size:12px;color:var(--faint)}
 /* the stacked area's axis sits in the plot's own grid column, so its ticks are on the plot's time scale */
 .stk .stk-ax{grid-column:2;grid-row:2;margin-top:3px}
 /* a 100% stacked area (the school's revenue mix): bands step in luminance, the lightest is
@@ -906,13 +928,13 @@ a.rk{text-decoration:none;color:inherit}
 .stk-l>span{right:0;text-align:right}
 .stk-l b,.stk-r b{color:var(--ink);font-weight:600}
 .stk-l .num,.stk-r .num{font-weight:600;color:var(--ink)}
-@media (max-width:640px){.stk{grid-template-columns:minmax(0,1fr) auto}.stk-l{display:none}.stk-r{width:118px;font-size:11.5px}.stk .stk-ax{grid-column:1}}
+@media (max-width:640px){.stk{grid-template-columns:minmax(0,1fr) auto}.stk-l{display:none}.stk-r{width:124px;font-size:12px}.stk .stk-ax{grid-column:1}}
 /* ---------- the method section (a plain section now; its fold and check line are the chrome's) ---------- */
 #method{scroll-margin-top:64px}
 #method .pl-check{margin:10px 0 0}
 section>.pl-check,.panel>.pl-check{max-width:760px}
 /* classification tags: 11px with a dotted border (doctrine call), never hue-only */
-.clsch{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.08em;border-radius:4px;
+.clsch{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:4px;
   padding:1px 5px;margin-left:6px;vertical-align:1px;background:var(--accent-soft);color:var(--accent);
   border:1px dotted color-mix(in srgb,var(--accent) 55%,transparent)}
 /* the full-ledger door: the register this edition does not carry, one click away */
@@ -994,7 +1016,7 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
   .mv td.m-name{font-weight:600;grid-row:1;grid-column:1 / -1;margin-bottom:4px}
   .mv td.m-vals,.mv td.m-delta{font-size:13px;font-weight:600}
   .mv td.m-vals::before,.mv td.m-delta::before{content:attr(data-l);display:block;
-    font:600 11px/1.5 system-ui;letter-spacing:.08em;text-transform:uppercase;
+    font:600 12px/1.5 system-ui;letter-spacing:.08em;text-transform:uppercase;
     color:var(--faint)}
   .mv td.m-vals{grid-row:2}
   .mv td.m-vals:nth-of-type(2){grid-column:1}
@@ -1022,16 +1044,17 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
   #budget .mv td.m-name{grid-row:1;grid-column:1 / -1;display:flex;align-items:center;min-width:0;
     margin:0;padding:0 112px 0 0;border:0;font-size:14.5px;line-height:1.2;font-weight:650}
   #budget .mv tr[data-wp] td.m-name{padding-right:122px}
-  #budget .mv td.m-name .fnt{margin-left:5px;font-size:11.5px;font-weight:500}
+  #budget .mv td.m-name .fnt{margin-left:5px;font-size:12px;font-weight:500}
   #budget .mv td.m-name{flex-wrap:wrap}
   #budget .mv td.m-name .fnt.swing{flex:0 0 100%;margin:3px 0 0;white-space:normal;font-size:12px;line-height:1.35;color:var(--muted)}
   #budget .mv tr.bv td.m-name::after{content:'\203A';margin-left:7px;color:var(--faint);
     font:400 22px/.7 system-ui;transition:transform .15s,color .15s}
   #budget .mv tr.bv[aria-expanded="true"] td.m-name::after{transform:rotate(90deg);color:var(--accent)}
   #budget .mv td.m-pct{position:absolute;top:8px;right:14px;grid-area:auto;
-    margin:0;padding:5px 9px;border-radius:99px;font-size:0;font-weight:750;line-height:1;
+    margin:0;padding:5px 9px;border-radius:99px;font-size:12px;font-weight:750;line-height:1;
     background:var(--accent-soft);border:1px solid var(--rule-strong)}
-  #budget .mv td.m-pct::after{content:attr(data-mobile-label);font:750 11.5px/1 system-ui;
+  #budget .mv td .hv{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  #budget .mv td.m-pct::after{content:attr(data-mobile-label);font:750 12px/1 system-ui;
     letter-spacing:.015em;white-space:nowrap}
   #budget .mv td.m-vals{grid-row:2;margin:0;align-self:center;font-size:13px;font-weight:650;letter-spacing:-.025em;white-space:nowrap}
   #budget .mv td.m-vals::before{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);font-size:0}
@@ -1044,7 +1067,7 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
   #budget .mv .dv{height:6px}
   #budget .mv .dv::before{top:-2px;bottom:-2px}
   #budget .mv td.m-delta{grid-row:2;grid-column:3;align-self:center;margin:0;padding:0;border:0;
-    display:flex;justify-content:flex-end;font-size:0;text-align:right}
+    display:flex;justify-content:flex-end;font-size:12px;text-align:right}
   #budget .mv td.m-delta::before{content:attr(data-l);position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);font-size:0}
   #budget .mv td.m-delta::after{content:attr(data-mobile-amount);font:650 12px/1 ui-monospace,
     Menlo,Consolas,monospace;letter-spacing:-.02em;white-space:nowrap}
@@ -1186,7 +1209,7 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
 <link rel="canonical" href="https://jcurry44.github.io/public-ledger/m/town-somerset.html">
 </head><body>
 <div class="page">
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Town filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Somerset</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span><span class="pl-dk"><a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>Somerset</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><a class="pl-searchbtn" href="../atlas.html" data-focus="" aria-label="The county map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Town filings</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual profile</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="../index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>Somerset</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span>source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="../updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="../index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">Town filings</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>Somerset</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span class="pl-dk">source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a>, snapshot <b>Sept 30, 2026</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span><span class="pl-dk"><a class="pl-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>Somerset</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><a class="pl-searchbtn" href="../atlas.html" data-focus="" aria-label="The county map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Town filings</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="../atlas.html" data-focus=""><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>The county map</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="../index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="../index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="../index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="../m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual profile</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="../m/index.html" aria-current="page"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="../legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="../index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="../index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>Somerset</b></span><span>filings 1995–2025</span><span><span class="pl-new" data-pl-check="2026-10-05">newest filing <b>2025</b></span></span><span>source <a href="https://www.osc.ny.gov/local-government/data">NYS Comptroller</a>, snapshot <b>Sept 30, 2026</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="../updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="../index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
   <nav class="rail" aria-label="Sections of this page"><div class="rail-in">
     <a href="#money">Revenue &amp; spending</a>
@@ -1218,7 +1241,7 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
     <p class="pl-kick">Annual reports to the state</p>
     <h2 class="pl-h2">31 years of revenue against spending</h2>
     <div class="panel">
-      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Town of Somerset: revenue against spending, 1995–2025" data-pl-source="NYS Comptroller annual filings, Town of Somerset, 1995–2025" data-pl-tie="31 consecutive annual filings, 1995–2025, none missing">
+      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Town of Somerset: revenue against spending, 1995–2025" data-pl-source="NYS Comptroller, Financial Data for Local Governments, town_all_years.zip, Town of Somerset (entity code 290378600000), snapshot date Sept 30, 2026 for 2013–2025 and Dec 29, 2023 for 1995–2012" data-pl-tie="31 consecutive annual filings, 1995–2025, none missing">
       <div class="tread num" id="trendSub" aria-live="off"></div>
       <div class="legend"><span><b style="background:var(--rev)"></b>Revenue</span>
         <span><b style="background:var(--exp)"></b>Expenditure</span>
@@ -1305,13 +1328,14 @@ section>.pl-check,.panel>.pl-check{max-width:760px}
     <p class="pl-kick">Method</p>
     <h2 class="pl-h2">Where these numbers come from</h2>
     <p class="pl-sub">The Comptroller reviews these filings at a desk but does not audit them. Figures as filed; no inflation adjustment. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved July 31, 2026).</p>
+    <div class="pl-src" id="oscSource"><p class="pl-src-l"><b>Source.</b> <a href="https://www.osc.ny.gov/local-government/data">NYS Office of the State Comptroller</a> (OSC), <i>Financial Data for Local Governments</i>, Detailed Account-Level Data: file <code>town_all_years.zip</code>; Town of Somerset, entity code <code>290378600000</code>; snapshot date <time datetime="2026-09-30">Sept 30, 2026</time> for <span class="nw">2013–2025</span> and <time datetime="2023-12-29">Dec 29, 2023</time> for <span class="nw">1995–2012</span>.</p><a class="pl-pill" href="../data/out/osc-extract-town-somerset.csv" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>Download the 5,641 rows this page sums (CSV)</span></a><span class="pl-src-u">An unofficial extract made here, not an OSC file: the file&rsquo;s own values, 1995–2025, which re-add to this page&rsquo;s totals to the cent.</span><details class="pl-fold"><summary>Where to find the file, and what was kept</summary><dl class="pl-src-d"><div><dt>Where to find it</dt><dd>OSC&rsquo;s <a href="https://www.osc.ny.gov/local-government/data">Local Government Data</a> page, then <i>Financial Data for Local Governments</i> &rsaquo; Detailed Account-Level Data &rsaquo; Revenue, Expenditure and Balance Sheet Data › Single Class of Government for All Years &rsaquo; the town class.</dd></div><div><dt>The file</dt><dd><code>town_all_years.zip</code> &mdash; one CSV for each year, <code>1995_Town.csv</code> to <code>2026_Town.csv</code>.<code class="u">https://wwe1.osc.state.ny.us/localgov/findata/level3zip/town_all_years.zip</code></dd></div><div><dt>Government</dt><dd>Town of Somerset &middot; OSC entity code <code>290378600000</code> (the file&rsquo;s MUNICIPAL_CODE).</dd></div><div><dt>Snapshot date</dt><dd>The file&rsquo;s SNAPSHOT_DATE column reads <time datetime="2026-09-30">Sept 30, 2026</time> on every row for <span class="nw">2013–2025</span> and <time datetime="2023-12-29">Dec 29, 2023</time> on every row for <span class="nw">1995–2012</span>. The 2026 member holds no rows.</dd></div><div><dt>This copy</dt><dd>Downloaded Oct 5, 2026 &middot; 84,243 KB &middot; SHA-256 <code class="u">c7508d83175c3218ceb6872b8717ea1a6efd9af9db6ee5eb53c4b2a47f1614fe</code></dd></div><div><dt>What was kept</dt><dd>5,641 rows, 1995–2025. Only the file&rsquo;s revenue and expenditure rows are counted. Its balance-sheet rows are left out, and so are, before 2013, its separate &ldquo;Other Sources&rdquo; and &ldquo;Other Uses&rdquo; segments (from 2013 they sit inside revenue and expenditure and are counted).</dd></div></dl></details></div>
     <details class="pl-fold" id="howbuilt" data-wide-open><summary>How it was built</summary>
       <p class="pl-sub">Built the same way as the city ledger. The Comptroller publishes every town&rsquo;s accounts as one statewide file; this page takes Somerset&rsquo;s 31 years of account-level rows (<span class="num">5,641</span> of them), matched by the state&rsquo;s own code for the town, money in and money out only (balance-sheet rows are left out). The state changed its reporting format in 2013; every chart marks the change. If a year goes missing or a total looks wrong, the page does not update.</p>
       <div class="pl-check"><i>&#10003;</i><div><b>Checked: 31 straight years, no year missing</b></div></div>
     </details>
   </section>
 
-  <section class="pl-dout" aria-labelledby="plDo-a61c2bae"><div class="pl-dout-h" id="plDo-a61c2bae" role="heading" aria-level="2">Get the data</div><ul class="pl-dout-l"><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Revenue and spending by year</span><span class="pl-dout-sub">31 filings, 1995–2025, with debt proceeds and the county's sales tax (A1120) · 31 rows · up to 8 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-year.csv" download data-fmt="csv" data-rows="31" aria-label="Download Revenue and spending by year as CSV, 31 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-year.json" download data-fmt="json" data-rows="31" aria-label="Download Revenue and spending by year as JSON, 31 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div><p class="pl-dout-n"><b>Read first.</b>Self-reported filings, checked for completeness by the NYS Comptroller, not audited. As filed, no inflation adjustment; the reporting basis changed in 2013.</p></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">By year and category</span><span class="pl-dout-sub">every Comptroller level-1 category, revenue and expenditure · 622 rows · up to 78 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-category.csv" download data-fmt="csv" data-rows="622" aria-label="Download By year and category as CSV, 622 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-category.json" download data-fmt="json" data-rows="622" aria-label="Download By year and category as JSON, 622 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Every city, town and village</span><span class="pl-dout-sub">all twenty ledgers, revenue and expenditure by year, one file · 623 rows · up to 141 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/munis-by-year.csv" download data-fmt="csv" data-rows="623" aria-label="Download Every city, town and village as CSV, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/munis-by-year.json" download data-fmt="json" data-rows="623" aria-label="Download Every city, town and village as JSON, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i pl-dout-follow"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Atom feed</span><span class="pl-dout-sub">Each new warrant and county meeting, newest first</span></div><div class="pl-dout-fs"><a class="pl-fol pl-dout-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div></div></li></ul></section>
+  <section class="pl-dout" aria-labelledby="plDo-a61c2bae"><div class="pl-dout-h" id="plDo-a61c2bae" role="heading" aria-level="2">Get the data</div><ul class="pl-dout-l"><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Revenue and spending by year</span><span class="pl-dout-sub">31 filings, 1995–2025, with debt proceeds and the county's sales tax (A1120) · 31 rows · up to 8 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-year.csv" download data-fmt="csv" data-rows="31" aria-label="Download Revenue and spending by year as CSV, 31 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-year.json" download data-fmt="json" data-rows="31" aria-label="Download Revenue and spending by year as JSON, 31 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div><p class="pl-dout-n"><b>Read first.</b>Self-reported filings, reviewed at a desk by the NYS Comptroller, not audited. As filed, no inflation adjustment; the reporting basis changed in 2013.</p></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">By year and category</span><span class="pl-dout-sub">every Comptroller level-1 category, revenue and expenditure · 622 rows · up to 78 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-category.csv" download data-fmt="csv" data-rows="622" aria-label="Download By year and category as CSV, 622 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/muni-town-somerset-by-category.json" download data-fmt="json" data-rows="622" aria-label="Download By year and category as JSON, 622 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Every city, town and village</span><span class="pl-dout-sub">all twenty ledgers, revenue and expenditure by year, one file · 623 rows · up to 141 KB</span></div><div class="pl-dout-fs"><a class="pl-dout-a" href="../data/out/munis-by-year.csv" download data-fmt="csv" data-rows="623" aria-label="Download Every city, town and village as CSV, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>CSV</span></a><a class="pl-dout-a" href="../data/out/munis-by-year.json" download data-fmt="json" data-rows="623" aria-label="Download Every city, town and village as JSON, 623 rows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg><span>JSON</span></a></div></div></li><li class="pl-dout-i pl-dout-follow"><div class="pl-dout-row"><div class="pl-dout-t"><span class="pl-dout-l1">Atom feed</span><span class="pl-dout-sub">Each new warrant and county meeting, newest first</span></div><div class="pl-dout-fs"><a class="pl-fol pl-dout-fol" href="../updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></div></div></li></ul></section>
 
   </main>
   <footer class="pl-foot wrap" id="about">
