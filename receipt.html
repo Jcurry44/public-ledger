@@ -749,12 +749,27 @@ main.wrap{padding-top:22px;padding-bottom:6px}
     im.onerror=function(){ if(my===tok) cantDraw(); };
     im.src='receipts/'+slug+'/p'+page+'.'+meta.img.ext;
   }
-  function render(){ if(asImage()) renderImg(); else if(pdf) renderPdf(); }
+  function render(){ if(pdf) renderPdf(); else if(asImage()) renderImg(); }
+  /* PL-10 (UX audit 2026-10-31): a text-layer warrant opens on its page IMAGE too (meta.img.vec); PDF.js and the PDF load only when
+     'Zoom in' asks for the close-up, which PDF.js draws in sharp vector type */
+  var pdfLoading=null;
+  function loadPdf(){
+    if(pdfLoading) return pdfLoading;
+    pdfLoading=import('./receipts/pdfjs/pdf.min.mjs').then(function(lib){
+      lib.GlobalWorkerOptions.workerSrc=new URL('receipts/pdfjs/pdf.worker.min.mjs',location.href).href;
+      return lib.getDocument({url:'receipts/'+slug+'.pdf',isEvalSupported:false}).promise;
+    }).then(function(d){ pdf=d; return d; });
+    return pdfLoading;
+  }
   function go(p){ page=p; render(); }
   $('rPrev').onclick=function(){ if(page>1) go(page-1); };
   $('rNext').onclick=function(){ if(page<pages()) go(page+1); };
   $('rCited').onclick=function(){ go(cited); };
-  $('rZoom').onclick=function(){ zoomLine=!zoomLine; render(); };
+  $('rZoom').onclick=function(){
+    zoomLine=!zoomLine;
+    if(zoomLine && !pdf && meta && meta.img && meta.img.vec){ msg('Opening the close-up…'); loadPdf().then(render, function(){ zoomLine=false; render(); }); return; }
+    render();
+  };
   /* an address that asks for a page the warrant does not have says so (PL-13), instead of quietly opening another one */
   function settle(n){
     var asked=Math.max(page,cited);
@@ -777,15 +792,18 @@ main.wrap{padding-top:22px;padding-bottom:6px}
       return;
     }
     head(); pager();
-    return import('./receipts/pdfjs/pdf.min.mjs').then(function(lib){
-      lib.GlobalWorkerOptions.workerSrc=new URL('receipts/pdfjs/pdf.worker.min.mjs',location.href).href;
-      return lib.getDocument({url:'receipts/'+slug+'.pdf',isEvalSupported:false}).promise;
-    }).then(function(d){
-      pdf=d; settle(pdf.numPages); lastW=stage.clientWidth; render();
+    return loadPdf().then(function(d){
+      settle(pdf.numPages); lastW=stage.clientWidth; render();
     });
   }).catch(function(){
-    msg(meta ? 'The warrant could not be opened here. <a href="'+esc(origHref(cited))+'">'+(gone()?'Open the archived copy':'Open the city’s original')+'</a>.'
-             : 'No warrant is filed under that address. <a href="index.html#explore">Search every claim</a>.');
+    if(meta){ msg('The warrant could not be opened here. <a href="'+esc(origHref(cited))+'">'+(gone()?'Open the archived copy':'Open the city’s original')+'</a>.'); return; }
+    /* PL-11 (UX audit 2026-10-31): an address that names no warrant gets the not-found state - its own H1, the search and the examples -
+       never a live viewer whose 'City's original', 'PDF' and 'council brief' links lead nowhere */
+    $('rView').hidden=true; $('rEmpty').hidden=false;
+    $('rEmptyT').textContent='No warrant is filed under that address.';
+    var l=$('rEmpty').querySelector('.pl-lede');
+    if(l) l.textContent='The link may be cut short or mistyped. Every claim in the register opens on its own page: search for it, or start from one of these.';
+    document.title='Not filed — The source page | Public Ledger';
   });
 })();
 </script>

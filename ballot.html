@@ -935,6 +935,8 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
     '17th':'seventeenth','18th':'eighteenth','19th':'nineteenth','20th':'twentieth'};
   function words(s){return String(s).toLowerCase().replace(/[,#]|\.(?=\s|$)/g,' ').split(/\s+/).filter(Boolean)}
   function addrToks(s){var w=words(s);return w.concat(w.map(function(x){return LONG[x]}).filter(Boolean))}
+  /* PL-12 (UX audit 2026-10-31): the roll's property class in plain words, the state's own categories by code */
+  function clsOf(c){ c=+c||0; if(c===210||c===215) return 'one-family home'; if(c===220) return 'two-family home'; if(c===230) return 'three-family home'; if(c===260) return 'seasonal home'; if(c===270) return 'mobile home'; if(c===280||c===281) return 'multi-family home'; if(c===283) return 'home with a business'; if(c>=200&&c<300) return 'residential'; if(c>=300&&c<400) return 'vacant land'; if(c===411) return 'apartments'; if(c>=400&&c<500) return 'commercial'; if(c>=500&&c<600) return 'recreation'; if(c>=600&&c<700) return 'community service'; if(c>=700&&c<800) return 'industrial'; if(c>=800&&c<900) return 'utility'; if(c>=900) return 'public land'; if(c>=100&&c<200) return 'farm'; return ''; }
   function starts(t,w){var l=LONG[w];return t.some(function(x){return x.indexOf(w)===0||(l&&x.indexOf(l)===0)})}
   function hx(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
   [].forEach.call(document.querySelectorAll('.find[data-roll]'),function(box){
@@ -960,15 +962,22 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
       if(!q.some(named))html='<li class="none" role="option" aria-disabled="true">'+hx(D.hint)+'</li>';
       else{
         if(!R){close();return}                 /* the roll is still on its way: no stale hint meanwhile; load() re-runs this */
-        for(var i=0;i<T.length&&hits.length<60;i++){
-          var t=T[i];
-          if(q.every(function(w){return starts(t,w)}))hits.push(i);
+        var num=/^\d+$/.test(q[0])?+q[0]:null,rest=q.slice(1);
+        if(num!==null&&rest.length&&rest.some(named)){
+          /* PL-12 (UX audit 2026-10-31): a house number and a street list that street's addresses, the typed number first and then the NEAREST numbers - never 1000-1099 ahead of 98 and 102 because they start with the same digits */
+          for(var i=0;i<T.length;i++){var t=T[i];if(rest.every(function(w){return starts(t,w)}))hits.push(i)}
+          hits.sort(function(a,b){var na=parseFloat(R.a[a]),nb=parseFloat(R.a[b]);return (isNaN(na)?1e9:Math.abs(na-num))-(isNaN(nb)?1e9:Math.abs(nb-num))||a-b});
+        }else{
+          for(var i=0;i<T.length&&hits.length<60;i++){
+            var t=T[i];
+            if(q.every(function(w){return starts(t,w)}))hits.push(i);
+          }
+          if(/^\d/.test(q[0]))hits.sort(function(a,b){return (T[a][0]===q[0]?0:1)-(T[b][0]===q[0]?0:1)||a-b});
+          else hits.sort(function(a,b){return (/^\d/.test(R.a[a])?0:1)-(/^\d/.test(R.a[b])?0:1)||a-b});   /* homes before lots (PL-20) */
         }
-        if(/^\d/.test(q[0]))hits.sort(function(a,b){return (T[a][0]===q[0]?0:1)-(T[b][0]===q[0]?0:1)||a-b});
-        else hits.sort(function(a,b){return (/^\d/.test(R.a[a])?0:1)-(/^\d/.test(R.a[b])?0:1)||a-b});   /* homes before lots (PL-20) */
         hits=hits.slice(0,8);
         html=hits.length?hits.map(function(i,j){return '<li role="option" id="addrO-'+id+'-'+j+'" aria-selected="false"><b>'+
-          hx(R.a[i])+'</b><span>'+(/^\d/.test(R.a[i])?'':'no house number \u00b7 ')+(R.v[i]?'assessed '+fmt(R.v[i])+' \u00b7 ~'+fmt(Math.round(R.v[i]/D.ratio/1000)*1000)+' market':'no taxable value')+'</span></li>'}).join('')
+          hx(R.a[i])+'</b><span>'+(R.c&&clsOf(R.c[i])?clsOf(R.c[i])+' \u00b7 ':'')+(/^\d/.test(R.a[i])?'':'no house number \u00b7 ')+(R.v[i]?'assessed '+fmt(R.v[i])+' \u00b7 ~'+fmt(Math.round(R.v[i]/D.ratio/1000)*1000)+' market':'no taxable value')+'</span></li>'}).join('')
           :'<li class="none" role="option" aria-disabled="true">No address on the '+R.year+' roll matches. Try the house number and street name only; an apartment may be listed under its building&rsquo;s number.</li>';
       }
       list.innerHTML=html;list.hidden=false;inp.setAttribute('aria-expanded','true');mark(hits.length?0:-1);moved=false;
