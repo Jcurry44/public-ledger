@@ -2,6 +2,12 @@
   "_doc": "Every correction made to Public Ledger, newest first on the page (tools/build_corrections.py). One entry per correction: date (ISO, the day it went live), where (the page or pages), was (what was wrong, with a figure where there was one), now (what the site says instead and how it is checked from now on). Add an entry with every correction; never remove one.",
   "entries": [
     {
+      "date": "2026-10-31",
+      "where": "Past meetings (the key under each meeting's bar)",
+      "was": "The Oct 30 correction fixed the first screen's bars only: the key under each meeting in Past meetings still read \"Water/sewer/golf\" (and \"Water, sewer & golf\" to a screen reader) on nights with no golf-course lines, including Oct 20, 2026, whose $117,334 is water and sewer.",
+      "now": "The key, its spoken label and the first screen name each night's slice by the funds it holds (\"Water & sewer\"), from one function."
+    },
+    {
       "date": "2026-10-30",
       "where": "Tax estimate (the nine cities compared)",
       "was": "Lockport, Dunkirk, Olean and Batavia were shown at their surrounding town's tax rate, not the city's: Lockport's city line read 4.24 per $1,000 for FY2025 when the city's published rate is 10.42.",

@@ -40,7 +40,7 @@ body{margin:0;font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-seri
   background:var(--paper);font-feature-settings:"kern"}
 html{border-top:5px solid var(--accent)}      /* the one navy stripe, on every page (SPEC F2; print zeroes it) */
 [hidden]{display:none!important}
-.num{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.num{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 a{color:var(--accent);text-underline-offset:2.5px;text-decoration-thickness:1px}
 button,input,select,textarea{font:inherit;color:inherit}
 button,a,[role=button],summary,label{touch-action:manipulation}
@@ -78,7 +78,8 @@ button{cursor:pointer}
 /* phone-only copy: .ph-x is hidden at <=640px, .ph-xs only below 375px, and .ph-br is a line break that exists only on
    a phone. The prerendered text and the script's text must agree on textContent (CSS does not change it). */
 .ph-br{display:none}
-@media (max-width:640px){.ph-x{display:none}.ph-br{display:inline}}
+.ph-o{display:none}      /* PL-02: phone-only copy, the twin of .ph-x (a figure said one way on a phone, another on a desk) */
+@media (max-width:640px){.ph-x{display:none}.ph-br{display:inline}.ph-o{display:inline}}
 @media (max-width:374px){.ph-xs{display:none}}
 @media print{
   html{border-top:0;background:#fff}
@@ -109,7 +110,7 @@ button{cursor:pointer}
   color:var(--ink);text-decoration:none;white-space:nowrap}
 .pl-mark b{font-weight:inherit;color:var(--accent)}
 .pl-edition{display:inline-flex;align-items:center;min-height:22px;padding:0 9px;border:1px solid var(--rule-strong);
-  border-radius:6px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;
+  border-radius:6px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);white-space:nowrap;background:var(--paper)}
 .pl-tag{margin:8px 0 0;font:400 14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--muted);max-width:56ch}
 .pl-side{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex:0 1 auto;min-width:0}
@@ -132,7 +133,7 @@ button{cursor:pointer}
 /* a thumb target of exactly 44px (20 + 12 + 12) that never overhangs the masthead: the sheet variant pads its foot by 12px, and the
    old 14px bottom inset reached 2px into the county family's rail tabs below it (an elementFromPoint hit on the wrong control) */
 @media (pointer:coarse){.pl-fol{min-height:20px}.pl-fol::after{content:'';position:absolute;inset:-12px -8px}}
-.pl-sheet-foot{display:none}
+.pl-sheet-foot,.pl-pin{display:none}
 /* a separator inside one segment's own text (the index's second line): inline, so it can sit anywhere in a run of words */
 .pl-sep{color:var(--rule-strong);padding:0 7px}
 /* a segment flagged 'row' sits on a row of its own (the index's second line). Right-aligned (>=1101px) the dateline is
@@ -162,7 +163,7 @@ button{cursor:pointer}
   overflow-y:auto;overscroll-behavior:contain}   /* the script caps its height to the room below it on a short screen */
 .pl-group[data-open] .pl-menu{display:block}
 .pl-group:first-child .pl-menu{right:auto;left:0}
-:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 8px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;
+:is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick{display:flex;align-items:center;gap:10px;margin:0;padding:6px 10px 8px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 :is(.pl-menu,.pl-sheet-view,.pl-sheet-fresh)>.pl-kick::after{content:'';flex:1;height:1px;background:var(--rule)}   /* the menu's group heads; a page's .pl-kick is the HOUSE kicker */
 .pl-dest{display:grid;grid-template-columns:1fr auto;gap:1px 12px;align-items:center;padding:8px 10px;border-radius:8px;
@@ -171,7 +172,7 @@ button{cursor:pointer}
 .pl-dest .pl-ds{grid-column:1;grid-row:2;font-size:12px;color:var(--muted);line-height:1.35}
 .pl-dest .pl-dg{grid-column:2;grid-row:1/span 2;color:var(--faint);font-size:14px;transition:transform .12s}
 .pl-dest[aria-current]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
-.pl-dest[aria-current] .pl-dl::after{content:'you are here';margin-left:8px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;
+.pl-dest[aria-current] .pl-dl::after{content:'you are here';margin-left:8px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   letter-spacing:.1em;text-transform:uppercase;color:var(--accent);vertical-align:1px}
 .pl-dest[aria-current] .pl-dg{display:none}
 .pl-theme{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid var(--rule-strong);
@@ -217,6 +218,13 @@ button{cursor:pointer}
   .pl-mast .pl-acts{justify-content:flex-start;flex-wrap:wrap}
 }
 @media screen and (max-width:640px){.pl-mast .pl-mast-in.pl-mast-in{padding-inline:20px}}
+/* PL-04 (UX audit 2026-10-31): ONE grid on every page. <main> spans the page and centres its content on the one container (--pl-dash),
+   so the content starts where the logo starts on every page (a page's main used to be 1320, full-bleed, 1180 or a centred 880). A
+   reading page marks its main .read: its children keep the 880 measure, left-aligned on that edge - never a second, centred box. */
+@media screen{
+  :root main.wrap{max-width:none;margin-inline:0;padding-inline:max(20px,calc((100% - var(--pl-dash,1180px))/2 + 20px))}
+  :root main.wrap.read>*{max-width:var(--pl-read,880px)}
+}
 /* PRINT keeps the variants it was measured with (tools/test_print.py: a brief prints on one sheet with a few px to spare) */
 @media print{
   .pl-mast[data-variant="sheet"] .pl-mast-in{align-items:center;padding-block:14px 12px}
@@ -310,29 +318,34 @@ button{cursor:pointer}
      at the top edge, and a paint outside the viewport (the strip above) is clipped there (Joe's iPhone, 10-13) */
   html .rail{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}
   .pl-switch.is-open{display:flex}
-  .pl-switch::before{content:'';display:block;width:40px;height:4px;border-radius:2px;background:var(--rule-strong);margin:6px auto 4px}
-  /* the three task groups are an accordion in the sheet (progressive disclosure, 2026-10-30): each verb a full-width row, one
-     group open at a time, all folded when the sheet opens - so the sheet is three names, not fifteen rows */
+  /* PL-05 (UX audit 2026-10-31): every destination shows when the sheet opens - the three task groups are HEADED LISTS, not an accordion
+     (folded, the sheet showed 3 of its 19 links; the 10-30 accordion hid the other 16 behind three verbs). Each row is one line: the
+     name and the first phrase of its subtitle (the rest of it stays on a desk). One close: the Done pill in thumb reach (the X and a
+     grabber that did nothing went), plus a tap outside, Esc and Back. */
   .pl-group{display:block;border:0!important}
-  .pl-group+.pl-group{border-top:1px solid var(--rule)!important}
-  .pl-verb{display:flex;width:100%;justify-content:space-between;align-items:center;min-height:48px;padding:0 10px;
-    border-radius:8px!important;background:transparent;color:var(--ink);font:600 15px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  .pl-verb svg{width:12px;height:12px}
-  .pl-menu{display:none;position:static;min-width:0;max-width:none;border:0;border-radius:0;box-shadow:none;padding:0 0 4px;background:transparent}
-  .pl-group[data-open] .pl-menu{display:block}
-  .pl-menu>.pl-kick{display:none}
-  .pl-dest{min-height:48px}
+  .pl-verb{display:none}
+  .pl-menu{display:block;position:static;min-width:0;max-width:none;border:0;border-radius:0;box-shadow:none;padding:0 0 2px;background:transparent}
+  .pl-menu>.pl-kick{display:flex;padding:14px 10px 4px}
+  .pl-dest{min-height:44px;padding-block:5px}
+  .pl-dest .pl-ds{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pl-dest .pl-ds2{display:none}
+  /* Election Day, pinned at the top of the sheet until the day is over (data-until; the masthead stops drawing it after the election) */
+  .pl-switch>*{flex-shrink:0}      /* the sheet is a column that scrolls: no row may be squeezed under its own content */
+  .pl-pin{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;margin:8px 4px 2px;padding:9px 12px;min-height:44px;
+    border:1px solid var(--rule-strong);border-left:4px solid var(--accent);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--paper)}
+  .pl-pin .pin-k{font:600 12px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .pl-pin .pin-t{grid-column:1;font-size:15px;font-weight:600;line-height:1.3}
+  .pl-pin .pin-go{grid-column:2;grid-row:1/span 2;color:var(--accent);font-size:15px}
   .pl-sheet-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;padding:4px 4px 2px}
   .pl-sheet-top b{font:600 18px/1 'Fraunces',ui-serif,Georgia,serif}
-  .pl-close{width:44px;height:44px;border:1px solid var(--rule-strong);border-radius:10px;background:transparent;color:var(--muted);font-size:16px}
-  .pl-sheet-primary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin:6px 4px 4px;border-radius:10px;
+    .pl-sheet-primary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin:6px 4px 4px;border-radius:10px;
     background:var(--accent);color:var(--card);font-weight:600;font-size:14px;text-decoration:none}
   .pl-sheet-primary svg{width:15px;height:15px}
   .pl-sheet-foot{display:block;border-top:1px solid var(--rule);margin-top:4px;padding-top:4px}
   .pl-sheet-foot .pl-dest .pl-dl{display:inline-flex;align-items:center;gap:8px}
   .pl-sheet-foot .pl-dest svg{width:14px;height:14px;flex:0 0 auto;color:var(--muted)}
 }
-@media (min-width:641px){.pl-sheet-top,.pl-sheet-primary{display:none}.pl-dateline .pl-ph{display:none}}
+@media (min-width:641px){.pl-sheet-top,.pl-sheet-primary,.pl-pin{display:none}.pl-dateline .pl-ph{display:none}}
 @media (max-width:360px){.pl-go{width:44px;padding:0}.pl-go span,.pl-go .pl-gochev{display:none}}
 /* PL-06 (Fable UX audit 2026-10-30), on screen: the dateline at 13px and the footer's notes at 13.5px, no line of them past 36em
    (paper keeps its own scale) */
@@ -373,7 +386,7 @@ button{cursor:pointer}
 
 /* ---------- the data-out block + the embed bar + embed mode - generated by tools/_chrome.py ---------- */
 .pl-dout{margin:26px 0 0;padding:12px 0 4px;border-top:3px double var(--rule-strong);clear:both}
-.pl-dout-h{margin:0 0 6px;display:flex;align-items:center;gap:10px;font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;
+.pl-dout-h{margin:0 0 6px;display:flex;align-items:center;gap:10px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .pl-dout-h::after{content:'';flex:1;height:1px;background:var(--rule)}
 .pl-dout-l{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:0 28px}
@@ -419,7 +432,7 @@ html.pl-embed .pl-emb-bar{display:none}
 .pl-emb-miss{padding:6px 0;font-size:14px;line-height:1.5;color:var(--ink)}
 
 /* ---------- house type + components - generated by tools/_chrome.py (HOUSE_CSS, 10-29) ---------- */
-.pl-kick{margin:0 0 6px;font:600 12px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.pl-kick{margin:0 0 6px;font:600 12px/1.3 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
 .pl-h1{margin:0;font:600 33px/1.12 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.015em;color:var(--ink)}
 .pl-h2{margin:0 0 4px;font:600 21px/1.3 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-.005em;color:var(--ink)}
 .pl-lede{margin:8px 0 0;font-size:16px;line-height:1.5;color:color-mix(in srgb,var(--ink) 88%,var(--card));max-width:66ch}
@@ -494,7 +507,7 @@ a{color:inherit}
 h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em}
 .eyebrow{font:600 13px/1.4 system-ui;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
 .hero{padding:30px 0 6px}
-.hero h1{font-size:clamp(32px,6vw,52px);line-height:1.04;margin:8px 0 6px}
+.hero h1{margin:8px 0 6px}      /* PL-04: the house H1 scale (.pl-h1), like every page */
 .hero .lede{max-width:64ch;color:var(--muted);font-size:15.5px;margin:0 0 16px}
 .maker{margin:-8px 0 16px;font-size:13px;color:var(--muted)}
 .maker a{color:var(--accent);font-weight:600;padding:6px 0}
@@ -525,10 +538,10 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 .seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .basis{font-size:13.5px;line-height:1.45;color:var(--muted);margin:0 0 12px;max-width:34ch}
-.val{display:flex;align-items:center;gap:6px;font:600 26px/1 ui-monospace,Menlo,Consolas,monospace;color:var(--faint);
+.val{display:flex;align-items:center;gap:6px;font:600 26px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--faint);
   border-bottom:2px solid var(--ink);padding:4px 0 6px;max-width:260px}
 .val input:focus-visible{outline:3px solid var(--accent);outline-offset:4px;border-radius:4px}
-.val input{all:unset;width:100%;min-width:0;font:600 26px/1.1 ui-monospace,Menlo,Consolas,monospace;color:var(--ink);font-variant-numeric:tabular-nums}
+.val input{all:unset;width:100%;min-width:0;font:600 26px/1.1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);font-variant-numeric:tabular-nums}
 .val:focus-within{border-bottom-color:var(--accent)}
 .presets{display:flex;gap:8px;margin:12px 0 10px;flex-wrap:wrap}
 @media (hover:hover){.seg button:hover{border-color:var(--ink);color:var(--ink)}}
@@ -681,13 +694,13 @@ h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.0
 <link rel="canonical" href="https://jcurry44.github.io/public-ledger/ballot.html">
 </head><body>
 
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">On the ballot</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>2</b> questions on the Niagara County ballot</span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">On the ballot</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual filings</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html" aria-current="page"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed · every correction so far</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">On the ballot</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>2</b> questions on the Niagara County ballot</span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><a class="pl-searchbtn" href="index.html#explore" data-focus="q" aria-label="Search every claim"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">On the ballot</span></div><a class="pl-sheet-primary" href="index.html#explore" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search every claim</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines<span class="pl-ds2"> &middot; 1,118 payees · search by payee, account or PO</span></span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home<span class="pl-ds2"> &middot; published rates, not a quote</span></span></a><a class="pl-dest" href="index.html#money"><span class="pl-dl">City finances</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">30 years of the City's annual state filings<span class="pl-ds2"> &middot; 1995–2024</span></span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers<span class="pl-ds2"> &middot; towns, villages and cities, each from its own filings</span></span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html" aria-current="page"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions<span class="pl-ds2"> &middot; Nov 3 election · what each costs a home</span></span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions<span class="pl-ds2"> &middot; 183 meetings · latest Oct 20</span></span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read by OCR from scans</span></span></a><a class="pl-dest" href="index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span><b>2</b> questions on the Niagara County ballot</span><span>election <b>Nov 3</b></span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 
 <main id="main">
 <section class="hero"><div class="wrap">
   <div class="eyebrow"><span id="bWhen">Election day Tue Nov 3 &middot; in 3 days</span></div>
-  <h1>On the ballot</h1>
+  <h1 class="pl-h1">On the ballot</h1>
   <p class="lede">Every question on the Niagara County ballot, word for word, and what each would cost a home: the
     sponsor&rsquo;s own figures, with the arithmetic shown.</p>
   <div class="neutral">This page takes no side.</div>
@@ -1488,6 +1501,7 @@ function mdy(d,ref){return two(d.getMonth()+1)+'/'+two(d.getDate())+(ref&&d.getF
 var MON=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
 function ml(d){return MON[d.getMonth()]+' '+d.getDate();}
 function mlc(d,ref){return ml(d)+(ref&&d.getFullYear()!==ref.getFullYear()?', '+d.getFullYear():'');}      
+[].forEach.call(document.querySelectorAll('[data-until]'),function(el){ var u=iso(el.getAttribute('data-until')); if(u&&Date.now()>u.getTime()+DAY) el.remove(); });   
 var items=[].slice.call(document.querySelectorAll('[data-pl-next],[data-pl-built]')).map(function(el){
 return {el:el,orig:el.innerHTML,cur:el.innerHTML,hid:false};});
 function retense(it,now){
