@@ -1,181 +1,181 @@
-member,year,serving_now,readable_meetings,absences,attendance_share_pct,no_votes,sponsored,moved,seconded
-Abbott,2022,yes,13,1,92.3,0,16,2,2
-Abbott,2023,yes,15,1,93.3,0,25,11,4
-Abbott,2024,yes,14,0,100.0,1,29,4,1
-Abbott,2025,yes,14,2,85.7,1,28,3,4
-Abbott,2026,yes,10,0,100.0,0,34,55,2
-Andres,2015,yes,18,1,94.4,0,27,16,14
-Andres,2016,yes,15,2,86.7,0,8,12,12
-Andres,2017,yes,16,3,81.2,1,19,27,7
-Andres,2018,yes,12,1,91.7,0,16,5,2
-Andres,2019,yes,16,1,93.8,0,14,12,15
-Andres,2020,yes,14,0,100.0,0,10,1,5
-Andres,2021,yes,14,0,100.0,0,19,5,2
-Andres,2022,yes,13,0,100.0,0,22,4,3
-Andres,2023,yes,15,1,93.3,0,20,3,10
-Andres,2024,yes,14,3,78.6,1,19,4,3
-Andres,2025,yes,14,2,85.7,1,19,7,2
-Andres,2026,yes,10,0,100.0,0,32,2,1
-Bradt,2015,yes,18,2,88.9,3,25,12,19
-Bradt,2016,yes,15,0,100.0,0,15,249,24
-Bradt,2017,yes,16,1,93.8,0,27,316,15
-Bradt,2018,yes,12,1,91.7,0,19,252,25
-Bradt,2019,yes,16,0,100.0,0,25,340,21
-Bradt,2020,yes,14,1,92.9,0,13,226,11
-Bradt,2021,yes,14,0,100.0,0,24,329,8
-Bradt,2022,yes,13,4,69.2,0,26,352,1
-Bradt,2023,yes,15,6,60.0,0,19,247,4
-Bradt,2024,yes,14,5,64.3,1,21,380,2
-Bradt,2025,yes,14,2,85.7,1,23,496,20
-Bradt,2026,yes,10,1,90.0,0,33,436,4
-Burmaster,2015,,18,6,66.7,0,13,1,7
-Burmaster,2016,,15,3,80.0,0,13,12,3
-Burmaster,2017,,16,0,100.0,0,18,6,9
-Burmaster,2018,,12,0,100.0,0,6,10,3
-Burmaster,2019,,16,4,75.0,0,14,4,5
-Casale,2026,yes,10,0,100.0,0,34,3,3
-Collins,2016,,15,1,93.3,0,12,1,18
-Collins,2017,,16,1,93.8,0,18,3,12
-Collins,2018,,12,1,91.7,0,5,5,11
-Collins,2019,,16,2,87.5,1,12,2,9
-Collins,2020,,14,0,100.0,0,8,3,5
-Collins,2021,,14,1,92.9,0,16,7,5
-Collins,2022,,13,1,92.3,0,14,3,2
-Collins,2023,,15,1,93.3,0,20,15,1
-Elder,2022,yes,13,1,92.3,4,25,0,4
-Elder,2023,yes,15,0,100.0,3,29,1,9
-Elder,2024,yes,14,0,100.0,3,34,0,2
-Elder,2025,yes,14,0,100.0,1,34,0,62
-Elder,2026,yes,10,0,100.0,1,48,0,488
-Farruggia,2026,yes,10,0,100.0,1,40,1,1
-Foti,2022,yes,13,1,92.3,0,28,5,1
-Foti,2023,yes,15,2,86.7,0,30,3,5
-Foti,2024,yes,14,2,85.7,0,30,15,0
-Foti,2025,yes,14,2,85.7,1,25,10,2
-Foti,2026,yes,10,1,90.0,0,30,4,1
-Godfrey,2015,yes,18,2,88.9,0,11,12,13
-Godfrey,2016,yes,15,1,93.3,0,15,7,8
-Godfrey,2017,yes,16,1,93.8,0,22,3,17
-Godfrey,2018,yes,12,1,91.7,0,6,4,5
-Godfrey,2019,yes,16,2,87.5,0,19,8,8
-Godfrey,2020,yes,14,2,85.7,1,17,66,2
-Godfrey,2021,yes,14,1,92.9,0,23,10,5
-Godfrey,2022,yes,13,2,84.6,0,15,18,1
-Godfrey,2023,yes,15,2,86.7,0,17,111,3
-Godfrey,2024,yes,14,1,92.9,1,28,13,1
-Godfrey,2025,yes,14,2,85.7,1,22,9,4
-Godfrey,2026,yes,10,0,100.0,0,31,3,6
-Gooch,2019,yes,16,0,100.0,0,17,12,7
-Gooch,2020,yes,14,0,100.0,0,9,11,4
-Gooch,2021,yes,14,0,100.0,0,17,7,6
-Gooch,2022,yes,13,3,76.9,0,19,2,2
-Gooch,2023,yes,15,4,73.3,0,17,9,0
-Gooch,2024,yes,14,6,57.1,1,19,12,2
-Gooch,2025,yes,14,0,100.0,1,19,4,3
-Gooch,2026,yes,10,2,80.0,0,27,2,1
-Grozio,2015,,18,1,94.4,9,30,0,9
-Grozio,2016,,15,2,86.7,3,7,0,1
-Grozio,2017,,16,3,81.2,0,10,0,7
-Grozio,2018,,12,1,91.7,0,2,1,5
-Grozio,2019,,16,1,93.8,4,13,1,15
-Grozio,2020,,14,0,100.0,4,22,1,30
-Grozio,2021,,14,0,100.0,3,25,4,8
-Grozio,2022,,13,1,92.3,4,23,1,7
-Grozio,2023,,15,2,86.7,3,27,2,81
-Hill,2015,yes,18,7,61.1,0,11,3,9
-Hill,2016,yes,15,4,73.3,0,6,3,10
-Hill,2017,yes,16,5,68.8,0,17,5,3
-Hill,2018,yes,12,2,83.3,0,0,4,4
-Hill,2019,yes,16,4,75.0,0,4,3,12
-Hill,2020,yes,14,6,57.1,0,11,1,2
-Hill,2021,yes,14,1,92.9,0,17,8,4
-Hill,2022,yes,13,1,92.3,0,11,153,4
-Hill,2023,yes,15,4,73.3,0,16,140,2
-Hill,2024,yes,14,4,71.4,1,9,198,3
-Hill,2025,yes,14,5,64.3,1,16,59,4
-Hill,2026,yes,10,1,90.0,0,21,2,0
-Lance,2015,,18,3,83.3,0,28,18,23
-Lance,2016,,15,3,80.0,0,12,2,12
-Lance,2017,,16,4,75.0,0,26,7,5
-Lance,2018,,12,1,91.7,0,5,2,1
-McKimmie,2024,yes,14,1,92.9,1,27,1,3
-McKimmie,2025,yes,14,0,100.0,1,28,5,3
-McKimmie,2026,yes,10,2,80.0,0,42,7,4
-McNall,2015,,18,2,88.9,0,11,10,11
-McNall,2016,,15,0,100.0,0,11,0,0
-McNall,2017,,16,0,100.0,1,26,0,0
-McNall,2018,,12,1,91.7,0,13,2,0
-McNall,2019,,16,1,93.8,0,24,3,0
-Mullane,2020,,14,1,92.9,1,23,1,3
-Mullane,2021,,14,1,92.9,3,24,1,9
-Myers,2020,yes,14,3,78.6,0,8,1,5
-Myers,2021,yes,14,0,100.0,0,18,4,10
-Myers,2022,yes,13,4,69.2,0,25,1,2
-Myers,2023,yes,15,5,66.7,0,21,5,14
-Myers,2024,yes,14,4,71.4,0,24,0,25
-Myers,2025,yes,14,3,78.6,0,18,4,5
-Myers,2026,yes,10,2,80.0,0,26,1,1
-Nemi,2015,yes,18,0,100.0,0,28,19,21
-Nemi,2016,yes,15,0,100.0,0,19,25,4
-Nemi,2017,yes,16,1,93.8,0,22,16,9
-Nemi,2018,yes,12,3,75.0,0,9,3,3
-Nemi,2019,yes,16,0,100.0,1,16,24,15
-Nemi,2020,yes,14,3,78.6,0,11,8,7
-Nemi,2021,yes,14,4,71.4,0,23,11,3
-Nemi,2022,yes,13,2,84.6,0,15,3,17
-Nemi,2023,yes,15,1,93.3,0,28,53,12
-Nemi,2024,yes,14,2,85.7,0,32,59,12
-Nemi,2025,yes,14,2,85.7,2,30,3,12
-Nemi,2026,yes,10,1,90.0,0,31,4,3
-Robins,2020,yes,14,0,100.0,3,22,2,9
-Robins,2021,yes,14,0,100.0,3,23,4,12
-Robins,2022,yes,13,0,100.0,4,17,0,500
-Robins,2023,yes,15,1,93.3,3,33,4,461
-Robins,2024,yes,14,0,100.0,3,28,1,632
-Robins,2025,yes,14,1,92.9,1,31,21,493
-Robins,2026,yes,10,3,70.0,0,41,1,2
-Ross,2015,,18,0,100.0,0,19,20,9
-Speranza,2024,yes,14,0,100.0,2,23,0,2
-Speranza,2025,yes,14,0,100.0,1,24,0,5
-Speranza,2026,yes,10,1,90.0,1,33,0,4
-Steed,2015,,18,1,94.4,9,28,1,3
-Steed,2016,,15,4,73.3,3,10,0,0
-Steed,2017,,16,4,75.0,0,15,1,26
-Steed,2018,,12,0,100.0,0,7,1,8
-Steed,2019,,16,3,81.2,4,20,0,7
-Steed,2020,,14,3,78.6,3,23,1,5
-Steed,2021,,14,3,78.6,0,30,0,4
-Syracuse,2015,,18,1,94.4,0,24,36,18
-Syracuse,2016,,15,0,100.0,0,18,25,7
-Syracuse,2017,,16,1,93.8,0,22,28,8
-Syracuse,2018,,12,0,100.0,0,9,45,20
-Syracuse,2019,,16,2,87.5,0,21,17,11
-Syracuse,2020,,14,0,100.0,0,17,13,3
-Syracuse,2021,,14,1,92.9,0,23,3,8
-Updegrove,2015,,18,0,100.0,0,21,263,12
-Virtuoso,2015,,18,3,83.3,9,31,13,223
-Virtuoso,2016,,15,3,80.0,3,8,2,213
-Virtuoso,2017,,16,2,87.5,0,16,7,279
-Virtuoso,2018,,12,0,100.0,0,6,18,257
-Virtuoso,2019,,16,1,93.8,4,14,7,312
-Virtuoso,2020,,14,1,92.9,4,24,12,256
-Virtuoso,2021,,14,1,92.9,4,25,12,321
-Voccio,2022,,13,0,100.0,1,24,2,0
-Voccio,2023,,15,0,100.0,0,23,4,2
-Voccio,2024,,14,1,92.9,0,25,1,0
-Voccio,2025,,14,0,100.0,0,25,0,4
-Wydysh,2016,,15,0,100.0,0,16,8,8
-Wydysh,2017,,16,2,87.5,0,24,3,11
-Wydysh,2018,,12,0,100.0,0,6,2,8
-Wydysh,2019,,16,0,100.0,0,16,15,8
-Wydysh,2020,,14,0,100.0,0,10,0,0
-Wydysh,2021,,14,0,100.0,0,17,0,0
-Wydysh,2022,,13,1,92.3,0,20,0,0
-Wydysh,2023,,15,1,93.3,0,21,0,0
-Wydysh,2024,,14,0,100.0,0,23,0,0
-Wydysh,2025,,14,1,92.9,0,29,2,0
-Zona,2015,,18,3,83.3,8,35,10,43
-Zona,2016,,15,5,66.7,1,10,3,29
-Zona,2017,,16,6,62.5,0,18,3,17
-Zona,2018,,12,2,83.3,0,7,2,4
-Zona,2019,,16,5,68.8,1,13,2,5
+member,full_name,district,year,serving_now,readable_meetings,absences,attendance_share_pct,no_votes,sponsored,moved,seconded
+Abbott,Richard E. Abbott,13,2022,yes,13,1,92.3,0,16,2,2
+Abbott,Richard E. Abbott,13,2023,yes,15,1,93.3,0,25,11,4
+Abbott,Richard E. Abbott,13,2024,yes,14,0,100.0,1,29,4,1
+Abbott,Richard E. Abbott,13,2025,yes,14,2,85.7,1,28,3,4
+Abbott,Richard E. Abbott,13,2026,yes,10,0,100.0,0,34,55,2
+Andres,"Richard L. Andres, Jr.",8,2015,yes,18,1,94.4,0,27,16,14
+Andres,"Richard L. Andres, Jr.",8,2016,yes,15,2,86.7,0,8,12,12
+Andres,"Richard L. Andres, Jr.",8,2017,yes,16,3,81.2,1,19,27,7
+Andres,"Richard L. Andres, Jr.",8,2018,yes,12,1,91.7,0,16,5,2
+Andres,"Richard L. Andres, Jr.",8,2019,yes,16,1,93.8,0,14,12,15
+Andres,"Richard L. Andres, Jr.",8,2020,yes,14,0,100.0,0,10,1,5
+Andres,"Richard L. Andres, Jr.",8,2021,yes,14,0,100.0,0,19,5,2
+Andres,"Richard L. Andres, Jr.",8,2022,yes,13,0,100.0,0,22,4,3
+Andres,"Richard L. Andres, Jr.",8,2023,yes,15,1,93.3,0,20,3,10
+Andres,"Richard L. Andres, Jr.",8,2024,yes,14,3,78.6,1,19,4,3
+Andres,"Richard L. Andres, Jr.",8,2025,yes,14,2,85.7,1,19,7,2
+Andres,"Richard L. Andres, Jr.",8,2026,yes,10,0,100.0,0,32,2,1
+Bradt,Randy R. Bradt,9,2015,yes,18,2,88.9,3,25,12,19
+Bradt,Randy R. Bradt,9,2016,yes,15,0,100.0,0,15,249,24
+Bradt,Randy R. Bradt,9,2017,yes,16,1,93.8,0,27,316,15
+Bradt,Randy R. Bradt,9,2018,yes,12,1,91.7,0,19,252,25
+Bradt,Randy R. Bradt,9,2019,yes,16,0,100.0,0,25,340,21
+Bradt,Randy R. Bradt,9,2020,yes,14,1,92.9,0,13,226,11
+Bradt,Randy R. Bradt,9,2021,yes,14,0,100.0,0,24,329,8
+Bradt,Randy R. Bradt,9,2022,yes,13,4,69.2,0,26,352,1
+Bradt,Randy R. Bradt,9,2023,yes,15,6,60.0,0,19,247,4
+Bradt,Randy R. Bradt,9,2024,yes,14,5,64.3,1,21,380,2
+Bradt,Randy R. Bradt,9,2025,yes,14,2,85.7,1,23,496,20
+Bradt,Randy R. Bradt,9,2026,yes,10,1,90.0,0,33,436,4
+Burmaster,Clyde L. Burmaster,1,2015,,18,6,66.7,0,13,1,7
+Burmaster,Clyde L. Burmaster,1,2016,,15,3,80.0,0,13,12,3
+Burmaster,Clyde L. Burmaster,1,2017,,16,0,100.0,0,18,6,9
+Burmaster,Clyde L. Burmaster,1,2018,,12,0,100.0,0,6,10,3
+Burmaster,Clyde L. Burmaster,1,2019,,16,4,75.0,0,14,4,5
+Casale,Michael A. Casale,2,2026,yes,10,0,100.0,0,34,3,3
+Collins,"William J. Collins, Sr.",12,2016,,15,1,93.3,0,12,1,18
+Collins,"William J. Collins, Sr.",12,2017,,16,1,93.8,0,18,3,12
+Collins,"William J. Collins, Sr.",12,2018,,12,1,91.7,0,5,5,11
+Collins,"William J. Collins, Sr.",12,2019,,16,2,87.5,1,12,2,9
+Collins,"William J. Collins, Sr.",12,2020,,14,0,100.0,0,8,3,5
+Collins,"William J. Collins, Sr.",12,2021,,14,1,92.9,0,16,7,5
+Collins,"William J. Collins, Sr.",12,2022,,13,1,92.3,0,14,3,2
+Collins,"William J. Collins, Sr.",12,2023,,15,1,93.3,0,20,15,1
+Elder,Jeffrey Elder,4,2022,yes,13,1,92.3,4,25,0,4
+Elder,Jeffrey Elder,4,2023,yes,15,0,100.0,3,29,1,9
+Elder,Jeffrey Elder,4,2024,yes,14,0,100.0,3,34,0,2
+Elder,Jeffrey Elder,4,2025,yes,14,0,100.0,1,34,0,62
+Elder,Jeffrey Elder,4,2026,yes,10,0,100.0,1,48,0,488
+Farruggia,Sam R. Farruggia II,6,2026,yes,10,0,100.0,1,40,1,1
+Foti,Shawn A. Foti,14,2022,yes,13,1,92.3,0,28,5,1
+Foti,Shawn A. Foti,14,2023,yes,15,2,86.7,0,30,3,5
+Foti,Shawn A. Foti,14,2024,yes,14,2,85.7,0,30,15,0
+Foti,Shawn A. Foti,14,2025,yes,14,2,85.7,1,25,10,2
+Foti,Shawn A. Foti,14,2026,yes,10,1,90.0,0,30,4,1
+Godfrey,David E. Godfrey,10,2015,yes,18,2,88.9,0,11,12,13
+Godfrey,David E. Godfrey,10,2016,yes,15,1,93.3,0,15,7,8
+Godfrey,David E. Godfrey,10,2017,yes,16,1,93.8,0,22,3,17
+Godfrey,David E. Godfrey,10,2018,yes,12,1,91.7,0,6,4,5
+Godfrey,David E. Godfrey,10,2019,yes,16,2,87.5,0,19,8,8
+Godfrey,David E. Godfrey,10,2020,yes,14,2,85.7,1,17,66,2
+Godfrey,David E. Godfrey,10,2021,yes,14,1,92.9,0,23,10,5
+Godfrey,David E. Godfrey,10,2022,yes,13,2,84.6,0,15,18,1
+Godfrey,David E. Godfrey,10,2023,yes,15,2,86.7,0,17,111,3
+Godfrey,David E. Godfrey,10,2024,yes,14,1,92.9,1,28,13,1
+Godfrey,David E. Godfrey,10,2025,yes,14,2,85.7,1,22,9,4
+Godfrey,David E. Godfrey,10,2026,yes,10,0,100.0,0,31,3,6
+Gooch,Jesse P. Gooch,7,2019,yes,16,0,100.0,0,17,12,7
+Gooch,Jesse P. Gooch,7,2020,yes,14,0,100.0,0,9,11,4
+Gooch,Jesse P. Gooch,7,2021,yes,14,0,100.0,0,17,7,6
+Gooch,Jesse P. Gooch,7,2022,yes,13,3,76.9,0,19,2,2
+Gooch,Jesse P. Gooch,7,2023,yes,15,4,73.3,0,17,9,0
+Gooch,Jesse P. Gooch,7,2024,yes,14,6,57.1,1,19,12,2
+Gooch,Jesse P. Gooch,7,2025,yes,14,0,100.0,1,19,4,3
+Gooch,Jesse P. Gooch,7,2026,yes,10,2,80.0,0,27,2,1
+Grozio,Mark J. Grozio,3,2015,,18,1,94.4,9,30,0,9
+Grozio,Mark J. Grozio,3,2016,,15,2,86.7,3,7,0,1
+Grozio,Mark J. Grozio,3,2017,,16,3,81.2,0,10,0,7
+Grozio,Mark J. Grozio,3,2018,,12,1,91.7,0,2,1,5
+Grozio,Mark J. Grozio,3,2019,,16,1,93.8,4,13,1,15
+Grozio,Mark J. Grozio,3,2020,,14,0,100.0,4,22,1,30
+Grozio,Mark J. Grozio,3,2021,,14,0,100.0,3,25,4,8
+Grozio,Mark J. Grozio,3,2022,,13,1,92.3,4,23,1,7
+Grozio,Mark J. Grozio,3,2023,,15,2,86.7,3,27,2,81
+Hill,Michael A. Hill,15,2015,yes,18,7,61.1,0,11,3,9
+Hill,Michael A. Hill,15,2016,yes,15,4,73.3,0,6,3,10
+Hill,Michael A. Hill,15,2017,yes,16,5,68.8,0,17,5,3
+Hill,Michael A. Hill,15,2018,yes,12,2,83.3,0,0,4,4
+Hill,Michael A. Hill,15,2019,yes,16,4,75.0,0,4,3,12
+Hill,Michael A. Hill,15,2020,yes,14,6,57.1,0,11,1,2
+Hill,Michael A. Hill,15,2021,yes,14,1,92.9,0,17,8,4
+Hill,Michael A. Hill,15,2022,yes,13,1,92.3,0,11,153,4
+Hill,Michael A. Hill,15,2023,yes,15,4,73.3,0,16,140,2
+Hill,Michael A. Hill,15,2024,yes,14,4,71.4,1,9,198,3
+Hill,Michael A. Hill,15,2025,yes,14,5,64.3,1,16,59,4
+Hill,Michael A. Hill,15,2026,yes,10,1,90.0,0,21,2,0
+Lance,Kathryn L. Lance,7,2015,,18,3,83.3,0,28,18,23
+Lance,Kathryn L. Lance,7,2016,,15,3,80.0,0,12,2,12
+Lance,Kathryn L. Lance,7,2017,,16,4,75.0,0,26,7,5
+Lance,Kathryn L. Lance,7,2018,,12,1,91.7,0,5,2,1
+McKimmie,Christopher J. McKimmie,3,2024,yes,14,1,92.9,1,27,1,3
+McKimmie,Christopher J. McKimmie,3,2025,yes,14,0,100.0,1,28,5,3
+McKimmie,Christopher J. McKimmie,3,2026,yes,10,2,80.0,0,42,7,4
+McNall,Wm. Keith McNall,13,2015,,18,2,88.9,0,11,10,11
+McNall,Wm. Keith McNall,13,2016,,15,0,100.0,0,11,0,0
+McNall,Wm. Keith McNall,13,2017,,16,0,100.0,1,26,0,0
+McNall,Wm. Keith McNall,13,2018,,12,1,91.7,0,13,2,0
+McNall,Wm. Keith McNall,13,2019,,16,1,93.8,0,24,3,0
+Mullane,Anita Mullane,13,2020,,14,1,92.9,1,23,1,3
+Mullane,Anita Mullane,13,2021,,14,1,92.9,3,24,1,9
+Myers,Irene M. Myers,1,2020,yes,14,3,78.6,0,8,1,5
+Myers,Irene M. Myers,1,2021,yes,14,0,100.0,0,18,4,10
+Myers,Irene M. Myers,1,2022,yes,13,4,69.2,0,25,1,2
+Myers,Irene M. Myers,1,2023,yes,15,5,66.7,0,21,5,14
+Myers,Irene M. Myers,1,2024,yes,14,4,71.4,0,24,0,25
+Myers,Irene M. Myers,1,2025,yes,14,3,78.6,0,18,4,5
+Myers,Irene M. Myers,1,2026,yes,10,2,80.0,0,26,1,1
+Nemi,Anthony J. Nemi,11,2015,yes,18,0,100.0,0,28,19,21
+Nemi,Anthony J. Nemi,11,2016,yes,15,0,100.0,0,19,25,4
+Nemi,Anthony J. Nemi,11,2017,yes,16,1,93.8,0,22,16,9
+Nemi,Anthony J. Nemi,11,2018,yes,12,3,75.0,0,9,3,3
+Nemi,Anthony J. Nemi,11,2019,yes,16,0,100.0,1,16,24,15
+Nemi,Anthony J. Nemi,11,2020,yes,14,3,78.6,0,11,8,7
+Nemi,Anthony J. Nemi,11,2021,yes,14,4,71.4,0,23,11,3
+Nemi,Anthony J. Nemi,11,2022,yes,13,2,84.6,0,15,3,17
+Nemi,Anthony J. Nemi,11,2023,yes,15,1,93.3,0,28,53,12
+Nemi,Anthony J. Nemi,11,2024,yes,14,2,85.7,0,32,59,12
+Nemi,Anthony J. Nemi,11,2025,yes,14,2,85.7,2,30,3,12
+Nemi,Anthony J. Nemi,11,2026,yes,10,1,90.0,0,31,4,3
+Robins,Christopher A. Robins,5,2020,yes,14,0,100.0,3,22,2,9
+Robins,Christopher A. Robins,5,2021,yes,14,0,100.0,3,23,4,12
+Robins,Christopher A. Robins,5,2022,yes,13,0,100.0,4,17,0,500
+Robins,Christopher A. Robins,5,2023,yes,15,1,93.3,3,33,4,461
+Robins,Christopher A. Robins,5,2024,yes,14,0,100.0,3,28,1,632
+Robins,Christopher A. Robins,5,2025,yes,14,1,92.9,1,31,21,493
+Robins,Christopher A. Robins,5,2026,yes,10,3,70.0,0,41,1,2
+Ross,William L. Ross,2,2015,,18,0,100.0,0,19,20,9
+Speranza,Carla L. Speranza,12,2024,yes,14,0,100.0,2,23,0,2
+Speranza,Carla L. Speranza,12,2025,yes,14,0,100.0,1,24,0,5
+Speranza,Carla L. Speranza,12,2026,yes,10,1,90.0,1,33,0,4
+Steed,Owen T. Steed,4,2015,,18,1,94.4,9,28,1,3
+Steed,Owen T. Steed,4,2016,,15,4,73.3,3,10,0,0
+Steed,Owen T. Steed,4,2017,,16,4,75.0,0,15,1,26
+Steed,Owen T. Steed,4,2018,,12,0,100.0,0,7,1,8
+Steed,Owen T. Steed,4,2019,,16,3,81.2,4,20,0,7
+Steed,Owen T. Steed,4,2020,,14,3,78.6,3,23,1,5
+Steed,Owen T. Steed,4,2021,,14,3,78.6,0,30,0,4
+Syracuse,John Syracuse,14,2015,,18,1,94.4,0,24,36,18
+Syracuse,John Syracuse,14,2016,,15,0,100.0,0,18,25,7
+Syracuse,John Syracuse,14,2017,,16,1,93.8,0,22,28,8
+Syracuse,John Syracuse,14,2018,,12,0,100.0,0,9,45,20
+Syracuse,John Syracuse,14,2019,,16,2,87.5,0,21,17,11
+Syracuse,John Syracuse,14,2020,,14,0,100.0,0,17,13,3
+Syracuse,John Syracuse,14,2021,,14,1,92.9,0,23,3,8
+Updegrove,Richard E. Updegrove,12,2015,,18,0,100.0,0,21,263,12
+Virtuoso,Dennis F. Virtuoso,6,2015,,18,3,83.3,9,31,13,223
+Virtuoso,Dennis F. Virtuoso,6,2016,,15,3,80.0,3,8,2,213
+Virtuoso,Dennis F. Virtuoso,6,2017,,16,2,87.5,0,16,7,279
+Virtuoso,Dennis F. Virtuoso,6,2018,,12,0,100.0,0,6,18,257
+Virtuoso,Dennis F. Virtuoso,6,2019,,16,1,93.8,4,14,7,312
+Virtuoso,Dennis F. Virtuoso,6,2020,,14,1,92.9,4,24,12,256
+Virtuoso,Dennis F. Virtuoso,6,2021,,14,1,92.9,4,25,12,321
+Voccio,Christopher P. Voccio,6,2022,,13,0,100.0,1,24,2,0
+Voccio,Christopher P. Voccio,6,2023,,15,0,100.0,0,23,4,2
+Voccio,Christopher P. Voccio,6,2024,,14,1,92.9,0,25,1,0
+Voccio,Christopher P. Voccio,6,2025,,14,0,100.0,0,25,0,4
+Wydysh,Rebecca J. Wydysh,2,2016,,15,0,100.0,0,16,8,8
+Wydysh,Rebecca J. Wydysh,2,2017,,16,2,87.5,0,24,3,11
+Wydysh,Rebecca J. Wydysh,2,2018,,12,0,100.0,0,6,2,8
+Wydysh,Rebecca J. Wydysh,2,2019,,16,0,100.0,0,16,15,8
+Wydysh,Rebecca J. Wydysh,2,2020,,14,0,100.0,0,10,0,0
+Wydysh,Rebecca J. Wydysh,2,2021,,14,0,100.0,0,17,0,0
+Wydysh,Rebecca J. Wydysh,2,2022,,13,1,92.3,0,20,0,0
+Wydysh,Rebecca J. Wydysh,2,2023,,15,1,93.3,0,21,0,0
+Wydysh,Rebecca J. Wydysh,2,2024,,14,0,100.0,0,23,0,0
+Wydysh,Rebecca J. Wydysh,2,2025,,14,1,92.9,0,29,2,0
+Zona,Jason A. Zona,5,2015,,18,3,83.3,8,35,10,43
+Zona,Jason A. Zona,5,2016,,15,5,66.7,1,10,3,29
+Zona,Jason A. Zona,5,2017,,16,6,62.5,0,18,3,17
+Zona,Jason A. Zona,5,2018,,12,2,83.3,0,7,2,4
+Zona,Jason A. Zona,5,2019,,16,5,68.8,1,13,2,5

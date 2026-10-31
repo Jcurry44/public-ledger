@@ -1,0 +1,35 @@
+{
+  "_doc": "Every correction made to Public Ledger, newest first on the page (tools/build_corrections.py). One entry per correction: date (ISO, the day it went live), where (the page or pages), was (what was wrong, with a figure where there was one), now (what the site says instead and how it is checked from now on). Add an entry with every correction; never remove one.",
+  "entries": [
+    {
+      "date": "2026-10-30",
+      "where": "Tax estimate (the nine cities compared)",
+      "was": "Lockport, Dunkirk, Olean and Batavia were shown at their surrounding town's tax rate, not the city's: Lockport's city line read 4.24 per $1,000 for FY2025 when the city's published rate is 10.42.",
+      "now": "Each city is matched by its own state code (SWIS), and the build stops if a city's rate does not match the state's published rate for that year."
+    },
+    {
+      "date": "2026-10-30",
+      "where": "Warrant dates (council briefs, the register, the feed)",
+      "was": "Seven warrants were dated by the day their report was printed rather than the council meeting that approved them; the brief for the Aug 19, 2025 meeting said Aug 15, 2025.",
+      "now": "Every warrant is dated by the meeting in the city's own file name, with the printed date shown beside it where it differs."
+    },
+    {
+      "date": "2026-10-30",
+      "where": "The front page's headline",
+      "was": "On a night with two warrants the headline gave the larger one only: \"$1.59 million\" for Oct 20, 2026, when the council approved $1,641,618 that night.",
+      "now": "The headline, the Past meetings card, each council brief and the feed state one total for the whole meeting."
+    },
+    {
+      "date": "2026-10-30",
+      "where": "The front page's \"Where it went\" bars",
+      "was": "A bar was labelled \"Water, sewer & golf\" on a night with no golf-course lines in it.",
+      "now": "The bar names only the funds it holds that night (\"Water & sewer\")."
+    },
+    {
+      "date": "2026-10-30",
+      "where": "Exception report",
+      "was": "A city employee's petty-cash account was listed by name among vendors that might belong on a contract.",
+      "now": "Petty-cash accounts are not vendors and are left out of that flag; the names of private individuals the city pays are withheld across the site (each line keeps its amount, account and page)."
+    }
+  ]
+}

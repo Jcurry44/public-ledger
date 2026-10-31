@@ -1,0 +1,1685 @@
+{
+ "_doc": "Who the Niagara County legislators are: full name, district, party and the years each held the seat, every fact tied to the official document it was read from (the 'sources' table). Read by tools/build_legislators.py. A fact that no fetched official source states is left null - never guessed. Fetched 2026-10-30.",
+ "retrieved": "2026-10-30",
+ "_update": "Each January, when the organizational-meeting minutes are parsed: add that year's roll under 'rolls' (district -> name as printed), add any new member under 'members' (key = the surname the minutes parser uses; name; district; seats; party code only if a Board of Elections or county document states it; sources), and set 'serving' false and 'to' for anyone who left. tools/build_legislators.py prints a WARNING for a member in the minutes this file lacks and for years that disagree with the minutes, and shows 'district not on file' rather than guessing.",
+ "party_codes": {
+  "R": "Republican",
+  "D": "Democratic",
+  "WOR": "Working Families"
+ },
+ "party_codes_note": "The Board of Elections' directory prints R, D and WOR; its November 3, 2026 ballot spells the same parties REPUBLICAN, DEMOCRATIC and WORKING FAMILIES (boe-ballot-2026).",
+ "party_scope": "The Board of Elections' Directory of Elected Officials gives each sitting official's party. The 2024, 2025 and 2026 editions are the ones found online, so a party is on file for the members who sat in 2024 or later; for the others the minutes and the results we could read name none, and the page says so.",
+ "roster_page": "https://www.niagaracounty.gov/government/legislature/legislators/index.php",
+ "district_pages": {
+  "1": "https://www.niagaracounty.gov/government/legislature/legislators/firstdistrict.php",
+  "2": "https://www.niagaracounty.gov/government/legislature/legislators/seconddistrict.php",
+  "3": "https://www.niagaracounty.gov/government/legislature/legislators/thirddistrict.php",
+  "4": "https://www.niagaracounty.gov/government/legislature/legislators/fourthdistrict.php",
+  "5": "https://www.niagaracounty.gov/government/legislature/legislators/fifthdistrict.php",
+  "6": "https://www.niagaracounty.gov/government/legislature/legislators/sixthdistrict.php",
+  "7": "https://www.niagaracounty.gov/government/legislature/legislators/seventhdistrict.php",
+  "8": "https://www.niagaracounty.gov/government/legislature/legislators/eighthdistrict.php",
+  "9": "https://www.niagaracounty.gov/government/legislature/legislators/ninthdistrict.php",
+  "10": "https://www.niagaracounty.gov/government/legislature/legislators/tenthdistrict.php",
+  "11": "https://www.niagaracounty.gov/government/legislature/legislators/eleventhdistrict.php",
+  "12": "https://www.niagaracounty.gov/government/legislature/legislators/twelfthdistrict.php",
+  "13": "https://www.niagaracounty.gov/government/legislature/legislators/thirteenthdistrict.php",
+  "14": "https://www.niagaracounty.gov/government/legislature/legislators/fourteenthdistrict.php",
+  "15": "https://www.niagaracounty.gov/government/legislature/legislators/fifteenthdistrict.php"
+ },
+ "district_maps": {
+  "1": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%201.pdf",
+  "2": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%202.pdf",
+  "3": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%203.pdf",
+  "4": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%204.pdf",
+  "5": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%205.pdf",
+  "6": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%206.pdf",
+  "7": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%207.pdf",
+  "8": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%208.pdf",
+  "9": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%209.pdf",
+  "10": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2010.pdf",
+  "11": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2011.pdf",
+  "12": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2012.pdf",
+  "13": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2013.pdf",
+  "14": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2014.pdf",
+  "15": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2015.pdf"
+ },
+ "address_lookup": "https://vic.ntsdata.com/home/niagara",
+ "results_check": {
+  "elections": [
+   2013,
+   2015,
+   2017,
+   2019,
+   2021,
+   2023
+  ],
+  "district_races_checked": 90,
+  "mismatches": 0,
+  "rule": "the winner of each district's race is the person the roll puts in that seat for the term that followed",
+  "checked_on": "2026-10-30"
+ },
+ "sources": {
+  "county-roster": {
+   "label": "The Niagara County Legislature's roster of legislators (county website)",
+   "short": "county roster page",
+   "url": "https://www.niagaracounty.gov/government/legislature/legislators/index.php",
+   "kind": "county roster page"
+  },
+  "county-district-maps": {
+   "label": "Niagara County Legislature: district maps",
+   "short": "county district maps",
+   "url": "https://www.niagaracounty.gov/government/legislature/district_maps.php",
+   "kind": "county page"
+  },
+  "county-directory-2026": {
+   "label": "2026 Directory of Officials, Niagara County",
+   "short": "county directory, 2026",
+   "url": "https://downloads.niagaracounty.gov/Document_center/Government/County%20Information/website%20roster%202026%20No%20Locals.pdf",
+   "kind": "county directory (PDF)"
+  },
+  "boe-directory-2026": {
+   "label": "Niagara County Board of Elections, Directory of Elected Officials 2026",
+   "short": "Board of Elections directory, 2026",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2026/02/2026-02-06-081212-2026-elected-officials.pdf",
+   "kind": "Board of Elections directory (PDF)"
+  },
+  "boe-directory-2025": {
+   "label": "Niagara County Board of Elections, Directory of Elected Officials 2025",
+   "short": "Board of Elections directory, 2025",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/02/20250206093749-2025-elected-officials.pdf",
+   "kind": "Board of Elections directory (PDF)"
+  },
+  "boe-directory-2024": {
+   "label": "Niagara County Board of Elections, Directory of Elected Officials 2024",
+   "short": "Board of Elections directory, 2024",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2024/05/2024-04-03-Elected-Officials.pdf",
+   "kind": "Board of Elections directory (PDF)"
+  },
+  "boe-ballot-2026": {
+   "label": "Niagara County Board of Elections, General Election ballot order, November 3, 2026 (party names spelled out)",
+   "short": "Board of Elections ballot order, November 2026",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2026/09/20260915163539-ge26-ballot-order-offices-and-candidates-for-november-3-2026.pdf",
+   "kind": "Board of Elections ballot order (PDF)"
+  },
+  "boe-lookup": {
+   "label": "Niagara County Board of Elections, Voter Information Center (polling place and district lookup)",
+   "short": "Board of Elections lookup",
+   "url": "https://vic.ntsdata.com/home/niagara",
+   "kind": "Board of Elections lookup"
+  },
+  "nys-voter-lookup": {
+   "label": "New York State Board of Elections voter lookup (named on the county's district-maps page)",
+   "short": "State voter lookup",
+   "url": "https://voterlookup.elections.ny.gov/",
+   "kind": "State lookup"
+  },
+  "boe-ge13": {
+   "label": "Board of Elections, official results, general election Nov 5, 2013",
+   "short": "Board of Elections results, 2013",
+   "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/racelist.htm",
+   "kind": "Board of Elections results"
+  },
+  "boe-ge15": {
+   "label": "Board of Elections, official results, general election Nov 3, 2015",
+   "short": "Board of Elections results, 2015",
+   "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/racelist.htm",
+   "kind": "Board of Elections results"
+  },
+  "boe-ge17": {
+   "label": "Board of Elections, official results, general election Nov 7, 2017",
+   "short": "Board of Elections results, 2017",
+   "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/racelist.htm",
+   "kind": "Board of Elections results"
+  },
+  "boe-ge19": {
+   "label": "Board of Elections, official results, general election Nov 5, 2019",
+   "short": "Board of Elections results, 2019",
+   "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/racelist.htm",
+   "kind": "Board of Elections results"
+  },
+  "boe-ge21": {
+   "label": "Board of Elections, candidate summary results by party, general election Nov 2, 2021",
+   "short": "Board of Elections results, 2021",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE21_2021-11-02_02-Candidate-Summary-Results-by-Party.pdf",
+   "kind": "Board of Elections results (PDF)"
+  },
+  "boe-ge23": {
+   "label": "Board of Elections, candidate summary results by party, general election Nov 7, 2023",
+   "short": "Board of Elections results, 2023",
+   "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE23-2023-11-07-02-Candidate-Summary-Results-by-Party.pdf",
+   "kind": "Board of Elections results (PDF)"
+  },
+  "min-2015": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2015",
+   "short": "January 2015",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-6-15%20MEETING%20MINUTES.pdf?t=202206071423530",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2016": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2016",
+   "short": "January 2016",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-5-16%20MEETING%20MINUTES.pdf?t=202206071036080",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2017": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2017",
+   "short": "January 2017",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-3-17%20mtg%20min.pdf?t=202206021448110",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2018": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2018",
+   "short": "January 2018",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-18%20MEETING%20MINUTES.pdf?t=202206021138420",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2019": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2019",
+   "short": "January 2019",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-19%20MEETING%20MINUTES.pdf?t=202206011455490",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2020": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2020",
+   "short": "January 2020",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/01-07-20%20PROCEEDINGS%20Meeting%20Minutes.pdf?t=202206011401310",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2021": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2021",
+   "short": "January 2021",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-5-21%20MEETING%20MINUTES.pdf?t=202205201424250",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2022": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2022",
+   "short": "January 2022",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-4-22%20MEETING%20MINUTES.pdf?t=202205201056330",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2023": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2023",
+   "short": "January 2023",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-3-23%20MEETING%20MIN.pdf?t=202301121615500",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2024": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2024",
+   "short": "January 2024",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-2-24%20%20MEETING%20MINUTES.pdf?t=202401031512390",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2025": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2025",
+   "short": "January 2025",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/2025/1-7-25%20Meeting%20Minutes.pdf?t=202501131207280",
+   "kind": "county minutes (PDF)"
+  },
+  "min-2026": {
+   "label": "Niagara County Legislature, organizational meeting minutes, January 2026",
+   "short": "January 2026",
+   "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&%20Minutes/1-6-26%20MEETING%20MINUTES.pdf?t=202601081549440",
+   "kind": "county minutes (PDF)"
+  }
+ },
+ "rolls": {
+  "2015": {
+   "source": "min-2015",
+   "districts": {
+    "1": "Clyde L. Burmaster",
+    "2": "William L. Ross",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Jason A. Zona",
+    "6": "Dennis F. Virtuoso",
+    "7": "Kathryn L. Lance",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "Richard E. Updegrove",
+    "13": "Wm. Keith McNall",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2016": {
+   "source": "min-2016",
+   "districts": {
+    "1": "Clyde L. Burmaster",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Jason A. Zona",
+    "6": "Dennis F. Virtuoso",
+    "7": "Kathryn L. Lance",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Wm. Keith McNall",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2017": {
+   "source": "boe-ge15",
+   "districts": {
+    "1": "Clyde L. Burmaster",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Jason A. Zona",
+    "6": "Dennis F. Virtuoso",
+    "7": "Kathryn L. Lance",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Wm. Keith McNall",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   },
+   "note": "no district roll is printed in the 2017 minutes; the district is read from the Board of Elections' Nov 2015 results (ge15), which name the same fifteen people the January 2017 minutes name"
+  },
+  "2018": {
+   "source": "min-2018",
+   "districts": {
+    "1": "Clyde L. Burmaster",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Jason A. Zona",
+    "6": "Dennis F. Virtuoso",
+    "7": "Kathryn L. Lance",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Wm. Keith McNall",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2019": {
+   "source": "min-2019",
+   "districts": {
+    "1": "Clyde L. Burmaster",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Jason A. Zona",
+    "6": "Dennis F. Virtuoso",
+    "7": null,
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Wm. Keith McNall",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   },
+   "note": "District 7 is printed 'Vacant' on the roll; the minutes record that Jesse P. Gooch was appointed to fill it and sworn in at this same meeting"
+  },
+  "2020": {
+   "source": "min-2020",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Christopher A. Robins",
+    "6": "Dennis F. Virtuoso",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Anita Mullane",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2021": {
+   "source": "min-2021",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Owen T. Steed",
+    "5": "Christopher A. Robins",
+    "6": "Dennis F. Virtuoso",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Anita Mullane",
+    "14": "John Syracuse",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2022": {
+   "source": "min-2022",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Jeffrey Elder",
+    "5": "Christopher A. Robins",
+    "6": "Christopher Voccio",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Richard E. Abbott",
+    "14": "Shawn A. Foti",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2023": {
+   "source": "min-2023",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Mark J. Grozio",
+    "4": "Jeffrey Elder",
+    "5": "Christopher A. Robins",
+    "6": "Christopher Voccio",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "William J. Collins",
+    "13": "Richard E. Abbott",
+    "14": "Shawn A. Foti",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2024": {
+   "source": "min-2024",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Christopher J. McKimmie",
+    "4": "Jeffrey Elder",
+    "5": "Christopher A. Robins",
+    "6": "Christopher Voccio",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "Carla L. Speranza",
+    "13": "Richard E. Abbott",
+    "14": "Shawn A. Foti",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2025": {
+   "source": "min-2025",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Rebecca J. Wydysh",
+    "3": "Christopher J. McKimmie",
+    "4": "Jeffrey Elder",
+    "5": "Christopher A. Robins",
+    "6": "Christopher Voccio",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "Carla L. Speranza",
+    "13": "Richard E. Abbott",
+    "14": "Shawn A. Foti",
+    "15": "Michael A. Hill"
+   }
+  },
+  "2026": {
+   "source": "min-2026",
+   "districts": {
+    "1": "Irene M. Myers",
+    "2": "Michael A. Casale",
+    "3": "Christopher J. McKimmie",
+    "4": "Jeffrey Elder",
+    "5": "Christopher A. Robins",
+    "6": "Sam R. Farruggia II",
+    "7": "Jesse P. Gooch",
+    "8": "Richard L. Andres Jr.",
+    "9": "Randy R. Bradt",
+    "10": "David E. Godfrey",
+    "11": "Anthony J. Nemi",
+    "12": "Carla L. Speranza",
+    "13": "Richard E. Abbott",
+    "14": "Shawn A. Foti",
+    "15": "Michael A. Hill"
+   }
+  }
+ },
+ "members": [
+  {
+   "key": "Myers",
+   "name": "Irene M. Myers",
+   "serving": true,
+   "district": 1,
+   "seats": [
+    {
+     "district": 1,
+     "from": 2020,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Casale",
+   "name": "Michael A. Casale",
+   "serving": true,
+   "district": 2,
+   "seats": [
+    {
+     "district": 2,
+     "from": 2026,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "McKimmie",
+   "name": "Christopher J. McKimmie",
+   "serving": true,
+   "district": 3,
+   "seats": [
+    {
+     "district": 3,
+     "from": 2024,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   },
+   "name_note": "The county's page calls him 'Chris McKimmie'; the directory and the Board of Elections print 'Christopher J. McKimmie'."
+  },
+  {
+   "key": "Elder",
+   "name": "Jeffrey Elder",
+   "serving": true,
+   "district": 4,
+   "seats": [
+    {
+     "district": 4,
+     "from": 2022,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "D",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   },
+   "name_note": "The 2022 minutes print 'Jeffery'; the county and the Board of Elections print 'Jeffrey'."
+  },
+  {
+   "key": "Robins",
+   "name": "Christopher A. Robins",
+   "serving": true,
+   "district": 5,
+   "seats": [
+    {
+     "district": 5,
+     "from": 2020,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "D",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Farruggia",
+   "name": "Sam R. Farruggia II",
+   "serving": true,
+   "district": 6,
+   "seats": [
+    {
+     "district": 6,
+     "from": 2026,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "D",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   },
+   "name_note": "The county's page prints 'Sam Farruggia', the Board of Elections' directory 'Sam R. Farruggia'; the minutes and the county directory print 'Sam R. Farruggia II'."
+  },
+  {
+   "key": "Gooch",
+   "name": "Jesse P. Gooch",
+   "serving": true,
+   "district": 7,
+   "seats": [
+    {
+     "district": 7,
+     "from": 2019,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Andres",
+   "name": "Richard L. Andres, Jr.",
+   "serving": true,
+   "district": 8,
+   "seats": [
+    {
+     "district": 8,
+     "from": 2015,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "boe-ge15",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Bradt",
+   "name": "Randy R. Bradt",
+   "serving": true,
+   "district": 9,
+   "seats": [
+    {
+     "district": 9,
+     "from": 2015,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "boe-ge15",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Godfrey",
+   "name": "David E. Godfrey",
+   "serving": true,
+   "district": 10,
+   "seats": [
+    {
+     "district": 10,
+     "from": 2015,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "boe-ge15",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Nemi",
+   "name": "Anthony J. Nemi",
+   "serving": true,
+   "district": 11,
+   "seats": [
+    {
+     "district": 11,
+     "from": 2015,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "boe-ge15",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Speranza",
+   "name": "Carla L. Speranza",
+   "serving": true,
+   "district": 12,
+   "seats": [
+    {
+     "district": 12,
+     "from": 2024,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "D",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Abbott",
+   "name": "Richard E. Abbott",
+   "serving": true,
+   "district": 13,
+   "seats": [
+    {
+     "district": 13,
+     "from": 2022,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "WOR",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   },
+   "name_note": "The county's page calls him 'Rick Abbott'; the directory and the Board of Elections print 'Richard E. Abbott'.",
+   "party_note": "In the Board of Elections' results for 2021 and 2023 he ran on the Republican, Conservative and Working Families lines."
+  },
+  {
+   "key": "Foti",
+   "name": "Shawn A. Foti",
+   "serving": true,
+   "district": 14,
+   "seats": [
+    {
+     "district": 14,
+     "from": 2022,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Hill",
+   "name": "Michael A. Hill",
+   "serving": true,
+   "district": 15,
+   "seats": [
+    {
+     "district": 15,
+     "from": 2015,
+     "to": null
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2026
+   },
+   "sources": {
+    "name": [
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026",
+     "boe-ge15",
+     "county-directory-2026",
+     "boe-directory-2026"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "min-2026"
+    ],
+    "party": [
+     "boe-directory-2026"
+    ]
+   }
+  },
+  {
+   "key": "Burmaster",
+   "name": "Clyde L. Burmaster",
+   "serving": false,
+   "district": 1,
+   "seats": [
+    {
+     "district": 1,
+     "from": 2015,
+     "to": 2019
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge17"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019"
+    ]
+   }
+  },
+  {
+   "key": "Ross",
+   "name": "William L. Ross",
+   "serving": false,
+   "district": 2,
+   "seats": [
+    {
+     "district": 2,
+     "from": 2015,
+     "to": 2015
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2015",
+     "boe-ge13"
+    ],
+    "district": [
+     "min-2015"
+    ],
+    "years": [
+     "min-2015"
+    ]
+   }
+  },
+  {
+   "key": "Updegrove",
+   "name": "Richard E. Updegrove",
+   "serving": false,
+   "district": 12,
+   "seats": [
+    {
+     "district": 12,
+     "from": 2015,
+     "to": 2015
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2015",
+     "boe-ge13"
+    ],
+    "district": [
+     "min-2015"
+    ],
+    "years": [
+     "min-2015"
+    ]
+   }
+  },
+  {
+   "key": "Lance",
+   "name": "Kathryn L. Lance",
+   "serving": false,
+   "district": 7,
+   "seats": [
+    {
+     "district": 7,
+     "from": 2015,
+     "to": 2018
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge17"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018"
+    ]
+   },
+   "name_note": "The Board of Elections' 2013 and 2015 results print 'Kathryn L Palka-Lance'; the minutes and the 2017 results print 'Kathryn L. Lance'."
+  },
+  {
+   "key": "McNall",
+   "name": "Wm. Keith McNall",
+   "serving": false,
+   "district": 13,
+   "seats": [
+    {
+     "district": 13,
+     "from": 2015,
+     "to": 2019
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2015",
+     "boe-ge13"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019"
+    ]
+   },
+   "name_note": "The Board of Elections' results print 'Wm Keith Mc Nall' (2013, 2015) and 'Wm K Mc Nall' (2017); the minutes print 'Wm. Keith McNall'."
+  },
+  {
+   "key": "Zona",
+   "name": "Jason A. Zona",
+   "serving": false,
+   "district": 5,
+   "seats": [
+    {
+     "district": 5,
+     "from": 2015,
+     "to": 2019
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge17"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019"
+    ]
+   }
+  },
+  {
+   "key": "Grozio",
+   "name": "Mark J. Grozio",
+   "serving": false,
+   "district": 3,
+   "seats": [
+    {
+     "district": 3,
+     "from": 2015,
+     "to": 2023
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge21"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023"
+    ]
+   }
+  },
+  {
+   "key": "Steed",
+   "name": "Owen T. Steed",
+   "serving": false,
+   "district": 4,
+   "seats": [
+    {
+     "district": 4,
+     "from": 2015,
+     "to": 2021
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge21"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021"
+    ]
+   }
+  },
+  {
+   "key": "Virtuoso",
+   "name": "Dennis F. Virtuoso",
+   "serving": false,
+   "district": 6,
+   "seats": [
+    {
+     "district": 6,
+     "from": 2015,
+     "to": 2021
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge19"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021"
+    ]
+   }
+  },
+  {
+   "key": "Syracuse",
+   "name": "John Syracuse",
+   "serving": false,
+   "district": 14,
+   "seats": [
+    {
+     "district": 14,
+     "from": 2015,
+     "to": 2021
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2016",
+     "boe-ge19"
+    ],
+    "district": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2015",
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021"
+    ]
+   }
+  },
+  {
+   "key": "Collins",
+   "name": "William J. Collins, Sr.",
+   "serving": false,
+   "district": 12,
+   "seats": [
+    {
+     "district": 12,
+     "from": 2016,
+     "to": 2023
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "boe-ge23",
+     "min-2016"
+    ],
+    "district": [
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023"
+    ]
+   },
+   "name_note": "The minutes print 'William J. Collins'; the Board of Elections' 2021 and 2023 results print 'William J. Collins, Sr.'."
+  },
+  {
+   "key": "Mullane",
+   "name": "Anita Mullane",
+   "serving": false,
+   "district": 13,
+   "seats": [
+    {
+     "district": 13,
+     "from": 2020,
+     "to": 2021
+    }
+   ],
+   "party": null,
+   "sources": {
+    "name": [
+     "min-2020",
+     "boe-ge21"
+    ],
+    "district": [
+     "min-2020",
+     "min-2021"
+    ],
+    "years": [
+     "min-2020",
+     "min-2021"
+    ]
+   }
+  },
+  {
+   "key": "Wydysh",
+   "name": "Rebecca J. Wydysh",
+   "serving": false,
+   "district": 2,
+   "seats": [
+    {
+     "district": 2,
+     "from": 2016,
+     "to": 2025
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2025
+   },
+   "sources": {
+    "name": [
+     "boe-directory-2024",
+     "boe-directory-2025"
+    ],
+    "district": [
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025",
+     "boe-ge15"
+    ],
+    "years": [
+     "min-2016",
+     "min-2017",
+     "min-2018",
+     "min-2019",
+     "min-2020",
+     "min-2021",
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025"
+    ],
+    "party": [
+     "boe-directory-2025"
+    ]
+   }
+  },
+  {
+   "key": "Voccio",
+   "name": "Christopher P. Voccio",
+   "serving": false,
+   "district": 6,
+   "seats": [
+    {
+     "district": 6,
+     "from": 2022,
+     "to": 2025
+    }
+   ],
+   "party": {
+    "code": "R",
+    "as_of": 2025
+   },
+   "sources": {
+    "name": [
+     "boe-directory-2024",
+     "boe-directory-2025",
+     "boe-ge23"
+    ],
+    "district": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025"
+    ],
+    "years": [
+     "min-2022",
+     "min-2023",
+     "min-2024",
+     "min-2025"
+    ],
+    "party": [
+     "boe-directory-2025"
+    ]
+   },
+   "name_note": "The minutes print 'Christopher Voccio'; the Board of Elections prints 'Christopher P. Voccio'."
+  }
+ ]
+}

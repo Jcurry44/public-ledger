@@ -1,30 +1,30 @@
-member,first_year,last_year,serving_now,readable_meetings,absences,attendance_share_pct,no_votes,no_votes_per_100_voted,sponsored,moved,seconded
-Abbott,2022,2026,yes,66,4,93.9,2,0.07,132,75,13
-Andres,2015,2026,yes,171,14,91.8,3,0.05,225,98,76
-Bradt,2015,2026,yes,171,23,86.5,5,0.09,270,3635,154
-Burmaster,2015,2019,,77,13,83.1,0,0.0,64,33,27
-Casale,2026,2026,yes,10,0,100.0,0,0.0,34,3,3
-Collins,2016,2023,,115,8,93.0,1,0.03,105,39,63
-Elder,2022,2026,yes,66,1,98.5,12,0.4,170,1,565
-Farruggia,2026,2026,yes,10,0,100.0,1,0.19,40,1,1
-Foti,2022,2026,yes,66,8,87.9,1,0.03,143,37,9
-Godfrey,2015,2026,yes,171,17,90.1,3,0.05,226,264,73
-Gooch,2019,2026,yes,110,15,86.4,2,0.05,144,59,25
-Grozio,2015,2023,,133,11,91.7,30,0.76,159,10,163
-Hill,2015,2026,yes,171,44,74.3,2,0.03,139,579,57
-Lance,2015,2018,,61,11,82.0,0,0.0,71,29,41
-McKimmie,2024,2026,yes,38,3,92.1,2,0.11,97,13,10
-McNall,2015,2019,,77,4,94.8,1,0.05,85,15,11
-Mullane,2020,2021,,28,2,92.9,4,0.53,47,2,12
-Myers,2020,2026,yes,94,21,77.7,0,0.0,140,16,62
-Nemi,2015,2026,yes,171,19,88.9,3,0.05,264,228,118
-Robins,2020,2026,yes,94,5,94.7,17,0.45,195,33,2109
-Ross,2015,2015,,18,0,100.0,0,0.0,19,20,9
-Speranza,2024,2026,yes,38,1,97.4,4,0.22,80,0,11
-Steed,2015,2021,,105,18,82.9,19,0.68,133,4,53
-Syracuse,2015,2021,,105,5,95.2,0,0.0,134,167,75
-Updegrove,2015,2015,,18,0,100.0,0,0.0,21,263,12
-Virtuoso,2015,2021,,105,11,89.5,24,0.86,124,71,1861
-Voccio,2022,2025,,56,1,98.2,1,0.04,97,7,6
-Wydysh,2016,2025,,143,5,96.5,0,0.0,182,30,35
-Zona,2015,2019,,77,21,72.7,10,0.49,83,20,98
+member,full_name,district,party,first_year,last_year,serving_now,readable_meetings,absences,attendance_share_pct,no_votes,no_votes_per_100_voted,sponsored,moved,seconded
+Abbott,Richard E. Abbott,13,Working Families,2022,2026,yes,66,4,93.9,2,0.07,132,75,13
+Andres,"Richard L. Andres, Jr.",8,Republican,2015,2026,yes,171,14,91.8,3,0.05,225,98,76
+Bradt,Randy R. Bradt,9,Republican,2015,2026,yes,171,23,86.5,5,0.09,270,3635,154
+Burmaster,Clyde L. Burmaster,1,,2015,2019,,77,13,83.1,0,0.0,64,33,27
+Casale,Michael A. Casale,2,Republican,2026,2026,yes,10,0,100.0,0,0.0,34,3,3
+Collins,"William J. Collins, Sr.",12,,2016,2023,,115,8,93.0,1,0.03,105,39,63
+Elder,Jeffrey Elder,4,Democratic,2022,2026,yes,66,1,98.5,12,0.4,170,1,565
+Farruggia,Sam R. Farruggia II,6,Democratic,2026,2026,yes,10,0,100.0,1,0.19,40,1,1
+Foti,Shawn A. Foti,14,Republican,2022,2026,yes,66,8,87.9,1,0.03,143,37,9
+Godfrey,David E. Godfrey,10,Republican,2015,2026,yes,171,17,90.1,3,0.05,226,264,73
+Gooch,Jesse P. Gooch,7,Republican,2019,2026,yes,110,15,86.4,2,0.05,144,59,25
+Grozio,Mark J. Grozio,3,,2015,2023,,133,11,91.7,30,0.76,159,10,163
+Hill,Michael A. Hill,15,Republican,2015,2026,yes,171,44,74.3,2,0.03,139,579,57
+Lance,Kathryn L. Lance,7,,2015,2018,,61,11,82.0,0,0.0,71,29,41
+McKimmie,Christopher J. McKimmie,3,Republican,2024,2026,yes,38,3,92.1,2,0.11,97,13,10
+McNall,Wm. Keith McNall,13,,2015,2019,,77,4,94.8,1,0.05,85,15,11
+Mullane,Anita Mullane,13,,2020,2021,,28,2,92.9,4,0.53,47,2,12
+Myers,Irene M. Myers,1,Republican,2020,2026,yes,94,21,77.7,0,0.0,140,16,62
+Nemi,Anthony J. Nemi,11,Republican,2015,2026,yes,171,19,88.9,3,0.05,264,228,118
+Robins,Christopher A. Robins,5,Democratic,2020,2026,yes,94,5,94.7,17,0.45,195,33,2109
+Ross,William L. Ross,2,,2015,2015,,18,0,100.0,0,0.0,19,20,9
+Speranza,Carla L. Speranza,12,Democratic,2024,2026,yes,38,1,97.4,4,0.22,80,0,11
+Steed,Owen T. Steed,4,,2015,2021,,105,18,82.9,19,0.68,133,4,53
+Syracuse,John Syracuse,14,,2015,2021,,105,5,95.2,0,0.0,134,167,75
+Updegrove,Richard E. Updegrove,12,,2015,2015,,18,0,100.0,0,0.0,21,263,12
+Virtuoso,Dennis F. Virtuoso,6,,2015,2021,,105,11,89.5,24,0.86,124,71,1861
+Voccio,Christopher P. Voccio,6,Republican,2022,2025,,56,1,98.2,1,0.04,97,7,6
+Wydysh,Rebecca J. Wydysh,2,Republican,2016,2025,,143,5,96.5,0,0.0,182,30,35
+Zona,Jason A. Zona,5,,2015,2019,,77,21,72.7,10,0.49,83,20,98
