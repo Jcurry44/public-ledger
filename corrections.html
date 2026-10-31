@@ -121,7 +121,7 @@ button{cursor:pointer}
 .pl-dateline{--pl-sepw:calc(14px + .22em);display:flex;flex-wrap:wrap;gap:2px var(--pl-sepw);font-size:12.5px;line-height:1.5;color:var(--muted)}
 .pl-dateline>span{position:relative}
 .pl-dateline{justify-content:flex-end;text-align:right;clip-path:inset(-24px -5px -24px -24px)}.pl-dateline>span::before{content:none}.pl-dateline>span::after{content:'·';content:'·' / '';position:absolute;top:0;width:var(--pl-sepw);text-align:center;color:var(--rule-strong);left:100%}
-@media (max-width:1100px){.pl-dateline{justify-content:flex-start;text-align:left;clip-path:inset(-24px -24px -24px -5px)}.pl-dateline>span::after{content:none}.pl-dateline>span::before{content:'·';content:'·' / '';position:absolute;top:0;width:var(--pl-sepw);text-align:center;color:var(--rule-strong);right:100%}}
+@media screen,(max-width:1100px){.pl-dateline{justify-content:flex-start;text-align:left;clip-path:inset(-24px -24px -24px -5px)}.pl-dateline>span::after{content:none}.pl-dateline>span::before{content:'·';content:'·' / '';position:absolute;top:0;width:var(--pl-sepw);text-align:center;color:var(--rule-strong);right:100%}}
 .pl-dateline b{color:var(--ink);font-weight:600}
 .pl-dateline a{color:var(--muted)}
 /* "Follow updates": the Atom feed - in the dateline at >=641px, in the Go-to sheet on a phone (a phone dateline wraps, and a
@@ -139,7 +139,7 @@ button{cursor:pointer}
    segment left by that gap and widen it by the same - its text is right-aligned, so nothing moves - and the masthead keeps
    the width it had. */
 .pl-dateline>.pl-row{flex-basis:100%}
-@media (min-width:1101px){.pl-dateline>.pl-row{margin-left:calc(-1*var(--pl-sepw));flex-basis:calc(100% + var(--pl-sepw))}}
+@media print and (min-width:1101px){.pl-dateline>.pl-row{margin-left:calc(-1*var(--pl-sepw));flex-basis:calc(100% + var(--pl-sepw))}}
 .pl-acts{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .pl-primary{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px;border-radius:9px;
   background:var(--accent);color:var(--card);font-size:12.5px;font-weight:600;text-decoration:none;white-space:nowrap;
@@ -195,21 +195,41 @@ button{cursor:pointer}
   .pl-dest:hover .pl-dg{transform:translateX(3px);color:var(--accent)}
   .pl-dateline a:hover{color:var(--accent)}
 }
-/* the sheet variant: one quiet row for the county family and the deliverables */
-.pl-mast[data-variant="sheet"] .pl-mast-in{align-items:center;padding-block:14px 12px}
-.pl-mast[data-variant="sheet"] .pl-mark{font-size:24px}
-.pl-mast[data-variant="sheet"] .pl-tag{display:none}
-.pl-mast[data-variant="sheet"] .pl-side{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px 16px}
-.pl-mast[data-variant="sheet"] .pl-dateline{font-size:12px}
-.pl-mast[data-variant="sheet"] .pl-acts{flex:1 1 auto}
-/* one minimum height per variant (SYS-03): a page whose dateline wraps grows past it, none renders shorter */
-@media (min-width:641px){
+/* PL-03 (UX audit 2026-10-31): ONE header on every page. On a screen at >=641px no variant changes its shape: the wordmark and the
+   page's chip on the first line with the same actions at its right, the page's meta row (the dateline) under the wordmark, one
+   wordmark size, one 20px gutter that no page's own .wrap can move. (The variants used to give three shapes - a tagline, a meta
+   row over the buttons, a meta row under the logo - and the logo sat at 113px on one page and 133px on the next.) */
+@media screen and (min-width:641px){
+  .pl-mast .pl-mast-in.pl-mast-in{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"brand acts" "meta meta";
+    align-items:center;gap:8px 24px;padding-block:16px 12px;padding-inline:20px}
+  .pl-mast .pl-brand{grid-area:brand;min-width:0}
+  .pl-mast .pl-side{display:contents}
+  .pl-mast .pl-side>.pl-dateline{grid-area:meta;justify-content:flex-start;text-align:left}
+  .pl-mast .pl-acts{grid-area:acts;flex-wrap:nowrap;justify-content:flex-end}
+  .pl-mast .pl-mark{font-size:26px}
+  .pl-mast .pl-tag{display:none}
+}
+/* 641-1100: the actions no longer fit beside the wordmark, so they take their own line under the meta row (the meta row keeps
+   its place under the wordmark at every width) */
+@media screen and (min-width:641px) and (max-width:1100px){
+  .pl-mast .pl-mast-in.pl-mast-in{grid-template-columns:minmax(0,1fr);grid-template-areas:"brand" "meta" "acts"}
+  .pl-mast .pl-acts{justify-content:flex-start;flex-wrap:wrap}
+}
+@media screen and (max-width:640px){.pl-mast .pl-mast-in.pl-mast-in{padding-inline:20px}}
+/* PRINT keeps the variants it was measured with (tools/test_print.py: a brief prints on one sheet with a few px to spare) */
+@media print{
+  .pl-mast[data-variant="sheet"] .pl-mast-in{align-items:center;padding-block:14px 12px}
+  .pl-mast[data-variant="sheet"] .pl-mark{font-size:24px}
+  .pl-mast[data-variant="sheet"] .pl-tag{display:none}
+  .pl-mast[data-variant="sheet"] .pl-side{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px 16px}
+  .pl-mast[data-variant="sheet"] .pl-dateline{font-size:12px}
+  .pl-mast[data-variant="sheet"] .pl-acts{flex:1 1 auto}
+}
+@media print and (min-width:641px){
   .pl-mast[data-variant="folio"] .pl-mast-in{min-height:var(--pl-mast-folio,118px)}
   .pl-mast[data-variant="sheet"] .pl-mast-in{min-height:var(--pl-mast-sheet,100px)}
 }
-/* 641-1100: the side no longer fits beside the brand, so it becomes one ruled
-   line under it - dateline left, actions right - instead of two right-aligned stacks */
-@media (min-width:641px) and (max-width:1100px){
+@media print and (min-width:641px) and (max-width:1100px){
   .pl-mast .pl-side{flex:1 1 100%;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px}
   .pl-mast .pl-dateline{flex:1 1 auto;justify-content:flex-start;text-align:left}
   .pl-mast .pl-acts{flex:1 1 auto}
@@ -728,6 +748,7 @@ st.inert.forEach(function(s){ s.removeAttribute('inert'); });
 if(p[1]==null) st.el.removeAttribute(p[0]); else st.el.setAttribute(p[0],p[1]);
 });
 if(!(o&&o.focus===false)){ var op=st.opener; if(op&&op.focus&&document.documentElement.contains(op)) op.focus(); }
+if(PL.ret&&PL.ret.paint) PL.ret.paint();      
 return true;
 }
 PL._layers=PL._layers||[];
@@ -791,6 +812,7 @@ document.addEventListener('keydown',st.key,true);
 MODAL=st;
 var f0=m.focus ? (typeof m.focus==='string' ? el.querySelector(m.focus) : m.focus) : focusables(el)[0];
 if(f0 && f0.focus) f0.focus();
+if(PL.ret&&PL.ret.paint) PL.ret.paint();      
 return true;
 };
 L.unmodal=release;
@@ -967,8 +989,8 @@ return 16;
 }
 var done=null;
 function paintDone(){
-var on=anyOpen(), phone=window.matchMedia('(max-width:640px)').matches;
-if(on&&phone){
+var on=anyOpen(), phone=window.matchMedia('(max-width:640px)').matches, own=!!document.querySelector('[aria-modal=true][data-pl-foot]');
+if(on&&phone&&!own){
 if(!done){
 done=document.createElement('button'); done.type='button'; done.className='pl-done'; done.textContent='Done'; done.setAttribute('data-pl-keep','');
 done.addEventListener('click',function(){
