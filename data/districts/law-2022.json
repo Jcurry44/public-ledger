@@ -1,0 +1,39 @@
+{
+  "_doc": "Niagara County's legislative districts, as the law draws them: Local Law No. 2 of 2022, the county's reapportionment plan, lists each district as 2020 census blocks (tract, then block numbers). These are the rows of the three districts that cover North Tonawanda (7, 8 and 9), typed from the filed law's pages 2b and 2c exactly as printed: district, city or town, tract, block ranges ('1000-1002 2000-2007' = blocks 1000 to 1002 and 2000 to 2007). Read by tools/build_districts.py, which expands the ranges and checks them against the Census Bureau's own list of the city's blocks: every one of North Tonawanda's 444 blocks must appear exactly once. The other twelve districts are not typed here: no other municipality's roll is on this site.",
+  "_update": "Re-type only when the County adopts a new reapportionment plan (after the 2030 census): its local law replaces this one, and the rows below must be re-read from its pages. The scan's text layer scrambles the rows, so read the page images, never the text layer.",
+  "law": {
+    "title": "Local Law No. 2 of 2022, a local law for the Reapportionment Plan of the County of Niagara, New York",
+    "short": "Local Law No. 2 of 2022",
+    "url": "https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Local%20Laws/LOCAL%20LAW%202%20REAPPORTIONMENT%20PLAN%20OF%20THE%20COUNTY%20OF%20NIAGARA%20NY.pdf?t=202209271138580",
+    "listing": "https://www.niagaracounty.gov/government/legislature/local_laws.php",
+    "passed": "2022-06-21",
+    "certified": "Passed by the Niagara County Legislature on June 21, 2022 and approved by the Chairman of the Legislature the same day; subject to permissive referendum, and no valid petition requesting one was filed as of August 4, 2022 (the law's certification, page 3 of 4).",
+    "pages": "pages 2b and 2c (pages 3 and 4 of the PDF)",
+    "current": "The County's local-laws page lists this law as its reapportionment plan, with no later one through 2026 (checked 2026-10-30)."
+  },
+  "rows": [
+    [7, "North Tonawanda", "022902", "1000-1002 2000-2007 2009-2015", "2b"],
+    [7, "North Tonawanda", "024600", "2001-2002", "2b"],
+    [7, "Wheatfield", "022713", "1000-1012 2000-2008", "2b"],
+    [7, "Wheatfield", "022714", "1011-1016 3000-3001 3005-3014", "2b"],
+    [7, "Wheatfield", "022716", "1000-1002 1004-1022 2000-2022", "2b"],
+    [7, "Wheatfield", "022717", "1001-1008 2003 2005-2015", "2b"],
+    [8, "North Tonawanda", "022901", "1008-1011 1013-1016 2000-2002 2004-2021", "2c"],
+    [8, "North Tonawanda", "022902", "2008", "2c"],
+    [8, "North Tonawanda", "023001", "1000-1037", "2c"],
+    [8, "North Tonawanda", "023100", "1000-1011 2000-2036", "2c"],
+    [8, "North Tonawanda", "023200", "1000-1026 2000-2017 3000-3033", "2c"],
+    [8, "North Tonawanda", "023301", "2005 2008 2011-2012 2016-2020", "2c"],
+    [8, "North Tonawanda", "023302", "1000-1024 2001-2030", "2c"],
+    [8, "North Tonawanda", "024600", "3005-3010 3012-3021", "2c"],
+    [8, "Wheatfield", "022901", "2003", "2c"],
+    [9, "North Tonawanda", "022803", "1000-1016 2000-2026", "2c"],
+    [9, "North Tonawanda", "022804", "1000-1025 2000-2024", "2c"],
+    [9, "North Tonawanda", "022901", "1000-1007 1012", "2c"],
+    [9, "North Tonawanda", "022902", "1003-1007", "2c"],
+    [9, "North Tonawanda", "023301", "1000-1002 2000-2004 2006-2007 2009-2010 2013-2015 2021", "2c"],
+    [9, "North Tonawanda", "023302", "2000", "2c"],
+    [9, "North Tonawanda", "024600", "1000-1014 2000 3000-3004 3011", "2c"]
+  ],
+  "typed": "2026-10-30, from the page images at 260 dpi; checked against the Census Bureau's 2020 block assignment file: the North Tonawanda rows name all 444 of the city's blocks, each once, and no block that does not exist. A second check: the rows' 2020 populations (the Census Bureau's POP100 for each block, TIGERweb) sum to 14,095 for District 7, 14,039 for District 8 and 14,084 for District 9, three near-equal districts, as a reapportionment plan draws them."
+}
