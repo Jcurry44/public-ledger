@@ -3,18 +3,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Every resolution — Niagara County Legislature, 2015–2026 | Public Ledger</title>
-<meta name="description" content="Every resolution on the Niagara County Legislature's agendas, 2015–2026: who moved it, who voted no, and what it authorized - parsed from the county's own meeting records.">
+<meta name="description" content="6,105 Niagara County Legislature resolutions, 2015–2026: who moved each, who voted no and what it authorized. From the county’s own minutes.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Public Ledger">
 <meta property="og:title" content="Every resolution - Niagara County Legislature">
-<meta property="og:description" content="6,105 resolutions, every recorded vote, every dollar mentioned - parsed from the county's own minutes, 2015-2026. A spending limit is permission, not a payment.">
+<meta property="og:description" content="6,105 resolutions, every recorded vote, every dollar mentioned, from the county’s own minutes, 2015–2026. A spending limit is permission, not a payment.">
 <meta property="og:url" content="https://jcurry44.github.io/public-ledger/decisions.html">
 <meta property="og:image" content="https://jcurry44.github.io/public-ledger/og-decisions.png?v=1034abcd">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Every resolution - Niagara County Legislature">
-<meta name="twitter:description" content="6,105 resolutions, every recorded vote, every dollar mentioned - parsed from the county's own minutes, 2015-2026. A spending limit is permission, not a payment.">
+<meta name="twitter:description" content="6,105 resolutions, every recorded vote, every dollar mentioned, from the county’s own minutes, 2015–2026. A spending limit is permission, not a payment.">
 <meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og-decisions.png?v=1034abcd">
 <meta property="og:image:alt" content="Share card: the Niagara County Legislature's meeting of Sept 22, 2026 - votes matched: 95 of 98; had a no vote: none; largest revenue: $2,591,533. Behind it, 6,105 resolutions from 183 meetings, 6 meetings with no readable resolutions, 2015-2026, 5,787 matched to a recorded vote. A spending limit is permission, not a payment.">
 <meta name="twitter:image:alt" content="Share card: the Niagara County Legislature's meeting of Sept 22, 2026 - votes matched: 95 of 98; had a no vote: none; largest revenue: $2,591,533. Behind it, 6,105 resolutions from 183 meetings, 6 meetings with no readable resolutions, 2015-2026, 5,787 matched to a recorded vote. A spending limit is permission, not a payment.">
@@ -99,6 +99,9 @@ button{cursor:pointer}
    the VERTICAL padding is the chrome's own and is written as padding-block at
    (0,2,0) so a later `.wrap{padding:0 20px}` cannot zero it. */
 :where(.pl-mast-in){max-width:var(--pl-dash,1180px);margin:0 auto;padding-inline:20px}
+/* PL-29 (Fable UX audit 2026-10-30): the masthead sits on the one wide grid on EVERY page - a reading page's .wrap (880) and a wide page's
+   (1320) narrow or widen their body only - so the logo never moves between pages (113px at 1366 everywhere) */
+.pl-mast .pl-mast-in.pl-mast-in{max-width:var(--pl-dash,1180px);margin-inline:auto}
 .pl-mast .pl-mast-in{display:flex;align-items:flex-end;justify-content:space-between;gap:14px 24px;flex-wrap:wrap;padding-block:22px 16px}
 .pl-brand{min-width:0;flex:1 1 380px}
 .pl-brandrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -321,12 +324,16 @@ button{cursor:pointer}
    pointer conveniences (aria-hidden, out of the Tab order): keyboard focus moves along the links, and scroll-padding keeps the
    focused tab clear of them. ---------- */
 .rail .rail-in{scroll-padding-inline:48px}
-.rail .rail-in.pl-ovr{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 44px),transparent)}
-.rail .rail-in.pl-ovl{-webkit-mask-image:linear-gradient(270deg,#000 calc(100% - 44px),transparent);
-  mask-image:linear-gradient(270deg,#000 calc(100% - 44px),transparent)}
-.rail .rail-in.pl-ovl.pl-ovr{-webkit-mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 44px,#000 calc(100% - 44px),transparent)}
+/* --pl-fe / --pl-fs (RAIL sets them): where the first tab that does not fit begins, and where the last one cut on the left ends - the
+   fade falls between tabs, so a tab in view is whole and the next one is a faint ghost, never 'Bu' */
+.rail .rail-in.pl-ovr{-webkit-mask-image:linear-gradient(90deg,#000 calc(var(--pl-fe,100%) - 6px),transparent calc(var(--pl-fe,100%) + 30px));
+  mask-image:linear-gradient(90deg,#000 calc(var(--pl-fe,100%) - 6px),transparent calc(var(--pl-fe,100%) + 30px))}
+.rail .rail-in.pl-ovl{-webkit-mask-image:linear-gradient(90deg,transparent calc(var(--pl-fs,0px) - 30px),#000 calc(var(--pl-fs,0px) + 6px));
+  mask-image:linear-gradient(90deg,transparent calc(var(--pl-fs,0px) - 30px),#000 calc(var(--pl-fs,0px) + 6px))}
+.rail .rail-in.pl-ovl.pl-ovr{-webkit-mask-image:linear-gradient(90deg,transparent calc(var(--pl-fs,0px) - 30px),#000 calc(var(--pl-fs,0px) + 6px),
+    #000 calc(var(--pl-fe,100%) - 6px),transparent calc(var(--pl-fe,100%) + 30px));
+  mask-image:linear-gradient(90deg,transparent calc(var(--pl-fs,0px) - 30px),#000 calc(var(--pl-fs,0px) + 6px),
+    #000 calc(var(--pl-fe,100%) - 6px),transparent calc(var(--pl-fe,100%) + 30px))}
 .pl-rmore{position:absolute;z-index:3;display:none;align-items:center;justify-content:center;width:40px;margin:0;padding:0;border:0;
   background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
 @media (hover:hover) and (pointer:fine){
@@ -1166,7 +1173,7 @@ mark.vxm{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inher
 </head><body>
 <div class="folio">
 
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="folio"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">Every resolution</span></div><p class="pl-tag">Every resolution the Niagara County Legislature has voted on, parsed from its own published agendas and minutes.</p></div><div class="pl-side"><div class="pl-dateline"><span>Votes read through <b>Sept 22</b></span><span><b>Oct 20</b> agenda posted</span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>Votes read through <b>Sept 22</b></span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="#register" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Look up any vote</a><a class="pl-searchbtn" href="#register" data-focus="q" aria-label="Look up any vote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Every resolution</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="#register" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Look up any vote</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual filings</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html" aria-current="page"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed · every correction so far</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span>Votes read through <b>Sept 22</b></span><span><b>Oct 20</b> agenda posted</span><span><span data-pl-built="2026-10-30" data-pl-short="updated">updated <b>Oct 30</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="folio"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">Every resolution</span></div><p class="pl-tag">Every resolution the Niagara County Legislature has voted on, parsed from its own published agendas and minutes.</p></div><div class="pl-side"><div class="pl-dateline"><span>Votes read through <b>Sept 22</b></span><span><b>Oct 20</b> agenda posted</span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span><span class="pl-dk"><a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>Votes read through <b>Sept 22</b></span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="#register" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Look up any vote</a><a class="pl-searchbtn" href="#register" data-focus="q" aria-label="Look up any vote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">Every resolution</span><button class="pl-close" type="button" aria-label="Close">&#10005;</button></div><a class="pl-sheet-primary" href="#register" data-focus="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Look up any vote</a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-money">Follow the money<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-money" role="group" aria-label="Follow the money"><div class="pl-kick">Follow the money</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda · filings 1995–2024 · claims through Oct 20</span></a><a class="pl-dest" href="index.html#explore"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines · 1,118 payees · search by payee, account or PO</span></a><a class="pl-dest" href="index.html#taxes"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home · published rates, not a quote</span></a><a class="pl-dest" href="m/city-north-tonawanda.html"><span class="pl-dl">North Tonawanda annual filings</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the City's annual state filings · beside every city, town and village in the county</span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County · filings 1995–2025</span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages · each from its own filings</span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers · towns, villages and cities, each from its own filings</span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District · FY2026</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-vote">Check a vote<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-vote" role="group" aria-label="Check a vote"><div class="pl-kick">Check a vote</div><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">2 questions · Nov 3 election · what each costs a home</span></a><a class="pl-dest" href="decisions.html" aria-current="page"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions · 183 meetings · latest Oct 20</span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record · votes since 2015</span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-books">Check the books<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-books" role="group" aria-label="Check the books"><div class="pl-kick">Check the books</div><a class="pl-dest" href="index.html#recon"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny · 6 read by OCR from scans</span></a><a class="pl-dest" href="index.html#limits"><span class="pl-dl">What this cannot show</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what a claims register cannot answer, named</span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings · independent, from the public record</span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants · one printable page each</span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed · every correction so far</span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span>Votes read through <b>Sept 22</b></span><span><b>Oct 20</b> agenda posted</span><span><span data-pl-built="2026-10-31" data-pl-short="updated">updated <b>Oct 31</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="updates.xml"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Atom feed: each new warrant and county meeting</span></a><a class="pl-dest" href="index.html#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-controls="plSwitch" aria-label="Menu: go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 
 
@@ -1275,7 +1282,7 @@ mark.vxm{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inher
 <section class="contested" id="contested"><div class="wrap">
   <p class="pl-kick">The exceptions &middot; every no vote on record</p>
   <h2 class="pl-h2">Votes with a no</h2>
-  <p class="pl-sub">Titles are the county&rsquo;s own wording, as printed on its agendas.</p>
+  <p class="pl-sub">Titles are the county&rsquo;s own wording, as printed on its agendas. Where the printing ran two words together, the space is put back and the record shows what was printed.</p>
   <p class="pl-sub">12 years and 6,105 resolutions produced <b>104</b> that had a no vote, <b>45</b> of which failed. Newest first &mdash; the bar shows
   the ayes (solid) against the no votes (outlined); the printed tally beside it is the record.</p>
   <p class="pl-sub cposnote" id="contPosNote" aria-live="polite">9 statements of position (a stance, not spending or law) are under their own filter.</p>
@@ -1353,7 +1360,7 @@ mark.vxm{background:color-mix(in srgb,var(--accent) 22%,transparent);color:inher
 <footer class="pl-foot wrap" id="about">
 <p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="index.html">City money</a><a href="county.html">County money</a><a href="legislators.html">The legislators</a><a href="atlas.html">The county map</a><a href="ballot.html">On the ballot</a></p>
 <p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Every figure links to its source &mdash; <a class="pl-correct" href="corrections.html" data-pl-correct>Report a correction</a>. <a class="pl-fol" href="updates.xml" title="Atom feed: each new warrant and county meeting, newest first"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span><span class="pl-vh"> (Atom feed)</span></a></p>
-<p class="pl-foot-u">Updated <b>Oct 30</b></p>
+<p class="pl-foot-u">Updated <b>Oct 31</b></p>
 </footer>
 
 </div><!-- /folio -->
@@ -1791,7 +1798,7 @@ PL.tip=function(){
   function newKey(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
   function cur(){ var s=H.state; return s&&typeof s==='object'?s:{}; }
   function merge(s,x){ var n={},k; if(s&&typeof s==='object'){ for(k in s) n[k]=s[k]; } else if(s!=null) n.plv=s; for(k in x){ if(x[k]!=null) n[k]=x[k]; } return n; }
-  var rawPush=H.pushState, rawReplace=H.replaceState, keepFn=null, labelFn=null, settling=false, chip=null, last=null;
+  var rawPush=H.pushState, rawReplace=H.replaceState, keepFn=null, labelFn=null, settling=false, chip=null, band=null, room=null, last=null;
   function anyOpen(){ var a=PL._layers||[], i; for(i=0;i<a.length;i++){ if(a[i].pushed) return true; try{ if(a[i].o.isOpen&&a[i].o.isOpen()) return true; }catch(e){} } return false; }
   H.replaceState=function(s,t,u){ var c=cur(); return rawReplace.call(H,merge(s,{plk:c.plk,pld:c.pld,plf:c.plf,plb:c.plb,plj:c.plj,plview:c.plview}),t,u); };
   H.pushState=function(s,t,u){ var c=cur(); save(); var r=rawPush.call(H,merge(s,{plk:newKey(),pld:(c.pld||0)+1,plf:c.plf,plb:c.plb}),t,u); last=cur(); paint(); return r; };
@@ -1935,19 +1942,23 @@ PL.tip=function(){
       if(!f&&!j) return;
       chip=document.createElement('button'); chip.type='button'; chip.className='pl-ret-chip'; chip.setAttribute('data-pl-keep','');
       chip.addEventListener('click',back);
-      document.body.appendChild(chip);
+      /* PL-24: the pill's own band at the foot of the screen, and the same room at the end of the page */
+      band=document.createElement('div'); band.className='pl-ret-band'; band.setAttribute('aria-hidden','true'); band.setAttribute('data-pl-keep','');
+      room=document.createElement('div'); room.className='pl-ret-room'; room.setAttribute('aria-hidden','true'); room.setAttribute('data-pl-keep','');
+      document.body.appendChild(room); document.body.appendChild(band); document.body.appendChild(chip);
     }
     if(pv){ chip.textContent='← Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
     else if(j){ chip.textContent=(s.plj<window.scrollY?'↑':'↓')+' Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
     else if(f){ chip.textContent='← Back to '+f.l; chip.setAttribute('aria-label','Back to '+f.l+', where you were'); }
     chip.hidden=(!f&&!j)||anyOpen();
-    if(!chip.hidden) chip.style.bottom='calc('+lift()+'px + env(safe-area-inset-bottom))';
+    if(band){ band.hidden=chip.hidden; room.hidden=chip.hidden; }
+    if(!chip.hidden){ var lf=lift(); chip.style.bottom='calc('+lf+'px + env(safe-area-inset-bottom))'; if(band) band.style.bottom=Math.max(0,lf-16)+'px'; }
   }
   /* clear of whatever the page pins to the bottom of a phone (the front page's section pager): the chip rides above it */
   function lift(){
     var y=window.innerHeight-24, es=document.elementsFromPoint?document.elementsFromPoint(32,y):[], i, n, cs, r;
     for(i=0;i<es.length;i++){
-      if(es[i]===chip||es[i]===done) continue;
+      if(es[i]===chip||es[i]===done||es[i]===band) continue;
       for(n=es[i];n&&n!==document.body&&n!==document.documentElement;n=n.parentElement){
         cs=getComputedStyle(n);
         if(cs.position==='fixed'||cs.position==='sticky'){ r=n.getBoundingClientRect(); return r.top>window.innerHeight*0.5?Math.round(window.innerHeight-r.top)+12:16; }
@@ -2031,7 +2042,12 @@ PL.tip=function(){
     +'.pl-done{left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));min-width:132px;height:48px;font-size:15px}'
     +'.pl-ret-chip[hidden],.pl-done[hidden]{display:none}.pl-ret-chip:focus-visible,.pl-done:focus-visible{outline:2px solid var(--accent,#9a3b1b);outline-offset:2px}'
     +'.pl-under{position:absolute;left:0;right:0;z-index:59;pointer-events:none}.pl-under[hidden]{display:none}'
-    +'@media print{.pl-ret-chip,.pl-done,.pl-under{display:none!important}}';
+    /* PL-24: the pill's band (76px = 16 + the 44px pill + 16) and the matching room at the end of the page */
+    +'.pl-ret-band{position:fixed;left:0;right:0;bottom:0;z-index:2147482999;height:calc(76px + env(safe-area-inset-bottom));'
+    +'background:var(--paper,#fbf8f1);border-top:1px solid var(--rule,rgba(0,0,0,.12));box-shadow:0 -10px 24px -18px rgba(20,18,10,.45)}'
+    +'.pl-ret-room{height:calc(76px + env(safe-area-inset-bottom))}.pl-ret-band[hidden],.pl-ret-room[hidden]{display:none}'
+    +'@media (min-width:1220px){.pl-ret-chip{left:calc(50vw - 570px)}}'
+    +'@media print{.pl-ret-chip,.pl-done,.pl-under,.pl-ret-band,.pl-ret-room{display:none!important}}';
   (document.head||document.documentElement).appendChild(css);
   window.addEventListener('resize',function(){ paint(); queueUnder(); });
   window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
@@ -2079,15 +2095,16 @@ PL.tip=function(){
    states = any array; paint(probe, state) writes that state's text into the clone. */
 PL.fitMin=function(el,states,paint){
   if(!el) return 0;
-  var cs=getComputedStyle(el), probe=el.cloneNode(true);
-  probe.removeAttribute('id'); probe.removeAttribute('style');
-  [].forEach.call(probe.querySelectorAll('[id]'),function(e){e.removeAttribute('id');});
-  probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;min-height:0;height:auto;'+
+  var cs=getComputedStyle(el), base=el.cloneNode(true), probes=[], frag=document.createDocumentFragment(), mx=0;
+  base.removeAttribute('id'); base.removeAttribute('style');
+  [].forEach.call(base.querySelectorAll('[id]'),function(e){e.removeAttribute('id');});
+  var css='position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;min-height:0;height:auto;'+
     'width:'+el.getBoundingClientRect().width+'px;padding:'+cs.padding+';border-width:'+cs.borderWidth;
-  el.parentNode.appendChild(probe);
-  var mx=0;
-  states.forEach(function(s){ paint(probe,s); mx=Math.max(mx,probe.getBoundingClientRect().height); });
-  probe.parentNode.removeChild(probe);
+  /* PL-19: write every state first (detached), insert them together, then read: ONE layout pass, not one per state */
+  states.forEach(function(s){ var p=base.cloneNode(true); p.style.cssText=css; paint(p,s); probes.push(p); frag.appendChild(p); });
+  el.parentNode.appendChild(frag);
+  probes.forEach(function(p){ mx=Math.max(mx,p.getBoundingClientRect().height); });
+  probes.forEach(function(p){ p.parentNode.removeChild(p); });
   el.style.minHeight=Math.ceil(mx)+'px';
   return mx;
 };
@@ -2207,8 +2224,8 @@ function moneyShort(v){
   if(s.indexOf('.')>=0) s=s.replace(/0+$/,'').replace(/\.$/,'');
   return '$'+s+'M';
 }
-var PT_ACR={"SAMHSA":1,"HRA":1,"IDA":1,"NY":1,"NYS":1,"NYSDOT":1,"DOT":1,"EMS":1,"DPW":1,"CSEA":1,"PBA":1,"FEMA":1,"HUD":1,"DSS":1,"SOC":1,"LLC":1,"USA":1,"COVID":1,"FY":1,"MH":1,"II":1,"III":1,"IV":1,"HVAC":1,"NCCC":1,"DA":1,"WNY":1,"COE":1,"OFA":1,"COLA":1,"RFP":1,"HR":1,"DWI":1,"YMCA":1,"SHSP":1,"OASAS":1,"EMPG":1,"BOCES":1,"CHA":1,"SEQRA":1,"GIS":1,"ADA":1,"SUNY":1,"EPA":1,"USEPA":1,"DMV":1,"DOJ":1,"CDC":1,"CSX":1,"OMH":1,"HMEP":1,"CRTF":1,"BJA":1,"DBA":1,"NIMAC":1,"SYEP":1,"TRT":1,"FIFI":1,"NACC":1,"AFL":1,"CIO":1,"BCS":1,"ELC":1,"MCP":1,"RETI":1,"BIP":1,"REDI":1}, PT_PL={"niagara":"Niagara","lockport":"Lockport","tonawanda":"Tonawanda","wheatfield":"Wheatfield","lewiston":"Lewiston","newfane":"Newfane","porter":"Porter","royalton":"Royalton","somerset":"Somerset","wilson":"Wilson","pendleton":"Pendleton","hartland":"Hartland","cambria":"Cambria","barker":"Barker","olcott":"Olcott","youngstown":"Youngstown","ransomville":"Ransomville","erie":"Erie","buffalo":"Buffalo","albany":"Albany","cuomo":"Cuomo","hochul":"Hochul","trott":"Trott","krull":"Krull","inc":"Inc"}, PT_STOP={"the":1,"of":1,"a":1,"an":1,"and":1,"or":1,"for":1,"to":1,"in":1,"on":1,"at":1,"by":1,"with":1,"from":1,"over":1,"into":1,"new":1,"other":1,"local":1,"that":1,"this":1,"all":1,"any":1,"each":1,"no":1,"as":1,"be":1,"is":1,"its":1,"it":1};
-function plainTitle(t){
+var PT_ACR={"SAMHSA":1,"HRA":1,"IDA":1,"NY":1,"NYS":1,"NYSDOT":1,"DOT":1,"EMS":1,"DPW":1,"CSEA":1,"PBA":1,"FEMA":1,"HUD":1,"DSS":1,"SOC":1,"LLC":1,"USA":1,"COVID":1,"FY":1,"MH":1,"II":1,"III":1,"IV":1,"HVAC":1,"NCCC":1,"DA":1,"WNY":1,"COE":1,"OFA":1,"COLA":1,"RFP":1,"HR":1,"DWI":1,"YMCA":1,"SHSP":1,"OASAS":1,"EMPG":1,"BOCES":1,"CHA":1,"SEQRA":1,"GIS":1,"ADA":1,"SUNY":1,"EPA":1,"USEPA":1,"DMV":1,"DOJ":1,"CDC":1,"CSX":1,"OMH":1,"HMEP":1,"CRTF":1,"BJA":1,"DBA":1,"NIMAC":1,"SYEP":1,"TRT":1,"FIFI":1,"NACC":1,"AFL":1,"CIO":1,"BCS":1,"ELC":1,"MCP":1,"RETI":1,"BIP":1,"REDI":1}, PT_PL={"niagara":"Niagara","lockport":"Lockport","tonawanda":"Tonawanda","wheatfield":"Wheatfield","lewiston":"Lewiston","newfane":"Newfane","porter":"Porter","royalton":"Royalton","somerset":"Somerset","wilson":"Wilson","pendleton":"Pendleton","hartland":"Hartland","cambria":"Cambria","barker":"Barker","olcott":"Olcott","youngstown":"Youngstown","ransomville":"Ransomville","erie":"Erie","buffalo":"Buffalo","albany":"Albany","cuomo":"Cuomo","hochul":"Hochul","trott":"Trott","krull":"Krull","inc":"Inc"}, PT_STOP={"the":1,"of":1,"a":1,"an":1,"and":1,"or":1,"for":1,"to":1,"in":1,"on":1,"at":1,"by":1,"with":1,"from":1,"over":1,"into":1,"new":1,"other":1,"local":1,"that":1,"this":1,"all":1,"any":1,"each":1,"no":1,"as":1,"be":1,"is":1,"its":1,"it":1}, TIDY_NOUNS=["Modification", "Amendment", "Project", "Division", "Creek", "Sheriff", "Replacement", "Preparation", "Grant", "Team", "Upgrade", "Roof"];
+function plainTitle0(t){
   var out=t.replace(/\s+[-\u2013\u2014]\s*$/,''), L=out.replace(/[^A-Za-z]/g,'');
   if(!L.length||L.replace(/[^A-Z]/g,'').length/L.length<=0.6) return out;
   var s=out.toLowerCase().replace(/[a-z]+(?:['\u2019][a-z]+)*/g,function(w){var u=w.toUpperCase(); return PT_ACR[u]?u:(PT_PL.hasOwnProperty(w)?PT_PL[w]:w);});
@@ -2217,6 +2234,13 @@ function plainTitle(t){
     .replace(/\bnew York\b/g,'New York').replace(/\bnorth Tonawanda\b/g,'North Tonawanda').replace(/\bno\.(?=\s*\d)/g,'No.');
   return s.charAt(0).toUpperCase()+s.slice(1);
 }
+/* PL-30: the spacing the county's source ran together, put back - the build's tidy_title (the same four rules, the same noun list); only a
+   space is ever added. plainTitle0 is the shared sentence case alone: a title the register changed here (r._tc) says what the county printed. */
+var TIDY_RE=[[/\bof((?:19|20)\d{2})\b/g,'of $1'],[/(\d)of((?:19|20)\d{2})\b/g,'$1 of $2'],[/\bOf(?=[A-Z][a-z]{3,})/g,'Of '],
+  [/\b((?:19|20)\d{2})(?=[A-Z][a-z]{2,})/g,'$1 '],[new RegExp('(^|[^A-Za-z])('+TIDY_NOUNS.join('|')+')(?=[A-Z][a-z]{2,})','g'),'$1$2 '],
+  [/(^|[^A-Za-z])Order(?=No\b)/g,'$1Order ']];
+function tidyTitle(t){ for(var k=0;k<2;k++) for(var i=0;i<TIDY_RE.length;i++) t=t.replace(TIDY_RE[i][0],TIDY_RE[i][1]); return t; }
+function plainTitle(t){ return tidyTitle(plainTitle0(t)); }
 
 var MON=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];   /* the house month table (C.MONTHS_SHORT) */
 var TIP=PL.tip();
@@ -2318,6 +2342,7 @@ function decorate(r){
   r._x=(r.am||[]).map(function(a){return a[2]||'';}).join(' ‖ ').toLowerCase();
   r._n=(r.id+' '+r.title+' '+(r.cms||'')+' '+(v.mover||'')+' '+(v.second||'')+' '+
     (v.no_names||[]).join(' ')+' '+(v.abs_names||[]).join(' ')+' '+(r.sp||[]).join(' ')).toLowerCase();
+  ptitle(r); if(r._tc) r._n+=' '+r._pt.toLowerCase();                  /* PL-30: the title as the page shows it is searchable too */
   if(r.vx&&r.vx.length) r._n+=' '+r.vx.join(' ').toLowerCase();
   r._s=r._n+' '+r._x;
   var ids=(r.rescinds||[]).filter(function(i){return i!==r.id;});
@@ -2662,7 +2687,7 @@ function vxKeysFor(r){
 function matchHow(r,q){
   var v=r.vote||{}, i;
   function has(n){return n&&n.toLowerCase().indexOf(q)>=0;}
-  var ti=(r.id+' '+r.title).toLowerCase().indexOf(q);
+  var ti=(r.id+' '+r.title+' '+ptitle(r)).toLowerCase().indexOf(q);
   if(ti>=0){
     /* a plain hit in the title: mark it (an id hit marks nothing - the id is already the first thing on the row) */
     var pt=ptitle(r), tt=pt.toLowerCase().indexOf(q);
@@ -2728,7 +2753,7 @@ function rowHTML(r,i,pool,gm){
     '<div class="rtop" tabindex="0" role="button" aria-haspopup="dialog" aria-labelledby="'+pid+'i '+pid+'t" aria-describedby="'+pid+'b '+pid+'d">'+
       '<span class="rid num" id="'+pid+'i">'+r.id+'</span>'+
       '<span class="'+byCls(r)+'" id="'+pid+'b" title="'+esc(r.sp&&r.sp.length?'Sponsored by '+r.sp.join(', '):(CM[r.cm]||r.cm)+' committee')+'">'+byHTML(r,!pool)+'</span>'+
-      '<span class="rtitle" id="'+pid+'t">'+(mh.title||esc(ptitle(r)))+'</span>'+
+      '<span class="rtitle" id="'+pid+'t"'+(ptitle(r)&&r._tc?' title="'+esc('As printed: '+r.title)+'"':'')+'>'+(mh.title||esc(ptitle(r)))+'</span>'+
       '<span class="rbadges" id="'+pid+'d">'+(why?'<span class="mwhy'+(mh.long?' long':'')+'">'+why+'</span>':'')+
         split+amtBadge(r,mh.viaText)+(RESCBY[r.id]?'<span class="rsc" title="Rescinded by '+RESCBY[r.id]+'">rescinded</span>':'')+voteBadge(r)+'</span>'+
     '</div></div>';
@@ -2763,7 +2788,12 @@ function groupHTML(d,rows,open){
    move, so closing it (Done, X, Esc, a tap outside, Back) lands the reader exactly where they were. */
 var KINDP={cap:'Spending limit (up to)',awd:'Contract awarded',bid:'Bids received (includes losing bids)',rev:'Revenue accepted'};
 var KINDX={cap:'spending limit',awd:'award',bid:'bid',rev:'revenue',inc:'budget +',dec:'budget −',ret:'returned',chg:'contract change',tot:'revised contract total'};
-function ptitle(r){ return r._pt||(r._pt=plainTitle(r.title)); }
+function ptitle(r){
+  if(r._pt===undefined){ var p=plainTitle0(r.title); r._pt=tidyTitle(p); r._tc=r._pt!==p; }     /* _tc: the register put a space back in this title (PL-30) */
+  return r._pt;
+}
+/* PL-30: where the register put a space back, the sheet says what the county printed (the build's as_printed_html says the same on the poster's sheet) */
+function printedNote(r){ ptitle(r); return r._tc?'<p class="rsq">As printed: <i>'+esc(r.title)+'</i></p>':''; }
 function dollarN(s){ var m=String(s).match(/\$/g); return m?m.length:0; }
 /* a plain ink row with no chevron (the vote, the amount): label, optional sub-line, value */
 function roRow(l,v,s){
@@ -2898,7 +2928,7 @@ function pkUrl(r){
 /* the sheet's content, top to bottom (the kicker is the sheet's own head): title, vote, amount, who, notes, quoted amounts, series, links, buttons */
 function recSheetHTML(r){
   var v=r.vote, h='', fut=r.date>TODAY, rf=rankFig(r);
-  h+='<h2 class="pl-h2" id="rsTitle">'+esc(ptitle(r))+'</h2>';
+  h+='<h2 class="pl-h2" id="rsTitle">'+esc(ptitle(r))+'</h2>'+printedNote(r);
   h+='<div class="pl-rows">'+recVoteRow(r)+(rf?roRow(KINDP[rf.k],money0(rf.v),rf.k==='cap'?'Permission to spend, not a payment':''):coRow(r))+'</div>';
   h+=consequenceLine(r);
   var who=[];
@@ -3483,7 +3513,7 @@ function yearOpenSVG(y,rs,s,inPool,W){
   picks.forEach(function(p){
     var r=p.r, v=r.vote, tail=' — '+(isFailed(r)?'rejected':'had a no vote')+' '+v.ayes+'–'+v.noes;
     var budget=Math.max(24,Math.min(84,Math.floor((W-8)/6.7)-r.id.length-1-tail.length));
-    var txt=r.id+' '+cutw(r.title,budget)+tail;
+    var txt=r.id+' '+cutw(tidyTitle(r.title),budget)+tail;
     var w=6.7*txt.length, xa=(p.x+w<W-4)?p.x-6:Math.max(0,p.x+6-w);
     var lvl=0; for(var k=0;k<3;k++){ if(xa>levels[k]+10){lvl=k;break;} lvl=2; }
     levels[lvl]=xa+w;
@@ -3631,7 +3661,7 @@ function tickInfo(r){
   var v=r.vote, vt;
   if(v) vt=v.ayes+'–'+v.noes+(v.absent?' ('+v.absent+' abs)':'')+(isFailed(r)?' · rejected':(v.noes>0?' · had a no vote':''));
   else vt=(r.date>TODAY||(R.mstat||{})[r.date]==='none')?'votes not read yet':'no vote matched';
-  return '<b class="num">'+esc(r.id)+'</b> · '+(r.title?esc(cutw(r.title,96)):'')+'<br>'+esc(vt)+' · '+fmtDate(r.date);
+  return '<b class="num">'+esc(r.id)+'</b> · '+(r.title?esc(cutw(tidyTitle(r.title),96)):'')+'<br>'+esc(vt)+' · '+fmtDate(r.date);
 }
 (function(){
   var el=$('strip');
@@ -4425,10 +4455,15 @@ var R=mk('r'), L=mk('l'), tm=0;
 function place(){ var t=s.offsetTop+'px', h=s.offsetHeight+'px';
 R.style.top=L.style.top=t; R.style.height=L.style.height=h;
 R.style.left=(s.offsetLeft+s.offsetWidth-40)+'px'; L.style.left=s.offsetLeft+'px'; }
+function edges(){ var sr=s.getBoundingClientRect(), as=s.querySelectorAll('a'), fe=null, fs=null, i, ar;
+for(i=0;i<as.length;i++){ ar=as[i].getBoundingClientRect(); if(!ar.width) continue;
+if(fe===null && ar.right>sr.right+1) fe=Math.max(0,Math.round(ar.left-sr.left));
+if(ar.left<sr.left-1) fs=Math.round(ar.right-sr.left); }
+s.style.setProperty('--pl-fe',fe===null?'100%':fe+'px'); s.style.setProperty('--pl-fs',fs===null?'0px':fs+'px'); }
 function upd(){ var m=s.scrollWidth-s.clientWidth, x=s.scrollLeft, r=m>4&&x<m-4, l=m>4&&x>4;
 s.classList.toggle('pl-ovr',r); s.classList.toggle('pl-ovl',l);
 R.classList.toggle('on',r); L.classList.toggle('on',l);
-if(r||l) place(); }
+if(r||l){ place(); edges(); } }
 function show(a,smooth){ if(!a||s.scrollWidth-s.clientWidth<=4) return;
 var sr=s.getBoundingClientRect(), ar=a.getBoundingClientRect(), x=s.scrollLeft, pad=48, to=x;
 if(ar.left<sr.left+pad) to=x-(sr.left+pad-ar.left);
@@ -4555,7 +4590,7 @@ function store(k,v){ try{ if(v==null) sessionStorage.removeItem(NS+k); else sess
 function newKey(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
 function cur(){ var s=H.state; return s&&typeof s==='object'?s:{}; }
 function merge(s,x){ var n={},k; if(s&&typeof s==='object'){ for(k in s) n[k]=s[k]; } else if(s!=null) n.plv=s; for(k in x){ if(x[k]!=null) n[k]=x[k]; } return n; }
-var rawPush=H.pushState, rawReplace=H.replaceState, keepFn=null, labelFn=null, settling=false, chip=null, last=null;
+var rawPush=H.pushState, rawReplace=H.replaceState, keepFn=null, labelFn=null, settling=false, chip=null, band=null, room=null, last=null;
 function anyOpen(){ var a=PL._layers||[], i; for(i=0;i<a.length;i++){ if(a[i].pushed) return true; try{ if(a[i].o.isOpen&&a[i].o.isOpen()) return true; }catch(e){} } return false; }
 H.replaceState=function(s,t,u){ var c=cur(); return rawReplace.call(H,merge(s,{plk:c.plk,pld:c.pld,plf:c.plf,plb:c.plb,plj:c.plj,plview:c.plview}),t,u); };
 H.pushState=function(s,t,u){ var c=cur(); save(); var r=rawPush.call(H,merge(s,{plk:newKey(),pld:(c.pld||0)+1,plf:c.plf,plb:c.plb}),t,u); last=cur(); paint(); return r; };
@@ -4683,18 +4718,21 @@ if(!chip){
 if(!f&&!j) return;
 chip=document.createElement('button'); chip.type='button'; chip.className='pl-ret-chip'; chip.setAttribute('data-pl-keep','');
 chip.addEventListener('click',back);
-document.body.appendChild(chip);
+band=document.createElement('div'); band.className='pl-ret-band'; band.setAttribute('aria-hidden','true'); band.setAttribute('data-pl-keep','');
+room=document.createElement('div'); room.className='pl-ret-room'; room.setAttribute('aria-hidden','true'); room.setAttribute('data-pl-keep','');
+document.body.appendChild(room); document.body.appendChild(band); document.body.appendChild(chip);
 }
 if(pv){ chip.textContent='← Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
 else if(j){ chip.textContent=(s.plj<window.scrollY?'↑':'↓')+' Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
 else if(f){ chip.textContent='← Back to '+f.l; chip.setAttribute('aria-label','Back to '+f.l+', where you were'); }
 chip.hidden=(!f&&!j)||anyOpen();
-if(!chip.hidden) chip.style.bottom='calc('+lift()+'px + env(safe-area-inset-bottom))';
+if(band){ band.hidden=chip.hidden; room.hidden=chip.hidden; }
+if(!chip.hidden){ var lf=lift(); chip.style.bottom='calc('+lf+'px + env(safe-area-inset-bottom))'; if(band) band.style.bottom=Math.max(0,lf-16)+'px'; }
 }
 function lift(){
 var y=window.innerHeight-24, es=document.elementsFromPoint?document.elementsFromPoint(32,y):[], i, n, cs, r;
 for(i=0;i<es.length;i++){
-if(es[i]===chip||es[i]===done) continue;
+if(es[i]===chip||es[i]===done||es[i]===band) continue;
 for(n=es[i];n&&n!==document.body&&n!==document.documentElement;n=n.parentElement){
 cs=getComputedStyle(n);
 if(cs.position==='fixed'||cs.position==='sticky'){ r=n.getBoundingClientRect(); return r.top>window.innerHeight*0.5?Math.round(window.innerHeight-r.top)+12:16; }
@@ -4771,7 +4809,11 @@ css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display
 +'.pl-done{left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));min-width:132px;height:48px;font-size:15px}'
 +'.pl-ret-chip[hidden],.pl-done[hidden]{display:none}.pl-ret-chip:focus-visible,.pl-done:focus-visible{outline:2px solid var(--accent,#9a3b1b);outline-offset:2px}'
 +'.pl-under{position:absolute;left:0;right:0;z-index:59;pointer-events:none}.pl-under[hidden]{display:none}'
-+'@media print{.pl-ret-chip,.pl-done,.pl-under{display:none!important}}';
++'.pl-ret-band{position:fixed;left:0;right:0;bottom:0;z-index:2147482999;height:calc(76px + env(safe-area-inset-bottom));'
++'background:var(--paper,#fbf8f1);border-top:1px solid var(--rule,rgba(0,0,0,.12));box-shadow:0 -10px 24px -18px rgba(20,18,10,.45)}'
++'.pl-ret-room{height:calc(76px + env(safe-area-inset-bottom))}.pl-ret-band[hidden],.pl-ret-room[hidden]{display:none}'
++'@media (min-width:1220px){.pl-ret-chip{left:calc(50vw - 570px)}}'
++'@media print{.pl-ret-chip,.pl-done,.pl-under,.pl-ret-band,.pl-ret-room{display:none!important}}';
 (document.head||document.documentElement).appendChild(css);
 window.addEventListener('resize',function(){ paint(); queueUnder(); });
 window.addEventListener('pageshow',function(e){ if(e.persisted){ store('go',null); settling=false; paint(); } });
@@ -4807,6 +4849,7 @@ function iso(s){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?new Date(
 function mdy(d,ref){return two(d.getMonth()+1)+'/'+two(d.getDate())+(ref&&d.getFullYear()!==ref.getFullYear()?'/'+d.getFullYear():'');}
 var MON=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
 function ml(d){return MON[d.getMonth()]+' '+d.getDate();}
+function mlc(d,ref){return ml(d)+(ref&&d.getFullYear()!==ref.getFullYear()?', '+d.getFullYear():'');}      
 var items=[].slice.call(document.querySelectorAll('[data-pl-next],[data-pl-built]')).map(function(el){
 return {el:el,orig:el.innerHTML,cur:el.innerHTML,hid:false};});
 function retense(it,now){
@@ -4818,12 +4861,12 @@ if(late&&el.getAttribute('data-pl-after')==='hide')hide=true;
 else if(sh){
 if(!late)html='next '+noun+' <b>'+ml(nx)+'</b>';
 else{var ck2=iso(el.getAttribute('data-pl-check'));
-html='<b>'+ml(nx)+'</b> '+noun+' '+(ck2?'not posted as of <b>'+mdy(ck2,nx)+'</b>':'not confirmed');}
+html='<b>'+ml(nx)+'</b> '+noun+' '+(ck2?'not posted as of <b>'+mlc(ck2,nx)+'</b>':'not confirmed');}
 }else{
-var lab=DOW[nx.getDay()]+' '+two(nx.getMonth()+1)+'/'+two(nx.getDate());
+var lab=DOW[nx.getDay()]+', '+ml(nx);
 if(!late)html='next expected <b>'+lab+'</b>';
 else{var ck=iso(el.getAttribute('data-pl-check'));
-html='expected <b>'+lab+'</b> \u2014 '+(ck?'not posted as of the <b>'+mdy(ck,nx)+'</b> check':'not confirmed');}
+html='expected <b>'+lab+'</b> \u2014 '+(ck?'not posted as of the <b>'+mlc(ck,nx)+'</b> check':'not confirmed');}
 }
 }
 if(bt){
