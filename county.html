@@ -4093,8 +4093,10 @@ var PL=window.PL=window.PL||{};
 var bars=[].slice.call(document.querySelectorAll('.rail')), q=false;
 if(!bars.length) return;
 function chk(){ q=false; var y=window.scrollY||0;
-bars.forEach(function(b){ var cs=getComputedStyle(b), t=parseFloat(cs.top);
-b.classList.toggle('pl-stuck', y>0 && cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<3);    }); }
+bars.forEach(function(b){
+if(!(y>0)){ b.classList.remove('pl-stuck'); return; }
+var cs=getComputedStyle(b), t=parseFloat(cs.top);
+b.classList.toggle('pl-stuck', cs.position==='sticky' && t>=0 && Math.abs(b.getBoundingClientRect().top-t)<3);    }); }
 window.addEventListener('scroll',function(){ if(!q){ q=true; requestAnimationFrame(chk); } },{passive:true});
 window.addEventListener('resize',chk); chk();
 })();
