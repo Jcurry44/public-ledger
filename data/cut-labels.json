@@ -12,36 +12,38 @@
     "ACQ., CONS., & RECONS., OF WATER IM",
     "ERIE CANAL BIKE PATH EXTE",
     "ACQUISITION OF MACHINERY AND APPARATU",
-    "IMPROV TO DEERWOOD GOLFCOU"
+    "IMPROV TO DEERWOOD GOLFCOU",
+    "MAINTENANCE OF STREETS - OPERR",
+    "EMERGENCY MANAGEMENT - OPERR"
   ],
   "misspelledNote": "Labels the city printed with an obvious misspelling. Headlines and briefs show the corrected word with the City's spelling in a tooltip; the register, the CSV files and the receipts keep the label exactly as printed. Keyed by the label as printed (upper case): {misspelled word: correction}. Checked 2026-10-27.",
   "misspelled": {
-      "GOLD COURSE EQUIPMENT 2026": {
-          "GOLD": "GOLF"
-      },
-      "WASTERWATER TREATMENT": {
-          "WASTERWATER": "WASTEWATER"
-      },
-      "TRAFFIC SINGAL UPGRADES": {
-          "SINGAL": "SIGNAL"
-      },
-      "PUBLIC WOKRS": {
-          "WOKRS": "WORKS"
-      },
-      "WURLITZER PICKELBALL COURT": {
-          "PICKELBALL": "PICKLEBALL"
-      },
-      "500 WHEATFIELD EXPANISON": {
-          "EXPANISON": "EXPANSION"
-      },
-      "BOTANICAL GIP IMPROVMENTS": {
-          "IMPROVMENTS": "IMPROVEMENTS"
-      },
-      "GENERATOR REPACEMENT_WTP": {
-          "REPACEMENT": "REPLACEMENT"
-      },
-      "WATER PLANT IMPROVEMERN": {
-          "IMPROVEMERN": "IMPROVEMENT"
-      }
+    "GOLD COURSE EQUIPMENT 2026": {
+      "GOLD": "GOLF"
+    },
+    "WASTERWATER TREATMENT": {
+      "WASTERWATER": "WASTEWATER"
+    },
+    "TRAFFIC SINGAL UPGRADES": {
+      "SINGAL": "SIGNAL"
+    },
+    "PUBLIC WOKRS": {
+      "WOKRS": "WORKS"
+    },
+    "WURLITZER PICKELBALL COURT": {
+      "PICKELBALL": "PICKLEBALL"
+    },
+    "500 WHEATFIELD EXPANISON": {
+      "EXPANISON": "EXPANSION"
+    },
+    "BOTANICAL GIP IMPROVMENTS": {
+      "IMPROVMENTS": "IMPROVEMENTS"
+    },
+    "GENERATOR REPACEMENT_WTP": {
+      "REPACEMENT": "REPLACEMENT"
+    },
+    "WATER PLANT IMPROVEMERN": {
+      "IMPROVEMERN": "IMPROVEMENT"
+    }
   }
 }

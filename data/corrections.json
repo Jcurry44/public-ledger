@@ -3,6 +3,30 @@
   "entries": [
     {
       "date": "2026-10-31",
+      "where": "Legislators (every member's no votes) and the decisions register (who voted no)",
+      "was": "A member's no votes counted only the noes the minutes name, and the reader lost names where a long list wrapped onto a second line or a scan read a letter as a digit (\"Vi1tuoso\"). Irene M. Myers and Rebecca J. Wydysh read 0 no votes, though the Dec 9, 2025 minutes name both voting no on B-04-25; 60 of the 104 votes with a no named fewer noes than their count, and the December budget-amendment votes, whose minutes name only the ayes, counted against no one.",
+      "now": "Every printed list is read in full (49 votes). Where the minutes name only the ayes and the absent, the noes are the rest of that year's seated chamber, worked out only when ayes, noes and absent add up to the 15 seats, and marked \"worked out\" on the vote and the record (30 votes). The 25 votes whose minutes print the count alone are left out of every member's count and rate, and each record says so. Myers now reads 15 no votes, Wydysh 15. The build stops if a list of noes reads short of its count."
+    },
+    {
+      "date": "2026-10-31",
+      "where": "The decisions register (a resolution's money line)",
+      "was": "A figure the resolution's own text says was budgeted, or is the amount appropriated, was labeled \"Revenue accepted\" (15 resolutions). Among them, B-04-25, rejected 3-11, read \"Revenue accepted $100,700,000\": that is the sales tax the 2026 budget already held; the resolution asked to add $3,045,592.",
+      "now": "Those figures read as amounts mentioned in the text. A resolution that failed says what it proposed (\"Revenue it proposed\", \"Largest budget change it proposed: $3,045,592\"), never \"accepted\" or \"awarded\", and the build checks every failed resolution's labels."
+    },
+    {
+      "date": "2026-10-31",
+      "where": "The decisions register (the About filter)",
+      "was": "The topic rules filed 47 of a random 200 resolutions where a reader would not look for them: grants of community partnership funding as statements of position, consultants' amendments and sole-source purchases as everything else, a consulting firm hired for brownfield grant services as People & positions.",
+      "now": "The rules were fixed and 1,089 resolutions changed topic. The hand check is published with both readings for each of the 200 (data/topic-check-2026-10-31.json), and the build stops if the rules change without a new check."
+    },
+    {
+      "date": "2026-10-31",
+      "where": "Tax estimate",
+      "was": "The county and city rates came from the state's open-data table, which rounds them to two decimals: a $250,000 home read $1,385 of county tax and $6,077 in all.",
+      "now": "The latest year's county and city rates are the State Comptroller's full-precision rates, each checked against the open-data table's two decimals; the same home reads $1,386 of county tax and $6,078 in all."
+    },
+    {
+      "date": "2026-10-31",
       "where": "Past meetings (the key under each meeting's bar)",
       "was": "The Oct 30 correction fixed the first screen's bars only: the key under each meeting in Past meetings still read \"Water/sewer/golf\" (and \"Water, sewer & golf\" to a screen reader) on nights with no golf-course lines, including Oct 20, 2026, whose $117,334 is water and sewer.",
       "now": "The key, its spoken label and the first screen name each night's slice by the funds it holds (\"Water & sewer\"), from one function."

@@ -1,0 +1,1620 @@
+{
+"_doc": "A hand check of the decisions register's topic filter ('About:'), PL-17 of the 2026-10-31 audit: 200 resolutions drawn with random.Random(20261031).sample() from data/resolutions.json, each read by title and filed where a reader would look ('reader'). 'before' is the topic the rules gave it before the 2026-10-31 fixes, 'after' the topic they give now. The fixes were made from these same 200, so 'after' flatters the rules; a fresh sample is the honest next measure.",
+"checked": "2026-10-31",
+"seed": 20261031,
+"n": 200,
+"agree_before": 153,
+"agree_after": 200,
+"topics": {
+"s": "Symbolic & advocacy",
+"c": "Contracts & bids",
+"p": "People & positions",
+"g": "Grants & aid accepted",
+"b": "Budget moves",
+"l": "Legal & claims",
+"x": "Property & taxes",
+"o": "Everything else"
+},
+"rows": [
+{
+"id": "IF-121-20",
+"date": "2020-11-17",
+"title": "Angelo DelSignore Civic Building Curtain Wall Renovation Project\" Change Order No. 2 - Final",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-057-19",
+"date": "2019-08-06",
+"title": "20 19 Budget Modification- Fire Coordinator's Accept Haz-Mat Incident Payment for May 5, 2019",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-122-26",
+"date": "2026-09-22",
+"title": "Ewings Road Bridge Over Eighteen Mile Creek and Quaker Road Bridge Over Golden Hill Creek Consultant Amendment No.3",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CW-006-22",
+"date": "2022-03-22",
+"title": "Claim Settlement Edmond Fair vs. County of Niagara and Patrick M. Kenney Jr. Niagara County Index No. El58615/2016",
+"before": "l",
+"reader": "l",
+"after": "l"
+},
+{
+"id": "CW-009-16",
+"date": "2016-04-19",
+"title": "BROADBAND INITIATIVE",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CSS-006-24",
+"date": "2024-01-23",
+"title": "Niagara County Sheriffs Office Budget Modification - BJA FY23 Paul Coverdell Forensic Science Improvement Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-118-15",
+"date": "2015-09-15",
+"title": "Position Appointment of Director of Buildings and Grounds",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CS-002-19",
+"date": "2019-01-15",
+"title": "Budget Modification - Reappropriate Opioid Crisis Funding Emergency Planning- Depaitment of Health",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-066-19",
+"date": "2019-09-19",
+"title": "Niagara County Sheriffs Office Budget Modification - Expenditure of Alarm",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-031-23",
+"date": "2023-08-01",
+"title": "MH 2023 Budget Modification - Contract Agency State Aid COLAs",
+"before": "c",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-038-19",
+"date": "2019-03-19",
+"title": "Award of Contract for Control of Roadside Vegetation",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-068-25",
+"date": "2025-05-06",
+"title": "Resolution in Support of Music Mania Mondays Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "B-007-17",
+"date": "2017-12-12",
+"title": "BUDGET MODIFICATION DISCOVER NIAGARA SHUTTLE",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "ED-001-17",
+"date": "2017-02-21",
+"title": "BUDGET MODIFICATION - TO COVER EMPOWER NIAGARA ALLOCATION ALESSI LEATHER CORP",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-108-24",
+"date": "2024-10-15",
+"title": "Probation - Accept 2025 Employment Focused Services Program Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-200-24",
+"date": "2024-11-12",
+"title": "Public Safety Roof and Roof Top Unit Replacements - Change Order No. 2",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-086-15",
+"date": "2015-08-04",
+"title": "Budget Modification for Coagulation Basins 1, 2 & 3 Upgrade - Water District",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "AD-005-20",
+"date": "2020-02-18",
+"title": "BUDGET MODIFICATION ~ DISTmBUTION OF SALES TAX",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "ED-015-19",
+"date": "2019-05-07",
+"title": "Adoption of a Local Law to Establish a Sustainable Energy Loan Program in the County of Niagara",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-042-16",
+"date": "2016-05-24",
+"title": "Resolution in Support of the Lockport Community Market Through the Use of Casino Funds",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-062-19",
+"date": "2019-05-07",
+"title": "Niagara Road Bridge over Bergholz Creek Consultant Amendment No. 1- Final",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "AD-021-24",
+"date": "2024-09-17",
+"title": "Purchase of IN REM Properties - Treasurer",
+"before": "c",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "AD-019-23",
+"date": "2023-08-01",
+"title": "Budget Modification - Contingency Funds to be Transferred to County",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-023-18",
+"date": "2018-06-19",
+"title": "NEGATIVE DECLARATION OF PORTER AVENUE ABANDONMENT",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-037-22",
+"date": "2022-03-22",
+"title": "Agreement between the County of Niagara and the Greater Niagara Fish Odyssey",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-174-25",
+"date": "2025-12-02",
+"title": "Budget Modification - Parking Lot Improvements",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-041-21",
+"date": "2021-12-07",
+"title": "(title not machine-readable in the county documents)",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CS-013-25",
+"date": "2025-03-18",
+"title": "Budget Modification - Healthy Families New York Program",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-041-19",
+"date": "2019-08-06",
+"title": "Abolish, Create and Fill Position/Budget Modification Adult Single Point of Access (SPOA) Program Reorganization Niagara County Department of Mental Health & Substance Abuse Services",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CS-006-17",
+"date": "2017-02-21",
+"title": "BUDGET MODIFICATION HEALTHY FAMILIES NEW YORK PROGRAM",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-087-15",
+"date": "2015-09-15",
+"title": "Jn Support of Stephen Sikora Post 1322 Inc. Through the Use of Casino Funding",
+"before": "o",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-145-22",
+"date": "2022-11-15",
+"title": "Krull Park Shoreline Wall and Bank Reconstruction Project Award",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "B-014-17",
+"date": "2017-12-12",
+"title": "LEVYING OFTAXES",
+"before": "x",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "CSS-064-25",
+"date": "2025-05-20",
+"title": "Probation Department Sole Source - The Change Companies",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-090-22",
+"date": "2022-10-18",
+"title": "Niagara County Sheriffs Office Budget Modification -\" Accept FY22 Paul Coverdell Forensic Science Improvements Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-099-23",
+"date": "2023-10-17",
+"title": "Niagara County Sheriffs Office Accept FY23 Stonegarden Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-076-24",
+"date": "2024-04-23",
+"title": "Budget Modification - DPW - Buildings and Grounds Legislative Chambers Sound System",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-052-21",
+"date": "2021-05-11",
+"title": "Abolish and Create Position District Attorney's Office",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CSS-047-23",
+"date": "2023-04-25",
+"title": "Niagara County Sheriffs Office Accept STOP Violence Against Women Act Formula Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-116-21",
+"date": "2021-12-14",
+"title": "GAS AND OIL BUDGET MODIFICATION",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CW-010-22",
+"date": "2022-05-17",
+"title": "Transfer of 6805 Day Road Property Home Rule Message Senate Bill No. S.6313-B and Assembly Bill No. A.7837-B",
+"before": "b",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "IL-001-22",
+"date": "2022-02-15",
+"title": "Opposition to Fann Labor Wage Board Decision to Lower Threshold to 40 Hours for Overtime on New York Farms",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IL-104-25",
+"date": "2025-08-05",
+"title": "Resolution in Support of Hope and Wellness Recovery Cafe, Inc. Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-087-22",
+"date": "2022-06-21",
+"title": "Agreement between the County of Niagara and the National Multiple Sclerosis Society",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-004-22",
+"date": "2022-01-18",
+"title": "SUNSET DRIVE ROAD AND DRAINAGE IMPROVEMENTS CHANGE ORDER NO. 2 - FINAL",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-023-17",
+"date": "2017-03-21",
+"title": "N iagara County Sheriff's Office - Budget Modification Police Protection Equipment Grant - Sheriff",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IL-088-24",
+"date": "2024-05-14",
+"title": "A Resolution Urging the State of New York To Enact the Rescue Ems Package of Legislation to Strengthen our Emergency Medical Services",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IL-098-25",
+"date": "2025-06-17",
+"title": "Opposition of US Department of Labor Closing Job Corps Centers",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "CS-050-19",
+"date": "2019-10-15",
+"title": "201 9 Budget Modifi cation State Aid COLAsMental Health Department",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-056-18",
+"date": "2018-08-07",
+"title": "2018 Probation Budget Modification Reentry",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-029-15",
+"date": "2015-10-20",
+"title": "BUDGET MODIFICATION - ACCEPT COLA FUNDS - LEAD PROGRAMS DEPARTMENT OF HEALTH",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "B-015-22",
+"date": "2022-12-13",
+"title": "Authorization for County Manager and Budget Director to make Changes to Budget",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-056-16",
+"date": "2016-05-03",
+"title": "Overtime Budget Modification",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "AD-012-20",
+"date": "2020-06-16",
+"title": "Distribution of Mortgage Tax - Treasurer",
+"before": "x",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "IF-031-22",
+"date": "2022-03-22",
+"title": "Agreement between the County of Niagara and Anchoring of Hope of NY, Inc",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-013-17",
+"date": "2017-03-21",
+"title": "DMV Fee Retention Increase - County Clerk",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-019-25",
+"date": "2025-02-18",
+"title": "Resolution in Support of the Gathering Place Project Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-034-19",
+"date": "2019-08-06",
+"title": "ABOLISH AND CREATE POSITIONS- SOCIAL SERVICES",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "IL-122-25",
+"date": "2025-09-16",
+"title": "Resolution in Support of Create a Healthier Niagara Falls Collaborative Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-117-18",
+"date": "2018-09-18",
+"title": "Public Works Diesel Fuel Island Facility Consultant Amendment No. I",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-082-17",
+"date": "2017-05-16",
+"title": "West Somerset Road Survey Project Consultant Amendment No. 3",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-065-17",
+"date": "2017-03-21",
+"title": "Agreement between the County of Niagara and the Lockport Soccer Club",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "ED-009-24",
+"date": "2024-06-18",
+"title": "Budget Modification Reappropriate Grant Funds Brownfields Assessment",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IL-042-18",
+"date": "2018-10-16",
+"title": "THE NIAGARA COUNTY LEGISLATURE REAFFIRMS OUR SUPPORT OF THE 2No AMENDMENT",
+"before": "o",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "AD-025-16",
+"date": "2016-08-02",
+"title": "Distribution of January through March 2016 Casino Revenue to Various Municipalities-Treasurer",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-020-18",
+"date": "2018-02-20",
+"title": "Agreement between the County of Niagara and the Soccer Shots of Buffalo",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-010-24",
+"date": "2024-01-23",
+"title": "Waiver of Residency Request Director of Social Work Position - PD",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CS-048-19",
+"date": "2019-09-19",
+"title": "Budget Transfer - A43 l 0 Comi Ordered County Mandated Costs - MH",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CW-016-16",
+"date": "2016-09-14",
+"title": "POSITION APPOINTMENT EMPLOYMENT AND TRAINING PROGRAM DIRECTOR I",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "IF-138-26",
+"date": "2026-10-20",
+"title": "Resolution for Use of Committed Funds to Evaluate and Establish Safe and Effective Guidelines for Sitting and End-of-Life Management of Battery Energy Storage Systems (BESS)",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-055-15",
+"date": "2015-04-21",
+"title": "Suppott of Certification of Need Application by Kaleida Health & Niagara Falls Memorial Medical Center for the Operation ofa Cardiac Catheterization Laboratory",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IF-098-19",
+"date": "2019-09-19",
+"title": "Ransomville Road Paving Project - Sale of Millings Agreement between N iagara County and Bailey Brothers Ent. Inc",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CW-013-25",
+"date": "2025-06-17",
+"title": "RESOLUTION OF NIAGARA COUNTY AUTHORIZING THE RETENTION OF NAPOLI SHKOLNIK, PLLC",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CW-004-22",
+"date": "2022-02-15",
+"title": "RATIFICATION OF AGREEMENT BETWEEN THE UNITED STEEL WORKERS INTERNATIONAL UNION ON BEHALF OF ITS LOCAL 2001 NIAGARA COUNTY SHERIFF'S POLICE BENEVOLENT ASSOCIATION AND THE COUNTY OF NIAGARA",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "ED-018-22",
+"date": "2022-08-02",
+"title": "Fisheries Board Membership Requirements",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-056-24",
+"date": "2024-03-19",
+"title": "Agreement Between the County of Niagara and Destination Niagara USA",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "ED-013-24",
+"date": "2024-06-18",
+"title": "Approval of Assignment and Assumption Agreement",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-019-19",
+"date": "2019-03-19",
+"title": "URGENT NEED FOR THE ARMY CORPS OF ENGINEERS ASSISTANT SECRETARY FOR CIVIL WORKS TO IMMEDIATELY SIGN RECORD OF DECISION FOR THE ARMY CORPS TO COMPLETE THE NFSS PROPOSED PLAN",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IF-082-16",
+"date": "2016-08-02",
+"title": "GHD Stormwater Contract Termination - Public Works",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-033-21",
+"date": "2021-04-20",
+"title": "Agreement between the County of Niagara and the YMCA Fitness in the Parks Program",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-125-24",
+"date": "2024-09-17",
+"title": "A Resolution Calling on Governor Hochul to Sign Legislation Requiring Short-Term Home Rental Agencies to Collect Sales Tax and Hotel/Motel Occupancy Taxes",
+"before": "x",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IL-053-24",
+"date": "2024-04-23",
+"title": "Resolution in Support of Lewiston Memorial Day Remembrance Committee, Inc. Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-098-18",
+"date": "2018-08-07",
+"title": "Niagara County Jail Sally Port Final Payment",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-010-19",
+"date": "2019-02-19",
+"title": "Funding to the Youngstown Business & Professional Association for Marketing Initiative 2019",
+"before": "o",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-068-23",
+"date": "2023-04-25",
+"title": "Angelo Delsignore Civic Building - Roof Replacement Project Amendment No. 3",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "AD-003-23",
+"date": "2023-02-21",
+"title": "Extension of Claims Administration Contract between the Niagara County",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-074-25",
+"date": "2025-05-06",
+"title": "Resolution in Support of Niagara Community Information Group Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "AD-032-25",
+"date": "2025-09-16",
+"title": "Budget Modification - Beautification Funding - Budget",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-110-24",
+"date": "2024-06-18",
+"title": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Elder and Parks, Recreation, Tourism Ad Hoc Committee, re Support for the Carousel Society of the Niagara Frontier Music Room Project",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-090-17",
+"date": "2017-06-20",
+"title": "Budget Modification for Sludge Lagoon Cleaning Niagara County Water District",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-123-23",
+"date": "2023-11-14",
+"title": "Resolution in Support of the LaSalle Sportsmen's Club Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-128-24",
+"date": "2024-10-15",
+"title": "Resolution in Support of Sister Helen's Food Pantry Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-188-24",
+"date": "2024-11-12",
+"title": "Award of Contract - Recreational Facilities at Krull and Oppenhelm Parks",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "B-017-15",
+"date": "2015-12-08",
+"title": "Budget Modification Public Defender",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "AD-027-22",
+"date": "2022-11-15",
+"title": "Set Public Hearing for Assessment Tax Roll for the Niagara County Sewer",
+"before": "x",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "IL-025-26",
+"date": "2026-03-24",
+"title": "Resolution in Support of the Wilson Lions Club Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-091-17",
+"date": "2017-10-17",
+"title": "Resolution in Support For The Somerset Solar Project In The Town Of Somerset",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IF-007-16",
+"date": "2016-02-23",
+"title": "UPPER MOUNTAIN ROAD PAVEMENT PRESERVATION PROJECT CONSULTANT AMENDMENT NO. 1",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-051-19",
+"date": "2019-10-15",
+"title": "MH-2019 Budget Modification - Accept United States Department of Justice (DOJ) Comprehensive Opioid Abuse Site-Based Program (COAP) Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-106-15",
+"date": "2015-08-04",
+"title": "Detour Resolution State Route 93, Town of Porter and State Route 18, Town Of Wilson",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-005-16",
+"date": "2016-01-19",
+"title": "Resolution Calling Upon Congress to Legislatively Override President Obama' s January 5, 2016 Executive Orders that Subvert the Second Amendment by Applying Portions of the Failed Safe Act to National Gun Policy",
+"before": "o",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "CSS-069-26",
+"date": "2026-05-19",
+"title": "NIAGARA COUNTY SHERIFF'S OFFICE FORENSIC LAB SUPPLIES SOLE SOURCE CAYMAN CHEMICAL",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-110-16",
+"date": "2016-11-15",
+"title": "Griswold Street Culvert Replacement Project Consultant Amendment No. 2",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-010-15",
+"date": "2015-01-20",
+"title": "A Local Law of the County of Niagara County, New York, Allowing for Common, Safe Items to be Excluded from the Dangerous Fireworks Definition as Permitted by New York State Penal Law Section 405 (B)",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CS-041-26",
+"date": "2026-09-22",
+"title": "MH - 2026 Budget Modification - NYS OASAS Contract Agency State Aid COLAs",
+"before": "c",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IL-128-25",
+"date": "2025-10-21",
+"title": "Resolution in Support of WNY Challenger Sports League Inc. Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-013-16",
+"date": "2016-03-22",
+"title": "Increase in Pistol Permit Cash Drawer Funds - County Clerk",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-063-20",
+"date": "2020-04-21",
+"title": "Agreement between the County of Niagara and the Pendleton Lion's Club",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CW-022-18",
+"date": "2018-10-16",
+"title": "Capital Budget Project Creation Energy Performance Contract Implementation",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "ED-006-22",
+"date": "2022-02-15",
+"title": "AWARD CONTRACT FOR INDUSTRIAL PARK MASTER SITE DEVELOPMENT PLAN",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-035-19",
+"date": "2019-08-06",
+"title": "Community Services and Administration, Budget Modification - Healthy Families New York Program - DSS",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-034-26",
+"date": "2026-08-04",
+"title": "Budget Modification - Healthy Neighborhood Program Environmental Division - Department of Health",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-050-24",
+"date": "2024-03-19",
+"title": "Agreement Between the County of Niagara and the Western New York Disc Golf Club",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-046-21",
+"date": "2021-11-16",
+"title": "Legislators Dennis F. Virtuoso, Owen T. Steed, Mark J. Grozio, Christopher A. Robins, Anita Mullane, Rebecca J. Wydysh, et al., re Purple Heart Monument Committee",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-151-25",
+"date": "2025-11-18",
+"title": "Resolution in Support of a Hand Up Inc. Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-060-26",
+"date": "2026-03-24",
+"title": "Clyde Burmaster Park Natural Playground Phase I Change Order No.2 - Final",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-081-20",
+"date": "2020-06-16",
+"title": "Bridge Painting and Steel Repairs: Robinson Road Bridge over the Erie Canal Change Order No. 1",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-039-18",
+"date": "2018-10-16",
+"title": "RESOLUTION IN SUPPORT OF THE NORTH TONAWANDA HISTORY MUSEUM THROUGH THE USE OF CASINO FUNDING",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "ED-013-20",
+"date": "2020-09-15",
+"title": "Approval of Low Cost Power Benefit to Lockport Ice Arena & Sports Center, Inc. Under the Agreement for the Sale & Purchase of Niagara Project Power & Energy (ASPNPPE)",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-034-19",
+"date": "2019-05-21",
+"title": "Niagara County Sheriffs Office Extend Jail Food Service Contract",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-143-25",
+"date": "2025-09-16",
+"title": "Canal Road Rehabilitation from North Canal to NY 31 (Rochester Road) Consultant Award",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-076-24",
+"date": "2024-08-06",
+"title": "Niagara County Sheriffs Office LabVantage Standardization/Sole Source of JBOSS Application Server and Bartender Enterprise Automation Edition Compatible with LabVantage Laboratory Information Management System",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-039-21",
+"date": "2021-08-03",
+"title": "NCCC FY 2021-2022 Maintenance and Operating Budget",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-024-25",
+"date": "2025-02-18",
+"title": "Lease Renewal with Northpoint Council Inc. for the Trott Access Center",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-039-21",
+"date": "2021-04-20",
+"title": "Resolution Issuing a Negative Declaration Pursuant to the State Environmental Quality Review Act (\"SEQRA\") for the Proposed Niagara County Public Safety Radio Expansion Project",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CSS-032-18",
+"date": "2018-04-17",
+"title": "Niagara County Sheriff's Office- Budget Modification Town of Pendleton Traffic Enforcement- Sheriff",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-087-23",
+"date": "2023-09-19",
+"title": "Niagara County Sheriff's Office Accept Aid to Crime Laboratories Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-068-26",
+"date": "2026-04-21",
+"title": "Agreement between the County of Niagara and the Royhart Class of 1976",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-039-23",
+"date": "2023-04-25",
+"title": "Resolution in Support of the Town of Somerset Bicentennial Celebration Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-047-24",
+"date": "2024-02-20",
+"title": "Angelo Delsignore Civic Building Roof Replacement Change Order No. 2 - Final",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "B-014-15",
+"date": "2015-12-08",
+"title": "Budget Modification Vehicle Maintenance",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IL-122-15",
+"date": "2015-12-01",
+"title": "Calling Upon Governor Cuomo to Bar Syrian Refugees from Settlement in the State of NY Due to Potential for Islamic State Terrorist Infiltration & Additional Consumption of Taxpayer-Subsidized Social Welfare Benefits -Approved",
+"before": "l",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IL-054-15",
+"date": "2015-03-17",
+"title": "RESOLUTION TO DISTRIBUTE 2014 CASINO REVENUE TO THE TOWN OF LOCKPORT",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-078-20",
+"date": "2020-06-16",
+"title": "Budget Modification - Acceptance of Funds from CARES Act - COVID 19",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-101-24",
+"date": "2024-05-14",
+"title": "Replacement of Quaker Road Culvert Over Mud Creek Culvert No.15-9 Consultant Amendment No. I",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-153-23",
+"date": "2023-10-17",
+"title": "Court House HVAC Improvements - Phase II Mechanical Contract - Change Order No. 2",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "ED-010-24",
+"date": "2024-06-18",
+"title": "Resolution to Accept Unused American Rescue Funds from the Niagara Orleans Land Improvement Corporation",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-090-24",
+"date": "2024-09-17",
+"title": "Niagara County Sheriff's Office Sole Source Standardization of General Security for Lene! Access Control Systems in Niagara County Sheriffs Office, Jail and Harmon Building",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-022-20",
+"date": "2020-02-18",
+"title": "ARD OF CONTRACT ~ BRIDGE CLEANING AND DECK SEALING",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-017-16",
+"date": "2016-03-22",
+"title": "Budget Modification Acceptance of Alzheimer's Disease Caregiver Service Support Initiative Grant - Office for the Aging",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IL-083-17",
+"date": "2017-09-19",
+"title": "Resolution Naming the Krnll Park Athletic Fields \"The James W. Ward Sports Complex\"",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CSS-092-24",
+"date": "2024-09-17",
+"title": "Waiver of Residency Request Assistant Public Defender Position",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "AD-012-19",
+"date": "2019-06-18",
+"title": "Rescinding the Resolution Entitled\" Authorization to Convey Certain Tax",
+"before": "x",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "CS-036-24",
+"date": "2024-06-18",
+"title": "Niagara County Clerk's Office - Budget Modification- Dwyer Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-036-25",
+"date": "2025-02-18",
+"title": "Waiver of Residency Request Assistant Public Defender Position",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CSS-047-20",
+"date": "2020-09-15",
+"title": "Niagara County Sheriffs Office Accept Child Passenger Safety Program Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CW-013-16",
+"date": "2016-06-21",
+"title": "Claim Settlement Michael Lombardo vs. County of Niagara",
+"before": "l",
+"reader": "l",
+"after": "l"
+},
+{
+"id": "IL-097-24",
+"date": "2024-06-18",
+"title": "RESOLUTION IN SUPPORT OF LOCKPORT MAIN STREET INC. THROUGH THE USE OF COMMUNITY PARTNERSHIP FUNDING",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "AD-029-19",
+"date": "2019-12-03",
+"title": "ACCEPTANCE OF FUNDS AND COMMITMENT OF FUNDS TO CONTINUE TO RETAIN EXPERT LEGAL COUNCIL",
+"before": "p",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-070-22",
+"date": "2022-09-13",
+"title": "Niagara County Sheriffs Office Budget Modification ~ Gas and Oil",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-019-20",
+"date": "2020-04-21",
+"title": "Niagara County Sheriffs Office Budget Modification FY19 Statewide Interoperable Communications Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "IF-070-23",
+"date": "2023-04-25",
+"title": "Carmen Road Bridge Over Johnson Creek Consultant Amendment No. 3",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-010-19",
+"date": "2019-02-19",
+"title": "Niagara County Sheriffs Office Federal Equitable Sharing Annual Recertification",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CSS-025-16",
+"date": "2016-03-22",
+"title": "2016 Juvenile Risk Intervention Services Coordination (J-RISC) Contracts- Probation",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-165-24",
+"date": "2024-10-15",
+"title": "Budget Modification for Court Renovations at the Angelo Delsignore Civic Building and the Niagara County Courthouse",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-058-25",
+"date": "2025-03-18",
+"title": "Agreement between the County of Niagara and Destination Niagara USA",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-052-19",
+"date": "2019-10-15",
+"title": "MH- 201 9 Authorization for Niagara County Department of Mental Health & Substance Use Services to enter into Agreement with Genesee County and participate in Integrity Partners for Behavioral Health",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-070-26",
+"date": "2026-04-21",
+"title": "Resolution in Support of the Lewiston Memorial Day Parade Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-028-25",
+"date": "2025-02-18",
+"title": "Court House Boiler Replacement Professional Services Contract Amendment No. 3 - Final",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-031-19",
+"date": "2019-02-19",
+"title": "Agreement between the County of Niagara and the Bond Lake Environmental Committee",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-037-22",
+"date": "2022-08-02",
+"title": "MH 2022 Budget Modification ~ 2022 State Aid",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-010-18",
+"date": "2018-02-20",
+"title": "Probation Budget Modification- Project Safe Neighborhoods - Probation",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-032-16",
+"date": "2016-04-19",
+"title": "(title not machine-readable in the county documents)",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-093-26",
+"date": "2026-05-19",
+"title": "Ransomville Road Culvert No. 17-1 Consultant Amendment No. 2",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-065-25",
+"date": "2025-03-18",
+"title": "Bridge NY Local Project Agreement, BIN 3329250, PIN 5765.40 Johnson Creek Road over Golden Hill Creek, Town of Somerset",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IL-119-25",
+"date": "2025-09-16",
+"title": "Resolution in Support of Niagara Falls Veterans Monument Commission Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-020-21",
+"date": "2021-03-23",
+"title": "Agreement Between the County of Niagara and the Soccer Shots Buffalo",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CSS-127-23",
+"date": "2023-11-14",
+"title": "Emergency Services - Ambulance Division Authorizing the Establishment and Operation of an Advanced Life Support Transporting Service within Niagara County",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IL-144-23",
+"date": "2023-11-14",
+"title": "RESOLUTION IN SUPPORT OF THE TOWN OF WHEATFIELD THROUGH THE USE OF COMMUNITY PARTNERSHIP FUNDING",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "B-016-19",
+"date": "2019-12-10",
+"title": "Levying of Taxes",
+"before": "x",
+"reader": "x",
+"after": "x"
+},
+{
+"id": "IF-063-16",
+"date": "2016-06-21",
+"title": "Lockport Road Intersections Consultant Amendment No. 6 - Approved",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-032-20",
+"date": "2020-09-15",
+"title": "BUDGET MODIFICATION - ACCEPT COVID-19 FUNDS EMERGENCY PLANNING\" DEPARTMENT OF HEALTH",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CW-004-26",
+"date": "2026-03-24",
+"title": "INTERIM APPOINTMENT RISK MANAGER",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "CSS-082-26",
+"date": "2026-06-16",
+"title": "Niagara County Emergency Services Sole Source Standardization of ESQ Solutions, Inc. for EMS Electronic Patient Care Reporting System",
+"before": "o",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-004-21",
+"date": "2021-01-19",
+"title": "Niagara County Roof Replacement Project Change Order No 5",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CW-008-19",
+"date": "2019-05-21",
+"title": "County of Niagara Extension of Lease with Northpointe Council, Inc",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-085-21",
+"date": "2021-08-03",
+"title": "Abolish Mason Position and Create and Fill General Repair Person II",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "IL-127-26",
+"date": "2026-08-04",
+"title": "Resolution in Support of Buffalo Bomb Squad Sports Inc. Through the Use of Community Partnership Funding",
+"before": "s",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-052-22",
+"date": "2022-08-02",
+"title": "Niagara County Sheriffs Office Accept Forensic Laboratory Paul Coverdell Forensic Science Improvement Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-050-15",
+"date": "2015-09-15",
+"title": "Sheriffs Week - September 14 - 20, 2015 - Sheriff",
+"before": "o",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "ED-010-19",
+"date": "2019-03-19",
+"title": "Adoption of the Section 3 Participation Plan by the County of Niagara as Required by the United States Department of Housing and Urban Development",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "IF-110-24",
+"date": "2024-05-14",
+"title": "Section 5311 Federal Programs Grant Application and Agreement",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "IF-076-17",
+"date": "2017-05-02",
+"title": "Agreement Between the County of Niagara and the Lockport Exchange Club",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-044-19",
+"date": "2019-09-19",
+"title": "Abolish Public Health Nurse, Create & Fill Public Health Office Coordinator Position - Nursing Division - Depaiiment of Heath",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "IL-018-21",
+"date": "2021-04-20",
+"title": "RESOLUTION REGARDING THE PROPOSED ASPHALT PLANT IN THE TOWN OF NIAGARA",
+"before": "o",
+"reader": "o",
+"after": "o"
+},
+{
+"id": "CS-040-19",
+"date": "2019-08-06",
+"title": "Budget Modification- Accept Raise the Age Funding from Niagara County Probation Services/Create 2 Positions - MH",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "IL-081-16",
+"date": "2016-12-06",
+"title": "Resolution Urging the Assembly to Cease Blocking Equal Access to Uber and Lyft Car Service in Upstate New York, A Privilege the State of New York Only Grants to New York City",
+"before": "s",
+"reader": "s",
+"after": "s"
+},
+{
+"id": "IF-131-19",
+"date": "2019-11-19",
+"title": "Approval of the Permanent Easement Agreement between Niagara County and New Royal Farms aka Newroyal Farms",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "AD-010-25",
+"date": "2025-02-18",
+"title": "Resolution to Waive RFP for Professional Services - Healthcare Consulting",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "AD-017-21",
+"date": "2021-11-09",
+"title": "Create and Fill Temporary Duplicating Machine Operator Position",
+"before": "p",
+"reader": "p",
+"after": "p"
+},
+{
+"id": "PW-033-15",
+"date": "2015-03-03",
+"title": "Agreement between the County of Niagara & Olcott Beach Car Show",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-004-22",
+"date": "2022-02-15",
+"title": "NIAGARA COUNTY CLERICS OFFICE BUDGET MODIFICATION ~ DWYER GRANT",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-004-24",
+"date": "2024-01-23",
+"title": "Niagara County Sheriffs Office Budget Modification - Stop DWI Funds for District Attorney Office",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "ED-008-26",
+"date": "2026-04-21",
+"title": "Resolution to Accept Empire State Development Restore NY Grant Funding to Assist with the Redevelopment of 519 Cayuga Drive, Niagara Falls",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CS-023-25",
+"date": "2025-05-06",
+"title": "Budget Modification Adoption and Legal Guardianship Incentive Funds- DSS",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CSS-016-21",
+"date": "2021-02-16",
+"title": "Acceptance of the Third Upstate Quality Improvement and Caseload Reduction Grant",
+"before": "g",
+"reader": "g",
+"after": "g"
+},
+{
+"id": "CSS-030-25",
+"date": "2025-02-18",
+"title": "Niagara County Office of Emergency Services 2025 Budget Modification Rollover 2024 Homeland Security Unspent Funds",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "CS-037-19",
+"date": "2019-08-06",
+"title": "Budget Modification- Child Fatality Review Team Initiative - DSS",
+"before": "b",
+"reader": "b",
+"after": "b"
+},
+{
+"id": "IF-109-20",
+"date": "2020-09-15",
+"title": "AGREEMENT BETWEEN THE COUNTY OF NIAGARA AND THE NIAGARA COUNTY SNOWMOBILE FEDERATION OF SNOWMOBILE CLUBS",
+"before": "c",
+"reader": "c",
+"after": "c"
+},
+{
+"id": "CS-050-26",
+"date": "2026-10-20",
+"title": "2026 Contract State Aid COLA - Mental Health",
+"before": "c",
+"reader": "g",
+"after": "g"
+}
+]
+}

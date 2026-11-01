@@ -1,0 +1,94 @@
+{
+ "_doc": "Full-precision full-value tax rates (levy / taxable full value x 1,000) for the tax estimate's counties and cities, read by tools/extract_osc_rates.py from the State Comptroller's workbook; tools/build_taxrates.py uses each one only where it rounds to the state open-data table's two-decimal rate for the same year.",
+ "year": 2025,
+ "page": "https://www.osc.ny.gov/local-government/data/real-property-tax-levies-taxable-full-value-and-full-value-tax-rates",
+ "file": "https://www.osc.ny.gov/files/local-government/data/excel/2025-local-governments.xlsx",
+ "county": {
+  "Cattaraugus": {
+   "name": "County of Cattaraugus",
+   "levy": 57726554.29,
+   "full_value": 7109545959.0,
+   "rate": 8.11958381349568
+  },
+  "Chautauqua": {
+   "name": "County of Chautauqua",
+   "levy": 73239571.91,
+   "full_value": 10920597481.0,
+   "rate": 6.70655355967698
+  },
+  "Erie": {
+   "name": "County of Erie",
+   "levy": 387356311.49,
+   "full_value": 104251092858.0,
+   "rate": 3.71560912092899
+  },
+  "Genesee": {
+   "name": "County of Genesee",
+   "levy": 33630737.39,
+   "full_value": 4443007038.0,
+   "rate": 7.5693639695738
+  },
+  "Niagara": {
+   "name": "County of Niagara",
+   "levy": 108021249.26,
+   "full_value": 19484011521.0,
+   "rate": 5.54409697117937
+  }
+ },
+ "city": {
+  "Batavia": {
+   "name": "City of Batavia",
+   "levy": 6785789.0,
+   "full_value": 771646212.0,
+   "rate": 8.79391215102602
+  },
+  "Dunkirk": {
+   "name": "City of Dunkirk",
+   "levy": 9773346.0,
+   "full_value": 577962512.0,
+   "rate": 16.9099998651816
+  },
+  "Jamestown": {
+   "name": "City of Jamestown",
+   "levy": 16713289.0,
+   "full_value": 921846263.0,
+   "rate": 18.1302345855471
+  },
+  "Lackawanna": {
+   "name": "City of Lackawanna",
+   "levy": 13679323.0,
+   "full_value": 1042426708.0,
+   "rate": 13.1225753283366
+  },
+  "Lockport": {
+   "name": "City of Lockport",
+   "levy": 13717249.0,
+   "full_value": 1316260360.0,
+   "rate": 10.4213797033286
+  },
+  "Niagara Falls": {
+   "name": "City of Niagara Falls",
+   "levy": 33391317.0,
+   "full_value": 2598424158.0,
+   "rate": 12.8506028922165
+  },
+  "North Tonawanda": {
+   "name": "City of North Tonawanda",
+   "levy": 21169100.0,
+   "full_value": 2728451957.0,
+   "rate": 7.7586486159998
+  },
+  "Olean": {
+   "name": "City of Olean",
+   "levy": 8062329.0,
+   "full_value": 617959088.0,
+   "rate": 13.0467035060418
+  },
+  "Tonawanda": {
+   "name": "City of Tonawanda",
+   "levy": 15627821.0,
+   "full_value": 1298539446.0,
+   "rate": 12.0349220411745
+  }
+ }
+}
