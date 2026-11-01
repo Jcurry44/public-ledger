@@ -114,6 +114,12 @@
    "url": "https://voterlookup.elections.ny.gov/",
    "kind": "State lookup"
   },
+  "boe-ge11": {
+   "label": "Board of Elections, official results, general election Nov 8, 2011",
+   "short": "Board of Elections results, 2011",
+   "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/racelist.htm",
+   "kind": "Board of Elections results"
+  },
   "boe-ge13": {
    "label": "Board of Elections, official results, general election Nov 5, 2013",
    "short": "Board of Elections results, 2013",
@@ -1200,8 +1206,65 @@
      "min-2017",
      "min-2018",
      "min-2019"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 1,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r95c608_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 1,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r139c494_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 1,
+     "codes": [
+      "REP",
+      "CON",
+      "IND",
+      "REF"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r203c1145_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 1,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r119c726_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Ross",
@@ -1226,8 +1289,39 @@
     ],
     "years": [
      "min-2015"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 2,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r96c590_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 2,
+     "codes": [
+      "REP",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r112c40_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Updegrove",
@@ -1252,8 +1346,38 @@
     ],
     "years": [
      "min-2015"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r100c668_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r110c544_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Lance",
@@ -1285,9 +1409,66 @@
      "min-2016",
      "min-2017",
      "min-2018"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17"
     ]
    },
-   "name_note": "The Board of Elections' 2013 and 2015 results print 'Kathryn L Palka-Lance'; the minutes and the 2017 results print 'Kathryn L. Lance'."
+   "name_note": "The Board of Elections' 2013 and 2015 results print 'Kathryn L Palka-Lance'; the minutes and the 2017 results print 'Kathryn L. Lance'.",
+   "lines": [
+    {
+     "year": 2011,
+     "district": 7,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r66c566_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 7,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r117c465_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 7,
+     "codes": [
+      "REP",
+      "CON",
+      "IND",
+      "REF"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r166c1112_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 7,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r101c699_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "McNall",
@@ -1321,9 +1502,83 @@
      "min-2017",
      "min-2018",
      "min-2019"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19"
     ]
    },
-   "name_note": "The Board of Elections' results print 'Wm Keith Mc Nall' (2013, 2015) and 'Wm K Mc Nall' (2017); the minutes print 'Wm. Keith McNall'."
+   "name_note": "The Board of Elections' results print 'Wm Keith Mc Nall' (2013, 2015) and 'Wm K Mc Nall' (2017); the minutes print 'Wm. Keith McNall'.",
+   "lines": [
+    {
+     "year": 2011,
+     "district": 13,
+     "codes": [
+      "REP",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r101c13_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 13,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r142c495_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 13,
+     "codes": [
+      "REP",
+      "CON",
+      "IND",
+      "REF"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r161c1148_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 13,
+     "codes": [
+      "REP",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r98c727_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 13,
+     "codes": [
+      "REP",
+      "CON",
+      "GRE",
+      "LIB",
+      "IND"
+     ],
+     "won": false,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r112c91_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Zona",
@@ -1357,8 +1612,66 @@
      "min-2017",
      "min-2018",
      "min-2019"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 5,
+     "codes": [
+      "DEM",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r64c9_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 5,
+     "codes": [
+      "DEM",
+      "WOR",
+      "GRE"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r115c543_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 5,
+     "codes": [
+      "DEM",
+      "GRE",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r164c100_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 5,
+     "codes": [
+      "DEM",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r122c780_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Grozio",
@@ -1400,8 +1713,72 @@
      "min-2021",
      "min-2022",
      "min-2023"
+    ],
+    "lines": [
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19",
+     "boe-ge21"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2013,
+     "district": 3,
+     "codes": [
+      "DEM"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r113c509_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 3,
+     "codes": [
+      "DEM"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r163c65_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 3,
+     "codes": [
+      "DEM",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r120c738_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 3,
+     "codes": [
+      "DEM",
+      "WOR",
+      "LIB"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r115c102_brkdwn.htm"
+    },
+    {
+     "year": 2021,
+     "district": 3,
+     "codes": [
+      "DEM",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge21",
+     "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE21_2021-11-02_02-Candidate-Summary-Results-by-Party.pdf",
+     "page": 3
+    }
+   ]
   },
   {
    "key": "Steed",
@@ -1439,8 +1816,87 @@
      "min-2019",
      "min-2020",
      "min-2021"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19",
+     "boe-ge21"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 4,
+     "codes": [
+      "DEM",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r63c6_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 4,
+     "codes": [
+      "DEM"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r114c80_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 4,
+     "codes": [
+      "DEM",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r211c1200_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 4,
+     "codes": [
+      "DEM",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r121c776_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 4,
+     "codes": [
+      "DEM",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r131c157_brkdwn.htm"
+    },
+    {
+     "year": 2021,
+     "district": 4,
+     "codes": [
+      "CON"
+     ],
+     "won": false,
+     "src": "boe-ge21",
+     "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE21_2021-11-02_02-Candidate-Summary-Results-by-Party.pdf",
+     "page": 3
+    }
+   ]
   },
   {
    "key": "Virtuoso",
@@ -1478,8 +1934,80 @@
      "min-2019",
      "min-2020",
      "min-2021"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 6,
+     "codes": [
+      "DEM",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r65c10_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 6,
+     "codes": [
+      "DEM",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r116c84_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 6,
+     "codes": [
+      "DEM",
+      "CON",
+      "GRE",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r165c125_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 6,
+     "codes": [
+      "DEM",
+      "CON",
+      "WOR",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r100c42_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 6,
+     "codes": [
+      "DEM",
+      "WOR",
+      "LIB"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r117c119_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Syracuse",
@@ -1517,8 +2045,78 @@
      "min-2019",
      "min-2020",
      "min-2021"
+    ],
+    "lines": [
+     "boe-ge11",
+     "boe-ge13",
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2011,
+     "district": 14,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge11",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge11/r102c563_brkdwn.htm"
+    },
+    {
+     "year": 2013,
+     "district": 14,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge13",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge13/r143c464_brkdwn.htm"
+    },
+    {
+     "year": 2015,
+     "district": 14,
+     "codes": [
+      "REP",
+      "CON",
+      "IND",
+      "REF"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r204c1110_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 14,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r126c697_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 14,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r133c48_brkdwn.htm"
+    }
+   ]
   },
   {
    "key": "Collins",
@@ -1558,9 +2156,80 @@
      "min-2021",
      "min-2022",
      "min-2023"
+    ],
+    "lines": [
+     "boe-ge15",
+     "boe-ge17",
+     "boe-ge19",
+     "boe-ge21",
+     "boe-ge23"
     ]
    },
-   "name_note": "The minutes print 'William J. Collins'; the Board of Elections' 2021 and 2023 results print 'William J. Collins, Sr.'."
+   "name_note": "The minutes print 'William J. Collins'; the Board of Elections' 2021 and 2023 results print 'William J. Collins, Sr.'.",
+   "lines": [
+    {
+     "year": 2015,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON",
+      "GRE",
+      "WOR",
+      "IND",
+      "REF"
+     ],
+     "won": true,
+     "src": "boe-ge15",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/r160c72_brkdwn.htm"
+    },
+    {
+     "year": 2017,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge17",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge17/r125c742_brkdwn.htm"
+    },
+    {
+     "year": 2019,
+     "district": 12,
+     "codes": [
+      "REP",
+      "IND"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r111c109_brkdwn.htm"
+    },
+    {
+     "year": 2021,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON"
+     ],
+     "won": true,
+     "src": "boe-ge21",
+     "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE21_2021-11-02_02-Candidate-Summary-Results-by-Party.pdf",
+     "page": 5
+    },
+    {
+     "year": 2023,
+     "district": 12,
+     "codes": [
+      "REP",
+      "CON"
+     ],
+     "won": false,
+     "src": "boe-ge23",
+     "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE23-2023-11-07-02-Candidate-Summary-Results-by-Party.pdf",
+     "page": 2
+    }
+   ]
   },
   {
    "key": "Mullane",
@@ -1587,8 +2256,36 @@
     "years": [
      "min-2020",
      "min-2021"
+    ],
+    "lines": [
+     "boe-ge19",
+     "boe-ge21"
     ]
-   }
+   },
+   "lines": [
+    {
+     "year": 2019,
+     "district": 13,
+     "codes": [
+      "DEM",
+      "WOR"
+     ],
+     "won": true,
+     "src": "boe-ge19",
+     "url": "https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge19/r112c125_brkdwn.htm"
+    },
+    {
+     "year": 2021,
+     "district": 13,
+     "codes": [
+      "DEM"
+     ],
+     "won": false,
+     "src": "boe-ge21",
+     "url": "https://elections.niagaracounty.gov/wp-content/uploads/2025/10/GE21_2021-11-02_02-Candidate-Summary-Results-by-Party.pdf",
+     "page": 5
+    }
+   ]
   },
   {
    "key": "Wydysh",
@@ -1681,5 +2378,17 @@
    },
    "name_note": "The minutes print 'Christopher Voccio'; the Board of Elections prints 'Christopher P. Voccio'."
   }
- ]
+ ],
+ "line_codes": {
+  "REP": "Republican",
+  "DEM": "Democratic",
+  "CON": "Conservative",
+  "WOR": "Working Families",
+  "IND": "Independence",
+  "GRE": "Green",
+  "LIB": "Libertarian",
+  "REF": "Reform"
+ },
+ "line_codes_note": "The Board of Elections' results print each ballot line as a code. Its November 3, 2026 ballot order (boe-ballot-2026) spells REP, DEM, CON and WOR as REPUBLICAN, DEMOCRATIC, CONSERVATIVE and WORKING FAMILIES; IND, GRE, LIB and REF are the Independence, Green, Libertarian and Reform parties' lines of 2011-2019. A ballot line is the party line a candidate ran on, not the party they are enrolled in.",
+ "lines_scope": "Earlier members (no Board of Elections directory before 2024 is online): 'lines' lists every county legislator race each ran in, 2011-2023, with the ballot lines printed beside their name in the Board's official results, whether they won, and the page or PDF it is printed on. The 2021 and 2023 PDFs print no winner, so 'won' there is the larger sum of the candidates' lines. Retrieved 2026-11-01."
 }
