@@ -6492,6 +6492,208 @@
    },
    "header_line": "IL-155-26 From: Legislators Richard L Andres, Michael A. Hill, Randy R. Bradt, Anthony J, Nemi, David E. Godfrey, Christopher J. McKimmie, Irene M. Myers, Jesse P. Gooch, Richard E. Abbott, Shawn A. Foti, Jeffrey Elder, Christopher A. Robins, Cara! L. Speranza and",
    "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-162-26",
+   "date": "2026-10-20",
+   "kind": "removed",
+   "before": {
+    "sp": [
+     "Speranza",
+     "Abbott"
+    ],
+    "cms": "Legislators Carla L. Speranza, Richard E. Abbott and Economic Development"
+   },
+   "after": {
+    "sp": [
+     "Speranza"
+    ],
+    "cms": "Legislator Carla L. Speranza and Economic Development Committee"
+   },
+   "header_line": "IL-162-26 From: Legislator Carla L. Speranza and Economic Development Committee",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf"
+  },
+  {
+   "id": "IL-163-26",
+   "date": "2026-10-20",
+   "kind": "replaced",
+   "before": {
+    "sp": [
+     "Speranza"
+    ],
+    "cms": "Legislator Carla L. Speranza and Economic Development"
+   },
+   "after": {
+    "sp": [
+     "Gooch"
+    ],
+    "cms": "Legislator Jesse P. Gooch and Economic Development Committee"
+   },
+   "header_line": "IL-163-26 From: Legislator Jesse P. Gooch and Economic Development Committee",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf"
+  },
+  {
+   "id": "IL-166-26",
+   "date": "2026-10-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Speranza",
+     "Myers",
+     "Abbott"
+    ],
+    "cms": "Legislator Carla L. Speranza, Irene M. Myers, Richard E. Abbott, et al. and Economic Devel"
+   },
+   "after": {
+    "sp": [
+     "Speranza",
+     "Myers",
+     "Abbott",
+     "Foti",
+     "Hill",
+     "Nemi",
+     "Godfrey",
+     "Bradt",
+     "Andres",
+     "Gooch",
+     "Farruggia",
+     "Robins",
+     "Elder",
+     "McKimmie",
+     "Casale"
+    ],
+    "cms": "Legislators Carla L. Speranza, Irene M. Myers, Richard E. Abbott, Shawn A. Foti"
+   },
+   "header_line": "IL-166-26 From: Legislators Carla L. Speranza, Irene M. Myers, Richard E. Abbott, Shawn A. Foti, Michael A. Hill, Anthony J. Nemi, David E. Godfrey, Randy R. Bradt, Richard L. Andres, Jesse P. Gooch, Sam R. Farruggia, Christopher A. Robins, Jeffrey Elder, Christopher J. McKimmie, Michael A. Casaleand Economic Development Committee",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf"
+  },
+  {
+   "id": "IL-173-26",
+   "date": "2026-10-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Hill",
+     "Bradt",
+     "Andres",
+     "Godfrey"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Hill",
+     "Bradt",
+     "Andres",
+     "Godfrey",
+     "Myers",
+     "Gooch",
+     "Nemi",
+     "Abbott",
+     "Casale",
+     "Foti",
+     "McKimmie"
+    ],
+    "cms": "Legislators Michael A. Hill, Randy R. Bradt, Richard L. Andres, David E. Godfrey"
+   },
+   "header_line": "IL-173-26 From: Legislators Michael A. Hill, Randy R. Bradt, Richard L. Anders, David E. Godfrey, Irene M. Myers, Jesse P. Gooch, Anthony J. Nemi, Richard E. Abbott, Michael A. Casale, Shawn A. Foti and Christopher J. McKimmie",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf",
+   "fuzzy_names": [
+    "Anders->Andres"
+   ]
+  },
+  {
+   "id": "IL-174-26",
+   "date": "2026-10-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Farruggia",
+     "Robins",
+     "Elder",
+     "Speranza"
+    ],
+    "cms": "Legislators Sam R. Farruggia, Christopher A. Robins, Jeffrey Elder and Carla L. Speranza"
+   },
+   "after": {
+    "sp": [
+     "Farruggia",
+     "Robins",
+     "Elder",
+     "Speranza",
+     "McKimmie"
+    ],
+    "cms": "Legislators Sam R. Farruggia, Christopher A. Robins, Jeffrey Elder, Carla L. Speranza"
+   },
+   "header_line": "IL-174-26 From: Legislators Sam R. Farruggia, Christopher A. Robins, Jeffrey Elder, Carla L. Speranza and Christopher J. McK.immie",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf",
+   "fuzzy_names": [
+    "McK.immie->McKimmie"
+   ]
+  },
+  {
+   "id": "IL-175-26",
+   "date": "2026-10-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Hill",
+     "Bradt"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Hill",
+     "Bradt",
+     "Godfrey",
+     "McKimmie",
+     "Myers",
+     "Gooch",
+     "Abbott",
+     "Foti",
+     "Casale",
+     "Elder",
+     "Robins",
+     "Speranza",
+     "Farruggia"
+    ],
+    "cms": "Legislators Richard L. Andres, Michael A. Hill, Randy R. Bradt, David E. Godfrey"
+   },
+   "header_line": "IL-175-26 From: Legislators Richard L. Andres, Michael A. Hill, Randy R. Bradt, David E. Godfrey, Christopher J. McKimmie, Irene M. Myers, Jesse P. Gooch, Richard E. Abbott, Shawn A Foti, Michael A. Casale, Jeffrey Elder, Christopher A. Robins. Carla L. Speranza and Sam R. Farruggia",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf"
+  },
+  {
+   "id": "IL-180-26",
+   "date": "2026-10-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "McKimmie"
+    ]
+   },
+   "after": {
+    "sp": [
+     "McKimmie",
+     "Foti",
+     "Hill",
+     "Bradt",
+     "Andres",
+     "Godfrey",
+     "Myers",
+     "Gooch",
+     "Nemi",
+     "Abbott",
+     "Casale",
+     "Farruggia",
+     "Elder",
+     "Robins",
+     "Speranza"
+    ],
+    "cms": "Legislators Christopher J. McKimmie, Shawn A. Foti, Michael A. Hill, Randy R. Bradt"
+   },
+   "header_line": "IL-180-26 From: Legislators Christopher J. McKimmie, Shawn A. Foti, Michael A. Hill, Randy R. Bradt, Richard L. Andres, David E. Godfrey, Irene M. Myers, Jesse P. Gooch, Anthony J. Nemi, Richard E. Abbott, Michael A. Casale, Sam R. Farruggia, Jeffrey Elder, Christopher A. Robins and Carla L. Speranza",
+   "minutes_file": "2026_10-20-26_Meeting_Minutes.pdf"
   }
  ],
  "conflicts": [],
@@ -6912,6 +7114,6 @@
   "Wydysh",
   "Zona"
  ],
- "rows_with_header": 1276,
+ "rows_with_header": 1300,
  "skipped_title_mismatch": 10
 }

@@ -6,7 +6,7 @@
    "date": "2026-10-20",
    "kind": "meeting",
    "title": "Oct 20, 2026: the council approved $1,641,618 in two warrants",
-   "summary": "The main warrant, $1,591,847 (284 lines); a second warrant, $49,771 (1 line). Every line ties to the city's printed totals to the cent.",
+   "summary": "The main warrant, $1,591,847 (284 claims); a second warrant, $49,771 (1 claim). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-10-20-26b.html",
    "docs": [
     "Warrant Report 10.20.26b.pdf",
@@ -18,7 +18,7 @@
    "id": "2026-10-20",
    "date": "2026-10-20",
    "title": "Oct 20, 2026: the county legislature took up 54 resolutions",
-   "summary": "On the agenda; the votes are read from the minutes once the county posts them.",
+   "summary": "54 adopted; 1 with votes against.",
    "kind": "meeting",
    "url": "decisions.html#m-2026-10-20",
    "n": 54,
@@ -29,7 +29,7 @@
    "date": "2026-10-06",
    "kind": "meeting",
    "title": "Oct 6, 2026: the council approved $1,332,824 in a warrant and a card statement",
-   "summary": "The warrant, $1,313,429 (398 lines); the card statement, $19,395 (53 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $1,313,429 (398 claims); the card statement, $19,395 (53 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-10-6-26.html",
    "docs": [
     "Warrant report 10.6.26.pdf",
@@ -51,8 +51,8 @@
    "id": "meeting-2026-09-15",
    "date": "2026-09-15",
    "kind": "meeting",
-   "title": "Sept 15, 2026: the council approved $1,794,210 in bills",
-   "summary": "239 lines, tied to the city's printed totals to the cent.",
+   "title": "Sept 15, 2026: the council approved $1,794,210 in claims",
+   "summary": "239 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-9-15-26.html",
    "docs": [
     "Warrant report 9.15.26.pdf"
@@ -64,7 +64,7 @@
    "date": "2026-09-01",
    "kind": "meeting",
    "title": "Sept 1, 2026: the council approved $1,668,524 in a warrant and a card statement",
-   "summary": "The warrant, $1,600,072 (322 lines); the card statement, $68,452 (57 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $1,600,072 (322 claims); the card statement, $68,452 (57 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-9-1-26.html",
    "docs": [
     "warrant report 9.1.26.pdf",
@@ -76,8 +76,8 @@
    "id": "meeting-2026-08-18",
    "date": "2026-08-18",
    "kind": "meeting",
-   "title": "Aug 18, 2026: the council approved $1,751,615 in bills",
-   "summary": "358 lines, tied to the city's printed totals to the cent.",
+   "title": "Aug 18, 2026: the council approved $1,751,615 in claims",
+   "summary": "358 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-8-18-26.html",
    "docs": [
     "Warrant report 8.18.26.pdf"
@@ -89,7 +89,7 @@
    "date": "2026-08-04",
    "kind": "meeting",
    "title": "Aug 4, 2026: the council approved $1,537,576 in a warrant and a card statement",
-   "summary": "The warrant, $1,419,517 (278 lines); the card statement, $118,060 (55 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $1,419,517 (278 claims); the card statement, $118,060 (55 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-8-4-26.html",
    "docs": [
     "Warrant report 8.4.26.pdf",
@@ -111,8 +111,8 @@
    "id": "meeting-2026-07-21",
    "date": "2026-07-21",
    "kind": "meeting",
-   "title": "July 21, 2026: the council approved $1,695,842 in bills",
-   "summary": "375 lines, tied to the city's printed totals to the cent.",
+   "title": "July 21, 2026: the council approved $1,695,842 in claims",
+   "summary": "375 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-7-21-26.html",
    "docs": [
     "Warrant Report 7.21.26.pdf"
@@ -124,7 +124,7 @@
    "date": "2026-07-07",
    "kind": "meeting",
    "title": "July 7, 2026: the council approved $1,334,206 in a warrant and a card statement",
-   "summary": "The warrant, $1,289,800 (312 lines); the card statement, $44,405 (32 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $1,289,800 (312 claims); the card statement, $44,405 (32 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-7-7-26.html",
    "docs": [
     "Warrant report 7.7.26.pdf",
@@ -136,8 +136,8 @@
    "id": "meeting-2026-06-16",
    "date": "2026-06-16",
    "kind": "meeting",
-   "title": "June 16, 2026: the council approved $895,846 in bills",
-   "summary": "370 lines, tied to the city's printed totals to the cent.",
+   "title": "June 16, 2026: the council approved $895,846 in claims",
+   "summary": "370 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-6-16-26.html",
    "docs": [
     "Warrant Report 6.16.26.pdf"
@@ -159,7 +159,7 @@
    "date": "2026-06-02",
    "kind": "meeting",
    "title": "June 2, 2026: the council approved $499,460 in a warrant and a card statement",
-   "summary": "The warrant, $390,104 (211 lines); the card statement, $109,356 (48 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $390,104 (211 claims); the card statement, $109,356 (48 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-6-2-26.html",
    "docs": [
     "Warrant Report 6.2.26.pdf",
@@ -181,8 +181,8 @@
    "id": "meeting-2026-05-19",
    "date": "2026-05-19",
    "kind": "meeting",
-   "title": "May 19, 2026: the council approved $844,791 in bills",
-   "summary": "270 lines, tied to the city's printed totals to the cent.",
+   "title": "May 19, 2026: the council approved $844,791 in claims",
+   "summary": "270 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-5-19-26.html",
    "docs": [
     "Warrant Report 5.19.26.pdf"
@@ -204,7 +204,7 @@
    "date": "2026-05-05",
    "kind": "meeting",
    "title": "May 5, 2026: the council approved $1,056,576 in a warrant and a card statement",
-   "summary": "The warrant, $996,519 (309 lines); the card statement, $60,057 (58 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $996,519 (309 claims); the card statement, $60,057 (58 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-5-5-26.html",
    "docs": [
     "Warrant Report 5.5.26.pdf",
@@ -226,8 +226,8 @@
    "id": "meeting-2026-04-21",
    "date": "2026-04-21",
    "kind": "meeting",
-   "title": "Apr 21, 2026: the council approved $1,018,966 in bills",
-   "summary": "288 lines, tied to the city's printed totals to the cent.",
+   "title": "Apr 21, 2026: the council approved $1,018,966 in claims",
+   "summary": "288 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-4-21-26.html",
    "docs": [
     "Warrant Report 4.21.26.pdf"
@@ -249,7 +249,7 @@
    "date": "2026-04-07",
    "kind": "meeting",
    "title": "Apr 7, 2026: the council approved $1,106,640 in a warrant and a card statement",
-   "summary": "The warrant, $1,098,267 (482 lines); the card statement, $8,372 (39 charges). Every line ties to the city's printed totals to the cent.",
+   "summary": "The warrant, $1,098,267 (482 claims); the card statement, $8,372 (39 charges). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-4-7-26.html",
    "docs": [
     "Warrant Report 4.7.26.pdf",
@@ -271,8 +271,8 @@
    "id": "meeting-2026-03-17",
    "date": "2026-03-17",
    "kind": "meeting",
-   "title": "Mar 17, 2026: the council approved $1,063,310 in bills",
-   "summary": "314 lines, tied to the city's printed totals to the cent.",
+   "title": "Mar 17, 2026: the council approved $1,063,310 in claims",
+   "summary": "314 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-3-17-26.html",
    "docs": [
     "Warrant Report 3.17.26.pdf"
@@ -283,8 +283,8 @@
    "id": "meeting-2026-03-03",
    "date": "2026-03-03",
    "kind": "meeting",
-   "title": "Mar 3, 2026: the council approved $628,468 in bills",
-   "summary": "193 lines, tied to the city's printed totals to the cent.",
+   "title": "Mar 3, 2026: the council approved $628,468 in claims",
+   "summary": "193 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-3-3-26-2026.html",
    "docs": [
     "Warrant Report 3.3.26 - 2026.pdf"
@@ -295,8 +295,8 @@
    "id": "meeting-2026-02-17",
    "date": "2026-02-17",
    "kind": "meeting",
-   "title": "Feb 17, 2026: the council approved $1,167,776 in bills",
-   "summary": "272 lines, tied to the city's printed totals to the cent.",
+   "title": "Feb 17, 2026: the council approved $1,167,776 in claims",
+   "summary": "272 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-2-17-26-2026.html",
    "docs": [
     "Warrant Report 2.17.26 - 2026.pdf"
@@ -318,7 +318,7 @@
    "date": "2026-02-03",
    "kind": "meeting",
    "title": "Feb 3, 2026: the council approved $756,686 in two warrants",
-   "summary": "The main warrant, $414,402 (60 lines); a second warrant, $342,284 (181 lines). Every line ties to the city's printed totals to the cent.",
+   "summary": "The main warrant, $414,402 (60 claims); a second warrant, $342,284 (181 claims). Every claim ties to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-2-3-26-2025-charges.html",
    "docs": [
     "Warrant Report 2.3.26-2025 Charges.pdf",
@@ -330,8 +330,8 @@
    "id": "meeting-2026-01-20",
    "date": "2026-01-20",
    "kind": "meeting",
-   "title": "Jan 20, 2026: the council approved $991,473 in bills",
-   "summary": "134 lines, tied to the city's printed totals to the cent.",
+   "title": "Jan 20, 2026: the council approved $991,473 in claims",
+   "summary": "134 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-1-20-26-2026.html",
    "docs": [
     "Warrant Report 1.20.26 - 2026.pdf"
@@ -362,8 +362,8 @@
    "id": "meeting-2025-12-02",
    "date": "2025-12-02",
    "kind": "meeting",
-   "title": "Dec 2, 2025: the council approved $1,900,066 in bills",
-   "summary": "212 lines, tied to the city's printed totals to the cent.",
+   "title": "Dec 2, 2025: the council approved $1,900,066 in claims",
+   "summary": "212 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-12-2-25.html",
    "docs": [
     "Warrant Report 12.2.25.pdf"
@@ -384,8 +384,8 @@
    "id": "meeting-2025-11-18",
    "date": "2025-11-18",
    "kind": "meeting",
-   "title": "Nov 18, 2025: the council approved $886,794 in bills",
-   "summary": "328 lines, tied to the city's printed totals to the cent.",
+   "title": "Nov 18, 2025: the council approved $886,794 in claims",
+   "summary": "328 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-11-18-25.html",
    "docs": [
     "Warrant Report 11.18.25.pdf"
@@ -406,8 +406,8 @@
    "id": "meeting-2025-11-05",
    "date": "2025-11-05",
    "kind": "meeting",
-   "title": "Nov 5, 2025: the council approved $1,172,617 in bills",
-   "summary": "285 lines, tied to the city's printed totals to the cent.",
+   "title": "Nov 5, 2025: the council approved $1,172,617 in claims",
+   "summary": "285 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-11-5-25.html",
    "docs": [
     "Warrant Report 11.5.25.pdf"
@@ -428,8 +428,8 @@
    "id": "meeting-2025-10-07",
    "date": "2025-10-07",
    "kind": "meeting",
-   "title": "Oct 7, 2025: the council approved $1,352,364 in bills",
-   "summary": "421 lines, tied to the city's printed totals to the cent.",
+   "title": "Oct 7, 2025: the council approved $1,352,364 in claims",
+   "summary": "421 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-10-7-25.html",
    "docs": [
     "Warrant Report 10.7.25.pdf"
@@ -440,8 +440,8 @@
    "id": "meeting-2025-09-16",
    "date": "2025-09-16",
    "kind": "meeting",
-   "title": "Sept 16, 2025: the council approved $665,754 in bills",
-   "summary": "284 lines, tied to the city's printed totals to the cent.",
+   "title": "Sept 16, 2025: the council approved $665,754 in claims",
+   "summary": "284 claims, tied to the city's printed totals to the cent.",
    "url": "briefs/warrant-report-9-16-25.html",
    "docs": [
     "Warrant report 9.16.25.pdf"

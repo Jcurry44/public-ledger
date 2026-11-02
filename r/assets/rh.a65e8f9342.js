@@ -1,0 +1,175 @@
+try{var t=localStorage.getItem("pl-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}
+
+(function(){
+var D=document, PL=window.PL=window.PL||{};
+if(PL.share) return;
+function coarse(){ try{ return matchMedia('(pointer:coarse)').matches; }catch(e){ return false; } }
+var tt=null, tc=null;
+function toastEl(){
+var t=D.getElementById('plToast');
+if(!t){ t=D.createElement('div'); t.className='pl-toast'; t.id='plToast'; t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+t.setAttribute('data-pl-keep',''); (D.body||D.documentElement).appendChild(t); t._plNew=1; }
+return t;
+}
+PL.toast=function(msg,ms){
+var t=toastEl(), wait=t._plNew?40:0; t._plNew=0;
+setTimeout(function(){ clearTimeout(tt); clearTimeout(tc); t.textContent=msg; t.classList.add('show');
+tt=setTimeout(function(){ t.classList.remove('show'); tc=setTimeout(function(){ t.textContent=''; },400); },ms||2600); },wait);
+};
+var box=null;
+function field(s){
+if(!box){
+box=D.createElement('div'); box.className='pl-cpf'; box.setAttribute('role','dialog'); box.setAttribute('aria-label','Copy it from here');
+box.setAttribute('data-pl-keep','');
+box.innerHTML='<input class="pl-cpf-i" readonly aria-label="The text to copy"><button type="button" class="pl-pill pl-cpf-x">Done</button>';
+D.body.appendChild(box);
+box.querySelector('button').addEventListener('click',shut);
+box.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); shut(); } });
+}
+var i=box.querySelector('input');
+if(box.hidden!==false||!box._back) box._back=D.activeElement;
+i.value=s; box.hidden=false; i.focus(); i.select(); try{ i.setSelectionRange(0,s.length); }catch(e){}
+}
+function shut(){ if(!box) return; box.hidden=true; var b=box._back; box._back=null; if(b&&b.focus&&D.documentElement.contains(b)) b.focus(); }
+function linkish(s){ return /^(https?:|mailto:|\.{0,2}\/|[\w.-]+\.html\b)/i.test(s); }
+PL.copyText=function(s,msg){
+s=String(s); var lk=linkish(s);
+return new Promise(function(res){
+function ok(){ PL.toast(msg||(lk?'Link copied':'Copied')); res(true); }
+function legacy(){
+var a=D.activeElement, ta=D.createElement('textarea'), did=false;
+ta.value=s; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+D.body.appendChild(ta); ta.select();
+try{ did=D.execCommand('copy'); }catch(e){}
+D.body.removeChild(ta);
+if(a&&a.focus){ try{ a.focus({preventScroll:true}); }catch(e){} }
+if(did){ ok(); return; }
+field(s);
+PL.toast('Couldn’t copy: '+(lk?'the link':'the text')+' is selected, '+(coarse()?'press and hold it to copy':'copy it with your keyboard'),7000);
+res(false);
+}
+if(navigator.clipboard&&navigator.clipboard.writeText){ try{ navigator.clipboard.writeText(s).then(ok,legacy); }catch(e){ legacy(); } }
+else legacy();
+});
+};
+var SITE='https://jcurry44.github.io/public-ledger/';
+function siteRoot(){
+var m=D.querySelector('header.pl-mast[data-root]'), here=location.href.split('#')[0].split('?')[0];
+if(m) return new URL(m.getAttribute('data-root')||'./',here);
+var c=D.querySelector('link[rel=canonical]'), h=c&&c.getAttribute('href')||'';
+if(h.indexOf(SITE)!==0) return null;
+var path=h.slice(SITE.length), lp=new URL(here).pathname;
+if(!path) return new URL(lp.replace(/[^\/]*$/,''),here);
+return lp.slice(-path.length)===path?new URL(lp.slice(0,lp.length-path.length),here):null;
+}
+PL.canonURL=function(u){
+var here=location.href, x;
+try{ x=new URL(u||here,here); }catch(e){ return u||here; }
+if(x.href.indexOf(SITE)===0) return x.href;
+var r=null; try{ r=siteRoot(); }catch(e){ r=null; }
+if(!r||x.protocol!==r.protocol||x.host!==r.host||x.pathname.indexOf(r.pathname)!==0) return x.href;
+var rel=x.pathname.slice(r.pathname.length);
+return SITE+(rel==='index.html'?'':rel)+x.search+x.hash;
+};
+PL.share=function(o){
+o=o||{};
+var url=PL.canonURL(o.url||location.href), data={title:o.title||D.title,url:url}, sheet=!!navigator.share&&!navigator.webdriver&&coarse();
+if(o.text) data.text=o.text;
+try{ if(sheet&&navigator.canShare&&!navigator.canShare(data)) sheet=false; }catch(e){ sheet=false; }
+function copy(){ return PL.copyText(url,'Link copied').then(function(k){ return k?'copied':'selected'; }); }
+if(!sheet) return copy();
+return navigator.share(data).then(function(){ PL.toast('Shared'); return 'shared'; },
+function(e){ return e&&e.name==='AbortError'?'cancelled':copy(); });
+};
+PL.shareLink=function(title,url){ return PL.share({title:title,url:url||location.href}); };      
+var ON='This part of the page didn’t load: the connection may have dropped.', OFF='You’re offline: this part needs a connection.';
+function said(){ return navigator.onLine===false?OFF:ON; }
+var KEEP=/^(TABLE|TBODY|THEAD|TFOOT|TR|UL|OL|DL|SELECT|svg|g)$/;
+PL.dataFail=function(el,retry,o){
+if(typeof el==='string') el=D.querySelector(el);
+el=el||D.getElementById('main')||D.body; o=o||{};
+var b=D.createElement('div'), p=D.createElement('p'), k=D.createElement('button'), beside=!o.head&&KEEP.test(el.tagName);
+b.className='pl-fail'; b.setAttribute('role','status'); p.className='pl-fail-t'; p.textContent=said();
+k.type='button'; k.className='pl-pill pl-fail-b'; k.textContent='Try again'; b.appendChild(p); b.appendChild(k);
+function reset(){ if(b.isConnected){ k.disabled=false; k.textContent='Try again'; p.textContent=said(); } }
+k.addEventListener('click',function(){
+if(typeof retry!=='function'){ location.reload(); return; }
+k.disabled=true; k.textContent='Trying again…';
+var t=setTimeout(reset,10000), r;
+try{ r=retry(); }catch(e){ clearTimeout(t); reset(); return; }
+if(r&&typeof r.then==='function') r.then(function(){ clearTimeout(t); if(beside&&b.isConnected) b.remove(); },function(){ clearTimeout(t); reset(); });
+else if(beside&&el.childNodes.length){ clearTimeout(t); b.remove(); }
+});
+if(o.head) el.insertBefore(b,el.firstChild);
+else if(beside){ var at=/^(TBODY|THEAD|TFOOT|TR)$/.test(el.tagName)?el.closest('table'):el.tagName==='g'?el.ownerSVGElement:el; at=at||el;
+var x=at.previousElementSibling; if(x&&x.className==='pl-fail') x.remove(); el.innerHTML=''; at.parentNode.insertBefore(b,at); }
+else{ el.innerHTML=''; el.appendChild(b); }
+try{ b.dispatchEvent(new CustomEvent('pl:fail',{bubbles:true})); }catch(e){}
+return b;
+};
+PL.loadJSON=function(url,part,retry){
+function go(){ if(location.protocol==='file:') return Promise.reject(new Error(url));
+return fetch(url).then(function(r){ if(!r.ok) throw new Error(url+' '+r.status); return r.json(); }); }
+return go().catch(function(e){ if(part) PL.dataFail(part,typeof retry==='function'?retry:null); throw e; });
+};
+function reword(){ [].forEach.call(D.querySelectorAll('.pl-fail'),function(b){ var k=b.querySelector('button'), p=b.querySelector('.pl-fail-t');
+if(p&&!(k&&k.disabled)) p.textContent=said(); }); }
+addEventListener('online',reword); addEventListener('offline',reword);
+var miss=[], tm=null;
+function sweep(){
+tm=null; var list=miss; miss=[];
+if(!list.length||D.querySelector('.pl-fail,[data-pl-retry]')||D.documentElement.hasAttribute('data-pl-failed')) return;
+var main=D.getElementById('main')||D.querySelector('main'), done=[];
+list.forEach(function(s){ var t=(s.closest&&(s.closest('[data-part]')||s.closest('main section')))||main;
+if(!t||done.indexOf(t)>=0) return; done.push(t); place(t); });
+}
+function layerOpen(){ var a=D.querySelectorAll('[aria-modal=true]'), i, r;
+for(i=0;i<a.length;i++){ r=a[i].getBoundingClientRect(); if(r.width>0&&r.height>0&&getComputedStyle(a[i]).visibility!=='hidden') return a[i]; } return null; }
+function place(t){
+var m=layerOpen();
+if(!m||m.contains(t)){ PL.dataFail(t,null,{head:true}); return; }
+var c=[m].concat([].slice.call(m.querySelectorAll('div,section,article'))).filter(function(e){ return /(auto|scroll)/.test(getComputedStyle(e).overflowY); })[0]||m;
+var b=PL.dataFail(c,null,{head:true}), iv=setInterval(function(){
+if(!b.isConnected){ clearInterval(iv); return; }
+if(!b.getClientRects().length){ clearInterval(iv); t.insertBefore(b,t.firstChild); } },400);
+}
+function noop(){}
+function stand(){
+if(!PL.tip){ PL.tip=function(){ return {show:noop,move:noop,hide:noop,visible:function(){ return false; }}; }; PL.tip.plStub=1; }
+if(!PL.hl) PL.hl={set:noop,clear:noop,on:{},off:{},bind:function(){ return noop; },plStub:1,
+hoverable:function(){ try{ return matchMedia('(hover:hover)').matches; }catch(e){ return false; } }};
+if(!PL.layer){ PL.layer=function(o){
+o=o||{}; var real=null, L={o:o};
+function R(){ if(!real&&PL.layer&&!PL.layer.plStub) real=PL.layer(o); return real; }
+try{ Object.defineProperty(L,'pushed',{enumerable:true,get:function(){ var r=R(); return r?r.pushed:false; },set:function(v){ var r=R(); if(r) r.pushed=v; }}); }catch(e){}
+['push','pop','swallow','sub','subBack','modal','unmodal','open','close'].forEach(function(k){ L[k]=function(){ var r=R(); return r?r[k].apply(r,arguments):false; }; });
+(PL._layers=PL._layers||[]).push(L);
+return L; };
+PL.layer.plStub=1; }
+if(!PL.hydrate){ PL.hydrate=function(id,html){ var el=D.getElementById(id); if(el) el.innerHTML=html; }; PL.hydrate.report=noop; }
+if(!PL.jump) PL.jump=function(el,block){ if(el&&el.scrollIntoView) el.scrollIntoView({block:block||'start'}); };
+if(!PL.say) PL.say=noop;
+if(!PL.scrubber) PL.scrubber=noop;
+if(!PL.sparks){ PL.sparks=noop; PL.sparks.axis=PL.sparks.brk=function(){ return ''; }; }
+if(!PL.chartSpot) PL.chartSpot=function(){ return null; };
+if(!PL.refLabel) PL.refLabel=function(o){ return {svg:'',key:(o&&o.text)||''}; };
+if(!PL.trendTab) PL.trendTab=noop;
+if(!PL.fitMin) PL.fitMin=function(){ return 0; };
+if(!PL.refit) PL.refit=function(fn){ try{ fn(); }catch(e){} };
+if(!PL.numword) PL.numword=function(n){      
+var O='zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' '),
+T='  twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
+n=Math.round(n); if(!(n>=0&&n<100)) return String(n); return n<20?O[n]:T[Math.floor(n/10)]+(n%10?'-'+O[n%10]:''); };
+if(!PL.capword) PL.capword=function(s){ s=String(s); return s.charAt(0).toUpperCase()+s.slice(1); };
+}
+addEventListener('error',function(e){
+var s=e.target, src=s&&s.tagName==='SCRIPT'?s.getAttribute('src')||'':null;
+if(src===null||!(s.hasAttribute('data-pl-payload')||/(^|\/)assets\/x-[^\/?#]+\.js([?#]|$)/.test(src))) return;
+try{ stand(); }catch(x){}
+miss.push(s);
+if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
+},true);
+})();
+
+/* r8 W-03: a resolution's page. The masthead's actions (the same on every record) go in as soon as the header is parsed. */
+window.PLR={m:function(){ var a=document.querySelector('.pl-mast .pl-acts'); if(a) a.innerHTML="<form class=\"pl-omni\" role=\"search\" action=\"../search.html\" method=\"get\"><label class=\"pl-vh\" for=\"plQ\">Search Public Ledger</label><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-4.2-4.2\"/></svg><input id=\"plQ\" name=\"q\" type=\"search\" role=\"combobox\" aria-expanded=\"false\" aria-autocomplete=\"list\" aria-controls=\"plQL\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" enterkeyhint=\"go\" placeholder=\"Search everything\"><kbd aria-hidden=\"true\">/</kbd><div class=\"pl-om-l\" id=\"plQL\" role=\"listbox\" aria-label=\"Search results\" hidden></div><p class=\"pl-vh\" id=\"plQLS\" role=\"status\" aria-live=\"polite\"></p></form><a class=\"pl-searchbtn\" href=\"../search.html\" data-sx aria-label=\"Search Public Ledger\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-4.2-4.2\"/></svg></a><nav class=\"pl-switch\" id=\"plSwitch\" aria-label=\"Public Ledger pages\" data-pl-foot><div class=\"pl-group\"><button class=\"pl-verb\" type=\"button\" aria-expanded=\"false\" aria-controls=\"plm-city\">City<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 9l7 7 7-7\"/></svg></button><div class=\"pl-menu\" id=\"plm-city\" role=\"group\" aria-label=\"City\"><div class=\"pl-kick\">City</div><a class=\"pl-dest\" href=\"../index.html\" data-parts><span class=\"pl-dl\">City money</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">North Tonawanda<span class=\"pl-ds2\"> &middot; filings 1995\u20132024 \u00b7 claims through Oct 20</span></span></a><div class=\"pl-subs\" role=\"group\" aria-label=\"Parts of City money\"><a class=\"pl-part\" href=\"../claims.html\">Every claim</a><a class=\"pl-part\" href=\"../taxes.html\">Tax estimate</a><a class=\"pl-part\" href=\"../finances.html\">Annual filings</a></div><a class=\"pl-dest\" href=\"../briefs/index.html\"><span class=\"pl-dl\">Council briefs</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">52 warrants<span class=\"pl-ds2\"> &middot; one printable page each</span></span></a><a class=\"pl-dest\" href=\"../payees/index.html\"><span class=\"pl-dl\">Every payee</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">886 named payees<span class=\"pl-ds2\"> &middot; a page for each</span></span></a><a class=\"pl-dest\" href=\"../audit.html\"><span class=\"pl-dl\">Exception report</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">questions, not findings<span class=\"pl-ds2\"> &middot; independent, from the public record</span></span></a></div></div><div class=\"pl-group\"><button class=\"pl-verb\" type=\"button\" aria-expanded=\"false\" aria-controls=\"plm-county\">County<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 9l7 7 7-7\"/></svg></button><div class=\"pl-menu\" id=\"plm-county\" role=\"group\" aria-label=\"County\"><div class=\"pl-kick\">County</div><a class=\"pl-dest\" href=\"../decisions.html\" aria-current=\"page\"><span class=\"pl-dl\">Every resolution</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">6,099 resolutions<span class=\"pl-ds2\"> &middot; votes read through Oct 20</span></span></a><a class=\"pl-dest\" href=\"../legislators.html\"><span class=\"pl-dl\">The legislators</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">every member's record<span class=\"pl-ds2\"> &middot; votes since 2015</span></span></a><a class=\"pl-dest\" href=\"../county.html\"><span class=\"pl-dl\">County money</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">Niagara County<span class=\"pl-ds2\"> &middot; filings 1995\u20132025</span></span></a><a class=\"pl-dest\" href=\"../atlas.html\"><span class=\"pl-dl\">Towns &amp; cities</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">the county and 20 cities, towns and villages<span class=\"pl-ds2\"> &middot; each from its own filings</span></span></a><a class=\"pl-dest\" href=\"../school.html\"><span class=\"pl-dl\">School district</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">North Tonawanda City School District<span class=\"pl-ds2\"> &middot; FY2026</span></span></a></div></div><div class=\"pl-group pl-half\"><button class=\"pl-verb\" type=\"button\" aria-expanded=\"false\" aria-controls=\"plm-home\">Your home<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 9l7 7 7-7\"/></svg></button><div class=\"pl-menu\" id=\"plm-home\" role=\"group\" aria-label=\"Your home\"><div class=\"pl-kick\">Your home</div><a class=\"pl-dest\" href=\"../ballot.html\"><span class=\"pl-dl\">On the ballot</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">what each question would cost a home<span class=\"pl-ds2\"> &middot; 2 questions \u00b7 Nov 3 election</span></span></a></div></div><div class=\"pl-group pl-half\"><button class=\"pl-verb\" type=\"button\" aria-expanded=\"false\" aria-controls=\"plm-checks\">How it\u2019s checked<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 9l7 7 7-7\"/></svg></button><div class=\"pl-menu\" id=\"plm-checks\" role=\"group\" aria-label=\"How it\u2019s checked\"><div class=\"pl-kick\">How it\u2019s checked</div><a class=\"pl-part pl-xp\" href=\"../checks.html\"><span class=\"pl-dl\">How it\u2019s checked</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">52 of 52 warrants tie to the penny<span class=\"pl-ds2\"> &middot; 6 read by OCR from scans</span></span></a><a class=\"pl-dest\" href=\"../corrections.html\"><span class=\"pl-dl\">Corrections</span><span class=\"pl-dg\" aria-hidden=\"true\">&rarr;</span><span class=\"pl-ds\">how an error is fixed<span class=\"pl-ds2\"> &middot; every correction so far</span></span></a></div></div><div class=\"pl-sheet-fresh\" role=\"group\" aria-label=\"How current this page is\"><span class=\"pl-kick\">Data as of</span><div class=\"pl-dateline pl-dl-sheet\"><span>votes read through <b>Oct 20</b></span><span><span data-pl-built=\"2026-11-02\" data-pl-short=\"updated\">updated <b>Nov 2</b></span></span></div></div><div class=\"pl-sheet-bar\"><a class=\"pl-sheet-primary\" href=\"../search.html\" data-sx><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-4.2-4.2\"/></svg>Search</a><button class=\"pl-theme pl-theme-ic\" type=\"button\" aria-label=\"Switch theme\"><svg class=\"pl-moon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z\"/></svg><svg class=\"pl-sun\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4.2\"/><path d=\"M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19\"/></svg></button><button class=\"pl-close pl-sheet-done\" type=\"button\">Done</button></div></nav><div class=\"pl-scrim\" id=\"plScrim\" hidden data-pl-keep></div><button class=\"pl-theme\" id=\"theme\" type=\"button\" aria-label=\"Switch theme\" title=\"Light / dark\"><svg class=\"pl-moon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z\"/></svg><svg class=\"pl-sun\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4.2\"/><path d=\"M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19\"/></svg></button><button class=\"pl-go\" type=\"button\" aria-expanded=\"false\" aria-haspopup=\"dialog\" aria-controls=\"plSwitch\" aria-label=\"Go to any Public Ledger page\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M4 7h16M4 12h16M4 17h16\"/></svg></button>"; }};

@@ -4,7 +4,7 @@
    - Hashed files (assets/*.<hash>.*, fonts/, og/): cache first - a new build gives them new names, so a kept copy is never stale.
    Only this site's own GET requests are handled; nothing is fetched ahead of a reader. The page says when it is showing a kept copy
    (the chrome script's offline strip). Bump VERSION to drop every kept copy at once. */
-var VERSION = 'pl-v1', PAGES = VERSION + '-pages', FILES = VERSION + '-files', KEEP = 160;
+var VERSION = 'pl-v2', PAGES = VERSION + '-pages', FILES = VERSION + '-files', KEEP = 160;      // r8 F-15: v2 - the offline page lists what is kept
 
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
@@ -49,19 +49,61 @@ self.addEventListener('fetch', function (e) {
       return c.match(req).then(function (hit) { return hit || c.match(req, {ignoreSearch: true}); }).then(function (hit) {
         if (hit) return hit;
         if (req.mode !== 'navigate') return new Response('', {status: 504, statusText: 'Offline'});
-        return new Response(never(), {status: 503, headers: {'Content-Type': 'text/html; charset=utf-8'}});
+        return kept(c).then(function (list) {
+          return new Response(never(list), {status: 503, headers: {'Content-Type': 'text/html; charset=utf-8'}});
+        });
       });
     });
   }));
 });
 
-// a page this device has never opened, asked for with no connection
-function never() {
+// r8 F-15: the pages this device keeps - each kept page's own <title>, newest first (the Date it was served), at most 20
+function kept(c) {
+  return c.keys().then(function (ks) {
+    ks = ks.filter(function (r) { var p = new URL(r.url).pathname; return /(\.html|\/)$/.test(p) && !/\/sw\.js$/.test(p); });
+    return Promise.all(ks.map(function (r) {
+      return c.match(r).then(function (res) {
+        if (!res || !/text\/html/.test(res.headers.get('Content-Type') || '')) return null;
+        var when = Date.parse(res.headers.get('Date') || '') || 0;
+        return res.text().then(function (h) {
+          var m = /<title>([^<]*)<\/title>/i.exec(h), t = m ? m[1].replace(/\s*\|\s*Public Ledger\s*$/, '').trim() : '';
+          return t ? {u: r.url, t: t, w: when} : null;
+        });
+      }).catch(function () { return null; });
+    }));
+  }).then(function (xs) {
+    var seen = {};
+    return xs.filter(function (x) { if (!x || seen[x.u.split('#')[0]]) return false; seen[x.u.split('#')[0]] = 1; return true; })
+      .sort(function (a, b) { return b.w - a.w; }).slice(0, 20);
+  }).catch(function () { return []; });
+}
+
+function esc(s) { return String(s).replace(/&(?!(?:[a-z]+|#\d+);)/gi, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+
+// a page this device has never opened, asked for with no connection: the site's own head (the wordmark on the paper), what IS kept here, and
+// the front page last. The colours are the chrome's tokens (tools/_chrome.py FAMILIES city), light and dark.
+function never(list) {
+  var scope = self.registration.scope, items = (list || []).map(function (x) {
+    return '<li><a href="' + esc(x.u) + '">' + esc(x.t) + '</a></li>'; }).join('');
   return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
-  '<title>Offline | Public Ledger</title><style>body{margin:0;padding:48px 20px;font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;' +
-  'color:#1b1d21;background:#faf8f3}main{max-width:32em;margin:0 auto}h1{font:600 28px/1.2 Georgia,serif;margin:0 0 12px}' +
-  'a{color:#1b3a5c}@media (prefers-color-scheme:dark){body{color:#ece8df;background:#16181c}a{color:#9cc0e8}}</style></head>' +
-  '<body><main><h1>You are offline</h1><p>This page has not been opened on this device before, so there is no copy of it here. ' +
-  'Pages you have opened on Public Ledger open again without a connection.</p><p><a href="' + self.registration.scope +
-    '">Try the front page</a></p></main></body></html>';
+  '<title>Offline | Public Ledger</title><style>' +
+  '@font-face{font-family:Fraunces;font-weight:600;font-display:swap;src:url(' + scope + 'fonts/Fraunces-600-latin.woff2) format("woff2")}' +
+  ':root{--paper:#f6f4ef;--card:#fffdfa;--ink:#16181d;--muted:#5a5e67;--rule:#e0dbd0;--rule-strong:#cdc6b7;--accent:#1b3a5c}' +
+  '@media (prefers-color-scheme:dark){:root{--paper:#0f1115;--card:#171a20;--ink:#e9e7e2;--muted:#9aa0aa;--rule:#272b33;--rule-strong:#393f4a;--accent:#8fb6dd}}' +
+  '*{box-sizing:border-box}html{border-top:5px solid var(--accent);background:var(--paper)}' +
+  'body{margin:0;font:17px/24px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper)}' +
+  'header{background:var(--card);border-bottom:1px solid var(--rule-strong)}' +
+  'header div,main{max-width:880px;margin:0 auto;padding:0 20px}header div{display:flex;align-items:center;min-height:56px}' +
+  'header a{font:600 26px/32px Fraunces,serif;color:var(--ink);text-decoration:none}header b{font-weight:inherit;color:var(--accent)}' +
+  'main{padding-top:28px;padding-bottom:40px}h1{font:600 34px/40px Fraunces,serif;margin:0 0 12px;letter-spacing:-0.5px}' +
+  'p{margin:0 0 14px;max-width:34em}h2{margin:24px 0 6px;font:600 12px/16px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;' +
+  'letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}' +
+  'li{border-bottom:1px solid var(--rule)}li a{display:flex;align-items:center;min-height:44px;padding:10px 0;color:var(--accent);font-weight:600;' +
+  'overflow-wrap:anywhere}a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.front{display:inline-flex;align-items:center;' +
+  'min-height:44px;margin-top:18px;color:var(--accent);font-weight:600}</style></head><body>' +
+  '<header><div><a href="' + scope + '">Public <b>Ledger</b></a></div></header>' +
+  '<main><h1>You are offline</h1><p>This page has not been opened on this device before, so there is no copy of it here. ' +
+  'Pages you have opened on Public Ledger open again without a connection.</p>' +
+  (items ? '<h2>Kept on this device</h2><ul>' + items + '</ul>' : '') +
+  '<p><a class="front" href="' + scope + '">Try the front page</a></p></main></body></html>';
 }

@@ -1,0 +1,9 @@
+{
+  "_doc": "The count for each question on the Nov 3 2026 Niagara County ballot (data/ballot-2026.json names the questions). Every number stays null until it is entered by hand from the Niagara County Board of Elections (https://elections.niagaracounty.gov/); nothing here is estimated or projected. Shape: asof = the date the entered count is as of (YYYY-MM-DD) and source = where it was read ({\"name\": ..., \"url\": ...}), both required once any question has numbers; per question, yes and no are whole-number vote counts or null, and status is \"pending\" (no count entered), \"passed\" or \"failed\" (only with both counts, and passed only when yes > no). tools/build_ballot.py refuses any other shape. On a build from Nov 4 on, ballot.html shows 'Result' with the County's link while every count is null, and the tally and what it now costs a home once one is entered.",
+  "asof": null,
+  "source": null,
+  "questions": {
+    "nt": {"yes": null, "no": null, "status": "pending"},
+    "somerset": {"yes": null, "no": null, "status": "pending"}
+  }
+}
