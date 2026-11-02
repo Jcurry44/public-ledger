@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Michael A. Hill — county legislator | Public Ledger</title>
+<meta name="description" content="Michael A. Hill, Niagara County legislator for District 15 (Republican), 2015 to now: 74% attendance, 8 no votes, 142 resolutions sponsored.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Public Ledger">
+<meta property="og:title" content="Michael A. Hill — Niagara County legislator, District 15">
+<meta property="og:description" content="74% attendance · 8 no votes · 142 sponsored, 2015 to now, read from the county's own minutes.">
+<meta property="og:url" content="https://jcurry44.github.io/public-ledger/legislators/hill.html">
+<meta property="og:image" content="https://jcurry44.github.io/public-ledger/og/legislators-hill.png?v=b7ac5bd0">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Michael A. Hill — Niagara County legislator, District 15">
+<meta name="twitter:description" content="74% attendance · 8 no votes · 142 sponsored, 2015 to now, read from the county's own minutes.">
+<meta name="twitter:image" content="https://jcurry44.github.io/public-ledger/og/legislators-hill.png?v=b7ac5bd0">
+<meta property="og:image:alt" content="Share card: Michael A. Hill, Niagara County Legislature, District 15, Republican, in the record 2015 to now: 74% attendance, 8 no votes, 142 resolutions sponsored, read from the county's own minutes.">
+<meta name="twitter:image:alt" content="Share card: Michael A. Hill, Niagara County Legislature, District 15, Republican, in the record 2015 to now: 74% attendance, 8 no votes, 142 resolutions sponsored, read from the county's own minutes.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#1b3a5c">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c0f">
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231b3a5c'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='34' fill='%23f6f4ef'%3EPL%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="manifest" href="../manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pl-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}
+
+(function(){
+var D=document, PL=window.PL=window.PL||{};
+if(PL.share) return;
+function coarse(){ try{ return matchMedia('(pointer:coarse)').matches; }catch(e){ return false; } }
+var tt=null, tc=null;
+function toastEl(){
+var t=D.getElementById('plToast');
+if(!t){ t=D.createElement('div'); t.className='pl-toast'; t.id='plToast'; t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+t.setAttribute('data-pl-keep',''); (D.body||D.documentElement).appendChild(t); t._plNew=1; }
+return t;
+}
+PL.toast=function(msg,ms){
+var t=toastEl(), wait=t._plNew?40:0; t._plNew=0;
+setTimeout(function(){ clearTimeout(tt); clearTimeout(tc); t.textContent=msg; t.classList.add('show');
+tt=setTimeout(function(){ t.classList.remove('show'); tc=setTimeout(function(){ t.textContent=''; },400); },ms||2600); },wait);
+};
+var box=null;
+function field(s){
+if(!box){
+box=D.createElement('div'); box.className='pl-cpf'; box.setAttribute('role','dialog'); box.setAttribute('aria-label','Copy it from here');
+box.setAttribute('data-pl-keep','');
+box.innerHTML='<input class="pl-cpf-i" readonly aria-label="The text to copy"><button type="button" class="pl-pill pl-cpf-x">Done</button>';
+D.body.appendChild(box);
+box.querySelector('button').addEventListener('click',shut);
+box.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); shut(); } });
+}
+var i=box.querySelector('input');
+if(box.hidden!==false||!box._back) box._back=D.activeElement;
+i.value=s; box.hidden=false; i.focus(); i.select(); try{ i.setSelectionRange(0,s.length); }catch(e){}
+}
+function shut(){ if(!box) return; box.hidden=true; var b=box._back; box._back=null; if(b&&b.focus&&D.documentElement.contains(b)) b.focus(); }
+function linkish(s){ return /^(https?:|mailto:|\.{0,2}\/|[\w.-]+\.html\b)/i.test(s); }
+PL.copyText=function(s,msg){
+s=String(s); var lk=linkish(s);
+return new Promise(function(res){
+function ok(){ PL.toast(msg||(lk?'Link copied':'Copied')); res(true); }
+function legacy(){
+var a=D.activeElement, ta=D.createElement('textarea'), did=false;
+ta.value=s; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+D.body.appendChild(ta); ta.select();
+try{ did=D.execCommand('copy'); }catch(e){}
+D.body.removeChild(ta);
+if(a&&a.focus){ try{ a.focus({preventScroll:true}); }catch(e){} }
+if(did){ ok(); return; }
+field(s);
+PL.toast('Couldn’t copy: '+(lk?'the link':'the text')+' is selected, '+(coarse()?'press and hold it to copy':'copy it with your keyboard'),7000);
+res(false);
+}
+if(navigator.clipboard&&navigator.clipboard.writeText){ try{ navigator.clipboard.writeText(s).then(ok,legacy); }catch(e){ legacy(); } }
+else legacy();
+});
+};
+var SITE='https://jcurry44.github.io/public-ledger/';
+function siteRoot(){
+var m=D.querySelector('header.pl-mast[data-root]'), here=location.href.split('#')[0].split('?')[0];
+if(m) return new URL(m.getAttribute('data-root')||'./',here);
+var c=D.querySelector('link[rel=canonical]'), h=c&&c.getAttribute('href')||'';
+if(h.indexOf(SITE)!==0) return null;
+var path=h.slice(SITE.length), lp=new URL(here).pathname;
+if(!path) return new URL(lp.replace(/[^\/]*$/,''),here);
+return lp.slice(-path.length)===path?new URL(lp.slice(0,lp.length-path.length),here):null;
+}
+PL.canonURL=function(u){
+var here=location.href, x;
+try{ x=new URL(u||here,here); }catch(e){ return u||here; }
+if(x.href.indexOf(SITE)===0) return x.href;
+var r=null; try{ r=siteRoot(); }catch(e){ r=null; }
+if(!r||x.protocol!==r.protocol||x.host!==r.host||x.pathname.indexOf(r.pathname)!==0) return x.href;
+var rel=x.pathname.slice(r.pathname.length);
+return SITE+(rel==='index.html'?'':rel)+x.search+x.hash;
+};
+PL.share=function(o){
+o=o||{};
+var url=PL.canonURL(o.url||location.href), data={title:o.title||D.title,url:url}, sheet=!!navigator.share&&!navigator.webdriver&&coarse();
+if(o.text) data.text=o.text;
+try{ if(sheet&&navigator.canShare&&!navigator.canShare(data)) sheet=false; }catch(e){ sheet=false; }
+function copy(){ return PL.copyText(url,'Link copied').then(function(k){ return k?'copied':'selected'; }); }
+if(!sheet) return copy();
+return navigator.share(data).then(function(){ PL.toast('Shared'); return 'shared'; },
+function(e){ return e&&e.name==='AbortError'?'cancelled':copy(); });
+};
+PL.shareLink=function(title,url){ return PL.share({title:title,url:url||location.href}); };      
+var ON='This part of the page didn’t load: the connection may have dropped.', OFF='You’re offline: this part needs a connection.';
+function said(){ return navigator.onLine===false?OFF:ON; }
+var KEEP=/^(TABLE|TBODY|THEAD|TFOOT|TR|UL|OL|DL|SELECT|svg|g)$/;
+PL.dataFail=function(el,retry,o){
+if(typeof el==='string') el=D.querySelector(el);
+el=el||D.getElementById('main')||D.body; o=o||{};
+var b=D.createElement('div'), p=D.createElement('p'), k=D.createElement('button'), beside=!o.head&&KEEP.test(el.tagName);
+b.className='pl-fail'; b.setAttribute('role','status'); p.className='pl-fail-t'; p.textContent=said();
+k.type='button'; k.className='pl-pill pl-fail-b'; k.textContent='Try again'; b.appendChild(p); b.appendChild(k);
+function reset(){ if(b.isConnected){ k.disabled=false; k.textContent='Try again'; p.textContent=said(); } }
+k.addEventListener('click',function(){
+if(typeof retry!=='function'){ location.reload(); return; }
+k.disabled=true; k.textContent='Trying again…';
+var t=setTimeout(reset,10000), r;
+try{ r=retry(); }catch(e){ clearTimeout(t); reset(); return; }
+if(r&&typeof r.then==='function') r.then(function(){ clearTimeout(t); if(beside&&b.isConnected) b.remove(); },function(){ clearTimeout(t); reset(); });
+else if(beside&&el.childNodes.length){ clearTimeout(t); b.remove(); }
+});
+if(o.head) el.insertBefore(b,el.firstChild);
+else if(beside){ var at=/^(TBODY|THEAD|TFOOT|TR)$/.test(el.tagName)?el.closest('table'):el.tagName==='g'?el.ownerSVGElement:el; at=at||el;
+var x=at.previousElementSibling; if(x&&x.className==='pl-fail') x.remove(); el.innerHTML=''; at.parentNode.insertBefore(b,at); }
+else{ el.innerHTML=''; el.appendChild(b); }
+try{ b.dispatchEvent(new CustomEvent('pl:fail',{bubbles:true})); }catch(e){}
+return b;
+};
+function reword(){ [].forEach.call(D.querySelectorAll('.pl-fail'),function(b){ var k=b.querySelector('button'), p=b.querySelector('.pl-fail-t');
+if(p&&!(k&&k.disabled)) p.textContent=said(); }); }
+addEventListener('online',reword); addEventListener('offline',reword);
+var miss=[], tm=null;
+function sweep(){
+tm=null; var list=miss; miss=[];
+if(!list.length||D.querySelector('.pl-fail,[data-pl-retry]')||D.documentElement.hasAttribute('data-pl-failed')) return;
+var main=D.getElementById('main')||D.querySelector('main'), done=[];
+list.forEach(function(s){ var t=(s.closest&&(s.closest('[data-part]')||s.closest('main section')))||main;
+if(!t||done.indexOf(t)>=0) return; done.push(t); place(t); });
+}
+function layerOpen(){ var a=D.querySelectorAll('[aria-modal=true]'), i, r;
+for(i=0;i<a.length;i++){ r=a[i].getBoundingClientRect(); if(r.width>0&&r.height>0&&getComputedStyle(a[i]).visibility!=='hidden') return a[i]; } return null; }
+function place(t){
+var m=layerOpen();
+if(!m||m.contains(t)){ PL.dataFail(t,null,{head:true}); return; }
+var c=[m].concat([].slice.call(m.querySelectorAll('div,section,article'))).filter(function(e){ return /(auto|scroll)/.test(getComputedStyle(e).overflowY); })[0]||m;
+var b=PL.dataFail(c,null,{head:true}), iv=setInterval(function(){
+if(!b.isConnected){ clearInterval(iv); return; }
+if(!b.getClientRects().length){ clearInterval(iv); t.insertBefore(b,t.firstChild); } },400);
+}
+function noop(){}
+function stand(){
+if(!PL.tip){ PL.tip=function(){ return {show:noop,move:noop,hide:noop,visible:function(){ return false; }}; }; PL.tip.plStub=1; }
+if(!PL.hl) PL.hl={set:noop,clear:noop,on:{},off:{},bind:function(){ return noop; },plStub:1,
+hoverable:function(){ try{ return matchMedia('(hover:hover)').matches; }catch(e){ return false; } }};
+if(!PL.layer){ PL.layer=function(o){
+o=o||{}; var real=null, L={o:o};
+function R(){ if(!real&&PL.layer&&!PL.layer.plStub) real=PL.layer(o); return real; }
+try{ Object.defineProperty(L,'pushed',{enumerable:true,get:function(){ var r=R(); return r?r.pushed:false; },set:function(v){ var r=R(); if(r) r.pushed=v; }}); }catch(e){}
+['push','pop','swallow','sub','subBack','modal','unmodal','open','close'].forEach(function(k){ L[k]=function(){ var r=R(); return r?r[k].apply(r,arguments):false; }; });
+(PL._layers=PL._layers||[]).push(L);
+return L; };
+PL.layer.plStub=1; }
+if(!PL.hydrate){ PL.hydrate=function(id,html){ var el=D.getElementById(id); if(el) el.innerHTML=html; }; PL.hydrate.report=noop; }
+if(!PL.jump) PL.jump=function(el,block){ if(el&&el.scrollIntoView) el.scrollIntoView({block:block||'start'}); };
+if(!PL.say) PL.say=noop;
+if(!PL.scrubber) PL.scrubber=noop;
+if(!PL.sparks){ PL.sparks=noop; PL.sparks.axis=PL.sparks.brk=function(){ return ''; }; }
+if(!PL.chartSpot) PL.chartSpot=function(){ return null; };
+if(!PL.refLabel) PL.refLabel=function(o){ return {svg:'',key:(o&&o.text)||''}; };
+if(!PL.trendTab) PL.trendTab=noop;
+if(!PL.fitMin) PL.fitMin=function(){ return 0; };
+if(!PL.refit) PL.refit=function(fn){ try{ fn(); }catch(e){} };
+if(!PL.numword) PL.numword=function(n){      
+var O='zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' '),
+T='  twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
+n=Math.round(n); if(!(n>=0&&n<100)) return String(n); return n<20?O[n]:T[Math.floor(n/10)]+(n%10?'-'+O[n%10]:''); };
+if(!PL.capword) PL.capword=function(s){ s=String(s); return s.charAt(0).toUpperCase()+s.slice(1); };
+}
+addEventListener('error',function(e){
+var s=e.target, src=s&&s.tagName==='SCRIPT'?s.getAttribute('src')||'':null;
+if(src===null||!(s.hasAttribute('data-pl-payload')||/(^|\/)assets\/x-[^\/?#]+\.js([?#]|$)/.test(src))) return;
+try{ stand(); }catch(x){}
+miss.push(s);
+if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
+},true);
+})();
+</script>
+<link rel="stylesheet" href="assets/x-legislator.d67a4218c0.css" data-pl-css="full">
+<link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="../updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="../updates.json">
+<link rel="canonical" href="https://jcurry44.github.io/public-ledger/legislators/hill.html">
+</head><body>
+
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="folio" data-root="../"><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="../index.html">Public <b>Ledger</b></a><span class="pl-edition">The legislators</span></div></div><div class="pl-side"><div class="pl-dateline"><span>in the record <b>2015 to now</b></span><span>votes read through <b>Sept 22</b></span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span><span class="pl-dk"><a class="pl-fol" href="../follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>in the record <b>2015 to now</b></span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span></div><div class="pl-acts"><form class="pl-omni" role="search" action="../search.html" method="get"><label class="pl-vh" for="plQ">Search Public Ledger</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="plQ" name="q" type="search" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="plQL" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search everything"><kbd aria-hidden="true">/</kbd><div class="pl-om-l" id="plQL" role="listbox" aria-label="Search results" hidden></div><p class="pl-vh" id="plQLS" role="status" aria-live="polite"></p></form><a class="pl-searchbtn" href="../search.html" data-sx aria-label="Search Public Ledger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages" data-pl-foot><a class="pl-pin" href="../ballot.html" data-until="2026-11-03"><span class="pin-k">Election Day · Tue, Nov 3</span><span class="pin-t">On the ballot<span class="pin-r">: what each question would cost a home</span></span><span class="pin-go" aria-hidden="true">&rarr;</span></a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-city">City<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-city" role="group" aria-label="City"><div class="pl-kick">City</div><a class="pl-dest" href="../index.html" data-parts><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><div class="pl-subs" role="group" aria-label="Parts of City money"><a class="pl-part" href="../claims.html">Every claim</a><a class="pl-part" href="../taxes.html">Tax estimate</a><a class="pl-part" href="../finances.html">Annual filings</a><a class="pl-part" href="../checks.html">How it was verified</a></div><a class="pl-dest" href="../briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="../payees/index.html"><span class="pl-dl">Every payee</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">886 named payees<span class="pl-ds2"> &middot; a page for each</span></span></a><a class="pl-dest" href="../audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-county">County<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-county" role="group" aria-label="County"><div class="pl-kick">County</div><a class="pl-dest" href="../decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,099 resolutions<span class="pl-ds2"> &middot; votes read through Sept 22 · Oct 20 agenda posted</span></span></a><a class="pl-dest" href="../legislators.html" aria-current="page"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a><a class="pl-dest" href="../county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="../atlas.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="../school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-home">Your home<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-home" role="group" aria-label="Your home"><div class="pl-kick">Your home</div><a class="pl-part pl-xp" href="../index.html#home"><span class="pl-dl">Your home</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">your taxes, the ballot and your legislator<span class="pl-ds2"> &middot; from your North Tonawanda address</span></span></a><a class="pl-dest" href="../ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what each question would cost a home<span class="pl-ds2"> &middot; 2 questions · Nov 3 election</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-checks">How it’s checked<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-checks" role="group" aria-label="How it’s checked"><div class="pl-kick">How it’s checked</div><a class="pl-dest" href="../corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a><a class="pl-part pl-xp" href="../checks.html"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read by OCR from scans</span></span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><span class="pl-kick">Data as of</span><div class="pl-dateline pl-dl-sheet"><span>in the record <b>2015 to now</b></span><span>votes read through <b>Sept 22</b></span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span></div></div><div class="pl-sheet-bar"><a class="pl-sheet-primary" href="../search.html" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><button class="pl-theme pl-theme-ic" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-close pl-sheet-done" type="button">Done</button></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-haspopup="dialog" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+
+
+<main id="main">
+<section class="mhero"><div class="wrap">
+  <p class="pl-kick" data-pl-record><a href="../legislators.html">Niagara County Legislature</a> &middot; District 15</p>
+  <h1 class="pl-h1" data-pl-record>Michael A. Hill</h1>
+  <p class="msub">Republican &middot; in the record 2015 to now</p>
+  <p class="pl-lede">Present at <b>128 of 173</b> meetings with a recorded vote since 2015; <b>8</b> no votes in the <b>5,804</b> votes read by name in those years; <b>142</b> resolutions sponsored.</p>
+  <div class="mk"><div class="mkc"><span>Attendance</span><b class="num">74%</b><small>128 of 173 meetings</small></div><div class="mkc"><span>No votes</span><b class="num">8</b><small>0.1 per 100 votes</small></div><div class="mkc"><span>Sponsored</span><b class="num">142</b><small>resolutions since 2015</small></div><div class="mkc q"><span>Motions made</span><b class="num">640</b><small>583 moved, 57 seconded</small></div></div>
+  <div class="macts">
+    <button class="pl-pill" type="button" id="printBtn">Print / save as PDF (one page)</button>
+    <button class="pl-pill" type="button" data-share>Share</button>
+    <a class="pl-pill" href="../legislators.html#m-hill">All 29 legislators</a>
+  </div>
+  <p class="pl-indep">Independent: built by a North Tonawanda resident from public records. Not affiliated with the County. <a href="#about">About</a></p>
+</div></section>
+<section class="msec" id="record"><div class="wrap mgrid">
+  <div class="mrec">
+    <h2 class="pl-h2">Year by year</h2>
+    <div class="rc" data-yr='[[2015,19,8,2,11,12],[2016,15,4,0,6,13],[2017,16,5,0,17,8],[2018,12,2,0,0,8],[2019,16,4,0,4,15],[2020,14,6,1,11,3],[2021,14,1,0,19,13],[2022,13,1,1,12,160],[2023,15,4,2,16,142],[2024,14,4,1,9,201],[2025,15,5,1,16,63],[2026,10,1,0,21,2]]' data-sofar="2026"><p class="rc-cap">One column a year, 2015&ndash;2026, on the same scales for every member. Select a year, or use the arrow keys, to read it.</p><div class="rc-p" tabindex="0" role="group" aria-roledescription="chart" aria-label="Michael A. Hill, year by year, 2015 to 2026: attendance, no votes and resolutions sponsored. The left and right arrow keys step through the years."><div aria-hidden="true"><div class="rc-r rc-att"><p class="rc-h">Attendance <span>&middot; % of meetings</span></p><div class="rc-g"><span style="--h:max(2px,58.0%)"><b>58</b></span><span class="q" style="--h:max(2px,73.0%)"><b>73</b></span><span class="q" style="--h:max(2px,69.0%)"><b>69</b></span><span class="q" style="--h:max(2px,83.0%)"><b>83</b></span><span class="q" style="--h:max(2px,75.0%)"><b>75</b></span><span style="--h:max(2px,57.0%)"><b>57</b></span><span style="--h:max(2px,93.0%)"><b>93</b></span><span class="q" style="--h:max(2px,92.0%)"><b>92</b></span><span class="q" style="--h:max(2px,73.0%)"><b>73</b></span><span class="q" style="--h:max(2px,71.0%)"><b>71</b></span><span class="q" style="--h:max(2px,67.0%)"><b>67</b></span><span style="--h:max(2px,90.0%)"><b>90</b></span></div></div><div class="rc-r rc-no"><p class="rc-h">No votes <span>&middot; full height = 20</span></p><div class="rc-g"><span style="--h:max(2px,10.0%)"><b>2</b></span><span class="q" style="--h:0%"><b>0</b></span><span class="q" style="--h:0%"><b>0</b></span><span class="q" style="--h:0%"><b>0</b></span><span class="q" style="--h:0%"><b>0</b></span><span style="--h:max(2px,5.0%)"><b>1</b></span><span class="q" style="--h:0%"><b>0</b></span><span class="q" style="--h:max(2px,5.0%)"><b>1</b></span><span style="--h:max(2px,10.0%)"><b>2</b></span><span class="q" style="--h:max(2px,5.0%)"><b>1</b></span><span class="q" style="--h:max(2px,5.0%)"><b>1</b></span><span style="--h:0%"><b>0</b></span></div></div><div class="rc-r rc-sp"><p class="rc-h">Sponsored <span>&middot; full height = 48</span></p><div class="rc-g"><span style="--h:max(2px,22.9%)"><b>11</b></span><span class="q" style="--h:max(2px,12.5%)"><b>6</b></span><span class="q" style="--h:max(2px,35.4%)"><b>17</b></span><span style="--h:0%"><b>0</b></span><span class="q" style="--h:max(2px,8.3%)"><b>4</b></span><span class="q" style="--h:max(2px,22.9%)"><b>11</b></span><span class="q" style="--h:max(2px,39.6%)"><b>19</b></span><span class="q" style="--h:max(2px,25.0%)"><b>12</b></span><span style="--h:max(2px,33.3%)"><b>16</b></span><span class="q" style="--h:max(2px,18.8%)"><b>9</b></span><span class="q" style="--h:max(2px,33.3%)"><b>16</b></span><span style="--h:max(2px,43.8%)"><b>21</b></span></div></div><div class="rc-ax"><span><i class="y4">2015</i><i class="y2">&rsquo;15</i></span><span><i class="y4">2016</i><i class="y2">&rsquo;16</i></span><span><i class="y4">2017</i><i class="y2">&rsquo;17</i></span><span><i class="y4">2018</i><i class="y2">&rsquo;18</i></span><span><i class="y4">2019</i><i class="y2">&rsquo;19</i></span><span><i class="y4">2020</i><i class="y2">&rsquo;20</i></span><span><i class="y4">2021</i><i class="y2">&rsquo;21</i></span><span><i class="y4">2022</i><i class="y2">&rsquo;22</i></span><span><i class="y4">2023</i><i class="y2">&rsquo;23</i></span><span><i class="y4">2024</i><i class="y2">&rsquo;24</i></span><span><i class="y4">2025</i><i class="y2">&rsquo;25</i></span><span><i class="y4">2026</i><i class="y2">&rsquo;26</i></span></div></div></div><p class="rc-read" aria-live="polite"></p></div>
+    <details class="pl-fold rc-tb"><summary>Year by year, as a table</summary><div class="rc-tw"><table class="rc-t"><caption class="pl-vh">Michael A. Hill, year by year</caption><thead><tr><th scope="col">Year</th><th scope="col">Attendance <small>present of meetings</small></th><th scope="col">No votes</th><th scope="col">Sponsored</th><th scope="col">Motions made</th></tr></thead><tbody><tr><th scope="row">2015</th><td>58% <small>11 of 19</small></td><td>2</td><td>11</td><td>12</td></tr><tr><th scope="row">2016</th><td>73% <small>11 of 15</small></td><td>0</td><td>6</td><td>13</td></tr><tr><th scope="row">2017</th><td>69% <small>11 of 16</small></td><td>0</td><td>17</td><td>8</td></tr><tr><th scope="row">2018</th><td>83% <small>10 of 12</small></td><td>0</td><td>0</td><td>8</td></tr><tr><th scope="row">2019</th><td>75% <small>12 of 16</small></td><td>0</td><td>4</td><td>15</td></tr><tr><th scope="row">2020</th><td>57% <small>8 of 14</small></td><td>1</td><td>11</td><td>3</td></tr><tr><th scope="row">2021</th><td>93% <small>13 of 14</small></td><td>0</td><td>19</td><td>13</td></tr><tr><th scope="row">2022</th><td>92% <small>12 of 13</small></td><td>1</td><td>12</td><td>160</td></tr><tr><th scope="row">2023</th><td>73% <small>11 of 15</small></td><td>2</td><td>16</td><td>142</td></tr><tr><th scope="row">2024</th><td>71% <small>10 of 14</small></td><td>1</td><td>9</td><td>201</td></tr><tr><th scope="row">2025</th><td>67% <small>10 of 15</small></td><td>1</td><td>16</td><td>63</td></tr><tr><th scope="row">2026</th><td>90% <small>9 of 10</small></td><td>0</td><td>21</td><td>2</td></tr></tbody><tfoot><tr><th scope="row">2015–2026</th><td>74% <small>128 of 173</small></td><td>8</td><td>142</td><td>640</td></tr></tfoot></table></div></details>
+    <p class="psub">Attendance: present at <b class="num">128</b> of <b class="num">173</b> meetings with a recorded vote during 2015–2026 (absent at <b class="num">45</b>, by the clerk&rsquo;s roll call or the vote tails &mdash; the same rule for every member). <b class="num">8</b> no votes in the <b class="num">5,804</b> votes read by name during that service &mdash; <b class="num">0.1</b> per 100 votes. On <b class="num">25</b> votes in these years the minutes print how many voted no but not who, so they are left out of both numbers.</p>
+  </div>
+  <aside class="mwho" aria-labelledby="whoH">
+    <h2 class="pl-h2" id="whoH">Who they are</h2>
+    <div class="lid"><p class="lidt"><b>In the record:</b> District 15, 2015 to now.<br><b>Party:</b> Republican, per the Board of Elections&rsquo; 2026 directory.</p><p class="lids"><a class="pl-pill" href="https://www.niagaracounty.gov/government/legislature/legislators/fifteenthdistrict.php" target="_blank" rel="noopener noreferrer">Official page <span aria-hidden="true">&#8599;</span><span class="pl-vh"> (opens in a new tab)</span></a><a class="pl-pill" href="https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/District%20Maps/2024%20Maps/District%2015.pdf" target="_blank" rel="noopener noreferrer">District 15 map (PDF) <span aria-hidden="true">&#8599;</span><span class="pl-vh"> (opens in a new tab)</span></a><a class="pl-pill" href="https://www.niagaracounty.gov/government/legislature/legislators/index.php" target="_blank" rel="noopener noreferrer">County roster page <span aria-hidden="true">&#8599;</span><span class="pl-vh"> (opens in a new tab)</span></a></p><p class="lidn">Sources: <a class="tg" href="https://downloads.niagaracounty.gov/Document_center/Government/County%20Information/website%20roster%202026%20No%20Locals.pdf" target="_blank" rel="noopener noreferrer">county directory, 2026<span class="pl-vh"> (opens in a new tab)</span></a>; <a class="tg" href="https://elections.niagaracounty.gov/wp-content/uploads/2026/02/2026-02-06-081212-2026-elected-officials.pdf" target="_blank" rel="noopener noreferrer">Board of Elections directory, 2026<span class="pl-vh"> (opens in a new tab)</span></a>; <a class="tg" href="https://elections.niagaracounty.gov/app/uploads/officialhtmlelectionresults/ge15/racelist.htm" target="_blank" rel="noopener noreferrer">Board of Elections results, 2015<span class="pl-vh"> (opens in a new tab)</span></a>; organizational-meeting minutes, <a class="tg" href="https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&amp;%20Minutes/1-6-15%20MEETING%20MINUTES.pdf?t=202206071423530" target="_blank" rel="noopener noreferrer">January 2015<span class="pl-vh"> (opens in a new tab)</span></a> to <a class="tg" href="https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Agenda%20&amp;%20Minutes/1-6-26%20MEETING%20MINUTES.pdf?t=202601081549440" target="_blank" rel="noopener noreferrer">January 2026<span class="pl-vh"> (opens in a new tab)</span></a>.</p></div>
+  </aside>
+</div></section>
+<section class="msec mno" id="no-votes"><div class="wrap">
+  <h2 class="pl-h2">Their no votes<span class="mc">8</span></h2>
+  <p class="pl-sub">Each opens the resolution&rsquo;s record in the register: its vote, the roll call and its source.</p>
+  <p class="pmut pdvn"><b class="num">6</b> of these are <i>worked out</i>: the minutes name the ayes and the absent, and this member was seated that year and neither.</p><div class="prows"><a class="prow" href="../decisions.html?open=B-004-25" title="Open B-004-25: its vote and its record"><span class="pid num">B-004-25</span><span class="pd num">Dec 9, 2025</span><span class="pt">Budget Modification Sales Tax</span><span class="pv">rejected 3&ndash;11</span></a><a class="prow" href="../decisions.html?open=B-001-24" title="Open B-001-24: its vote and its record"><span class="pid num">B-001-24</span><span class="pd num">Dec 10, 2024</span><span class="pt">Budget Modification Sales Tax</span><span class="pv">rejected 3&ndash;11</span></a><a class="prow" href="../decisions.html?open=B-001-23" title="Open B-001-23: its vote and its record"><span class="pid num">B-001-23</span><span class="pd num">Dec 12, 2023</span><span class="pt">Budget Modification Sales Tax</span><span class="pdv">worked out</span><span class="pv">rejected 3&ndash;11</span></a><a class="prow" href="../decisions.html?open=B-002-23" title="Open B-002-23: its vote and its record"><span class="pid num">B-002-23</span><span class="pd num">Dec 12, 2023</span><span class="pt">Budget Modification Sales Tax</span><span class="pdv">worked out</span><span class="pv">approved 3&ndash;11</span></a><a class="prow" href="../decisions.html?open=B-010-22" title="Open B-010-22: its vote and its record"><span class="pid num">B-010-22</span><span class="pd num">Dec 13, 2022</span><span class="pt">Budget Modification Sales Tax</span><span class="pdv">worked out</span><span class="pv">rejected 3&ndash;12</span></a><a class="prow" href="../decisions.html?open=IL-018-20" title="Open IL-018-20: its vote and its record"><span class="pid num">IL-018-20</span><span class="pd num">May 12, 2020</span><span class="pt">Resolution calling upon government-owned Western Region OTB/Batavia Downs casino to return $3.2 million in…</span><span class="pdv">worked out</span><span class="pv">rejected 5&ndash;10</span></a><a class="prow" href="../decisions.html?open=IL-045-15" title="Open IL-045-15: its vote and its record"><span class="pid num">IL-045-15</span><span class="pd num">Mar 17, 2015</span><span class="pt">Resolution Amending Resolution B-03-14</span><span class="pdv">worked out</span><span class="pv">failed 4&ndash;10</span></a><a class="prow" href="../decisions.html?open=IL-046-15" title="Open IL-046-15: its vote and its record"><span class="pid num">IL-046-15</span><span class="pd num">Mar 17, 2015</span><span class="pt">Censure and Admonishment of Legislator Richard E. Updegrove for his Breach of Fiduciary Duty and…</span><span class="pdv">worked out</span><span class="pv">failed 4&ndash;10</span></a></div>
+</div></section>
+<section class="msec msp" id="sponsored"><div class="wrap">
+  <h2 class="pl-h2">Resolutions they sponsored<span class="mc">142</span></h2>
+  <a class="prow" href="../decisions.html?open=IL-173-26" title="Open IL-173-26: its vote and its record"><span class="pid num">IL-173-26</span><span class="pd num">Oct 20, 2026</span><span class="pt">Resolution Opposing the Proposed Transfer of Funds from the Indigent Legal Services Fund to the New York…</span></a><a class="prow" href="../decisions.html?open=IL-175-26" title="Open IL-175-26: its vote and its record"><span class="pid num">IL-175-26</span><span class="pd num">Oct 20, 2026</span><span class="pt">Adoption of A Local</span></a><a class="prow" href="../decisions.html?open=IL-177-26" title="Open IL-177-26: its vote and its record"><span class="pid num">IL-177-26</span><span class="pd num">Oct 20, 2026</span><span class="pt">Resolution in Suppmt of FeedMore WNY Through the Use of Community Partnership Funding</span></a><a class="prow" href="../decisions.html?open=IL-153-26" title="Open IL-153-26: its vote and its record"><span class="pid num">IL-153-26</span><span class="pd num">Sept 22, 2026</span><span class="pt">A Resolution Supporting the Cormorant Relief Act of 2025 (H.R. 2293)</span></a><a class="prow" href="../decisions.html?open=IL-155-26" title="Open IL-155-26: its vote and its record"><span class="pid num">IL-155-26</span><span class="pd num">Sept 22, 2026</span><span class="pt">A Local Law Opting Niagara County into the Full Real Property Tax Exemption Under 458-a(l 1) of the Real…</span></a><a class="prow" href="../decisions.html?open=IL-156-26" title="Open IL-156-26: its vote and its record"><span class="pid num">IL-156-26</span><span class="pd num">Sept 22, 2026</span><span class="pt">Resolution Calling on Governor Hochul &amp; New York State to Hold Counties Harmless Under Changes to SNAP Program</span></a><a class="prow" href="../decisions.html?open=IL-110-26" title="Open IL-110-26: its vote and its record"><span class="pid num">IL-110-26</span><span class="pd num">Aug 4, 2026</span><span class="pt">Resolution in Support of the Veggie Van Through the Use of Community Partnership Funding</span></a><a class="prow" href="../decisions.html?open=IL-129-26" title="Open IL-129-26: its vote and its record"><span class="pid num">IL-129-26</span><span class="pd num">Aug 4, 2026</span><span class="pt">Resolution in support of New York State Assembly Bill A7315 and Senate Bill S9626 regarding contract…</span></a><a class="prow" href="../decisions.html?open=IL-130-26" title="Open IL-130-26: its vote and its record"><span class="pid num">IL-130-26</span><span class="pd num">Aug 4, 2026</span><span class="pt">Resolution Calling Upon Governor Kathy Hochul to Immediately Direct The New York State Department of Taxation…</span></a><a class="prow" href="../decisions.html?open=IL-101-26" title="Open IL-101-26: its vote and its record"><span class="pid num">IL-101-26</span><span class="pd num">June 16, 2026</span><span class="pt">Resolution in Support of Lighthouse Soccer League Through the Use of Community Partnership Funding</span></a><a class="prow" href="../decisions.html?open=IL-077-26" title="Open IL-077-26: its vote and its record"><span class="pid num">IL-077-26</span><span class="pd num">May 19, 2026</span><span class="pt">Resolution in Support of the Niagara County 250t American Revolution Committee Tb:ough the Use of Community…</span></a><a class="prow" href="../decisions.html?open=IL-085-26" title="Open IL-085-26: its vote and its record"><span class="pid num">IL-085-26</span><span class="pd num">May 19, 2026</span><span class="pt">Supporting Senate Bill S. 1563 (Tedisco) Establishing a Statewide Animal Cruelty Registry for Individuals…</span></a><p class="pmut">+ 130 more &mdash; <a href="../decisions.html?q=Hill&amp;only=sp">all 142 sponsored resolutions in the register</a>.</p>
+</div></section>
+<section class="msec"><div class="wrap">
+  <p class="msrc">Source: the Niagara County Legislature&rsquo;s own minutes, 2015–2026, votes read through Sept 22, 2026, parsed into the <a href="../decisions.html">decisions register</a>; the name, district and party from the county and the Board of Elections.<span class="mweb"> <span class="pl-cx"><a class="pl-correct" href="../corrections.html" data-pl-correct>Report a mistake in this record</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span></span><span class="mprint"> This record: jcurry44.github.io/public-ledger/legislators/hill.html</span></p>
+  <details class="pl-fold mfold"><summary>How these numbers are counted</summary>
+    <p><b>Attendance</b> is the share of meetings with readable minutes, inside the member&rsquo;s own first-to-last years in the
+    record, where the minutes do not record them absent (by the clerk&rsquo;s roll call or the vote tails). Scans the reader could
+    not read and minutes never posted count against no one.</p>
+    <p><b>No votes</b> are counted from the <a href="../legislators.html#by-name">votes read by name</a>: where the minutes name
+    the noes, those names; where they name only the ayes and the absent, the other members on that year&rsquo;s roll, marked
+    <i>worked out</i>. <b>No votes per 100 votes</b> divides them by the votes read by name in the member&rsquo;s years, so a
+    one-year member and a twelve-year member sit on one scale.</p>
+    <p><b>Sponsored</b> counts the individual-legislator resolutions that name the member. <b>Motions made</b> counts every time
+    they moved or seconded; one member moves most resolutions, so it says little about initiative. The whole method is on
+    <a href="../legislators.html#method">the legislators page</a>.</p>
+  </details>
+</div></section>
+</main>
+
+<footer class="pl-foot wrap" id="about">
+<p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="../legislators.html">The legislators</a><a href="../decisions.html">Every resolution</a><a href="../county.html">County money</a><a href="../index.html">City money</a></p>
+<details class="pl-fold"><summary>How this page was built</summary><p>Built from documents published by Niagara County: the agendas and minutes parsed into the <a href="../decisions.html">decisions register</a>. The member&rsquo;s name, district and party come from the county&rsquo;s and the Board of Elections&rsquo; own lists (the sources are under &lsquo;Who they are&rsquo;); there are no biographies here.</p></details>
+<p><b>About this site.</b> Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. No one has paid for any of this site: no sponsor, no donations, and GitHub Pages hosts it for free. Every figure links to its source &mdash; <span class="pl-cx"><a class="pl-correct" href="../corrections.html" data-pl-correct>Report a correction</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span>.</p>
+<p class="pl-foot-x"><a class="pl-fol" href="../follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a><a href="../words.html">Plain words</a></p><p class="pl-foot-x"><span class="pl-foot-xk">Explore:</span><a href="../contested.html">A quiz on the record</a><a href="../poster.html">Every resolution, one mark each</a></p>
+<p class="pl-foot-u pl-foot-np">No ads, no analytics, no cookies.</p>
+</footer>
+
+<script>
+/* r7 F-12 + W-07: the record chart. A column is a year: a mouse over it, a tap on it or the left / right arrow keys select one, and
+   the readout under the chart says that year in one line ('2019 · attendance 93% · 2 no votes · 23 sponsored') and how it was counted
+   on a second; the year's column lights and prints its three values. Leaving with the mouse, or Esc, goes back to the year the reader
+   chose (at first, the latest). One set of listeners serves every chart on the page, however late its record was filled. */
+var plRC=(function(){
+  var HOV=window.matchMedia('(hover:hover)'), cur=null;
+  function data(rc){ if(!rc.__yr){ try{ rc.__yr=JSON.parse(rc.getAttribute('data-yr'))||[]; }catch(e){ rc.__yr=[]; } } return rc.__yr; }
+  function served(rc){ var o=[]; data(rc).forEach(function(e,i){ if(e) o.push(i); }); return o; }
+  function nf(n){ return Number(n).toLocaleString('en-US'); }
+  function pl(n,one,many){ return nf(n)+' '+(n===1?one:many); }
+  function read(rc,i){
+    var d=data(rc), s=served(rc), y=d[s[0]][0]-s[0]+i, e=d[i];
+    if(!e) return '<b>'+y+'</b> &middot; not serving that year<span class="r2"> Their years in this record: '+d[s[0]][0]+
+      (s.length>1?'&ndash;'+d[s[s.length-1]][0]:'')+'.</span>';
+    var att=e[1]?Math.round(100*(e[1]-e[2])/e[1])+'%':'not readable';
+    return '<b>'+e[0]+'</b> &middot; attendance '+att+' &middot; '+pl(e[3],'no vote','no votes')+' &middot; '+nf(e[4])+' sponsored'+
+      '<span class="r2"> Present at '+nf(e[1]-e[2])+' of '+pl(e[1],'meeting','meetings')+' with a recorded vote'+
+      (rc.getAttribute('data-sofar')===String(e[0])?' so far':'')+' &middot; '+pl(e[5],'motion made','motions made')+'.</span>';
+  }
+  function show(rc,i){
+    [].forEach.call(rc.querySelectorAll('.rc-g>span.on,.rc-ax>span.on'),function(c){ c.classList.remove('on'); });
+    [].forEach.call(rc.querySelectorAll('.rc-g,.rc-ax'),function(g){ var c=g.children[i]; if(c) c.classList.add('on'); });
+    var r=rc.querySelector('.rc-read');
+    if(r&&rc.__shown!==i){ rc.__shown=i; r.innerHTML=read(rc,i); }
+  }
+  function home(rc){ var s=served(rc); return rc.__sel!=null?rc.__sel:s[s.length-1]; }
+  function at(rc,x){
+    var g=rc.querySelector('.rc-g'); if(!g) return -1;
+    var r=g.getBoundingClientRect(), n=g.children.length; if(!n||x<r.left||x>r.right) return -1;
+    return Math.max(0,Math.min(n-1,Math.floor((x-r.left)/(r.width/n))));
+  }
+  function init(root){
+    [].forEach.call((root||document).querySelectorAll('.rc'),function(rc){ if(rc.__init||!served(rc).length) return; rc.__init=1; show(rc,home(rc)); });
+  }
+  function back(){ if(cur){ show(cur,home(cur)); cur=null; } }
+  document.addEventListener('pointermove',function(e){
+    if(e.pointerType!=='mouse'||!HOV.matches) return;
+    var p=e.target.closest&&e.target.closest('.rc-p'), rc=p&&p.closest('.rc'), i=rc?at(rc,e.clientX):-1;
+    if(cur&&cur!==rc) back();
+    if(i<0){ back(); return; }
+    cur=rc; show(rc,i);
+  });
+  document.documentElement.addEventListener('mouseleave',back);
+  document.addEventListener('click',function(e){
+    var p=e.target.closest&&e.target.closest('.rc-p'); if(!p) return;
+    var rc=p.closest('.rc'), i=at(rc,e.clientX); if(i<0) return;
+    rc.__sel=i; cur=null; show(rc,i);
+  });
+  document.addEventListener('keydown',function(e){
+    var p=e.target.closest&&e.target.closest('.rc-p'); if(!p||e.target!==p) return;
+    var rc=p.closest('.rc'), s=served(rc); if(!s.length) return;
+    /* before the reader has chosen a year the chart shows the latest: the right arrow then starts the walk at the first year */
+    var k=e.key, j=rc.__sel==null?(k==='ArrowRight'?-1:s.length-1):s.indexOf(rc.__shown), nx=null;
+    if(k==='ArrowRight') nx=s[Math.min(s.length-1,j+1)];
+    else if(k==='ArrowLeft') nx=s[Math.max(0,j-1)];
+    else if(k==='Home') nx=s[0];
+    else if(k==='End') nx=s[s.length-1];
+    else if(k==='Escape'){ rc.__sel=null; show(rc,home(rc)); return; }      /* (a sheet around it still closes on the same key) */
+    else return;
+    e.preventDefault(); rc.__sel=nx; show(rc,nx);
+  });
+  return {init:init};
+})();
+/* r7 W-06 + API.md: one Share - the chrome's PL.share (the share sheet on a touch screen, else the link copied, a toast either way);
+   until a page has it, the toast module's share / copy */
+function plShare(url,title){
+  if(window.PL&&PL.share) return PL.share({url:url,title:title});
+  if(window.PL&&PL.shareLink) return PL.shareLink(title,url,{coarse:true});
+  if(window.PL&&PL.copyText) return PL.copyText(url,'Link copied');
+}
+document.getElementById('printBtn').addEventListener('click',function(){ window.print(); });
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('[data-share]'); if(!b) return;
+  plShare(location.href.split('#')[0].split('?')[0],document.title.split(' | ')[0]);
+});
+plRC.init(document);
+</script>
+<script src="assets/x-legislator.63eb0e7526.js" data-pl-bundle="x"></script>
+
+</body></html>

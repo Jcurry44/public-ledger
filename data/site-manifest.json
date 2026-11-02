@@ -1,6 +1,6 @@
 {
- "built": "2026-11-01",
- "builtLabel": "11/01/2026",
+ "built": "2026-11-02",
+ "builtLabel": "11/02/2026",
  "site": "https://jcurry44.github.io/public-ledger",
  "pageFeed": {
   "index": "warrants",
@@ -608,14 +608,14 @@
      "exact": true
     }
    ],
-   "grammar": "Through Oct 20, 2026 \u00b7 built Nov 1, 2026"
+   "grammar": "Through Oct 20, 2026 \u00b7 built Nov 2, 2026"
   },
   "decisions": {
    "id": "decisions",
    "label": "County resolutions",
    "through": "2026-10-20",
    "throughLabel": "10/20/2026",
-   "count": 6105,
+   "count": 6099,
    "cadence": "Legislature meetings",
    "next": null,
    "nextLabel": null,
@@ -633,20 +633,20 @@
     {
      "id": "2026-09-22",
      "date": "2026-09-22",
-     "title": "Sept 22, 2026: the county legislature took up 98 resolutions",
-     "summary": "95 adopted, 3 with no vote recorded; no votes against.",
+     "title": "Sept 22, 2026: the county legislature took up 97 resolutions",
+     "summary": "95 adopted, 2 with no vote recorded; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2026-09-22",
-     "n": 98
+     "n": 97
     },
     {
      "id": "2026-08-04",
      "date": "2026-08-04",
-     "title": "Aug 4, 2026: the county legislature took up 61 resolutions",
-     "summary": "56 adopted, 5 with no vote recorded; no votes against.",
+     "title": "Aug 4, 2026: the county legislature took up 62 resolutions",
+     "summary": "61 adopted, 1 with no vote recorded; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2026-08-04",
-     "n": 61
+     "n": 62
     },
     {
      "id": "2026-06-16",
@@ -769,7 +769,7 @@
      "id": "2025-08-18",
      "date": "2025-08-18",
      "title": "Aug 18, 2025: the county legislature took up 1 resolution",
-     "summary": "On the agenda; the votes are read from the minutes once the county posts them.",
+     "summary": "1 adopted; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2025-08-18",
      "n": 1
@@ -795,11 +795,11 @@
     {
      "id": "2025-05-20",
      "date": "2025-05-20",
-     "title": "May 20, 2025: the county legislature took up 31 resolutions",
-     "summary": "30 adopted, 1 with no vote recorded; 2 with votes against.",
+     "title": "May 20, 2025: the county legislature took up 30 resolutions",
+     "summary": "30 adopted; 2 with votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2025-05-20",
-     "n": 31
+     "n": 30
     },
     {
      "id": "2025-05-06",
@@ -831,11 +831,11 @@
     {
      "id": "2025-02-18",
      "date": "2025-02-18",
-     "title": "Feb 18, 2025: the county legislature took up 71 resolutions",
-     "summary": "67 adopted, 4 with no vote recorded; no votes against.",
+     "title": "Feb 18, 2025: the county legislature took up 70 resolutions",
+     "summary": "70 adopted; 1 with votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2025-02-18",
-     "n": 71
+     "n": 70
     },
     {
      "id": "2025-01-21",
@@ -904,7 +904,7 @@
      "id": "2024-08-06",
      "date": "2024-08-06",
      "title": "Aug 6, 2024: the county legislature took up 41 resolutions",
-     "summary": "38 adopted, 3 with no vote recorded; no votes against.",
+     "summary": "39 adopted, 2 with no vote recorded; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2024-08-06",
      "n": 41
@@ -930,11 +930,11 @@
     {
      "id": "2024-05-14",
      "date": "2024-05-14",
-     "title": "May 14, 2024: the county legislature took up 64 resolutions",
-     "summary": "59 adopted, 5 with no vote recorded; no votes against.",
+     "title": "May 14, 2024: the county legislature took up 61 resolutions",
+     "summary": "60 adopted, 1 with no vote recorded; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2024-05-14",
-     "n": 64
+     "n": 61
     },
     {
      "id": "2024-04-23",
@@ -958,7 +958,7 @@
      "id": "2024-02-20",
      "date": "2024-02-20",
      "title": "Feb 20, 2024: the county legislature took up 61 resolutions",
-     "summary": "57 adopted, 4 with no vote recorded; no votes against.",
+     "summary": "61 adopted; no votes against.",
      "kind": "meeting",
      "url": "decisions.html#m-2024-02-20",
      "n": 61
@@ -982,7 +982,7 @@
      "n": 1
     }
    ],
-   "grammar": "Through Oct 20, 2026 \u00b7 built Nov 1, 2026"
+   "grammar": "Through Oct 20, 2026 \u00b7 built Nov 2, 2026"
   },
   "osc": {
    "id": "osc",
@@ -1080,7 +1080,7 @@
      "url": "county.html#y=2013"
     }
    ],
-   "grammar": "Through 2024 \u00b7 built Nov 1, 2026"
+   "grammar": "Through 2024 \u00b7 built Nov 2, 2026"
   }
  }
 }

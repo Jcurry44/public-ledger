@@ -1,0 +1,31 @@
+{
+ "name": "Public Ledger",
+ "short_name": "Public Ledger",
+ "description": "North Tonawanda's city claims and Niagara County's votes and money, checked against the public record.",
+ "start_url": "./",
+ "scope": "./",
+ "id": "./",
+ "display": "minimal-ui",
+ "background_color": "#f6f4ef",
+ "theme_color": "#1b3a5c",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

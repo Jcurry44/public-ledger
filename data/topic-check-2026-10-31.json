@@ -1,10 +1,10 @@
 {
-"_doc": "A hand check of the decisions register's topic filter ('About:'), PL-17 of the 2026-10-31 audit: 200 resolutions drawn with random.Random(20261031).sample() from data/resolutions.json, each read by title and filed where a reader would look ('reader'). 'before' is the topic the rules gave it before the 2026-10-31 fixes, 'after' the topic they give now. The fixes were made from these same 200, so 'after' flatters the rules; a fresh sample is the honest next measure.",
+"_doc": "A hand check of the decisions register's topic filter ('About:'), PL-17 of the 2026-10-31 audit: 200 resolutions drawn with random.Random(20261031).sample() from data/resolutions.json, each read by title and filed where a reader would look ('reader'). 'before' is the topic the rules gave it before the 2026-10-31 fixes, 'after' the topic they give now. The fixes were made from these same 200, so 'after' flatters the rules; a fresh sample is the honest next measure. r7 (2026-11-01): 16 of the 200 were retitled to what their minutes print (R-01); each was read again by its new title the same way, its Oct 31 reading kept under 'was', 'read' the day: the rules were not changed for them, and 14 of the 16 sit where a reader would look, so 'agree_after' is 198.",
 "checked": "2026-10-31",
 "seed": 20261031,
 "n": 200,
 "agree_before": 153,
-"agree_after": 200,
+"agree_after": 198,
 "topics": {
 "s": "Symbolic & advocacy",
 "c": "Contracts & bids",
@@ -51,10 +51,17 @@
 {
 "id": "CW-009-16",
 "date": "2016-04-19",
-"title": "BROADBAND INITIATIVE",
+"title": "RESOLUTION APPROVING AN EXTENSION OF THE MEMORANDUM OF UNDERSTANDING BETWEEN ORLEANS COUNTY, NIAGARA COUNTY, SENECA TELECOMMUNICATIONS LLC AND RESOLUTE PARTNERS LLC FOR THE NORA RURAL BROADBAND INITIATIVE",
 "before": "o",
+"reader": "c",
+"after": "o",
+"was": {
+"title": "BROADBAND INITIATIVE",
 "reader": "o",
-"after": "o"
+"after": "o",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "CSS-006-24",
@@ -155,10 +162,17 @@
 {
 "id": "AD-005-20",
 "date": "2020-02-18",
-"title": "BUDGET MODIFICATION ~ DISTmBUTION OF SALES TAX",
+"title": "BUDGET MODIFICATION ~ DISTRIBUTION OF SALES TAX",
 "before": "b",
 "reader": "b",
-"after": "b"
+"after": "b",
+"was": {
+"title": "BUDGET MODIFICATION ~ DISTmBUTION OF SALES TAX",
+"reader": "b",
+"after": "b",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "ED-015-19",
@@ -187,10 +201,17 @@
 {
 "id": "AD-021-24",
 "date": "2024-09-17",
-"title": "Purchase of IN REM Properties - Treasurer",
+"title": "PURCHASE OF IN REM PROPERTY",
 "before": "c",
 "reader": "x",
-"after": "x"
+"after": "x",
+"was": {
+"title": "Purchase of IN REM Properties - Treasurer",
+"reader": "x",
+"after": "x",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "AD-019-23",
@@ -259,10 +280,17 @@
 {
 "id": "IL-087-15",
 "date": "2015-09-15",
-"title": "Jn Support of Stephen Sikora Post 1322 Inc. Through the Use of Casino Funding",
+"title": "RESOLUTION IN SUPPORT OF STEPHEN SIKORA POST 1322 SAFETY IMPROVEMENTS THROUGH THE USE OF CASINO FUNDING",
 "before": "o",
 "reader": "b",
-"after": "b"
+"after": "b",
+"was": {
+"title": "Jn Support of Stephen Sikora Post 1322 Inc. Through the Use of Casino Funding",
+"reader": "b",
+"after": "b",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IF-145-22",
@@ -291,10 +319,17 @@
 {
 "id": "CSS-090-22",
 "date": "2022-10-18",
-"title": "Niagara County Sheriffs Office Budget Modification -\" Accept FY22 Paul Coverdell Forensic Science Improvements Grant",
+"title": "NIAGARA COUNTY SHERIFF'S OFFICE BUDGET MODIFICATION -ACCEPT DOMESTIC TERRORISM PREVENTION GRANT",
 "before": "g",
 "reader": "g",
-"after": "g"
+"after": "g",
+"was": {
+"title": "Niagara County Sheriffs Office Budget Modification -\" Accept FY22 Paul Coverdell Forensic Science Improvements Grant",
+"reader": "g",
+"after": "g",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "CSS-099-23",
@@ -347,10 +382,17 @@
 {
 "id": "IL-001-22",
 "date": "2022-02-15",
-"title": "Opposition to Fann Labor Wage Board Decision to Lower Threshold to 40 Hours for Overtime on New York Farms",
+"title": "OPPOSITION TO FARM LABOR WAGE BOARD DECISION TO LOWER THRESHOLD TO 40 HOURS FOR OVERTIME ON NEW YORK FARMS",
 "before": "s",
 "reader": "s",
-"after": "s"
+"after": "s",
+"was": {
+"title": "Opposition to Fann Labor Wage Board Decision to Lower Threshold to 40 Hours for Overtime on New York Farms",
+"reader": "s",
+"after": "s",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IL-104-25",
@@ -683,10 +725,17 @@
 {
 "id": "IL-010-19",
 "date": "2019-02-19",
-"title": "Funding to the Youngstown Business & Professional Association for Marketing Initiative 2019",
+"title": "Resolution to Authorize the Niagara County Treasurer to Enter Into a Voluntary Collection Agreement with Airbnb for the Collection of Hotel Motel Tax Pursuant To Local Law No. 5",
 "before": "o",
+"reader": "c",
+"after": "c",
+"was": {
+"title": "Funding to the Youngstown Business & Professional Association for Marketing Initiative 2019",
 "reader": "b",
-"after": "b"
+"after": "b",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IF-068-23",
@@ -699,10 +748,17 @@
 {
 "id": "AD-003-23",
 "date": "2023-02-21",
-"title": "Extension of Claims Administration Contract between the Niagara County",
+"title": "EXTENSION OF CLAIMS ADMINISTRATION CONTRACT BETWEEN THE NIAGARA COUNTY WORKERS' COMPENSATION PLAN MUTUAL SELF-INSURANCE PLAN (\"MUSIP\") AND OMNI UNDERWRITING MANAGERS LLC, D/B/A FUTURECOMP FRO!YI JANUARY 01, 2023 TO DECEMBER 31, 2023",
 "before": "c",
 "reader": "c",
-"after": "c"
+"after": "c",
+"was": {
+"title": "Extension of Claims Administration Contract between the Niagara County",
+"reader": "c",
+"after": "c",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IL-074-25",
@@ -723,10 +779,17 @@
 {
 "id": "IL-110-24",
 "date": "2024-06-18",
-"title": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Elder and Parks, Recreation, Tourism Ad Hoc Committee, re Support for the Carousel Society of the Niagara Frontier Music Room Project",
+"title": "Support for the Carousel Society of the Niagara Frontier Music Room Project",
 "before": "o",
+"reader": "s",
+"after": "o",
+"was": {
+"title": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Elder and Parks, Recreation, Tourism Ad Hoc Committee, re Support for the Carousel Society of the Niagara Frontier Music Room Project",
 "reader": "o",
-"after": "o"
+"after": "o",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IF-090-17",
@@ -755,10 +818,17 @@
 {
 "id": "IF-188-24",
 "date": "2024-11-12",
-"title": "Award of Contract - Recreational Facilities at Krull and Oppenhelm Parks",
+"title": "AWARD OF CONTRACT- RECREATIONAL FACILITIES AT KRULL AND OPPENHEIM PARKS",
 "before": "c",
 "reader": "c",
-"after": "c"
+"after": "c",
+"was": {
+"title": "Award of Contract - Recreational Facilities at Krull and Oppenhelm Parks",
+"reader": "c",
+"after": "c",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "B-017-15",
@@ -771,10 +841,17 @@
 {
 "id": "AD-027-22",
 "date": "2022-11-15",
-"title": "Set Public Hearing for Assessment Tax Roll for the Niagara County Sewer",
+"title": "SET PUBLIC HEARING FOR ASSESSMENT TAX ROLL FOR THE NIAGARA COUNTY SEWER DISTRICT",
 "before": "x",
 "reader": "x",
-"after": "x"
+"after": "x",
+"was": {
+"title": "Set Public Hearing for Assessment Tax Roll for the Niagara County Sewer",
+"reader": "x",
+"after": "x",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IL-025-26",
@@ -923,10 +1000,17 @@
 {
 "id": "IL-046-21",
 "date": "2021-11-16",
-"title": "Legislators Dennis F. Virtuoso, Owen T. Steed, Mark J. Grozio, Christopher A. Robins, Anita Mullane, Rebecca J. Wydysh, et al., re Purple Heart Monument Committee",
+"title": "Purple Heart Monument Committee",
 "before": "o",
 "reader": "o",
-"after": "o"
+"after": "o",
+"was": {
+"title": "Legislators Dennis F. Virtuoso, Owen T. Steed, Mark J. Grozio, Christopher A. Robins, Anita Mullane, Rebecca J. Wydysh, et al., re Purple Heart Monument Committee",
+"reader": "o",
+"after": "o",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IL-151-25",
@@ -955,10 +1039,17 @@
 {
 "id": "IL-039-18",
 "date": "2018-10-16",
-"title": "RESOLUTION IN SUPPORT OF THE NORTH TONAWANDA HISTORY MUSEUM THROUGH THE USE OF CASINO FUNDING",
+"title": "Resolution in Support of the North Tonawanda History Museum through the use of Casino Funding",
 "before": "b",
 "reader": "b",
-"after": "b"
+"after": "b",
+"was": {
+"title": "RESOLUTION IN SUPPORT OF THE NORTH TONAWANDA HISTORY MUSEUM THROUGH THE USE OF CASINO FUNDING",
+"reader": "b",
+"after": "b",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "ED-013-20",
@@ -1003,10 +1094,17 @@
 {
 "id": "IF-024-25",
 "date": "2025-02-18",
-"title": "Lease Renewal with Northpoint Council Inc. for the Trott Access Center",
+"title": "LEASE RENEWAL WITH NORTHPOINTE COUNCIL INC. FOR THE TROTT ACCESS CENTER",
 "before": "c",
 "reader": "c",
-"after": "c"
+"after": "c",
+"was": {
+"title": "Lease Renewal with Northpoint Council Inc. for the Trott Access Center",
+"reader": "c",
+"after": "c",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "CSS-039-21",
@@ -1139,10 +1237,17 @@
 {
 "id": "IL-083-17",
 "date": "2017-09-19",
-"title": "Resolution Naming the Krnll Park Athletic Fields \"The James W. Ward Sports Complex\"",
+"title": "RESOLUTION NAMING THE KRULL PARK ATHLETIC FIELDS \"THE JAMES W. WARD SPORTS COMPLEX\"",
 "before": "o",
 "reader": "o",
-"after": "o"
+"after": "o",
+"was": {
+"title": "Resolution Naming the Krnll Park Athletic Fields \"The James W. Ward Sports Complex\"",
+"reader": "o",
+"after": "o",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "CSS-092-24",
@@ -1315,10 +1420,17 @@
 {
 "id": "CSS-032-16",
 "date": "2016-04-19",
-"title": "(title not machine-readable in the county documents)",
+"title": "2016 BUDGET MODIFICATION - 2015 CRITICAL INFRASTRUCTURE GRANT PROGRAM HOMELAND SECURITY GRANTS",
 "before": "o",
+"reader": "g",
+"after": "g",
+"was": {
+"title": "(title not machine-readable in the county documents)",
 "reader": "o",
-"after": "o"
+"after": "o",
+"read": "2026-10-31"
+},
+"read": "2026-11-01"
 },
 {
 "id": "IF-093-26",

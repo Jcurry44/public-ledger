@@ -507,6 +507,27 @@
    "minutes_file": "2016_5-24-16_Meeting_Minutes.pdf"
   },
   {
+   "id": "IL-038-16",
+   "date": "2016-06-21",
+   "kind": "replaced",
+   "before": {
+    "sp": [
+     "Wydysh"
+    ],
+    "cms": "Legislator Rebecca J. Wydysh and Economic Development Committee"
+   },
+   "after": {
+    "sp": [
+     "Nemi",
+     "McNall",
+     "Collins"
+    ],
+    "cms": "Legislators Anthony J. Nemi, Wm. Keith McNall, William J. Collins and Economic Committee"
+   },
+   "header_line": "IL-038-16 From: Legislators Anthony J. Nemi, Wm. Keith McNall, William J. Collins and Economic Committee",
+   "minutes_file": "2016_6-21-16_Meeting_Minutes.pdf"
+  },
+  {
    "id": "IL-056-16",
    "date": "2016-06-21",
    "kind": "added",
@@ -540,6 +561,32 @@
     "cms": "Legislators Rebecca J. Wydysh, Kathryn L. Lance and David E. Godfrey"
    },
    "header_line": "IL-070-16 From: Legislators Rebecca J. Wydysh, Kathryn L. Lance and David E. Godfrey",
+   "minutes_file": "2016_11-15-16_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-071-16",
+   "date": "2016-11-15",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Godfrey",
+     "Andres",
+     "Lance",
+     "Nemi"
+    ]
+   },
+   "after": {
+    "sp": [
+     "Godfrey",
+     "Andres",
+     "Lance",
+     "Nemi",
+     "Syracuse",
+     "Steed"
+    ],
+    "cms": "Legislators David E. Godfrey, Richard l. Andres, Kathryn L. Lance, Anthony J. Nemi"
+   },
+   "header_line": "IL-071-16 From: Legislators David E. Godfrey, Richard l. Andres, Kathryn L. Lance, Anthony J. Nemi, John Syracuse, Owen T. Steed and Parks, Recreation & Tourism Ad Hoc Committee",
    "minutes_file": "2016_11-15-16_MEETING_MINUTES.pdf"
   },
   {
@@ -668,6 +715,30 @@
    },
    "header_line": "IL-016-17 From: Legislators Dennis F. Virtuoso, Mark J. Grozio, Jason Zona and Owen T. Steed",
    "minutes_file": "2017_2-21-17_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-018-17",
+   "date": "2017-03-21",
+   "kind": "replaced",
+   "before": {
+    "sp": [
+     "Nemi",
+     "McNall",
+     "Collins"
+    ],
+    "cms": "Legislators Anthony J. Nemi, Wm. Keith McNall and William J. Collins"
+   },
+   "after": {
+    "sp": [
+     "Virtuoso",
+     "Grozio",
+     "Zona",
+     "Steed"
+    ],
+    "cms": "Legislators Dennis F. Virtuoso, Mark J. Grozio, Jason A. Zona and Owen T. Steed"
+   },
+   "header_line": "IL-018-17 From: Legislators Dennis F. Virtuoso, Mark J. Grozio, Jason A. Zona and Owen T. Steed",
+   "minutes_file": "2017_3-21_meeting_minutes.pdf"
   },
   {
    "id": "IL-022-17",
@@ -862,6 +933,60 @@
    "minutes_file": "2017_6-20-17_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-061-17",
+   "date": "2017-06-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Lance"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance, Owen T. S"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Lance",
+     "Steed",
+     "Godfrey"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance"
+   },
+   "header_line": "IL-061-17 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance, Owen T. Steed, David E.. Godfrey and Parks, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2017_6-20-17_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-062-17",
+   "date": "2017-06-20",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Lance"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance, Owen T. S"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Lance",
+     "Steed",
+     "Godfrey"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance"
+   },
+   "header_line": "IL-062-17 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Kathryn L. Lance, Owen T. Steed, David E. Godfrey and Parks, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2017_6-20-17_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-068-17",
    "date": "2017-06-20",
    "kind": "replaced",
@@ -944,6 +1069,37 @@
     "cms": "Legislators Randy R. Bradt, Rebecca J. Wydysh, Wm. Keith McNall, William J. Collins"
    },
    "header_line": "IL-079-17 From: Legislators Randy R. Bradt, Rebecca J. Wydysh, Wm. Keith McNall, William J. Collins, Clyde L. Burmaster, Kathryn L. Lance, Richard L. Andres, David E. Godfrey, Anthony J. Nemi, John Syracuse and Michael A. Hill",
+   "minutes_file": "2017_8-10-17_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-080-17",
+   "date": "2017-08-10",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Bradt",
+     "Wydysh",
+     "McNall",
+     "Collins"
+    ],
+    "cms": "Legislators Randy R. Bradt, Rebecca J. Wydysh, Wm. Keith McNall, William J. Collins, Clyde"
+   },
+   "after": {
+    "sp": [
+     "Bradt",
+     "Wydysh",
+     "McNall",
+     "Collins",
+     "Burmaster",
+     "Lance",
+     "Andres",
+     "Godfrey",
+     "Nemi",
+     "Syracuse"
+    ],
+    "cms": "Legislators Randy R. Bradt, Rebecca J. Wydysh, Wm. Keith McNall, William J. Collins"
+   },
+   "header_line": "IL-080-17 From: Legislators Randy R. Bradt, Rebecca J. Wydysh, Wm. Keith McNall, William J. Collins, Clyde L. Burmaster, Kathryn L. Lance, Richard L. Andres, David E. Godfrey, Anthony J. Nemi, John Syracuse and",
    "minutes_file": "2017_8-10-17_MEETING_MINUTES.pdf"
   },
   {
@@ -1221,6 +1377,31 @@
    "minutes_file": "2018_6-19-18_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-024-18",
+   "date": "2018-06-19",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Godfrey",
+     "Bradt"
+    ],
+    "cms": "Legislators David E. Godfrey, Randy R. Bradt and Clyde L. Bmmaster:"
+   },
+   "after": {
+    "sp": [
+     "Godfrey",
+     "Bradt",
+     "Burmaster"
+    ],
+    "cms": "Legislators David E. Godfrey, Randy R. Bradt and Clyde L. Burmaster"
+   },
+   "header_line": "IL-024-18 From: Legislators David E. Godfrey, Randy R. Bradt and Clyde L. Bmmaster:",
+   "minutes_file": "2018_6-19-18_MEETING_MINUTES.pdf",
+   "fuzzy_names": [
+    "Bmmaster->Burmaster"
+   ]
+  },
+  {
    "id": "IL-032-18",
    "date": "2018-08-07",
    "kind": "added",
@@ -1431,6 +1612,31 @@
    "minutes_file": "2019_2-19-19_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-010-19",
+   "date": "2019-02-19",
+   "kind": "partial-union",
+   "before": {
+    "sp": [
+     "Andres",
+     "Virtuoso"
+    ],
+    "cms": "Legislators Richard L. Andres and Dennis F. Virtuoso"
+   },
+   "after": {
+    "sp": [
+     "Godfrey",
+     "Syracuse",
+     "Wydysh",
+     "Bradt",
+     "Andres",
+     "Virtuoso"
+    ],
+    "cms": "Legislators David E. Godfrey, John Syracuse, Rebecca J. Wydysh, Randy R. Bradt and et al"
+   },
+   "header_line": "IL-010-19 From: Legislators David E. Godfrey, John Syracuse, Rebecca J. Wydysh, Randy R. Bradt, et al",
+   "minutes_file": "2019_2-19-19_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-011-19",
    "date": "2019-02-19",
    "kind": "added",
@@ -1503,6 +1709,33 @@
    },
    "header_line": "IL-014-19 From: Legislators Jesse P. Gooch, Rebecca J. Wydysh, Clyde L. Burmaster, David E. Godfrey and William J. Collins",
    "minutes_file": "2019_3-19-19_MEETIMG_MINUTES.pdf"
+  },
+  {
+   "id": "IL-020-19",
+   "date": "2019-04-09",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Wydysh",
+     "Gooch",
+     "McNall",
+     "Bradt"
+    ],
+    "cms": "Legislators Rebecca J. Wydysh, Clyde L. Burmaster. Jesse P. Gooch, Wm. Keith McNall, Randy"
+   },
+   "after": {
+    "sp": [
+     "Wydysh",
+     "Burmaster",
+     "Gooch",
+     "McNall",
+     "Bradt",
+     "Andres"
+    ],
+    "cms": "Legislators Rebecca J. Wydysh, Clyde L. Burmaster, Jesse P. Gooch, Wm. Keith McNall"
+   },
+   "header_line": "IL-020-19 From: Legislators Rebecca J. Wydysh, Clyde L. Burmaster, Jesse P. Gooch, Wm. Keith McNall, Randy R. Bradt and Richard L. Andres",
+   "minutes_file": "2019_4-9-19_MEETING_MINUTES.pdf"
   },
   {
    "id": "IL-021-19",
@@ -1598,6 +1831,32 @@
    "minutes_file": "2019_6-18-19_MEETING_MINUTE.pdf"
   },
   {
+   "id": "IL-047-19",
+   "date": "2019-08-06",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Syracuse",
+     "Steed",
+     "Nemi"
+    ],
+    "cms": "Legislators Richard L. Andres, John Syracuse, Owen T. Steed, Anthony J. Nemi, Randy R. Bra"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Syracuse",
+     "Steed",
+     "Nemi",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, John Syracuse, Owen T. Steed, Anthony J. Nemi"
+   },
+   "header_line": "IL-047-19 From: Legislators Richard L. Andres, John Syracuse, Owen T. Steed, Anthony J. Nemi, Randy R. Bradt and Parks, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2019_8-6-19_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-048-19",
    "date": "2019-08-06",
    "kind": "replaced",
@@ -1648,6 +1907,110 @@
    },
    "header_line": "IL-050-19 From: Legislators Wm. Keith McNall, Rebecca J. Wydysh, Jesse P. Gooch, Randy R. Bradt, Richard L. Andres and William J. Collins",
    "minutes_file": "2019_8-6-19_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-054-19",
+   "date": "2019-09-19",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi , John Syracuse, Randy R. Bradt, Owen T. St"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-054-19 From: Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt, Owen T. Steed and Park, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2019_MEETING_MINUTES_9-19-19.pdf"
+  },
+  {
+   "id": "IL-055-19",
+   "date": "2019-09-19",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-055-19 From: Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt, Owen T. Steed and Park, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2019_MEETING_MINUTES_9-19-19.pdf"
+  },
+  {
+   "id": "IL-056-19",
+   "date": "2019-09-19",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-056-19 From: Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt, Owen T. Steed and Park, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2019_MEETING_MINUTES_9-19-19.pdf"
+  },
+  {
+   "id": "IL-057-19",
+   "date": "2019-09-19",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-057-19 From: Legislators Richard L. Andres, Anthony J. Nemi. John Syracuse, Randy R. Bradt, Owen T. Steed and Park, Recreation & Tourism Ad hoc Committee",
+   "minutes_file": "2019_MEETING_MINUTES_9-19-19.pdf"
   },
   {
    "id": "IL-064-19",
@@ -2102,6 +2465,58 @@
    "minutes_file": "2020_5-12-20_Meeting_Minutes.pdf"
   },
   {
+   "id": "IL-021-20",
+   "date": "2020-08-04",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-021-20 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Steed and Parks, Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2020_8-4-20_Meeting_Minutes_1.pdf"
+  },
+  {
+   "id": "IL-022-20",
+   "date": "2020-08-04",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-022-20 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Steed and Parks, Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2020_8-4-20_Meeting_Minutes_1.pdf"
+  },
+  {
    "id": "IL-023-20",
    "date": "2020-08-04",
    "kind": "added",
@@ -2499,6 +2914,58 @@
    "minutes_file": "2021_MEETING_MINUTES_3-23.pdf"
   },
   {
+   "id": "IL-006-21",
+   "date": "2021-03-23",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-006-21 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Steed and Park Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2021_MEETING_MINUTES_3-23.pdf"
+  },
+  {
+   "id": "IL-007-21",
+   "date": "2021-03-23",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-007-21 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Steed and Park Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2021_MEETING_MINUTES_3-23.pdf"
+  },
+  {
    "id": "IL-008-21",
    "date": "2021-03-23",
    "kind": "added",
@@ -2864,6 +3331,33 @@
    "minutes_file": "2021_6-15-21_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-027-21",
+   "date": "2021-09-21",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Robins",
+     "Virtuoso",
+     "Mullane",
+     "Steed"
+    ],
+    "cms": "Legislators Christopher A. Robins, Dennis F. Virtuoso, Anita Mullane, Owen T. Steed, Mark "
+   },
+   "after": {
+    "sp": [
+     "Robins",
+     "Virtuoso",
+     "Mullane",
+     "Steed",
+     "Grozio",
+     "Wydysh"
+    ],
+    "cms": "Legislators Christopher A. Robins, Dennis F. Virtuoso, Anita Mullane, Owen T. Steed"
+   },
+   "header_line": "IL-027-21 From: Legislators Christopher A. Robins, Dennis F. Virtuoso, Anita Mullane, Owen T. Steed, Mark J. Grozio and Rebecca J. Wydysh",
+   "minutes_file": "2021_9-21-21_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-030-21",
    "date": "2021-09-21",
    "kind": "added",
@@ -3079,6 +3573,58 @@
    },
    "header_line": "IL-040-21 From: Legislators Owen T. Steed, Dennis F. Virtuoso, Mark J. Grozio, Christopher A. Robins and Anita Mullane",
    "minutes_file": "2021_10-19-21_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-043-21",
+   "date": "2021-11-16",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-043-21 From: Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Steed and Parks Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2021_11-16-21_meeting_minutes-1.pdf"
+  },
+  {
+   "id": "IL-044-21",
+   "date": "2021-11-16",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, John Syracuse, Randy R. Bradt, Owen T. Ste"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Syracuse",
+     "Bradt",
+     "Steed"
+    ],
+    "cms": "Legislators Richard 1. Andres, Anthony J. Neml John Syracuse, Randy R. Bradt"
+   },
+   "header_line": "IL-044-21 From: Legislators Richard 1. Andres, Anthony J. Neml John Syracuse, Randy R. Bradt, Owen T. Steed and parks. Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2021_11-16-21_meeting_minutes-1.pdf"
   },
   {
    "id": "IL-045-21",
@@ -4038,6 +4584,64 @@
    "minutes_file": "2023_4-25-23_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-044-23",
+   "date": "2023-05-16",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffrey Eld"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt"
+   },
+   "header_line": "IL-044-23 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Brady, Jeffery Elder and Parks, Recreation & Tourism Ad Hoc Committee",
+   "minutes_file": "2023_5-16-23_Meeting_Minutes.pdf",
+   "fuzzy_names": [
+    "Brady->Bradt"
+   ]
+  },
+  {
+   "id": "IL-045-23",
+   "date": "2023-05-16",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislator Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffrey Elde"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt"
+   },
+   "header_line": "IL-045-23 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Brady, Jeffery Elder and Parks, Recreation & Tourism Ad Hoc Conunittee",
+   "minutes_file": "2023_5-16-23_Meeting_Minutes.pdf",
+   "fuzzy_names": [
+    "Brady->Bradt"
+   ]
+  },
+  {
    "id": "IL-059-23",
    "date": "2023-06-20",
    "kind": "added",
@@ -4538,6 +5142,58 @@
    "minutes_file": "2024_6-18-24_MEETING_MINUTES.pdf"
   },
   {
+   "id": "IL-109-24",
+   "date": "2024-06-18",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Eld"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti. Randy R. Bradt"
+   },
+   "header_line": "IL-109-24 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti. Randy R. Bradt, Jeffrey Elder and Parks, Recreation, Tourism Ad Hoc Committee",
+   "minutes_file": "2024_6-18-24_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-110-24",
+   "date": "2024-06-18",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Eld"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt"
+   },
+   "header_line": "IL-110-24 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffrey Elder and Parks Recreation, Tourism Ad Hoc Committee",
+   "minutes_file": "2024_6-18-24_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-127-24",
    "date": "2024-09-17",
    "kind": "partial-union",
@@ -4861,6 +5517,58 @@
    ]
   },
   {
+   "id": "IL-099-25",
+   "date": "2025-06-17",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Eld"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt"
+   },
+   "header_line": "IL-099-25 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffrey Elder, Parks, Recreation & Tourism AD Hoc Committee",
+   "minutes_file": "2025_6-17-25_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-100-25",
+   "date": "2025-06-17",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffery Eld"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Foti",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt"
+   },
+   "header_line": "IL-100-25 From: Legislators Richard L. Andres, Anthony J. Nemi, Shawn A. Foti, Randy R. Bradt, Jeffrey Elder, Parks, Recreation & Tourism AD Hoc Committee",
+   "minutes_file": "2025_6-17-25_MEETING_MINUTES.pdf"
+  },
+  {
    "id": "IL-126-25",
    "date": "2025-09-16",
    "kind": "added",
@@ -5164,6 +5872,32 @@
     "cms": "Legislators Anthony J. Nemi, Richard E. Abbott, Carla L. Speranza, Christopher A. Robins"
    },
    "header_line": "IL-022-26 From: Legislators Anthony J. Nemi, Richard E. Abbott, Carla L. Speranza, Christopher A. Robins, Jeffrey Elder, Sam R. Farruggia, Michael A. Hill, Randy R. Bradt, David E. Godfrey, Richard L. Andres, Irene M. Myers, Jesse P. Gooch, Michael A. Casale, Shawn A. Foti, Christopher J. McKimmie",
+   "minutes_file": "2026_2-17-26_MEETING_MINUTES.pdf"
+  },
+  {
+   "id": "IL-023-26",
+   "date": "2026-02-17",
+   "kind": "added",
+   "before": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Elder"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Randy R. Bradt, Jeffrey Elder, Shawn A. Fo"
+   },
+   "after": {
+    "sp": [
+     "Andres",
+     "Nemi",
+     "Bradt",
+     "Elder",
+     "Foti"
+    ],
+    "cms": "Legislators Richard L. Andres, Anthony J. Nemi, Randy R. Bradt, Jeffrey Elder"
+   },
+   "header_line": "IL-023-26 From: Legislators Richard L. Andres, Anthony J. Nemi, Randy R. Bradt, Jeffrey Elder, Shawn A. Foti and Parks, Recreation & Tourism Ad Hoc Committee",
    "minutes_file": "2026_2-17-26_MEETING_MINUTES.pdf"
   },
   {
@@ -5626,7 +6360,7 @@
   {
    "id": "IL-151-26",
    "date": "2026-09-22",
-   "kind": "removed",
+   "kind": "replaced",
    "before": {
     "sp": [
      "Andres",
@@ -5651,7 +6385,7 @@
   {
    "id": "IL-152-26",
    "date": "2026-09-22",
-   "kind": "removed",
+   "kind": "replaced",
    "before": {
     "sp": [
      "Andres",
@@ -5760,16 +6494,7 @@
    "minutes_file": "2026_9-22-26_MEETING_MINUTES.pdf"
   }
  ],
- "conflicts": [
-  {
-   "id": "IL-024-18",
-   "date": "2018-06-19",
-   "headers": [
-    "Legislators David E. Godfrey, Randy R. Bradt and Clyde L. Bmmaster:",
-    "Legislator John Syracuse"
-   ]
-  }
- ],
+ "conflicts": [],
  "partial_headers": [
   {
    "id": "IL-003-15",
@@ -6044,6 +6769,14 @@
    ]
   },
   {
+   "id": "IL-010-19",
+   "date": "2019-02-19",
+   "header": "Legislators David E. Godfrey, John Syracuse, Rebecca J. Wydysh, Randy R. Bradt, et al",
+   "unresolved": [
+    "et al."
+   ]
+  },
+  {
    "id": "IL-052-19",
    "date": "2019-09-19",
    "header": "Legislators Owen T. Steed, Dennis F. Virtuoso, Jason A. Zona, Mark J. Grozio, et. al",
@@ -6179,6 +6912,6 @@
   "Wydysh",
   "Zona"
  ],
- "rows_with_header": 1272,
- "skipped_title_mismatch": 28
+ "rows_with_header": 1276,
+ "skipped_title_mismatch": 10
 }

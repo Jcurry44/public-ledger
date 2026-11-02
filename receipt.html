@@ -21,9 +21,178 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#1b3a5c">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0c0f">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231b3a5c'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='34' fill='%23f6f4ef'%3EPL%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231b3a5c'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-weight='bold' font-size='34' fill='%23f6f4ef'%3EPL%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<script>try{var t=localStorage.getItem("pl-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="manifest" href="manifest.webmanifest">
+<script>try{var t=localStorage.getItem("pl-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}
+
+(function(){
+var D=document, PL=window.PL=window.PL||{};
+if(PL.share) return;
+function coarse(){ try{ return matchMedia('(pointer:coarse)').matches; }catch(e){ return false; } }
+var tt=null, tc=null;
+function toastEl(){
+var t=D.getElementById('plToast');
+if(!t){ t=D.createElement('div'); t.className='pl-toast'; t.id='plToast'; t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+t.setAttribute('data-pl-keep',''); (D.body||D.documentElement).appendChild(t); t._plNew=1; }
+return t;
+}
+PL.toast=function(msg,ms){
+var t=toastEl(), wait=t._plNew?40:0; t._plNew=0;
+setTimeout(function(){ clearTimeout(tt); clearTimeout(tc); t.textContent=msg; t.classList.add('show');
+tt=setTimeout(function(){ t.classList.remove('show'); tc=setTimeout(function(){ t.textContent=''; },400); },ms||2600); },wait);
+};
+var box=null;
+function field(s){
+if(!box){
+box=D.createElement('div'); box.className='pl-cpf'; box.setAttribute('role','dialog'); box.setAttribute('aria-label','Copy it from here');
+box.setAttribute('data-pl-keep','');
+box.innerHTML='<input class="pl-cpf-i" readonly aria-label="The text to copy"><button type="button" class="pl-pill pl-cpf-x">Done</button>';
+D.body.appendChild(box);
+box.querySelector('button').addEventListener('click',shut);
+box.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); e.stopPropagation(); shut(); } });
+}
+var i=box.querySelector('input');
+if(box.hidden!==false||!box._back) box._back=D.activeElement;
+i.value=s; box.hidden=false; i.focus(); i.select(); try{ i.setSelectionRange(0,s.length); }catch(e){}
+}
+function shut(){ if(!box) return; box.hidden=true; var b=box._back; box._back=null; if(b&&b.focus&&D.documentElement.contains(b)) b.focus(); }
+function linkish(s){ return /^(https?:|mailto:|\.{0,2}\/|[\w.-]+\.html\b)/i.test(s); }
+PL.copyText=function(s,msg){
+s=String(s); var lk=linkish(s);
+return new Promise(function(res){
+function ok(){ PL.toast(msg||(lk?'Link copied':'Copied')); res(true); }
+function legacy(){
+var a=D.activeElement, ta=D.createElement('textarea'), did=false;
+ta.value=s; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+D.body.appendChild(ta); ta.select();
+try{ did=D.execCommand('copy'); }catch(e){}
+D.body.removeChild(ta);
+if(a&&a.focus){ try{ a.focus({preventScroll:true}); }catch(e){} }
+if(did){ ok(); return; }
+field(s);
+PL.toast('Couldn’t copy: '+(lk?'the link':'the text')+' is selected, '+(coarse()?'press and hold it to copy':'copy it with your keyboard'),7000);
+res(false);
+}
+if(navigator.clipboard&&navigator.clipboard.writeText){ try{ navigator.clipboard.writeText(s).then(ok,legacy); }catch(e){ legacy(); } }
+else legacy();
+});
+};
+var SITE='https://jcurry44.github.io/public-ledger/';
+function siteRoot(){
+var m=D.querySelector('header.pl-mast[data-root]'), here=location.href.split('#')[0].split('?')[0];
+if(m) return new URL(m.getAttribute('data-root')||'./',here);
+var c=D.querySelector('link[rel=canonical]'), h=c&&c.getAttribute('href')||'';
+if(h.indexOf(SITE)!==0) return null;
+var path=h.slice(SITE.length), lp=new URL(here).pathname;
+if(!path) return new URL(lp.replace(/[^\/]*$/,''),here);
+return lp.slice(-path.length)===path?new URL(lp.slice(0,lp.length-path.length),here):null;
+}
+PL.canonURL=function(u){
+var here=location.href, x;
+try{ x=new URL(u||here,here); }catch(e){ return u||here; }
+if(x.href.indexOf(SITE)===0) return x.href;
+var r=null; try{ r=siteRoot(); }catch(e){ r=null; }
+if(!r||x.protocol!==r.protocol||x.host!==r.host||x.pathname.indexOf(r.pathname)!==0) return x.href;
+var rel=x.pathname.slice(r.pathname.length);
+return SITE+(rel==='index.html'?'':rel)+x.search+x.hash;
+};
+PL.share=function(o){
+o=o||{};
+var url=PL.canonURL(o.url||location.href), data={title:o.title||D.title,url:url}, sheet=!!navigator.share&&!navigator.webdriver&&coarse();
+if(o.text) data.text=o.text;
+try{ if(sheet&&navigator.canShare&&!navigator.canShare(data)) sheet=false; }catch(e){ sheet=false; }
+function copy(){ return PL.copyText(url,'Link copied').then(function(k){ return k?'copied':'selected'; }); }
+if(!sheet) return copy();
+return navigator.share(data).then(function(){ PL.toast('Shared'); return 'shared'; },
+function(e){ return e&&e.name==='AbortError'?'cancelled':copy(); });
+};
+PL.shareLink=function(title,url){ return PL.share({title:title,url:url||location.href}); };      
+var ON='This part of the page didn’t load: the connection may have dropped.', OFF='You’re offline: this part needs a connection.';
+function said(){ return navigator.onLine===false?OFF:ON; }
+var KEEP=/^(TABLE|TBODY|THEAD|TFOOT|TR|UL|OL|DL|SELECT|svg|g)$/;
+PL.dataFail=function(el,retry,o){
+if(typeof el==='string') el=D.querySelector(el);
+el=el||D.getElementById('main')||D.body; o=o||{};
+var b=D.createElement('div'), p=D.createElement('p'), k=D.createElement('button'), beside=!o.head&&KEEP.test(el.tagName);
+b.className='pl-fail'; b.setAttribute('role','status'); p.className='pl-fail-t'; p.textContent=said();
+k.type='button'; k.className='pl-pill pl-fail-b'; k.textContent='Try again'; b.appendChild(p); b.appendChild(k);
+function reset(){ if(b.isConnected){ k.disabled=false; k.textContent='Try again'; p.textContent=said(); } }
+k.addEventListener('click',function(){
+if(typeof retry!=='function'){ location.reload(); return; }
+k.disabled=true; k.textContent='Trying again…';
+var t=setTimeout(reset,10000), r;
+try{ r=retry(); }catch(e){ clearTimeout(t); reset(); return; }
+if(r&&typeof r.then==='function') r.then(function(){ clearTimeout(t); if(beside&&b.isConnected) b.remove(); },function(){ clearTimeout(t); reset(); });
+else if(beside&&el.childNodes.length){ clearTimeout(t); b.remove(); }
+});
+if(o.head) el.insertBefore(b,el.firstChild);
+else if(beside){ var at=/^(TBODY|THEAD|TFOOT|TR)$/.test(el.tagName)?el.closest('table'):el.tagName==='g'?el.ownerSVGElement:el; at=at||el;
+var x=at.previousElementSibling; if(x&&x.className==='pl-fail') x.remove(); el.innerHTML=''; at.parentNode.insertBefore(b,at); }
+else{ el.innerHTML=''; el.appendChild(b); }
+try{ b.dispatchEvent(new CustomEvent('pl:fail',{bubbles:true})); }catch(e){}
+return b;
+};
+function reword(){ [].forEach.call(D.querySelectorAll('.pl-fail'),function(b){ var k=b.querySelector('button'), p=b.querySelector('.pl-fail-t');
+if(p&&!(k&&k.disabled)) p.textContent=said(); }); }
+addEventListener('online',reword); addEventListener('offline',reword);
+var miss=[], tm=null;
+function sweep(){
+tm=null; var list=miss; miss=[];
+if(!list.length||D.querySelector('.pl-fail,[data-pl-retry]')||D.documentElement.hasAttribute('data-pl-failed')) return;
+var main=D.getElementById('main')||D.querySelector('main'), done=[];
+list.forEach(function(s){ var t=(s.closest&&(s.closest('[data-part]')||s.closest('main section')))||main;
+if(!t||done.indexOf(t)>=0) return; done.push(t); place(t); });
+}
+function layerOpen(){ var a=D.querySelectorAll('[aria-modal=true]'), i, r;
+for(i=0;i<a.length;i++){ r=a[i].getBoundingClientRect(); if(r.width>0&&r.height>0&&getComputedStyle(a[i]).visibility!=='hidden') return a[i]; } return null; }
+function place(t){
+var m=layerOpen();
+if(!m||m.contains(t)){ PL.dataFail(t,null,{head:true}); return; }
+var c=[m].concat([].slice.call(m.querySelectorAll('div,section,article'))).filter(function(e){ return /(auto|scroll)/.test(getComputedStyle(e).overflowY); })[0]||m;
+var b=PL.dataFail(c,null,{head:true}), iv=setInterval(function(){
+if(!b.isConnected){ clearInterval(iv); return; }
+if(!b.getClientRects().length){ clearInterval(iv); t.insertBefore(b,t.firstChild); } },400);
+}
+function noop(){}
+function stand(){
+if(!PL.tip){ PL.tip=function(){ return {show:noop,move:noop,hide:noop,visible:function(){ return false; }}; }; PL.tip.plStub=1; }
+if(!PL.hl) PL.hl={set:noop,clear:noop,on:{},off:{},bind:function(){ return noop; },plStub:1,
+hoverable:function(){ try{ return matchMedia('(hover:hover)').matches; }catch(e){ return false; } }};
+if(!PL.layer){ PL.layer=function(o){
+o=o||{}; var real=null, L={o:o};
+function R(){ if(!real&&PL.layer&&!PL.layer.plStub) real=PL.layer(o); return real; }
+try{ Object.defineProperty(L,'pushed',{enumerable:true,get:function(){ var r=R(); return r?r.pushed:false; },set:function(v){ var r=R(); if(r) r.pushed=v; }}); }catch(e){}
+['push','pop','swallow','sub','subBack','modal','unmodal','open','close'].forEach(function(k){ L[k]=function(){ var r=R(); return r?r[k].apply(r,arguments):false; }; });
+(PL._layers=PL._layers||[]).push(L);
+return L; };
+PL.layer.plStub=1; }
+if(!PL.hydrate){ PL.hydrate=function(id,html){ var el=D.getElementById(id); if(el) el.innerHTML=html; }; PL.hydrate.report=noop; }
+if(!PL.jump) PL.jump=function(el,block){ if(el&&el.scrollIntoView) el.scrollIntoView({block:block||'start'}); };
+if(!PL.say) PL.say=noop;
+if(!PL.scrubber) PL.scrubber=noop;
+if(!PL.sparks){ PL.sparks=noop; PL.sparks.axis=PL.sparks.brk=function(){ return ''; }; }
+if(!PL.chartSpot) PL.chartSpot=function(){ return null; };
+if(!PL.refLabel) PL.refLabel=function(o){ return {svg:'',key:(o&&o.text)||''}; };
+if(!PL.trendTab) PL.trendTab=noop;
+if(!PL.fitMin) PL.fitMin=function(){ return 0; };
+if(!PL.refit) PL.refit=function(fn){ try{ fn(); }catch(e){} };
+if(!PL.numword) PL.numword=function(n){      
+var O='zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' '),
+T='  twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
+n=Math.round(n); if(!(n>=0&&n<100)) return String(n); return n<20?O[n]:T[Math.floor(n/10)]+(n%10?'-'+O[n%10]:''); };
+if(!PL.capword) PL.capword=function(s){ s=String(s); return s.charAt(0).toUpperCase()+s.slice(1); };
+}
+addEventListener('error',function(e){
+var s=e.target, src=s&&s.tagName==='SCRIPT'?s.getAttribute('src')||'':null;
+if(src===null||!(s.hasAttribute('data-pl-payload')||/(^|\/)assets\/x-[^\/?#]+\.js([?#]|$)/.test(src))) return;
+try{ stand(); }catch(x){}
+miss.push(s);
+if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
+},true);
+})();
+</script>
 <script>/* the view is chosen before the first paint: an address that names a warrant never paints the landing examples first and then
    swaps them out (a 200px jump) */ if(/[?&]d=/.test(location.search)) document.documentElement.className+=' r-view';</script><style>
 @font-face{font-family:'Fraunces';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/Fraunces-600-latin.woff2) format('woff2')}
@@ -52,9 +221,11 @@ button{cursor:pointer}
 ::selection{background:color-mix(in srgb,var(--accent) 24%,transparent)}
 .pl-vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);
   clip-path:inset(50%);white-space:nowrap;border:0}
-.pl-skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--paper);
+.pl-skip{position:fixed;left:12px;top:0;z-index:2147483001;background:var(--ink);color:var(--paper);transform:translateY(-110%);
   padding:10px 14px;border-radius:0 0 10px 10px;font-weight:600;text-decoration:none;min-height:44px}
-.pl-skip:focus{top:0;outline:2px solid var(--accent);outline-offset:2px}
+/* r7 F-09: fixed to the screen and off it until focused, whatever box the page wraps the masthead in (the home page's .folio is
+   positioned: the offline strip pushed a top:-60px link onto its own words); focused, it sits under the offline strip (--pl-offh) */
+.pl-skip:focus{top:var(--pl-offh,0px);transform:none;outline:2px solid var(--accent);outline-offset:2px}
 /* phones: no input may sit under the 16px iOS zoom floor, and every text
    control is a 44px target. Padding, not font, keeps the compact look. */
 @media (max-width:640px){
@@ -67,7 +238,7 @@ button{cursor:pointer}
 /* forced colours (Windows high contrast): fills and tracks keep their shape - the fill survives, the track gets a hairline -
    and a pressed segment shows its state without a background. Selectors are the house's shared mark vocabulary. */
 @media (forced-colors:active){
-  .pl-primary,.pl-verb,.pl-theme,.pl-go,.pl-searchbtn,.pl-dest{border:1px solid ButtonText}
+  .pl-primary,.pl-verb,.pl-theme,.pl-go,.pl-searchbtn,.pl-dest,.pl-sheet-primary{border:1px solid ButtonText}
   .rk .tr,.rk .tr i,.sb .t,.sb .t i,.rbar,.rbar i,.bar,.bar i,.tb-bar,.tb-bar i,.sharebar,.sharebar i,svg.trend,.dp-d,.dp-t::before,.dp-m,
   .legend b,.legend .sw,.sharelegend b,.itape-bar .is,.issue-rows .fh-bar,.lgd i,.lg i,.dp-foot i,.dv i,.bvx .bxb .bar i,.spk svg path{forced-color-adjust:none}
   /* a legend swatch is a key: where forced colours would otherwise paint it Canvas-on-Canvas it keeps a CanvasText edge */
@@ -138,7 +309,7 @@ button{cursor:pointer}
 /* a thumb target of exactly 44px (20 + 12 + 12) that never overhangs the masthead: the sheet variant pads its foot by 12px, and the
    old 14px bottom inset reached 2px into the county family's rail tabs below it (an elementFromPoint hit on the wrong control) */
 @media (pointer:coarse){.pl-fol{min-height:20px}.pl-fol::after{content:'';position:absolute;inset:-12px -8px}}
-.pl-sheet-foot,.pl-pin{display:none}
+.pl-pin{display:none}
 /* a separator inside one segment's own text (the index's second line): inline, so it can sit anywhere in a run of words */
 .pl-sep{color:var(--rule-strong);padding:0 7px}
 /* a segment flagged 'row' sits on a row of its own (the index's second line). Right-aligned (>=1101px) the dateline is
@@ -180,6 +351,22 @@ button{cursor:pointer}
 .pl-dest[aria-current] .pl-dl::after{content:'you are here';margin-left:8px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
   letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);vertical-align:1px}
 .pl-dest[aria-current] .pl-dg{display:none}
+/* r7 W-04: an entry's parts (City money: Every claim, Annual filings) - a row of small links under it in a desk dropdown */
+.pl-subs{display:flex;flex-wrap:wrap;gap:6px;padding:0 10px 8px}
+.pl-part{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--rule-strong);border-radius:999px;
+  color:var(--ink);font-size:14px;font-weight:600;line-height:1.2;text-decoration:none}
+.pl-part[aria-current]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+/* r7 R-05: a part of the city page a place lists again (Your home's home card, How it's checked's verified part) - on a desk a row like an
+   entry, its name and subtitle; a link, never an entry (its file's entry is City money) */
+.pl-part.pl-xp{display:grid;grid-template-columns:1fr auto;gap:1px 12px;align-items:center;min-height:44px;padding:8px 10px;border:0;border-radius:10px;
+  font-size:inherit;font-weight:400;line-height:inherit}
+.pl-xp .pl-dl{grid-column:1;grid-row:1;font-size:16px;font-weight:600;line-height:1.3}
+.pl-xp .pl-ds{grid-column:1;grid-row:2;font-size:13px;color:var(--muted);line-height:1.35}
+.pl-xp .pl-dg{grid-column:2;grid-row:1/span 2;color:var(--faint);font-size:16px;transition:transform .12s}
+.pl-part.pl-xp[aria-current]{background:var(--accent-soft);color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}
+.pl-xp[aria-current] .pl-dl::after{content:'you are here';margin-left:8px;font:600 12px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);vertical-align:1px}
+.pl-xp[aria-current] .pl-dg{display:none}
 .pl-theme{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:0;border:1px solid var(--rule-strong);
   border-radius:10px;background:transparent;color:var(--muted);cursor:pointer;flex:0 0 auto}
 .pl-theme svg{width:16px;height:16px;display:block}
@@ -200,6 +387,10 @@ button{cursor:pointer}
   .pl-theme:hover{color:var(--ink);border-color:var(--accent)}
   .pl-dest:hover{background:var(--accent-soft)}
   .pl-dest:hover .pl-dg{transform:translateX(3px);color:var(--accent)}
+  .pl-part:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .pl-part[aria-current]:hover{background:var(--accent)}
+  .pl-part.pl-xp[aria-current]:hover{background:var(--accent-soft)}
+  .pl-xp:hover .pl-dg{transform:translateX(3px);color:var(--accent)}
   .pl-dateline a:hover{color:var(--accent)}
 }
 /* PL-03 (UX audit 2026-10-31): ONE header on every page. On a screen at >=641px no variant changes its shape: the wordmark and the
@@ -253,7 +444,7 @@ button{cursor:pointer}
    menu button that opens the Go-to sheet - and ONE line of dateline. The edition (City | County, or the page's chip), the theme
    toggle, 'Follow updates' and the full dateline moved INTO the sheet (their sheet copies show below; the desktop copies hide).
    The switcher becomes a bottom sheet. */
-.pl-searchbtn,.pl-dl-ph,.pl-sheet-view,.pl-sheet-fresh,.pl-theme-row{display:none}
+.pl-searchbtn,.pl-dl-ph,.pl-sheet-view,.pl-sheet-fresh,.pl-sheet-bar{display:none}
 @media (max-width:760px){
   /* a disclosure is a list row on a phone, on every page: the label in ink, a hairline over it, the chevron on the right
      (it turns when open). Block, not flex: flex strips the spaces between a summary's inline children. details.tailx outranks
@@ -273,11 +464,6 @@ button{cursor:pointer}
   .pl-brandrow>.pl-edition,.pl-brandrow>.pl-view{display:none}
   .pl-mark{font-size:23px;min-height:44px;align-items:center}
   .pl-edition{min-height:20px;padding:0 7px;font-size:13px;letter-spacing:1.2px}
-  .pl-sheet-top b{flex:0 0 auto}
-  /* the page's context label ('North Tonawanda · Annual filings') is never cut: when it does not fit beside the wordmark and the
-     close button it takes its own line under them */
-  .pl-sheet-top .pl-edition{display:block;order:3;min-height:0;line-height:20px;max-width:100%;min-width:0;overflow:hidden;text-overflow:ellipsis}
-  .pl-sheet-top .pl-close{flex:none;margin-left:auto}
   .pl-tag{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)}
   .pl-side{display:contents}
   .pl-acts{order:2;flex:0 0 auto;flex-wrap:nowrap;gap:0}
@@ -285,8 +471,8 @@ button{cursor:pointer}
     padding-top:6px;border-top:1px solid var(--rule)}
   .pl-dateline:not(.pl-dl-ph):not(.pl-dl-sheet){display:none}
   .pl-dl-ph{display:flex;flex-wrap:wrap;padding:5px 0 7px;overflow:hidden}      /* r5 F-08: a narrow phone wraps the line; it never cuts a word ('North Ton…') */
-  .pl-dl-ph>span{flex:0 0 auto;white-space:nowrap}
-  .pl-dl-ph>span:not(:first-child){flex:0 0 auto}
+  /* r7 F-29: a phrase moves to the next line whole; only one longer than the whole line (user text spacing, WCAG 1.4.12) wraps inside */
+  .pl-dl-ph>span{flex:0 1 auto;min-width:0;overflow-wrap:anywhere}
   .pl-dl-ph .pl-dk{display:none}
   .pl-primary,.pl-acts>.pl-theme{display:none}
   .pl-searchbtn,.pl-go{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;
@@ -300,19 +486,18 @@ button{cursor:pointer}
   .pl-sheet-view .pl-view .vs{display:none}
   .pl-sheet-view .pl-view{flex:1 1 auto;justify-content:stretch}
   .pl-sheet-view .pl-view>a,.pl-sheet-view .pl-view>span{flex:1 1 0;justify-content:center;text-align:center}
-  .pl-sheet-fresh{display:block;border-top:1px solid var(--rule);margin-top:4px;padding:4px 4px 0}
-  .pl-sheet-fresh .pl-kick{padding:6px 6px 4px}
-  .pl-dl-sheet{display:flex;order:0;flex:none;flex-wrap:wrap;gap:0 var(--pl-sepw);margin:2px 6px 6px;padding:0;border-top:0;font-size:14px;line-height:1.55}
+  .pl-sheet-fresh{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;border-top:1px solid var(--rule);margin-top:8px;padding:8px 4px 0}
+  .pl-sheet-fresh>.pl-kick{padding:0}
+  .pl-sheet-fresh>.pl-kick::after{content:none}
+  .pl-dl-sheet{display:flex;order:0;flex:1 1 14em;flex-wrap:wrap;gap:0 var(--pl-sepw);margin:0;padding:0;border-top:0;font-size:14px;line-height:1.55}
   .pl-dl-sheet>span{flex:0 1 auto;min-width:0}
   .pl-dl-sheet>span.pl-row{flex-basis:auto}
   .pl-dl-sheet a{display:inline-block;padding:12px 0;margin:-12px 0;position:relative;z-index:1;color:var(--accent)}
-  .pl-theme-row{display:flex;align-items:center;justify-content:flex-start;gap:12px;width:100%;height:48px;padding:0 10px;border:0;border-radius:10px;
-    background:transparent;color:var(--ink);font-size:16px;font-weight:600;text-align:left}
-  .pl-theme-row svg{width:18px;height:18px;color:var(--muted);flex:0 0 auto}
-  .pl-switch{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;flex-direction:column;align-items:stretch;
-    max-height:min(88vh,88dvh);overflow:auto;overscroll-behavior:contain;border:0;border-radius:18px 18px 0 0;
-    background:var(--card);box-shadow:0 -24px 60px -20px rgba(10,12,15,.5),0 140px 0 0 var(--card);padding:6px 10px calc(76px + env(safe-area-inset-bottom))}
-  /* 76px = the floating Done pill (48px at 14px from the bottom) + 14px: the last rows scroll clear of it (Fable 10-28) */
+  .pl-switch .pl-dl-sheet a::after{inset:-8px -14px}      /* r7: a page's own reach for its dateline link (a brief's reaches 21px UP, for its masthead) stays inside 'Data as of', clear of the menu's last row */
+  .pl-switch{display:none;position:fixed;left:0;right:0;bottom:0;z-index:70;align-items:stretch;
+    max-height:min(calc(100vh - 48px),calc(100dvh - 48px));overflow:auto;overscroll-behavior:contain;border:0;border-radius:18px 18px 0 0;
+    background:var(--card);box-shadow:0 -24px 60px -20px rgba(10,12,15,.5),0 140px 0 0 var(--card);padding:6px 12px calc(8px + env(safe-area-inset-bottom))}
+  /* r7 R-05: the sheet carries its own Done in its foot bar (data-pl-foot), so the exit runtime adds no floating pill and no 72px of room */
   /* iPhone Safari's floating toolbar: content runs on under it while a bottom:0 surface stops above it, so the page showed through the strip below every bar and sheet - each phone bottom surface casts a solid 140px copy of its own background below itself (a box-shadow: never clipped by the surface's own scrolling) */
   .pl-scrim{box-shadow:0 140px 0 0 rgba(12,14,18,.5),0 -140px 0 0 rgba(12,14,18,.5)}
   /* ...and the same at the TOP: a sticky .rail pinned at top:0 stops below the clock while the page runs on behind it, so
@@ -322,46 +507,71 @@ button{cursor:pointer}
   /* the pinned rail is OPAQUE on a phone (no see-through blur): Safari 26 tints the area behind the clock from an opaque bar
      at the top edge, and a paint outside the viewport (the strip above) is clipped there (Joe's iPhone, 10-13) */
   html .rail{background:var(--paper);-webkit-backdrop-filter:none;backdrop-filter:none}
-  .pl-switch.is-open{display:flex}
-  /* PL-05 (UX audit 2026-10-31): every destination shows when the sheet opens - the three task groups are HEADED LISTS, not an accordion
-     (folded, the sheet showed 3 of its 19 links; the 10-30 accordion hid the other 16 behind three verbs). Each row is one line: the
-     name and the first phrase of its subtitle (the rest of it stays on a desk). One close: the Done pill in thumb reach (the X and a
-     grabber that did nothing went), plus a tap outside, Esc and Back. */
-  .pl-group{display:block;border:0!important}
+  /* PL-05 (UX audit 2026-10-31): every destination shows when the sheet opens - the groups are HEADED LISTS, not an accordion. One close in
+     thumb reach (r7 R-05: the sheet's own Done in its foot bar), plus a tap outside, Esc and Back.
+     r7 R-05: a GRID of tiles that fits a 390x844 AND a 320x568 phone with no scrolling - eleven entries and the city page's parts (r5's
+     wrapped pills ran 832px at 320). Each place is a heading over tiles three to a row; City money is one wide tile with its four parts as
+     a strip joined under it (the city page and its tabs, as one thing); the two small places, Your home and How it's checked, sit side by
+     side. A tile is 44px tall and its name wraps to two lines on a narrow phone; the page the reader is on is the filled tile. */
+  .pl-switch.is-open{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:10px;align-content:start}
+  .pl-switch>*{grid-column:1/-1;min-width:0}
+  .pl-switch>.pl-half{grid-column:auto}
+  .pl-group{display:block;border:0!important;min-width:0}
   .pl-verb{display:none}
-  .pl-menu{display:block;position:static;min-width:0;max-width:none;border:0;border-radius:0;box-shadow:none;padding:0 0 2px;background:transparent}
-  .pl-menu>.pl-kick{display:flex;padding:14px 10px 4px}
-  .pl-dest{min-height:44px;padding-block:5px}
-  .pl-dest .pl-ds{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pl-dest .pl-ds2{display:none}
-  /* r5 W-03: each question is a heading with its pages as chips under it - five short groups on one screen, not twenty rows to scroll.
-     The page the reader is on is the filled chip (aria-current says so to a screen reader). */
-  .pl-menu{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 4px}
-  .pl-menu>.pl-kick{flex:0 0 100%}
-  .pl-menu>.pl-dest{display:inline-flex;align-items:center;min-height:44px;padding:0 15px;border:1px solid var(--rule-strong);border-radius:999px;
-    background:var(--card);box-shadow:none}
-  .pl-menu>.pl-dest .pl-ds,.pl-menu>.pl-dest .pl-dg{display:none}
-  .pl-menu>.pl-dest .pl-dl{font-size:15px;line-height:1.2}
-  .pl-menu>.pl-dest[aria-current]{background:var(--accent);border-color:var(--accent);box-shadow:none}
-  .pl-menu>.pl-dest[aria-current] .pl-dl{color:var(--card)}
-  .pl-menu>.pl-dest[aria-current] .pl-dl::after{content:none}
+  .pl-menu{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;position:static;min-width:0;max-width:none;border:0;border-radius:0;
+    box-shadow:none;padding:0 0 2px;background:transparent;overflow:visible}
+  .pl-half .pl-menu{grid-template-columns:minmax(0,1fr)}
+  .pl-menu>.pl-kick{grid-column:1/-1;display:flex;padding:12px 2px 0;margin:0}
+  .pl-menu>.pl-dest,.pl-menu>.pl-xp,.pl-subs>.pl-part{display:flex;align-items:center;min-width:0;min-height:44px;margin:0;padding:3px 10px;
+    border:1px solid var(--rule-strong);border-radius:10px;background:var(--card);box-shadow:none;color:var(--ink);text-decoration:none;
+    font-size:14.5px;font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+  .pl-menu>.pl-dest .pl-dl,.pl-menu>.pl-xp .pl-dl{font-size:inherit;line-height:inherit;font-weight:inherit}
+  .pl-menu>.pl-dest .pl-ds,.pl-menu>.pl-dest .pl-dg,.pl-menu>.pl-xp .pl-ds,.pl-menu>.pl-xp .pl-dg{display:none}
+  /* City money and its parts: one card - the entry spans the row, its four parts a strip of four joined under it */
+  .pl-menu>.pl-dest[data-parts]{grid-column:1/-1;border-bottom-width:0;border-radius:10px 10px 0 0}
+  .pl-menu>.pl-subs{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:-6px 0 0;padding:0;
+    border:1px solid var(--rule-strong);border-radius:0 0 10px 10px;background:var(--card);overflow:hidden}
+  .pl-subs>.pl-part{justify-content:center;text-align:center;padding:3px 4px;border:0;border-left:1px solid var(--rule);border-radius:0;
+    font-size:13.5px;font-weight:500}
+  .pl-subs>.pl-part:first-child{border-left:0}
+  .pl-menu>.pl-dest[data-parts]+.pl-subs{border-top-color:var(--rule)}
+  /* the page the reader is on is the filled tile (aria-current says so to a screen reader), an entry or a part */
+  .pl-menu .pl-part[aria-current],.pl-menu>.pl-dest[aria-current]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+  .pl-menu>.pl-dest[aria-current] .pl-dl,.pl-menu>.pl-xp[aria-current] .pl-dl{color:var(--card)}
+  .pl-menu>.pl-dest[aria-current] .pl-dl::after,.pl-menu>.pl-xp[aria-current] .pl-dl::after{content:none}
   /* Election Day, pinned at the top of the sheet until the day is over (data-until; the masthead stops drawing it after the election) */
-  .pl-switch>*{flex-shrink:0}      /* the sheet is a column that scrolls: no row may be squeezed under its own content */
-  .pl-pin{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;margin:8px 4px 2px;padding:9px 12px;min-height:44px;
+  .pl-pin{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;margin:6px 0 0;padding:7px 12px;min-height:44px;
     border:1px solid var(--rule-strong);border-left:4px solid var(--accent);border-radius:10px;text-decoration:none;color:var(--ink);background:var(--paper)}
   .pl-pin .pin-k{font:600 13px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
   .pl-pin .pin-t{grid-column:1;font-size:17px;font-weight:600;line-height:1.3}
   .pl-pin .pin-go{grid-column:2;grid-row:1/span 2;color:var(--accent);font-size:17px}
-  .pl-sheet-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 10px;padding:4px 4px 2px}
-  .pl-sheet-top b{font:600 19px/1 'Fraunces',ui-serif,Georgia,serif}
-    .pl-sheet-primary{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin:6px 4px 4px;border-radius:10px;
+  .pl-sheet-view,.pl-sheet-fresh{margin-inline:0}
+  /* the foot bar: Search, the theme, Done - in thumb reach, the sheet's last row */
+  .pl-sheet-bar{display:flex;align-items:center;gap:8px;margin:10px 0 0;padding:10px 0 0;border-top:1px solid var(--rule)}
+  .pl-sheet-bar .pl-theme{width:44px;height:44px;flex:0 0 auto}
+  .pl-sheet-primary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;margin:0;border-radius:10px;
     background:var(--accent);color:var(--card);font-weight:600;font-size:16px;text-decoration:none}
   .pl-sheet-primary svg{width:15px;height:15px}
-  .pl-sheet-foot{display:block;border-top:1px solid var(--rule);margin-top:4px;padding-top:4px}
-  .pl-sheet-foot .pl-dest .pl-dl{display:inline-flex;align-items:center;gap:8px}
-  .pl-sheet-foot .pl-dest svg{width:14px;height:14px;flex:0 0 auto;color:var(--muted)}
+  .pl-sheet-done{margin-left:auto;min-height:44px;min-width:104px;padding:0 20px;border:1px solid var(--ink);border-radius:999px;background:var(--ink);
+    color:var(--paper);font:600 16px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
 }
-@media (min-width:761px){.pl-sheet-top,.pl-sheet-primary,.pl-pin{display:none}.pl-dateline .pl-ph{display:none}}
+/* a shorter phone (375x667, 360x640, 320x568): the pinned day keeps its name and date on two short lines (the rest of its line stays in its
+   accessible name), the gaps close a little and the sheet may rise to 8px under the top - every tile still 44px; on the shortest (568 and
+   under) 'Data as of' stays on the page's own dateline */
+@media (max-width:760px) and (max-height:700px){
+  .pl-switch{max-height:min(calc(100vh - 8px),calc(100dvh - 8px))}
+  .pl-menu{gap:5px}
+  .pl-menu>.pl-subs{margin-top:-5px}
+  .pl-menu>.pl-kick{padding-top:10px}
+  .pl-sheet-bar{margin-top:8px;padding-top:8px}
+  .pl-pin{padding-block:3px}
+  .pl-pin .pin-t{font-size:16px}
+  .pl-pin .pin-r{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+}
+@media (max-width:760px) and (max-height:620px){.pl-switch>.pl-sheet-fresh{display:none}}
+/* a 320px phone: the parts strip's four names in two lines each (74px a part) */
+@media (max-width:359px){.pl-subs>.pl-part{padding-inline:2px;font-size:13px;line-height:1.15}}
+@media (min-width:761px){.pl-sheet-bar,.pl-sheet-primary,.pl-pin{display:none}.pl-dateline .pl-ph{display:none}}
 @media (max-width:360px){.pl-go{width:44px;padding:0}.pl-go span,.pl-go .pl-gochev{display:none}}
 /* PL-06 (Fable UX audit 2026-10-30), on screen: the dateline at 13px and the footer's notes at 13.5px, no line of them past 36em
    (paper keeps its own scale) */
@@ -383,34 +593,28 @@ button{cursor:pointer}
    whole's hue told apart by luminance, a hatch and their labels - never a second hue (the owner is colour blind). ---------- */
 /* ---------- a section strip that scrolls sideways (Fable UX audit 2026-10-30, PL-08; clean-slate audit 2026-10-31, F-08) - chrome_script's
    RAIL sets the classes. While the strip has more to one side, that side shows it on every screen, touch included: the strip's content
-   dissolves over at least 48px (.pl-ovl / .pl-ovr, a mask, so it works on any strip background) and is gone under the last 40px, where a
-   round chevron sits on blank paper - its own gutter, so it is never drawn over a label, and a cut tab always reads as a fade ending in
-   an arrow (the cue is a fade and an arrow, never a hue). A tap or click on the chevron scrolls the strip on; a swipe works as ever. The
+   fades over its last 32px (.pl-ovl / .pl-ovr, a mask that leaves the words under it readable, so it works on any strip background), and a
+   round chevron sits at that edge (r7 F-08; the cue is a fade and an arrow, never a hue). A tap or click on the chevron scrolls the strip on; a swipe works as ever. The
    chevrons are pointer conveniences (aria-hidden, out of the Tab order): keyboard focus moves along the links, and scroll-padding keeps
    the focused tab clear of the fade. ---------- */
-.rail .rail-in{scroll-padding-inline:88px}
-/* the strip's end leaves the gutter clear: scrolled home, the last tab ends left of where the chevron sat */
-.rail .rail-in.pl-ovr::after,.rail .rail-in.pl-ovl::after{content:"";flex:0 0 34px}
-/* --pl-fe / --pl-fs (RAIL sets them): where the first tab that does not clear the gutter begins, and where the last one cut on the left
-   ends - the fade starts between tabs when it can (a tab in view is whole), and never less than 48px before the gutter */
-/* r4 F-05: a tab that does not fit whole is HIDDEN (a 4px edge at its own boundary), never half-shown: the strip ends on a whole word,
-   and the chevron in its gutter says there is more (--pl-fe / --pl-fs: the crossing tab's edge, set by RAIL) */
-.rail .rail-in.pl-ovr{-webkit-mask-image:linear-gradient(90deg,#000 calc(min(var(--pl-fe,100%),calc(100% - 40px)) - 4px),transparent min(var(--pl-fe,100%),calc(100% - 40px)));
-  mask-image:linear-gradient(90deg,#000 calc(min(var(--pl-fe,100%),calc(100% - 40px)) - 4px),transparent min(var(--pl-fe,100%),calc(100% - 40px)))}
-.rail .rail-in.pl-ovl{-webkit-mask-image:linear-gradient(90deg,transparent max(var(--pl-fs,0px),40px),#000 calc(max(var(--pl-fs,0px),40px) + 4px));
-  mask-image:linear-gradient(90deg,transparent max(var(--pl-fs,0px),40px),#000 calc(max(var(--pl-fs,0px),40px) + 4px))}
-.rail .rail-in.pl-ovl.pl-ovr{-webkit-mask-image:linear-gradient(90deg,transparent max(var(--pl-fs,0px),40px),#000 calc(max(var(--pl-fs,0px),40px) + 4px),
-    #000 calc(min(var(--pl-fe,100%),calc(100% - 40px)) - 4px),transparent min(var(--pl-fe,100%),calc(100% - 40px)));
-  mask-image:linear-gradient(90deg,transparent max(var(--pl-fs,0px),40px),#000 calc(max(var(--pl-fs,0px),40px) + 4px),
-    #000 calc(min(var(--pl-fe,100%),calc(100% - 40px)) - 4px),transparent min(var(--pl-fe,100%),calc(100% - 40px)))}
+.rail .rail-in{scroll-padding-inline:40px}
+.rail .rail-in.pl-ovl,.rail .rail-in.pl-ovr{padding-inline-end:40px}      /* r7: a strip that scrolls ends 40px past its last tab, so that tab comes whole and clear of the right chevron's 40px press (it measured 38px wide under it) */
+/* r7 F-08: the strip's edge with more behind it is a 32px fade that leaves the words under it readable (a translucent mask, never an
+   opaque block: the r4 rule that hid a cut tab whole left a 100px blank beside the chevron, and it read as a bug), with the chevron's
+   round button over it, at the very edge - a cue made of a fade and an arrow, never a hue */
+.rail .rail-in.pl-ovr{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),rgba(0,0,0,.35));mask-image:linear-gradient(90deg,#000 calc(100% - 32px),rgba(0,0,0,.35))}
+.rail .rail-in.pl-ovl{-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.35),#000 32px);mask-image:linear-gradient(90deg,rgba(0,0,0,.35),#000 32px)}
+.rail .rail-in.pl-ovl.pl-ovr{-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.35),#000 32px,#000 calc(100% - 32px),rgba(0,0,0,.35));
+  mask-image:linear-gradient(90deg,rgba(0,0,0,.35),#000 32px,#000 calc(100% - 32px),rgba(0,0,0,.35))}
 /* r4 F-05: a tab's short label under 480px, its full label everywhere else */
 .rail a .rs{display:none}      /* r5 F-05: one label set at every width - the strip scrolls on a phone (its edges fade), the words never change */
-.pl-rmore{position:absolute;z-index:3;display:none;align-items:center;justify-content:center;width:40px;margin:0;padding:0;border:0;
+.pl-rmore{position:absolute;z-index:3;display:none;align-items:center;justify-content:flex-end;width:40px;margin:0;padding:0 4px;border:0;
   background:transparent;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .pl-rmore.on{display:flex}
 .pl-rmore i{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;border:1px solid var(--rule-strong);
-  background:var(--paper);box-shadow:0 1px 4px rgba(12,14,18,.14)}
+  background:color-mix(in srgb,var(--paper) 88%,transparent);box-shadow:0 1px 4px rgba(12,14,18,.14)}
 .pl-rmore svg{width:12px;height:12px}
+.pl-rl{justify-content:flex-start}      /* r7 F-08: each round button sits at its own edge, inside the 32px fade */
 .pl-rl svg{transform:scaleX(-1)}
 @media (hover:hover){.pl-rmore:hover i{border-color:var(--ink)}}
 /* r3 PL-07: the one readout card every chart's floating readout wears (the docked readout line of a full-width trend is the other
@@ -425,6 +629,9 @@ button{cursor:pointer}
   text-decoration-color:var(--rule-strong);text-underline-offset:3px;position:relative}
 .pl-cx-copy::after{content:'';position:absolute;inset:-12px -6px}
 .pl-cx-copy{display:inline-block;min-height:28px;line-height:28px}
+/* r7 R-16: on a phone the button's own box is a 44px press (8px above and below its 28px line, given back by negative margins so the
+   sentence keeps its line height); its pseudo reach goes sideways only */
+@media (pointer:coarse),(max-width:640px){.pl-cx-copy{padding-block:8px;margin-block:-8px;vertical-align:baseline}.pl-cx-copy::after{inset:0 -6px}}
 .opts:has(>li.none:only-child){pointer-events:none}      /* r6 F-10: the address list's lone 'no match' line is a message: a tap goes through it */      /* r5 F-13: the button's own box is 24px tall (WCAG 2.5.8 measures the box) */
 @media (hover:hover){.pl-cx-copy:hover{color:var(--ink)}}
 .pl-cx-said:not(:empty){display:block;margin-top:6px;color:var(--ink);font-weight:600}
@@ -433,33 +640,70 @@ button{cursor:pointer}
 /* r6 F-05: a phone's tabs on a long page (the chrome script's tabs): one part on screen; print, a desk and the gates' all-parts view show every part */
 @media screen and (max-width:640px){html.pl-tabs:not(.pl-tabs-all):not(.pl-embed) [data-part]:not([data-part-on]){display:none!important}}
 
-/* ---------- W-05 (r5): the one search sheet (PL.search) - a dialog on a desk, the whole screen on a phone ---------- */
+/* ---------- r7 W-01 + F-03: ONE search (PL.search) - the masthead's box on a desk, a full-screen sheet on a phone, and search.html. The
+   results are one list in every host: headed groups, rows of a title, a line under it and a figure at the right; the row Enter would
+   open is tinted with a bar at its left edge (shape, not hue), the words typed are bold on a pale ground. ---------- */
+.pl-omni{position:relative;display:flex;align-items:center;flex:1 1 240px;min-width:190px;max-width:380px;margin:0}
+/* r7 R-04: the box is the chrome's on every page whatever a page's own stylesheet says - the field is addressed by its id (#plQ), which no
+   page rule for 'input[type=search]' (the city page's padding 8px 11px and min-width 220px) or '.form input' can outrank, and the rule sets
+   every box property a page might (margin, size, padding, border, font, flex), so the magnifier and the '/' key never sit on the words */
+.pl-mast .pl-omni>svg{position:absolute;left:11px;top:50%;width:15px;height:15px;margin-top:-7.5px;color:var(--muted);pointer-events:none}
+#plQ{box-sizing:border-box;flex:1 1 auto;width:100%;min-width:0;max-width:none;height:36px;min-height:36px;margin:0;padding:0 34px;
+  border:1px solid var(--rule-strong);border-radius:10px;background:var(--paper);box-shadow:none;color:var(--ink);
+  font:400 15px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:normal;text-transform:none;text-indent:0;text-overflow:ellipsis;
+  -webkit-appearance:none;appearance:none}
+#plQ::placeholder{color:var(--muted);opacity:1}
+#plQ:focus{outline:2px solid var(--accent);outline-offset:-1px;background:var(--card)}
+#plQ::-webkit-search-cancel-button{display:none}
+#plQ~kbd{position:absolute;right:8px;top:50%;display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;margin:-10px 0 0;padding:0;
+  border:1px solid var(--rule-strong);border-radius:4px;background:var(--card);color:var(--muted);font:600 12px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:none}
+#plQ:focus~kbd,#plQ:not(:placeholder-shown)~kbd{display:none}
+.pl-omni .pl-om-l{position:absolute;z-index:80;top:calc(100% + 6px);left:0;width:min(600px,calc(100vw - 32px));max-height:70vh;overflow:auto;
+  overscroll-behavior:contain;padding:2px 8px 0;border:1px solid var(--rule-strong);border-radius:10px;background:var(--card);
+  box-shadow:var(--shadow),0 24px 60px -24px rgba(10,12,15,.45);text-align:left}
+.pl-om-g{padding:2px 0 6px;border-top:1px solid var(--rule)}
+.pl-om-g:first-child{border-top:0}
+.pl-om-h{margin:10px 6px 4px;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint)}
+.pl-om-r{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:center;min-height:44px;padding:7px 10px;border-radius:10px;
+  color:var(--ink);text-decoration:none}
+.pl-om-r[aria-selected=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.pl-om-t{grid-column:1;min-width:0;overflow-wrap:anywhere;font-size:16px;font-weight:600;line-height:1.3}
+.pl-om-t b{font-weight:700;background:var(--warn-soft);border-radius:4px;box-shadow:0 0 0 1px var(--warn-soft)}
+.pl-om-s{grid-column:1;font-size:14px;line-height:1.4;color:var(--muted)}
+.pl-om-v{grid-column:2;grid-row:1/span 2;font-weight:600;color:var(--ink)}
+.pl-om-all .pl-om-t{font-size:15px;color:var(--accent)}
+.pl-om-n,.pl-om-x{margin:10px 8px 6px;font-size:15px;line-height:1.45;color:var(--muted)}
+.pl-om-x{margin-top:0;font-size:14px}
+.pl-om-f{margin:6px -8px 0;padding:9px 14px;border-top:1px solid var(--rule);border-radius:0 0 10px 10px;background:var(--paper);
+  font-size:13.5px;line-height:1.4;color:var(--muted)}
+@media (hover:hover){.pl-om-r:hover{background:var(--accent-soft)}.pl-om-all:hover .pl-om-t{text-decoration:underline}}
+@media (max-width:760px){.pl-omni{display:none}}
+/* forced colours paint every background Canvas: the row Enter would open, the page you are on in the menu and the words typed keep a
+   shape of their own (an outline, a rule), so they never rest on a fill alone */
+@media (forced-colors:active){
+  .pl-om-r[aria-selected=true],.pl-menu>.pl-dest[aria-current],.pl-part[aria-current],.pl-dest[aria-current]{outline:2px solid Highlight;outline-offset:-2px}
+  .pl-om-t b{text-decoration:underline;text-decoration-thickness:2px}
+}
+/* the phone's sheet: the whole screen, its own box and Done (Back, Esc and a tap outside close it too) */
 .pl-sx{position:fixed;inset:0;z-index:2147482000;display:flex;align-items:flex-start;justify-content:center;padding:9vh 16px 16px;
   background:rgba(12,12,10,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
 .pl-sx[hidden]{display:none}
 .pl-sx-in{display:flex;flex-direction:column;width:min(640px,100%);max-height:82vh;background:var(--card);color:var(--ink);border-radius:10px;
   box-shadow:0 30px 80px -24px rgba(0,0,0,.55);overflow:hidden}
-.pl-sx-top{display:flex;gap:8px;align-items:center;padding:12px;border-bottom:1px solid var(--rule)}
+.pl-sx-top{display:flex;gap:8px;align-items:center;margin:0;padding:12px;border-bottom:1px solid var(--rule)}
 #plSxQ{flex:1;min-width:0;min-height:48px;box-sizing:border-box;padding:0 14px;border:1px solid var(--rule-strong);border-radius:10px;background:var(--paper);
-  color:var(--ink);font:17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  color:var(--ink);font:17px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-overflow:ellipsis;-webkit-appearance:none;appearance:none}
 #plSxQ:focus{outline:2px solid var(--accent);outline-offset:-1px}
 .pl-sx-x{flex:none;min-height:48px;padding:0 14px;border:0;border-radius:10px;background:transparent;color:var(--accent);
   font:600 16px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;cursor:pointer}
-.pl-sx-res{overflow:auto;overscroll-behavior:contain;padding:2px 12px 16px}
-.pl-sx-g ul{list-style:none;margin:0;padding:0}
-.pl-sx-h{margin:14px 6px 4px;font:600 12px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:1.2px;text-transform:uppercase;color:var(--faint)}
-.pl-sx-r{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:center;min-height:48px;padding:7px 10px;border-radius:10px;
-  color:var(--ink);text-decoration:none}
-.pl-sx-t{grid-column:1;font-size:16px;font-weight:600;line-height:1.3}
-.pl-sx-t b{font-weight:700}
-.pl-sx-s{grid-column:1;font-size:14px;line-height:1.35;color:var(--muted)}
-.pl-sx-v{grid-column:2;grid-row:1/span 2;font-weight:600;font-variant-numeric:tabular-nums}
-.pl-sx-r:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.pl-sx-n{margin:14px 6px 2px;font-size:15px;line-height:1.45;color:var(--muted)}
-@media (hover:hover){.pl-sx-r:hover{background:var(--accent-soft)}.pl-sx-x:hover{text-decoration:underline}}
+.pl-sx-res{overflow:auto;overscroll-behavior:contain;padding:2px 12px 0}
+/* r7 R-12: what the box finds, under the field, whole at every width (the placeholder is two words) */
+.pl-sx-hint{margin:0;padding:8px 14px 10px;border-bottom:1px solid var(--rule);font-size:14.5px;line-height:1.45;color:var(--muted)}
+.pl-sx-res .pl-om-f{margin:6px -12px 0;border-radius:0}
+@media (hover:hover){.pl-sx-x:hover{text-decoration:underline}}
 @media (max-width:640px){.pl-sx{padding:0;align-items:stretch}.pl-sx-in{width:100%;max-height:none;height:100%;border-radius:0}}
 html.pl-sx-on{overflow:hidden}
-@media print{.pl-sx{display:none!important}}
+@media print{.pl-sx,.pl-omni{display:none!important}}
 
 /* ---------- the data-out block + the embed bar + embed mode - generated by tools/_chrome.py ---------- */
 .pl-dout{margin:26px 0 0;padding:12px 0 4px;border-top:3px double var(--rule-strong);clear:both}
@@ -497,6 +741,30 @@ html.pl-sx-on{overflow:hidden}
   padding:0 10px;border:1px solid var(--rule-strong);border-radius:10px;background:var(--card);
   color:var(--ink);font:500 15px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .pl-dout-emb:empty{display:none}
+/* r7 W-08: the one toast, the one copy field and the one 'didn't load' message - the head runtime's (C.theme_script), on every page.
+   The toast wraps (WCAG 1.4.12) instead of cutting a long message; the failure box says it with words and a heavy left edge, never hue. */
+.pl-toast{position:fixed;left:50%;bottom:calc(var(--pl-toast-b,22px) + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(8px);z-index:2147483002;
+  width:max-content;max-width:min(520px,calc(100vw - 32px));padding:10px 18px;border-radius:18px;background:var(--ink);color:var(--paper);
+  font:600 15px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-align:center;opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+.pl-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.pl-cpf{position:fixed;left:50%;top:calc(12px + env(safe-area-inset-top));transform:translateX(-50%);z-index:2147483002;display:flex;align-items:center;gap:8px;
+  width:min(560px,calc(100vw - 24px));padding:10px;border:1px solid var(--rule-strong);border-radius:10px;background:var(--card);box-shadow:var(--shadow)}
+.pl-cpf[hidden]{display:none}
+.pl-cpf-i{flex:1 1 auto;min-width:0;min-height:44px;padding:0 10px;border:1px solid var(--rule-strong);border-radius:10px;background:var(--paper);color:var(--ink);
+  font:15px/1.3 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.pl-fail{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:12px 0;padding:12px 14px;border:1px solid var(--rule-strong);
+  border-left:4px solid var(--warn);border-radius:0 10px 10px 0;background:var(--warn-soft);color:var(--ink)}
+.pl-fail-t{margin:0;flex:1 1 15em;min-width:0;font-size:16px;line-height:1.5}
+@media print{.pl-toast,.pl-cpf,.pl-fail{display:none!important}}
+/* r7 R-07: on a phone's tabs, the tab of a part that did not load wears a ringed '!' (a shape and, for a screen reader, the words), and one line
+   under the strip says which part, with its Try again and a link to its tab - the failure box's own look: words and a heavy left edge */
+.pl-tfx{display:inline-flex;align-items:center;margin-left:6px}
+.pl-tfx i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border:1.5px solid currentColor;border-radius:50%;
+  font:700 12px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-style:normal}
+.pl-tabfail{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;margin:0;padding:8px 20px;border-bottom:1px solid var(--rule-strong);
+  border-left:4px solid var(--warn);background:var(--warn-soft);color:var(--ink);font-size:15px;line-height:1.4}
+.pl-tabfail a{padding-block:12px;margin-block:-12px;color:var(--accent);font-weight:600}      /* a 44px press in the line's own height */
+@media print{.pl-tabfail,.pl-tfx{display:none!important}}
 /* r5 W-08: the strip a page shows while the device is offline (the chrome script adds it) */
 .pl-offline{position:relative;z-index:60;padding:10px 20px;background:var(--ink);color:var(--paper);text-align:center;
   font:600 15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -616,10 +884,29 @@ footer.pl-foot{margin-top:42px;padding-top:22px;padding-bottom:40px}      /* out
 .pl-foot-c a{min-height:44px;display:inline-flex;align-items:center;padding:0;margin:0}      /* a row of 44px presses, never overlapping */
 .pl-foot b{color:var(--ink);font-weight:600}
 .pl-foot .pl-fold{margin:6px 0 16px;color:var(--muted)}      /* clear of the credit link's 44px press below */
+/* r7 W-04: the footer's line of what left the menu - Follow updates, Plain words, Explore: the quiz and the poster - 44px presses that wrap */
+.pl-foot-x{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;margin:0!important}
+.pl-foot-x+.pl-foot-x{margin-bottom:10px!important}
+.pl-foot-x a{min-height:44px;display:inline-flex;align-items:center;padding:0;margin:0}
+.pl-foot-x .pl-foot-xk{color:var(--faint);margin-right:-8px}
+/* r7: every phone press whole - the footer's Follow updates is a 44px row already (the dateline's 12px pseudo reach lay over the About
+   line), and the first row starts 13px under the About line, clear of the correction link's own 13px press under its words */
+.pl-foot-x .pl-fol::after{content:none}
+.pl-foot p:not(.pl-foot-x)+.pl-foot-x{padding-top:6px}
+@media print{.pl-foot-x{display:none!important}}      /* links a sheet of paper cannot follow */
+/* r7: paper - the About paragraph grew a sentence (who pays for the site) and two documents spilled a near-empty sheet: the footer gives the
+   line back on paper - no row of neighbours a sheet cannot follow, no thumb-sized press boxes (the correction link's 13px pad hung past the
+   last line and opened a blank sheet), no phone-only forehead strip */
+@media print{.pl-foot-c{display:none!important}.pl-foot a{padding:0!important;margin:0!important}.pl-fore{display:none!important}}
 
 .wrap{max-width:var(--pl-dash);margin:0 auto;padding:0 20px}      /* one gutter on every page, 20px on a phone too (PL-03) */
 main.wrap{padding-top:22px;padding-bottom:6px}
 .rtitle{margin:0 0 6px;font:600 clamp(24px,3.4vw,32px)/1.15 'Fraunces',ui-serif,Georgia,serif;letter-spacing:-0.15px;color:var(--ink)}
+/* r7 F-36: the claim is the title (payee · amount); under it, in the reading face, which page of which warrant is in view */
+.rtitle .rt-c,.rtitle .rt-s{display:block}
+.rtitle .nw{white-space:nowrap}
+.rtitle .rt-s{margin-top:4px;font:500 17px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:normal;color:var(--muted)}
+.rpaid{font-size:15px;line-height:1.45;color:var(--muted);margin:4px 0 0;max-width:66ch}
 .rline{font-size:17px;line-height:1.5;color:var(--ink);margin:0}
 html.r-view .rline{min-height:1.5em}      /* its one line held while the record loads */
 .rline b{font-weight:600}
@@ -661,12 +948,14 @@ html.r-view .rline{min-height:1.5em}      /* its one line held while the record 
    scrolled to the line, and a pinch (or 'Zoom in') reads it close up */
 @media (max-width:640px){
   main.wrap{padding-top:14px}
-  .rtitle{font-size:22px;margin-bottom:4px;min-height:2.3em}      /* two lines held while the record loads ('Warrant of Oct 20, 2026 · page 17
-                                                                  of 22' replaces 'Warrant report'), so the page below never jumps */
+  .rtitle{font-size:22px;margin-bottom:4px;min-height:3.45em}      /* r7 F-36: the claim's two lines and the page line under it are held while
+                                                                  the record loads (they replace 'Warrant report'), so the page below never jumps */
+  .rtitle .rt-s{font-size:15px}
   .rline{font-size:16px;min-height:3em}      /* the claim's line (payee, amount, account) fills in when the record loads: its two lines are held */
   .rnote{display:none}
   .rnote.scan{display:block}
-  .racts{flex-wrap:nowrap;gap:6px;margin:10px 0 0}
+  .racts{flex-wrap:wrap;gap:6px;margin:10px 0 0}      /* r7: one row on a phone, a second only when the reader's own text spacing needs it
+                                                          (nowrap pushed 'Whole page' 34px past a 320 screen under WCAG 1.4.12 spacing) */
   .racts .pl-pill{flex:1 1 auto;justify-content:center;padding:0 10px;font-size:15px}
   .rlong{display:none}.rshort{display:inline}
   .rhint{display:block}
@@ -688,7 +977,7 @@ html.r-view .rctx-slot{min-height:44px}
 @media (max-width:640px){html.r-view .rctx-slot{min-height:88px}html.r-view .rhint{min-height:1.5em}}      /* and the phone's pinch hint */
 </style></head>
 <body>
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet" data-root=""><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The source page</span></div></div><div class="pl-side"><div class="pl-dateline"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-11-01" data-pl-short="updated">updated <b>Nov 1</b></span></span><span class="pl-dk"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>North Tonawanda</span><span><span data-pl-built="2026-11-01" data-pl-short="updated">updated <b>Nov 1</b></span></span></div><div class="pl-acts"><a class="pl-primary" href="index.html#explore" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><a class="pl-searchbtn" href="index.html#explore" data-sx aria-label="Search Public Ledger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages"><div class="pl-sheet-top"><b>Public Ledger</b><span class="pl-edition">The source page</span></div><a class="pl-sheet-primary" href="index.html#explore" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><a class="pl-pin" href="ballot.html" data-until="2026-11-03"><span class="pin-k">Election Day · Tue, Nov 3</span><span class="pin-t">On the ballot: what each question would cost a home</span><span class="pin-go" aria-hidden="true">&rarr;</span></a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-bills">City bills<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-bills" role="group" aria-label="City bills"><div class="pl-kick">City bills</div><a class="pl-dest" href="index.html"><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><a class="pl-dest" href="claims.html"><span class="pl-dl">Every claim</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">12,637 lines<span class="pl-ds2"> &middot; 1,118 payees · search by payee, account or PO</span></span></a><a class="pl-dest" href="payees/index.html"><span class="pl-dl">Every payee</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">888 named payees<span class="pl-ds2"> &middot; a page for each</span></span></a><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-taxes">Your taxes<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-taxes" role="group" aria-label="Your taxes"><div class="pl-kick">Your taxes</div><a class="pl-dest" href="taxes.html"><span class="pl-dl">Tax estimate</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">school, city and county on one home<span class="pl-ds2"> &middot; published rates, not a quote</span></span></a><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what each question would cost a home<span class="pl-ds2"> &middot; 2 questions · Nov 3 election</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-votes">County votes<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-votes" role="group" aria-label="County votes"><div class="pl-kick">County votes</div><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,105 resolutions<span class="pl-ds2"> &middot; 183 meetings · latest Oct 20</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-finances">Finances<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-finances" role="group" aria-label="Finances"><div class="pl-kick">Finances</div><a class="pl-dest" href="finances.html"><span class="pl-dl">Annual filings</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">30 years of the City's annual state filings<span class="pl-ds2"> &middot; 1995–2024</span></span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="m/index.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">20 ledgers<span class="pl-ds2"> &middot; towns, villages and cities, each from its own filings</span></span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">The county map</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-checks">How it’s checked<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-checks" role="group" aria-label="How it’s checked"><div class="pl-kick">How it’s checked</div><a class="pl-dest" href="checks.html"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read by OCR from scans</span></span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><div class="pl-kick">Data as of</div><div class="pl-dateline pl-dl-sheet"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-11-01" data-pl-short="updated">updated <b>Nov 1</b></span></span></div></div><div class="pl-sheet-foot"><button class="pl-theme pl-theme-row" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg><span class="pl-tl">Light or dark</span></button><a class="pl-dest" href="follow.html"><span class="pl-dl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Each new warrant and county meeting</span></a><a class="pl-dest" href="#about"><span class="pl-dl">About this site</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Independent: built by a North Tonawanda resident from the City&rsquo;s own PDFs</span></a></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-haspopup="dialog" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="sheet" data-root=""><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The source page</span></div></div><div class="pl-side"><div class="pl-dateline"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span><span class="pl-dk"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></span></div><div class="pl-dateline pl-dl-ph"><span>North Tonawanda</span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span></div><div class="pl-acts"><form class="pl-omni" role="search" action="search.html" method="get"><label class="pl-vh" for="plQ">Search Public Ledger</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="plQ" name="q" type="search" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="plQL" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search everything"><kbd aria-hidden="true">/</kbd><div class="pl-om-l" id="plQL" role="listbox" aria-label="Search results" hidden></div><p class="pl-vh" id="plQLS" role="status" aria-live="polite"></p></form><a class="pl-searchbtn" href="search.html" data-sx aria-label="Search Public Ledger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages" data-pl-foot><a class="pl-pin" href="ballot.html" data-until="2026-11-03"><span class="pin-k">Election Day · Tue, Nov 3</span><span class="pin-t">On the ballot<span class="pin-r">: what each question would cost a home</span></span><span class="pin-go" aria-hidden="true">&rarr;</span></a><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-city">City<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-city" role="group" aria-label="City"><div class="pl-kick">City</div><a class="pl-dest" href="index.html" data-parts><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><div class="pl-subs" role="group" aria-label="Parts of City money"><a class="pl-part" href="claims.html">Every claim</a><a class="pl-part" href="taxes.html">Tax estimate</a><a class="pl-part" href="finances.html">Annual filings</a><a class="pl-part" href="checks.html">How it was verified</a></div><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="payees/index.html"><span class="pl-dl">Every payee</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">886 named payees<span class="pl-ds2"> &middot; a page for each</span></span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-county">County<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-county" role="group" aria-label="County"><div class="pl-kick">County</div><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,099 resolutions<span class="pl-ds2"> &middot; votes read through Sept 22 · Oct 20 agenda posted</span></span></a><a class="pl-dest" href="legislators.html"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-home">Your home<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-home" role="group" aria-label="Your home"><div class="pl-kick">Your home</div><a class="pl-part pl-xp" href="index.html#home"><span class="pl-dl">Your home</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">your taxes, the ballot and your legislator<span class="pl-ds2"> &middot; from your North Tonawanda address</span></span></a><a class="pl-dest" href="ballot.html"><span class="pl-dl">On the ballot</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">what each question would cost a home<span class="pl-ds2"> &middot; 2 questions · Nov 3 election</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-checks">How it’s checked<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-checks" role="group" aria-label="How it’s checked"><div class="pl-kick">How it’s checked</div><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a><a class="pl-part pl-xp" href="checks.html"><span class="pl-dl">How it was verified</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read by OCR from scans</span></span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><span class="pl-kick">Data as of</span><div class="pl-dateline pl-dl-sheet"><span>North Tonawanda</span><span>warrant pages</span><span><span data-pl-built="2026-11-02" data-pl-short="updated">updated <b>Nov 2</b></span></span></div></div><div class="pl-sheet-bar"><a class="pl-sheet-primary" href="search.html" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><button class="pl-theme pl-theme-ic" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-close pl-sheet-done" type="button">Done</button></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-haspopup="dialog" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 <main id="main" class="wrap">
   <section id="rEmpty" class="rempty" aria-labelledby="rEmptyT">
@@ -700,8 +989,10 @@ html.r-view .rctx-slot{min-height:44px}
   </section>
   <section id="rView" aria-labelledby="rT">
     <p class="pl-kick">The source page</p>
-    <h1 class="rtitle" id="rT" data-pl-record>Warrant report</h1>
+    <!-- r7 F-28: built as a plain line (the landing's H1 is the page's one H1 with no script); a receipt promotes it to the H1 -->
+    <p class="rtitle" id="rT" data-pl-record>Warrant report</p>
     <p class="rline" id="rL" data-pl-record></p>
+    <p class="rpaid">Approved by the council, not necessarily paid: a warrant line does not show that a check cleared.</p>
     <p class="rwarn" id="rW" role="status" hidden></p>
     <!-- the way back into the ledger: right after the line, before the PDF controls (audit PL-04: the keyboard reaches it first) -->
     <div class="rctx-slot"><p class="rctx" id="rCtx" hidden></p></div>
@@ -729,9 +1020,11 @@ html.r-view .rctx-slot{min-height:44px}
 <footer class="pl-foot wrap" id="about">
 <p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="index.html">City money</a><a href="briefs/index.html">Council briefs</a><a href="audit.html">Exception report</a><a href="county.html">County money</a></p>
 <details class="pl-fold"><summary>How this page was built</summary><p>Pages are drawn here by <a href="receipts/pdfjs/LICENSE">PDF.js</a> (Apache-2.0) from our copy of each warrant, byte for byte the file the city posted. Each outline sits on the printed line that carries the claim&rsquo;s charge account and amount, found from the word positions in the file; the dashed outline is the purchase order&rsquo;s own header line. Scanned warrants have no word positions, so scanned pages cannot be outlined: they open on the cited page and say so. Those pages are shown as images drawn from our copy of the scan, so a phone fetches one page, not the whole file; the city&rsquo;s full PDF is one tap away.</p></details>
-<p>Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. Every figure links to its source &mdash; <span class="pl-cx"><a class="pl-correct" href="corrections.html" data-pl-correct>Report a correction</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span>. <a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></p>
+<p><b>About this site.</b> Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a>, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either. No one has paid for any of this site: no sponsor, no donations, and GitHub Pages hosts it for free. Every figure links to its source &mdash; <span class="pl-cx"><a class="pl-correct" href="corrections.html" data-pl-correct>Report a correction</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span>.</p>
+<p class="pl-foot-x"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a><a href="words.html">Plain words</a></p><p class="pl-foot-x"><span class="pl-foot-xk">Explore:</span><a href="contested.html">A quiz on the record</a><a href="poster.html">Every resolution, one mark each</a></p>
 <p class="pl-foot-u pl-foot-np">No ads, no analytics, no cookies.</p>
 </footer>
+<script type="application/json" id="rData">{"roles":{"warrant-report-1-7-004-25":"main warrant","warrant-report-1-7-005-25-pre-issue":"second warrant","warrant-report-2-18-25-visa":"purchasing-card statement","warrant-report-2-18-25-2024":"second warrant","warrant-report-2-18-25-2025":"main warrant","warrant-report-2-3-26-2025-charges":"main warrant","warrant-report-2-3-26-2026-charges":"second warrant","warrant-report-4-7-26-visa":"purchasing-card statement","warrant-report-5-5-26-visa":"purchasing-card statement","warrant-report-6-2-26-visa":"purchasing-card statement","warrant-report-7-7-26-visa":"purchasing-card statement","warrant-report-8-4-26-visa":"purchasing-card statement","warrant-report-9-1-26-visa":"purchasing-card statement","warrant-report-10-6-26-visa":"purchasing-card statement","warrant-report-10-20-26a":"second warrant","warrant-report-10-20-26b":"main warrant"},"names":{"pacr":["ABC","AC","ACI","ADA","ADR","AED","AFSCME","AI","ARPA","AWWA","BMI","CCI","CDBG","CDL","CIP","CIR","COVID","CPA","CPE","CPR","CSEA","DARE","DC","DEC","DOT","DPC","DPW","DRI","DV","DWI","EBC","EFC","EIG","EJ","EJP","EMS","EMT","EPA","ESD","ESO","ETK","EZ","FD","FEMA","GAR","GIP","GIS","GPS","HR","HUD","HVAC","IDG","II","III","IMS","IPS","IRR","IT","IV","JCI","LED","LLC","LLP","LP","LWRP","MES","MTE","NAPA","NCA","NFPA","NFTA","NITV","NOCO","NT","NY","NYPA","NYS","NYSDEC","NYSDOT","NYSEG","NYSERDA","OSC","OSHA","PBA","PC","PD","PLLC","PO","PRI","PW","RFP","RFQ","SCADA","SCBA","SPCA","SRO","SUNY","TCMH","TLO","TV","UDIG","UFSD","UPS","US","USA","USPS","UV","VFW","VSI","WIX","WNY","WTP","WWTP","YMCA"],"pform":{"INC":"Inc","CORP":"Corp","CO":"Co","LTD":"Ltd","JR":"Jr","SR":"Sr","BROS":"Bros","ASSN":"Assn","ASSOC":"Assoc","DBA":"dba","DE":"De","LA":"La","EL":"El","LE":"Le","DI":"Di","DA":"Da"},"psmall":["&","A","AN","AND","AT","BY","FOR","FROM","IN","OF","ON","OR","THE","TO","WITH"],"probe":[["NIAGARA GAZETTE/LOCKPORT UNION","Niagara Gazette/Lockport Union"],["ALS/PACEM DEFENSE CO.","Als/Pacem Defense Co."],["BUDWEY'S/MARKET IN THE SQUARE","Budwey's/Market in the Square"],["PAYROLLFORMS.COM","Payrollforms.com"],["MYRECDEPT.COM","Myrecdept.com"],["GRIMCO.COM","Grimco.com"],["MCDONALD'S RESTAURANT","Mcdonald's Restaurant"],["MCMASTER-CARR SUPPLY CO.","Mcmaster-Carr Supply Co."],["BRETT'S TENT & AWNING, INC.","Brett's Tent & Awning, Inc."],["JOHN'S MOTOR & TRANSMISSION","John's Motor & Transmission"],["HARRELL'S LLC","Harrell's LLC"],["1ST EQUIPMENT FINANCE","1st Equipment Finance"],["3RD LAW BREACHING TOOLS LLC","3rd Law Breaching Tools LLC"],["HARTFORD, THE","Hartford, The"],["BANCORP BANK, THE","Bancorp Bank, The"],["CARY COMPANY, THE","Cary Company, The"],["ACTION CPR LLC","Action CPR LLC"],["AMCHAR WHOLESALE INC","Amchar Wholesale Inc"],["AXON ENTERPRISE INC.","Axon Enterprise Inc."],["BOUND TREE MEDICAL LLC","Bound Tree Medical LLC"],["CAPITAL MARKETS ADVISORS, LLC","Capital Markets Advisors, LLC"],["COUGHLIN & GERHART, LLP","Coughlin & Gerhart, LLP"],["FIRST CITIZENS BANK & TRUST CO","First Citizens Bank & Trust Co"],["C & S ENGINEERS, INC.","C & S Engineers, Inc."],["DE LAGE LANDEN","De Lage Landen"]]}}</script>
 <script>
 (function(){
   var $=function(id){ return document.getElementById(id); };
@@ -741,9 +1034,49 @@ html.r-view .rctx-slot{min-height:44px}
   var hp=(location.hash.match(/page=(\d+)/)||[])[1], cited=parseInt(q.get('p')||hp||'0',10)||1;
   /* a bare visit (or an address that is not a warrant) stays on the examples; a warrant address swaps them for the viewer */
   if(!/^[a-z0-9-]+$/.test(slug)) return;
+  /* r7 F-28: one H1 in every state - the page is built with the landing's H1 (a bare visit, or no script); a receipt makes its own title
+     the H1 and the landing's a plain line, and a warrant that is not filed turns them back */
+  function retag(id,tag){ var o=$(id); if(!o||o.tagName.toLowerCase()===tag) return o; var n=document.createElement(tag);
+    for(var i=0;i<o.attributes.length;i++) n.setAttribute(o.attributes[i].name,o.attributes[i].value);
+    while(o.firstChild) n.appendChild(o.firstChild); o.parentNode.replaceChild(n,o); return n; }
+  retag('rEmptyT','p'); retag('rT','h1');
   $('rEmpty').hidden=true; $('rView').hidden=false;
   /* keyboard and screen-reader readers start at the record, not the top of the document (Fable audit PL-15) */
   $('rT').setAttribute('tabindex','-1'); try{ $('rT').focus({preventScroll:true}); }catch(e){}
+  /* r7 F-36: the payee as every page names it (textfmt.payee_name ported, its tables from the build, the register's port), checked on load
+     against the build's own answers where a rule fires; and what tells a warrant from the night's others ('main warrant', 'purchasing-card
+     statement'), from the same rule the council briefs use */
+  var RD={roles:{},names:{}}; try{ RD=JSON.parse($('rData').textContent)||RD; }catch(e){}
+  var payeeName=(function(T){
+    var PACR={},PSM={},PF=T.pform||{};
+    (T.pacr||[]).forEach(function(a){PACR[a]=1;}); (T.psmall||[]).forEach(function(s){PSM[s]=1;});
+    function payee(name){
+      var s=String(name||'').trim(); if(!s||s!==s.toUpperCase()) return s;
+      var out=[];
+      function word(core,i){
+        var up=core.toUpperCase(), c;
+        if(!core||/\d/.test(core)) c=core.replace(/(\d)(ST|ND|RD|TH)\b/g,function(x,d,s2){ return d+s2.toLowerCase(); });
+        else if(Object.prototype.hasOwnProperty.call(PF,up)) c=PF[up];
+        else if(PACR[up]) c=up;
+        else if(PSM[up]&&i>0) c=(up==='THE'&&out.length&&/,$/.test(out[out.length-1]))?'The':core.toLowerCase();
+        else if(/^[A-Za-z]+$/.test(core)&&core.length<=2) c=up;
+        else if(/^[A-Za-z]+$/.test(core)&&core.length>=3&&!/[AEIOUY]/.test(up)) c=up;
+        else if(/^MC[A-Z]{3,}$/.test(up)) c='Mc'+up.charAt(2)+up.slice(3).toLowerCase();
+        else c=core.toLowerCase().replace(/[A-Za-z]+/g,function(w){ return w.charAt(0).toUpperCase()+w.slice(1); }).replace(/(['’])S\b/g,'$1s')
+                 .replace(/\.(Com|Net|Org|Gov|Edu|Us)$/,function(x,d){ return '.'+d.toLowerCase(); });
+        return c;
+      }
+      s.split(' ').forEach(function(tok,i){
+        var m=/^([^A-Za-z0-9&]*)(.*?)([^A-Za-z0-9&]*)$/.exec(tok), pre=m[1], core=m[2], post=m[3];
+        var c=(core.indexOf('/')>=0&&!/\d/.test(core)) ? core.split('/').map(function(p){ return word(p,Math.max(i,1)); }).join('/') : word(core,i);
+        out.push(pre+c+post);
+      });
+      return out.join(' ');
+    }
+    (T.probe||[]).forEach(function(x){ var got=payee(x[0]); if(got!==x[1]) console.error('textfmt drift: '+x[0]+' -> '+got+' here, '+x[1]+' in the build'); });
+    return payee;
+  })(RD.names||{});
+  var role=(RD.roles&&RD.roles[slug])||'warrant';
   /* a receipt opened from a shared link still leads back into context (PL-04): this line in the register (its warrant and PO)
      and the council brief for the warrant - both by address, so they work in a fresh tab */
   (function(){
@@ -817,9 +1150,18 @@ html.r-view .rctx-slot{min-height:44px}
   }
   function head(){
     var r=row(), n=pages()||meta.pages||'?', when=longDate(meta.d), on=(page===cited);
-    $('rT').textContent=(when?'Warrant of '+when:'Warrant report')+' · page '+page+' of '+n;
-    var claim=r ? 'PO <b class="num">'+esc(po)+'</b> · line '+item+' · '+esc(meta.vend[r[1]])+' · <b class="num">'+money(r[0])+'</b>' : '';
-    $('rL').innerHTML=on ? (claim||'Page '+cited+' of the warrant')
+    /* r7 F-36: a receipt is about one claim - its payee, amount and date are the title (the H1 and the tab, word for word); the line under
+       them says which page of which of the night's documents is in view ('on page 17' while it is the claim's page) */
+    var raw=r?meta.vend[r[1]]:'', name=r?payeeName(raw):'', doc='the '+role+(when?' of '+when:''),
+      where='the '+role+(/^(main|second|third|fourth|fifth|sixth) /.test(role)?' that night':'');      /* the briefs' words: 'the second warrant that night' */
+    /* the dot stays with its amount, and the date in one piece */
+    $('rT').innerHTML=r ? '<span class="rt-c">'+esc(name)+' <span class="nw">· <span class="num">'+money(r[0])+'</span></span>'+(when?' <span class="nw">· '+esc(when)+'</span>':'')+'</span>'+
+                          ' <span class="rt-s">'+(on?'on ':'')+'page '+page+' of '+esc(where)+'</span>'
+                        : '<span class="rt-c">'+esc(doc.charAt(0).toUpperCase()+doc.slice(1))+'</span> <span class="rt-s">page '+page+' of '+n+'</span>';
+    var claim=r ? 'PO <b class="num">'+esc(po)+'</b> · line '+item+' · '+esc(raw)+' · <b class="num">'+money(r[0])+'</b>' : '';
+    /* on its page the title already names the payee and the amount: the line gives the PO, the line number and, where it differs, the name as
+       the City printed it (what the outlined line on the page says) */
+    $('rL').innerHTML=on ? (r ? 'PO <b class="num">'+esc(po)+'</b> · line '+item+(name!==raw?' · printed as '+esc(raw):'') : 'Page '+cited+' of the warrant')
                          : (claim ? 'The selected line is on page '+cited+': '+claim : 'The cited page is page '+cited+'.');
     $('rN').textContent = !on ? '' : meta.scan ? 'This warrant was posted as a scanned image: scanned pages cannot be outlined; the line is on this page.'
                         : (r&&r.length>6 ? 'The solid outline is the line the ledger read; the dashed outline is its purchase order.' : '');
@@ -837,7 +1179,8 @@ html.r-view .rctx-slot{min-height:44px}
                                                                                          : '<a href="'+esc(meta.u)+'" rel="noopener">open the city’s full PDF</a>. ') : '')+
       (g ? 'Our archived copy of the file the city posted, the one this ledger was read from: ' : 'Our copy of the file the city posted, the one this ledger was read from: ')+
       '<code>'+esc(meta.f)+'</code> · '+(meta.bytes/1048576).toFixed(1)+' MB · SHA-256 <code>'+(g ? meta.sha : meta.sha.slice(0,16)+'…')+'</code>';
-    document.title='Warrant of '+when+', p.'+page+(r?' — PO '+po+' line '+item+(on?'':' (p.'+cited+')'):'')+' | Public Ledger';
+    /* r7 F-36: the tab (and a shared link's history entry) names the claim: payee · amount · date */
+    document.title=(r ? name+' · '+money(r[0])+(when?' · '+when:'') : doc.charAt(0).toUpperCase()+doc.slice(1)+', p.'+page)+' | Public Ledger';
     if(page!==cited||q.get('p')){
       try{ var u=new URL(location.href); u.searchParams.set('p',cited); u.hash='page='+page; history.replaceState(history.state,'',u.href); }catch(e){}
     }
@@ -923,7 +1266,9 @@ html.r-view .rctx-slot{min-height:44px}
   }
   var lastW=0; window.addEventListener('resize',function(){ var w=stage.clientWidth; if(pages()&&Math.abs(w-lastW)>40){ lastW=w; render(); } });
   msg('Opening the warrant…');
-  fetch('receipts/'+slug+'.json').then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(m){
+  /* r7 (F-13 contract): only a warrant the site does not have is 'not filed' (404/410); a record that did not arrive - a dropped connection,
+     a page opened from disk - is the site's one failure message with Try again, never 'No warrant is filed' */
+  fetch('receipts/'+slug+'.json').then(function(r){ if(r.status===404||r.status===410) throw {nf:1}; if(!r.ok) throw {net:1}; return r.json(); }).then(function(m){
     meta=m;
     /* review F-12: an address with the PO and line but no page (no ?p=, no #page=) finds the line's page in the record, so the
        line is outlined and named instead of page 1 opening with no line */
@@ -938,10 +1283,20 @@ html.r-view .rctx-slot{min-height:44px}
     return loadPdf().then(function(d){
       settle(pdf.numPages); lastW=stage.clientWidth; render();
     });
-  }).catch(function(){
+  }).catch(function(e){
     if(meta){ msg('The warrant could not be opened here. <a href="'+esc(origHref(cited))+'">'+(gone()?'Open the archived copy':'Open the city’s original')+'</a>.'); return; }
+    if(!(e&&e.nf)){
+      /* the buttons and the pinch hint need the record (their links are filled from it): out of the way until Try again */
+      [].forEach.call(document.querySelectorAll('#rView .racts, #rHint'),function(x){ x.style.display='none'; });
+      if(window.PL&&PL.dataFail){ PL.dataFail(stage); return; }
+      msg((navigator.onLine===false?'You’re offline: this part needs a connection.':'This part of the page didn’t load: the connection may have dropped.')+
+        ' <button type="button" class="pl-pill" id="rRetry">Try again</button>');
+      var rb=$('rRetry'); if(rb) rb.onclick=function(){ location.reload(); };
+      return;
+    }
     /* PL-11 (UX audit 2026-10-31): an address that names no warrant gets the not-found state - its own H1, the search and the examples -
        never a live viewer whose 'City's original', 'PDF' and 'council brief' links lead nowhere */
+    retag('rT','p'); retag('rEmptyT','h1');      /* r7 F-28: the landing's H1 is the page's one H1 again */
     document.documentElement.classList.remove('r-view'); $('rView').hidden=true; $('rEmpty').hidden=false;
     $('rEmptyT').textContent='No warrant is filed under that address.';
     var l=$('rEmpty').querySelector('.pl-lede');
@@ -981,21 +1336,15 @@ var R=mk('r'), L=mk('l'), tm=0;
 function place(){ var t=s.offsetTop+'px', h=s.offsetHeight+'px';
 R.style.top=L.style.top=t; R.style.height=L.style.height=h;
 R.style.left=(s.offsetLeft+s.offsetWidth-40)+'px'; L.style.left=s.offsetLeft+'px'; }
-function edges(){ var sr=s.getBoundingClientRect(), as=s.querySelectorAll('a'), fe=null, fs=null, i, ar, G=40;
-for(i=0;i<as.length;i++){ ar=as[i].getBoundingClientRect(); if(!ar.width) continue;
-if(fe===null && ar.right>sr.right-G+1) fe=Math.max(0,Math.round(ar.left-sr.left));
-if(ar.left<sr.left+G-1) fs=Math.round(ar.right-sr.left); }
-s.style.setProperty('--pl-fe',fe===null?'100%':fe+'px'); s.style.setProperty('--pl-fs',fs===null?'0px':fs+'px'); }
-function upd(){ var m=s.scrollWidth-s.clientWidth, x=s.scrollLeft, r=m>4&&x<m-4, l=m>4&&x>4;
+function upd(){ var m=s.scrollWidth-s.clientWidth, x=s.scrollLeft, r=m>1&&x<m-1, l=m>1&&x>0.5;
 s.classList.toggle('pl-ovr',r); s.classList.toggle('pl-ovl',l);
 R.classList.toggle('on',r); L.classList.toggle('on',l);
-if(r||l){ place(); edges(); } }
-function show(a,smooth){ if(!a||s.scrollWidth-s.clientWidth<=4) return;
-var sr=s.getBoundingClientRect(), ar=a.getBoundingClientRect(), x=s.scrollLeft, pad=Math.min(88,Math.max(0,Math.floor((sr.width-ar.width)/2))), to=x;
-if(ar.left<sr.left+pad) to=x-(sr.left+pad-ar.left);
-else if(ar.right>sr.right-pad) to=x+(ar.right-(sr.right-pad));
-to=Math.max(0,Math.min(s.scrollWidth-s.clientWidth,Math.round(to)));
-if(Math.abs(to-x)>2) s.scrollTo({left:to,behavior:smooth?'smooth':'auto'}); }
+if(r||l) place(); }
+function show(a,smooth){ if(!a||s.scrollWidth-s.clientWidth<=1) return;
+var sr=s.getBoundingClientRect(), ar=a.getBoundingClientRect(), x=s.scrollLeft, G=Math.min(40,Math.max(0,Math.floor((sr.width-ar.width)/2)));
+if(ar.left>=sr.left+G-1&&ar.right<=sr.right-G+1) return;
+var to=Math.max(0,Math.min(s.scrollWidth-s.clientWidth,Math.round(x+(ar.left+ar.width/2)-(sr.left+sr.width/2))));
+if(Math.abs(to-x)>1) s.scrollTo({left:to,behavior:smooth?'smooth':'auto'}); }
 function cur(){ return s.querySelector('a.on,a[aria-current]'); }
 s.addEventListener('scroll',upd,{passive:true});
 window.addEventListener('resize',function(){ upd(); show(cur(),false); },{passive:true});
@@ -1012,7 +1361,7 @@ if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ u
 });
 })();
 (function(){ if(document.querySelector('.pl-fore')) return; var f=document.createElement('div'); f.className='pl-fore'; f.setAttribute('aria-hidden','true'); document.body.appendChild(f); })();
-if(!PL.layer){(function(){
+if(!PL.layer||PL.layer.plStub){(function(){
 (function(){
 var MODAL=null;
 var FOCUSABLE='a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),summary,[tabindex]:not([tabindex="-1"])';
@@ -1293,11 +1642,17 @@ return 16;
 return 16;
 }
 var done=null, padded=null;
+function openLayer(sel){ var a=document.querySelectorAll(sel||'[aria-modal=true]'), i, r, best=null;
+for(i=0;i<a.length;i++){ r=a[i].getBoundingClientRect();
+if(!(r.width>0&&r.height>0)||getComputedStyle(a[i]).visibility==='hidden') continue;
+if(r.bottom>0&&r.top<window.innerHeight) return a[i];
+best=best||a[i]; }
+return best; }
 function roomFor(on){
 if(padded&&(!on||!padded.isConnected)){ padded.style.paddingBottom=padded.getAttribute('data-pl-pb')||''; padded.style.scrollPaddingBottom='';
 padded.removeAttribute('data-pl-pb'); padded=null; }
 if(!on||padded) return;
-var m=document.querySelector('[aria-modal=true]'); if(!m) return;
+var m=openLayer(); if(!m) return;
 var c=[m].concat([].slice.call(m.querySelectorAll('div,section,article,ul,ol,form,dialog'))), i, cs;
 for(i=0;i<c.length&&!padded;i++){ cs=getComputedStyle(c[i]); if(/(auto|scroll)/.test(cs.overflowY)) padded=c[i]; }
 padded=padded||m;
@@ -1307,13 +1662,13 @@ padded.style.paddingBottom='calc('+pb+'px + 72px + env(safe-area-inset-bottom))'
 padded.style.scrollPaddingBottom='calc(72px + env(safe-area-inset-bottom))';      
 }
 function paintDone(){
-var on=anyOpen(), own=!!document.querySelector('[aria-modal=true][data-pl-foot]'),
+var on=anyOpen(), own=!!openLayer('[aria-modal=true][data-pl-foot]'),
 phone=window.matchMedia('(max-width:640px)').matches||(window.matchMedia('(max-width:760px)').matches&&!!document.querySelector('.pl-switch.is-open'));
 if(on&&phone&&!own){
 if(!done){
 done=document.createElement('button'); done.type='button'; done.className='pl-done'; done.textContent='Done'; done.setAttribute('data-pl-keep','');
 done.addEventListener('click',function(){
-var t=document.querySelector('[aria-modal=true]')||document.body;
+var t=openLayer()||document.body;
 t.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',code:'Escape',keyCode:27,bubbles:true,cancelable:true}));
 setTimeout(function(){ if(anyOpen()) H.back(); },150);
 });
@@ -1466,7 +1821,7 @@ setInterval(apply,600000);
 (function(){
 var SEL='[data-pl-chart]';
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
-function base(){return location.href.split('#')[0].split('?')[0];}
+function base(){return (PL.canonURL?PL.canonURL(location.href):location.href).split('#')[0].split('?')[0];}
 function chartEl(id){var a=document.querySelectorAll(SEL);for(var i=0;i<a.length;i++)if(a[i].getAttribute('data-pl-chart')===id)return a[i];return null;}
 function stateOf(el){var q=el&&el.getAttribute('data-pl-state');return q?q.replace(/^[?&]/,''):'';}
 function embedUrl(id){var q=stateOf(chartEl(id));return base()+'?embed='+encodeURIComponent(id)+(q?'&'+q:'');}
@@ -1581,13 +1936,13 @@ if(r.height>room)m.style.maxHeight=Math.max(180,room)+'px';}}
 groups.forEach(function(g){var b=g.querySelector('.pl-verb');
 b.addEventListener('click',function(e){e.stopPropagation();openGroup(g);});
 b.addEventListener('keydown',function(e){if(e.key==='ArrowDown'&&g.hasAttribute('data-open')){e.preventDefault();e.stopPropagation();
-var a=g.querySelector('.pl-dest');if(a)a.focus();}});});
+var a=g.querySelector('.pl-dest,.pl-xp');if(a)a.focus();}});});
 if(go){go.addEventListener('click',function(e){e.stopPropagation();
 if(sheetOpen()){closeAll();return;}
 opener=go;sw.classList.add('is-open');scrim.hidden=false;root.style.overflow='hidden';go.setAttribute('aria-expanded','true');
 groups.forEach(function(g){setOpen(g,false);});
 L.push();
-L.modal(sw,{phoneOnly:760,opener:go,label:'Go to any Public Ledger page',focus:'.pl-sheet-primary,.pl-dest'});});}
+L.modal(sw,{phoneOnly:760,opener:go,label:'Go to any Public Ledger page',focus:'.pl-pin,.pl-dest'});});}
 var x=sw.querySelector('.pl-close');if(x)x.addEventListener('click',closeAll);
 scrim.addEventListener('click',closeAll);
 sw.addEventListener('click',function(e){
@@ -1601,8 +1956,8 @@ document.addEventListener('click',function(e){if(!sw.contains(e.target)&&!(go&&g
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){var was=groups.some(function(g){return g.hasAttribute('data-open');})||sheetOpen();
 if(was){closeAll();e.stopPropagation();}}});
 sw.addEventListener('keydown',function(e){if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;
-if(!(e.target.closest&&e.target.closest('.pl-dest')))return;
-var items=[].slice.call(sw.querySelectorAll('.pl-dest')).filter(function(a){return a.offsetParent!==null;});
+if(!(e.target.closest&&e.target.closest('.pl-dest,.pl-xp')))return;
+var items=[].slice.call(sw.querySelectorAll('.pl-dest,.pl-xp')).filter(function(a){return a.offsetParent!==null;});
 var i=items.indexOf(document.activeElement);if(i<0)return;e.preventDefault();
 var n=items[(i+(e.key==='ArrowDown'?1:items.length-1))%items.length];if(n)n.focus();});
 phone.addEventListener?phone.addEventListener('change',closeAll):phone.addListener(closeAll);
@@ -1636,66 +1991,236 @@ if(said) said.textContent=ok?'Copied. Paste it into any email or message to '+TO
 });
 })();
 (function(){
-var mast=document.querySelector('.pl-mast'); if(!mast||!window.PL||!PL.layer) return;
-var ROOT=mast.getAttribute('data-root')||'', IDX=null, loading=null, sx=null, box=null, inp=null, res=null, L=null;
+var mast=document.querySelector('header.pl-mast'); if(!mast||!window.PL||/[?&]embed=/.test(location.search)) return;
+var ROOT=mast.getAttribute('data-root')||'', IDX=null, R=null, AT=null, DT=null, RS=null, RT=null, ld={}, bad={};
+var MON=['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'], B36='0123456789abcdefghijklmnopqrstuvwxyz';
+var HINT='A business, an address, a resolution, a legislator, a town or a page.';
+var LONG={e:'east',w:'west',n:'north',s:'south',st:'street',ave:'avenue',av:'avenue',rd:'road',dr:'drive',pl:'place',ct:'court',
+ln:'lane',blvd:'boulevard',pkwy:'parkway',terr:'terrace',ter:'terrace',cir:'circle',hwy:'highway',sq:'square',
+'1st':'first','2nd':'second','3rd':'third','4th':'fourth','5th':'fifth','6th':'sixth','7th':'seventh','8th':'eighth','9th':'ninth',
+'10th':'tenth','11th':'eleventh','12th':'twelfth','13th':'thirteenth','14th':'fourteenth','15th':'fifteenth','16th':'sixteenth',
+'17th':'seventeenth','18th':'eighteenth','19th':'nineteenth','20th':'twentieth'};
 function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
-function fmt(n){ return n>=1e6?'$'+(n/1e6).toFixed(n>=1e8?0:2).replace(/\.?0+$/,'')+'M':n>=1e3?'$'+Math.round(n/1e3).toLocaleString('en-US')+'K':'$'+Math.round(n); }
-function load(){ if(!loading) loading=fetch(ROOT+'data/search-index.json').then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){ IDX=d; return d; }); return loading; }
-function words(s){ return String(s).toLowerCase().replace(/[^a-z0-9&]+/g,' ').trim().split(/\s+/).filter(Boolean); }
-function hit(name,q){ var w=words(name); return q.every(function(x){ return w.some(function(y){ return y.indexOf(x)===0; }); }); }
-function row(href,t,s,v){ return '<li><a class="pl-sx-r" href="'+esc(href)+'"><span class="pl-sx-t">'+t+'</span>'+(s?'<span class="pl-sx-s">'+s+'</span>':'')+
-(v?'<span class="pl-sx-v">'+v+'</span>':'')+'</a></li>'; }
-function group(title,items){ return items.length?'<div class="pl-sx-g"><p class="pl-sx-h">'+title+'</p><ul>'+items.join('')+'</ul></div>':''; }
-function draw(){
-var raw=inp.value.trim(), q=words(raw), h='';
-if(raw.length>=2){ var e=encodeURIComponent(raw);
-h+=group('Search the record',[row(ROOT+'index.html?q='+e+'#explore','Every city claim mentioning <b>'+esc(raw)+'</b>','payees, accounts and purchase orders in the city&rsquo;s register'),
-row(ROOT+'decisions.html?q='+e+'#register','Every county resolution mentioning <b>'+esc(raw)+'</b>','titles, legislators and the money in them')]); }
-if(!IDX){ res.innerHTML=h+'<p class="pl-sx-n">Loading the index&hellip;</p>'; return; }
-if(!q.length){ res.innerHTML='<p class="pl-sx-n">A business the city pays, a legislator, a town or a page.</p>'+
-group('Every page',IDX.pages.map(function(p){ return row(ROOT+p[2],esc(p[0]),esc(p[3])); })); return; }
-var pay=IDX.payees.filter(function(p){ return hit(p[0],q); }), mem=IDX.members.filter(function(m){ return hit(m[0],q); }),
-gov=IDX.govs.filter(function(g){ return hit(g[0],q); }), pg=IDX.pages.filter(function(p){ return hit(p[0]+' '+p[1]+' '+p[3],q); });
-h+=group('Payees'+(pay.length>6?' &middot; the 6 largest of '+pay.length:''),pay.slice(0,6).map(function(p){
-return row(ROOT+'payees/'+p[1]+'.html',esc(p[0]),p[3]+(p[3]===1?' line':' lines')+' approved',fmt(p[2])); }))      
-+group('Legislators',mem.slice(0,5).map(function(m){ return row(ROOT+'legislators.html#m-'+m[2],esc(m[0]),esc(m[1])); }))
-+group('Places',gov.slice(0,5).map(function(g){ return row(ROOT+g[2],esc(g[0]),esc(g[1])); }))
-+group('Pages',pg.slice(0,5).map(function(p){ return row(ROOT+p[2],esc(p[0]),esc(p[1])); }));
-if(!pay.length&&!mem.length&&!gov.length&&!pg.length)
-h+='<p class="pl-sx-n">No payee, legislator, place or page goes by that name. The two searches above read every claim line and every resolution.</p>';
-res.innerHTML=h;
+function money(n){ return n>=1e6?'$'+(n/1e6).toFixed(n>=1e8?0:n>=1e7?1:2).replace(/\.?0+$/,'')+'M':n>=1e4?'$'+Math.round(n/1e3).toLocaleString('en-US')+'K':'$'+Math.round(n).toLocaleString('en-US'); }
+function day(iso){ var m=/^(\d{4})-(\d{2})-(\d{2})/.exec(iso||''); return m?MON[+m[2]-1]+' '+(+m[3])+', '+m[1]:''; }
+function toks(s){ return String(s).toLowerCase().replace(/[’']/g,'').split(/[^a-z0-9&]+/).filter(Boolean); }
+function every(t,q){ return q.every(function(w){ return t.some(function(x){ return x.indexOf(w)===0; }); }); }
+function named(w){ return /[a-z]{3,}/.test(w)||/^\d+(st|nd|rd|th)$/.test(w); }
+function awords(s){ return String(s).toLowerCase().replace(/[,#]|\.(?=\s|$)/g,' ').split(/\s+/).filter(Boolean); }
+function atoks(s){ var w=awords(s); return w.concat(w.map(function(x){ return LONG[x]; }).filter(Boolean)); }
+function starts(t,w){ var l=LONG[w]; return t.some(function(x){ return x.indexOf(w)===0||(l&&x.indexOf(l)===0); }); }
+function hl(text,q){
+text=String(text);
+var ws=q.map(function(w){ return w.replace(/[^a-z0-9&]/g,''); }).filter(Boolean).sort(function(a,b){ return b.length-a.length; });
+if(!ws.length) return esc(text);
+var rx=new RegExp('(^|[^a-z0-9])('+ws.join('|')+')','gi'), out='', i=0, m;
+while((m=rx.exec(text))){ var at=m.index+m[1].length; out+=esc(text.slice(i,at))+'<b>'+esc(m[2])+'</b>'; i=at+m[2].length; if(!m[0].length) rx.lastIndex++; }
+return out+esc(text.slice(i));
 }
+function get(u){ if(location.protocol==='file:') return Promise.reject(new Error(u)); return fetch(ROOT+u).then(function(r){ if(!r.ok) throw new Error(u); return r.json(); }); }
+function need(k,f){
+if(ld[k]||(bad[k]&&Date.now()-bad[k]<8000)) return ld[k]||null;
+ld[k]=f().then(function(x){ delete bad[k]; return x; },function(e){ ld[k]=null; bad[k]=Date.now(); throw e; });
+return ld[k];
+}
+function core(){ return need('i',function(){ return get('data/search-index.json').then(function(d){ IDX=d; }); }); }
+function after(){ var c=core(); return c||Promise.reject(new Error('index')); }
+function roll(){ return need('r',function(){ return after().then(function(){ return Promise.all([get(IDX.files.roll),get(IDX.files.table)]); }).then(function(a){
+R=a[0]; AT=R.a.map(atoks); DT=(a[1].year===R.year&&a[1].parcels===R.a.length)?a[1]:null; }); }); }
+function res(){ return need('s',function(){ return after().then(function(){ return get(IDX.files.res); }).then(function(d){
+RS=d.rows; RT=RS.map(function(r){ return toks(r[0]+' '+r[2]); }); }); }); }
+function district(i){
+if(!DT) return null;
+var c=DT.r.substr(2*i,2); if(!c||c==='--') return '';
+var b=DT.blocks[B36.indexOf(c.charAt(0))*36+B36.indexOf(c.charAt(1))]; return b?b[2]:null;
+}
+function find(raw){
+var q=toks(raw), lo=raw.trim().toLowerCase(), out=[], n=0, wait=[];
+if(!IDX) return {g:out,n:0,wait:['the index']};
+function group(k,h,rows,all,strong,note){ if(rows.length||note){ out.push({k:k,h:h,rows:rows,all:all,strong:strong,note:note}); n+=rows.length; } }
+if(!q.length){
+group('p','Pages',IDX.pages.map(function(p){ return {href:p[2],t:esc(p[0]),s:esc(p[1])}; }),null,0);
+return {g:out,n:n,wait:wait,empty:true};
+}
+var aq=awords(raw);
+if(aq.some(named)){
+if(!R) wait.push('the roll');
+else{
+var num=/^\d+$/.test(aq[0])?+aq[0]:null, rest=aq.slice(1), hits=[], i;
+if(num!==null&&rest.length&&rest.some(named)){
+for(i=0;i<AT.length;i++) if(rest.every(function(w){ return starts(AT[i],w); })) hits.push(i);
+hits.sort(function(a,b){ var na=parseFloat(R.a[a]), nb=parseFloat(R.a[b]); return (isNaN(na)?1e9:Math.abs(na-num))-(isNaN(nb)?1e9:Math.abs(nb-num))||a-b; });
+} else {
+for(i=0;i<AT.length;i++) if(aq.every(function(w){ return starts(AT[i],w); })) hits.push(i);
+hits.sort(function(a,b){ var la=/^\d/.test(R.a[a])?0:1, lb=/^\d/.test(R.a[b])?0:1, na=parseFloat(R.a[a])||0, nb=parseFloat(R.a[b])||0;
+return la-lb||R.a[a].replace(/^[\d\s\/-]+/,'').localeCompare(R.a[b].replace(/^[\d\s\/-]+/,''))||na-nb||a-b; });
+}
+var arows=hits.slice(0,5).map(function(i){
+var d=district(i), m=d&&IDX.dist[d];
+return {href:'index.html?addr='+encodeURIComponent(R.a[i])+'#home', t:hl(R.a[i],aq),
+s:(d===''?'no district on the State&rsquo;s parcel map':m?'District '+d+' &middot; '+esc(m[0]):d?'District '+d:'')+(d===null?'':' &middot; ')+'tax and ballot for this home'};
+});
+group('a','Addresses &middot; North Tonawanda roll',arows,null,2,hits.length>5?(hits.length.toLocaleString('en-US')+' addresses match: add the house number'):null);
+}
+}
+if(lo.length>=2){
+var pay=IDX.payees.filter(function(p){ return p[0].toLowerCase().indexOf(lo)>=0; });
+group('y','Payees',pay.slice(0,5).map(function(p){
+return {href:'payees/'+p[1]+'.html',t:hl(p[0],q),s:p[3].toLocaleString('en-US')+(p[3]===1?' claim':' claims')+' approved',v:money(p[2])}; }),
+[pay.length>5?{href:'payees/index.html?q='+encodeURIComponent(raw.trim()),t:'All '+pay.length.toLocaleString('en-US')+' payees matching &ldquo;'+esc(raw.trim())+'&rdquo;'}:null,
+{href:'claims.html?q='+encodeURIComponent(raw.trim()),t:'Every claim line mentioning &ldquo;'+esc(raw.trim())+'&rdquo;'}],
+pay.some(function(p){ return (toks(p[0])[0]||'').indexOf(q[0]||'')===0; })?2:1);
+}
+var mem=IDX.members.filter(function(m){ return every(toks(m[0]+' '+m[1]),q); });
+group('l','Legislators',mem.slice(0,5).map(function(m){ return {href:m[3],t:hl(m[0],q),s:esc(m[1])}; }),
+mem.length>5?[{href:'legislators.html',t:'All '+mem.length+' legislators'}]:null, mem.some(function(m){ return every(toks(m[0]),q); })?2:1);
+var gov=IDX.govs.filter(function(g){ return every(toks(g[0]),q); });
+group('g','Towns, cities and the county',gov.slice(0,5).map(function(g){ return {href:g[2],t:hl(g[0],q),s:esc(g[1])}; }),
+gov.length>5?[{href:'atlas.html#list',t:'All '+gov.length+' on the county list'}]:null, gov.length?2:0);
+if(lo.replace(/[^a-z0-9]/g,'').length>=3){
+if(!RS) wait.push('the resolutions');
+else{
+var rh=[], idq=lo.replace(/\s+/g,'');
+for(var j=0;j<RS.length;j++) if(every(RT[j],q)) rh.push(j);
+rh.sort(function(a,b){ var ea=RS[a][0].toLowerCase()===idq?0:1, eb=RS[b][0].toLowerCase()===idq?0:1; return ea-eb||(RS[a][1]<RS[b][1]?1:RS[a][1]>RS[b][1]?-1:0); });
+group('r','Resolutions'+(rh.length?' &middot; '+rh.length.toLocaleString('en-US')+(rh.length===1?' title matches':' titles match'):''),rh.slice(0,5).map(function(j){ var r=RS[j];
+return {href:'decisions.html?open='+encodeURIComponent(r[0]),t:'<span class="num">'+hl(r[0],q)+'</span> &middot; '+hl(r[2],q),s:day(r[1])+(r[3]?' &middot; '+esc(r[3]):'')}; }),
+[{href:'decisions.html?q='+encodeURIComponent(raw.trim())+'#register',t:'Every resolution mentioning &ldquo;'+esc(raw.trim())+'&rdquo;'}],
+rh.length&&RS[rh[0]][0].toLowerCase()===idq?3:1);
+}
+}
+var pg=IDX.pages.filter(function(p){ return every(toks(p[0]+' '+p[1]+' '+p[3]),q); });
+group('p','Pages',pg.slice(0,5).map(function(p){ return {href:p[2],t:hl(p[0],q),s:esc(p[1])}; }),null, pg.some(function(p){ return every(toks(p[0]),q); })?2:0);
+var ORD='ayrlgp';
+out.sort(function(x,y){ return (y.strong||0)-(x.strong||0)||ORD.indexOf(x.k)-ORD.indexOf(y.k); });
+return {g:out,n:n,wait:wait};
+}
+function combo(inp,list,o){
+o=o||{};
+var act=-1, opts=[], said=null, sayT=null, last=null, live=document.getElementById(list.id+'S');
+function expand(on){ if(o.inline) on=true; list.hidden=!on; inp.setAttribute('aria-expanded',on?'true':'false'); if(!on) mark(-1); if(o.place&&on) o.place(); }
+function mark(i){
+act=i; opts.forEach(function(a,j){ a.setAttribute('aria-selected',j===i?'true':'false'); });
+if(i>=0&&opts[i]){ inp.setAttribute('aria-activedescendant',opts[i].id); opts[i].scrollIntoView({block:'nearest'}); } else inp.removeAttribute('aria-activedescendant');
+}
+function say(t){ if(!live) return; clearTimeout(sayT); sayT=setTimeout(function(){ if(t!==said){ live.textContent=t; said=t; } },500); }
+function draw(){
+var raw=inp.value, r=find(raw), h='', k=0, pre=list.id+'-';
+if(r.empty&&!o.hint) h+='<p class="pl-om-n">'+HINT+'</p>';      
+r.g.forEach(function(g,gi){
+h+='<div class="pl-om-g" role="group" aria-labelledby="'+pre+'g'+gi+'"><p class="pl-om-h" id="'+pre+'g'+gi+'">'+g.h+'</p>';
+g.rows.forEach(function(x){ h+='<a class="pl-om-r" role="option" tabindex="-1" aria-selected="false" id="'+pre+(k++)+'" href="'+esc(ROOT+x.href)+'"><span class="pl-om-t">'+x.t+'</span>'+
+(x.s?'<span class="pl-om-s">'+x.s+'</span>':'')+(x.v?'<span class="pl-om-v num">'+x.v+'</span>':'')+'</a>'; });
+if(g.note) h+='<p class="pl-om-x">'+g.note+'</p>';
+(g.all||[]).forEach(function(x){ if(x) h+='<a class="pl-om-r pl-om-all" role="option" tabindex="-1" aria-selected="false" id="'+pre+(k++)+'" href="'+esc(ROOT+x.href)+'"><span class="pl-om-t">'+x.t+' &rarr;</span></a>'; });
+h+='</div>';
+});
+if(!r.empty&&!r.n&&!r.wait.length) h+='<p class="pl-om-n">Nothing on Public Ledger goes by &ldquo;'+esc(raw.trim())+'&rdquo;.'+(raw.trim().length<2?'':' The two registers read every claim line and every resolution:')+'</p>';
+if(r.wait.length) h+='<p class="pl-om-n" aria-hidden="true">Looking in '+r.wait.join(' and ')+'&hellip;</p>';
+if(!r.empty&&!r.n&&!r.wait.length&&raw.trim().length>=2) h+='<div class="pl-om-g">'+
+'<a class="pl-om-r pl-om-all" role="option" tabindex="-1" aria-selected="false" id="'+pre+(k++)+'" href="'+esc(ROOT+'claims.html?q='+encodeURIComponent(raw.trim()))+'"><span class="pl-om-t">Every claim line mentioning &ldquo;'+esc(raw.trim())+'&rdquo; &rarr;</span></a>'+
+'<a class="pl-om-r pl-om-all" role="option" tabindex="-1" aria-selected="false" id="'+pre+(k++)+'" href="'+esc(ROOT+'decisions.html?q='+encodeURIComponent(raw.trim())+'#register')+'"><span class="pl-om-t">Every resolution mentioning &ldquo;'+esc(raw.trim())+'&rdquo; &rarr;</span></a></div>';
+h+='<p class="pl-om-f">Enter opens &middot; &uarr;&darr; move &middot; Esc closes &middot; nothing you type leaves this device</p>';
+list.innerHTML=h; opts=[].slice.call(list.querySelectorAll('[role=option]'));
+mark(!r.empty&&raw.trim()&&opts.length?0:-1);      
+var N=opts.length;
+say(r.empty?'':r.n?N+(N===1?' result':' results'):r.wait.length?'':N?'No matches: '+N+(N===1?' search':' searches')+' to try':'No results');
+last=raw;
+}
+function run(){
+var raw=inp.value, aq=awords(raw), lo=raw.trim().toLowerCase().replace(/[^a-z0-9]/g,'');
+var p=core();
+if(!p&&!IDX){ list.innerHTML='<p class="pl-om-n">The search index didn&rsquo;t load: the connection may have dropped. Every page is in the menu.</p>'; return; }
+draw();
+if(p) p.then(function(){ if(inp.value===raw) draw();
+var more=[];
+if(aq.some(named)&&!R){ var a=roll(); if(a) more.push(a); }
+if(lo.length>=3&&!RS){ var s=res(); if(s) more.push(s); }
+more.forEach(function(m){ m.then(function(){ if(inp.value===raw) draw(); },function(){ if(inp.value===raw) draw(); }); });
+},function(){ if(inp.value===raw) list.innerHTML='<p class="pl-om-n">The search index didn&rsquo;t load: the connection may have dropped. Every page is in the menu.</p>'; });
+if(o.onInput) o.onInput(raw);
+}
+inp.addEventListener('input',function(){ expand(true); run(); });
+inp.addEventListener('focus',function(){ var c=core(); if(c) c.catch(function(){}); if(o.inline||inp.value||o.openOnFocus){ expand(true); run(); } });      
+inp.addEventListener('keydown',function(e){
+if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+if(list.hidden){ expand(true); run(); }
+if(!opts.length) return; e.preventDefault();
+var i=act<0?(e.key==='ArrowDown'?0:opts.length-1):(act+(e.key==='ArrowDown'?1:opts.length-1))%opts.length; mark(i); return;
+}
+if(e.key==='Enter'){ e.preventDefault();
+if(act>=0&&opts[act]&&!list.hidden){ var a=opts[act]; if(o.go) o.go(); location.href=a.href; }
+else if(inp.value.trim()&&!o.inline) location.href=ROOT+'search.html?q='+encodeURIComponent(inp.value.trim());
+return; }
+if(e.key==='Escape'){
+if(o.onEscape&&o.onEscape()){ e.preventDefault(); e.stopPropagation(); return; }
+if(!list.hidden&&!o.inline){ e.preventDefault(); e.stopPropagation(); expand(false); return; }
+if(inp.value){ e.preventDefault(); e.stopPropagation(); inp.value=''; run(); }
+}
+});
+list.addEventListener('mousedown',function(e){ if(e.target.closest('[role=option]')) e.preventDefault(); });      
+list.addEventListener('click',function(e){ var a=e.target.closest('[role=option]'); if(a&&o.go) o.go(); });
+return {draw:draw, run:run, expand:expand, input:inp};
+}
+var form=mast.querySelector('form.pl-omni'), desk=null;
+if(form){
+var di=form.querySelector('input'), dl=form.querySelector('[role=listbox]');
+desk=combo(di,dl,{place:function(){
+dl.style.left=''; var r=dl.getBoundingClientRect(), vw=document.documentElement.clientWidth;
+if(r.right>vw-12) dl.style.left=Math.round(vw-12-r.right)+'px';
+dl.style.maxHeight=Math.max(240,window.innerHeight-dl.getBoundingClientRect().top-16)+'px'; }});
+form.addEventListener('submit',function(e){ e.preventDefault(); });
+form.addEventListener('focusout',function(){ setTimeout(function(){ if(!form.contains(document.activeElement)) desk.expand(false); },120); });
+document.addEventListener('pointerdown',function(e){ if(!form.contains(e.target)) desk.expand(false); });
+}
+var sx=null, L=null, sheet=null;
 function build(){
 sx=document.createElement('div'); sx.className='pl-sx'; sx.hidden=true;
-sx.innerHTML='<div class="pl-sx-in" id="plSx" data-pl-foot><div class="pl-sx-top"><label class="pl-vh" for="plSxQ">Search Public Ledger</label>'+
-'<input id="plSxQ" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" placeholder="A business, a legislator, a town&hellip;">'+
-'<button type="button" class="pl-sx-x">Done</button></div><div class="pl-sx-res" aria-live="polite"></div></div>';
-document.body.appendChild(sx); box=sx.firstChild; inp=sx.querySelector('input'); res=sx.querySelector('.pl-sx-res');
-inp.addEventListener('input',draw);
+sx.innerHTML='<div class="pl-sx-in" data-pl-foot><form class="pl-sx-top" role="search" action="'+esc(ROOT)+'search.html"><label class="pl-vh" for="plSxQ">Search Public Ledger</label>'+
+'<input id="plSxQ" name="q" type="search" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="plSxL" aria-describedby="plSxH" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search everything">'+
+'<button type="button" class="pl-sx-x">Done</button></form><p class="pl-sx-hint" id="plSxH">'+HINT+'</p><div class="pl-sx-res pl-om-l" id="plSxL" role="listbox" aria-label="Search results"></div>'+
+'<p class="pl-vh" id="plSxLS" role="status" aria-live="polite"></p></div>';
+document.body.appendChild(sx);
+var inp=sx.querySelector('input');
+sheet=combo(inp,sx.querySelector('#plSxL'),{inline:true,hint:true,onEscape:function(){ close(false); return true; }});
+sx.querySelector('form').addEventListener('submit',function(e){ e.preventDefault(); });
 sx.querySelector('.pl-sx-x').addEventListener('click',function(){ close(false); });
 sx.addEventListener('click',function(e){ if(e.target===sx) close(false); });
-sx.addEventListener('keydown',function(e){
-if(e.key==='Escape'){ e.preventDefault(); close(false); return; }
-if(e.key==='ArrowDown'||e.key==='ArrowUp'){ var a=[].slice.call(res.querySelectorAll('a')); if(!a.length) return; e.preventDefault();
-var i=a.indexOf(document.activeElement); i=e.key==='ArrowDown'?Math.min(a.length-1,i+1):i-1; if(i<0) inp.focus(); else a[i].focus(); return; }
-if(e.key==='Enter'&&document.activeElement===inp){ var f=res.querySelector('a'); if(f){ e.preventDefault(); location.href=f.href; } }
-});
 L=PL.layer({hide:function(){ close(true); }, isOpen:function(){ return !sx.hidden; }});
 }
-function open(from){
-if(!sx) build(); sx.hidden=false; document.documentElement.classList.add('pl-sx-on'); draw();
-L.open(box,{label:'Search Public Ledger',focus:'#plSxQ',opener:from});
-load().then(draw,function(){ res.innerHTML='<p class="pl-sx-n">The index didn&rsquo;t load (the connection may have dropped). The two searches above still work.</p>'; });
+function open(from,q){
+if(desk&&desk.input.getClientRects().length){ desk.input.focus(); if(q!=null){ desk.input.value=q; } desk.expand(true); desk.run(); return; }
+if(!sx) build();
+sx.hidden=false; document.documentElement.classList.add('pl-sx-on');
+if(q!=null) sheet.input.value=q;
+L.open(sx.firstChild,{label:'Search Public Ledger',focus:'#plSxQ',opener:from});
+sheet.run();
 }
 function close(fromPop){ if(!sx||sx.hidden) return; sx.hidden=true; document.documentElement.classList.remove('pl-sx-on'); L.close(fromPop); }
-PL.search={open:open,close:close};
+PL.search={open:open,close:close,find:function(raw){ return find(raw); },load:function(){ return Promise.all([core(),roll(),res()]); }};
 [].forEach.call(document.querySelectorAll('[data-sx]'),function(b){
 b.addEventListener('click',function(e){
 if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button) return;
 e.preventDefault();
-var go=document.querySelector('.pl-go[aria-expanded=true]');
-if(go){ go.click(); setTimeout(function(){ open(document.querySelector('.pl-searchbtn')||b); },160); } else open(b);
+var g=document.querySelector('.pl-go[aria-expanded=true]');
+if(g){ g.click(); setTimeout(function(){ open(document.querySelector('.pl-searchbtn')||b); },160); } else open(b);
 });
+});
+var pi=document.getElementById('sQ'), pl=document.getElementById('sQL');
+if(pi&&pl){
+var page=combo(pi,pl,{inline:true,hint:!!document.getElementById('sQH'),onInput:function(raw){ try{ history.replaceState(history.state,'',location.pathname+(raw.trim()?'?q='+encodeURIComponent(raw.trim()):'')); }catch(e){} }});
+var q0=null; try{ q0=new URLSearchParams(location.search).get('q'); }catch(e){}
+if(q0) pi.value=q0;
+page.run(); if(!q0) try{ pi.focus({preventScroll:true}); }catch(e){}
+var pf=pi.closest('form'); if(pf) pf.addEventListener('submit',function(e){ e.preventDefault(); });
+}
+document.addEventListener('keydown',function(e){
+if(e.key!=='/'||e.metaKey||e.ctrlKey||e.altKey||e.defaultPrevented) return;
+var t=e.target, tag=t&&t.tagName;
+if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(t&&t.isContentEditable)) return;
+e.preventDefault();
+if(pi&&pi.getClientRects().length){ pi.focus(); pi.select(); return; }
+open(document.querySelector('.pl-searchbtn'));
 });
 })();
 (function(){
@@ -1723,7 +2248,44 @@ order.forEach(function(g){ groups[g].forEach(function(el){ if(g===id) el.setAttr
 a.classList.toggle('on',hit); if(hit) a.setAttribute('aria-current','location'); else a.removeAttribute('aria-current'); });
 if(scroll){ var top=rail.getBoundingClientRect().bottom+window.scrollY-rail.offsetHeight; if(window.scrollY>top) window.scrollTo(0,top); }
 try{ window.dispatchEvent(new Event('resize')); }catch(e){}            
+mark();
 }
+var note=null, sig='', mo=null, fq=false, names={};
+function tabOf(g){ return rail.querySelector('a[href="#'+g+'"]'); }
+function nameOf(g){ if(!names[g]){ var a=tabOf(g); names[g]=a?(a.innerText||a.textContent||'').replace(/\s+/g,' ').trim():g; } return names[g]; }
+function hasFail(g){ return groups[g].some(function(el){ var p=el.previousElementSibling;      
+return el.classList.contains('pl-fail')||!!el.querySelector('.pl-fail')||!!(p&&p.classList.contains('pl-fail')&&!p.hasAttribute('data-part')); }); }
+function retry(gs){ gs.forEach(function(g){ groups[g].forEach(function(el){
+[].forEach.call(el.classList.contains('pl-fail')?[el]:el.querySelectorAll('.pl-fail'),function(f){ var k=f.querySelector('button'); if(k&&!k.disabled) k.click(); }); }); }); }
+function mark(){
+fq=false;
+var bad=de.classList.contains('pl-tabs')?order.filter(hasFail):[], away=bad.filter(function(g){ return g!==on; });
+order.forEach(function(g){ var a=tabOf(g); if(!a) return; var m=a.querySelector('.pl-tfx'), want=bad.indexOf(g)>=0;
+if(want&&!m){ nameOf(g); m=document.createElement('span'); m.className='pl-tfx';
+m.innerHTML='<i aria-hidden="true">!</i><span class="pl-vh"> (didn\u2019t load)</span>'; a.appendChild(m); }
+else if(!want&&m) m.parentNode.removeChild(m); });
+var s=away.join(' ');
+if(s!==sig){
+sig=s;
+if(note){ note.parentNode.removeChild(note); note=null; }
+if(away.length){
+note=document.createElement('p'); note.className='pl-tabfail'; note.setAttribute('role','status');
+var t=document.createElement('span');
+away.forEach(function(g,i){
+if(i) t.appendChild(document.createTextNode(i===away.length-1?' and ':', '));
+var o=document.createElement('a'); o.href='#'+g; o.textContent=nameOf(g); t.appendChild(o); });
+t.appendChild(document.createTextNode(' didn\u2019t load.'));
+var k=document.createElement('button'); k.type='button'; k.className='pl-pill'; k.textContent='Try again';
+k.addEventListener('click',function(){ retry(away); });
+note.appendChild(t); note.appendChild(k);
+rail.parentNode.insertBefore(note,rail.nextSibling);
+}
+}
+if(bad.length&&!mo&&window.MutationObserver){ mo=new MutationObserver(function(){ if(!fq){ fq=true; requestAnimationFrame(mark); } });
+mo.observe(host,{childList:true,subtree:true}); }
+else if(!bad.length&&mo){ mo.disconnect(); mo=null; }
+}
+document.addEventListener('pl:fail',function(){ if(!fq){ fq=true; setTimeout(mark,0); } });
 function fromURL(){
 var h=location.hash.slice(1), t=null;
 try{ t=h&&document.getElementById(decodeURIComponent(h)); }catch(e){ t=null; }
@@ -1741,6 +2303,7 @@ function disable(){
 if(!de.classList.contains('pl-tabs')) return;
 de.classList.remove('pl-tabs');
 order.forEach(function(g){ groups[g].forEach(function(el){ el.removeAttribute('data-part'); el.removeAttribute('data-part-on'); }); });
+mark();
 }
 if(MQ.matches) enable();
 (MQ.addEventListener?MQ.addEventListener.bind(MQ,'change'):MQ.addListener.bind(MQ))(function(){ if(MQ.matches) enable(); else disable(); });
@@ -1771,11 +2334,40 @@ strip=document.createElement('div'); strip.className='pl-offline'; strip.setAttr
 strip.textContent='You are offline: this is the copy of this page kept on this device'+(d?', as of '+MON[+d[2]-1]+' '+(+d[3])+', '+d[1]:'')+'.';
 document.body.insertBefore(strip,document.body.firstChild);
 } else if(!off&&strip){ strip.parentNode.removeChild(strip); strip=null; }
+if(strip) document.documentElement.style.setProperty('--pl-offh',Math.ceil(strip.getBoundingClientRect().bottom+(window.scrollY||0))+'px');
+else document.documentElement.style.removeProperty('--pl-offh');
 }
 window.addEventListener('online',paint); window.addEventListener('offline',paint); paint();
 })();
 (function(){
-var G={"warrant":["Warrant","<b>A warrant</b> is the list of bills the Common Council approves for payment at a meeting, usually twice a month: each line a payee, an amount and the city account it is charged to. Approval is not payment; a line here does not show that a check cleared. A card statement is the same list for the city&rsquo;s purchasing cards.","warrants?"],"list":["List total","<b>The list total</b> is the sum of every line on a warrant: the figure the city prints at the foot of the list.","list totals?"],"control":["Control total","<b>A control total</b> is the total the city prints for each fund on a warrant. The lines charged to that fund should add up to it to the penny, and this site checks that they do. A few lines sit outside the funds&rsquo; controls (trust and general-ledger lines, or revenue-type lines); with them, the lines add up to the list total.","control totals?"],"po":["Purchase order","<b>A purchase order</b> (PO) is the city&rsquo;s own number for an order; a warrant line names the order it pays.","purchase orders?"],"ocr":["OCR","<b>OCR</b> (optical character recognition) is software that reads the letters in a picture. When the city posts a warrant only as a scanned image, its lines are read this way, and the warrant is used only when every total printed on it ties to the penny.","OCR"],"resolution":["Resolution","<b>A resolution</b> is a numbered item on the County Legislature&rsquo;s agenda. Members vote on it at a meeting, and the minutes record the vote. The county needs one to spend, contract, settle or move budget money.","resolutions?"],"ceiling":["Ceiling","<b>A ceiling</b> is a spending limit: the most one resolution lets the county spend on something &mdash; permission to spend up to that figure, not a payment. Ceilings are never added together on this site.","ceilings?"],"levy":["Levy","<b>The levy</b> is the total a government raises from property tax for the year. Each property&rsquo;s share is its taxable assessed value times the tax rate.","lev(?:y|ies)"],"approp":["Appropriation","<b>An appropriation</b> is the amount a budget sets aside for one purpose for the year: permission to spend up to it, not spending.","appropriations?"],"fullvalue":["Full value","<b>Full value</b> is a property&rsquo;s estimated market value: its assessed value divided by the share of market value the roll assesses at (the uniform percentage printed on a tax bill).","full (?:market )?values?"],"fundbal":["Fund balance","<b>Fund balance</b> is what a fund has left at the end of a year after all of its revenue and spending so far: a government&rsquo;s reserve, part of it often set aside for a purpose.","fund balances?"],"debt":["Debt proceeds","<b>Debt proceeds</b> are money a government receives by borrowing, through bonds or notes. Its filings count them as a source of money, but they are paid back, with interest, in later years.","debt proceeds"]}, main=document.getElementById('main');
+var first=document.querySelector('a.pl-skip'); if(!first) return;
+var link=null;
+function field(){ var f=document.querySelector('[data-pl-search]'); if(!f) return null;
+return f.matches('input,select,textarea')?f:f.querySelector('input:not([type=hidden]),select,textarea'); }
+function reach(i){
+if(!i||i.disabled) return false;
+if(i.getClientRects().length) return true;
+if(i.closest('[data-part]')&&document.documentElement.classList.contains('pl-tabs')) return true;
+var d=i.closest('details'); return !!(d&&!d.open&&d.getClientRects().length);
+}
+function sync(){
+var i=field(), on=reach(i);
+if(on&&!link){
+if(!i.id) i.id='plSkipQ';
+link=document.createElement('a'); link.className='pl-skip'; link.textContent='Skip to search';
+link.addEventListener('click',function(e){ var f=field(); if(!f) return; e.preventDefault();
+for(var d=f.closest('details');d;d=d.parentElement&&d.parentElement.closest('details')) d.open=true;
+f.focus(); });
+first.parentNode.insertBefore(link,first.nextSibling);
+}
+if(link){ if(on) link.setAttribute('href','#'+i.id); else{ link.parentNode.removeChild(link); link=null; } }
+}
+first.addEventListener('focus',sync);
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',sync); else sync();
+window.addEventListener('load',sync);
+})();
+(function(){
+var G={"warrant":["Warrant","<b>A warrant</b> is the list of bills the Common Council approves for payment at a meeting, usually twice a month: each line a payee, an amount and the city account it is charged to. Approval is not payment; a line here does not show that a check cleared. A card statement is the same list for the city&rsquo;s purchasing cards.","warrants?"],"list":["List total","<b>The list total</b> is the sum of every line on a warrant: the figure the city prints at the foot of the list.","list totals?"],"control":["Control total","<b>A control total</b> is the total the city prints for each fund on a warrant. The lines charged to that fund should add up to it to the penny, and this site checks that they do. A few lines sit outside the funds&rsquo; controls (trust and general-ledger lines, or revenue-type lines); with them, the lines add up to the list total.","control totals?"],"po":["Purchase order","<b>A purchase order</b> (PO) is the city&rsquo;s own number for an order; a warrant line names the order it pays.","purchase orders?"],"ocr":["OCR","<b>OCR</b> (optical character recognition) is software that reads the letters in a picture. When the city posts a warrant only as a scanned image, its lines are read this way, and the warrant is used only when every total printed on it ties to the penny.","OCR"],"resolution":["Resolution","<b>A resolution</b> is a numbered item on the County Legislature&rsquo;s agenda. Members vote on it at a meeting, and the minutes record the vote. The county needs one to spend, contract, settle or move budget money.","resolutions?"],"ceiling":["Ceiling","<b>A ceiling</b> is a spending limit: the most one resolution lets the county spend on something &mdash; permission to spend up to that figure, not a payment. Ceilings are never added together on this site.","ceilings?"],"levy":["Levy","<b>The levy</b> is the total a government raises from property tax for the year. Each property&rsquo;s share is its taxable assessed value times the tax rate.","lev(?:y|ies)"],"approp":["Appropriation","<b>An appropriation</b> is the amount a budget sets aside for one purpose for the year: permission to spend up to it, not spending.","appropriations?"],"fullvalue":["Full value","<b>Full value</b> is a property&rsquo;s estimated market value: its assessed value divided by the share of market value the roll assesses at (the uniform percentage printed on a tax bill).","full (?:market )?values?"],"fundbal":["Fund balance","<b>Fund balance</b> is what a fund has left at the end of a year after all of its revenue and spending so far: a government&rsquo;s reserve, part of it often set aside for a purpose.","fund balances?"],"debt":["Debt proceeds","<b>Debt proceeds</b> are money a government receives by borrowing, through bonds or notes. Its filings count them as a source of money, but they are paid back, with interest, in later years.","debt proceeds"],"typical":["Typical warrant","<b>A typical warrant</b> is the middle one by list total (the median) of the City&rsquo;s warrants of the same kind on this register: regular warrants with regular ones, purchasing-card statements with card ones. A warrant is compared only with those approved before it, and every comparison on the site prints how many warrants it counts and since when.","typical (?:regular |card )?warrants?"],"byname":["Votes read by name","<b>Votes read by name</b> are the county votes whose minutes say who voted no: every vote read from the minutes except the few whose no votes are printed only as a count, with no names. Each legislator&rsquo;s no votes, and their rate per 100 votes, are counted on these.","votes? read by name"]}, main=document.getElementById('main');
 if(!main||/(^|\/)words\.html$/.test(location.pathname)||/[?&]embed=/.test(location.search)) return;
 var mast=document.querySelector('header[data-root]'), ROOT=mast?mast.getAttribute('data-root')||'':'';
 var SKIP='a,button,summary,label,select,option,textarea,input,script,style,svg,code,h1,h2,h3,h4,h5,th,nav,header,footer,figure,'+
