@@ -198,7 +198,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 },true);
 })();
 </script>
-<link rel="stylesheet" href="assets/x-m.082278fbf5.css" data-pl-css="full"><link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="../updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="../updates.json">
+<link rel="stylesheet" href="assets/x-m.24f4491b26.css" data-pl-css="full"><link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="../updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="../updates.json">
 <link rel="canonical" href="https://jcurry44.github.io/public-ledger/m/town-hartland.html">
 </head><body>
 <div class="page">
@@ -206,7 +206,6 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 
   <nav class="rail" aria-label="Parts of this page" data-pl-views><div class="rail-in">
     <a href="#money">Money</a>
-    <a href="#filing">Filing</a>
     <a href="#aid">County aid</a>
     <a href="#neighbors">Neighbors</a>
     <a href="#method">Method</a>
@@ -233,36 +232,10 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
     <div class="hfoot">On the current reporting basis (2013–2025), revenue exceeded expenditure in 9 of 13 filings. A single-year gap between filed revenue and filed spending is not a deficit claim: fund balances,
       transfers and the timing of capital projects all move it. </div>
   </div>
-  <div class="hans" aria-label="In context"><div class="hans-k">Among the county&rsquo;s 12 towns</div><div class="hans-g"><a class="hc" href="#neighbors"><span class="k">Rank</span><span class="v num">6th of 12</span><span class="s">on spending per resident, among the county&rsquo;s 12 towns</span></a><a class="hc" href="#neighbors"><span class="k">Per resident</span><span class="v num">$1,244</span><span class="s">towns&rsquo; median <b class="num">$1,206</b></span></a><a class="hc" href="#cat=1|Transportation"><span class="k">Biggest category</span><span class="v">Transportation</span><span class="s"><b class="num">37%</b> of 2025 spending</span></a><a class="hc" href="#cmp=2024|2025"><span class="k">2024 &rarr; 2025</span><span class="v num">spending +12.7%</span><span class="s">revenue <b class="num">+21.0%</b> &middot; no debt proceeds filed</span></a></div><p class="hans-n">Context, not a scorecard: ranks are within the county&rsquo;s 12 towns only; per resident divides the 2025 filing by the 2020 Census (<b class="num">3,874</b>); the median uses each town&rsquo;s latest filing (2024&ndash;2025).</p></div>
-  <div class="mtrend">
-    <p class="pl-kick">Annual reports to the state</p>
-    <h2 class="pl-h2" id="trend-h">Revenue &amp; spending, 1995&ndash;2025</h2>
-    <div class="panel" data-cdata="part">
-      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Town of Hartland: revenue against spending, 1995–2025" data-pl-source="NYS Comptroller, Financial Data for Local Governments, town_all_years.zip, Town of Hartland (entity code 290337900000), snapshot date Sept 30, 2026 for 2013–2025 and Dec 29, 2023 for 1995–2012" data-pl-tie="31 consecutive annual filings, 1995–2025, none missing">
-      <div class="tread num" id="trendSub" aria-live="off"></div>
-      <div class="legend"><span><b style="background:var(--rev)"></b>Revenue</span>
-        <span><b style="background:var(--exp)"></b>Expenditure</span>
-        <span><b class="sw-w"></b>revenue above spending</span>
-        <span><b class="sw-h"></b>spending above revenue</span></div>
-      <div class="chartwrap" id="trendWrap">
-        <svg class="trend" id="trend" viewBox="0 0 900 300" role="img"
-             aria-label="Town of Hartland revenue and expenditure, 1995 to 2025" aria-describedby="trendDesc"></svg>
-      </div>
-      <p class="chartcap" id="trendCap" hidden></p>
-      <p class="pl-vh" id="trendDesc"></p>
-      <div class="pillrow"><button class="pill" id="cmpOpen" type="button">Compare two years<span class="ph-x"> — what moved</span></button>
-        <button class="pill shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link<span class="ph-x"> to this year</span></span></button>
-        <span data-pl-embed-slot></span></div>
-      </figure>
-      <details class="pl-fold" id="trendData"><summary>The same figures as a table</summary><div id="trendTable"></div></details>
-      <p class="note" id="trendNote"></p>
-    </div>
-  </div>
-  </section>
-
-  <section id="filing">
-    <h2 class="pl-h2" id="filing-h">The filing, year by year</h2>
-    <p class="pl-sub">Pick a year to see its revenue and spending by category.<span class="ph-x"> You can also slide across the chart above.</span></p>
+  <!-- COUNTY (2026-11-03): the city's order - the year's card, the year, Revenue, Expenditure, then the chart. This was the Filing part;
+       it keeps its id, so an old #filing link opens Money on the cards (the frame lands any #id on the part that holds it) -->
+  <div class="mfiling" id="filing">
+    <h2 class="pl-vh" id="filing-h">The filing, year by year</h2>
     <div class="yrow" data-cdata="hide">
       <div class="ystep" id="yearStep">
         <button type="button" id="ysPrev" aria-label="Earlier filing year">&lsaquo;</button>
@@ -287,6 +260,32 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
     <p class="note" data-cdata="hide">Open any category for its breakdown, its 31-year trend and its composition over time;
       every account line inside opens its own 31-year history. &ldquo;All other&rdquo; always
       opens — nothing is truncated.</p>
+  </div>
+  <div class="mtrend">
+    <p class="pl-kick">Annual reports to the state</p>
+    <h2 class="pl-h2" id="trend-h">Revenue &amp; spending, 1995&ndash;2025</h2>
+    <div class="panel" data-cdata="part">
+      <figure class="cfig" id="fig-trend" data-pl-chart="trend" data-pl-title="Town of Hartland: revenue against spending, 1995–2025" data-pl-source="NYS Comptroller, Financial Data for Local Governments, town_all_years.zip, Town of Hartland (entity code 290337900000), snapshot date Sept 30, 2026 for 2013–2025 and Dec 29, 2023 for 1995–2012" data-pl-tie="31 consecutive annual filings, 1995–2025, none missing">
+      <div class="tread num" id="trendSub" aria-live="off"></div>
+      <div class="legend"><span><b style="background:var(--rev)"></b>Revenue</span>
+        <span><b style="background:var(--exp)"></b>Expenditure</span>
+        <span><b class="sw-w"></b>revenue above spending</span>
+        <span><b class="sw-h"></b>spending above revenue</span></div>
+      <div class="chartwrap" id="trendWrap">
+        <svg class="trend" id="trend" viewBox="0 0 900 300" role="img"
+             aria-label="Town of Hartland revenue and expenditure, 1995 to 2025" aria-describedby="trendDesc"></svg>
+      </div>
+      <p class="chartcap" id="trendCap" hidden></p>
+      <p class="pl-vh" id="trendDesc"></p>
+      <div class="pillrow"><button class="pill" id="cmpOpen" type="button">Compare two years<span class="ph-x"> — what moved</span></button>
+        <button class="pill shr" id="shareYear" type="button" title="Copy a link to the selected filing year"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.1 0l3-3a5 5 0 0 0-7.1-7.1l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3a5 5 0 0 0 7.1 7.1l1.5-1.5"/></svg><span class="sl">Copy link<span class="ph-x"> to this year</span></span></button>
+        <span data-pl-embed-slot></span></div>
+      </figure>
+      <details class="pl-fold" id="trendData"><summary>The same figures as a table</summary><div id="trendTable"></div></details>
+      <p class="note" id="trendNote"></p>
+    </div>
+  </div>
+  <div class="hans" aria-label="In context"><div class="hans-k">Among the county&rsquo;s 12 towns</div><div class="hans-g"><a class="hc" href="#neighbors"><span class="k">Rank</span><span class="v num">6th of 12</span><span class="s">on spending per resident, among the county&rsquo;s 12 towns</span></a><a class="hc" href="#neighbors"><span class="k">Per resident</span><span class="v num">$1,244</span><span class="s">towns&rsquo; median <b class="num">$1,206</b></span></a><a class="hc" href="#cat=1|Transportation"><span class="k">Biggest category</span><span class="v">Transportation</span><span class="s"><b class="num">37%</b> of 2025 spending</span></a><a class="hc" href="#cmp=2024|2025"><span class="k">2024 &rarr; 2025</span><span class="v num">spending +12.7%</span><span class="s">revenue <b class="num">+21.0%</b> &middot; no debt proceeds filed</span></a></div><p class="hans-n">Context, not a scorecard: ranks are within the county&rsquo;s 12 towns only; per resident divides the 2025 filing by the 2020 Census (<b class="num">3,874</b>); the median uses each town&rsquo;s latest filing (2024&ndash;2025).</p></div>
   </section>
 
   <section id="aid">
@@ -367,7 +366,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 <script src="assets/x-m-cdata.402b05d0bd.js" data-pl-payload="cdata"></script>
 <script src="assets/x-m.408ba13c12.js" data-pl-bundle="x"></script>
 
-<script src="assets/x-m.3d7a77fc5c.js" data-pl-bundle="x"></script>
+<script src="assets/x-m.a76fa19736.js" data-pl-bundle="x"></script>
 <script src="assets/x-m.0ac631eff8.js" data-pl-bundle="x"></script>
 
 </body></html>

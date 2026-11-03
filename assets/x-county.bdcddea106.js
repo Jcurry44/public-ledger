@@ -96,7 +96,7 @@ function ghostCard(row,sec,label,col){
     (gaps?' · '+gaps+' year'+(gaps>1?'s':'')+' not reported':'')+'</span>'+
     sparkSVG(v.map(function(val,i){return i<f?null:val;}),col)+
     '<span class="gv num">'+mCompact(v[f])+' &rarr; '+(v[li]==null?'no filing':mCompact(v[li]))+'</span>'+
-    '<span class="gh">ghosted on the chart above</span>';
+    '<span class="gh">ghosted on the chart below</span>';
   var r=row.getBoundingClientRect(); gcardEl.style.display='block';
   var cw=gcardEl.offsetWidth, ch=gcardEl.offsetHeight;
   var left=Math.max(8,Math.min(r.right-cw,window.innerWidth-cw-8));
@@ -572,7 +572,7 @@ function closeModal(fromPop){
 function tabButtons(){
   return '<button type="button" role="tab" data-tab="breakdown" aria-selected="true" tabindex="0"><span class="tl-l">Breakdown</span><span class="tl-s">Lines</span></button>'+
     '<button type="button" role="tab" data-tab="trend" aria-selected="false" tabindex="-1">Trend</button>'+
-    '<button type="button" role="tab" data-tab="composition" aria-selected="false" tabindex="-1"><span class="tl-l">Composition</span><span class="tl-s">Mix</span></button>'+'<button type="button" role="tab" data-tab="across" aria-selected="false" tabindex="-1"><span class="tl-l">Across the county</span><span class="tl-s">County</span></button>';
+    '<button type="button" role="tab" data-tab="composition" aria-selected="false" tabindex="-1"><span class="tl-l">Composition</span><span class="tl-s">Mix</span></button>'+'';
 }
 function selectTab(name,focus){
   [].forEach.call(document.querySelectorAll('#mTabs button'),function(x){
@@ -590,7 +590,7 @@ function openModal(year,sec,label,cssVar,opener){
   var rows=flowsFor(year,sec,label);
   var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
   var secTot=sectionSeries(sec)[O.years.indexOf(year)]||0;
-  document.getElementById('mEyebrow').textContent=(sec?'Expenditure':'Revenue')+' · '+year+' filing · Lockport';
+  document.getElementById('mEyebrow').textContent=(sec?'Expenditure':'Revenue')+' · '+year+' filing · Niagara County';
   document.getElementById('mTitle').textContent=label;
   document.getElementById('mBig').innerHTML='<span class="num">'+money0(total)+'</span> '+
     '<span>'+(secTot?(total/secTot*100).toFixed(1):'0')+'% of '+(sec?'expenditure':'revenue')+'</span>';
@@ -631,7 +631,6 @@ function renderTab(tab){
       vals:seriesFor(sec,label), tot:sectionSeries(sec), col:col, of:sec?'total spending':'total revenue', esc:esc, renderLine:renderLine, rowsAt:rowsAt, state:MODAL});
     return;
   }
-  if(tab==='across'){ renderAcross(body,sec,label); return; }
   var subs=subSeriesFor(sec,label);
   if(subs.length<2){
     body.innerHTML='<p class="lede">'+esc(label)+' is filed as a single line — there are no '+
@@ -673,73 +672,6 @@ function renderTab(tab){
   if(ms) ms.addEventListener('click',function(e){var b=e.target.closest('button[data-own]');if(!b)return;
     MODAL.ownScale=b.getAttribute('data-own')==='1';renderTab('composition');});
 }
-
-/* ---- across the county: the same category, every government ---- */
-/* every government's m/ page honours '#cat=' (North Tonawanda's too: its filings-in-the-county twin is the
-   like-for-like comparison; the full city ledger at the site root has no category address) */
-function acrossHref(slug,sec,label){
-  return slug+'.html#cat='+sec+'|'+encodeURIComponent(label);
-}
-function renderAcross(body,sec,label,mini){
-  var rows=((O.xc||{})[String(sec)]||{})[label]||[];
-  var here={}; rows.forEach(function(r){here[r[5]]=1;});
-  var zeros=(O.xcAll||[]).filter(function(a){return !here[a[4]];});
-  var per=function(r){return r[2]/r[3];};
-  var self=null, rank=0;
-  rows.forEach(function(r,i){ if(r[5]===O.selfSlug){self=r;rank=i+1;} });
-  var med=0;
-  if(rows.length){ var ps=rows.map(per).slice().sort(function(a,b){return a-b;});
-    med=ps[Math.floor(ps.length/2)]; }
-  var max=rows.length?per(rows[0]):1;
-  var h='<div class="mstats">'+
-    '<div class="mstat"><div class="k">'+esc(O.selfShort)+'</div><div class="v num">'+
-      (self?'$'+Math.round(per(self)).toLocaleString('en-US')+'<span style="font-size:var(--fs-13);line-height:var(--lh-16);color:var(--muted)"> per resident</span>':'no filing')+'</div></div>'+
-    '<div class="mstat"><div class="k">Rank</div><div class="v num">'+
-      (self?rank+' of '+rows.length:'—')+'</div></div>'+
-    '<div class="mstat"><div class="k">Median</div><div class="v num">$'+
-      Math.round(med).toLocaleString('en-US')+'</div></div>'+
-    '<div class="mstat"><div class="k">Who filed it</div><div class="v" style="font-size:var(--fs-17);line-height:var(--lh-24)">'+
-      (zeros.length?zeros.length+' of the '+(O.xcAll||[]).length+' governments did not':'Every one of the '+(O.xcAll||[]).length+' governments filed')+'</div></div>'+
-  '</div>';
-  var shown=mini?rows.filter(function(r,i){return i<4||r[5]===O.selfSlug;}):rows;
-  h+=(mini?'<div style="height:10px"></div>':'<h4>'+esc(label)+' per resident — every government that files it</h4>')+'<div class="rank">'+
-    shown.map(function(r){
-      var me=r[5]===O.selfSlug, pv=per(r);
-      var inner='<span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
-        esc(r[0])+' <span class="clsch">'+r[1].toUpperCase()+'</span>'+(me?' <span class="fnt">this government</span>':'')+'</span>'+
-        '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+Math.round(pv).toLocaleString('en-US')+'</span>'+
-        '<span class="tr"><i style="width:'+(pv/max*100).toFixed(1)+'%;background:'+
-          (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
-        (mini?'':'<span class="pc"><span class="num">$'+Math.round(r[2]).toLocaleString('en-US')+'</span> total · '+r[4]+' · <span class="num">'+r[3].toLocaleString('en-US')+'</span> residents (2020 Census)</span>');
-      return me?'<div class="rk">'+inner+'</div>'
-        :'<a class="rk can" href="'+escA(acrossHref(r[5],sec,label))+'">'+inner+'</a>';
-    }).join('')+'</div>';
-  if(mini&&shown.length<rows.length)
-    h+='<p class="note">Showing '+shown.length+' of '+rows.length+' governments that file this category — open it for all of them.</p>';
-  if(!mini&&zeros.length)
-    h+='<p class="note">Governments with nothing reported on this line (or zero): '+zeros.map(function(a){return esc(a[0]);}).join(', ')+
-       '. Nothing reported usually means the county, a district or another layer runs that service there.</p>';
-  h+=mini?'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently. Each figure is that '+
-     'government&rsquo;s own latest filing; populations are the 2020 Census.</p>'
-    :'<p class="note">Differences reflect <b>who runs the service</b>, not who runs it efficiently — '+
-     'service levels and structures differ. Each figure is that government&rsquo;s own latest filing. Populations are the 2020 Census, via New York State&rsquo;s official mirror (data.ny.gov sxhg-qquj, retrieved July 31, 2026).</p>';
-  body.innerHTML=h;
-}
-
-/* ---- the on-page 'Across the county' panel: this government's biggest spend, ranked against every filer ---- */
-(function(){
-  var panel=document.getElementById('acrossPanel'); if(!panel) return;
-  var li=O.years.length-1, list=O.expByYear[String(O.years[li])]||[];
-  if(!list.length) return;
-  var label=list[0][0];
-  panel.hidden=false;
-  document.getElementById('acTitle').textContent='Across the county · '+label;
-  document.getElementById('acSub').textContent='This government’s biggest spending category in its '+O.years[li]+
-    ' filing, per resident, against every government that files it.';
-  renderAcross(document.getElementById('acBody'),1,label,true);
-  document.getElementById('acOpen').addEventListener('click',function(e){
-    openModal(O.years[li],1,label,'--exp',e.currentTarget); selectTab('across',true);});
-})();
 
 /* ---- per-account history (ported; county general ledger) ---- */
 /* Plain-English guide to the recurring state account codes - hand-curated,
@@ -1032,7 +964,7 @@ function openCompareModal(opener,a,b){
   if(O.years.indexOf(a)>=0&&O.years.indexOf(b)>=0&&a!==b){cmpYearA=a;cmpYearB=b;}
   if(cmpYearA===null){cmpYearA=O.years[O.years.length-2];cmpYearB=O.years[O.years.length-1];}
   document.getElementById('mTabs').innerHTML='';
-  document.getElementById('mEyebrow').textContent='Annual filings · Lockport';
+  document.getElementById('mEyebrow').textContent='Annual filings · Niagara County';
   document.getElementById('mTitle').textContent='Compare two years';
   document.getElementById('mBig').innerHTML='<span>What moved between them — and which categories grew faster than revenue did.</span>';
   document.getElementById('mBody').innerHTML=
@@ -1223,7 +1155,7 @@ function renderYear(yr){
       function(item,node){openModal(selYear,sec,item[0],col,node);},
       toggle,{hk:function(x){return sec+'|'+x[0];}});
     /* hover-link (the chrome's PL.hl): point at - or focus - a category row and its own 31-year series is
-       ghosted on the chart above and echoed beside the row, and the row lights. On touch the row's tap opens
+       ghosted on the chart below and echoed beside the row, and the row lights. On touch the row's tap opens
        the sheet, whose Trend tab is the same series in full. The root is bound once; rows re-render freely. */
     if(!el.__hl){el.__hl=1;
       PL.hl.bind([el],{attr:'data-key',sel:'.rk[data-key]',
@@ -1247,7 +1179,7 @@ function renderYear(yr){
 var liveOn=false, syncYearStep=null;
 (function(){
   /* the year control (PL-28): Earlier, a native <select> of every filing year, Later - one compact component on every width, the same stepper the
-     city ledger's finances view carries. The chart above is the other way to pick (a click or a slide); this is the keyboard and screen-reader
+     city ledger's finances view carries. The chart below is the other way to pick (a click or a slide); this is the keyboard and screen-reader
      path: three tab stops, the arrow keys work on the select natively. Earlier and Later stay in the tab order at either end (aria-disabled,
      never disabled), so a keyboard user who steps to the first or last year keeps the focus. The address (?y=) is renderYear's, as before. */
   var sel=document.getElementById('ySel'), prev=document.getElementById('ysPrev'), next=document.getElementById('ysNext'), stepEl=document.getElementById('yearStep');
@@ -1534,7 +1466,37 @@ if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fitHero);
 liveOn=true;
 var rT;window.addEventListener('resize',function(){clearTimeout(rT);rT=setTimeout(function(){drawTrend();fitHero();},150);});
 
-
+/* ---- peers with metric toggle (ported) ---- */
+(function(){
+  var peers=O.peers||[];
+  if(!peers.length)return;
+  var METRIC={exp:'spending',rev:'revenue',tax:'county property tax'};
+  function render(metric){
+    var rows=peers.map(function(p){return {p:p,v:p[metric]/p.pop};})
+      .sort(function(a,b){return b.v-a.v;});
+    var max=rows[0].v;
+    document.getElementById('peerRank').innerHTML=rows.map(function(r){
+      var me=r.p.self;
+      return '<div class="rk">'+
+        '<span class="lb"'+(me?' style="font-weight:700"':' style="color:var(--muted)"')+'>'+
+          esc(r.p.name)+(me?' <span class="num" style="color:var(--ok);font-weight:700;font-size:var(--fs-13);line-height:var(--lh-16)">THIS COUNTY</span>':'')+
+          ' <span class="num" style="color:var(--faint);font-size:var(--fs-13);line-height:var(--lh-16)">'+
+          r.p.pop.toLocaleString('en-US')+' residents</span></span>'+
+        '<span class="vl num"'+(me?'':' style="color:var(--muted)"')+'>$'+
+          Math.round(r.v).toLocaleString('en-US')+'</span>'+
+        '<span class="tr"><i style="width:'+(r.v/max*100).toFixed(1)+'%;background:'+
+          (me?'var(--exp)':'var(--rule-strong)')+'"></i></span>'+
+        '<span class="pc"><span class="num">'+mCompact(r.p[metric])+'</span> total<span class="ph-x"> '+METRIC[metric]+'</span></span>'+
+      '</div>';}).join('');
+  }
+  document.getElementById('peerSeg').addEventListener('click',function(e){
+    var b=e.target.closest('button[data-peer]');if(!b)return;
+    [].forEach.call(this.querySelectorAll('button'),function(x){
+      x.setAttribute('aria-pressed',x===b?'true':'false');});
+    render(b.dataset.peer);
+  });
+  render('exp');
+})();
 
 /* ---- the section rail: the page's one section outline (2026-10-30: the floating 1/6 pager is gone) ---- */
 /* tabs and their sections are paired once, so the marked tab can never drift off the section it names (an in-page tab with no
@@ -1634,23 +1596,6 @@ syncNav();
 (function(){
 "use strict";
 var REDUCED=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-/* ---- neighbors toggle: totals vs per resident ---- */
-(function(){
-  var seg=document.getElementById('sibSeg'), host=document.getElementById('sibRank');
-  if(!seg||!host) return;
-  seg.addEventListener('click',function(e){
-    var b=e.target.closest('button[data-mode]'); if(!b) return;
-    [].forEach.call(seg.querySelectorAll('button'),function(x){
-      x.setAttribute('aria-pressed',x===b?'true':'false');});
-    var mode=b.getAttribute('data-mode');
-    [].forEach.call(host.querySelectorAll('a.rk'),function(a){
-      var v=+a.getAttribute('data-'+mode), w=a.getAttribute('data-w'+mode);
-      a.querySelector('.vl').textContent='$'+v.toLocaleString('en-US')+(mode==='per'?' per resident':'');
-      a.querySelector('.tr i').style.width=w+'%';
-    });
-  });
-})();
-
 /* ---- bars grow once on view ---- */
 (function(){
   if(REDUCED||!('IntersectionObserver' in window))return;

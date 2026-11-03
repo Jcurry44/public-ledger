@@ -1739,9 +1739,10 @@ section{page-break-inside:avoid}
 @media (max-width:1099px){#money{display:flex;flex-direction:column}
 #money>*{order:1}
 #money>.pl-aside{order:2}
-#money>.mtrend{order:3}}
+#money>.hans{order:3}}
 #money>.hcard{margin-top:4px;max-width:none}
 #money>.hans{margin-top:14px}
+#filing{padding-top:16px;scroll-margin-top:calc(var(--pl-railh,58px) + 8px)}
 .mtrend{padding-top:22px}
 #compared{padding:0}
 #compared>section{scroll-margin-top:58px}
@@ -1794,3 +1795,56 @@ section{page-break-inside:avoid}
 .hproof,.hfoot{font-size:var(--fs-14);line-height:var(--lh-20)}
 #budget .mv td.m-name .fnt,#budget .mv td.m-name .fnt.swing,.mvkey{font-size:var(--fs-14);line-height:var(--lh-20)}
 }
+.hrow .k .fyn{display:block;margin-top:3px;letter-spacing:0;text-transform:none;color:var(--muted)}
+.rk .no{display:inline-block;min-width:24px;margin-right:6px;letter-spacing:normal;color:var(--faint)}
+.rk.me{border-left:3px solid var(--ink);margin-left:-12px;padding-left:9px}
+.rk .ntc{display:inline-block;padding:1px 7px;border:1px dotted var(--muted);border-radius:4px;color:var(--muted)}
+.rk .nb{color:var(--faint);margin-left:6px}
+@media screen{.hrow .k .fyn{font-size:var(--fs-13);font-weight:600;line-height:var(--lh-16)}
+.rk .no{font:600 var(--fs-13)/var(--lh-16) var(--font-sans)}
+.rk .ntc{font-size:var(--fs-13);font-weight:600;line-height:var(--lh-16)}
+.rk .nb{font-size:var(--fs-13);line-height:var(--lh-16)}}
+@media print{.hrow .k .fyn{font-size:13px;font-weight:500}
+.rk .no{font:600 13px/1 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+.rk .ntc{font-size:13px;font-weight:600}
+.rk .nb{font-size:13px}}
+@media screen{
+.rk .ntc,.rk .nb,.hrow .k .fyn{font-size:var(--fs-14);line-height:var(--lh-20)}
+}
+@media (max-width:640px){.rail a{min-height:44px}}
+@media print{@page{size:Letter;margin:.5in .55in .6in;@bottom-center{content:"Public Ledger · School ledger · FY1995–FY2026 · updated Nov 3 · page " counter(page) " of " counter(pages);
+    font:11px/1 ui-monospace,Menlo,Consolas,monospace;color:#555}}
+section,.panel{page-break-inside:auto;break-inside:auto}
+.hcard,.chartwrap,.stk,.tread,.legend,.rk,.hproof,.hfoot,.pl-foot,tr{break-inside:avoid}
+h1,h2,h3,.panel>.sub,.tread,.legend,.hreg{break-after:avoid}
+.pl-foot{break-before:avoid}
+.pillrow,.pl-fold,.hreset,.shr,.pl-acts,.bxmore,.rail{display:none!important}
+p,li,.sub,.note,.lede,.hfoot{orphans:3;widows:3}
+main.wrap{display:block}
+.hcard{margin-bottom:14px}
+#money,#filing,#aid,#districts,#method{margin-top:14px}
+.chartwrap svg.trend{max-height:none}
+#stkSub{min-height:0!important}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pl-kick{break-after:avoid}
+#filing>.pl-sub,#filing>.note,.scr{display:none!important}
+#money,#filing,#aid,#districts{padding-top:6px}
+.rank{gap:5px}
+.rk{gap:1px 10px}
+.rk.can{padding:1px 7px}
+.rk.can::after{content:none}
+.rk .lb,.rk .vl{font-size:12.5px}
+.rk .tr{height:4px}
+.pair{align-items:start}
+#districts .panel{break-inside:avoid}
+#method .pl-sub{font-size:12.5px;line-height:1.45}
+footer.pl-foot{display:none!important}}
+.tread .bsw{display:inline-block;width:14px;height:14px;margin-right:6px;border:1px solid var(--rule-strong);border-radius:4px;vertical-align:-2px}
+.tread .bsw0{background:var(--rev)}
+.tread .bsw1{background:var(--exp)}
+.tread .bsw2{background:repeating-linear-gradient(180deg,var(--cnt) 0 1.5px,color-mix(in srgb,var(--cnt) 16%,var(--card)) 1.5px 4px)}
+.tread .bsw3{background:color-mix(in srgb,var(--ink) 16%,var(--card))}
+#stkSvg{overflow:visible}
+#aid h3 .tot{margin-left:12px}
+@media (max-width:519px){.stk-ax .mid{display:none}}
+@media (hover:hover){#stkSvg{cursor:crosshair}}

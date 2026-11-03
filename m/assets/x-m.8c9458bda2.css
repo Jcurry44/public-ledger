@@ -1739,9 +1739,10 @@ section{page-break-inside:avoid}
 @media (max-width:1099px){#money{display:flex;flex-direction:column}
 #money>*{order:1}
 #money>.pl-aside{order:2}
-#money>.mtrend{order:3}}
+#money>.hans{order:3}}
 #money>.hcard{margin-top:4px;max-width:none}
 #money>.hans{margin-top:14px}
+#filing{padding-top:16px;scroll-margin-top:calc(var(--pl-railh,58px) + 8px)}
 .mtrend{padding-top:22px}
 #compared{padding:0}
 #compared>section{scroll-margin-top:58px}
@@ -1794,3 +1795,7 @@ section{page-break-inside:avoid}
 .hproof,.hfoot{font-size:var(--fs-14);line-height:var(--lh-20)}
 #budget .mv td.m-name .fnt,#budget .mv td.m-name .fnt.swing,.mvkey{font-size:var(--fs-14);line-height:var(--lh-20)}
 }
+.twin-card{margin:8px 0 26px;padding:18px 20px;border:1px solid var(--rule-strong);border-radius:10px;background:var(--card)}
+.twin-t{margin:0 0 14px;max-width:46ch}
+@media screen{.twin-t{font-size:var(--fs-17);line-height:var(--lh-24)}}
+@media print{.twin-t{font-size:17px;line-height:1.45}}

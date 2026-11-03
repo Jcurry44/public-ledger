@@ -96,7 +96,7 @@ function ghostCard(row,sec,label,col){
     (gaps?' · '+gaps+' year'+(gaps>1?'s':'')+' not reported':'')+'</span>'+
     sparkSVG(v.map(function(val,i){return i<f?null:val;}),col)+
     '<span class="gv num">'+mCompact(v[f])+' &rarr; '+(v[li]==null?'no filing':mCompact(v[li]))+'</span>'+
-    '<span class="gh">ghosted on the chart above</span>';
+    '<span class="gh">ghosted on the chart below</span>';
   var r=row.getBoundingClientRect(); gcardEl.style.display='block';
   var cw=gcardEl.offsetWidth, ch=gcardEl.offsetHeight;
   var left=Math.max(8,Math.min(r.right-cw,window.innerWidth-cw-8));
@@ -590,7 +590,7 @@ function openModal(year,sec,label,cssVar,opener){
   var rows=flowsFor(year,sec,label);
   var total=rows.reduce(function(s,f){return s+f[FI_AMT];},0);
   var secTot=sectionSeries(sec)[O.years.indexOf(year)]||0;
-  document.getElementById('mEyebrow').textContent=(sec?'Expenditure':'Revenue')+' · '+year+' filing · Pendleton';
+  document.getElementById('mEyebrow').textContent=(sec?'Expenditure':'Revenue')+' · '+year+' filing · Newfane';
   document.getElementById('mTitle').textContent=label;
   document.getElementById('mBig').innerHTML='<span class="num">'+money0(total)+'</span> '+
     '<span>'+(secTot?(total/secTot*100).toFixed(1):'0')+'% of '+(sec?'expenditure':'revenue')+'</span>';
@@ -1032,7 +1032,7 @@ function openCompareModal(opener,a,b){
   if(O.years.indexOf(a)>=0&&O.years.indexOf(b)>=0&&a!==b){cmpYearA=a;cmpYearB=b;}
   if(cmpYearA===null){cmpYearA=O.years[O.years.length-2];cmpYearB=O.years[O.years.length-1];}
   document.getElementById('mTabs').innerHTML='';
-  document.getElementById('mEyebrow').textContent='Annual filings · Pendleton';
+  document.getElementById('mEyebrow').textContent='Annual filings · Newfane';
   document.getElementById('mTitle').textContent='Compare two years';
   document.getElementById('mBig').innerHTML='<span>What moved between them — and which categories grew faster than revenue did.</span>';
   document.getElementById('mBody').innerHTML=
@@ -1223,7 +1223,7 @@ function renderYear(yr){
       function(item,node){openModal(selYear,sec,item[0],col,node);},
       toggle,{hk:function(x){return sec+'|'+x[0];}});
     /* hover-link (the chrome's PL.hl): point at - or focus - a category row and its own 31-year series is
-       ghosted on the chart above and echoed beside the row, and the row lights. On touch the row's tap opens
+       ghosted on the chart below and echoed beside the row, and the row lights. On touch the row's tap opens
        the sheet, whose Trend tab is the same series in full. The root is bound once; rows re-render freely. */
     if(!el.__hl){el.__hl=1;
       PL.hl.bind([el],{attr:'data-key',sel:'.rk[data-key]',
@@ -1247,7 +1247,7 @@ function renderYear(yr){
 var liveOn=false, syncYearStep=null;
 (function(){
   /* the year control (PL-28): Earlier, a native <select> of every filing year, Later - one compact component on every width, the same stepper the
-     city ledger's finances view carries. The chart above is the other way to pick (a click or a slide); this is the keyboard and screen-reader
+     city ledger's finances view carries. The chart below is the other way to pick (a click or a slide); this is the keyboard and screen-reader
      path: three tab stops, the arrow keys work on the select natively. Earlier and Later stay in the tab order at either end (aria-disabled,
      never disabled), so a keyboard user who steps to the first or last year keeps the focus. The address (?y=) is renderYear's, as before. */
   var sel=document.getElementById('ySel'), prev=document.getElementById('ysPrev'), next=document.getElementById('ysNext'), stepEl=document.getElementById('yearStep');
