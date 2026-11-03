@@ -921,6 +921,22 @@ details.tailx{margin:0}
 .pl-fold>summary::after,details.tailx>summary::after{font-size:22px;line-height:1}
 .pl-fold>summary .pl-tick{font-weight:700}}
 @media (hover:hover){.pl-fold>summary:hover,details.tailx>summary:hover{color:var(--accent)}}
+.pl-sm{margin:10px 0 0}
+.pl-sm>summary{min-height:44px;padding:12px 30px 12px 0;color:var(--muted)}
+.pl-sm>summary+*{margin-top:2px}
+.pl-sm-b{color:var(--muted)}
+.pl-sm-b>*{margin:0 0 8px}
+.pl-sm-b>*:last-child{margin-bottom:4px}
+.pl-sm-b .note{margin:0 0 8px}
+.pl-sm-h{color:var(--ink);margin:10px 0 4px}
+@media screen{.pl-sm>summary{font:600 var(--fs-14)/var(--lh-20) var(--font-sans)}
+.pl-sm-b{font:400 var(--fs-14)/var(--lh-20) var(--font-sans)}
+.pl-sm-h{font-weight:600}}
+@media print{.pl-sm>summary{font:500 14px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.pl-sm-b{font:400 14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.pl-sm-h{font-weight:600}}
+@media print{details.pl-sm>summary{display:none}
+details.pl-sm::details-content{content-visibility:visible;display:block}}
 .pl-check{display:flex;align-items:flex-start;gap:10px;margin:12px 0 0;padding:12px 14px;border-radius:10px;background:var(--ok-soft);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 28%,transparent);text-decoration:none}
 .pl-check i{flex:0 0 auto}
 .pl-check span{display:block}
@@ -2047,6 +2063,8 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 var id=a.getAttribute('data-focus');if(!id)return;closeAll();
 setTimeout(function(){var el=document.getElementById(id);if(el){el.focus({preventScroll:true});}},350);});
 window.addEventListener('beforeprint',function(){[].forEach.call(document.querySelectorAll('.pregrow'),function(el){el.classList.remove('pregrow');});});
+(function(){var op=[];window.addEventListener('beforeprint',function(){op=[].filter.call(document.querySelectorAll('details.pl-sm:not([open])'),function(d){d.open=true;return true;});});
+window.addEventListener('afterprint',function(){op.forEach(function(d){d.open=false;});op=[];});})();
 })();
 (function(){
 var TO=['jjcurry027','gmail.com'].join('@'), NL=String.fromCharCode(10);
