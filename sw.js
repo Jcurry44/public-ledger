@@ -4,7 +4,7 @@
    - Hashed files (assets/*.<hash>.*, fonts/, og/): cache first - a new build gives them new names, so a kept copy is never stale.
    Only this site's own GET requests are handled; nothing is fetched ahead of a reader. The page says when it is showing a kept copy
    (the chrome script's offline strip). Bump VERSION to drop every kept copy at once. */
-var VERSION = 'pl-v2', PAGES = VERSION + '-pages', FILES = VERSION + '-files', KEEP = 160;      // r8 F-15: v2 - the offline page lists what is kept
+var VERSION = 'pl-v3', PAGES = VERSION + '-pages', FILES = VERSION + '-files', KEEP = 160;      // r8 F-15: v2 - the offline page lists what is kept
 
 self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
@@ -87,16 +87,16 @@ function never(list) {
     return '<li><a href="' + esc(x.u) + '">' + esc(x.t) + '</a></li>'; }).join('');
   return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
   '<title>Offline | Public Ledger</title><style>' +
-  '@font-face{font-family:Fraunces;font-weight:600;font-display:swap;src:url(' + scope + 'fonts/Fraunces-600-latin.woff2) format("woff2")}' +
-  ':root{--paper:#f6f4ef;--card:#fffdfa;--ink:#16181d;--muted:#5a5e67;--rule:#e0dbd0;--rule-strong:#cdc6b7;--accent:#1b3a5c}' +
-  '@media (prefers-color-scheme:dark){:root{--paper:#0f1115;--card:#171a20;--ink:#e9e7e2;--muted:#9aa0aa;--rule:#272b33;--rule-strong:#393f4a;--accent:#8fb6dd}}' +
-  '*{box-sizing:border-box}html{border-top:5px solid var(--accent);background:var(--paper)}' +
-  'body{margin:0;font:17px/24px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--paper)}' +
+  '@font-face{font-family:"Public Sans";font-weight:400 800;font-display:swap;src:url(' + scope + 'fonts/PublicSans-latin.woff2) format("woff2")}' +
+  ':root{--paper:#fff;--card:#e9eeea;--ink:#000;--muted:#4a5358;--rule:#bfcac4;--rule-strong:#87938d;--accent:#000}' +
+  '@media (prefers-color-scheme:dark){:root{--paper:#0c0e0d;--card:#171b19;--ink:#fff;--muted:#b7c0bb;--rule:#3f4743;--rule-strong:#747e79;--accent:#fff}}' +
+  '*{box-sizing:border-box}html{background:var(--paper)}' +
+  'body{margin:0;font:17px/24px "Public Sans",system-ui,sans-serif;color:var(--ink);background:var(--paper)}' +
   'header{background:var(--card);border-bottom:1px solid var(--rule-strong)}' +
   'header div,main{max-width:880px;margin:0 auto;padding:0 20px}header div{display:flex;align-items:center;min-height:56px}' +
-  'header a{font:600 26px/32px Fraunces,serif;color:var(--ink);text-decoration:none}header b{font-weight:inherit;color:var(--accent)}' +
-  'main{padding-top:28px;padding-bottom:40px}h1{font:600 34px/40px Fraunces,serif;margin:0 0 12px;letter-spacing:-0.5px}' +
-  'p{margin:0 0 14px;max-width:34em}h2{margin:24px 0 6px;font:600 12px/16px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;' +
+  'header a{font:800 26px/32px "Public Sans",system-ui,sans-serif;color:var(--ink);text-decoration:none}header b{font-weight:inherit;color:var(--accent)}' +
+  'main{padding-top:28px;padding-bottom:40px}h1{font:800 34px/40px "Public Sans",system-ui,sans-serif;margin:0 0 12px;letter-spacing:-0.5px}' +
+  'p{margin:0 0 14px;max-width:34em}h2{margin:24px 0 6px;font:600 12px/16px "Public Sans",system-ui,sans-serif;' +
   'letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}ul{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}' +
   'li{border-bottom:1px solid var(--rule)}li a{display:flex;align-items:center;min-height:44px;padding:10px 0;color:var(--accent);font-weight:600;' +
   'overflow-wrap:anywhere}a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.front{display:inline-flex;align-items:center;' +
