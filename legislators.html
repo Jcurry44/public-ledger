@@ -79,6 +79,15 @@ if(navigator.clipboard&&navigator.clipboard.writeText){ try{ navigator.clipboard
 else legacy();
 });
 };
+PL.focusTo=function(el,o){
+o=o||{}; if(typeof el==='string') el=D.querySelector(el); if(!el) return null;
+var H='h1,h2,h3,h4,h5,h6,[role=heading]', t=el.matches&&el.matches(H)?el:[].filter.call(el.querySelectorAll(H),function(h){ return h.getClientRects().length; })[0]||el;
+if(!t.hasAttribute('tabindex')) t.setAttribute('tabindex','-1');
+t.focus({preventScroll:true});
+if(o.scroll){ var r=D.querySelector('.rail'), h=r&&getComputedStyle(r).position==='sticky'?r.offsetHeight:0;
+window.scrollTo({top:Math.max(0,t.getBoundingClientRect().top+window.scrollY-h-12),behavior:'instant'}); }
+return t;
+};
 var SITE='https://jcurry44.github.io/public-ledger/';
 function siteRoot(){
 var m=D.querySelector('header.pl-mast[data-root]'), here=location.href.split('#')[0].split('?')[0];
@@ -198,20 +207,20 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 },true);
 })();
 </script>
-<link rel="stylesheet" href="assets/x-legislators.b16316bce7.css" data-pl-css="full">
+<link rel="stylesheet" href="assets/x-legislators.17d8a7a69f.css" data-pl-css="full">
 <link rel="alternate" type="application/atom+xml" title="Public Ledger updates" href="updates.xml"><link rel="alternate" type="application/json" title="Public Ledger updates (JSON)" href="updates.json">
 <link rel="canonical" href="https://jcurry44.github.io/public-ledger/legislators.html">
 </head><body>
 
-<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="folio" data-root=""><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The legislators</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>29</b> members, 2015–2026</span><span>votes read through <b>Oct 20</b></span><span><span data-pl-built="2026-11-06" data-pl-short="updated">updated <b>Nov 6</b></span></span><span class="pl-dk"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>29</b> members, 2015–2026</span><span><span data-pl-built="2026-11-06" data-pl-short="updated">updated <b>Nov 6</b></span></span></div><div class="pl-acts"><form class="pl-omni" role="search" action="search.html" method="get"><label class="pl-vh" for="plQ">Search Public Ledger</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="plQ" name="q" type="search" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="plQL" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search everything"><kbd aria-hidden="true">/</kbd><div class="pl-om-l" id="plQL" role="listbox" aria-label="Search results" hidden></div><p class="pl-vh" id="plQLS" role="status" aria-live="polite"></p></form><a class="pl-searchbtn" href="search.html" data-sx aria-label="Search Public Ledger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages" data-pl-foot><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-city">City<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-city" role="group" aria-label="City"><div class="pl-kick">City</div><a class="pl-dest" href="index.html" data-parts><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><div class="pl-subs" role="group" aria-label="Parts of City money"><a class="pl-part" href="claims.html">Every claim</a><a class="pl-part" href="taxes.html">Tax estimate</a><a class="pl-part" href="finances.html">Annual filings</a></div><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="payees/index.html"><span class="pl-dl">Every payee</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">886 named payees<span class="pl-ds2"> &middot; a page for each</span></span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-county">County<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-county" role="group" aria-label="County"><div class="pl-kick">County</div><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,099 resolutions<span class="pl-ds2"> &middot; votes read through Oct 20</span></span></a><a class="pl-dest" href="legislators.html" aria-current="page"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-checks">How it’s checked<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-checks" role="group" aria-label="How it’s checked"><div class="pl-kick">How it’s checked</div><a class="pl-part pl-xp" href="checks.html"><span class="pl-dl">How it’s checked</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read by OCR from scans</span></span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a></div></div><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><span class="pl-kick">Data as of</span><div class="pl-dateline pl-dl-sheet"><span><b>29</b> members, 2015–2026</span><span>votes read through <b>Oct 20</b></span><span><span data-pl-built="2026-11-06" data-pl-short="updated">updated <b>Nov 6</b></span></span></div></div><div class="pl-sheet-bar"><a class="pl-sheet-primary" href="search.html" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><button class="pl-theme pl-theme-ic" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-close pl-sheet-done" type="button">Done</button></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-haspopup="dialog" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
+<a class="pl-skip" href="#main">Skip to content</a><header class="pl-mast" data-variant="folio" data-root=""><div class="wrap pl-mast-in"><div class="pl-brand"><div class="pl-brandrow"><a class="pl-mark" href="index.html">Public <b>Ledger</b></a><span class="pl-edition">The legislators</span></div></div><div class="pl-side"><div class="pl-dateline"><span><b>29</b> members, 2015–2026</span><span>votes read through <b>Oct 20</b></span><span><span data-pl-built="2026-11-07" data-pl-short="updated">updated <b>Nov 7</b></span></span><span class="pl-dk"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a></span></div><div class="pl-dateline pl-dl-ph"><span><b>29</b> members, 2015–2026</span><span><span data-pl-built="2026-11-07" data-pl-short="updated">updated <b>Nov 7</b></span></span></div><div class="pl-acts"><form class="pl-omni" role="search" action="search.html" method="get"><label class="pl-vh" for="plQ">Search Public Ledger</label><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="plQ" name="q" type="search" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="plQL" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Search everything"><kbd aria-hidden="true">/</kbd><div class="pl-om-l" id="plQL" role="listbox" aria-label="Search results" hidden></div><p class="pl-vh" id="plQLS" role="status" aria-live="polite"></p></form><a class="pl-searchbtn" href="search.html" data-sx aria-label="Search Public Ledger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg></a><nav class="pl-switch" id="plSwitch" aria-label="Public Ledger pages" data-pl-foot><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-city">City<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-city" role="group" aria-label="City"><div class="pl-kick">City</div><a class="pl-dest" href="index.html" data-parts><span class="pl-dl">City money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda<span class="pl-ds2"> &middot; filings 1995–2024 · claims through Oct 20</span></span></a><div class="pl-subs" role="group" aria-label="Parts of City money"><a class="pl-part" href="claims.html">Every claim</a><a class="pl-part" href="taxes.html">Tax estimate</a><a class="pl-part" href="finances.html">Annual filings</a></div><a class="pl-dest" href="briefs/index.html"><span class="pl-dl">Council briefs</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 warrants<span class="pl-ds2"> &middot; one printable page each</span></span></a><a class="pl-dest" href="payees/index.html"><span class="pl-dl">Every payee</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">886 named payees<span class="pl-ds2"> &middot; a page for each</span></span></a><a class="pl-dest" href="audit.html"><span class="pl-dl">Exception report</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">questions, not findings<span class="pl-ds2"> &middot; independent, from the public record</span></span></a></div></div><div class="pl-group"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-county">County<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-county" role="group" aria-label="County"><div class="pl-kick">County</div><a class="pl-dest" href="decisions.html"><span class="pl-dl">Every resolution</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">6,099 resolutions<span class="pl-ds2"> &middot; votes read through Oct 20</span></span></a><a class="pl-dest" href="legislators.html" aria-current="page"><span class="pl-dl">The legislators</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">every member's record<span class="pl-ds2"> &middot; votes since 2015</span></span></a><a class="pl-dest" href="county.html"><span class="pl-dl">County money</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">Niagara County<span class="pl-ds2"> &middot; filings 1995–2025</span></span></a><a class="pl-dest" href="atlas.html"><span class="pl-dl">Towns &amp; cities</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">the county and 20 cities, towns and villages<span class="pl-ds2"> &middot; each from its own filings</span></span></a><a class="pl-dest" href="school.html"><span class="pl-dl">School district</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">North Tonawanda City School District<span class="pl-ds2"> &middot; FY2026</span></span></a></div></div><div class="pl-group pl-half"><button class="pl-verb" type="button" aria-expanded="false" aria-controls="plm-checks">How it’s checked<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button><div class="pl-menu" id="plm-checks" role="group" aria-label="How it’s checked"><div class="pl-kick">How it’s checked</div><a class="pl-part pl-xp" href="checks.html"><span class="pl-dl">How it’s checked</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">52 of 52 warrants tie to the penny<span class="pl-ds2"> &middot; 6 read from scans</span></span></a><a class="pl-dest" href="corrections.html"><span class="pl-dl">Corrections</span><span class="pl-dg" aria-hidden="true">&rarr;</span><span class="pl-ds">how an error is fixed<span class="pl-ds2"> &middot; every correction so far</span></span></a></div></div><a class="pl-about" href="about.html">About</a><div class="pl-sheet-fresh" role="group" aria-label="How current this page is"><span class="pl-kick">Data as of</span><div class="pl-dateline pl-dl-sheet"><span><b>29</b> members, 2015–2026</span><span>votes read through <b>Oct 20</b></span><span><span data-pl-built="2026-11-07" data-pl-short="updated">updated <b>Nov 7</b></span></span></div></div><div class="pl-sheet-bar"><a class="pl-sheet-primary" href="search.html" data-sx><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>Search</a><button class="pl-theme pl-theme-ic" type="button" aria-label="Switch theme"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-close pl-sheet-done" type="button">Done</button></div></nav><div class="pl-scrim" id="plScrim" hidden data-pl-keep></div><button class="pl-theme" id="theme" type="button" aria-label="Switch theme" title="Light / dark"><svg class="pl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.4 14.2A8.3 8.3 0 0 1 9.8 3.6a8.3 8.3 0 1 0 10.6 10.6z"/></svg><svg class="pl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5 5l2.1 2.1M16.9 16.9L19 19M19 5l-2.1 2.1M7.1 16.9L5 19"/></svg></button><button class="pl-go" type="button" aria-expanded="false" aria-haspopup="dialog" aria-controls="plSwitch" aria-label="Go to any Public Ledger page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div></div></div></header>
 
 
 <main id="main">
 <section class="hero"><div class="wrap">
   <p class="pl-kick">Niagara County Legislature &middot; <span class="nb">2015–2026</span></p>
   <h1 class="pl-h1">The legislators</h1>
-  <p class="pl-lede"><b>15</b> serving members, <b>29</b> since 2015, each with a page of their own. Every record is counted from the <b>5,858</b> votes read by name in the Legislature&rsquo;s own minutes; names, districts and parties come from the county and the Board of Elections.</p>
-  <p class="pl-indep">Independent: built by a North Tonawanda resident from public records. Not affiliated with the County. <a href="#about">About</a></p>
+  <p class="pl-lede"><b>15</b> members serve now. <b>29</b> have served since 2015, each with a page of their own. Every record is counted from the <b>5,858</b> votes read by name in the Legislature&rsquo;s own minutes; names, districts and parties come from the county and the Board of Elections.</p>
+  <p class="pl-indep">Independent: built by a North Tonawanda resident from public records. Not affiliated with the County. <a href="about.html">About</a></p>
 </div></section>
 
 <section class="findsec" id="find" aria-labelledby="findH"><div class="wrap">
@@ -234,13 +243,15 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
       <div class="dchips"><a class="dchip num" href="#m-myers" data-slug="myers" aria-label="District 1, Irene M. Myers">1</a><a class="dchip num" href="#m-casale" data-slug="casale" aria-label="District 2, Michael A. Casale">2</a><a class="dchip num" href="#m-mckimmie" data-slug="mckimmie" aria-label="District 3, Christopher J. McKimmie">3</a><a class="dchip num" href="#m-elder" data-slug="elder" aria-label="District 4, Jeffrey Elder">4</a><a class="dchip num" href="#m-robins" data-slug="robins" aria-label="District 5, Christopher A. Robins">5</a><a class="dchip num" href="#m-farruggia" data-slug="farruggia" aria-label="District 6, Sam R. Farruggia II">6</a><a class="dchip num" href="#m-gooch" data-slug="gooch" aria-label="District 7, Jesse P. Gooch">7</a><a class="dchip num" href="#m-andres" data-slug="andres" aria-label="District 8, Richard L. Andres, Jr.">8</a><a class="dchip num" href="#m-bradt" data-slug="bradt" aria-label="District 9, Randy R. Bradt">9</a><a class="dchip num" href="#m-godfrey" data-slug="godfrey" aria-label="District 10, David E. Godfrey">10</a><a class="dchip num" href="#m-nemi" data-slug="nemi" aria-label="District 11, Anthony J. Nemi">11</a><a class="dchip num" href="#m-speranza" data-slug="speranza" aria-label="District 12, Carla L. Speranza">12</a><a class="dchip num" href="#m-abbott" data-slug="abbott" aria-label="District 13, Richard E. Abbott">13</a><a class="dchip num" href="#m-foti" data-slug="foti" aria-label="District 14, Shawn A. Foti">14</a><a class="dchip num" href="#m-hill" data-slug="hill" aria-label="District 15, Michael A. Hill">15</a></div>
     </div>
   </div>
+  <!-- r10 W-03: the 'Your home' card's other half for the address above: under the finder, never over it -->
+  <div class="hc hc-slot" id="legHome" hidden></div>
   <!-- r5 F-10: the answer first - how a district is known, and the lookups for elsewhere, fold under the finder and the district numbers -->
   <details class="pl-fold findfold"><summary>How the district is known, and lookups for elsewhere</summary>
       <p class="findn" id="findHow">How this is known: the County&rsquo;s districting law, <a class="tg" href="https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Local%20Laws/LOCAL%20LAW%202%20REAPPORTIONMENT%20PLAN%20OF%20THE%20COUNTY%20OF%20NIAGARA%20NY.pdf?t=202209271138580" target="_blank" rel="noopener noreferrer">Local Law No. 2 of 2022<span class="pl-vh"> (opens in a new tab)</span></a>, draws each district from 2020 census blocks, and the
         <a class="tg" href="https://gis.ny.gov/parcels" target="_blank" rel="noopener noreferrer">State&rsquo;s parcel map<span class="pl-vh"> (opens in a new tab)</span></a> puts each parcel on the City&rsquo;s 2026 roll in one of them. Nothing is guessed from a street name.</p>
       <p class="findm">Elsewhere in the county, or to check your registration: <a class="tg" href="https://vic.ntsdata.com/home/niagara" target="_blank" rel="noopener noreferrer">Board of Elections lookup<span class="pl-vh"> (opens in a new tab)</span></a> (asks for your date of birth)<span class="sep" aria-hidden="true">&middot;</span><a class="tg" href="https://www.niagaracounty.gov/government/legislature/district_maps.php" target="_blank" rel="noopener noreferrer">County district maps<span class="pl-vh"> (opens in a new tab)</span></a><span class="sep" aria-hidden="true">&middot;</span><a class="tg" href="https://voterlookup.elections.ny.gov/" target="_blank" rel="noopener noreferrer">State voter lookup<span class="pl-vh"> (opens in a new tab)</span></a></p>
   </details>
-  <script id="find-data" type="application/json">{"roll":"data/roll-nt-2026.json","table":"data/districts/nt-2026.json","year":2026,"ratio":0.4,"m":{"7":{"n":"Jesse P. Gooch","p":"Republican","s":"gooch"},"8":{"n":"Richard L. Andres, Jr.","p":"Republican","s":"andres"},"9":{"n":"Randy R. Bradt","p":"Republican","s":"bradt"}},"near_m":10,"hint":"Add the street name, like 27 Main St","how":"How this is known: the <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> puts this parcel in census tract {t}, block {b}, and <a class=\"tg\" href=\"https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Local%20Laws/LOCAL%20LAW%202%20REAPPORTIONMENT%20PLAN%20OF%20THE%20COUNTY%20OF%20NIAGARA%20NY.pdf?t=202209271138580\" target=\"_blank\" rel=\"noopener noreferrer\">Local Law No. 2 of 2022<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> (page {p}) puts that block in District {d}.","near":"<b>On a district line.<\/b> The State&rsquo;s point for this parcel is within {m} metres of {o}, so confirm it with the <a class=\"tg\" href=\"https://vic.ntsdata.com/home/niagara\" target=\"_blank\" rel=\"noopener noreferrer\">Board of Elections lookup<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a>.","sub":"The roll lists this as property assessed apart from a land parcel (a utility line or franchise, a billboard, a tower). The <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> does not draw it, so no district is shown. For a home, type its street address.","new":"This parcel is newer than the <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a>, which is a roll year behind: a lot created, split or merged since. Rather than guess, no district is shown; the <a class=\"tg\" href=\"https://vic.ntsdata.com/home/niagara\" target=\"_blank\" rel=\"noopener noreferrer\">Board of Elections lookup<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> has it."}</script>
+  <script id="find-data" type="application/json">{"roll":"data/roll-nt-2026.json","table":"data/districts/nt-2026.json","year":2026,"ratio":0.4,"m":{"7":{"n":"Jesse P. Gooch","p":"Republican","s":"gooch","k":"Gooch","no":16,"y0":2019},"8":{"n":"Richard L. Andres, Jr.","p":"Republican","s":"andres","k":"Andres","no":37,"y0":2015},"9":{"n":"Randy R. Bradt","p":"Republican","s":"bradt","k":"Bradt","no":38,"y0":2015}},"near_m":10,"hint":"Add the street name, like 27 Main St","card":"data/home-card.json","boe":"https://vic.ntsdata.com/home/niagara","how":"How this is known: the <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> puts this parcel in census tract {t}, block {b}, and <a class=\"tg\" href=\"https://www.niagaracounty.gov/Document_center/Department/G-L/Legislature/Local%20Laws/LOCAL%20LAW%202%20REAPPORTIONMENT%20PLAN%20OF%20THE%20COUNTY%20OF%20NIAGARA%20NY.pdf?t=202209271138580\" target=\"_blank\" rel=\"noopener noreferrer\">Local Law No. 2 of 2022<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> (page {p}) puts that block in District {d}.","near":"<b>On a district line.<\/b> The State&rsquo;s point for this parcel is within {m} metres of {o}, so confirm it with the <a class=\"tg\" href=\"https://vic.ntsdata.com/home/niagara\" target=\"_blank\" rel=\"noopener noreferrer\">Board of Elections lookup<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a>.","sub":"The roll lists this as property assessed apart from a land parcel (a utility line or franchise, a billboard, a tower). The <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> does not draw it, so no district is shown. For a home, type its street address.","new":"This parcel is newer than the <a class=\"tg\" href=\"https://gis.ny.gov/parcels\" target=\"_blank\" rel=\"noopener noreferrer\">State&rsquo;s parcel map<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a>, which is a roll year behind: a lot created, split or merged since. Rather than guess, no district is shown; the <a class=\"tg\" href=\"https://vic.ntsdata.com/home/niagara\" target=\"_blank\" rel=\"noopener noreferrer\">Board of Elections lookup<span class=\"pl-vh\"> (opens in a new tab)<\/span><\/a> has it."}</script>
 </div></section>
 
 <section class="rsec"><div class="wrap">
@@ -256,7 +267,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </div>
   <div class="lzfail" id="lzFail" hidden></div>
   <ul class="pl-rows roster" id="rosterCur">
-<li class="lm" id="m-abbott" data-name="Abbott" data-full="Richard E. Abbott" data-dist="13" data-y1="2026" data-no="5" data-att="94.12" data-atts="94" data-sp="134" data-rate="0.163" data-rates="0.2" data-sub="District 13 &middot; Working Families">
+<li class="lm" id="m-abbott" data-name="Abbott" data-full="Richard E. Abbott" data-dist="13" data-y1="2026" data-no="5" data-att="94.12" data-atts="94" data-sp="134" data-rate="0.163" data-rates="0.16" data-sub="District 13 &middot; Working Families">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-0">
     <span class="pl-row-l">Richard E. Abbott</span>
     <span class="pl-row-s">District 13 &middot; Working Families</span>
@@ -264,7 +275,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-0" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-andres" data-name="Andres" data-full="Richard L. Andres, Jr." data-dist="8" data-y1="2026" data-no="37" data-att="90.80" data-atts="91" data-sp="229" data-rate="0.632" data-rates="0.6" data-sub="District 8 &middot; Republican">
+<li class="lm" id="m-andres" data-name="Andres" data-full="Richard L. Andres, Jr." data-dist="8" data-y1="2026" data-no="37" data-att="90.80" data-atts="91" data-sp="229" data-rate="0.632" data-rates="0.63" data-sub="District 8 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-1">
     <span class="pl-row-l">Richard L. Andres, Jr.</span>
     <span class="pl-row-s">District 8 &middot; Republican</span>
@@ -272,7 +283,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-1" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-bradt" data-name="Bradt" data-full="Randy R. Bradt" data-dist="9" data-y1="2026" data-no="38" data-att="86.21" data-atts="86" data-sp="273" data-rate="0.649" data-rates="0.6" data-sub="District 9 &middot; Republican">
+<li class="lm" id="m-bradt" data-name="Bradt" data-full="Randy R. Bradt" data-dist="9" data-y1="2026" data-no="38" data-att="86.21" data-atts="86" data-sp="273" data-rate="0.649" data-rates="0.65" data-sub="District 9 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-2">
     <span class="pl-row-l">Randy R. Bradt</span>
     <span class="pl-row-s">District 9 &middot; Republican</span>
@@ -280,7 +291,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-2" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-casale" data-name="Casale" data-full="Michael A. Casale" data-dist="2" data-y1="2026" data-no="0" data-att="100.00" data-atts="100" data-sp="38" data-rate="0.000" data-rates="0.0" data-sub="District 2 &middot; Republican">
+<li class="lm" id="m-casale" data-name="Casale" data-full="Michael A. Casale" data-dist="2" data-y1="2026" data-no="0" data-att="100.00" data-atts="100" data-sp="38" data-rate="0.000" data-rates="0.00" data-sub="District 2 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-3">
     <span class="pl-row-l">Michael A. Casale</span>
     <span class="pl-row-s">District 2 &middot; Republican</span>
@@ -288,7 +299,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-3" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-elder" data-name="Elder" data-full="Jeffrey Elder" data-dist="4" data-y1="2026" data-no="14" data-att="98.53" data-atts="99" data-sp="173" data-rate="0.456" data-rates="0.5" data-sub="District 4 &middot; Democratic">
+<li class="lm" id="m-elder" data-name="Elder" data-full="Jeffrey Elder" data-dist="4" data-y1="2026" data-no="14" data-att="98.53" data-atts="99" data-sp="173" data-rate="0.456" data-rates="0.46" data-sub="District 4 &middot; Democratic">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-4">
     <span class="pl-row-l">Jeffrey Elder</span>
     <span class="pl-row-s">District 4 &middot; Democratic</span>
@@ -296,7 +307,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-4" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-farruggia" data-name="Farruggia" data-full="Sam R. Farruggia II" data-dist="6" data-y1="2026" data-no="2" data-att="100.00" data-atts="100" data-sp="43" data-rate="0.344" data-rates="0.3" data-sub="District 6 &middot; Democratic">
+<li class="lm" id="m-farruggia" data-name="Farruggia" data-full="Sam R. Farruggia II" data-dist="6" data-y1="2026" data-no="2" data-att="100.00" data-atts="100" data-sp="43" data-rate="0.344" data-rates="0.34" data-sub="District 6 &middot; Democratic">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-5">
     <span class="pl-row-l">Sam R. Farruggia II</span>
     <span class="pl-row-s">District 6 &middot; Democratic</span>
@@ -304,7 +315,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-5" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-foti" data-name="Foti" data-full="Shawn A. Foti" data-dist="14" data-y1="2026" data-no="4" data-att="88.24" data-atts="88" data-sp="144" data-rate="0.130" data-rates="0.1" data-sub="District 14 &middot; Republican">
+<li class="lm" id="m-foti" data-name="Foti" data-full="Shawn A. Foti" data-dist="14" data-y1="2026" data-no="4" data-att="88.24" data-atts="88" data-sp="144" data-rate="0.130" data-rates="0.13" data-sub="District 14 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-6">
     <span class="pl-row-l">Shawn A. Foti</span>
     <span class="pl-row-s">District 14 &middot; Republican</span>
@@ -312,7 +323,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-6" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-godfrey" data-name="Godfrey" data-full="David E. Godfrey" data-dist="10" data-y1="2026" data-no="24" data-att="90.23" data-atts="90" data-sp="233" data-rate="0.410" data-rates="0.4" data-sub="District 10 &middot; Republican">
+<li class="lm" id="m-godfrey" data-name="Godfrey" data-full="David E. Godfrey" data-dist="10" data-y1="2026" data-no="24" data-att="90.23" data-atts="90" data-sp="233" data-rate="0.410" data-rates="0.41" data-sub="District 10 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-7">
     <span class="pl-row-l">David E. Godfrey</span>
     <span class="pl-row-s">District 10 &middot; Republican</span>
@@ -320,7 +331,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-7" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-gooch" data-name="Gooch" data-full="Jesse P. Gooch" data-dist="7" data-y1="2026" data-no="16" data-att="85.71" data-atts="86" data-sp="149" data-rate="0.374" data-rates="0.4" data-sub="District 7 &middot; Republican">
+<li class="lm" id="m-gooch" data-name="Gooch" data-full="Jesse P. Gooch" data-dist="7" data-y1="2026" data-no="16" data-att="85.71" data-atts="86" data-sp="149" data-rate="0.374" data-rates="0.37" data-sub="District 7 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-8">
     <span class="pl-row-l">Jesse P. Gooch</span>
     <span class="pl-row-s">District 7 &middot; Republican</span>
@@ -328,7 +339,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-8" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-hill" data-name="Hill" data-full="Michael A. Hill" data-dist="15" data-y1="2026" data-no="8" data-att="74.14" data-atts="74" data-sp="144" data-rate="0.137" data-rates="0.1" data-sub="District 15 &middot; Republican">
+<li class="lm" id="m-hill" data-name="Hill" data-full="Michael A. Hill" data-dist="15" data-y1="2026" data-no="8" data-att="74.14" data-atts="74" data-sp="144" data-rate="0.137" data-rates="0.14" data-sub="District 15 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-9">
     <span class="pl-row-l">Michael A. Hill</span>
     <span class="pl-row-s">District 15 &middot; Republican</span>
@@ -336,7 +347,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-9" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-mckimmie" data-name="McKimmie" data-full="Christopher J. McKimmie" data-dist="3" data-y1="2026" data-no="3" data-att="92.50" data-atts="93" data-sp="101" data-rate="0.158" data-rates="0.2" data-sub="District 3 &middot; Republican">
+<li class="lm" id="m-mckimmie" data-name="McKimmie" data-full="Christopher J. McKimmie" data-dist="3" data-y1="2026" data-no="3" data-att="92.50" data-atts="93" data-sp="101" data-rate="0.158" data-rates="0.16" data-sub="District 3 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-10">
     <span class="pl-row-l">Christopher J. McKimmie</span>
     <span class="pl-row-s">District 3 &middot; Republican</span>
@@ -344,7 +355,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-10" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-myers" data-name="Myers" data-full="Irene M. Myers" data-dist="1" data-y1="2026" data-no="18" data-att="77.08" data-atts="77" data-sp="144" data-rate="0.471" data-rates="0.5" data-sub="District 1 &middot; Republican">
+<li class="lm" id="m-myers" data-name="Myers" data-full="Irene M. Myers" data-dist="1" data-y1="2026" data-no="18" data-att="77.08" data-atts="77" data-sp="144" data-rate="0.471" data-rates="0.47" data-sub="District 1 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-11">
     <span class="pl-row-l">Irene M. Myers</span>
     <span class="pl-row-s">District 1 &middot; Republican</span>
@@ -352,7 +363,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-11" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-nemi" data-name="Nemi" data-full="Anthony J. Nemi" data-dist="11" data-y1="2026" data-no="38" data-att="88.51" data-atts="89" data-sp="268" data-rate="0.649" data-rates="0.6" data-sub="District 11 &middot; Republican">
+<li class="lm" id="m-nemi" data-name="Nemi" data-full="Anthony J. Nemi" data-dist="11" data-y1="2026" data-no="38" data-att="88.51" data-atts="89" data-sp="268" data-rate="0.649" data-rates="0.65" data-sub="District 11 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-12">
     <span class="pl-row-l">Anthony J. Nemi</span>
     <span class="pl-row-s">District 11 &middot; Republican</span>
@@ -360,7 +371,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-12" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-robins" data-name="Robins" data-full="Christopher A. Robins" data-dist="5" data-y1="2026" data-no="21" data-att="94.79" data-atts="95" data-sp="198" data-rate="0.549" data-rates="0.5" data-sub="District 5 &middot; Democratic">
+<li class="lm" id="m-robins" data-name="Robins" data-full="Christopher A. Robins" data-dist="5" data-y1="2026" data-no="21" data-att="94.79" data-atts="95" data-sp="198" data-rate="0.549" data-rates="0.55" data-sub="District 5 &middot; Democratic">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-13">
     <span class="pl-row-l">Christopher A. Robins</span>
     <span class="pl-row-s">District 5 &middot; Democratic</span>
@@ -368,7 +379,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-13" hidden data-pl-lazy></div>
 </li>
-<li class="lm" id="m-speranza" data-name="Speranza" data-full="Carla L. Speranza" data-dist="12" data-y1="2026" data-no="5" data-att="97.50" data-atts="98" data-sp="81" data-rate="0.263" data-rates="0.3" data-sub="District 12 &middot; Democratic">
+<li class="lm" id="m-speranza" data-name="Speranza" data-full="Carla L. Speranza" data-dist="12" data-y1="2026" data-no="5" data-att="97.50" data-atts="98" data-sp="81" data-rate="0.263" data-rates="0.26" data-sub="District 12 &middot; Democratic">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-14">
     <span class="pl-row-l">Carla L. Speranza</span>
     <span class="pl-row-s">District 12 &middot; Democratic</span>
@@ -380,7 +391,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
     <summary>Earlier members, <span class="nb">2015–2025</span> (14)</summary>
     <p class="pl-sub">14 members whose service ended before 2026, from the same record &middot; <span data-sortsub>in alphabetical order</span>. Years are the years in this record, which begins in 2015.</p>
     <ul class="pl-rows roster">
-<li class="lm past" id="m-burmaster" data-name="Burmaster" data-full="Clyde L. Burmaster" data-dist="1" data-y1="2019" data-no="15" data-att="82.05" data-atts="82" data-sp="65" data-rate="0.738" data-rates="0.7" data-sub="District 1 &middot; 2015–2019 &middot; Republican line">
+<li class="lm past" id="m-burmaster" data-name="Burmaster" data-full="Clyde L. Burmaster" data-dist="1" data-y1="2019" data-no="15" data-att="82.05" data-atts="82" data-sp="65" data-rate="0.738" data-rates="0.74" data-sub="District 1 &middot; 2015–2019 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-15">
     <span class="pl-row-l">Clyde L. Burmaster</span>
     <span class="pl-row-s">District 1 &middot; 2015–2019 &middot; Republican line</span>
@@ -388,7 +399,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-15" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-collins" data-name="Collins" data-full="William J. Collins, Sr." data-dist="12" data-y1="2023" data-no="17" data-att="93.04" data-atts="93" data-sp="105" data-rate="0.483" data-rates="0.5" data-sub="District 12 &middot; 2016–2023 &middot; Republican line">
+<li class="lm past" id="m-collins" data-name="Collins" data-full="William J. Collins, Sr." data-dist="12" data-y1="2023" data-no="17" data-att="93.04" data-atts="93" data-sp="105" data-rate="0.483" data-rates="0.48" data-sub="District 12 &middot; 2016–2023 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-16">
     <span class="pl-row-l">William J. Collins, Sr.</span>
     <span class="pl-row-s">District 12 &middot; 2016–2023 &middot; Republican line</span>
@@ -396,7 +407,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-16" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-grozio" data-name="Grozio" data-full="Mark J. Grozio" data-dist="3" data-y1="2023" data-no="32" data-att="91.79" data-atts="92" data-sp="160" data-rate="0.809" data-rates="0.8" data-sub="District 3 &middot; 2015–2023 &middot; Democratic line">
+<li class="lm past" id="m-grozio" data-name="Grozio" data-full="Mark J. Grozio" data-dist="3" data-y1="2023" data-no="32" data-att="91.79" data-atts="92" data-sp="160" data-rate="0.809" data-rates="0.81" data-sub="District 3 &middot; 2015–2023 &middot; Democratic line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-17">
     <span class="pl-row-l">Mark J. Grozio</span>
     <span class="pl-row-s">District 3 &middot; 2015–2023 &middot; Democratic line</span>
@@ -404,7 +415,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-17" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-lance" data-name="Lance" data-full="Kathryn L. Lance" data-dist="7" data-y1="2018" data-no="17" data-att="80.65" data-atts="81" data-sp="72" data-rate="1.073" data-rates="1.1" data-sub="District 7 &middot; 2015–2018 &middot; Republican line">
+<li class="lm past" id="m-lance" data-name="Lance" data-full="Kathryn L. Lance" data-dist="7" data-y1="2018" data-no="17" data-att="80.65" data-atts="81" data-sp="72" data-rate="1.073" data-rates="1.07" data-sub="District 7 &middot; 2015–2018 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-18">
     <span class="pl-row-l">Kathryn L. Lance</span>
     <span class="pl-row-s">District 7 &middot; 2015–2018 &middot; Republican line</span>
@@ -412,7 +423,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-18" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-mcnall" data-name="McNall" data-full="Wm. Keith McNall" data-dist="13" data-y1="2019" data-no="18" data-att="94.87" data-atts="95" data-sp="85" data-rate="0.885" data-rates="0.9" data-sub="District 13 &middot; 2015–2019 &middot; Republican line">
+<li class="lm past" id="m-mcnall" data-name="McNall" data-full="Wm. Keith McNall" data-dist="13" data-y1="2019" data-no="18" data-att="94.87" data-atts="95" data-sp="85" data-rate="0.885" data-rates="0.89" data-sub="District 13 &middot; 2015–2019 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-19">
     <span class="pl-row-l">Wm. Keith McNall</span>
     <span class="pl-row-s">District 13 &middot; 2015–2019 &middot; Republican line</span>
@@ -420,7 +431,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-19" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-mullane" data-name="Mullane" data-full="Anita Mullane" data-dist="13" data-y1="2021" data-no="5" data-att="92.86" data-atts="93" data-sp="47" data-rate="0.662" data-rates="0.7" data-sub="District 13 &middot; 2020–2021 &middot; Democratic line">
+<li class="lm past" id="m-mullane" data-name="Mullane" data-full="Anita Mullane" data-dist="13" data-y1="2021" data-no="5" data-att="92.86" data-atts="93" data-sp="47" data-rate="0.662" data-rates="0.66" data-sub="District 13 &middot; 2020–2021 &middot; Democratic line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-20">
     <span class="pl-row-l">Anita Mullane</span>
     <span class="pl-row-s">District 13 &middot; 2020–2021 &middot; Democratic line</span>
@@ -428,7 +439,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-20" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-ross" data-name="Ross" data-full="William L. Ross" data-dist="2" data-y1="2015" data-no="17" data-att="100.00" data-atts="100" data-sp="19" data-rate="3.890" data-rates="3.9" data-sub="District 2 &middot; 2015 &middot; Republican line">
+<li class="lm past" id="m-ross" data-name="Ross" data-full="William L. Ross" data-dist="2" data-y1="2015" data-no="17" data-att="100.00" data-atts="100" data-sp="19" data-rate="3.890" data-rates="3.89" data-sub="District 2 &middot; 2015 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-21">
     <span class="pl-row-l">William L. Ross</span>
     <span class="pl-row-s">District 2 &middot; 2015 &middot; Republican line</span>
@@ -436,7 +447,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-21" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-steed" data-name="Steed" data-full="Owen T. Steed" data-dist="4" data-y1="2021" data-no="23" data-att="83.02" data-atts="83" data-sp="133" data-rate="0.825" data-rates="0.8" data-sub="District 4 &middot; 2015–2021 &middot; Democratic line">
+<li class="lm past" id="m-steed" data-name="Steed" data-full="Owen T. Steed" data-dist="4" data-y1="2021" data-no="23" data-att="83.02" data-atts="83" data-sp="133" data-rate="0.825" data-rates="0.82" data-sub="District 4 &middot; 2015–2021 &middot; Democratic line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-22">
     <span class="pl-row-l">Owen T. Steed</span>
     <span class="pl-row-s">District 4 &middot; 2015–2021 &middot; Democratic line</span>
@@ -444,7 +455,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-22" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-syracuse" data-name="Syracuse" data-full="John Syracuse" data-dist="14" data-y1="2021" data-no="28" data-att="95.28" data-atts="95" data-sp="137" data-rate="1.004" data-rates="1.0" data-sub="District 14 &middot; 2015–2021 &middot; Republican line">
+<li class="lm past" id="m-syracuse" data-name="Syracuse" data-full="John Syracuse" data-dist="14" data-y1="2021" data-no="28" data-att="95.28" data-atts="95" data-sp="137" data-rate="1.004" data-rates="1.00" data-sub="District 14 &middot; 2015–2021 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-23">
     <span class="pl-row-l">John Syracuse</span>
     <span class="pl-row-s">District 14 &middot; 2015–2021 &middot; Republican line</span>
@@ -452,7 +463,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-23" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-updegrove" data-name="Updegrove" data-full="Richard E. Updegrove" data-dist="12" data-y1="2015" data-no="17" data-att="100.00" data-atts="100" data-sp="21" data-rate="3.890" data-rates="3.9" data-sub="District 12 &middot; 2015 &middot; Republican line">
+<li class="lm past" id="m-updegrove" data-name="Updegrove" data-full="Richard E. Updegrove" data-dist="12" data-y1="2015" data-no="17" data-att="100.00" data-atts="100" data-sp="21" data-rate="3.890" data-rates="3.89" data-sub="District 12 &middot; 2015 &middot; Republican line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-24">
     <span class="pl-row-l">Richard E. Updegrove</span>
     <span class="pl-row-s">District 12 &middot; 2015 &middot; Republican line</span>
@@ -460,7 +471,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-24" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-virtuoso" data-name="Virtuoso" data-full="Dennis F. Virtuoso" data-dist="6" data-y1="2021" data-no="28" data-att="89.62" data-atts="90" data-sp="126" data-rate="1.004" data-rates="1.0" data-sub="District 6 &middot; 2015–2021 &middot; Democratic line">
+<li class="lm past" id="m-virtuoso" data-name="Virtuoso" data-full="Dennis F. Virtuoso" data-dist="6" data-y1="2021" data-no="28" data-att="89.62" data-atts="90" data-sp="126" data-rate="1.004" data-rates="1.00" data-sub="District 6 &middot; 2015–2021 &middot; Democratic line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-25">
     <span class="pl-row-l">Dennis F. Virtuoso</span>
     <span class="pl-row-s">District 6 &middot; 2015–2021 &middot; Democratic line</span>
@@ -468,7 +479,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-25" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-voccio" data-name="Voccio" data-full="Christopher P. Voccio" data-dist="6" data-y1="2025" data-no="6" data-att="96.49" data-atts="96" data-sp="97" data-rate="0.241" data-rates="0.2" data-sub="District 6 &middot; 2022–2025 &middot; Republican">
+<li class="lm past" id="m-voccio" data-name="Voccio" data-full="Christopher P. Voccio" data-dist="6" data-y1="2025" data-no="6" data-att="96.49" data-atts="96" data-sp="97" data-rate="0.241" data-rates="0.24" data-sub="District 6 &middot; 2022–2025 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-26">
     <span class="pl-row-l">Christopher P. Voccio</span>
     <span class="pl-row-s">District 6 &middot; 2022–2025 &middot; Republican</span>
@@ -476,7 +487,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-26" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-wydysh" data-name="Wydysh" data-full="Rebecca J. Wydysh" data-dist="2" data-y1="2025" data-no="18" data-att="96.53" data-atts="97" data-sp="182" data-rate="0.372" data-rates="0.4" data-sub="District 2 &middot; 2016–2025 &middot; Republican">
+<li class="lm past" id="m-wydysh" data-name="Wydysh" data-full="Rebecca J. Wydysh" data-dist="2" data-y1="2025" data-no="18" data-att="96.53" data-atts="97" data-sp="182" data-rate="0.372" data-rates="0.37" data-sub="District 2 &middot; 2016–2025 &middot; Republican">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-27">
     <span class="pl-row-l">Rebecca J. Wydysh</span>
     <span class="pl-row-s">District 2 &middot; 2016–2025 &middot; Republican</span>
@@ -484,7 +495,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
   </button>
   <div class="lext" id="lx-27" hidden data-pl-lazy></div>
 </li>
-<li class="lm past" id="m-zona" data-name="Zona" data-full="Jason A. Zona" data-dist="5" data-y1="2019" data-no="12" data-att="73.08" data-atts="73" data-sp="84" data-rate="0.590" data-rates="0.6" data-sub="District 5 &middot; 2015–2019 &middot; Democratic line">
+<li class="lm past" id="m-zona" data-name="Zona" data-full="Jason A. Zona" data-dist="5" data-y1="2019" data-no="12" data-att="73.08" data-atts="73" data-sp="84" data-rate="0.590" data-rates="0.59" data-sub="District 5 &middot; 2015–2019 &middot; Democratic line">
   <button class="pl-row lbtn" type="button" aria-expanded="false" aria-controls="lx-28">
     <span class="pl-row-l">Jason A. Zona</span>
     <span class="pl-row-s">District 5 &middot; 2015–2019 &middot; Democratic line</span>
@@ -543,14 +554,14 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 <footer class="pl-foot wrap" id="about">
 <p class="pl-foot-c"><span>Also on Public Ledger:</span><a href="decisions.html">Every resolution</a><a href="county.html">County money</a><a href="index.html">City money</a></p>
 <details class="pl-fold"><summary>How this page was built</summary><p>Built from documents published by Niagara County: the agendas and minutes parsed into <a href="decisions.html">Every resolution</a>. Each member's name, district and party come from the county's and the Board of Elections' own lists, named in <a href="#sources">where the names come from</a>; there are no biographies here.</p></details>
-<p><b>About this site.</b> Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a><span class="pl-foot-indep">, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either</span>. No one has paid for any of this site: no sponsor, no donations, and GitHub Pages hosts it for free. Every figure links to its source &mdash; <span class="pl-cx"><a class="pl-correct" href="corrections.html" data-pl-correct>Report a correction</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span>.</p>
+<p><b><a href="about.html">About this site</a>.</b> Built by <a href="https://jcurry44.github.io/#public-ledger">Joe Curry &middot; Curry Studio</a><span class="pl-foot-indep">, a North Tonawanda resident, from public records published by the City of North Tonawanda and Niagara County. Not affiliated with, endorsed by, or produced for either</span>. No one has paid for any of this site: no sponsor, no donations, and GitHub Pages hosts it for free. Every figure links to its source &mdash; <span class="pl-cx"><a class="pl-correct" href="corrections.html" data-pl-correct>Report a correction</a> <button type="button" class="pl-cx-copy" data-pl-correct-copy>or copy it</button><span class="pl-cx-said" role="status" aria-live="polite"></span></span>.</p>
 <p class="pl-foot-x"><a class="pl-fol" href="follow.html" title="Each new warrant and county meeting, newest first, and the feed for a reader"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4.5 11a8.5 8.5 0 0 1 8.5 8.5M4.5 4.5a15 15 0 0 1 15 15"/><circle cx="5.5" cy="18.5" r="1.4" fill="currentColor" stroke="none"/></svg><span>Follow updates</span></a><a href="words.html">Plain words</a></p><p class="pl-foot-x"><span class="pl-foot-xk">Explore:</span><a href="contested.html">A quiz on the record</a><a href="poster.html">Every resolution, one mark each</a></p>
 <p class="pl-foot-u pl-foot-np">No ads, no analytics, no cookies.</p>
 </footer>
 
 <!-- r7 F-13: the records' payload sits in a hidden part of its own: if its file does not load, the shared failure catch fills this
      (never <main>), and the page says so above the list and in any record opened -->
-<div data-part="records" hidden><script src="assets/x-legislators-pl-lazy.bff4aecaf4.js" data-pl-payload="pl-lazy"></script></div>
+<div data-part="records" hidden><script src="assets/x-legislators-pl-lazy.8ffff89a3e.js" data-pl-payload="pl-lazy"></script></div>
 
 <div class="modal" id="lsheet" hidden>
   <div class="backdrop" id="lsBack" data-pl-keep></div>
@@ -563,7 +574,7 @@ if(!tm) tm=setTimeout(sweep,D.readyState==='complete'?600:2500);
 
 <script src="assets/x-legislators.3e4143d227.js" data-pl-bundle="x"></script>
 
-<script src="assets/x-legislators.bd9e51b6f3.js" data-pl-bundle="x"></script>
-<script src="assets/x-legislators.977cdb1c47.js" data-pl-bundle="x"></script>
+<script src="assets/x-legislators.335d8bf151.js" data-pl-bundle="x"></script>
+<script src="assets/x-legislators.1733aff51f.js" data-pl-bundle="x"></script>
 
 </body></html>

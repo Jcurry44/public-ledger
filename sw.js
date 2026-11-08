@@ -2,11 +2,54 @@
    - Pages and data (the HTML, data/*.js and *.json): network first - a reader online always gets today's build, and each answer is kept
      so the same address works offline. The site refreshes daily, so nothing is served from the cache while the network answers.
    - Hashed files (assets/*.<hash>.*, fonts/, og/): cache first - a new build gives them new names, so a kept copy is never stale.
-   Only this site's own GET requests are handled; nothing is fetched ahead of a reader. The page says when it is showing a kept copy
+   Only this site's own GET requests are handled. r10 F-36: once per new worker, after the first page has loaded, the three pages a reader on a
+   bus most wants (the front, every claim, every resolution) and their files are kept ahead of time, about 3 MB before compression, and
+   never on a Save-Data or a slow connection. Everything else is kept when it is opened. The page says when it is showing a kept copy
    (the chrome script's offline strip). Bump VERSION to drop every kept copy at once. */
 var VERSION = 'pl-v2', PAGES = VERSION + '-pages', FILES = VERSION + '-files', KEEP = 160;      // r8 F-15: v2 - the offline page lists what is kept
 
-self.addEventListener('install', function () { self.skipWaiting(); });
+var SHELL = ['index.html', 'claims.html', 'decisions.html'], SHELL_DATA = ['data/home.js', 'data/register.js'], SHELL_WAIT = 20000;
+
+// r10 F-36: one file at a time at low priority; a failure costs nothing (that page is still kept when it is opened). The worker takes over
+// after this or SHELL_WAIT, whichever is first: the page that registered it is not controlled yet, so its loading never waits on this.
+function shell() {
+  var net = self.navigator && self.navigator.connection;
+  if (net && (net.saveData || /(^|-)(2g|3g)$/.test(net.effectiveType || ''))) return Promise.resolve();
+  function get(u) { return fetch(u, {priority: 'low', credentials: 'same-origin'}); }
+  function keep(cache, u) {
+    return cache.match(u).then(function (hit) {
+      return hit || get(u).then(function (r) { if (r.ok) return cache.put(u, r); });
+    }).catch(function () {});
+  }
+  return caches.open(PAGES).then(function (pages) {
+    return caches.open(FILES).then(function (files) {
+      var seen = {}, list = [];
+      return SHELL.reduce(function (p, u) {
+        return p.then(function () { return get(u); }).then(function (r) {
+          if (!r.ok) return;
+          // review P3-2: the front is also kept under the scope root './' (the manifest's start_url and a typed address), which the
+          // offline match below looks up by its exact URL
+          var root = u === 'index.html' ? r.clone() : null;
+          return r.clone().text().then(function (h) {
+            (h.match(/(?:assets|fonts)\/[\w.\-]+\.(?:js|css|woff2)/g) || []).forEach(function (a) { if (!seen[a]) { seen[a] = 1; list.push(a); } });
+            return pages.put(u, r).then(function () { if (root) return pages.put('./', root); });
+          });
+        }).catch(function () {});
+      }, Promise.resolve()).then(function () {
+        return list.reduce(function (p, a) { return p.then(function () { return keep(files, a); }); }, Promise.resolve());
+      }).then(function () {
+        return SHELL_DATA.reduce(function (p, a) {
+          return p.then(function () { return get(a); }).then(function (r) { if (r.ok) return pages.put(a, r); }).catch(function () {});
+        }, Promise.resolve());
+      });
+    });
+  }).catch(function () {});
+}
+
+self.addEventListener('install', function (e) {
+  self.skipWaiting();
+  e.waitUntil(Promise.race([shell(), new Promise(function (ok) { setTimeout(ok, SHELL_WAIT); })]));
+});
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) {
     return Promise.all(ks.filter(function (k) { return k.indexOf('pl-') === 0 && k.indexOf(VERSION + '-') !== 0; })
@@ -73,7 +116,7 @@ function kept(c) {
     }));
   }).then(function (xs) {
     var seen = {};
-    return xs.filter(function (x) { if (!x || seen[x.u.split('#')[0]]) return false; seen[x.u.split('#')[0]] = 1; return true; })
+    return xs.filter(function (x) { var k = x && x.u.split('#')[0].replace(/\/index\.html$/, '/'); if (!x || seen[k]) return false; seen[k] = 1; return true; })      // the front kept as './' and as index.html is listed once
       .sort(function (a, b) { return b.w - a.w; }).slice(0, 20);
   }).catch(function () { return []; });
 }
