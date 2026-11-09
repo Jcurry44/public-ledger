@@ -19,7 +19,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -47,7 +47,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -75,7 +75,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2024
     }
@@ -103,7 +103,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -117,13 +117,13 @@
    "class": "schooldistrict",
    "code": "290536000000",
    "extract": {
-    "bytes": 908414,
+    "bytes": 908914,
     "path": "data/out/osc-extract-school-district-north-tonawanda.csv",
-    "rows": 7231
+    "rows": 7236
    },
    "file": "schooldistrict_all_years.zip",
    "name": "North Tonawanda City School District",
-   "rows": 7231,
+   "rows": 7236,
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -131,7 +131,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -159,7 +159,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -187,7 +187,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -215,7 +215,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -243,7 +243,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -271,7 +271,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -299,7 +299,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -327,7 +327,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -355,7 +355,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -383,7 +383,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2024
     }
@@ -411,7 +411,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -439,7 +439,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -467,7 +467,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -495,7 +495,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -523,7 +523,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -537,7 +537,7 @@
    "class": "village",
    "code": "290472803080",
    "extract": {
-    "bytes": 526846,
+    "bytes": 526845,
     "path": "data/out/osc-extract-village-middleport.csv",
     "rows": 4208
    },
@@ -551,7 +551,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -579,7 +579,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -607,7 +607,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -620,14 +620,14 @@
  },
  "files": {
   "city": {
-   "bytes": 12497143,
-   "downloaded": "2026-10-05",
+   "bytes": 12528103,
+   "downloaded": "2026-11-09",
    "emptyYears": [],
    "file": "city_all_years.zip",
    "firstMember": "1995_City.csv",
    "lastMember": "2026_City.csv",
    "members": 32,
-   "sha256": "b210d3eaa1cce6f4d06920f28a54a8279b559e91f1b8887d15d88bb139c0c84e",
+   "sha256": "7d2a492fde30409a9d55b493e7cdf0454488d462e1ebb9dba38f909830cb16b1",
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -635,7 +635,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -643,8 +643,8 @@
    "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/city_all_years.zip"
   },
   "county": {
-   "bytes": 18877770,
-   "downloaded": "2026-10-05",
+   "bytes": 18877343,
+   "downloaded": "2026-11-09",
    "emptyYears": [
     2026
    ],
@@ -652,7 +652,7 @@
    "firstMember": "1995_County.csv",
    "lastMember": "2026_County.csv",
    "members": 32,
-   "sha256": "a723f9bc534f92de17c35a22332d13420f20d8b41ebe15f065fff8423d42abed",
+   "sha256": "9f64eab11faabd586a7e808fd47546b1ffe1bd012bd668de833990c742d9681e",
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -660,7 +660,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -668,14 +668,14 @@
    "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/county_all_years.zip"
   },
   "schooldistrict": {
-   "bytes": 111027648,
-   "downloaded": "2026-10-05",
+   "bytes": 111999017,
+   "downloaded": "2026-11-09",
    "emptyYears": [],
    "file": "schooldistrict_all_years.zip",
    "firstMember": "1995_SchoolDistrict.csv",
    "lastMember": "2026_SchoolDistrict.csv",
    "members": 32,
-   "sha256": "8dcf85329ee016e752baf7db6efeea74aba15d19525405808f8081a79b403eac",
+   "sha256": "0e9a1670d3dfd9fb842af638b20a8d3ea936562f8ace5140ba4151bd88ed2f53",
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -683,7 +683,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
@@ -691,8 +691,8 @@
    "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/schooldistrict_all_years.zip"
   },
   "town": {
-   "bytes": 86265241,
-   "downloaded": "2026-10-05",
+   "bytes": 86298971,
+   "downloaded": "2026-11-09",
    "emptyYears": [
     2026
    ],
@@ -700,7 +700,7 @@
    "firstMember": "1995_Town.csv",
    "lastMember": "2026_Town.csv",
    "members": 32,
-   "sha256": "c7508d83175c3218ceb6872b8717ea1a6efd9af9db6ee5eb53c4b2a47f1614fe",
+   "sha256": "1b8c6a43640f99db0c7bfa91e58bac8929a24103b70ea69666d86861d39c6bc0",
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -708,7 +708,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2025
     }
@@ -716,14 +716,14 @@
    "url": "https://wwe1.osc.state.ny.us/localgov/findata/level3zip/town_all_years.zip"
   },
   "village": {
-   "bytes": 46475210,
-   "downloaded": "2026-10-05",
+   "bytes": 46599161,
+   "downloaded": "2026-11-09",
    "emptyYears": [],
    "file": "village_all_years.zip",
    "firstMember": "1995_Village.csv",
    "lastMember": "2026_Village.csv",
    "members": 32,
-   "sha256": "1817b9eba48ecea42028aa11b450a096734c7496551da5b188c528214378531b",
+   "sha256": "8b37ad2279fefb540323802ca9a2c8f409f1012865a9b6e474684c9299526c64",
    "snapshot": [
     {
      "date": "2023-12-29",
@@ -731,7 +731,7 @@
      "to": 2012
     },
     {
-     "date": "2026-09-30",
+     "date": "2026-10-30",
      "from": 2013,
      "to": 2026
     }
