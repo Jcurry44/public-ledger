@@ -1,8 +1,8 @@
 government,class,population_2020_census,filing_year,filings_in_span,span_years,filing_completeness_pct,revenue_usd_latest_filing,expenditure_usd_latest_filing,spending_usd_per_resident_2020_census,net_usd_per_resident_2020_census,spending_rank_within_class,governments_in_class,class_median_spending_usd_per_resident,spending_growth_pct_since_2013,first_filing_year_on_current_basis,county_sales_tax_a1120_usd_2024,share_of_sales_tax_pot_pct,claims_register_status,ledger_page
-Niagara Falls,city,48671,2025,31,32,96.9,237426466,230306551,4731.91,146.29,1,3,2738.74,30.9,2013,13108755,18.94,absent-verified,https://jcurry44.github.io/public-ledger/m/city-niagara-falls.html
+Niagara Falls,city,48671,2025,31,32,96.9,237426466,230306551,4731.91,146.29,1,3,2738.74,30.9,2013,13108755,18.95,absent-verified,https://jcurry44.github.io/public-ledger/m/city-niagara-falls.html
 Lockport,city,20876,2025,31,32,96.9,58420782,57173996,2738.74,59.72,2,3,2738.74,39.1,2013,5610593,8.11,publishes,https://jcurry44.github.io/public-ledger/m/city-lockport.html
-North Tonawanda,city,30496,2024,30,32,93.8,63519207,66023474,2164.99,-82.12,3,3,2738.74,35.1,2013,10741427,15.52,ingested,https://jcurry44.github.io/public-ledger/index.html
-Somerset,town,2597,2025,31,32,96.9,3858626,4592075,1768.22,-282.42,1,12,1205.52,86,2013,714755,1.03,absent-verified,https://jcurry44.github.io/public-ledger/m/town-somerset.html
+North Tonawanda,city,30496,2024,30,32,93.8,63519207,66023474,2164.99,-82.12,3,3,2738.74,35.1,2013,10741427,15.53,ingested,https://jcurry44.github.io/public-ledger/index.html
+Somerset,town,2597,2025,31,32,96.9,3858626,4592075,1768.22,-282.42,1,12,1205.52,86,2013,714745,1.03,absent-verified,https://jcurry44.github.io/public-ledger/m/town-somerset.html
 Niagara,town,7903,2025,31,32,96.9,13161078,13777911,1743.38,-78.05,2,12,1205.52,73.6,2013,2783627,4.02,absent-verified,https://jcurry44.github.io/public-ledger/m/town-niagara.html
 Lewiston,town,15944,2025,31,32,96.9,25927237,25664410,1609.66,16.48,3,12,1205.52,27.6,2013,4947393,7.15,absent-verified,https://jcurry44.github.io/public-ledger/m/town-lewiston.html
 Lockport,town,20563,2025,31,32,96.9,26500787,27171348,1321.37,-32.61,4,12,1205.52,86.6,2013,7242784,10.47,absent-verified,https://jcurry44.github.io/public-ledger/m/town-lockport.html
@@ -15,7 +15,7 @@ Pendleton,town,7035,2025,31,32,96.9,6985529,6479410,921.02,71.94,10,12,1205.52,8
 Wheatfield,town,18638,2025,31,32,96.9,16829117.78,15326860.62,822.34,80.6,11,12,1205.52,37.8,2013,6564752.9,9.49,absent-verified,https://jcurry44.github.io/public-ledger/m/town-wheatfield.html
 Wilson,town,5847,2025,31,32,96.9,4791691,4491005,768.09,51.43,12,12,1205.52,39.4,2013,1751109,2.53,absent-verified,https://jcurry44.github.io/public-ledger/m/town-wilson.html
 Youngstown,village,1859,2026,32,32,100,3012518.78,3672362.92,1975.45,-354.95,1,5,1128.17,116.8,2013,554564.93,0.8,absent-verified,https://jcurry44.github.io/public-ledger/m/village-youngstown.html
-Lewiston,village,2531,2026,32,32,100,5022988,4877222,1926.99,57.59,2,5,1128.17,43.5,2013,1105814,1.6,absent-verified,https://jcurry44.github.io/public-ledger/m/village-lewiston.html
+Lewiston,village,2531,2026,32,32,100,5022988,4877222,1926.99,57.59,2,5,1128.17,43.5,2013,1085805,1.57,absent-verified,https://jcurry44.github.io/public-ledger/m/village-lewiston.html
 Middleport,village,1729,2026,32,32,100,2121977.61,1950599.19,1128.17,99.12,3,5,1128.17,27.8,2013,321359.11,0.46,absent-verified,https://jcurry44.github.io/public-ledger/m/village-middleport.html
 Wilson,village,1247,2026,32,32,100,1477794.05,1324874.15,1062.45,122.63,4,5,1128.17,-6.3,2013,337442.68,0.49,absent-verified,https://jcurry44.github.io/public-ledger/m/village-wilson.html
 Barker,village,575,2026,32,32,100,624436.19,538535.14,936.58,149.39,5,5,1128.17,-53,2013,203762.11,0.29,absent-verified,https://jcurry44.github.io/public-ledger/m/village-barker.html

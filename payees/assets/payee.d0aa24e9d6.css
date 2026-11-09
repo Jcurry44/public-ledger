@@ -1192,7 +1192,9 @@ a.py-kpi:hover .py-go{text-decoration-thickness:2px}}
 .py-list a.py-a:hover .py-n{text-decoration-thickness:2px}}
 @media (max-width:640px){.py-ctx>div{grid-template-columns:minmax(0,1fr)}
 .py-as a,.py-note a,.py-ctx a,.py-fix a{position:relative}
-.py-as a::after,.py-note a::after,.py-ctx a::after,.py-fix a::after{content:'';position:absolute;inset:-11px -4px}}
+.py-as a::after,.py-note a::after,.py-ctx a::after,.py-fix a::after{content:'';position:absolute;inset:-11px -4px}
+.py-note.py-sp a{display:inline;padding:0}
+.py-note.py-sp a::after{content:none}}
 @media (forced-colors:active){.py-ms .c i,.py-row .bar i{background:CanvasText;forced-color-adjust:none}
 .py-ms .c.on i,.py-ms .c.on::after{background:Highlight}
 .py-ms .c.z i{background:GrayText}}
