@@ -1333,7 +1333,7 @@ PL.mixTab=function(E){
     else{
       st=merge(st,{plk:newKey(),pld:0});
       if(hop&&Date.now()-hop.t<60000&&hop.u!==location.href&&(!ref||hop.u.split('#')[0]===ref)){
-        st.plf={u:hop.u,k:hop.k,l:hop.l};
+        st.plf={u:hop.u,k:hop.k,l:hop.l,t:hop.t};      /* t: this arrival's moment - a dismissed pill is dismissed for this trail only */
         st.plb=H.length>1?1:0;          /* a new tab has nothing behind it: its chip navigates instead of stepping back */
       }
     }
@@ -1460,25 +1460,56 @@ PL.mixTab=function(E){
     if(s.plb) H.go(-((s.pld||0)+1)); else location.href=f.u;
     return true;
   }
+  /* backpill-x (Joe, 2026-11-10): the pill's X hides it for the rest of its trail - a hop's pill by the arrival it came with (plf.k + plf.t:
+     Back, reload and the page's own jumps keep it; following a link again is a fresh trail), a jump's pill by its own entry. The record
+     lives in sessionStorage; without storage the X still hides it for this page view. */
+  var gone={}, goneLive={};
+  try{ gone=JSON.parse(sessionStorage.getItem(NS+'x')||'{}')||{}; }catch(e){ gone={}; }
+  function goneKey(s,f,j){ return j?'j:'+(s.plk||'')+':'+s.plj:(f?'f:'+(f.k||'')+':'+(f.t||'')+':'+location.pathname:''); }
+  function dismiss(){
+    var s=cur(), f=s.plf, pv=!!s.plview&&s.plj!=null, j=pv||(s.plj!=null&&Math.abs(window.scrollY-s.plj)>window.innerHeight*0.5), k=goneKey(s,f,j);
+    if(!k) return;
+    goneLive[k]=1; gone[k]=Date.now();
+    try{ var ks=Object.keys(gone).sort(function(a,b){ return gone[b]-gone[a]; }).slice(0,60), n={}; ks.forEach(function(x){ n[x]=gone[x]; }); gone=n;
+      sessionStorage.setItem(NS+'x',JSON.stringify(gone)); }catch(e){}
+    keepRoom=true;                           /* the page's end keeps its room for this view: nothing under the reader moves */
+    var had=chip.contains(document.activeElement);
+    paint();
+    /* focus goes to the page's main region (never lost to <body>), where it is without scrolling */
+    if(had||document.activeElement===document.body||!document.activeElement){
+      var t=document.getElementById('main')||document.querySelector('main')||document.querySelector('h1');
+      if(t){ if(!t.hasAttribute('tabindex')){ t.setAttribute('tabindex','-1'); t.setAttribute('data-pl-xfocus',''); }
+        try{ t.focus({preventScroll:true}); }catch(e){ t.focus(); } }
+    }
+  }
+  var keepRoom=false, go_=null;
   function paint(){
     paintDone();
     /* a view change (the city page's parts, PLV) is a drill-in wherever it lands: its chip shows for as long as the reader is on it */
     var s=cur(), f=s.plf, pv=!!s.plview&&s.plj!=null, j=pv||(s.plj!=null&&Math.abs(window.scrollY-s.plj)>window.innerHeight*0.5);
     if(!chip){
       if(!f&&!j) return;
-      chip=document.createElement('button'); chip.type='button'; chip.className='pl-ret-chip'; chip.setAttribute('data-pl-keep','');
-      chip.addEventListener('click',back);
+      /* the pill: its words step back, its X (a 44px target at its right end) hides it */
+      chip=document.createElement('div'); chip.className='pl-ret-chip'; chip.setAttribute('data-pl-keep','');
+      go_=document.createElement('button'); go_.type='button'; go_.className='pl-ret-go';
+      go_.addEventListener('click',back);
+      var x=document.createElement('button'); x.type='button'; x.className='pl-ret-x'; x.setAttribute('aria-label','Hide back link');
+      x.innerHTML='<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2.5 2.5l9 9M11.5 2.5l-9 9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+      x.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); dismiss(); });
+      chip.appendChild(go_); chip.appendChild(x);
       /* PL-24: the pill's own band at the foot of the screen, and the same room at the end of the page */
       band=document.createElement('div'); band.className='pl-ret-band'; band.setAttribute('aria-hidden','true'); band.setAttribute('data-pl-keep','');
       room=document.createElement('div'); room.className='pl-ret-room'; room.setAttribute('aria-hidden','true'); room.setAttribute('data-pl-keep','');
       document.body.appendChild(room); document.body.appendChild(band); document.body.appendChild(chip);
     }
-    if(pv){ chip.textContent='← Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
-    else if(j){ chip.textContent=(s.plj<window.scrollY?'↑':'↓')+' Back to where you were'; chip.setAttribute('aria-label','Back to where you were on this page'); }
-    else if(f){ chip.textContent='← Back to '+f.l; chip.setAttribute('aria-label','Back to '+f.l+', where you were'); }
+    if(pv){ go_.textContent='← Back to where you were'; go_.setAttribute('aria-label','Back to where you were on this page'); }
+    else if(j){ go_.textContent=(s.plj<window.scrollY?'↑':'↓')+' Back to where you were'; go_.setAttribute('aria-label','Back to where you were on this page'); }
+    else if(f){ go_.textContent='← Back to '+f.l; go_.setAttribute('aria-label','Back to '+f.l+', where you were'); }
+    var gk=goneKey(s,f,j), isGone=!!gk&&(!!goneLive[gk]||!!gone[gk]);
+    chip.setAttribute('data-pl-gone',isGone?'1':'0');
     /* r4 F-06: a change of part on a page whose own strip carries the way back (a.rhome) needs no second control */
-    chip.hidden=(!f&&!j)||anyOpen()||(pv&&!!document.querySelector('.rail a.rhome'));
-    if(band){ band.hidden=chip.hidden; room.hidden=chip.hidden; }
+    chip.hidden=(!f&&!j)||anyOpen()||(pv&&!!document.querySelector('.rail a.rhome'))||isGone;
+    if(band){ band.hidden=chip.hidden; room.hidden=chip.hidden&&!(isGone&&keepRoom); }
     if(!away0){ away0=1; awayWatch(); }
     /* a NEW way back (a fresh jump, an in-site hop, Back to another entry) starts in view; a repaint after a scroll pause does not */
     var ak=(s.plk||'')+'|'+(s.plj!=null?s.plj:'')+'|'+(f?f.u:'');
@@ -1513,7 +1544,7 @@ PL.mixTab=function(E){
   function lift(){
     var y=window.innerHeight-24, es=document.elementsFromPoint?document.elementsFromPoint(32,y):[], i, n, cs, r;
     for(i=0;i<es.length;i++){
-      if(es[i]===chip||es[i]===done||es[i]===band) continue;
+      if((chip&&chip.contains(es[i]))||es[i]===done||es[i]===band) continue;     /* the pill and its two buttons */
       for(n=es[i];n&&n!==document.body&&n!==document.documentElement;n=n.parentElement){
         cs=getComputedStyle(n);
         if(cs.position==='fixed'||cs.position==='sticky'){ r=n.getBoundingClientRect(); return r.top>window.innerHeight*0.5?Math.round(window.innerHeight-r.top)+12:16; }
@@ -1579,7 +1610,7 @@ PL.mixTab=function(E){
   function edgeLook(y){
     var es=document.elementsFromPoint?document.elementsFromPoint(2,y):[], i, n, cs, bg;
     for(i=0;i<es.length;i++){
-      if(es[i]===done||es[i]===chip||es[i]===probe||(under&&(es[i]===under[0]||es[i]===under[1]))) continue;
+      if(es[i]===done||(chip&&chip.contains(es[i]))||es[i]===probe||(under&&(es[i]===under[0]||es[i]===under[1]))) continue;
       for(n=es[i];n&&n!==document.body&&n!==document.documentElement;n=n.parentElement){
         cs=getComputedStyle(n); bg=cs.backgroundColor;
         if(bg&&bg!=='transparent'&&!/^rgba\(.*,\s*0\)$/.test(bg)) return {bg:bg,bf:cs.webkitBackdropFilter||cs.backdropFilter||'none'};
@@ -1620,11 +1651,19 @@ PL.mixTab=function(E){
   css.textContent='.pl-ret-chip,.pl-done{position:fixed;z-index:2147483000;display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 18px;border-radius:999px;'
     +'border:1px solid var(--rule-strong,rgba(0,0,0,.2));background:var(--ink,#1c1a15);color:var(--paper,#fbf8f1);font:inherit;font-size:var(--fs-17);line-height:var(--lh-24);font-weight:600;cursor:pointer;'
     +'box-shadow:0 10px 26px -10px rgba(20,18,10,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
-    +'.pl-ret-chip{left:16px;bottom:calc(16px + env(safe-area-inset-bottom));max-width:min(80vw,380px);'
+    +'.pl-ret-chip{left:16px;bottom:calc(16px + env(safe-area-inset-bottom));max-width:min(86vw,420px);justify-content:flex-start;padding:0;cursor:default;'
     +'background:var(--card,#fff);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);'
-    +'color:var(--ink,#1c1a15);font-size:var(--fs-15);line-height:var(--lh-24);padding:0 16px;box-shadow:0 8px 24px -8px rgba(0,0,0,.45),inset 0 0 0 .5px rgba(255,255,255,.08)}'
+    +'color:var(--ink,#1c1a15);font-size:var(--fs-15);line-height:var(--lh-24);box-shadow:0 8px 24px -8px rgba(0,0,0,.45),inset 0 0 0 .5px rgba(255,255,255,.08)}'
+    /* backpill-x: the words (truncating before the X, never under it) and the X, each a full-height 44px button inside the one pill */
+    +'.pl-ret-go,.pl-ret-x{-webkit-appearance:none;appearance:none;margin:0;border:0;background:transparent;color:inherit;font:inherit;height:44px;cursor:pointer;border-radius:999px}'
+    +'.pl-ret-go{flex:1 1 auto;min-width:0;padding:0 4px 0 16px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:999px 0 0 999px}'
+    +'.pl-ret-x{flex:0 0 44px;width:44px;display:grid;place-items:center;position:relative;border-radius:0 999px 999px 0;opacity:.72}'
+    +'.pl-ret-x:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:1px;background:currentColor;opacity:.28}'
+    +'.pl-ret-x:hover{opacity:1;background:var(--rule,rgba(0,0,0,.08))}'
+    +'.pl-ret-go:focus-visible,.pl-ret-x:focus-visible{outline:2px solid var(--accent,#9a3b1b);outline-offset:-3px;opacity:1}'
+    +'[data-pl-xfocus]:focus{outline:none}'
     +'.pl-done{left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));min-width:132px;height:48px;font-size:var(--fs-17);line-height:var(--lh-24)}'
-    +'.pl-ret-chip[hidden],.pl-done[hidden]{display:none}.pl-ret-chip:focus-visible,.pl-done:focus-visible{outline:2px solid var(--accent,#9a3b1b);outline-offset:2px}'
+    +'.pl-ret-chip[hidden],.pl-done[hidden]{display:none}.pl-done:focus-visible{outline:2px solid var(--accent,#9a3b1b);outline-offset:2px}'
     +'.pl-under{position:absolute;left:0;right:0;z-index:59;pointer-events:none}.pl-under[hidden]{display:none}'
     /* PL-24: the pill's band (76px = 16 + the 44px pill + 16) and the matching room at the end of the page */
     +'.pl-ret-band{position:fixed;left:0;right:0;bottom:0;z-index:2147482999;height:calc(76px + env(safe-area-inset-bottom));'
@@ -1634,7 +1673,7 @@ PL.mixTab=function(E){
     +'.pl-ret-chip,.pl-ret-band{transition:transform .2s ease,opacity .2s ease}'
     +'.pl-ret-chip.pl-away{transform:translateY(calc(100% + 40px));opacity:0;pointer-events:none}'
     +'.pl-ret-band.pl-away{transform:translateY(100%);opacity:0;pointer-events:none}'
-    +'.pl-ret-chip.pl-away:focus-visible{transform:none;opacity:1;pointer-events:auto}'
+    +'.pl-ret-chip.pl-away:focus-within{transform:none;opacity:1;pointer-events:auto}'
     +'@media (prefers-reduced-motion:reduce){.pl-ret-chip,.pl-ret-band{transition:none}}'
     +'@media (min-width:1220px){.pl-ret-chip{left:calc(50vw - 570px)}}'
     +'@media print{.pl-ret-chip,.pl-done,.pl-under,.pl-ret-band,.pl-ret-room{display:none!important}}';
